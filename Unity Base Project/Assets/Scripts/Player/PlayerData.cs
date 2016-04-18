@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 
@@ -15,6 +14,8 @@ public class PlayerData : MonoBehaviour {
 
     private float padding;
 
+    public GameObject[] shipLights;
+
     private PlayerMovement m_playerMove;
 
     // Use this for initialization
@@ -23,6 +24,10 @@ public class PlayerData : MonoBehaviour {
         SetCloaked(false);
         cloakTimer = 0.0f;
         cloakCooldown = 0.0f;
+
+        if(shipLights.Length == 0)
+            shipLights = GameObject.FindGameObjectsWithTag("ShipLights");
+
 
         if (m_playerMove == null)
             m_playerMove = this.GetComponent<PlayerMovement>();
@@ -45,20 +50,17 @@ public class PlayerData : MonoBehaviour {
                 cloakTimer -= Time.deltaTime;
             else if (cloakTimer < 0)
                 SetCloaked(false);
-
-
-            if (Input.GetKey(KeyCode.X) && padding <= 0.0f)
-            {
-                padding = 0.2f;
-                SetCloaked(!GetCloaked());
-            }
         }
     }
 
     #region Collision Detection
-    void OnTriggerEnter(UnityEngine.Collider col) {
+    void OnTriggerEnter(Collider col) {
         if (col.name == "Enemy") {
             hitCount++;
+
+            for (int x = 0; x < shipLights.Length; x++)
+                shipLights[x].GetComponent<Light>().color = Color.red;
+
             m_playerMove.StopAllMovement();
             Debug.Log("Collided with " + col.name);
         }
@@ -91,11 +93,26 @@ public class PlayerData : MonoBehaviour {
         gamePause = boolean;
     }
     public void SetCloaked(bool boolean) {
-        if (boolean) 
-            cloakTimer = 45.0f;        
-        else {
+        if (boolean)
+        {
+            Debug.Log("Cloaking...");
+            cloakTimer = 45.0f;
+            for (int x = 0; x < shipLights.Length; x++)
+            {
+                shipLights[x].gameObject.SetActive(false);
+                Debug.Log("Cloaked");
+            }
+        }
+        else
+        {
+            Debug.Log("Un-Cloaking...");
             cloakTimer = 0.0f;
             cloakCooldown = 60.0f;
+            for (int x = 0; x < shipLights.Length; x++)
+            {
+                shipLights[x].gameObject.SetActive(true);
+                Debug.Log("Un-Cloaked");
+            }
         }
         isCloaked = boolean;
     }

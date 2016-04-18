@@ -1,22 +1,15 @@
 ﻿using UnityEngine;
 
-public class PlayerInteractions : MonoBehaviour {
-
-    private float transition;
-    private float cancelTimer;
+public class PlayerInteractions : MonoBehaviour
+{
 
     [SerializeField]
     GameObject mMenu;
-    //private PlayerData playerData;
-    //private EMP emp;
 
     // Use this for initialization
     void Start()
     {
-        transition = 0.0f;
-        cancelTimer = 0.0f;
-
-        if(mMenu == null)
+        if (mMenu == null)
             mMenu = GameObject.Find("Tactician_Menu");
     }
 
@@ -27,11 +20,17 @@ public class PlayerInteractions : MonoBehaviour {
     }
 
     #region Collision
-    public void OnTriggerEnter(Collider col) {
-        if (col.name == "bone3") {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
-                mMenu.SetActive(!mMenu.activeSelf);            
-        }
+    public void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("Collision with : " + col.name);
+        if (col.name == "CenterEyeAnchor")
+            mMenu.SetActive(true);
+    }
+
+    public void OnTriggerExit(Collider col)
+    {
+        if (col.name == "CenterEyeAnchor")
+            mMenu.SetActive(false);
     }
     #endregion
 }

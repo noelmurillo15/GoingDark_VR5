@@ -5,6 +5,7 @@ public class CrewMenu : MonoBehaviour
 {
 
     private Image m_button;
+    private float padding;
     private float transition;
     private float cancelTimer;
     private PlayerData playerData;
@@ -13,6 +14,7 @@ public class CrewMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        padding = 0.0f;
         transition = 0.0f;
         cancelTimer = 0.0f;
         m_button = GetComponent<Image>();
@@ -27,6 +29,8 @@ public class CrewMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (padding > 0.0f)
+            padding -= Time.deltaTime;
 
     }
 
@@ -67,7 +71,9 @@ public class CrewMenu : MonoBehaviour
     }
 
     public void OnTriggerExit(Collider col){
-        if (col.name == "bone3"){
+        if (col.name == "bone3" && padding <= 0.0f)
+        {
+            padding = 0.2f;
             if (transform.name == "EMPButton"){
                 if (emp.GetEmpCooldown() <= 0.0f)
                 {
@@ -85,11 +91,9 @@ public class CrewMenu : MonoBehaviour
                 else if (playerData.isCloaked){
                     Debug.Log("Un-Cloaking...");
                     playerData.SetCloaked(false);                    
-                }
+                }               
             }
         }
-        m_button.color = Color.white;
-        m_button.CrossFadeColor(Color.white, 0.01f, false, false);
     }
     #endregion
 }
