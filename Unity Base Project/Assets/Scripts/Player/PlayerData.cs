@@ -92,28 +92,17 @@ public class PlayerData : MonoBehaviour {
     public void SetGamePause(bool boolean) {
         gamePause = boolean;
     }
-    public void SetCloaked(bool boolean)
-    {
-        if (boolean)
-        {
-            Debug.Log("Cloaking...");
+    public void SetCloaked(bool boolean) {
+        if (boolean) {
             cloakTimer = 45.0f;
             for (int x = 0; x < shipLights.Length; x++)
-            {
-                shipLights[x].gameObject.SetActive(false);
-                Debug.Log("Cloaked");
-            }
+                shipLights[x].gameObject.SetActive(false);            
         }
-        else
-        {
-            Debug.Log("Un-Cloaking...");
+        else {
             cloakTimer = 0.0f;
             cloakCooldown = 60.0f;
             for (int x = 0; x < shipLights.Length; x++)
-            {
                 shipLights[x].gameObject.SetActive(true);
-                Debug.Log("Un-Cloaked");
-            }
         }
         isCloaked = boolean;
     }

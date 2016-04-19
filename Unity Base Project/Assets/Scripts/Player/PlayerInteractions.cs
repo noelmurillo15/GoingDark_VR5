@@ -7,8 +7,7 @@ public class PlayerInteractions : MonoBehaviour
     GameObject mMenu;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         if (mMenu == null)
             mMenu = GameObject.Find("Tactician_Menu");
     }
@@ -20,15 +19,12 @@ public class PlayerInteractions : MonoBehaviour
     }
 
     #region Collision
-    public void OnTriggerEnter(Collider col)
-    {
-        Debug.Log("Collision with : " + col.name);
+    public void OnTriggerEnter(Collider col) {
         if (col.name == "CenterEyeAnchor")
             mMenu.SetActive(true);
     }
 
-    public void OnTriggerExit(Collider col)
-    {
+    public void OnTriggerExit(Collider col) {
         if (col.name == "CenterEyeAnchor")
             mMenu.SetActive(false);
     }
