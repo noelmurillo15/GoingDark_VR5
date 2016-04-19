@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour {
     //**    Attach Script to Player Gameobject   **//
 
     public bool ManualDriveMode;
+    public bool HyperDriveMode;
     
     private int turnRate;
     private float limiter;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        HyperDriveMode = false;
         ManualDriveMode = false;
 
         turnRate = 0;
