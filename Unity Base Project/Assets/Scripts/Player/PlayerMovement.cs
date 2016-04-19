@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour {
         ManualDriveMode = false;
 
         turnRate = 0;
-        maxSpeed = 5.0f;
+        maxSpeed = 20.0f;
         moveSpeed = 0.0f;
         rotateSpeed = 20.0f;
         runMultiplier = 2.0f;
@@ -119,12 +119,12 @@ public class PlayerMovement : MonoBehaviour {
 
     public void goUp()
     {
-        transform.Translate(Vector3.up * 1.0f);
+        transform.Translate(Vector3.up * 0.5f);
     }
 
     public void goDown()
     {
-        transform.Translate(Vector3.up * -1.0f);
+        transform.Translate(Vector3.up * -0.5f);
     }
     public void turnRateZero() {
         turnRate = 0;
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void IncreaseSpeed() {
         if (moveSpeed < maxSpeed)
-            moveSpeed += 2 * Time.deltaTime;
+            moveSpeed += 5 * Time.deltaTime;
         else {
             moveSpeed = maxSpeed;
             if (m_leapMount.transform.localPosition.z > -4.5f) {
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour {
             if (m_leapMount.transform.localPosition.y > 2.4f)
                 m_leapMount.transform.Translate(0.0f, -Time.deltaTime, 0.0f);
 
-            moveSpeed -= 4 * Time.deltaTime;
+            moveSpeed -= 10 * Time.deltaTime;
         }
         else {
             if (m_leapMount.transform.localPosition.z < 0.36f) 
