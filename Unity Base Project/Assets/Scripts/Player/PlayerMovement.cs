@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour {
     public bool HyperDriveMode;
     
     private int turnRate;
-    private float limiter;
     private float maxSpeed;
     private float moveSpeed;
     private float rotateSpeed;
@@ -19,7 +18,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private GameObject m_leapMount;
     private PlayerData m_playerData;
-    private LeapMovement m_leapMove;
+    private LeapDriveHUD m_driveHUD;
+    public LeapMovement m_leapMovement;
     private CharacterController m_controller;
 
     public float speedBarX;
@@ -32,10 +32,9 @@ public class PlayerMovement : MonoBehaviour {
         ManualDriveMode = false;
 
         turnRate = 0;
-        limiter = 0.0f;
         maxSpeed = 5.0f;
         moveSpeed = 0.0f;
-        rotateSpeed = 5.0f;
+        rotateSpeed = 20.0f;
         runMultiplier = 2.0f;
 
         speedBarX = 0.0f;
@@ -51,11 +50,14 @@ public class PlayerMovement : MonoBehaviour {
         if (m_controller == null)
             m_controller = this.GetComponent<CharacterController>();
 
-        if (m_leapMove == null)
-            m_leapMove = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapMovement>();
+        if (m_driveHUD == null)
+            m_driveHUD = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapDriveHUD>();
 
         if (speedBarColor == null)
             speedBarColor = GameObject.Find("SpeedBarColor");
+
+        if (m_leapMovement == null)
+            m_leapMovement = GameObject.Find("DrivingBox").GetComponent<LeapMovement>();
     }
 
     // Update is called once per frame
@@ -65,16 +67,12 @@ public class PlayerMovement : MonoBehaviour {
             if (ManualDriveMode) {
                 moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Verticle"));
 
-                m_leapMove.UpdateManualMovement();
+                m_driveHUD.UpdateManualMovement();
 
                 ManualTurn();
                 ManualWalk();
-                // no speed
-                // y pos = -1.1
-                // y scale = 0
-                // speed
-                // y pos = .095
-                // y scale =  .25
+
+                #region SpeedHUD
                 speedBarColor.SetActive(true);
                 speedBarX = (moveSpeed / maxSpeed) * 0.25f;
 
@@ -89,17 +87,12 @@ public class PlayerMovement : MonoBehaviour {
                 newPos.y = -1.1f + ((moveSpeed / maxSpeed) * 1.2f);
                 newPos.z = speedBarColor.transform.localPosition.z;
                 speedBarColor.transform.localPosition = newPos;
+                #endregion
 
                 m_controller.Move(moveDir);
             }
             else {
                 speedBarColor.SetActive(false);
-                moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Verticle"));
-
-                AutoTurn();
-                AutoWalk();
-
-                m_controller.Move(moveDir);
             }
         }
         else
@@ -109,7 +102,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void ManualTurn() {
-        transform.Rotate(0, (limiter * turnRate) * Time.deltaTime * rotateSpeed, 0);
+        transform.Rotate(0, turnRate * rotateSpeed * Time.deltaTime, 0);
     }
 
     private void ManualWalk() {
@@ -120,42 +113,29 @@ public class PlayerMovement : MonoBehaviour {
             moveDir *= moveSpeed * Time.deltaTime;        
     }
 
-    private void AutoTurn() {
-        //transform.Rotate(0, Input.GetAxis("Rotation") * Time.deltaTime * rotateSpeed, 0);
-    }
-
-    private void AutoWalk() {
-        moveDir = transform.TransformDirection(Vector3.forward);
-        moveDir *= Time.deltaTime * runMultiplier;        
-    }
-
     public void SetMoveSpeed(float speed) {
         moveSpeed = speed;
     }
 
-    public void SetTurnRate(int tr) {
-        if (limiter > 0.5f)
-            limiter -= 1.5f * Time.deltaTime;
-        else
-            limiter = 0.0f;
+    public void goUp()
+    {
+        transform.Translate(Vector3.up * 1.0f);
+    }
+
+    public void goDown()
+    {
+        transform.Translate(Vector3.up * -1.0f);
+    }
+    public void turnRateZero() {
+        turnRate = 0;
     }
 
     public void turnLeft() {
-        if (turnRate == 1)
-            limiter = 0.0f;
-
         turnRate = -1;
-        if (limiter < 2.0f)
-            limiter += Time.deltaTime;
     }
 
     public void turnRight() {
-        if (turnRate == -1)
-            limiter = 0.0f;
-
         turnRate = 1;
-        if (limiter < 2.0f)
-            limiter += Time.deltaTime;
     }
 
     public void IncreaseSpeed() {
@@ -164,7 +144,7 @@ public class PlayerMovement : MonoBehaviour {
         else {
             moveSpeed = maxSpeed;
             if (m_leapMount.transform.localPosition.z > -4.5f) {
-                rotateSpeed = 10;                
+                rotateSpeed = 30;                
 
                 m_leapMount.transform.Translate(0.0f, 0.0f, -1.8f * Time.deltaTime);
             }
@@ -192,7 +172,7 @@ public class PlayerMovement : MonoBehaviour {
 
             moveSpeed = 0.0f;
         }
-        rotateSpeed = 5;
+        rotateSpeed = 20;
     }
 
     public bool GetDriveMode(){
@@ -205,7 +185,6 @@ public class PlayerMovement : MonoBehaviour {
 
     public void StopAllMovement() {
         turnRate = 0;
-        limiter = 0.0f;
         moveSpeed = 0.0f;
     }
 }

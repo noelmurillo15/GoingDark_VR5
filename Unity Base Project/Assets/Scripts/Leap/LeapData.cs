@@ -8,7 +8,6 @@ public class LeapData : MonoBehaviour {
 
     public bool LeapConnected;
     private bool bothHandsOpen;
-
     private Controller controller;
 
     private int prevFrameNum = 0;
@@ -21,9 +20,9 @@ public class LeapData : MonoBehaviour {
     private float gripStrL, gripStrR;
     private float prevGripStrL, prevGripStrR;
 
-    private Vector3 palmPosL;
-    private Vector3 palmPosR;
-    public Vector3 palmNormsL;
+    public Vector3 palmPosL;
+    public Vector3 palmPosR;
+    private Vector3 palmNormsL;
     private Vector3 palmNormsR;
     private Vector3 palmVelocityL;
     private Vector3 palmVelocityR;
