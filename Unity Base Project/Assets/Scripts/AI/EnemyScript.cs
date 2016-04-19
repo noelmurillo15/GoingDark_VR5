@@ -21,4 +21,9 @@ public class EnemyScript : MonoBehaviour {
     {
 
     }
+
+    void Kill()
+    {
+        Destroy(this);
+    }
 }

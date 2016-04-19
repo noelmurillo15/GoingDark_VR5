@@ -12,7 +12,8 @@ public class Missile : MonoBehaviour
     public float CalculatedDistance;
     public Vector3 Target;
     public Quaternion targetRotation;
-    public GameObject FoundTargetObject;
+    public GameObject Enemy;
+    public GameObject Transport;
     public GameObject Explosion;
     public bool stopTurning;
     public int TimeTillExpire;
@@ -24,12 +25,20 @@ public class Missile : MonoBehaviour
         //if(gameObject.GetComponentInParent<== "Enemy")
             //FoundTargetObject = GameObject.FindGameObjectWithTag("Target");
         //else if (gameObject.tag == "Player")
-        FoundTargetObject = GameObject.FindGameObjectWithTag("Enemy");
-        Target = FoundTargetObject.transform.position;
+        Enemy = GameObject.FindGameObjectWithTag("Enemy");
+        Transport = GameObject.FindGameObjectWithTag("TransportShip");
+        Target = Enemy.transform.position;
     }
 
     void Update()
     {
+
+        if (Enemy == null)
+            Target = Transport.transform.localPosition;
+        else
+            Target = Enemy.transform.localPosition;
+
+
         //set up the timer
         Timer += Time.deltaTime;
         //destroy if missile's time is up
@@ -63,9 +72,18 @@ public class Missile : MonoBehaviour
             Destroy(gameObject, 0);
         }
     }
-    void OnCollisionEnter()
+    void OnCollisionEnter(Collision col)
     {
         Die = true;
+        if(col.gameObject.tag == "Enemy")
+        {
+            col.gameObject.SendMessage("Kill");
+            Enemy = null;
+        }
+        else if (col.gameObject.tag == "TransportShip")
+        {
+            col.gameObject.SendMessage("Kill");
+            Transport = null;
+        }
     }
-
 }
