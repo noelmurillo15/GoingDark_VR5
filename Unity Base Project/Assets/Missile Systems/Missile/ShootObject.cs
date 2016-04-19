@@ -9,36 +9,35 @@ public class ShootObject : MonoBehaviour
     public int MissileLimit;
     public int MissileCount;
     public GameObject[] Missiles;
+    public float fireCooldown;
 
     void Start()
     {
-        //Find the target object that already exists in the sceene
-        //TargetPos = GameObject.FindGameObjectWithTag("Target");
+        fireCooldown = 0.0f;
     }
 
     void Update()
     {
-        //make a list of all the missiles in the scene
-        Missiles = GameObject.FindGameObjectsWithTag("Missile");
-        //find the length of the list of missiles
-        MissileCount = Missiles.Length;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //setup raycast
-            //Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-            //RaycastHit Hit;
-            //if(Physics.Raycast(ray, out Hit)){
-            //find out if there are too many missiles already in the scene
-            if (MissileCount <= MissileLimit - 1)
-            {
-                //set the target position
-                //TargetPos.transform.position = Hit.point;
-                //instantiate the missile Prefab
-                Instantiate(Miss, new Vector3(transform.position.x + 5.0f, transform.position.y - 5.0f, transform.position.z), transform.rotation);
-               // Miss.GetComponent<Missile>().FoundTargetObject = TargetPos;
-            }
-            //}
-        }
+        if (fireCooldown > 0.0f)
+            fireCooldown -= Time.deltaTime;
     }
 
+    public float GetFireCooldown()
+    {
+        return fireCooldown;
+    }
+
+    public void FireMissile()
+    {
+        if (fireCooldown <= 0.0f)
+        {
+        MissileCount = Missiles.Length;
+        Missiles = GameObject.FindGameObjectsWithTag("Missile");
+            if (MissileCount <= MissileLimit - 1)
+            {
+                fireCooldown = 10.0f;
+                Instantiate(Miss, new Vector3(transform.position.x + 5.0f, transform.position.y - 5.0f, transform.position.z), transform.rotation);
+            }
+        }
+    }
 }

@@ -21,7 +21,7 @@ public class PlayerData : MonoBehaviour {
     // Use this for initialization
     void Start() {
         hitCount = 0;
-        SetCloaked(false);
+        isCloaked = false;
         cloakTimer = 0.0f;
         cloakCooldown = 0.0f;
 
@@ -92,7 +92,8 @@ public class PlayerData : MonoBehaviour {
     public void SetGamePause(bool boolean) {
         gamePause = boolean;
     }
-    public void SetCloaked(bool boolean) {
+    public void SetCloaked(bool boolean)
+    {
         if (boolean)
         {
             Debug.Log("Cloaking...");
