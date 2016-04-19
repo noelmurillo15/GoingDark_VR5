@@ -70,6 +70,12 @@ public class PlayerData : MonoBehaviour {
             m_playerMove.StopAllMovement();
             Debug.Log("Collided with " + col.name);
         }
+
+        if(col.name == "Loot")
+        {
+            m_playerMove.StopAllMovement();
+            SceneManager.LoadScene("Win_Scene");
+        }
     }
     #endregion
 

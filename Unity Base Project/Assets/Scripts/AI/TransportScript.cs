@@ -36,9 +36,10 @@ public class TransportScript : MonoBehaviour
 
     void SetCloaked(bool val)
     {
-        if (cloakCooldown <= 0.0f)
+        if (cloakCooldown <= 0.0f && this.gameObject != null)
         {
             Color col = GetComponent<Renderer>().material.color;
+
             if (val && cloakTimer <= 0.0f)
             {
                 col.a = 0.25f;
