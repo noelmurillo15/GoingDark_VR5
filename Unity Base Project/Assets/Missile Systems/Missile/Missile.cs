@@ -19,6 +19,9 @@ public class Missile : MonoBehaviour
     public int TimeTillExpire;
     public bool Die;
 
+
+    public float DestroyTimer;
+
     void Start()
     {
         //Find the target object
@@ -27,7 +30,11 @@ public class Missile : MonoBehaviour
         //else if (gameObject.tag == "Player")
         Enemy = GameObject.FindGameObjectWithTag("Enemy");
         Transport = GameObject.FindGameObjectWithTag("TransportShip");
-        Target = Enemy.transform.position;
+
+        if(Enemy != null)
+            Target = Enemy.transform.position;
+
+        DestroyTimer = 0.0f;
     }
 
     void Update()
@@ -38,20 +45,24 @@ public class Missile : MonoBehaviour
         else
             Target = Enemy.transform.localPosition;
 
+        if (DestroyTimer > 0.0f)
+            DestroyTimer -= Time.deltaTime;
+
 
         //set up the timer
         Timer += Time.deltaTime;
         //destroy if missile's time is up
-        if (Timer > TimeTillExpire)
+        if (Timer > TimeTillExpire && !Die)
         {
             Die = true;
         }
         //find the distance from missile to target
         CalculatedDistance = Vector3.Distance(gameObject.transform.position, Target);
         //give the missile speed
-        transform.Translate(0, 0, Speed * Time.deltaTime);
+        if(!Die)
+            transform.Translate(0, 0, Speed * Time.deltaTime);
         //delay tracking for a certain amount of time...
-        if (Timer > TimeTillTrack)
+        if (Timer > TimeTillTrack && !Die)
         {
             if (stopTurning == false)
             {
@@ -68,8 +79,15 @@ public class Missile : MonoBehaviour
        //}
         if (Die == true)
         {
-            Instantiate(Explosion, transform.position, transform.rotation);
-            Destroy(gameObject, 0);
+            if (Explosion != null)
+            {
+                Instantiate(Explosion, transform.position, transform.rotation);
+                Explosion = null;
+                Destroy(this.transform.GetChild(0).gameObject);
+            }
+
+            if(DestroyTimer <= 0.0f)
+                Destroy(gameObject, 0);
         }
     }
     void OnTriggerEnter(Collider col)
@@ -78,11 +96,13 @@ public class Missile : MonoBehaviour
         if(col.tag == "Enemy")
         {
             Debug.Log("Missile Hit Enemy Ship");
+            DestroyTimer = 2.5f;
             col.gameObject.SendMessage("Kill");
         }
         else if (col.tag == "TransportShip")
         {
             Debug.Log("Missile Hit Transport Ship");
+            DestroyTimer = 2.5f;
             col.gameObject.SendMessage("Kill");
         }
     }
