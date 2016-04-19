@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour {
 
     void Kill()
     {
-        Destroy(this);
+        Debug.Log("Destroyed Enemy Ship");
+        Destroy(this.gameObject);
     }
 }

@@ -12,6 +12,7 @@ public class TransportScript : MonoBehaviour
 	void Start () 
     {
         child = GameObject.Find("Explorer");
+        loot = GameObject.Find("Loot");
         loot.SetActive(false);
 	}
 	
@@ -72,6 +73,7 @@ public class TransportScript : MonoBehaviour
 
     void Kill()
     {
+        Debug.Log("Destroyed Transport Ship");
         loot.SetActive(true);
         Destroy(child);
     }

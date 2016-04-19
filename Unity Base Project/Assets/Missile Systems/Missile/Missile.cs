@@ -49,7 +49,7 @@ public class Missile : MonoBehaviour
         //find the distance from missile to target
         CalculatedDistance = Vector3.Distance(gameObject.transform.position, Target);
         //give the missile speed
-        transform.Translate(0, 0, Speed / 100);
+        transform.Translate(0, 0, Speed * Time.deltaTime);
         //delay tracking for a certain amount of time...
         if (Timer > TimeTillTrack)
         {
@@ -61,29 +61,29 @@ public class Missile : MonoBehaviour
             }
         }
         //set up instances that the missile will die...
-        if (CalculatedDistance < DistanceTillStopLooking)
-        {
-            stopTurning = true;
-            Die = true;
-        }
+       //if (CalculatedDistance < DistanceTillStopLooking)
+       //{
+       //    stopTurning = true;
+       //    Die = true;
+       //}
         if (Die == true)
         {
             Instantiate(Explosion, transform.position, transform.rotation);
             Destroy(gameObject, 0);
         }
     }
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         Die = true;
-        if(col.gameObject.tag == "Enemy")
+        if(col.tag == "Enemy")
         {
+            Debug.Log("Missile Hit Enemy Ship");
             col.gameObject.SendMessage("Kill");
-            Enemy = null;
         }
-        else if (col.gameObject.tag == "TransportShip")
+        else if (col.tag == "TransportShip")
         {
+            Debug.Log("Missile Hit Transport Ship");
             col.gameObject.SendMessage("Kill");
-            Transport = null;
         }
     }
 }
