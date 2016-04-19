@@ -39,12 +39,18 @@ public class ShootObject : MonoBehaviour
         if (fireCooldown <= 0.0f)
         {
             killCam.SetActive(true);
-            MissileCount = Missiles.Length;
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
+            
             if (MissileCount <= MissileLimit - 1)
             {
                 fireCooldown = 10.0f;
-                Instantiate(Miss, new Vector3(transform.position.x + 5.0f, transform.position.y - 5.0f, transform.position.z), transform.rotation);
+                if (Miss != null)
+                {
+                    MissileCount++;
+                    Instantiate(Miss, new Vector3(transform.localPosition.x, transform.localPosition.y - 10.0f, transform.localPosition.z + 10.0f), transform.rotation);
+                }
+                else
+                    Debug.Log("No Missile Gameobj attached");
             }
         }
     }
