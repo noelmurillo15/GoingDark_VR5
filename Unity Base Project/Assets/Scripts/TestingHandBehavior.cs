@@ -4,21 +4,18 @@ using System.Collections;
 public class TestingHandBehavior : MonoBehaviour {
 
     public bool jsAttached;
-    public GameObject joystick;
     public LeapData m_leapData;
-
-    public Vector3 velocity;
 
 	// Use this for initialization
 	void Start () {
         jsAttached = false;
-        joystick = GameObject.Find("JoyStick");
         m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
 	}
 
-    void Awake()
-    {
+    void Awake() {
         jsAttached = false;
+        if(m_leapData == null)
+            m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
     }
 	
 	// Update is called once per frame
@@ -26,21 +23,19 @@ public class TestingHandBehavior : MonoBehaviour {
 
 	}
 
-    public void SetJSAttached(bool boolean)
-    {
+    public void SetJSAttached(bool boolean) {
         jsAttached = boolean;
     }
 
-    public bool GetisHandClosed()
-    {
+    public bool GetisHandClosed() {
         if (m_leapData.GetNumRFingersHeld() <= 1)
             return true;
 
         return false;
     }
 
-    public Vector3 GetPalmVelocity()
-    {
+    public Vector3 GetPalmVelocity() {
+        Vector3 velocity;
         velocity = m_leapData.GetRPalmVelocity();
         velocity /= 10.0f;
 

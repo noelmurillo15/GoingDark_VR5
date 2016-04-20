@@ -3,46 +3,34 @@ using System.Collections;
 
 public class TestingJoyStick : MonoBehaviour {
 
+    public bool isStatic;
+    public bool palmAttached;
+
     public Transform m_handPos;
-    public Transform m_joyStickPos;
     public TestingHandBehavior m_palm;
+    public JoyStickMovement m_playerMove;
 
     public Quaternion originalRotation;
 
-    public JoyStickMovement m_playerMove;
-
-    public Vector3 velocity;
-
-    public bool isStatic;
-
-    public float zOffset;
-
-    public bool palmAttached;
 
 	// Use this for initialization
 	void Start () {
-        palmAttached = false;
         isStatic = false;
         m_handPos = null;
-        m_joyStickPos = transform;
-
-        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
-
+        palmAttached = false;
         originalRotation = transform.localRotation;                  
+        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if(m_palm != null)
-        {
+        if(m_palm != null) {
             if (m_palm.GetisHandClosed() && !isStatic)                            
                 isStatic = true;                            
-            else if (!m_palm.GetisHandClosed() && isStatic)
-            {
-                velocity = Vector3.zero;
+            else if (!m_palm.GetisHandClosed() && isStatic) {
                 isStatic = false;
-                m_playerMove.StopAllMovement();
+                m_playerMove.turnRateZero();
                 m_palm.SetJSAttached(false);
                 transform.localRotation = originalRotation;
             }
@@ -50,6 +38,7 @@ public class TestingJoyStick : MonoBehaviour {
 
         if (isStatic) {
             m_palm.SetJSAttached(true);
+            Vector3 velocity;
             velocity = m_palm.GetPalmVelocity();
             velocity.z = velocity.x;
             velocity.x = velocity.y;
@@ -58,34 +47,22 @@ public class TestingJoyStick : MonoBehaviour {
         }
 
         if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
-        {
-            m_playerMove.goUp();
-        }
-        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
-        {
-            m_playerMove.goDown();
-        }
+            m_playerMove.goUp();        
+        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)      
+            m_playerMove.goDown();        
 
         if (transform.localEulerAngles.z > 1.0f && transform.localEulerAngles.z < 90.0f)
-        {
-            m_playerMove.turnLeft();
-        }
+            m_playerMove.TurnLeft();        
         else if (transform.localEulerAngles.z > 90.0f && transform.localEulerAngles.z < 360.0f)
-        {
-            m_playerMove.turnRight();
-        }        
+            m_playerMove.TurnRight();               
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        m_handPos = col.transform;        
-    }
-    void OnTriggerStay(Collider col)
-    {
+    void OnTriggerEnter(Collider col) {
         if (col.name == "palm")
-        {
-            Debug.Log("Palm Attached");
-            m_handPos = col.transform;
-        }
+            m_handPos = col.transform;        
+    }
+    void OnTriggerStay(Collider col) {
+        if (col.name == "palm")
+            m_handPos = col.transform;        
     }
 }
