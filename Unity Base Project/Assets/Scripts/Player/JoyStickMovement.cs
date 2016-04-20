@@ -18,7 +18,7 @@ public class JoyStickMovement : MonoBehaviour
     {
         turnRate = 0;
         maxSpeed = 20.0f;
-        moveSpeed = 10.0f;
+        moveSpeed = 5.0f;
         rotateSpeed = 30.0f;
         runMultiplier = 2.0f;
 

@@ -9,12 +9,6 @@ public class TestingJoyStick : MonoBehaviour {
 
     public Quaternion originalRotation;
 
-    public float absX, absZ;
-    public bool xAxis, zAxis;
-
-    public GameObject upArrow, downArrow;
-    public GameObject leftArrow, rightArrow;
-
     public JoyStickMovement m_playerMove;
 
     public Vector3 velocity;
@@ -32,14 +26,6 @@ public class TestingJoyStick : MonoBehaviour {
         m_handPos = null;
         m_joyStickPos = transform;
 
-        xAxis = false;
-        zAxis = false;
-
-        upArrow = GameObject.Find("up");
-        downArrow = GameObject.Find("down");
-        leftArrow = GameObject.Find("left");
-        rightArrow = GameObject.Find("right");
-
         m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
 
         originalRotation = transform.localRotation;                  
@@ -54,60 +40,40 @@ public class TestingJoyStick : MonoBehaviour {
                 isStatic = true;                            
             else if (!m_palm.GetisHandClosed() && isStatic)
             {
-                xAxis = false;
-                zAxis = false;
+                velocity = Vector3.zero;
                 isStatic = false;
+                m_playerMove.StopAllMovement();
                 m_palm.SetJSAttached(false);
                 transform.localRotation = originalRotation;
             }
         }
 
-        if (isStatic)
-        {
+        if (isStatic) {
             m_palm.SetJSAttached(true);
             velocity = m_palm.GetPalmVelocity();
             velocity.z = velocity.x;
-            absZ = Mathf.Abs(velocity.z);
             velocity.x = velocity.y;
-            absX = Mathf.Abs(velocity.x);
-            velocity.y = 0.0f;
-
-            if(absX > absZ)
-            {
-                xAxis = true;
-                zAxis = false;
-                velocity.z = 0.0f;
-            }
-            else if(absZ > absX)
-            {
-                xAxis = false;
-                zAxis = true;
-                velocity.x = 0.0f;
-            }            
-
-            Debug.Log("Rotating the Joystick with palm velocity");
-            transform.Rotate((velocity * 1.5f) * Time.deltaTime);
+            velocity.y = 0.0f;            
+            transform.Rotate((velocity * 1.5f) * Time.deltaTime);            
         }
 
-        if (xAxis)
+        if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
         {
-            if (velocity.x > 0.0f && velocity.x < 90.0f)
-                m_playerMove.goUp();
-            else
-                m_playerMove.goDown();
+            m_playerMove.goUp();
         }
-        else if (zAxis)
+        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
         {
-            if (velocity.z > 0.0f && velocity.z < 90.0f)
-                m_playerMove.turnLeft();
-            else
-                m_playerMove.turnRight();
+            m_playerMove.goDown();
         }
-        else
-            m_playerMove.StopAllMovement();
 
-        upArrow.SetActive(xAxis); downArrow.SetActive(xAxis);
-        leftArrow.SetActive(zAxis); rightArrow.SetActive(zAxis);
+        if (transform.localEulerAngles.z > 1.0f && transform.localEulerAngles.z < 90.0f)
+        {
+            m_playerMove.turnLeft();
+        }
+        else if (transform.localEulerAngles.z > 90.0f && transform.localEulerAngles.z < 360.0f)
+        {
+            m_playerMove.turnRight();
+        }        
     }
 
     void OnTriggerEnter(Collider col)
@@ -122,8 +88,4 @@ public class TestingJoyStick : MonoBehaviour {
             m_handPos = col.transform;
         }
     }
-    //void OnTriggerEnter(Collision col)
-    //{
-    //    m_handPos = null;
-    //}
 }
