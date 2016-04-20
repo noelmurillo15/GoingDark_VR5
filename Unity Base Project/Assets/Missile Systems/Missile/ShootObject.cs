@@ -11,22 +11,15 @@ public class ShootObject : MonoBehaviour
     public GameObject[] Missiles;
     public float fireCooldown;
 
-    public GameObject killCam;
-
     void Start()
     {
         fireCooldown = 0.0f;
-        killCam = GameObject.Find("KillCam");
-        killCam.SetActive(false);
     }
 
     void Update()
     {
         if (fireCooldown > 0.0f)
             fireCooldown -= Time.deltaTime;
-        else
-            killCam.SetActive(false);
-
     }
 
     public float GetFireCooldown()
@@ -38,7 +31,6 @@ public class ShootObject : MonoBehaviour
     {
         if (fireCooldown <= 0.0f)
         {
-            killCam.SetActive(true);
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
             
             if (MissileCount <= MissileLimit - 1)

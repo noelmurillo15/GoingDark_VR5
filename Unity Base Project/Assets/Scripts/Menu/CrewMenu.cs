@@ -11,6 +11,8 @@ public class CrewMenu : MonoBehaviour
     public PlayerData playerData;
     public ShootObject missileLauncher;
 
+    public ArmSettings missileCam;
+
     // Use this for initialization
     void Start()
     {
@@ -26,7 +28,10 @@ public class CrewMenu : MonoBehaviour
             missileLauncher = GameObject.Find("PlayerGun").GetComponent<ShootObject>();
 
         if (mMenu == null)
-            mMenu = GameObject.Find("Tactician_Menu");        
+            mMenu = GameObject.Find("Tactician_Menu");
+
+        if (missileCam == null)
+            missileCam = GameObject.Find("leftForearm").GetComponent<ArmSettings>();      
     }
 
     void Awake()
@@ -71,7 +76,7 @@ public class CrewMenu : MonoBehaviour
 
     public void OnTriggerExit(Collider col){
         if (col.name == "bone3" && padding <= 0.0f)
-        {            
+        {
             if (transform.name == "EMPButton" && emp.GetEmpCooldown() <= 0.0f)
                 emp.SetEmpActive(true);
             else if (transform.name == "CloakButton" && playerData.GetCloakCooldown() <= 0.0f)
@@ -79,10 +84,13 @@ public class CrewMenu : MonoBehaviour
                 if (!playerData.GetCloaked())
                     playerData.SetCloaked(true);
                 else if (playerData.GetCloaked())
-                    playerData.SetCloaked(false);                         
+                    playerData.SetCloaked(false);
             }
             else if (transform.name == "FireButton" && missileLauncher.GetFireCooldown() <= 0.0f)
-               missileLauncher.FireMissile();
+            {
+                missileCam.TurnCamOn();
+                missileLauncher.FireMissile();
+            }
             
             padding = 0.2f;
             mMenu.SetActive(false);

@@ -87,7 +87,6 @@ public class Missile : MonoBehaviour
     }
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("Collision with : " + col.gameObject.name);
         if(col.gameObject.tag == "Enemy")
         {
             Die = true;
