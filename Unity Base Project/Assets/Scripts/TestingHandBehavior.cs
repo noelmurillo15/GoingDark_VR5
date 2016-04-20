@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class TestingHandBehavior : MonoBehaviour {
-    //**        Attach To Leap Palm Prefab        **//
 
     public bool jsAttached;
     public LeapData m_leapData;

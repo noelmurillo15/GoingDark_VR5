@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class TestingJoyStick : MonoBehaviour {
-    //**        Attach To Joystick Prefab        **//
 
     public bool isStatic;
     public bool palmAttached;

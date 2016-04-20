@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Asteroid : MonoBehaviour {
-    //**        Attach To Asteroid Prefab        **//
 
     public Vector3 m_scale;
     public Vector3 m_velocity;
@@ -13,17 +12,17 @@ public class Asteroid : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        m_velocity.x = Random.Range(-2.0f, 2.0f);
-        m_velocity.y = Random.Range(-2.0f, 2.0f);
-        m_velocity.z = Random.Range(-2.0f, 2.0f);
+        m_velocity.x = Random.Range(-1.0f, 1.0f);
+        m_velocity.y = Random.Range(-1.0f, 1.0f);
+        m_velocity.z = Random.Range(-1.0f, 1.0f);
 
-        m_position.x = Random.Range(-50.0f, 50.0f);
-        m_position.y = Random.Range(-50.0f, 50.0f);
-        m_position.z = Random.Range(-50.0f, 50.0f);
+        m_position.x = Random.Range(-10.0f, 10.0f);
+        m_position.y = Random.Range(-10.0f, 10.0f);
+        m_position.z = Random.Range(-10.0f, 10.0f);
 
-        m_scale.x = Random.Range(100.0f, 500.0f);
-        m_scale.y = Random.Range(100.0f, 500.0f);
-        m_scale.z = Random.Range(100.0f, 500.0f);
+        m_scale.x = Random.Range(50.0f, 200.0f);
+        m_scale.y = Random.Range(50.0f, 200.0f);
+        m_scale.z = Random.Range(50.0f, 200.0f);
 
         m_rotation.x = Random.Range(-10.0f, 10.0f);
         m_rotation.y = Random.Range(-10.0f, 10.0f);

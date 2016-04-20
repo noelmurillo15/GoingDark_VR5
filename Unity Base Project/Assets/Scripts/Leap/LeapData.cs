@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class LeapData : MonoBehaviour {
-    //**    Attach Script to LeapController   **//
+    //**    Attach Script to Leap Control   **//
 
     public bool LeapConnected;
     private bool bothHandsOpen;
