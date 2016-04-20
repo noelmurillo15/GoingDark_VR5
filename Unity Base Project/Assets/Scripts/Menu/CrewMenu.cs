@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CrewMenu : MonoBehaviour
-{
+public class CrewMenu : MonoBehaviour {
 
     public Image m_button;
     public float padding;
@@ -28,10 +27,7 @@ public class CrewMenu : MonoBehaviour
             missileLauncher = GameObject.Find("PlayerGun").GetComponent<ShootObject>();
 
         if (mMenu == null)
-            mMenu = GameObject.Find("Tactician_Menu");
-
-        if (missileCam == null)
-            missileCam = GameObject.Find("leftForearm").GetComponent<ArmSettings>();      
+            mMenu = GameObject.Find("Tactician_Menu");            
     }
 
     void Awake()
@@ -88,6 +84,9 @@ public class CrewMenu : MonoBehaviour
             }
             else if (transform.name == "FireButton" && missileLauncher.GetFireCooldown() <= 0.0f)
             {
+                if (missileCam == null)
+                    missileCam = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
+
                 missileCam.TurnCamOn();
                 missileLauncher.FireMissile();
             }

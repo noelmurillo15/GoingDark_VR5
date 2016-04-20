@@ -13,8 +13,7 @@ public class JoyStickMovement : MonoBehaviour {
     public CharacterController m_controller;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         turnRate = 0;
         maxSpeed = 20.0f;
         moveSpeed = 5.0f;

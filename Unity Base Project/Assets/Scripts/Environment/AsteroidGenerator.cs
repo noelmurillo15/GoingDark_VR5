@@ -5,17 +5,15 @@ using System.Collections.Generic;
 public class AsteroidGenerator : MonoBehaviour {
 
     public int maxAsteroids;
-    public int numAsteroids;
+    public int numAsteroids;    
 
-    public GameObject spawnPts;
+    public GameObject[] spawnPts;
     public GameObject[] asteroidPrefabs;
 
 	// Use this for initialization
 	void Start () {
         numAsteroids = 0;
-
-        if(maxAsteroids == 0)
-            maxAsteroids = 35;
+        maxAsteroids = 35;
 	}
 	
 	// Update is called once per frame
@@ -26,11 +24,15 @@ public class AsteroidGenerator : MonoBehaviour {
 	}
 
     private void SpawnAsteroid() {
-        GameObject go = Instantiate(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)],
-                            spawnPts.transform.position, Quaternion.identity) as GameObject;
+        GameObject[] gos = AvailableSpawnPoints();
 
-        go.transform.parent = spawnPts.transform;
-        numAsteroids++;
+        for (int cnt = 0; cnt < gos.Length; cnt++) {
+            GameObject go = Instantiate(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)],
+                            gos[cnt].transform.position, Quaternion.identity) as GameObject;
+
+            go.transform.parent = gos[cnt].transform;
+            numAsteroids++;
+        }        
     }
 
     private bool CheckAsteroidPrefabs() {
@@ -41,10 +43,21 @@ public class AsteroidGenerator : MonoBehaviour {
     }
 
     private bool CheckSpawnPts() {
-        if (spawnPts != null)
+        if (spawnPts.Length > 0)
             return true;
+        else
+            return false;
+    }
 
-        return false;
+    private GameObject[] AvailableSpawnPoints()
+    {
+        List<GameObject> gos = new List<GameObject>();
+
+        for (int cnt = 0; cnt < spawnPts.Length; cnt++)
+            if (spawnPts[cnt].transform.childCount <= 5)
+                gos.Add(spawnPts[cnt]);
+
+        return gos.ToArray();
     }
 
     public void DeleteAsteroid()
