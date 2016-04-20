@@ -10,7 +10,10 @@ public class PlayerData : MonoBehaviour {
 
 
     public bool hyperDrive;
+    public float hyperDriveTimer;
     public float hyperDriveStartTimer;
+
+    public Vector3 particleOriginalPos;
 
 
     public GameObject hyperDriveParticles;
@@ -41,6 +44,7 @@ public class PlayerData : MonoBehaviour {
         if (hyperDriveParticles == null)
             hyperDriveParticles = GameObject.Find("HyperDriveParticles");
 
+        particleOriginalPos = hyperDriveParticles.transform.localPosition;
         hyperDriveParticles.SetActive(false);
 
         if (m_playerMove == null)
@@ -126,14 +130,22 @@ public class PlayerData : MonoBehaviour {
         if (hyperDriveStartTimer > 0.0f)
         {
             hyperDriveStartTimer -= Time.deltaTime;
-            hyperDriveParticles.transform.Translate(Vector3.forward * 20.0f * Time.deltaTime);
+            hyperDriveParticles.transform.Translate(Vector3.forward * 10.0f * Time.deltaTime);
+            hyperDriveTimer = 0.5f;
         }
         else
         {
-            Debug.Log("HYPERDRIVE Active!");
-            transform.Translate(Vector3.forward * 200.0f);
-            hyperDriveParticles.SetActive(false);            
-            hyperDrive = false;
+            if (hyperDriveTimer > 0.0f)
+            {
+                hyperDriveTimer -= Time.deltaTime;
+                transform.Translate(Vector3.forward * 1200.0f * Time.deltaTime);
+            }
+            else
+            {
+                hyperDriveParticles.transform.localPosition = particleOriginalPos;
+                hyperDriveParticles.SetActive(false);
+                hyperDrive = false;
+            }
         }
     }
     public void SetCloaked(bool boolean) {
