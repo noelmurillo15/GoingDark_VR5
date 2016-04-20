@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class JoyStickMovement : MonoBehaviour {
+    //**        Attach To Player        **//    
 
-    public int turnRate;
-    public float maxSpeed;
-    public float moveSpeed;
-    public float rotateSpeed;
-    public float runMultiplier;
+    private int turnRate;
+    private float maxSpeed;
+    private float moveSpeed;
+    private float rotateSpeed;
+    private float runMultiplier;
 
     private Vector3 moveDir;
     public CharacterController m_controller;
@@ -15,11 +16,11 @@ public class JoyStickMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         turnRate = 0;
-        maxSpeed = 20.0f;
-        moveSpeed = 5.0f;
+        maxSpeed = 50.0f;
+        moveSpeed = 20.0f;
         rotateSpeed = 30.0f;
         runMultiplier = 2.0f;
-
+    
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
     }
@@ -49,11 +50,11 @@ public class JoyStickMovement : MonoBehaviour {
     }
 
     public void goDown() {
-        transform.Translate((Vector3.up * 2.0f) * Time.deltaTime);
+        transform.Translate((Vector3.up * 20.0f) * Time.deltaTime);
     }
 
     public void goUp() {
-        transform.Translate((Vector3.up * -2.0f) * Time.deltaTime);
+        transform.Translate((Vector3.up * -20.0f) * Time.deltaTime);
     }
     public void turnRateZero() {
         turnRate = 0;

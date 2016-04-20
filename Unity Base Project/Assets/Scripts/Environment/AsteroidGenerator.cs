@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AsteroidGenerator : MonoBehaviour {
+    //**        Attach To Environment GameObject        **//
 
     public int maxAsteroids;
     public int numAsteroids;    
