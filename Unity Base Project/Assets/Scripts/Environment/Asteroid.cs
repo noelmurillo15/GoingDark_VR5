@@ -16,13 +16,13 @@ public class Asteroid : MonoBehaviour {
         m_velocity.y = Random.Range(-1.0f, 1.0f);
         m_velocity.z = Random.Range(-1.0f, 1.0f);
 
-        m_position.x = Random.Range(-10.0f, 10.0f);
-        m_position.y = Random.Range(-10.0f, 10.0f);
-        m_position.z = Random.Range(-10.0f, 10.0f);
+        m_position.x = Random.Range(-100.0f, 100.0f);
+        m_position.y = Random.Range(-100.0f, 100.0f);
+        m_position.z = Random.Range(-100.0f, 100.0f);
 
-        m_scale.x = Random.Range(50.0f, 200.0f);
-        m_scale.y = Random.Range(50.0f, 200.0f);
-        m_scale.z = Random.Range(50.0f, 200.0f);
+        m_scale.x = Random.Range(50.0f, 500.0f);
+        m_scale.y = Random.Range(50.0f, 500.0f);
+        m_scale.z = Random.Range(50.0f, 500.0f);
 
         m_rotation.x = Random.Range(-10.0f, 10.0f);
         m_rotation.y = Random.Range(-10.0f, 10.0f);
@@ -31,6 +31,8 @@ public class Asteroid : MonoBehaviour {
         if (m_generator == null)
             m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
 
+
+        Debug.Log("Translating Asteroids");
         transform.localPosition = m_position;
         transform.localScale += m_scale;
     }
@@ -44,6 +46,16 @@ public class Asteroid : MonoBehaviour {
         transform.Rotate(m_rotation * Time.deltaTime);
         transform.Translate(m_velocity * Time.deltaTime);
     }
+
+    void OnTriggerEnter(Collider col)
+    {
+        Debug.Log("Trigger with " + col.name);
+    }
+
+    //void OnCollisionEnter(Collider col)
+    //{
+    //    Debug.Log("Trigger with " + col.transform.name);
+    //}
 
     bool CheckOutOfBounds() {
         if (transform.localPosition.x > 500.0f || transform.localPosition.x < -500.0f)

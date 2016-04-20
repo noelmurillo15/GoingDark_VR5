@@ -13,7 +13,7 @@ public class AsteroidGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         numAsteroids = 0;
-        maxAsteroids = 35;
+        maxAsteroids = 50;
 	}
 	
 	// Update is called once per frame
@@ -54,7 +54,7 @@ public class AsteroidGenerator : MonoBehaviour {
         List<GameObject> gos = new List<GameObject>();
 
         for (int cnt = 0; cnt < spawnPts.Length; cnt++)
-            if (spawnPts[cnt].transform.childCount <= 5)
+            if (spawnPts[cnt].transform.childCount <= 8)
                 gos.Add(spawnPts[cnt]);
 
         return gos.ToArray();

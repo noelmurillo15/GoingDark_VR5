@@ -49,11 +49,11 @@ public class JoyStickMovement : MonoBehaviour {
     }
 
     public void goDown() {
-        transform.Translate((Vector3.up * 2.0f) * Time.deltaTime);
+        transform.Translate((Vector3.up * 10.0f) * Time.deltaTime);
     }
 
     public void goUp() {
-        transform.Translate((Vector3.up * -2.0f) * Time.deltaTime);
+        transform.Translate((Vector3.up * -10.0f) * Time.deltaTime);
     }
     public void turnRateZero() {
         turnRate = 0;

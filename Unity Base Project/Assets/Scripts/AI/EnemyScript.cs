@@ -2,32 +2,35 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class EnemyScript : MonoBehaviour
-{
+public class EnemyScript : MonoBehaviour {
+    //**        Attach to Enemy Prefab      **//
 
-    //  Player Info
-    public float zOffset;
-    public GameObject m_Player;
+    //  Player Data
+    private Vector3 playerDir;
+    private float playerDistance;
+
+    public Transform m_playerPos;
     public PlayerData m_playerInput;
-    public GameObject explosion;
+
+    //  Enemy Missile Data
     public GameObject[] Missiles;
     public GameObject Missile;
-    public GameObject TargetPos;
-
-
-    private float playerDistance;
     private float missileCooldown;
     private int missileCount;
     private int missileCountLimit;
-    private Vector3 playerDir;
+
+
     // Use this for initialization
     void Start()
     {
+        missileCount = 0;
+        missileCountLimit = 3;
+
         playerDistance = 0.0f;
         missileCooldown = 10.0f;
-        missileCount = 0;
-        missileCountLimit = 2;
-        playerDir = m_Player.transform.position - transform.position;
+
+        m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        playerDir = m_playerPos.position - transform.position;
     }
 
     // Update is called once per frame
@@ -35,19 +38,18 @@ public class EnemyScript : MonoBehaviour
     {
         if (missileCooldown > 0.0f)
             missileCooldown -= Time.deltaTime;
-
-        playerDistance = Vector3.Distance(m_Player.transform.position, transform.position);
+       
+        playerDistance = Vector3.Distance(m_playerPos.position, transform.position);
         //Debug.Log("Distance to player is " + playerDistance);
 
-        if (playerDistance <= 200.0f && !m_playerInput.GetCloaked())
-        {
+        if (playerDistance <= 200.0f && !m_playerInput.GetCloaked())  {
             // turn towards player
-            playerDir = m_Player.transform.position - transform.position;
+            playerDir = m_playerPos.position - transform.position;
             Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 10.0f, 0.0f);
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
             float angle = Vector3.Angle(newEnemyDir, playerDir);
-            if (angle <= 15.0f)
+            if (angle <= 30.0f)
                 Fire();
         }
     }
@@ -66,8 +68,7 @@ public class EnemyScript : MonoBehaviour
                     missileCount++;
                     Instantiate(Missile, new Vector3(transform.localPosition.x, transform.localPosition.y - 10.0f, transform.localPosition.z + 10.0f), transform.rotation);
                     Missile.GetComponent<EnemyMissile>().startTracking = true;
-                    Debug.Log("Begin Missile Tracking");
-
+                    Debug.Log("Begin Enemy Missile Tracking");
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
@@ -75,8 +76,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void Kill()
-    {
+    void Kill() {
         Debug.Log("Destroyed Enemy Ship");
         Destroy(this.gameObject);
     }

@@ -7,12 +7,20 @@ public class PlayerData : MonoBehaviour {
     public bool gamePause;
     public bool isCloaked;
 
+
+
+    public bool hyperDrive;
+    public float hyperDriveStartTimer;
+
+
+    public GameObject hyperDriveParticles;
+
     public int hitCount;
 
+    private float padding;
     public float cloakTimer;
     public float cloakCooldown;
 
-    private float padding;
 
     public GameObject[] shipLights;
 
@@ -25,9 +33,15 @@ public class PlayerData : MonoBehaviour {
         cloakTimer = 0.0f;
         cloakCooldown = 0.0f;
 
+        hyperDrive = false;
+
         if(shipLights.Length == 0)
             shipLights = GameObject.FindGameObjectsWithTag("ShipLights");
 
+        if (hyperDriveParticles == null)
+            hyperDriveParticles = GameObject.Find("HyperDriveParticles");
+
+        hyperDriveParticles.SetActive(false);
 
         if (m_playerMove == null)
             m_playerMove = this.GetComponent<PlayerMovement>();
@@ -50,6 +64,14 @@ public class PlayerData : MonoBehaviour {
                 cloakTimer -= Time.deltaTime;
             else if (cloakTimer < 0)
                 SetCloaked(false);
+
+            if (Input.GetKey(KeyCode.H))
+                HyperDriveInitialize();
+
+            if (hyperDrive)
+            {
+                HyperDriveMotherFucker();
+            }
         }
     }
 
@@ -98,6 +120,22 @@ public class PlayerData : MonoBehaviour {
     public void SetGamePause(bool boolean) {
         gamePause = boolean;
     }
+
+    public void HyperDriveMotherFucker()
+    {
+        if (hyperDriveStartTimer > 0.0f)
+        {
+            hyperDriveStartTimer -= Time.deltaTime;
+            hyperDriveParticles.transform.Translate(Vector3.forward * 20.0f * Time.deltaTime);
+        }
+        else
+        {
+            Debug.Log("HYPERDRIVE Active!");
+            transform.Translate(Vector3.forward * 200.0f);
+            hyperDriveParticles.SetActive(false);            
+            hyperDrive = false;
+        }
+    }
     public void SetCloaked(bool boolean) {
         if (boolean) {
             cloakTimer = 45.0f;
@@ -111,6 +149,19 @@ public class PlayerData : MonoBehaviour {
                 shipLights[x].gameObject.SetActive(true);
         }
         isCloaked = boolean;
+    }
+
+    public void Hit()
+    {
+        hitCount++;
+    }
+
+    public void HyperDriveInitialize()
+    {
+        Debug.Log("Initializing Hyper drive...");
+        hyperDriveParticles.SetActive(true);
+        hyperDrive = true;
+        hyperDriveStartTimer = 5.0f;
     }
     #endregion
 }
