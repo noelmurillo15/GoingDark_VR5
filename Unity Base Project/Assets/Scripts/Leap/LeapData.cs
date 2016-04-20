@@ -13,19 +13,19 @@ public class LeapData : MonoBehaviour {
     private int prevFrameNum = 0;
     private int numHands, prevNumHands;
     private int numFingersL, numFingersR;
-    private int numFingersLHeld, numFingersRHeld;
+    public int numFingersLHeld, numFingersRHeld;
     private int prevNumFingersL, prevNumFingersR;
     private int prevFingersHeldL, prevFingersHeldR;
 
     private float gripStrL, gripStrR;
     private float prevGripStrL, prevGripStrR;
 
-    public Vector3 palmPosL;
-    public Vector3 palmPosR;
+    private Vector3 palmPosL;
+    private Vector3 palmPosR;
     private Vector3 palmNormsL;
     private Vector3 palmNormsR;
     private Vector3 palmVelocityL;
-    private Vector3 palmVelocityR;
+    public Vector3 palmVelocityR;
     private Vector3 prevPalmPosL;
     private Vector3 prevPalmPosR;
     private Vector3 prevPalmNormL;
@@ -144,29 +144,58 @@ public class LeapData : MonoBehaviour {
             }
             else if (numHands == 1)
             {
-                numFingersR = 0;
-                numFingersRHeld = 0;
+                if (handList[0].IsLeft)
+                {
+                    numFingersR = 0;
+                    numFingersRHeld = 0;
 
-                #region Palm Data
-                palmPosL.x = handList[0].PalmPosition.x;
-                palmPosL.y = handList[0].PalmPosition.y;
-                palmPosL.z = handList[0].PalmPosition.z;
-                palmNormsL.x = handList[0].PalmNormal.x;
-                palmNormsL.y = handList[0].PalmNormal.y;
-                palmNormsL.z = handList[0].PalmNormal.z;
-                palmVelocityL.x = handList[0].PalmVelocity.x;
-                palmVelocityL.y = handList[0].PalmVelocity.y;
-                palmVelocityL.z = handList[0].PalmVelocity.z;
-                #endregion
+                    #region Palm Data
+                    palmPosL.x = handList[0].PalmPosition.x;
+                    palmPosL.y = handList[0].PalmPosition.y;
+                    palmPosL.z = handList[0].PalmPosition.z;
+                    palmNormsL.x = handList[0].PalmNormal.x;
+                    palmNormsL.y = handList[0].PalmNormal.y;
+                    palmNormsL.z = handList[0].PalmNormal.z;
+                    palmVelocityL.x = handList[0].PalmVelocity.x;
+                    palmVelocityL.y = handList[0].PalmVelocity.y;
+                    palmVelocityL.z = handList[0].PalmVelocity.z;
+                    #endregion
 
-                #region Finger Data
-                fingerListL = handList[0].Fingers;
-                numFingersL = fingerListL.Count;
-                numFingersLHeld = 0;
-                for (int i = 0; i < fingerListL.Count; i++)
-                    if (fingerListL[i].IsExtended)
-                        numFingersLHeld++;
-                #endregion
+                    #region Finger Data
+                    fingerListL = handList[0].Fingers;
+                    numFingersL = fingerListL.Count;
+                    numFingersLHeld = 0;
+                    for (int i = 0; i < fingerListL.Count; i++)
+                        if (fingerListL[i].IsExtended)
+                            numFingersLHeld++;
+                    #endregion
+                }
+                else
+                {
+                    numFingersL = 0;
+                    numFingersLHeld = 0;
+
+                    #region Palm Data
+                    palmPosR.x = handList[0].PalmPosition.x;
+                    palmPosR.y = handList[0].PalmPosition.y;
+                    palmPosR.z = handList[0].PalmPosition.z;
+                    palmNormsR.x = handList[0].PalmNormal.x;
+                    palmNormsR.y = handList[0].PalmNormal.y;
+                    palmNormsR.z = handList[0].PalmNormal.z;
+                    palmVelocityR.x = handList[0].PalmVelocity.x;
+                    palmVelocityR.y = handList[0].PalmVelocity.y;
+                    palmVelocityR.z = handList[0].PalmVelocity.z;
+                    #endregion
+
+                    #region Finger Data
+                    fingerListR = handList[0].Fingers;
+                    numFingersR = fingerListR.Count;
+                    numFingersRHeld = 0;
+                    for (int i = 0; i < fingerListR.Count; i++)
+                        if (fingerListR[i].IsExtended)
+                            numFingersRHeld++;
+                    #endregion
+                }
             }
             else
             {

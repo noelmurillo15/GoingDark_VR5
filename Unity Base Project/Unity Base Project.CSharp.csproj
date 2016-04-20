@@ -184,9 +184,12 @@
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
     <Compile Include="Assets\Scripts\Player\CameraMovement.cs" />
     <Compile Include="Assets\Scripts\Player\EMP.cs" />
+    <Compile Include="Assets\Scripts\Player\JoyStickMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInteractions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\TestingHandBehavior.cs" />
+    <Compile Include="Assets\Scripts\TestingJoyStick.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
