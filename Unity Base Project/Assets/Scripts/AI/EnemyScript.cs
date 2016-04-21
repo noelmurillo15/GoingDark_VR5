@@ -18,6 +18,8 @@ public class EnemyScript : MonoBehaviour {
     private float missileCooldown;
     private int missileCount;
     private int missileCountLimit;
+    public Transform missileWarning;
+    public MessagingScript message;
 
 
     // Use this for initialization
@@ -55,7 +57,7 @@ public class EnemyScript : MonoBehaviour {
     }
 
     void Fire()
-    {
+    {        
         if (missileCooldown <= 0.0f)
         {
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
@@ -68,10 +70,7 @@ public class EnemyScript : MonoBehaviour {
                     missileCount++;
                     Instantiate(Missile, new Vector3(transform.localPosition.x, transform.localPosition.y - 10.0f, transform.localPosition.z + 10.0f), transform.rotation);
                     Missile.GetComponent<EnemyMissile>().startTracking = true;
-                    Debug.Log("Begin Enemy Missile Tracking");
                 }
-                else
-                    Debug.Log("No Missile Gameobj attached");
             }
         }
     }

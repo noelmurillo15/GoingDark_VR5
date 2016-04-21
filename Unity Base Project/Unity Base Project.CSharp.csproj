@@ -152,6 +152,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\MessagingScript.cs" />
     <Compile Include="Assets\Missile Systems\Improved Tracer\Improved_Tracer.cs" />
     <Compile Include="Assets\Missile Systems\Improved Tracer\ShootImprovedTracer.cs" />
     <Compile Include="Assets\Missile Systems\Missile\Missile.cs" />

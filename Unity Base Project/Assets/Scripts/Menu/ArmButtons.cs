@@ -9,6 +9,8 @@ public class ArmButtons : MonoBehaviour {
     private float cancelTimer;
     private ArmSettings m_armSettings;
 
+    private PlayerData m_playerData;
+
 
     // Use this for initialization
     void Start()
@@ -19,6 +21,9 @@ public class ArmButtons : MonoBehaviour {
 
         if (m_armSettings == null)
             m_armSettings = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
+
+        if (m_playerData == null)
+            m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
     }
 
     // Update is called once per frame
@@ -84,6 +89,15 @@ public class ArmButtons : MonoBehaviour {
     {
         if (transform.name == "CloseSettings")
             m_armSettings.CloseSettings();
+        else if(transform.name == "CloakButton")
+        {
+            if (m_playerData.GetCloaked())
+                m_playerData.SetCloaked(false);
+            else if(m_playerData.GetCloakCooldown() <= 0.0f)
+                m_playerData.SetCloaked(true);
+        }
+        else if (transform.name == "HyperDriveButton")
+            m_playerData.HyperDriveInitialize();
         else
         {
             Debug.Log("Switching Scene : " + transform.name);

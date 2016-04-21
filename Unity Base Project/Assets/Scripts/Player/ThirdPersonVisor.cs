@@ -9,6 +9,7 @@ public class ThirdPersonVisor : MonoBehaviour {
     private GameObject visorHUD;
     private GameObject speedBar;
     private GameObject speedBarColor;
+    private GameObject missileWarning;
     private JoyStickMovement m_playerMove;
 
     public float speedBarX;
@@ -26,11 +27,15 @@ public class ThirdPersonVisor : MonoBehaviour {
         if (speedBarColor == null)
             speedBarColor = GameObject.Find("SpeedBarColor");
 
+        if (missileWarning == null)
+            missileWarning = GameObject.Find("MissileWarning");
+
         m_playerMove = this.GetComponent<JoyStickMovement>();
 
         visorHUD.SetActive(true);
         speedBar.SetActive(true);
         speedBarColor.SetActive(true);
+        missileWarning.SetActive(false);
     }
 
     // Update is called once per frame
@@ -49,5 +54,10 @@ public class ThirdPersonVisor : MonoBehaviour {
         newPos.y = -1.1f + (m_playerMove.GetSpeed() / m_playerMove.GetMaxSpeed() * 1.2f);
         newPos.z = speedBarColor.transform.localPosition.z;
         speedBarColor.transform.localPosition = newPos;
+    }
+
+    public void SetIncomingMissileWarning(bool boolean)
+    {
+        missileWarning.SetActive(boolean);
     }
 }

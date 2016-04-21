@@ -16,7 +16,7 @@ public class PlayerData : MonoBehaviour {
     public Vector3 particleOriginalPos;
 
 
-    public GameObject hyperDriveParticles;
+    private GameObject hyperDriveParticles;
 
     public int hitCount;
 
@@ -69,13 +69,9 @@ public class PlayerData : MonoBehaviour {
             else if (cloakTimer < 0)
                 SetCloaked(false);
 
-            if (Input.GetKey(KeyCode.H))
-                HyperDriveInitialize();
-
             if (hyperDrive)
-            {
                 HyperDriveMotherFucker();
-            }
+            
         }
     }
 
@@ -126,6 +122,7 @@ public class PlayerData : MonoBehaviour {
             hyperDriveStartTimer -= Time.deltaTime;
             hyperDriveParticles.transform.Translate(Vector3.forward * 10.0f * Time.deltaTime);
             hyperDriveTimer = 0.5f;
+            m_playerMove.SetMoveSpeed(0.0f);
         }
         else
         {
@@ -165,7 +162,7 @@ public class PlayerData : MonoBehaviour {
 
     public void HyperDriveInitialize()
     {
-        Debug.Log("Initializing Hyper drive...");
+        m_playerMove.SetMoveSpeed(0.0f);
         hyperDriveParticles.SetActive(true);
         hyperDrive = true;
         hyperDriveStartTimer = 5.0f;

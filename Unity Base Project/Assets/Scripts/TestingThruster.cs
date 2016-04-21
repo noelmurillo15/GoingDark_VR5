@@ -32,7 +32,6 @@ public class TestingThruster : MonoBehaviour {
         {
             if (m_palm.GetisLHandClosed() && !isStatic)
             {
-                Debug.Log("Making Thruster Static...");
                 isStatic = true;
                 transform.localRotation = originalRotation;
             }

@@ -18,7 +18,7 @@ public class JoyStickMovement : MonoBehaviour {
         maxSpeed = 100.0f;
         moveSpeed = 0.0f;
         rotateSpeed = 30.0f;
-        runMultiplier = 2.0f;
+        runMultiplier = 2.5f;
 
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
@@ -41,7 +41,6 @@ public class JoyStickMovement : MonoBehaviour {
         if (moveSpeed >= maxSpeed)
         {
             moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
-            Debug.Log("Max Speed x2");
         }
         else
             moveDir *= moveSpeed * Time.deltaTime;
