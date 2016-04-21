@@ -27,11 +27,28 @@ public class RotatingMenu : MonoBehaviour
 
 
         if (m_leapData.GetLPalmVelocity().x > 500.0f && m_leapData.GetLPalmNormals().x > 0.0f)
+        {
+            Debug.Log("1 Left Hand Positive");
             velocity = -m_leapData.GetLPalmVelocity().x * Time.deltaTime * 0.50f;
+        }
+
         else if (m_leapData.GetLPalmVelocity().x < -500.0f && m_leapData.GetLPalmNormals().x < 0.0f)
+        {
+            Debug.Log("1 Left Hand Negative");
             velocity = -m_leapData.GetLPalmVelocity().x * Time.deltaTime * 0.50f;
+        }
+
         else if (m_leapData.GetRPalmVelocity().x < -500.0f && m_leapData.GetRPalmNormals().x < 0.0f)
+        {
+            Debug.Log("1 Right Hand Negative");
             velocity = -m_leapData.GetRPalmVelocity().x * Time.deltaTime * 0.50f;
+        }
+
+        else if (m_leapData.GetRPalmVelocity().x > 500.0f && m_leapData.GetRPalmNormals().x > 0.0f)
+        {
+            Debug.Log("1 Right Hand Positive");
+            velocity = -m_leapData.GetRPalmVelocity().x * Time.deltaTime * 0.50f;
+        }
 
 
         this.transform.Rotate(0.0f, velocity, 0.0f);
