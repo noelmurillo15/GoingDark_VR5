@@ -55,9 +55,9 @@ public class TestingThruster : MonoBehaviour {
         }
 
         if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
-            m_playerMove.IncreaseSpeed();
-        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
             m_playerMove.DecreaseSpeed();
+        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
+            m_playerMove.IncreaseSpeed();
     }
 
     void OnTriggerEnter(Collider col)

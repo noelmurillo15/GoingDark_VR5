@@ -1,7 +1,4 @@
-﻿using Leap;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
 public class LeapDriveHUD : MonoBehaviour {
     //**    Attach Script to Leap Control   **//

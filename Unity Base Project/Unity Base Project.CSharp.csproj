@@ -187,6 +187,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInteractions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Player\ThirdPersonVisor.cs" />
     <Compile Include="Assets\Scripts\TestingHandBehavior.cs" />
     <Compile Include="Assets\Scripts\TestingJoyStick.cs" />
     <Compile Include="Assets\Scripts\TestingThruster.cs" />

@@ -39,7 +39,10 @@ public class JoyStickMovement : MonoBehaviour {
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
+        {
             moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
+            Debug.Log("Max Speed x2");
+        }
         else
             moveDir *= moveSpeed * Time.deltaTime;
     }
@@ -52,8 +55,6 @@ public class JoyStickMovement : MonoBehaviour {
     {
         if (moveSpeed < maxSpeed)
             moveSpeed += 5.0f * Time.deltaTime;
-
-        Debug.Log("Increasing speed at : " + moveSpeed);
     }
 
     public void DecreaseSpeed()
@@ -62,8 +63,6 @@ public class JoyStickMovement : MonoBehaviour {
             moveSpeed -= 10.0f * Time.deltaTime;
         else
             moveSpeed = 0.0f;
-
-        Debug.Log("Decreasing speed at : " + moveSpeed);
     }
 
     public void goDown() {
@@ -88,5 +87,15 @@ public class JoyStickMovement : MonoBehaviour {
     public void StopMovement() {
         turnRate = 0;        
         moveSpeed = 0.0f;
+    }
+
+    public float GetSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetMaxSpeed()
+    {
+        return maxSpeed;
     }
 }
