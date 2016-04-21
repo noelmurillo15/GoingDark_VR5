@@ -15,10 +15,10 @@ public class JoyStickMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         turnRate = 0;
-        maxSpeed = 100.0f;
+        maxSpeed = 50.0f;
         moveSpeed = 0.0f;
-        rotateSpeed = 30.0f;
-        runMultiplier = 2.5f;
+        rotateSpeed = 20.0f;
+        runMultiplier = 1.25f;
 
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
@@ -35,7 +35,6 @@ public class JoyStickMovement : MonoBehaviour {
     private void ManualTurn() {
         transform.Rotate(0, turnRate * rotateSpeed * Time.deltaTime, 0);
     }
-
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
@@ -45,17 +44,14 @@ public class JoyStickMovement : MonoBehaviour {
         else
             moveDir *= moveSpeed * Time.deltaTime;
     }
-
     public void SetMoveSpeed(float speed) {
         moveSpeed = speed;
     }
-
     public void IncreaseSpeed()
     {
         if (moveSpeed < maxSpeed)
             moveSpeed += 5.0f * Time.deltaTime;
     }
-
     public void DecreaseSpeed()
     {
         if (moveSpeed > 0.0f)
@@ -65,34 +61,34 @@ public class JoyStickMovement : MonoBehaviour {
     }
 
     public void goDown() {
-        transform.Translate((Vector3.up * 10.0f) * Time.deltaTime);
+        Vector3 newR = transform.rotation.eulerAngles;
+        newR.x += 7.5f * Time.deltaTime;
+        if (newR.x < 45.0f || newR.x > 315.0f)
+            transform.rotation = Quaternion.Euler(newR);
     }
-
     public void goUp() {
-        transform.Translate((Vector3.up * -10.0f) * Time.deltaTime);
+        Vector3 newR = transform.rotation.eulerAngles;
+        newR.x -= 7.5f * Time.deltaTime;
+        if(newR.x > 315.0f || newR.x < 45.0f)
+            transform.rotation = Quaternion.Euler(newR);        
     }
     public void turnRateZero() {
         turnRate = 0;
     }
-
     public void TurnLeft() {
         turnRate = -1;
     }
-
     public void TurnRight() {
         turnRate = 1;
     }
-
     public void StopMovement() {
         turnRate = 0;        
         moveSpeed = 0.0f;
     }
-
     public float GetSpeed()
     {
         return moveSpeed;
     }
-
     public float GetMaxSpeed()
     {
         return maxSpeed;

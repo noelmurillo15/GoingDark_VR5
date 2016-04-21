@@ -397,6 +397,25 @@ public class LeapData : MonoBehaviour {
     public int GetNumHands() {
         return numHands;
     }
+
+    public bool GetIsLHandOnScreen()
+    {
+        if (GetNumHands() == 1 && handList[0].IsLeft)
+            return true;
+        if (GetNumHands() == 2)
+            return true;
+
+        return false;
+    }
+    public bool GetIsRHandOnScreen()
+    {
+        if (GetNumHands() == 1 && handList[0].IsRight)
+            return true;
+        if (GetNumHands() == 2)
+            return true;
+
+        return false;
+    }
     public int GetNumLFingersHeld() {
         return numFingersLHeld;
     }

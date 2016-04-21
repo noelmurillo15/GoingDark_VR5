@@ -31,18 +31,21 @@ public class EnemyMissile : MonoBehaviour {
         Die = false;
 
         Speed = 80.0f;
-        DestroyTimer = 10.0f;
+        DestroyTimer = 6.0f;
         LookSpeed = 5;
     }
 
-    void Update()
-    {
+    void Update()  {
 
         if (Player != null)
             Target = Player.transform.localPosition;
 
         if (DestroyTimer > 0.0f)
             DestroyTimer -= Time.deltaTime;
+        else {
+            Player.GetComponent<ThirdPersonVisor>().SetIncomingMissileWarning(false);
+            Destroy(this.gameObject, 0);
+        }
 
         if (!Die)
             transform.Translate(0, 0, Speed * Time.deltaTime);
@@ -53,34 +56,18 @@ public class EnemyMissile : MonoBehaviour {
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
         }
 
-        if (DestroyTimer <= 0.0f)
+        if (Die && Explosion != null)
         {
-            Destroy(this.gameObject, 0);
-            Player.GetComponent<ThirdPersonVisor>().SetIncomingMissileWarning(true);
-        }
-
-        if (Die)
-        {
-            if (Explosion != null)
-            {
-                Instantiate(Explosion, transform.position, transform.rotation);
-                Explosion = null;
-                this.GetComponent<MeshRenderer>().enabled = false;
-            }
-
-            if (DestroyTimer <= 0.0f)
-            {
-                Destroy(this.gameObject, 0);
-                Player.GetComponent<ThirdPersonVisor>().SetIncomingMissileWarning(true);
-            }
-        }
+            Instantiate(Explosion, transform.position, transform.rotation);
+            Explosion = null;
+            this.GetComponent<MeshRenderer>().enabled = false;
+        }        
     }
 
     void OnCollisionEnter(Collision col) {       
         if (col.gameObject.tag == "Player") {
            Debug.Log("Missile Hit Player");
            Die = true;
-           DestroyTimer = 2.5f;
            col.gameObject.SendMessage("Hit");
         }
     }

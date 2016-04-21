@@ -25,8 +25,8 @@ public class TestingJoyStick : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(m_palm != null) {
-            if (m_palm.GetisRHandClosed() && !isStatic)                            
+        //if(m_palm != null) {
+            if (m_palm.GetisRHandClosed() && !isStatic && m_palm.GetIsRightHandIn())                            
                 isStatic = true;                            
             else if (!m_palm.GetisRHandClosed() && isStatic) {
                 isStatic = false;
@@ -34,7 +34,7 @@ public class TestingJoyStick : MonoBehaviour {
                 m_palm.SetJSAttached(false);
                 transform.localRotation = originalRotation;
             }
-        }
+        //}
 
         if (isStatic) {
             m_palm.SetJSAttached(true);
@@ -47,9 +47,9 @@ public class TestingJoyStick : MonoBehaviour {
         }
 
         if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
-            m_playerMove.goUp();        
-        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)      
             m_playerMove.goDown();        
+        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)      
+            m_playerMove.goUp();        
 
         if (transform.localEulerAngles.z > 1.0f && transform.localEulerAngles.z < 90.0f)
             m_playerMove.TurnLeft();        

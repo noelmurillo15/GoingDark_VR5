@@ -28,9 +28,7 @@ public class TestingThruster : MonoBehaviour {
     void Update()
     {
 
-        if (m_palm != null)
-        {
-            if (m_palm.GetisLHandClosed() && !isStatic)
+            if (m_palm.GetisLHandClosed() && !isStatic && m_palm.GetIsLeftHandIn())
             {
                 isStatic = true;
                 transform.localRotation = originalRotation;
@@ -41,7 +39,6 @@ public class TestingThruster : MonoBehaviour {
                 m_playerMove.turnRateZero();
                 m_palm.SetTHAttached(false);                
             }
-        }
 
         if (isStatic)
         {

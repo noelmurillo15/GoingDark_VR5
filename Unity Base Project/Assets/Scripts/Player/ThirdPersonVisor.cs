@@ -10,6 +10,7 @@ public class ThirdPersonVisor : MonoBehaviour {
     private GameObject speedBar;
     private GameObject speedBarColor;
     private GameObject missileWarning;
+    private GameObject uTurn;   
     private JoyStickMovement m_playerMove;
 
     public float speedBarX;
@@ -27,8 +28,11 @@ public class ThirdPersonVisor : MonoBehaviour {
         if (speedBarColor == null)
             speedBarColor = GameObject.Find("SpeedBarColor");
 
+        if (uTurn == null)
+            uTurn = GameObject.Find("uTurn");
+
         if (missileWarning == null)
-            missileWarning = GameObject.Find("MissileWarning");
+            missileWarning = GameObject.Find("incomingMissile");
 
         m_playerMove = this.GetComponent<JoyStickMovement>();
 
@@ -59,5 +63,10 @@ public class ThirdPersonVisor : MonoBehaviour {
     public void SetIncomingMissileWarning(bool boolean)
     {
         missileWarning.SetActive(boolean);
+    }
+
+    public void SetUTurnWarning(bool boolean)
+    {
+        uTurn.SetActive(boolean);
     }
 }

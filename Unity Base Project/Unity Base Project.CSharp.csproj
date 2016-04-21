@@ -160,6 +160,7 @@
     <Compile Include="Assets\Missile Systems\ParticleDespawn.cs" />
     <Compile Include="Assets\Missile Systems\Tracer\ShootTracer.cs" />
     <Compile Include="Assets\Missile Systems\Tracer\Tracer.cs" />
+    <Compile Include="Assets\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />

@@ -143,7 +143,7 @@ public class PlayerData : MonoBehaviour {
             if (hyperDriveTimer > 0.0f)
             {
                 hyperDriveTimer -= Time.deltaTime;
-                transform.Translate(Vector3.forward * 1200.0f * Time.deltaTime);
+                transform.Translate(Vector3.forward * 800.0f * Time.deltaTime);
             }
             else
             {

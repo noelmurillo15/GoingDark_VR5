@@ -34,20 +34,26 @@ public class TestingHandBehavior : MonoBehaviour {
     {
         thAttached = boolean;
     }
-
-    public bool GetisRHandClosed() {
-        if (m_leapData.GetNumRFingersHeld() <= 1)
+    public bool GetisRHandClosed() {        
+        if (m_leapData.GetNumRFingersHeld() == 0)
             return true;
 
         return false;
     }
-
-    public bool GetisLHandClosed()
-    {
-        if (m_leapData.GetNumLFingersHeld() <= 1)
+    public bool GetisLHandClosed() {      
+        if (m_leapData.GetNumLFingersHeld() == 0)
             return true;
 
         return false;
+    }
+    public bool GetIsLeftHandIn()
+    {
+        return m_leapData.GetIsLHandOnScreen();
+    }
+
+    public bool GetIsRightHandIn()
+    {
+        return m_leapData.GetIsRHandOnScreen();
     }
 
     public Vector3 GetRPalmVelocity() {
