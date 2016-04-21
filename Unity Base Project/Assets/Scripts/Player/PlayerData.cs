@@ -7,6 +7,10 @@ public class PlayerData : MonoBehaviour {
     public bool gamePause;
     public bool isCloaked;
 
+    public bool loot1Found;
+    public bool loot2Found;
+    public bool loot3Found;
+
 
 
     public bool hyperDrive;
@@ -37,8 +41,11 @@ public class PlayerData : MonoBehaviour {
         cloakCooldown = 0.0f;
 
         hyperDrive = false;
+        loot1Found = false;
+        loot2Found = false;
+        loot3Found = false;
 
-        if(shipLights.Length == 0)
+        if (shipLights.Length == 0)
             shipLights = GameObject.FindGameObjectsWithTag("ShipLights");
 
         if (hyperDriveParticles == null)
@@ -69,10 +76,16 @@ public class PlayerData : MonoBehaviour {
             else if (cloakTimer < 0)
                 SetCloaked(false);
 
+            if (Input.GetKey(KeyCode.H))
+                HyperDriveInitialize();
+
             if (hyperDrive)
                 HyperDriveMotherFucker();
             
         }
+
+        if (loot1Found && loot2Found && loot3Found)
+            SceneManager.LoadScene("Win_Scene");
     }
 
     #region Collision Detection
@@ -87,11 +100,12 @@ public class PlayerData : MonoBehaviour {
             Debug.Log("Collided with " + col.name);
         }
 
-        if(col.name == "Loot")
-        {
-            m_playerMove.StopMovement();
-            SceneManager.LoadScene("Win_Scene");
-        }
+        if(col.name == "Loot1")
+            loot1Found = true;
+        if (col.name == "Loot2")
+            loot2Found = true;
+        if (col.name == "Loot3")
+            loot3Found = true;
     }
     #endregion
 
