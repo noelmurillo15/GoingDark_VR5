@@ -60,7 +60,7 @@ public class PlayerData : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (hitCount > 1)
+        if (hitCount > 2)
             SceneManager.LoadScene("Credits_Scene");
 
         if (!GetGamePaused())
