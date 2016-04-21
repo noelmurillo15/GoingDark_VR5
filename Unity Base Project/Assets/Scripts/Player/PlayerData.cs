@@ -27,7 +27,7 @@ public class PlayerData : MonoBehaviour {
 
     public GameObject[] shipLights;
 
-    private PlayerMovement m_playerMove;
+    private JoyStickMovement m_playerMove;
 
     // Use this for initialization
     void Start() {
@@ -48,7 +48,7 @@ public class PlayerData : MonoBehaviour {
         hyperDriveParticles.SetActive(false);
 
         if (m_playerMove == null)
-            m_playerMove = this.GetComponent<PlayerMovement>();
+            m_playerMove = this.GetComponent<JoyStickMovement>();
     }
 
     // Update is called once per frame
@@ -87,19 +87,13 @@ public class PlayerData : MonoBehaviour {
             for (int x = 0; x < shipLights.Length; x++)
                 shipLights[x].GetComponent<Light>().color = Color.red;
 
-            m_playerMove.StopAllMovement();
-            Debug.Log("Collided with " + col.name);
-        }
-
-        if (col.tag == "Asteroid" && m_playerMove.GetDriveMode()) {
-            hitCount++;
-            m_playerMove.StopAllMovement();
+            m_playerMove.StopMovement();
             Debug.Log("Collided with " + col.name);
         }
 
         if(col.name == "Loot")
         {
-            m_playerMove.StopAllMovement();
+            m_playerMove.StopMovement();
             SceneManager.LoadScene("Win_Scene");
         }
     }
@@ -166,6 +160,7 @@ public class PlayerData : MonoBehaviour {
     public void Hit()
     {
         hitCount++;
+        m_playerMove.StopMovement();
     }
 
     public void HyperDriveInitialize()

@@ -31,8 +31,6 @@ public class Asteroid : MonoBehaviour {
         if (m_generator == null)
             m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
 
-
-        Debug.Log("Translating Asteroids");
         transform.localPosition = m_position;
         transform.localScale += m_scale;
     }
@@ -49,13 +47,11 @@ public class Asteroid : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("Trigger with " + col.name);
+        if(col.name == "Player")
+        {
+            col.GetComponent<PlayerData>().Hit();
+        }
     }
-
-    //void OnCollisionEnter(Collider col)
-    //{
-    //    Debug.Log("Trigger with " + col.transform.name);
-    //}
 
     bool CheckOutOfBounds() {
         if (transform.localPosition.x > 500.0f || transform.localPosition.x < -500.0f)
@@ -67,6 +63,7 @@ public class Asteroid : MonoBehaviour {
 
         return false;
     }
+
     void DestroyAsteroid() {
         m_generator.DeleteAsteroid();
         Destroy(this.gameObject);

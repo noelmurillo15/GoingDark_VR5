@@ -15,8 +15,8 @@ public class JoyStickMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         turnRate = 0;
-        maxSpeed = 20.0f;
-        moveSpeed = 5.0f;
+        maxSpeed = 100.0f;
+        moveSpeed = 0.0f;
         rotateSpeed = 30.0f;
         runMultiplier = 2.0f;
 
@@ -46,6 +46,24 @@ public class JoyStickMovement : MonoBehaviour {
 
     public void SetMoveSpeed(float speed) {
         moveSpeed = speed;
+    }
+
+    public void IncreaseSpeed()
+    {
+        if (moveSpeed < maxSpeed)
+            moveSpeed += 5.0f * Time.deltaTime;
+
+        Debug.Log("Increasing speed at : " + moveSpeed);
+    }
+
+    public void DecreaseSpeed()
+    {
+        if (moveSpeed > 0.0f)
+            moveSpeed -= 10.0f * Time.deltaTime;
+        else
+            moveSpeed = 0.0f;
+
+        Debug.Log("Decreasing speed at : " + moveSpeed);
     }
 
     public void goDown() {

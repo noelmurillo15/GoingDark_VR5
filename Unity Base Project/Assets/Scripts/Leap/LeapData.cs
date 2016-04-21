@@ -90,7 +90,7 @@ public class LeapData : MonoBehaviour {
             numHands = handList.Count;
             if (numHands == 2)
             {
-                if (handList[0].IsLeft)
+                if (handList[0].IsRight)
                     handList.Reverse();
 
                 #region Palm Data

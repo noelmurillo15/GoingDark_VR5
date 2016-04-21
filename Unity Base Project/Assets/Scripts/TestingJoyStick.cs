@@ -26,9 +26,9 @@ public class TestingJoyStick : MonoBehaviour {
 	void Update () {
 
         if(m_palm != null) {
-            if (m_palm.GetisHandClosed() && !isStatic)                            
+            if (m_palm.GetisRHandClosed() && !isStatic)                            
                 isStatic = true;                            
-            else if (!m_palm.GetisHandClosed() && isStatic) {
+            else if (!m_palm.GetisRHandClosed() && isStatic) {
                 isStatic = false;
                 m_playerMove.turnRateZero();
                 m_palm.SetJSAttached(false);
@@ -39,7 +39,7 @@ public class TestingJoyStick : MonoBehaviour {
         if (isStatic) {
             m_palm.SetJSAttached(true);
             Vector3 velocity;
-            velocity = m_palm.GetPalmVelocity();
+            velocity = m_palm.GetRPalmVelocity();
             velocity.z = velocity.x;
             velocity.x = velocity.y;
             velocity.y = 0.0f;            
@@ -58,11 +58,11 @@ public class TestingJoyStick : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider col) {
-        if (col.name == "palm")
+        if (col.name == "rightPalm")
             m_handPos = col.transform;        
     }
     void OnTriggerStay(Collider col) {
-        if (col.name == "palm")
+        if (col.name == "rightPalm")
             m_handPos = col.transform;        
     }
 }
