@@ -79,26 +79,26 @@ public class MenuButtons : MonoBehaviour {
             Application.Quit(); //    does not work in editor only for builds
 #endif
         }
-        else if (transform.name == "EMPButton")
-        {
-            if (emp.GetEmpCooldown() <= 0.0f)
-            {
-                emp.SetEmpActive(true);
-            }
-        }
-        else if (transform.name == "CloakButton")
-        {
-            if (playerData.GetCloakCooldown() <= 0.0f && playerData.isCloaked == false)
-            {
-                playerData.SetCloaked(true);
-                m_button.GetComponent<Text>().text = "Uncloak";
-            }
-            else if (playerData.isCloaked)
-            {
-                playerData.SetCloaked(false);
-                m_button.GetComponent<Text>().text = "Cloak";
-            }
-        }
+        //else if (transform.name == "EMPButton")
+        //{
+        //    if (emp.GetEmpCooldown() <= 0.0f)
+        //    {
+        //        emp.SetEmpActive(true);
+        //    }
+        //}
+        //else if (transform.name == "CloakButton")
+        //{
+        //    if (playerData.GetCloakCooldown() <= 0.0f && playerData.isCloaked == false)
+        //    {
+        //        playerData.SetCloaked(true);
+        //        m_button.GetComponent<Text>().text = "Uncloak";
+        //    }
+        //    else if (playerData.isCloaked)
+        //    {
+        //        playerData.SetCloaked(false);
+        //        m_button.GetComponent<Text>().text = "Cloak";
+        //    }
+        //}
         else {
             Debug.Log("Switching Scene : " + transform.name);
             SceneManager.LoadScene(transform.name);

@@ -45,14 +45,17 @@ public class TestingThruster : MonoBehaviour {
             m_palm.SetTHAttached(true);
             Vector3 velocity;
             velocity = m_palm.GetLPalmVelocity();
-            velocity.z = 0.0f;
+            velocity.z = velocity.y;
             velocity.x = 0.0f;
-            transform.Rotate((velocity * 1.5f) * Time.deltaTime);
+            velocity.y = 0.0f;
+            if((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.001f)) > -0.0044f &&
+                (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.001f)) < 0.0044f) 
+                transform.localPosition += (velocity * Time.deltaTime * 0.001f);
         }
 
-        if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
+        if (transform.localPosition.z < 0.0f)
             m_playerMove.DecreaseSpeed();
-        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
+        else if (transform.localPosition.z > 0.0f)
             m_playerMove.IncreaseSpeed();
     }
 

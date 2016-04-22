@@ -19,7 +19,6 @@ public class EnemyScript : MonoBehaviour {
     private int missileCount;
     private int missileCountLimit;
     public Transform missileWarning;
-    public MessagingScript message;
 
 
     // Use this for initialization
@@ -44,7 +43,7 @@ public class EnemyScript : MonoBehaviour {
         playerDistance = Vector3.Distance(m_playerPos.position, transform.position);
         //Debug.Log("Distance to player is " + playerDistance);
 
-        if (playerDistance <= 250.0f && !m_playerInput.GetCloaked())  {
+        if (playerDistance <= 100.0f && !m_playerInput.GetCloaked())  {
             // turn towards player
             playerDir = m_playerPos.position - transform.position;
             Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 2.0f, 0.0f);

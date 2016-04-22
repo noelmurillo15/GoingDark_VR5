@@ -5,31 +5,34 @@ using UnityEngine.SceneManagement;
 public class GameplayManager : MonoBehaviour {
 
     // Use this for initialization
-    private PersistentGameManager m_pPersistentGameManager = null;
-    public float m_fGameTimeRemaining;
-    public float m_fGameTime = 120.0f;
+    public bool isPaused;
+    private float padding;
+
+
     void Start() {
-        m_pPersistentGameManager = FindObjectOfType<PersistentGameManager>(); // Now we have all the information we need from other scenes.
-        m_fGameTimeRemaining = m_fGameTime;
+        isPaused = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        m_fGameTimeRemaining -= Time.deltaTime;
-        if (m_fGameTimeRemaining < 0.0f)
-            SceneManager.LoadScene("Credits_Scene");
+        if (padding > 0.0f)
+            padding -= Time.deltaTime;
 
-        CheckInput();
-        // Do stuff here based on Input such as enabling and disabling menus
+        if (Input.GetKey(KeyCode.Escape) && padding <= 0.0f)
+            SetGamePause(!GetGamePaused());
     }
 
-    void CheckInput()       // Check Input here and adjust variables accordingly
-    {
-
+    #region Accessors
+    public bool GetGamePaused() {
+        return isPaused;
     }
+    #endregion
 
-    public void StartGame() {
-        SceneManager.LoadScene("Test_Scene");
+    #region Modifiers
+    public void SetGamePause(bool boolean) {
+        isPaused = boolean;
+        padding = 0.2f;
     }
+    #endregion
 }

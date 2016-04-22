@@ -10,7 +10,7 @@ public class JoyStickMovement : MonoBehaviour {
     public float runMultiplier;
 
     private Vector3 moveDir;
-    public CharacterController m_controller;
+    private CharacterController m_controller;
 
     // Use this for initialization
     void Start() {

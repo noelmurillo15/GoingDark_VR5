@@ -152,7 +152,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
-    <Compile Include="Assets\MessagingScript.cs" />
+    <Compile Include="Assets\ControlPanel.cs" />
     <Compile Include="Assets\Missile Systems\Improved Tracer\Improved_Tracer.cs" />
     <Compile Include="Assets\Missile Systems\Improved Tracer\ShootImprovedTracer.cs" />
     <Compile Include="Assets\Missile Systems\Missile\Missile.cs" />
@@ -160,7 +160,8 @@
     <Compile Include="Assets\Missile Systems\ParticleDespawn.cs" />
     <Compile Include="Assets\Missile Systems\Tracer\ShootTracer.cs" />
     <Compile Include="Assets\Missile Systems\Tracer\Tracer.cs" />
-    <Compile Include="Assets\OutOfBoundsScript.cs" />
+    <Compile Include="Assets\Radar\Scripts\CliffordsRadarBlip.cs" />
+    <Compile Include="Assets\Radar\Scripts\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\InputChecker.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
+    <Compile Include="Assets\Scripts\HealthBalls.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapCommands.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapDriveHUD.cs" />
@@ -183,7 +185,7 @@
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
-    <Compile Include="Assets\Scripts\Player\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\Player\EMP.cs" />
     <Compile Include="Assets\Scripts\Player\JoyStickMovement.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
