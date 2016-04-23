@@ -32,7 +32,7 @@ public class CliffordsRadarPlane : MonoBehaviour
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
     {
-        Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
+        //Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
         
         if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "Loot" || ColliderObject.gameObject.tag == "TransportShip")
        {

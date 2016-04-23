@@ -42,7 +42,7 @@ public class CrewMenu : MonoBehaviour {
         if (padding > 0.0f)
             padding -= Time.deltaTime;
 
-        if (playerData.GetCloakCooldown() > 0.0f) { 
+        if (playerData.GetPlayerCloak().GetCloakCooldown() > 0.0f) { 
             if (m_button.name == "CloakButton")
                 m_button.color = Color.red;
         }        
@@ -75,12 +75,12 @@ public class CrewMenu : MonoBehaviour {
         {
             if (transform.name == "EMPButton" && emp.GetEmpCooldown() <= 0.0f)
                 emp.SetEmpActive(true);
-            else if (transform.name == "CloakButton" && playerData.GetCloakCooldown() <= 0.0f)
+            else if (transform.name == "CloakButton" && playerData.GetPlayerCloak().GetCloakCooldown() <= 0.0f)
             {
-                if (!playerData.GetCloaked())
-                    playerData.SetCloaked(true);
-                else if (playerData.GetCloaked())
-                    playerData.SetCloaked(false);
+                if (!playerData.GetPlayerCloak().GetCloaked())
+                    playerData.GetPlayerCloak().SetCloaked(true);
+                else if (playerData.GetPlayerCloak().GetCloaked())
+                    playerData.GetPlayerCloak().SetCloaked(false);
             }
             else if (transform.name == "FireButton" && missileLauncher.GetFireCooldown() <= 0.0f)
             {

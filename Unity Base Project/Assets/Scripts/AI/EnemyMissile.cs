@@ -23,16 +23,14 @@ public class EnemyMissile : MonoBehaviour {
     {
         Player = GameObject.FindGameObjectWithTag("Player");
 
-        Player.GetComponent<ThirdPersonVisor>().SetIncomingMissileWarning(true);
-
         if (Player != null)
             Target = Player.transform.position;
 
         Die = false;
 
-        Speed = 80.0f;
-        DestroyTimer = 6.0f;
-        LookSpeed = 5;
+        Speed = 60.0f;
+        DestroyTimer = 8.0f;
+        LookSpeed = 10;
     }
 
     void Update()  {
@@ -43,7 +41,6 @@ public class EnemyMissile : MonoBehaviour {
         if (DestroyTimer > 0.0f)
             DestroyTimer -= Time.deltaTime;
         else {
-            Player.GetComponent<ThirdPersonVisor>().SetIncomingMissileWarning(false);
             Destroy(this.gameObject, 0);
         }
 

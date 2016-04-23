@@ -10,6 +10,8 @@ public class ArmButtons : MonoBehaviour {
     private ArmSettings m_armSettings;
 
     private PlayerData m_playerData;
+    private Cloak playerCloak;
+    private HyperDrive playerHyperdrive;
 
 
     // Use this for initialization
@@ -24,6 +26,9 @@ public class ArmButtons : MonoBehaviour {
 
         if (m_playerData == null)
             m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
+
+        playerCloak = m_playerData.GetPlayerCloak();
+        playerHyperdrive = m_playerData.GetPlayerHyperDrive();
     }
 
     // Update is called once per frame
@@ -91,13 +96,13 @@ public class ArmButtons : MonoBehaviour {
             m_armSettings.CloseSettings();
         else if(transform.name == "CloakButton")
         {
-            if (m_playerData.GetCloaked())
-                m_playerData.SetCloaked(false);
-            else if(m_playerData.GetCloakCooldown() <= 0.0f)
-                m_playerData.SetCloaked(true);
+            if (playerCloak.GetCloaked())
+                playerCloak.SetCloaked(false);
+            else if(playerCloak.GetCloakCooldown() <= 0.0f)
+                playerCloak.SetCloaked(true);
         }
         else if (transform.name == "HyperDriveButton")
-            m_playerData.HyperDriveInitialize();
+            playerHyperdrive.HyperDriveInitialize();
         else
         {
             Debug.Log("Switching Scene : " + transform.name);

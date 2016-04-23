@@ -57,7 +57,7 @@ public class TransportScript : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.tag == "Player" && !col.gameObject.GetComponent<PlayerData>().GetCloaked())
+        if (col.tag == "Player" && !col.GetComponent<PlayerData>().GetPlayerCloak().GetCloaked())
         {
             SetCloaked(true);
         }
@@ -65,7 +65,7 @@ public class TransportScript : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (col.tag == "Player" && !col.gameObject.GetComponent<PlayerData>().GetCloaked())
+        if (col.tag == "Player" && !col.GetComponent<PlayerData>().GetPlayerCloak().GetCloaked())
         {
             SetCloaked(true);
         }

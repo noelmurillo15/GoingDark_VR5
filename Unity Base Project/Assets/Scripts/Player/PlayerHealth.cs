@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HealthBalls : MonoBehaviour
+public class PlayerHealth : MonoBehaviour
 {
     GameObject health1;
     GameObject health2;

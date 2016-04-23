@@ -10,7 +10,6 @@ public class EnemyScript : MonoBehaviour {
     private float playerDistance;
 
     public Transform m_playerPos;
-    public PlayerData m_playerInput;
 
     //  Enemy Missile Data
     public GameObject[] Missiles;
@@ -20,16 +19,19 @@ public class EnemyScript : MonoBehaviour {
     private int missileCountLimit;
     public Transform missileWarning;
 
+    private Cloak playerCloak;
+
 
     // Use this for initialization
     void Start()
     {
         missileCount = 0;
-        missileCountLimit = 3;
+        missileCountLimit = 2;
 
         playerDistance = 0.0f;
-        missileCooldown = 10.0f;
+        missileCooldown = 20.0f;
 
+        playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
         playerDir = m_playerPos.position - transform.position;
     }
@@ -41,16 +43,15 @@ public class EnemyScript : MonoBehaviour {
             missileCooldown -= Time.deltaTime;
        
         playerDistance = Vector3.Distance(m_playerPos.position, transform.position);
-        //Debug.Log("Distance to player is " + playerDistance);
 
-        if (playerDistance <= 100.0f && !m_playerInput.GetCloaked())  {
+        if (playerDistance <= 125.0f && !playerCloak.GetCloaked())  {
             // turn towards player
             playerDir = m_playerPos.position - transform.position;
-            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 2.0f, 0.0f);
+            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 5.0f, 0.0f);
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
             float angle = Vector3.Angle(newEnemyDir, playerDir);
-            if (angle <= 30.0f)
+            if (angle <= 8.0f)
                 Fire();
         }
     }
