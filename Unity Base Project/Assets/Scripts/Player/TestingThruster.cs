@@ -5,6 +5,9 @@ public class TestingThruster : MonoBehaviour {
     //**        Attach to Thruster Prefab       **//
 
     public bool inRange;
+    public float offset;
+    public float percentage;
+    public ControlPanel cpanel;
     public TestingHandBehavior m_palm;
     public JoyStickMovement m_playerMove;
 
@@ -13,6 +16,9 @@ public class TestingThruster : MonoBehaviour {
     void Start()
     {
         inRange = false;
+        offset = 0.0044f;
+        percentage = 0.0f;
+        cpanel = GameObject.Find("ControlPanel").GetComponent<ControlPanel>();
         m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
     }
 
@@ -27,19 +33,21 @@ public class TestingThruster : MonoBehaviour {
                 velocity.x = 0.0f;
                 velocity.y = 0.0f;
 
-                if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.001f)) > -0.0044f &&
-                    (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.001f)) < 0.0044f)
-                    transform.localPosition += (velocity * Time.deltaTime * 0.001f);
-            }
-            else if (!m_palm.GetisLHandClosed()) {
-                m_playerMove.turnRateZero();
-            }            
+                if(transform.localPosition.z > -offset)
+                    percentage = (transform.localPosition.z + offset) / (offset * 2);
+
+                if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0005f)) > -offset  &&
+                    (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0005f)) < offset)
+                    transform.localPosition += (velocity * Time.deltaTime * 0.0005f);                
+            }         
         }
 
-        if (transform.localPosition.z < 0.0f)
+        if (transform.localPosition.z < -0.004f)
             m_playerMove.DecreaseSpeed();
-        else if (transform.localPosition.z > 0.0f)
-            m_playerMove.IncreaseSpeed();        
+        else if (transform.localPosition.z > -0.004f)
+            m_playerMove.IncreaseSpeed(percentage);
+
+        cpanel.UpdateSpeedGauge();
     }
 
     void OnTriggerEnter(Collider col)

@@ -14,11 +14,6 @@ public class TestingHandBehavior : MonoBehaviour {
         if(m_leapData == null)
             m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     public bool GetisRHandClosed() {        
         if (m_leapData.GetNumRFingersHeld() < 2)

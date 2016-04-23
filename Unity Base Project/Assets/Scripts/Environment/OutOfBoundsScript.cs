@@ -28,6 +28,9 @@ public class OutOfBoundsScript : MonoBehaviour {
             danger = false;
             //col.GetComponent<ThirdPersonVisor>().SetUTurnWarning(danger);
         }
+
+        if (col.tag == "Asteroid")
+            col.gameObject.GetComponent<Asteroid>().DestroyAsteroid();
     }
 
     void OnTriggerExit(Collider col)
