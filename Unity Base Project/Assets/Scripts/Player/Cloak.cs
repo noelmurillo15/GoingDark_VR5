@@ -5,9 +5,12 @@ public class Cloak : MonoBehaviour {
 
     private float padding;
 
-    public bool isCloaked;
-    public float cloakTimer;
-    public float cloakCooldown;
+    private bool isCloaked;
+    private float cloakTimer;
+    private float cloakCooldown;
+
+    private Color originalColor;
+    private GameObject[] shipLights;
 
 
     // Use this for initialization
@@ -15,10 +18,20 @@ public class Cloak : MonoBehaviour {
         isCloaked = false;
         cloakTimer = 0.0f;
         cloakCooldown = 0.0f;
+
+        shipLights = new GameObject[5];
+        GameObject parentLight = GameObject.Find("ShipLights");
+        for (int x = 0; x < parentLight.transform.childCount; x++)
+            shipLights[x] = parentLight.transform.GetChild(x).gameObject;
+
+        originalColor = shipLights[0].GetComponent<Light>().color;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (padding > 0.0f)
+            padding -= Time.deltaTime;
+
         if (cloakCooldown > 0)
             cloakCooldown -= Time.deltaTime;
 
@@ -30,21 +43,26 @@ public class Cloak : MonoBehaviour {
 
     public void SetCloaked(bool boolean)
     {
-        Debug.Log("Setting cloak to : " + boolean);
-        if (boolean)
+
+        if (padding <= 0.0f)
         {
-            cloakTimer = 30.0f;
-            //for (int x = 0; x < shipLights.Length; x++)
-            //    shipLights[x].gameObject.SetActive(false);
+            Debug.Log("Setting cloak to : " + boolean);
+            padding = 0.2f;
+            if (boolean)
+            {
+                cloakTimer = 30.0f;
+                for (int x = 0; x < shipLights.Length; x++)
+                    shipLights[x].GetComponent<Light>().color = Color.black;
+            }
+            else
+            {
+                cloakTimer = 0.0f;
+                cloakCooldown = 60.0f;
+                for (int x = 0; x < shipLights.Length; x++)
+                    shipLights[x].GetComponent<Light>().color = originalColor;
+            }
+            isCloaked = boolean;
         }
-        else
-        {
-            cloakTimer = 0.0f;
-            cloakCooldown = 60.0f;
-            //for (int x = 0; x < shipLights.Length; x++)
-            //    shipLights[x].gameObject.SetActive(true);
-        }
-        isCloaked = boolean;
     }
 
     public bool GetCloaked()

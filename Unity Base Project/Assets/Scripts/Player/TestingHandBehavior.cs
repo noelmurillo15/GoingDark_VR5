@@ -3,20 +3,14 @@ using System.Collections;
 
 public class TestingHandBehavior : MonoBehaviour {
 
-    public bool jsAttached;
-    public bool thAttached;
     public LeapData m_leapData;
 
 	// Use this for initialization
 	void Start () {
-        jsAttached = false;
-        thAttached = false;
         m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
 	}
 
     void Awake() {
-        jsAttached = false;
-        thAttached = false;
         if(m_leapData == null)
             m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
     }
@@ -26,22 +20,14 @@ public class TestingHandBehavior : MonoBehaviour {
 
 	}
 
-    public void SetJSAttached(bool boolean) {
-        jsAttached = boolean;
-    }
-
-    public void SetTHAttached(bool boolean)
-    {
-        thAttached = boolean;
-    }
     public bool GetisRHandClosed() {        
-        if (m_leapData.GetNumRFingersHeld() == 0)
+        if (m_leapData.GetNumRFingersHeld() < 2)
             return true;
 
         return false;
     }
     public bool GetisLHandClosed() {      
-        if (m_leapData.GetNumLFingersHeld() == 0)
+        if (m_leapData.GetNumLFingersHeld() < 2)
             return true;
 
         return false;

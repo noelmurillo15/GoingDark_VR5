@@ -9,7 +9,7 @@ public class OutOfBoundsScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         danger = false;
-        timeToReturn = 20.0f;
+        timeToReturn = 30.0f;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +35,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         if (col.tag == "Player")
         {
             Debug.Log("Out of Bounds");
-            timeToReturn = 20.0f;
+            timeToReturn = 30.0f;
             danger = true;
             //col.GetComponent<ThirdPersonVisor>().SetUTurnWarning(danger);
         }
