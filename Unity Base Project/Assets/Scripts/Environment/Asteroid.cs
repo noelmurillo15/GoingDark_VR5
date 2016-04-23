@@ -45,12 +45,9 @@ public class Asteroid : MonoBehaviour {
         transform.Translate(m_velocity * Time.deltaTime);
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if(col.name == "Player")
-        {
-            col.GetComponent<PlayerData>().Hit();
-        }
+    void OnTriggerEnter(Collider col) {
+        if(col.name == "Player") 
+            col.GetComponent<PlayerData>().Crash();
     }
 
 

@@ -15,9 +15,9 @@ public class JoyStickMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         turnRate = 0;
-        maxSpeed = 20.0f;
+        maxSpeed = 25.0f;
         moveSpeed = 0.0f;
-        rotateSpeed = 15.0f;
+        rotateSpeed = 10.0f;
         runMultiplier = 2.0f;
 
         moveDir = Vector3.zero;
@@ -39,12 +39,12 @@ public class JoyStickMovement : MonoBehaviour {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
         {
-            rotateSpeed = 30.0f;
+            rotateSpeed = 20.0f;
             moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
         }
         else
         {
-            rotateSpeed = 15.0f;
+            rotateSpeed = 10.0f;
             moveDir *= moveSpeed * Time.deltaTime;
         }
     }
@@ -55,6 +55,10 @@ public class JoyStickMovement : MonoBehaviour {
     {
         if (moveSpeed < (maxSpeed * percentage))
             moveSpeed += 5.0f * Time.deltaTime;
+        else if (moveSpeed > (maxSpeed * percentage))
+            moveSpeed -= 5.0f * Time.deltaTime;
+        else
+            moveSpeed = 0.0f;
     }
     public void DecreaseSpeed()
     {

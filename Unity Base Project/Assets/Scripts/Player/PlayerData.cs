@@ -82,12 +82,14 @@ public class PlayerData : MonoBehaviour {
 
     public void Hit()
     {
+        Debug.Log("Hit by enemy Missile");
         hitCount++;
         m_playerMove.StopMovement();
     }
 
     public void Crash()
     {
+        Debug.Log("Crashed into Asteroid");
         m_playerMove.StopMovement();
     }
     #endregion
