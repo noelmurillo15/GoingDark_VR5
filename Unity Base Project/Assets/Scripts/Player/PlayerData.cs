@@ -3,8 +3,7 @@ using UnityEngine.SceneManagement;
 
 
 public class PlayerData : MonoBehaviour {
-    //**    Attach Script to Player Gameobject   **//
-    public bool gamePause;   
+    //**    Attach Script to Player Gameobject   **// 
 
     public int hitCount;
 
@@ -37,33 +36,9 @@ public class PlayerData : MonoBehaviour {
         if (hitCount > 2)
             SceneManager.LoadScene("Credits_Scene");
 
-        if (!GetGamePaused())
-        {
-            if (padding > 0)
-                padding -= Time.deltaTime;
-            
-        }
     }
 
-    #region Collision Detection
-    void OnTriggerEnter(Collider col) {
-        if (col.name == "Enemy") {
-            hitCount++;
-
-            for (int x = 0; x < shipLights.Length; x++)
-                shipLights[x].GetComponent<Light>().color = Color.red;
-
-            m_playerMove.StopMovement();
-            Debug.Log("Collided with " + col.name);
-        }
-    }
-    #endregion
-
-    #region Accessors
-    public bool GetGamePaused() {
-        return gamePause;
-    }
-    
+    #region Accessors    
     public Cloak GetPlayerCloak()
     {
         return playerCloak;
@@ -72,14 +47,13 @@ public class PlayerData : MonoBehaviour {
     {
         return playerHyperdrive;
     }
-
     #endregion
 
     #region Modifiers
-    public void SetGamePause(bool boolean) {
-        gamePause = boolean;
-    }
 
+    #endregion
+
+    #region Msg Calls
     public void Hit()
     {
         Debug.Log("Hit by enemy Missile");
