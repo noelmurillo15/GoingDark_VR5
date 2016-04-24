@@ -2,74 +2,72 @@
 using System.Collections;
 
 public class HyperDrive : MonoBehaviour {
+    //**        Attach to HyperDrive Object     **//
 
-    public bool hyperDrive;
-    public float hyperDriveTimer;
-    public float hyperDriveStartTimer;
+    private bool activated;
+    private float boostTimer;
+    public float cooldownTimer;
+    private float initializeTimer;
 
-    //public Vector3 particleOriginalPos;
-    //private GameObject hyperDriveParticles;
-
-    private JoyStickMovement m_playerMove;
+    private GameObject particles;
+    private GameObject m_playerMove;
+    private Vector3 particleOriginPos;
 
 
     // Use this for initialization
     void Start () {
-        hyperDrive = false;
-
-        //if (shipLights.Length == 0)
-        //shipLights = GameObject.FindGameObjectsWithTag("ShipLights");
-
-        //if (hyperDriveParticles == null)
-        //    hyperDriveParticles = GameObject.Find("HyperDriveParticles");
-        //
-        //particleOriginalPos = hyperDriveParticles.transform.localPosition;
-        //hyperDriveParticles.SetActive(false);
+        activated = false;
+        cooldownTimer = 0.0f;        
 
         if (m_playerMove == null)
-            m_playerMove = this.GetComponent<JoyStickMovement>();
+            m_playerMove = GameObject.FindGameObjectWithTag("Player");
+
+        if (particles == null)
+            particles = GameObject.Find("WarpDriveParticles");
+
+        particleOriginPos = particles.transform.localPosition;
+        particles.SetActive(false);
     }
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.H))
-            HyperDriveInitialize();
+        if (cooldownTimer > 0.0f)
+            cooldownTimer -= Time.deltaTime;
 
-        if (hyperDrive)
-            HyperDriveMotherFucker();
+        if (activated)
+            HyperDriveBoost();
     }
 
-    public void HyperDriveMotherFucker()
-    {
-        if (hyperDriveStartTimer > 0.0f)
-        {
-            hyperDriveStartTimer -= Time.deltaTime;
-            //hyperDriveParticles.transform.Translate(Vector3.forward * 10.0f * Time.deltaTime);
-            hyperDriveTimer = 0.5f;
-            m_playerMove.SetMoveSpeed(0.0f);
+    public void HyperDriveBoost() {
+        if (initializeTimer > 0.0f) {
+            initializeTimer -= Time.deltaTime;
+            boostTimer = 1.0f;
+            m_playerMove.GetComponent<JoyStickMovement>().StopMovement();
+            particles.transform.Translate(Vector3.forward * 65.0f * Time.deltaTime);
         }
-        else
-        {
-            if (hyperDriveTimer > 0.0f)
-            {
-                hyperDriveTimer -= Time.deltaTime;
-                transform.Translate(Vector3.forward * 800.0f * Time.deltaTime);
+        else {
+            if (boostTimer > 0.0f) {
+                boostTimer -= Time.deltaTime;
+                m_playerMove.transform.Translate(Vector3.forward * 400.0f * Time.deltaTime);
             }
-            else
-            {
-                //hyperDriveParticles.transform.localPosition = particleOriginalPos;
-                //hyperDriveParticles.SetActive(false);
-                hyperDrive = false;
+            else {
+                activated = false;
+                cooldownTimer = 120.0f;
+                particles.transform.localPosition = particleOriginPos;
+                particles.SetActive(false);
             }
         }
     }
 
-    public void HyperDriveInitialize()
-    {
-        Debug.Log("Hyper Drive Initializing");
-        m_playerMove.SetMoveSpeed(0.0f);
-        //hyperDriveParticles.SetActive(true);
-        hyperDrive = true;
-        hyperDriveStartTimer = 5.0f;
+    public void HyperDriveInitialize() {
+        if (cooldownTimer <= 0.0f) {
+            activated = true;
+            particles.SetActive(true);
+            initializeTimer = 5.0f;
+        }
+    }
+
+    public float GetHyperDriveCooldown() {
+        return cooldownTimer;
     }
 }

@@ -43,10 +43,8 @@ public class Cloak : MonoBehaviour {
 
     public void SetCloaked(bool boolean)
     {
-
         if (padding <= 0.0f)
         {
-            Debug.Log("Setting cloak to : " + boolean);
             padding = 0.2f;
             if (boolean)
             {

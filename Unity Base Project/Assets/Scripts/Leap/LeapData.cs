@@ -13,7 +13,7 @@ public class LeapData : MonoBehaviour {
     private int prevFrameNum = 0;
     private int numHands, prevNumHands;
     private int numFingersL, numFingersR;
-    public int numFingersLHeld, numFingersRHeld;
+    private int numFingersLHeld, numFingersRHeld;
     private int prevNumFingersL, prevNumFingersR;
     private int prevFingersHeldL, prevFingersHeldR;
 
@@ -23,9 +23,10 @@ public class LeapData : MonoBehaviour {
     private Vector3 palmPosL;
     private Vector3 palmPosR;
     private Vector3 palmNormsL;
-    private Vector3 palmNormsR;
-    public Vector3 palmVelocityL;
+    public Vector3 palmNormsR;
+    private Vector3 palmVelocityL;
     private Vector3 palmVelocityR;
+
     private Vector3 prevPalmPosL;
     private Vector3 prevPalmPosR;
     private Vector3 prevPalmNormL;
@@ -35,6 +36,7 @@ public class LeapData : MonoBehaviour {
 
     private List<Hand> handList;
     private List<Hand> prevHandList;
+
     private List<Finger> fingerListL, fingerListR;
     private List<Finger> prevFingerListL, prevFingerListR;    
 

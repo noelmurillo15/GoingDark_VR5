@@ -24,42 +24,33 @@ public class RadarDisplay : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        if (!attached)
+        {
+            m_radar.transform.position = originWorldPos;
+            m_radar.transform.localPosition = originLocalPos;
+        }
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.name == "rightPalm")
-        {
-            Debug.Log(col.name + " triggered radar");
+    void OnTriggerEnter(Collider col) {
+        if (col.name == "rightPalm") {
             attached = true;
-
             if (m_rightPalm == null)
                 m_rightPalm = col.gameObject;            
         }
     }
 
-    void OnTriggerStay(Collider col)
-    {
-        if (col.name == "rightPalm")
-        {
-            if (m_leapData.GetIsRHandOnScreen() && m_leapData.GetNumRFingersHeld() == 0)
-            {
-                Vector3 pos = m_rightPalm.transform.position;
-                pos.y += 0.25f;
-                m_radar.transform.position = pos;
+    void OnTriggerStay(Collider col) {
+        if (col.name == "rightPalm") {
+            if (m_leapData.GetIsRHandOnScreen()) {
+                if (m_leapData.GetRPalmNormals().z < 0.0f)
+                {
+                    Vector3 pos = m_rightPalm.transform.position;
+                    pos.y += 0.25f;
+                    m_radar.transform.position = pos;
+                }
+                else
+                    attached = false;
             }
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        if (col.name == "rightPalm")
-        {
-            Debug.Log(col.name + " not triggering radar");
-            attached = false;
-            m_radar.transform.position = originWorldPos;
-            m_radar.transform.localPosition = originLocalPos;
         }
     }
 }
