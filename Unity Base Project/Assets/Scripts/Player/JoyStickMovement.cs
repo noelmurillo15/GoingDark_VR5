@@ -15,10 +15,10 @@ public class JoyStickMovement : MonoBehaviour {
     // Use this for initialization
     void Start() {
         turnRate = 0;
-        maxSpeed = 25.0f;
+        maxSpeed = 20.0f;
         moveSpeed = 0.0f;
         rotateSpeed = 10.0f;
-        runMultiplier = 2.0f;
+        runMultiplier = 1.5f;
 
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
