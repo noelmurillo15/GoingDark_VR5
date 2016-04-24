@@ -54,7 +54,7 @@ public class PlayerData : MonoBehaviour {
         m_playerMove.StopMovement();
 
         if (hitCount > 2)
-            SceneManager.LoadScene("Credits_Scene");
+            SceneManager.LoadScene("Game_Over");
     }
 
     public void Crash()

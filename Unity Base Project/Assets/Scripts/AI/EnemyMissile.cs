@@ -5,7 +5,6 @@ public class EnemyMissile : MonoBehaviour {
     //**        Attach to Enemy Missile Prefab      **//
 
     public bool Die;
-    public bool startTracking;
 
     public float Speed;
     public float DestroyTimer;
@@ -44,17 +43,13 @@ public class EnemyMissile : MonoBehaviour {
             Destroy(this.gameObject, 0);
         }
 
-        if (!Die)
+        if (!Die) {
             transform.Translate(0, 0, Speed * Time.deltaTime);
-
-        if (!Die && startTracking)
-        {
             targetRotation = Quaternion.LookRotation(Target - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
         }
 
-        if (Die && Explosion != null)
-        {
+        if (Die && Explosion != null) {
             Instantiate(Explosion, transform.position, transform.rotation);
             Explosion = null;
             this.GetComponent<MeshRenderer>().enabled = false;
