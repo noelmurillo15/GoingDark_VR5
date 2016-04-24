@@ -23,31 +23,42 @@ public class ArmButtons : MonoBehaviour {
 
     #region Collision
     public void OnTriggerEnter(Collider col) {
-        if (col.name == "bone3" && col.transform.parent.name == "rightIndex") {
+        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+        {
             transition = 0.25f;
             cancelTimer = 1.25f;
-            m_button.color = Color.grey;            
-        }
+            m_button.color = Color.grey;
+
+            if (transform.name == "HyperDriveButton")
+                if (m_armSettings.HyperDriveCooldown() > 0.0f)
+                    m_button.color = Color.red;
+
+            if (transform.name == "CloakButton")
+                if (m_armSettings.CloakCooldown() > 0.0f)
+                    m_button.color = Color.red;
+        }        
     }
 
     public void OnTriggerStay(Collider col) {
-        if (col.name == "bone3" && col.transform.parent.name == "rightIndex") {
-            if (cancelTimer > 0.0f) {
+        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+        {
+            if (cancelTimer > 0.0f)
+            {
                 transition -= Time.deltaTime;
                 cancelTimer -= Time.deltaTime;
 
-                if (transition <= 0.0f)
+                if (transition <= 0.0f && m_button.color == Color.grey)
                     m_button.color = Color.green;
             }
             else
-                m_button.color = Color.red;            
-        }
+                m_button.color = Color.red;
+        }        
     }
 
     public void OnTriggerExit(Collider col) {
         if(m_button.color == Color.green)
             if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
-                ActivateButton();        
+                ActivateButton();   
     }
     #endregion
 

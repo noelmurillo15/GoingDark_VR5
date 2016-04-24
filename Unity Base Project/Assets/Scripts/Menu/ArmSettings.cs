@@ -81,6 +81,16 @@ public class ArmSettings : MonoBehaviour {
         }
     }
 
+    public float HyperDriveCooldown()
+    {
+        return playerHyperdrive.GetHyperDriveCooldown();
+    }
+
+    public float CloakCooldown()
+    {
+        return playerCloak.GetCloakCooldown();
+    }
+
     public void MonitorPower()
     {
         monitorOn = !monitorOn;

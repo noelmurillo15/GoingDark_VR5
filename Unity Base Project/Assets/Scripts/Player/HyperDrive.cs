@@ -52,7 +52,6 @@ public class HyperDrive : MonoBehaviour {
             }
             else {
                 activated = false;
-                cooldownTimer = 120.0f;
                 particles.transform.localPosition = particleOriginPos;
                 particles.SetActive(false);
             }
@@ -61,6 +60,7 @@ public class HyperDrive : MonoBehaviour {
 
     public void HyperDriveInitialize() {
         if (cooldownTimer <= 0.0f) {
+            cooldownTimer = 120.0f;
             activated = true;
             particles.SetActive(true);
             initializeTimer = 5.0f;
