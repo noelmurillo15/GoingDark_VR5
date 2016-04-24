@@ -4,105 +4,68 @@ using UnityEngine.SceneManagement;
 
 public class ArmButtons : MonoBehaviour {
 
-    private Image m_button;
     private float transition;
     private float cancelTimer;
+
+    private Image m_button;
     private ArmSettings m_armSettings;
-
-    private PlayerData m_playerData;
-    private Cloak playerCloak;
-    private HyperDrive playerHyperdrive;
-
+   
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         transition = 0.0f;
         cancelTimer = 0.0f;
         m_button = GetComponent<Image>();
 
         if (m_armSettings == null)
             m_armSettings = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
-
-        if (m_playerData == null)
-            m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
-
-        playerCloak = m_playerData.GetPlayerCloak();
-        playerHyperdrive = m_playerData.GetPlayerHyperDrive();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     #region Collision
-    public void OnTriggerEnter(Collider col)
-    {
-        if (col.name == "bone3")
-        {
-            if (col.transform.parent.name == "rightIndex")
-            {
-                transition = 0.1f;
-                cancelTimer = 1.25f;
-                m_button.CrossFadeColor(Color.green, 0.1f, false, false);
-            }
+    public void OnTriggerEnter(Collider col) {
+        if (col.name == "bone3" && col.transform.parent.name == "rightIndex") {
+            transition = 0.25f;
+            cancelTimer = 1.25f;
+            m_button.color = Color.grey;            
         }
     }
 
-    public void OnTriggerStay(Collider col)
-    {
-        if (col.name == "bone3")
-        {
-            if (col.transform.parent.name == "rightIndex")
-            {
+    public void OnTriggerStay(Collider col) {
+        if (col.name == "bone3" && col.transform.parent.name == "rightIndex") {
+            if (cancelTimer > 0.0f) {
                 transition -= Time.deltaTime;
                 cancelTimer -= Time.deltaTime;
 
                 if (transition <= 0.0f)
-                {
-                    m_button.CrossFadeColor(Color.white, 0.01f, false, false);
                     m_button.color = Color.green;
-                }
-
-                if (cancelTimer <= 0.0f)
-                    m_button.color = Color.red;
             }
+            else
+                m_button.color = Color.red;            
         }
     }
 
-    public void OnTriggerExit(Collider col)
-    {
-        if (col.name == "bone3")
-        {
-            if (col.transform.parent.name == "rightIndex")
-            {
-                if (m_button.color == Color.green)
-                    TransitionScene();
-                else
-                {
-                    m_button.color = Color.white;
-                    m_button.CrossFadeColor(Color.white, 0.01f, false, false);
-                }
-            }
-        }
+    public void OnTriggerExit(Collider col) {
+        if(m_button.color == Color.green)
+            if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+                ActivateButton();        
     }
     #endregion
 
-    private void TransitionScene()
-    {
+    private void ActivateButton() {
+        m_button.color = Color.white;
+
         if (transform.name == "CloseSettings")
             m_armSettings.CloseSettings();
-        else if(transform.name == "CloakButton")
-        {
-            if (playerCloak.GetCloaked())
-                playerCloak.SetCloaked(false);
-            else if(playerCloak.GetCloakCooldown() <= 0.0f)
-                playerCloak.SetCloaked(true);
-        }
+
+        else if (transform.name == "CloakButton")
+            m_armSettings.SetCloak();
+
         else if (transform.name == "HyperDriveButton")
-            playerHyperdrive.HyperDriveInitialize();
+            m_armSettings.InitializeHyperDrive();
+
+        else if (transform.name == "MonitorPower")
+            m_armSettings.MonitorPower();
+
         else
         {
             Debug.Log("Switching Scene : " + transform.name);
