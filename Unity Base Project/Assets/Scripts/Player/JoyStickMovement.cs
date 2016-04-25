@@ -12,6 +12,9 @@ public class JoyStickMovement : MonoBehaviour {
     private Vector3 moveDir;
     private CharacterController m_controller;
 
+    private GameObject radar;
+    private GameObject playerBlip;
+
     // Use this for initialization
     void Start() {
         turnRate = 0;
@@ -20,12 +23,20 @@ public class JoyStickMovement : MonoBehaviour {
         rotateSpeed = 10.0f;
         runMultiplier = 1.5f;
 
+        radar = GameObject.Find("Radar");
+        playerBlip = GameObject.Find("Blip_Triangle_Player");
+
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update(){
+        Vector3 newRot = transform.localEulerAngles;
+        newRot.x -= 180.0f;
+        playerBlip.transform.localEulerAngles = newRot;
+        
+        //playerBlip.transform.localRotation.y = -transform.localRotation.y;
         moveDir = Vector3.zero;
         ManualTurn();
         ManualWalk();
@@ -34,6 +45,7 @@ public class JoyStickMovement : MonoBehaviour {
 
     private void ManualTurn() {
         transform.Rotate(0, turnRate * rotateSpeed * Time.deltaTime, 0);
+        radar.transform.Rotate(0, -turnRate * rotateSpeed * Time.deltaTime, 0);
     }
 
     private void ManualWalk() {

@@ -14,10 +14,13 @@ public class CliffordsRadarPlane : MonoBehaviour
     private int Counter = 0;
     private GameObject[] TheObject;
     private GameObject[] TheBlip;
-    
+
+    GameObject Player;
 
     // Use this for initialization
     void Start() {
+        Player = GameObject.FindGameObjectWithTag("Player");
+
         ScalerFactor.x = .25f / GetComponent<SphereCollider>().radius;
         ScalerFactor.y = .25f/ GetComponent<SphereCollider>().radius;
         ScalerFactor.z = .25f/ GetComponent<SphereCollider>().radius;
@@ -39,11 +42,11 @@ public class CliffordsRadarPlane : MonoBehaviour
 
 
 
-            Vector3 ColliderPosition = ColliderObject.transform.localPosition; // There he is! Get Him! 
+            Vector3 ColliderPosition = ColliderObject.transform.position; // There he is! Get Him! 
            // Debug.Log(ColliderPosition + " Poisiton of Enemy");
            // Debug.Log(GetComponentInParent<Transform>().localPosition + " Poistion of Player");
 
-            Vector3 PositionOfEnemy = ColliderPosition - GetComponentInParent<Transform>().localPosition;// world space of enemy - world space of player = building a vector from player to enemy; 
+            Vector3 PositionOfEnemy = ColliderPosition - Player.transform.position;// world space of enemy - world space of player = building a vector from player to enemy; 
             //Debug.Log(PositionOfEnemy + " Position of Enemy - Player");
             // vector mag how far in that direction.
 
@@ -58,7 +61,8 @@ public class CliffordsRadarPlane : MonoBehaviour
             GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, ColliderRotation) as GameObject;
 
             Blip.transform.SetParent(transform);
-            Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
+            //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
+            Blip.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             //((GameObject)Blip).transform.parent = this.transform; // Setting the Blip objects parent to this Plane's Transform
             Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetTimer", SonarTimeLeft); // Setting a destory!... timer..
             Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetEnemy", ColliderObject.gameObject);// giving the Blip object the GameObject for further destruction(Updating).

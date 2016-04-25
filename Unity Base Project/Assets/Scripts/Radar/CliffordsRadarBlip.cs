@@ -37,10 +37,11 @@ public class CliffordsRadarBlip : MonoBehaviour
     {
 
         Player = GameObject.FindGameObjectWithTag("Player");
-        transform.localPosition.Set(0.0f, 0.0f, 0.0f);
+        // transform.localPosition.Set(0.0f, 0.0f, 0.0f);
+        //transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         Destroy(gameObject, 60);
         ScalerFactor.x = .25f / GetComponentInParent<SphereCollider>().radius;
-        ScalerFactor.y = .25f / GetComponentInParent<SphereCollider>().radius;
+        ScalerFactor.y = .25f  / GetComponentInParent<SphereCollider>().radius;
         ScalerFactor.z = .25f / GetComponentInParent<SphereCollider>().radius;
     }
 
@@ -56,7 +57,7 @@ public class CliffordsRadarBlip : MonoBehaviour
         //keep updating the position
         //Debug.Log(EnemyHandle.GetComponent<Transform>().localPosition + " Enemy Position");
         //Debug.Log(Player.GetComponent<Transform>().localPosition + " Player Position");
-        Vector3 tempVec = EnemyHandle.GetComponent<Transform>().localPosition - Player.GetComponent<Transform>().localPosition;
+        Vector3 tempVec = EnemyHandle.transform.position - Player.transform.position;
         //Debug.Log(tempVec + " Temp Position");
 
         //taking away the radar plane position;
@@ -66,25 +67,29 @@ public class CliffordsRadarBlip : MonoBehaviour
 
     //    Debug.Log(transform.localPosition);
         //GetComponent<Transform>().localPosition.Set(tempVec.x, tempVec.y, tempVec.z);
-        GetComponent<Transform>().localPosition = tempVec;
+        transform.localPosition = tempVec;
       //  Debug.Log(transform.localPosition +" Setting = to TempVec: " + tempVec);
 
 
         //ping effect for polish;
 
 
+
         //drawline(toplane)
-        Vector3 TempPositionForY = transform.position;
+        Vector3 TempPositionForY = transform.localPosition;
         //Get this object's Line Render
         LineRenderer LineToDraw = GetComponent<LineRenderer>();
         //Set first position from Blip
         LineToDraw.SetPosition(0, TempPositionForY);
         //Change in Y for the plane
-        TempPositionForY.y = transform.parent.transform.position.y;
+        TempPositionForY.y = transform.parent.transform.localPosition.y;
         //Set Position to Draw straight up/down to the plane.
         LineToDraw.SetPosition(1, TempPositionForY);
         //Rotate(towards(direction));
-        transform.rotation = EnemyHandle.transform.rotation;
+        Vector3 newRot = EnemyHandle.transform.localEulerAngles;
+        //newRot.y -= 180.0f;
+        newRot.x -= 180.0f;
+        transform.localEulerAngles = newRot;
         LineToDraw.SetColors(LineColor, LineColor);
         LineToDraw.SetWidth(.001f, .001f);
 
@@ -92,7 +97,7 @@ public class CliffordsRadarBlip : MonoBehaviour
 
     void SetEnemy(GameObject enemy)//Getting the Enemy handle to repersent on Plane
     {
-      //  Debug.Log(EnemyHandle);
+     // Debug.Log(EnemyHandle.tag);
         EnemyHandle = enemy;
         if (enemy.tag == "Enemy")
         {
@@ -110,7 +115,7 @@ public class CliffordsRadarBlip : MonoBehaviour
             LineColor = Color.yellow;
             GetComponent<Renderer>().material = MaterialColorYellow;
         }
-        //Debug.Log(EnemyHandle);
+        Debug.Log(EnemyHandle.tag);
     }
     void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.
     {

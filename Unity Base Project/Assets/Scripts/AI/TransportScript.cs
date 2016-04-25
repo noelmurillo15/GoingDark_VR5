@@ -5,10 +5,9 @@ public class TransportScript : MonoBehaviour {
 
     private bool cloaked = false;
 
-
 	// Use this for initialization
-	void Start () {
-
+	void Start () {        
+       
 	}
 	
 	// Update is called once per frame
@@ -22,25 +21,24 @@ public class TransportScript : MonoBehaviour {
     }
 
     void SetCloaked(bool val) {
-        Color col = GetComponent<Renderer>().material.color;
-
         Debug.Log("Transport called cloak");
+        Material mat = gameObject.GetComponent<Renderer>().material;
 
         if (val)
-            col.a = 0.5f;        
+            mat.SetFloat("_Mode", 2);                   
         else
-            col.a = 1.0f;
-        
+            mat.SetFloat("_Mode", 0);
+
         cloaked = val;
     }
 
     void OnTriggerEnter(Collider col) {
-        if (col.tag == "Player" && !col.GetComponent<PlayerData>().GetPlayerCloak().GetCloaked())
+        if (col.tag == "Player")
             SetCloaked(true);
     }
 
     void OnTriggerExit(Collider col) {
-        if (col.tag == "Player" && !col.GetComponent<PlayerData>().GetPlayerCloak().GetCloaked())
+        if (col.tag == "Player")
             SetCloaked(false);
     }
 
