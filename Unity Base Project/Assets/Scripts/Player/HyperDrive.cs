@@ -43,11 +43,12 @@ public class HyperDrive : MonoBehaviour {
             initializeTimer -= Time.deltaTime;
             boostTimer = 1.0f;
             m_playerMove.GetComponent<JoyStickMovement>().StopMovement();
-            particles.transform.Translate(Vector3.forward * 65.0f * Time.deltaTime);
+            particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
         }
         else {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
+                particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
                 m_playerMove.transform.Translate(Vector3.forward * 400.0f * Time.deltaTime);
             }
             else {
