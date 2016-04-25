@@ -17,8 +17,8 @@ public class CliffordsRadarBlip : MonoBehaviour
     [SerializeField]
     private GameObject EnemyHandle;
     //Will need to change on RadarPlane as well
-    [SerializeField]
-    private Vector3 ScalerFactor = new Vector3(0.003f, 0.003f, 0.003f);
+    
+    private Vector3 ScalerFactor;// = new Vector3(0.003f, 0.003f, 0.003f);
     [SerializeField]
     private Color LineColor;
     [SerializeField]
@@ -39,6 +39,9 @@ public class CliffordsRadarBlip : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         transform.localPosition.Set(0.0f, 0.0f, 0.0f);
         Destroy(gameObject, 60);
+        ScalerFactor.x = .25f / GetComponentInParent<SphereCollider>().radius;
+        ScalerFactor.y = .25f / GetComponentInParent<SphereCollider>().radius;
+        ScalerFactor.z = .25f / GetComponentInParent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
@@ -111,7 +114,7 @@ public class CliffordsRadarBlip : MonoBehaviour
     }
     void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.
     {
-        Destroy(this, TimeLeftOnSonar);
+        Destroy(gameObject, TimeLeftOnSonar);
     }
 
 }

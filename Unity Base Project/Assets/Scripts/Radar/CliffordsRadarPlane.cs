@@ -4,8 +4,7 @@ using System.Collections;
 public class CliffordsRadarPlane : MonoBehaviour
 {
     //Will need to change on RadarBlip as well
-    [SerializeField]
-    private Vector3 ScalerFactor = new Vector3(0.003f, 0.003f, 0.003f);
+    private Vector3 ScalerFactor;// = new Vector3(0.003f, 0.003f, 0.003f);
     [SerializeField]
     private GameObject PreFabBlip;
     [SerializeField]
@@ -18,9 +17,10 @@ public class CliffordsRadarPlane : MonoBehaviour
     
 
     // Use this for initialization
-    void Start()
-    {
-    
+    void Start() {
+        ScalerFactor.x = .25f / GetComponent<SphereCollider>().radius;
+        ScalerFactor.y = .25f/ GetComponent<SphereCollider>().radius;
+        ScalerFactor.z = .25f/ GetComponent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
@@ -51,11 +51,11 @@ public class CliffordsRadarPlane : MonoBehaviour
             PositionOfEnemy.Scale(ScalerFactor);
             //Debug.Log(PositionOfEnemy + " * by Scaler");
 
-         //   Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
+            Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
 
 
           //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
-            GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
+            GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, ColliderRotation) as GameObject;
 
             Blip.transform.SetParent(transform);
             Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);

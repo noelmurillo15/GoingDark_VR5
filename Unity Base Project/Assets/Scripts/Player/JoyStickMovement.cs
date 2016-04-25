@@ -35,6 +35,7 @@ public class JoyStickMovement : MonoBehaviour {
     private void ManualTurn() {
         transform.Rotate(0, turnRate * rotateSpeed * Time.deltaTime, 0);
     }
+
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
@@ -48,11 +49,12 @@ public class JoyStickMovement : MonoBehaviour {
             moveDir *= moveSpeed * Time.deltaTime;
         }
     }
+
     public void SetMoveSpeed(float speed) {
         moveSpeed = speed;
     }
-    public void IncreaseSpeed(float percentage)
-    {
+
+    public void IncreaseSpeed(float percentage) {
         if (moveSpeed < (maxSpeed * percentage))
             moveSpeed += 5.0f * Time.deltaTime;
         else if (moveSpeed > (maxSpeed * percentage))
@@ -60,8 +62,8 @@ public class JoyStickMovement : MonoBehaviour {
         else
             moveSpeed = 0.0f;
     }
-    public void DecreaseSpeed()
-    {
+
+    public void DecreaseSpeed() {
         if (moveSpeed > 0.0f)
             moveSpeed -= 10.0f * Time.deltaTime;
         else
@@ -74,31 +76,36 @@ public class JoyStickMovement : MonoBehaviour {
         if (newR.x < 45.0f || newR.x > 315.0f)
             transform.rotation = Quaternion.Euler(newR);
     }
+
     public void goUp() {
         Vector3 newR = transform.rotation.eulerAngles;
         newR.x -= 7.5f * Time.deltaTime;
         if(newR.x > 315.0f || newR.x < 45.0f)
             transform.rotation = Quaternion.Euler(newR);        
     }
+
     public void turnRateZero() {
         turnRate = 0;
     }
+
     public void TurnLeft() {
         turnRate = -1;
     }
+
     public void TurnRight() {
         turnRate = 1;
     }
+
     public void StopMovement() {
         turnRate = 0;        
         moveSpeed = 0.0f;
     }
-    public float GetSpeed()
-    {
+
+    public float GetSpeed() {
         return moveSpeed;
     }
-    public float GetMaxSpeed()
-    {
+
+    public float GetMaxSpeed() {
         return maxSpeed;
     }
 }
