@@ -3,12 +3,15 @@ using System.Collections;
 
 public class Asteroid : MonoBehaviour {
 
+    private float m_aliveTimer;
     private Vector3 m_velocity;
     private Vector3 m_rotation;    
     private AsteroidGenerator m_generator;
 
     // Use this for initialization
     void Start() {
+        m_aliveTimer = Random.Range(60.0f, 300.0f);
+
         Vector3 m_scale = Vector3.zero;
         Vector3 m_position = Vector3.zero;
 
@@ -41,11 +44,17 @@ public class Asteroid : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (m_aliveTimer > 0.0)
+            m_aliveTimer -= Time.deltaTime;
+        else
+            DestroyAsteroid();
+
         transform.Rotate(m_rotation * Time.deltaTime);
         transform.Translate(m_velocity * Time.deltaTime);
     }
 
     public void DestroyAsteroid() {
+        Debug.Log("Destroying Asteroid");
         m_generator.DeleteAsteroid();
         Destroy(this.gameObject);
     }
