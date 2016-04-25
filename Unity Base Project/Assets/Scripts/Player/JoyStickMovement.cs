@@ -87,7 +87,7 @@ public class JoyStickMovement : MonoBehaviour {
         turnRateX = -1;
     }
     public void TurnDown() {
-        turnRateX = -1;
+        turnRateX = 1;
     }
     public void TurnLeft() {
         turnRateY = -1;

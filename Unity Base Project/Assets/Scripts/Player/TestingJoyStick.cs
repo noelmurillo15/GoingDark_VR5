@@ -48,9 +48,9 @@ public class TestingJoyStick : MonoBehaviour {
         //  Z+ : turn Left || Z- : turn Right
 
         if (transform.localEulerAngles.x > 5.0f && transform.localEulerAngles.x < 90.0f)
-            m_playerMove.TurnUp();
-        else if (transform.localEulerAngles.x > 270.0f && transform.localEulerAngles.x < 355.0f)
             m_playerMove.TurnDown();
+        else if (transform.localEulerAngles.x > 270.0f && transform.localEulerAngles.x < 355.0f)
+            m_playerMove.TurnUp();
 
         if (transform.localEulerAngles.z > 5.0f && transform.localEulerAngles.z < 90.0f)
             m_playerMove.TurnLeft();

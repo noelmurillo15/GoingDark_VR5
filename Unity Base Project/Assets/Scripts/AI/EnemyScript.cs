@@ -25,7 +25,7 @@ public class EnemyScript : MonoBehaviour {
         radius = 250.0f;
         missileCount = 0;
         maxMissileCount = 2;
-        missileCooldown = 30.0f;
+        missileCooldown = 5.0f;
 
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
@@ -54,7 +54,7 @@ public class EnemyScript : MonoBehaviour {
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
             float angle = Vector3.Angle(newEnemyDir, playerDir);
-            if (angle <= 10.0f)
+            if (angle <= 8.0f)
                 lockedOn = true;
         }
         else
@@ -69,7 +69,7 @@ public class EnemyScript : MonoBehaviour {
             {
                 missileCount++;
                 missileCooldown = 10.0f;
-                Instantiate(missilePrefab, new Vector3(transform.localPosition.x, transform.localPosition.y - 10.0f, transform.localPosition.z + 10.0f), transform.rotation);
+                Instantiate(missilePrefab, this.transform.position, this.transform.rotation);
             }
         }        
     }

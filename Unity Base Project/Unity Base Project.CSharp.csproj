@@ -152,6 +152,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\Audio\AudioManager.cs" />
     <Compile Include="Assets\IntroScript.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Assets\Scripts\Radar\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\Radar\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\Radar\RadarDisplay.cs" />
+    <Compile Include="Assets\SpinScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
