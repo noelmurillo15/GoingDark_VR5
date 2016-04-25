@@ -170,6 +170,8 @@
     <Compile Include="Assets\Scripts\Game Manager\InputChecker.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
+    <Compile Include="Assets\Scripts\LootCounter.cs" />
+    <Compile Include="Assets\Scripts\LootPickup.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmButtons.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmSettings.cs" />
     <Compile Include="Assets\Scripts\Menu\CrewMenu.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerData.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInteractions.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerShipData.cs" />
     <Compile Include="Assets\Scripts\Player\TestingHandBehavior.cs" />
     <Compile Include="Assets\Scripts\Player\TestingJoyStick.cs" />
     <Compile Include="Assets\Scripts\Player\TestingThruster.cs" />

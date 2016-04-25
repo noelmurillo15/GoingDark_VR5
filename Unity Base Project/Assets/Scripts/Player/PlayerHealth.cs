@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour
     GameObject health1;
     GameObject health2;
     GameObject health3;
-    PlayerData player;
+    PlayerShipData player;
     public float timer;
 
     // Use this for initialization
@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
         if (health3 == null)
             health3 = GameObject.Find("Health3");
 
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
+        player = GameObject.Find("BattleShip").GetComponent<PlayerShipData>();
         health1.gameObject.GetComponent<Renderer>().material.color = Color.green;
         health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
         health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
@@ -35,26 +35,26 @@ public class PlayerHealth : MonoBehaviour
 
         playerLife();
 
-        if (timer <= 0.0f && player.hitCount != 0)
+        if (timer <= 0.0f && player.GetHitCount() != 0)
         {
-            player.hitCount--;
+            player.DecreaseHitCount();
             timer = 30;
         }
     }
 
     void playerLife()
     {
-        if (player.hitCount >= 1)
+        if (player.GetHitCount() >= 1)
             health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
         else
             health1.gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-        if (player.hitCount >= 2)
+        if (player.GetHitCount() >= 2)
             health2.gameObject.GetComponent<Renderer>().material.color = Color.red;
         else
             health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
 
-        if (player.hitCount >= 3)
+        if (player.GetHitCount() >= 3)
             health3.gameObject.GetComponent<Renderer>().material.color = Color.red;
         else
             health3.gameObject.GetComponent<Renderer>().material.color = Color.green;

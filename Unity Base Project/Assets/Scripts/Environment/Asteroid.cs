@@ -2,27 +2,27 @@
 using System.Collections;
 
 public class Asteroid : MonoBehaviour {
-    private Vector3 m_velocity;
-    private Vector3 m_rotation;
 
-    private Vector3 m_scale;
-    private Vector3 m_position;
+    private Vector3 m_velocity;
+    private Vector3 m_rotation;    
     private AsteroidGenerator m_generator;
 
     // Use this for initialization
     void Start() {
+        Vector3 m_scale = Vector3.zero;
+        Vector3 m_position = Vector3.zero;
 
-        m_velocity.x = Random.Range(-1.0f, 1.0f);
-        m_velocity.y = Random.Range(-1.0f, 1.0f);
-        m_velocity.z = Random.Range(-1.0f, 1.0f);
+        m_velocity.x = Random.Range(-2.0f, 2.0f);
+        m_velocity.y = Random.Range(-2.0f, 2.0f);
+        m_velocity.z = Random.Range(-2.0f, 2.0f);
 
         m_position.x = Random.Range(-500.0f, 500.0f);
         m_position.y = Random.Range(-500.0f, 500.0f);
         m_position.z = Random.Range(-500.0f, 500.0f);
 
-        m_scale.x = Random.Range(1.0f, 5.0f);
-        m_scale.y = Random.Range(1.0f, 5.0f);
-        m_scale.z = Random.Range(1.0f, 5.0f);
+        m_scale.x = Random.Range(2.0f, 10.0f);
+        m_scale.y = Random.Range(2.0f, 10.0f);
+        m_scale.z = Random.Range(2.0f, 10.0f);
 
         m_rotation.x = Random.Range(-10.0f, 10.0f);
         m_rotation.y = Random.Range(-10.0f, 10.0f);
@@ -44,12 +44,6 @@ public class Asteroid : MonoBehaviour {
         transform.Rotate(m_rotation * Time.deltaTime);
         transform.Translate(m_velocity * Time.deltaTime);
     }
-
-    void OnTriggerEnter(Collider col) {
-        if(col.name == "Player") 
-            col.GetComponent<PlayerData>().Crash();
-    }
-
 
     public void DestroyAsteroid() {
         m_generator.DeleteAsteroid();

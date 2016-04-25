@@ -26,11 +26,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         if (col.tag == "Player") {
             timeToReturn = 0.0f;
             danger = false;
-            //col.GetComponent<ThirdPersonVisor>().SetUTurnWarning(danger);
         }
-
-        if (col.tag == "Asteroid")
-            col.gameObject.GetComponent<Asteroid>().DestroyAsteroid();
     }
 
     void OnTriggerExit(Collider col)
@@ -40,7 +36,6 @@ public class OutOfBoundsScript : MonoBehaviour {
             Debug.Log("Out of Bounds");
             timeToReturn = 30.0f;
             danger = true;
-            //col.GetComponent<ThirdPersonVisor>().SetUTurnWarning(danger);
         }
     }
 }
