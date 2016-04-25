@@ -33,6 +33,15 @@ public class PlayerShipData : MonoBehaviour {
     }
     #endregion
 
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Asteroid")
+        {
+            Debug.Log("Ship Colliding with " + col.transform.tag);
+            Crash();
+        }
+    }
+
     #region Msg Calls
     public void Hit() {
         Debug.Log("Hit by enemy Missile");

@@ -15,7 +15,7 @@ public class ArmButtons : MonoBehaviour {
     void Start() {
         transition = 0.0f;
         cancelTimer = 0.0f;
-        m_button = GetComponent<Image>();
+        m_button = null;     
 
         if (m_armSettings == null)
             m_armSettings = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
@@ -25,6 +25,9 @@ public class ArmButtons : MonoBehaviour {
     public void OnTriggerEnter(Collider col) {
         if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
         {
+            if(m_button == null)
+                m_button = GetComponent<Image>();
+
             transition = 0.25f;
             cancelTimer = 1.25f;
             m_button.color = Color.grey;
@@ -55,9 +58,9 @@ public class ArmButtons : MonoBehaviour {
         }        
     }
 
-    public void OnTriggerExit(Collider col) {
-        if(m_button.color == Color.green)
-            if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+    public void OnTriggerExit(Collider col) {        
+        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+            if (m_button.color == Color.green)
                 ActivateButton();   
     }
     #endregion
