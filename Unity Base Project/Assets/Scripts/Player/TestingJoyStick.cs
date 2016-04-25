@@ -38,29 +38,28 @@ public class TestingJoyStick : MonoBehaviour {
             }
             else if (!m_palm.GetisRHandClosed())
             {
+                inRange = false;
                 m_playerMove.turnRateZero();
                 transform.localRotation = originalRotation;
             }
         }
 
-        if (transform.localEulerAngles.x > 1.0f && transform.localEulerAngles.x < 90.0f)
-            m_playerMove.goDown();
-        else if (transform.localEulerAngles.x > 90.0f && transform.localEulerAngles.x < 360.0f)
-            m_playerMove.goUp();
+        //  X+ : turn Down || X- : turn Up
+        //  Z+ : turn Left || Z- : turn Right
 
-        if (transform.localEulerAngles.z > 1.0f && transform.localEulerAngles.z < 90.0f)
+        if (transform.localEulerAngles.x > 5.0f && transform.localEulerAngles.x < 90.0f)
+            m_playerMove.TurnUp();
+        else if (transform.localEulerAngles.x > 270.0f && transform.localEulerAngles.x < 355.0f)
+            m_playerMove.TurnDown();
+
+        if (transform.localEulerAngles.z > 5.0f && transform.localEulerAngles.z < 90.0f)
             m_playerMove.TurnLeft();
-        else if (transform.localEulerAngles.z > 90.0f && transform.localEulerAngles.z < 360.0f)
+        else if (transform.localEulerAngles.z > 270.0f && transform.localEulerAngles.z < 355.0f)
             m_playerMove.TurnRight();
     }
 
     void OnTriggerEnter(Collider col) {
         if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
             inRange = true;
-    }
-
-    void OnTriggerExit(Collider col) {
-        if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
-            inRange = false;
     }
 }

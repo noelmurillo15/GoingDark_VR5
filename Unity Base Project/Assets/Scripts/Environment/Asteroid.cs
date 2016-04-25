@@ -20,14 +20,14 @@ public class Asteroid : MonoBehaviour {
         m_velocity.z = Random.Range(-2.0f, 2.0f);
 
         m_position.x = Random.Range(-500.0f, 500.0f);
-        m_position.y = Random.Range(-250.0f, 250.0f);
+        m_position.y = Random.Range(-100.0f, 100.0f);
         m_position.z = Random.Range(-500.0f, 500.0f);
 
         m_rotation.x = Random.Range(-10.0f, 10.0f);
         m_rotation.y = Random.Range(-10.0f, 10.0f);
         m_rotation.z = Random.Range(-10.0f, 10.0f);
 
-        m_scale.x = Random.Range(2.0f, 10.0f);
+        m_scale.x = Random.Range(2.0f, 15.0f);
         m_scale.y = m_scale.x;
         m_scale.z = m_scale.x;
 

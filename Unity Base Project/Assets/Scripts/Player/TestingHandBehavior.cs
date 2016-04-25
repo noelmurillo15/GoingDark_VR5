@@ -16,13 +16,13 @@ public class TestingHandBehavior : MonoBehaviour {
     }
 
     public bool GetisRHandClosed() {        
-        if (m_leapData.GetNumRFingersHeld() < 2)
+        if (m_leapData.GetNumRFingersHeld() != 5)
             return true;
 
         return false;
     }
     public bool GetisLHandClosed() {      
-        if (m_leapData.GetNumLFingersHeld() < 2)
+        if (m_leapData.GetNumLFingersHeld() != 5)
             return true;
 
         return false;
