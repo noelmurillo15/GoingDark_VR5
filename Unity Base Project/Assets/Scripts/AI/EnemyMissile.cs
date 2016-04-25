@@ -60,13 +60,13 @@ public class EnemyMissile : MonoBehaviour {
     }
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.tag == "PlayerShip")
+        if (col.transform.tag == "PlayerShip" && !destroyMissile)
         {
             Debug.Log("Enemy Missile Collided with " + col.transform.tag);
             destroyMissile = true;
             col.gameObject.SendMessage("Hit");
         }
-        if (col.transform.tag == "Asteroid")
+        if (col.transform.tag == "Asteroid" && !destroyMissile)
         {
             Debug.Log("Enemy Missile Collided with " + col.transform.tag);
             destroyMissile = true;
