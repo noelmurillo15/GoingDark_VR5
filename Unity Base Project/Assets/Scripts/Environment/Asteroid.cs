@@ -31,7 +31,7 @@ public class Asteroid : MonoBehaviour {
         if (m_generator == null)
             m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
 
-        transform.localPosition = m_position;
+        //transform.localPosition = m_position;
         Vector3 newScale = transform.localScale;
         newScale.x *= m_scale.x;
         newScale.y *= m_scale.y;

@@ -50,31 +50,32 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision col) {       
-        if (col.gameObject.tag == "PlayerShip") {
+        if (col.transform.tag == "PlayerShip") {
            Debug.Log("Missile Hit Player");
            destroyMissile = true;
            col.gameObject.SendMessage("Hit");
         }
 
-        if (col.gameObject.tag == "Asteroid")
-        {
-            Debug.Log("Missile Hit Asteroid");
-            destroyMissile = true;
-            col.gameObject.SendMessage("DestroyAsteroid");
-        }
+        //if (col.transform.tag == "Asteroid")
+        //{
+        //    Debug.Log("Missile Hit Asteroid");
+        //    destroyMissile = true;
+        //    col.gameObject.SendMessage("DestroyAsteroid");
+        //}
     }
 
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
-            if (col.tag == "PlayerShip" || col.tag == "Asteroid") {
-                tracking = true;
+            if (col.transform.tag == "PlayerShip"/* || col.transform.tag == "Asteroid"*/) {
+                Debug.Log("Enemy Missile Begin Tracking " + col.tag);
                 targetLocation = col.transform.position;
+                tracking = true;
             }
         }
     }
 
     void OnTriggerExit(Collider col) {
-        if(col.tag == "PlayerShip" || col.tag == "Asteroid")
+        if(col.tag == "PlayerShip"/* || col.tag == "Asteroid"*/)
             tracking = false;     
     }
 }
