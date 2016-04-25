@@ -12,7 +12,8 @@ public class LootCounter : MonoBehaviour {
     public int lootCounter;
 	// Use this for initialization
 	void Start () {
-        lootCounter = 2;
+        //lootCounter = 2;
+       
 	}
 	
 	// Update is called once per frame
