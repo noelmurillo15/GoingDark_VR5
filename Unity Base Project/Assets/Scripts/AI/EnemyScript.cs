@@ -25,7 +25,7 @@ public class EnemyScript : MonoBehaviour {
         radius = 250.0f;
         missileCount = 0;
         maxMissileCount = 2;
-        missileCooldown = 8.0f;
+        missileCooldown = 12.0f;
 
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
