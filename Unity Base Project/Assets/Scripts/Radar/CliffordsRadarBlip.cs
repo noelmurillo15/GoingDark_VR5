@@ -97,7 +97,7 @@ public class CliffordsRadarBlip : MonoBehaviour
 
     void SetEnemy(GameObject enemy)//Getting the Enemy handle to repersent on Plane
     {
-     // Debug.Log(EnemyHandle.tag);
+        // Debug.Log(EnemyHandle.tag);
         EnemyHandle = enemy;
         if (enemy.tag == "Enemy")
         {
@@ -115,12 +115,10 @@ public class CliffordsRadarBlip : MonoBehaviour
             LineColor = Color.yellow;
             GetComponent<Renderer>().material = MaterialColorYellow;
         }
-        Debug.Log(EnemyHandle.tag);
     }
     void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.
     {
         Destroy(gameObject, TimeLeftOnSonar);
     }
-
 }
 

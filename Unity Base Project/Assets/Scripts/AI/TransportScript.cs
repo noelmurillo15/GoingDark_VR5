@@ -4,11 +4,13 @@ using System.Collections;
 public class TransportScript : MonoBehaviour {
 
     private bool cloaked = false;
+    Material transMat;
 
-	// Use this for initialization
-	void Start () {        
-       
-	}
+
+    // Use this for initialization
+    void Start () {        
+
+    }
 	
 	// Update is called once per frame
 	void Update ()  {
@@ -20,15 +22,20 @@ public class TransportScript : MonoBehaviour {
         return cloaked;
     }
 
-    void SetCloaked(bool val) {
-        Debug.Log("Transport called cloak");
-        Material mat = gameObject.GetComponent<Renderer>().material;
-
-        if (val)
-            mat.SetFloat("_Mode", 2);                   
-        else
-            mat.SetFloat("_Mode", 0);
-
+    void SetCloaked(bool val) {        
+        transMat = this.GetComponent<Renderer>().material;
+        
+        if (val) {
+            transMat.SetInt("_SrcBlend", 5);
+            transMat.SetInt("_DstBlend", 10);
+            transMat.SetInt("_ZWrite", 0);
+        }    
+        else {
+            transMat.SetInt("_SrcBlend", 10);
+            transMat.SetInt("_DstBlend", 10);
+            transMat.SetInt("_ZWrite", 0);
+        }
+            
         cloaked = val;
     }
 
