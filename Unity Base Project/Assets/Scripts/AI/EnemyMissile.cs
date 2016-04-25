@@ -44,38 +44,33 @@ public class EnemyMissile : MonoBehaviour {
 
         if (destroyMissile && Explosion != null) {
             Instantiate(Explosion, transform.position, transform.rotation);
-            Explosion = null;
-            this.GetComponent<MeshRenderer>().enabled = false;
+            Explosion = null;            
         }        
-    }
-
-    void OnCollisionEnter(Collision col) {       
-        if (col.transform.tag == "PlayerShip") {
-           Debug.Log("Missile Hit Player");
-           destroyMissile = true;
-           col.gameObject.SendMessage("Hit");
-        }
-
-        //if (col.transform.tag == "Asteroid")
-        //{
-        //    Debug.Log("Missile Hit Asteroid");
-        //    destroyMissile = true;
-        //    col.gameObject.SendMessage("DestroyAsteroid");
-        //}
-    }
+    }    
 
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
-            if (col.transform.tag == "PlayerShip"/* || col.transform.tag == "Asteroid"*/) {
-                Debug.Log("Enemy Missile Begin Tracking " + col.tag);
+            if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid") {
+                Debug.Log("Enemy Missile Tracking " + col.transform.tag);
+                this.GetComponent<MeshRenderer>().enabled = false;
                 targetLocation = col.transform.position;
                 tracking = true;
             }
         }
     }
-
-    void OnTriggerExit(Collider col) {
-        if(col.tag == "PlayerShip"/* || col.tag == "Asteroid"*/)
-            tracking = false;     
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.transform.tag == "PlayerShip")
+        {
+            Debug.Log("Enemy Missile Collided with " + col.transform.tag);
+            destroyMissile = true;
+            col.gameObject.SendMessage("Hit");
+        }
+        if (col.transform.tag == "Asteroid")
+        {
+            Debug.Log("Enemy Missile Collided with " + col.transform.tag);
+            destroyMissile = true;
+            col.gameObject.SendMessage("DestroyAsteroid");
+        }
     }
 }
