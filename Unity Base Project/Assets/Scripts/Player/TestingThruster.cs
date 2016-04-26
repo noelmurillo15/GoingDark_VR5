@@ -24,7 +24,6 @@ public class TestingThruster : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
         if (inRange) {
             if (m_palm.GetisLHandClosed() && m_palm.GetIsLeftHandIn()) {
                 Vector3 velocity;
@@ -36,10 +35,10 @@ public class TestingThruster : MonoBehaviour {
                 if(transform.localPosition.z > -offset)
                     percentage = (transform.localPosition.z + offset) / (offset * 2);
 
-                if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0005f)) > -offset  &&
-                    (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0005f)) < offset)
-                    transform.localPosition += (velocity * Time.deltaTime * 0.0005f);                
-            }         
+                if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) > -offset  &&
+                    (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) < offset)
+                    transform.localPosition += (velocity * Time.deltaTime * 0.0008f);                
+            }
         }
 
         if (transform.localPosition.z < -0.004f)
@@ -50,15 +49,16 @@ public class TestingThruster : MonoBehaviour {
         cpanel.UpdateSpeedGauge();
     }
 
+    #region Collision Detection
     void OnTriggerEnter(Collider col)
     {
         if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
             inRange = true;
     }
-
     void OnTriggerExit(Collider col)
     {
         if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
             inRange = false;
     }
+    #endregion
 }

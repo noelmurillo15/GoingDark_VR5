@@ -4,11 +4,13 @@ using UnityEngine.SceneManagement;
 public class PlayerShipData : MonoBehaviour {
 
     private int hitCount;
+    private PlayerHealth playerHP;
     private JoyStickMovement m_playerMove;
 
     // Use this for initialization
     void Start () {
         hitCount = 0;
+        playerHP = GameObject.Find("Health").GetComponent<PlayerHealth>();
         m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
     }
 	
@@ -33,13 +35,9 @@ public class PlayerShipData : MonoBehaviour {
     }
     #endregion
 
-    void OnCollisionEnter(Collision col)
-    {
+    void OnCollisionEnter(Collision col) {
         if (col.gameObject.tag == "Asteroid")
-        {
-            Debug.Log("Ship Colliding with " + col.transform.tag);
-            Crash();
-        }
+            Crash();        
     }
 
     #region Msg Calls
@@ -47,6 +45,7 @@ public class PlayerShipData : MonoBehaviour {
         Debug.Log("Hit by enemy Missile");
         IncreaseHitCount();
         m_playerMove.StopMovement();
+        playerHP.UpdatePlayerHealth();
 
         if (hitCount > 2)
             SceneManager.LoadScene("Game_Over");

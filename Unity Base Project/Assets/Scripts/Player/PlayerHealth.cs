@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerHealth : MonoBehaviour
-{
-    GameObject health1;
-    GameObject health2;
-    GameObject health3;
-    PlayerShipData player;
-    public float timer;
+public class PlayerHealth : MonoBehaviour {
+
+    public float autoRepairTimer;
+
+    private GameObject health1;
+    private GameObject health2;
+    private GameObject health3;
+    private PlayerShipData player;
+
 
     // Use this for initialization
     void Start()
     {
-        timer = 30.0f;
+        autoRepairTimer = 0.0f;
 
         if (health1 == null)
             health1 = GameObject.Find("Health1");
@@ -22,41 +24,45 @@ public class PlayerHealth : MonoBehaviour
             health3 = GameObject.Find("Health3");
 
         player = GameObject.Find("BattleShip").GetComponent<PlayerShipData>();
-        health1.gameObject.GetComponent<Renderer>().material.color = Color.green;
-        health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
-        health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
+        UpdatePlayerHealth();
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (timer > 0.0f)
-            timer -= Time.deltaTime;
-
-        playerLife();
-
-        if (timer <= 0.0f && player.GetHitCount() != 0)
-        {
-            player.DecreaseHitCount();
-            timer = 30;
+    void Update() {
+        if (autoRepairTimer > 0.0f)
+            autoRepairTimer -= Time.deltaTime;
+        else {
+            if (player.GetHitCount() != 0) {
+                Debug.Log("Player HP Regenerated");
+                player.DecreaseHitCount();
+                UpdatePlayerHealth();
+            }
+            autoRepairTimer = 120.0f;
         }
     }
 
-    void playerLife()
-    {
-        if (player.GetHitCount() >= 1)
-            health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
-        else
-            health1.gameObject.GetComponent<Renderer>().material.color = Color.green;
-
-        if (player.GetHitCount() >= 2)
-            health2.gameObject.GetComponent<Renderer>().material.color = Color.red;
-        else
-            health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
-
-        if (player.GetHitCount() >= 3)
-            health3.gameObject.GetComponent<Renderer>().material.color = Color.red;
-        else
-            health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
+    public void UpdatePlayerHealth() {
+        switch (player.GetHitCount()) {
+            case 1:
+                health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                break;
+            case 2:
+                health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                health2.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                break;
+            case 3:
+                health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                health2.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                health3.gameObject.GetComponent<Renderer>().material.color = Color.red;
+                break;            
+            default:
+                health1.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                health2.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                health3.gameObject.GetComponent<Renderer>().material.color = Color.green;
+                break;
+        }      
     }
 }

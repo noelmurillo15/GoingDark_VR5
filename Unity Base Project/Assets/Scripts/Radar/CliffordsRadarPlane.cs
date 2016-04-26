@@ -64,7 +64,7 @@ public class CliffordsRadarPlane : MonoBehaviour
             //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
             Blip.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             //((GameObject)Blip).transform.parent = this.transform; // Setting the Blip objects parent to this Plane's Transform
-            Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetTimer", SonarTimeLeft); // Setting a destory!... timer..
+            //Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetTimer", SonarTimeLeft); // Setting a destory!... timer..
             Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetEnemy", ColliderObject.gameObject);// giving the Blip object the GameObject for further destruction(Updating).
 
 

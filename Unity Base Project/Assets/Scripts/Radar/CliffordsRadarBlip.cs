@@ -39,7 +39,7 @@ public class CliffordsRadarBlip : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         // transform.localPosition.Set(0.0f, 0.0f, 0.0f);
         //transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-        Destroy(gameObject, 60);
+        //Destroy(gameObject, 60);
         ScalerFactor.x = .25f / GetComponentInParent<SphereCollider>().radius;
         ScalerFactor.y = .25f  / GetComponentInParent<SphereCollider>().radius;
         ScalerFactor.z = .25f / GetComponentInParent<SphereCollider>().radius;
@@ -116,9 +116,9 @@ public class CliffordsRadarBlip : MonoBehaviour
             GetComponent<Renderer>().material = MaterialColorYellow;
         }
     }
-    void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.
-    {
-        Destroy(gameObject, TimeLeftOnSonar);
-    }
+    //void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.
+    //{
+    //    Destroy(gameObject, TimeLeftOnSonar);
+    //}
 }
 
