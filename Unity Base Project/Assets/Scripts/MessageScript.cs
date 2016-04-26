@@ -54,7 +54,6 @@ public class MessageScript : MonoBehaviour {
     {
         missile.gameObject.SetActive(false);
         Debug.Log("Missile Destroyed");
-
     }
 
     void Win()

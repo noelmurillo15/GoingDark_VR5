@@ -9,14 +9,12 @@ public class LootPickup : MonoBehaviour {
 
     private bool collected;
     private float timer;
-    private Animation animOpen;
     private GameObject messages;
 
     // Use this for initialization
     void Start () {
         collected = false;
         timer = 2.0f;
-        animOpen = gameObject.GetComponent<Animation>();
         messages = GameObject.Find("Messages");
     }
 	
@@ -26,7 +24,6 @@ public class LootPickup : MonoBehaviour {
 	    if (collected)
         {
             timer -= Time.deltaTime;
-            animOpen.Play("open", PlayMode.StopSameLayer);
             if (timer <= 0.0f)
                 gameObject.SetActive(false);
             messages.SendMessage("LootPickUp");

@@ -25,7 +25,7 @@ public class PillarLighting : MonoBehaviour {
             timer -= 5.0f * Time.deltaTime;
         }
         else
-            MaterialShift();     
+            MaterialShift();
     }
 
     void MaterialShift()
