@@ -3,18 +3,27 @@ using System.Collections;
 
 public class TransportScript : MonoBehaviour {
 
-    private bool cloaked = false;
-    Material transMat;
+    private bool cloaked;
+    private float cloakTimer;
+    private float cloakCooldown;
 
 
     // Use this for initialization
-    void Start () {        
-
+    void Start () {
+        cloaked = false;
+        cloakTimer = 5.0f;
     }
 	
 	// Update is called once per frame
 	void Update ()  {
 
+        if (cloakTimer > 0.0f)
+            cloakTimer -= Time.deltaTime;
+        else
+        {
+            cloakTimer = 0.0f;
+            SetCloaked(false);
+        }               
 	}
 
     bool GetCloaked()
@@ -22,20 +31,13 @@ public class TransportScript : MonoBehaviour {
         return cloaked;
     }
 
-    void SetCloaked(bool val) {        
-        transMat = this.GetComponent<Renderer>().material;
-        
-        if (val) {
-            transMat.SetInt("_SrcBlend", 5);
-            transMat.SetInt("_DstBlend", 10);
-            transMat.SetInt("_ZWrite", 0);
-        }    
-        else {
-            transMat.SetInt("_SrcBlend", 10);
-            transMat.SetInt("_DstBlend", 10);
-            transMat.SetInt("_ZWrite", 0);
+    void SetCloaked(bool val) {          
+        if (val && cloakCooldown < 0.0f) {
+            cloakTimer = 30.0f;
         }
-            
+        else {
+            cloakCooldown = 60.0f;
+        }            
         cloaked = val;
     }
 

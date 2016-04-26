@@ -22,7 +22,7 @@ public class JoyStickMovement : MonoBehaviour {
         turnRateX = 0;
         maxSpeed = 20.0f;
         moveSpeed = 0.0f;
-        rotateSpeed = 10.0f;
+        rotateSpeed = 5.0f;
         runMultiplier = 1.5f;
 
         radar = GameObject.Find("Radar");
@@ -50,12 +50,12 @@ public class JoyStickMovement : MonoBehaviour {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
         {
-            rotateSpeed = 20.0f;
+            rotateSpeed = 10.0f;
             moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
         }
         else
         {
-            rotateSpeed = 10.0f;
+            rotateSpeed = 5.0f;
             moveDir *= moveSpeed * Time.deltaTime;
         }
     }
