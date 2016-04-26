@@ -142,6 +142,7 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
+    <Compile Include="Assets\3rd Party Assets\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
@@ -210,6 +211,7 @@
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
     <None Include="Assets\3rd Party Assets\LeapMotion\Version.txt" />
     <None Include="Assets\3rd Party Assets\LeapMotion\readme.txt" />
+    <None Include="Assets\3rd Party Assets\Particle Ribbon\readme_Simple_Particle_Ribbon.txt" />
     <None Include="Assets\3rd Party Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_DI.shader" />
