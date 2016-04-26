@@ -12,7 +12,7 @@ public class PillarLighting : MonoBehaviour {
 	void Start () {
         timer = 20.0f;
 
-        if (transform.parent.name == "Loot")
+        if (transform.parent.tag == "Loot")
             lightColor = Color.cyan;
         else
             lightColor = Color.yellow;
