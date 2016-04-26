@@ -10,9 +10,10 @@ public class LootPickup : MonoBehaviour {
     private bool collected;
     private float timer;
     private Animation animOpen;
+    //private GameObject messages;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         collected = false;
         timer = 2.0f;
         animOpen = gameObject.GetComponent<Animation>();
