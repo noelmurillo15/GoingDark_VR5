@@ -16,13 +16,17 @@ public class EnemyMissile : MonoBehaviour {
     private Vector3 targetLocation;
     public Quaternion targetRotation;
 
+    // Messages
+    private GameObject messages;
 
     void Start() {
+        messages = GameObject.Find("Messages");
         tracking = false; 
         destroyMissile = false;
         velocity = 80.0f;
         destroyTimer = 5.0f;
         LookSpeed = 20;
+        messages.SendMessage("MissileIncoming");
     }
 
     void Update() {
@@ -65,12 +69,14 @@ public class EnemyMissile : MonoBehaviour {
             Debug.Log("Enemy Missile Collided with " + col.transform.tag);
             destroyMissile = true;
             col.gameObject.SendMessage("Hit");
+            messages.SendMessage("MissileDestroyed");
         }
         if (col.transform.tag == "Asteroid" && !destroyMissile)
         {
             Debug.Log("Enemy Missile Collided with " + col.transform.tag);
             destroyMissile = true;
             col.gameObject.SendMessage("DestroyAsteroid");
+            messages.SendMessage("MissileDestroyed");
         }
     }
 }

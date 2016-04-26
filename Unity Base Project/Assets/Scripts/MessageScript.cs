@@ -35,6 +35,7 @@ public class MessageScript : MonoBehaviour {
     void EnemyAway()
     {
         enemyClose.gameObject.SetActive(false);
+
     }
 
     void LootPickUp()
@@ -46,16 +47,20 @@ public class MessageScript : MonoBehaviour {
     void MissileIncoming()
     {
         missile.gameObject.SetActive(true);
+        Debug.Log("Incoming Missile");
     }
 
     void MissileDestroyed()
     {
         missile.gameObject.SetActive(false);
+        Debug.Log("Missile Destroyed");
+
     }
 
     void Win()
     {
         winMessage.SetActive(true);
+        Debug.Log("Won");
         StartCoroutine(WinMessage());
     }
 

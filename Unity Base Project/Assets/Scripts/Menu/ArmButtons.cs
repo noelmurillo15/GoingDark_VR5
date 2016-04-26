@@ -76,10 +76,6 @@ public class ArmButtons : MonoBehaviour {
 
         else if (transform.name == "HyperDriveButton")
             m_armSettings.InitializeHyperDrive();
-
-        else if (transform.name == "MonitorPower")
-            m_armSettings.MonitorPower();
-
         else
         {
             Debug.Log("Switching Scene : " + transform.name);

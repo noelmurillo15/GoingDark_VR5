@@ -1,0 +1,184 @@
+fileFormatVersion: 2
+guid: 355237919e6ef0b4585b13c4c7d2d916
+timeCreated: 1461692281
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Bak_Hatc_hullblue
+    100002: Bak_Hdet_gray
+    100004: BakHglas_blackred
+    100006: BakHring_hullblue
+    100008: BakPanls_hullblue
+    100010: Bulkhead_mid_gray
+    100012: Canopy_mid_gray
+    100014: CanoRing_mid_gray
+    100016: EnginGlo_englored
+    100018: Hinge_US_hullblue
+    100020: HulBottm_hullblue
+    100022: HulPlats_gray
+    100024: HulTensn_drk_gray
+    100026: L_US_Arm_hullblue
+    100028: LaserTip_lasered
+    100030: MainHull_hullblue
+    100032: R_US_Arm_hullblue
+    100034: SeamRims_hullblue
+    100036: //RootNode
+    100038: Tp_Hatch_hullblue
+    100040: TpH_Det_gray
+    100042: TpH_Glas_blackred
+    100044: Windscrn_blackred
+    400000: Bak_Hatc_hullblue
+    400002: Bak_Hdet_gray
+    400004: BakHglas_blackred
+    400006: BakHring_hullblue
+    400008: BakPanls_hullblue
+    400010: Bulkhead_mid_gray
+    400012: Canopy_mid_gray
+    400014: CanoRing_mid_gray
+    400016: EnginGlo_englored
+    400018: Hinge_US_hullblue
+    400020: HulBottm_hullblue
+    400022: HulPlats_gray
+    400024: HulTensn_drk_gray
+    400026: L_US_Arm_hullblue
+    400028: LaserTip_lasered
+    400030: MainHull_hullblue
+    400032: R_US_Arm_hullblue
+    400034: SeamRims_hullblue
+    400036: //RootNode
+    400038: Tp_Hatch_hullblue
+    400040: TpH_Det_gray
+    400042: TpH_Glas_blackred
+    400044: Windscrn_blackred
+    2300000: Bak_Hatc_hullblue
+    2300002: Bak_Hdet_gray
+    2300004: BakHglas_blackred
+    2300006: BakHring_hullblue
+    2300008: BakPanls_hullblue
+    2300010: Bulkhead_mid_gray
+    2300012: Canopy_mid_gray
+    2300014: CanoRing_mid_gray
+    2300016: EnginGlo_englored
+    2300018: Hinge_US_hullblue
+    2300020: HulBottm_hullblue
+    2300022: HulPlats_gray
+    2300024: HulTensn_drk_gray
+    2300026: L_US_Arm_hullblue
+    2300028: LaserTip_lasered
+    2300030: MainHull_hullblue
+    2300032: R_US_Arm_hullblue
+    2300034: SeamRims_hullblue
+    2300036: Tp_Hatch_hullblue
+    2300038: TpH_Det_gray
+    2300040: TpH_Glas_blackred
+    2300042: Windscrn_blackred
+    3300000: Bak_Hatc_hullblue
+    3300002: Bak_Hdet_gray
+    3300004: BakHglas_blackred
+    3300006: BakHring_hullblue
+    3300008: BakPanls_hullblue
+    3300010: Bulkhead_mid_gray
+    3300012: Canopy_mid_gray
+    3300014: CanoRing_mid_gray
+    3300016: EnginGlo_englored
+    3300018: Hinge_US_hullblue
+    3300020: HulBottm_hullblue
+    3300022: HulPlats_gray
+    3300024: HulTensn_drk_gray
+    3300026: L_US_Arm_hullblue
+    3300028: LaserTip_lasered
+    3300030: MainHull_hullblue
+    3300032: R_US_Arm_hullblue
+    3300034: SeamRims_hullblue
+    3300036: Tp_Hatch_hullblue
+    3300038: TpH_Det_gray
+    3300040: TpH_Glas_blackred
+    3300042: Windscrn_blackred
+    4300000: Canopy_mid_gray
+    4300002: BakPanls_hullblue
+    4300004: HulTensn_drk_gray
+    4300006: HulPlats_gray
+    4300008: TpH_Glas_blackred
+    4300010: BakHglas_blackred
+    4300012: Windscrn_blackred
+    4300014: Bak_Hatc_hullblue
+    4300016: HulBottm_hullblue
+    4300018: SeamRims_hullblue
+    4300020: EnginGlo_englored
+    4300022: BakHring_hullblue
+    4300024: CanoRing_mid_gray
+    4300026: R_US_Arm_hullblue
+    4300028: Bak_Hdet_gray
+    4300030: Hinge_US_hullblue
+    4300032: Tp_Hatch_hullblue
+    4300034: MainHull_hullblue
+    4300036: Bulkhead_mid_gray
+    4300038: TpH_Det_gray
+    4300040: L_US_Arm_hullblue
+    4300042: LaserTip_lasered
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

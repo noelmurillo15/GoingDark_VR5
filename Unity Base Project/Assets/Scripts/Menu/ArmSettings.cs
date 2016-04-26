@@ -4,11 +4,7 @@ using System.Collections;
 public class ArmSettings : MonoBehaviour {
     
     public bool active;
-    public bool camOn;
-    public bool monitorOn;
     public GameObject m_settingBG;
-    public GameObject m_missileCamBG;
-    private GameObject m_Monitor;
 
     private Cloak playerCloak;
     private PlayerData m_playerData;
@@ -16,12 +12,8 @@ public class ArmSettings : MonoBehaviour {
 
     // Use this for initialization
     void Start () {        
-        camOn = false;
         active = false;
-        monitorOn = true;
         m_settingBG = GameObject.Find("SettingsBG");
-        m_missileCamBG = GameObject.Find("MissileKillCam");
-        m_Monitor = GameObject.Find("Monitor");
 
         if (m_playerData == null)
             m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
@@ -33,8 +25,6 @@ public class ArmSettings : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         m_settingBG.SetActive(active);
-        m_Monitor.SetActive(monitorOn);
-        m_missileCamBG.SetActive(camOn);
 
         if (active)
             if (transform.localEulerAngles.z < 100.0f)
@@ -52,15 +42,6 @@ public class ArmSettings : MonoBehaviour {
 
     public void CloseSettings() {
         active = false;
-        camOn = false;
-    }
-    public void TurnCamOn() {
-        camOn = true;
-        m_missileCamBG.SetActive(camOn);
-        Renderer rend = null;
-        rend.material.shader = Shader.Find("Transparent/Diffuse");
-        Color tmp = rend.material.color; tmp.a = 0.6f;
-        rend.material.color = tmp;
     }
 
     public void SetCloak() {
@@ -89,11 +70,5 @@ public class ArmSettings : MonoBehaviour {
     public float CloakCooldown()
     {
         return playerCloak.GetCloakCooldown();
-    }
-
-    public void MonitorPower()
-    {
-        monitorOn = !monitorOn;
-        CloseSettings();
     }
 }

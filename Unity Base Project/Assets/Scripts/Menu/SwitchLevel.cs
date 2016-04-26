@@ -27,7 +27,7 @@ public class SwitchLevel : MonoBehaviour {
             m_timeRemaining -= Time.deltaTime;
 
         if(m_timeRemaining < 0.0f)
-            SceneManager.LoadScene("Menu_Scene");
+            SceneManager.LoadScene("MainMenu");
 	}
 
     public void EnableCountdown(bool bEnable, bool bReset) {

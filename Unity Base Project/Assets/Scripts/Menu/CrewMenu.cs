@@ -87,7 +87,6 @@ public class CrewMenu : MonoBehaviour {
                 if (missileCam == null)
                     missileCam = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
 
-                missileCam.TurnCamOn();
                 missileLauncher.FireMissile();
             }
             

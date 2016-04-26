@@ -17,6 +17,7 @@ public class EnemyScript : MonoBehaviour {
     private float missileCooldown;
     public GameObject missilePrefab;
 
+    private GameObject messages;
 
     // Use this for initialization
     void Start()
@@ -29,6 +30,8 @@ public class EnemyScript : MonoBehaviour {
 
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        messages = GameObject.Find("Messages");
+
         playerDir = m_playerPos.position - transform.position;
     }
 
@@ -39,6 +42,11 @@ public class EnemyScript : MonoBehaviour {
             missileCooldown -= Time.deltaTime;
 
         LockOn();
+
+        if (targetDist < radius)
+            messages.SendMessage("EnemyClose");
+        else
+            messages.SendMessage("EnemyAway");
 
         if (lockedOn)
             Fire();

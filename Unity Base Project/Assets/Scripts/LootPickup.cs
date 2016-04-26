@@ -10,14 +10,15 @@ public class LootPickup : MonoBehaviour {
     private bool collected;
     private float timer;
     private Animation animOpen;
-    //private GameObject messages;
+    private GameObject messages;
 
     // Use this for initialization
     void Start () {
         collected = false;
         timer = 2.0f;
         animOpen = gameObject.GetComponent<Animation>();
-	}
+        messages = GameObject.Find("Messages");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,6 +29,7 @@ public class LootPickup : MonoBehaviour {
             animOpen.Play("open", PlayMode.StopSameLayer);
             if (timer <= 0.0f)
                 gameObject.SetActive(false);
+            messages.SendMessage("LootPickUp");
 
         }
     }
@@ -37,9 +39,15 @@ public class LootPickup : MonoBehaviour {
         if (col.transform.tag == "Player")
         {
             if (lootCounter.lootCounter > 0)
+            {
                 lootCounter.lootCounter -= 1;
-
-            collected = true;
+                collected = true;
+                if (lootCounter.lootCounter == 0)
+                {
+                    messages.SendMessage("Win");
+                }
+            }
+            
         }
     }
 }

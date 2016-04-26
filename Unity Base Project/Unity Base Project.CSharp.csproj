@@ -154,6 +154,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
     <Compile Include="Assets\Audio\AudioManager.cs" />
     <Compile Include="Assets\IntroScript.cs" />
+    <Compile Include="Assets\PillarLighting.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
