@@ -22,7 +22,7 @@ public class ReOrientPlayer : MonoBehaviour {
         if(col.name == "bone3")
         {
             Debug.Log("Re-orienting Player Rotation");
-            Player.SendMessage("Reorient");
+            Player.SendMessage("ResetOrientation");
         }
     }
 }

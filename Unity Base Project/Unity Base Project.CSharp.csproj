@@ -188,7 +188,6 @@
     <Compile Include="Assets\Scripts\Missile Systems\Tracer\ShootTracer.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Tracer\Tracer.cs" />
     <Compile Include="Assets\Scripts\Player\Cloak.cs" />
-    <Compile Include="Assets\Scripts\Player\ControlPanel.cs" />
     <Compile Include="Assets\Scripts\Player\EMP.cs" />
     <Compile Include="Assets\Scripts\Player\HyperDrive.cs" />
     <Compile Include="Assets\Scripts\Player\JoyStickMovement.cs" />

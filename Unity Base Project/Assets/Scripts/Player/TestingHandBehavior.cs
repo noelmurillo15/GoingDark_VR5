@@ -40,7 +40,7 @@ public class TestingHandBehavior : MonoBehaviour {
     public Vector3 GetRPalmVelocity() {
         Vector3 velocity;
         velocity = m_leapData.GetRPalmVelocity();
-        velocity /= 10.0f;
+        velocity /= 5.0f;
 
         if (velocity.x < 12.0f && velocity.x > -12.0f)
             velocity.x = 0.0f;
@@ -54,7 +54,7 @@ public class TestingHandBehavior : MonoBehaviour {
     {
         Vector3 velocity;
         velocity = m_leapData.GetLPalmVelocity();
-        velocity /= 10.0f;
+        velocity /= 5.0f;
 
         if (velocity.x < 12.0f && velocity.x > -12.0f)
             velocity.x = 0.0f;

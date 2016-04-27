@@ -18,6 +18,7 @@ public class JoyStickMovement : MonoBehaviour {
     private bool autoMove;
     private bool autoRotate;
     private bool resetRotation;
+    private float orientationTimer;
     private Vector3 targetPosition;
     private GameObject autoPilotSign;
     private GameObject reorientSign;
@@ -32,6 +33,7 @@ public class JoyStickMovement : MonoBehaviour {
         autoMove = false;
         autoRotate = false;
         resetRotation = false;
+        orientationTimer = 0.0f;
         turnRateY = 0;
         turnRateX = 0;
         maxSpeed = 20.0f;
@@ -114,10 +116,16 @@ public class JoyStickMovement : MonoBehaviour {
         autoPilotSign.SetActive(autoRotate);
     }
 
+    public void ResetOrientation()
+    {
+        orientationTimer = 5.0f;
+        resetRotation = true;
+    }
+
     public void Reorient()
     {
-        if (transform.rotation != Quaternion.identity) {
-            resetRotation = true;            
+        if (transform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
+            orientationTimer -= Time.deltaTime;
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * 0.75f);
         }
         else
@@ -179,8 +187,7 @@ public class JoyStickMovement : MonoBehaviour {
         turnRateY = 0;
         turnRateX = 0;
     }
-    public void StopMovement() {
-        turnRateZero();      
+    public void StopMovement() {    
         moveSpeed = 0.0f;
     }
     #endregion
