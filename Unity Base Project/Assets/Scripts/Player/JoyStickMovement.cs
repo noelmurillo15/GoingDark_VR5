@@ -3,6 +3,7 @@ using System.Collections;
 
 public class JoyStickMovement : MonoBehaviour {
 
+    //  Movement Vars
     private int turnRateY;
     private int turnRateX;
     private float maxSpeed;
@@ -13,11 +14,24 @@ public class JoyStickMovement : MonoBehaviour {
     private Vector3 moveDir;
     private CharacterController m_controller;
 
+    //  Auto Pilot Vars
+    private bool autoMove;
+    private bool autoRotate;
+    private bool resetRotation;
+    private Vector3 targetPosition;
+    private GameObject autoPilotSign;
+    private GameObject reorientSign;
+
+    //  Radar Vars
     private GameObject radar;
     private GameObject playerBlip;
 
+
     // Use this for initialization
     void Start() {
+        autoMove = false;
+        autoRotate = false;
+        resetRotation = false;
         turnRateY = 0;
         turnRateX = 0;
         maxSpeed = 20.0f;
@@ -25,8 +39,15 @@ public class JoyStickMovement : MonoBehaviour {
         rotateSpeed = 10.0f;
         runMultiplier = 1.5f;
 
+        
+
         radar = GameObject.Find("Radar");
         playerBlip = GameObject.Find("Blip_Triangle_Player");
+        autoPilotSign = GameObject.Find("AutoPilot");
+        reorientSign = GameObject.Find("Reorient");
+
+        reorientSign.SetActive(resetRotation);
+        autoPilotSign.SetActive(autoRotate);
 
         moveDir = Vector3.zero;
         m_controller = GetComponent<CharacterController>();
@@ -34,18 +55,77 @@ public class JoyStickMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        Vector3 newRot = transform.localEulerAngles;
-        newRot.x -= 180.0f;
-        playerBlip.transform.localEulerAngles = newRot;
-       
-        moveDir = Vector3.zero;
-        ManualTurnXAxis();
-        ManualTurnYAxis();
-        ManualWalk();
-        m_controller.Move(moveDir);
+        //Vector3 newRot = transform.localEulerAngles;
+        //newRot.x -= 180.0f;
+        //playerBlip.transform.localEulerAngles = newRot;
+
+        if (!autoRotate && !autoMove && !resetRotation) {
+            moveDir = Vector3.zero;
+            ManualTurnXAxis();
+            ManualTurnYAxis();
+            ManualWalk();
+            m_controller.Move(moveDir);
+        }
+        else if(autoRotate || autoMove)
+            Autopilot();
+        else if (resetRotation)
+            Reorient();        
     }
 
     #region Movement
+    private void Autopilot() {
+        float angle = 0.0f;
+        if (autoRotate)
+        {
+            Debug.Log("Auto Rotate");
+            Vector3 playerDir = targetPosition - transform.position;
+            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (rotateSpeed * 0.25f) * Time.deltaTime, 0.0f);
+            transform.rotation = Quaternion.LookRotation(newEnemyDir);
+            angle = Vector3.Angle(newEnemyDir, playerDir);
+        }
+
+        if (autoMove)
+        {
+            Debug.Log("Auto Move");
+            moveDir = Vector3.zero;
+            moveDir = transform.TransformDirection(Vector3.forward);
+            moveDir *= (20.0f * Time.deltaTime) * runMultiplier;
+            m_controller.Move(moveDir);
+        }
+
+        if (angle <= 2.5f && autoRotate)
+        {
+            autoRotate = false;
+            autoMove = true;
+        }
+    }
+
+    public void OutOfBounds(Vector3 targetPos)
+    {
+        autoRotate = true;
+        autoPilotSign.SetActive(autoRotate);
+        targetPosition = targetPos;
+    }
+
+    public void InBounds()
+    {
+        autoRotate = false;
+        autoMove = false;
+        autoPilotSign.SetActive(autoRotate);
+    }
+
+    public void Reorient()
+    {
+        if (transform.rotation != Quaternion.identity) {
+            resetRotation = true;            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * 0.75f);
+        }
+        else
+            resetRotation = false;
+
+        reorientSign.SetActive(resetRotation);
+    }
+
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)

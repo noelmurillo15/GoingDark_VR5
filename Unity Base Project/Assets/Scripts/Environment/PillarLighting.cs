@@ -35,15 +35,15 @@ public class PillarLighting : MonoBehaviour {
 
     void MaterialShift() {
         if (alphaTimer > 0.0f) {
-            alphaTimer -= 0.25f * Time.deltaTime;
+            alphaTimer -= 0.2f * Time.deltaTime;
             lightColor.a = alphaTimer;
             myMat.SetColor("_TintColor", lightColor);
         }
         else {
-            lightColor.a = 1.0f;
-            myMat.SetColor("_TintColor", lightColor);
             alphaTimer = 1.0f;
-            timer = 10.0f;
+            lightColor.a = alphaTimer;
+            myMat.SetColor("_TintColor", lightColor);
+            timer = 5.0f;
         }
     }
 }
