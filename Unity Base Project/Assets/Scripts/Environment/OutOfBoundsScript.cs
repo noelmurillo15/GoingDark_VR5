@@ -24,8 +24,14 @@ public class OutOfBoundsScript : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Player") {
+            Debug.Log("In Bounds");
             timeToReturn = 0.0f;
             danger = false;
+        }
+
+        if (col.tag == "Asteroid")
+        {
+            Debug.Log("Asteroid Detected");
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class AsteroidGenerator : MonoBehaviour {
@@ -13,7 +12,9 @@ public class AsteroidGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         numAsteroids = 0;
-        maxAsteroids = 50;
+
+        if (maxAsteroids == 0)
+            maxAsteroids = 50;
 	}
 	
 	// Update is called once per frame

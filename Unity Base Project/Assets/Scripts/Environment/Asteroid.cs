@@ -1,40 +1,34 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Asteroid : MonoBehaviour {
 
     private float m_aliveTimer;
     private Vector3 m_velocity;
     private Vector3 m_rotation;    
-    private AsteroidGenerator m_generator;
 
     // Use this for initialization
     void Start() {
-        m_aliveTimer = Random.Range(60.0f, 300.0f);
+        m_aliveTimer = Random.Range(120.0f, 360.0f);       
 
-        Vector3 m_scale = Vector3.zero;
-        Vector3 m_position = Vector3.zero;
-
-        m_velocity.x = Random.Range(-2.0f, 2.0f);
-        m_velocity.y = Random.Range(-2.0f, 2.0f);
-        m_velocity.z = Random.Range(-2.0f, 2.0f);
-
-        m_position.x = Random.Range(-500.0f, 500.0f);
-        m_position.y = Random.Range(-100.0f, 100.0f);
-        m_position.z = Random.Range(-500.0f, 500.0f);
+        m_velocity.x = Random.Range(-1.0f, 1.0f);
+        m_velocity.y = Random.Range(-1.0f, 1.0f);
+        m_velocity.z = Random.Range(-1.0f, 1.0f);        
 
         m_rotation.x = Random.Range(-10.0f, 10.0f);
         m_rotation.y = Random.Range(-10.0f, 10.0f);
         m_rotation.z = Random.Range(-10.0f, 10.0f);
 
-        m_scale.x = Random.Range(2.0f, 15.0f);
-        m_scale.y = m_scale.x;
-        m_scale.z = m_scale.x;
-
-        if (m_generator == null)
-            m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
-
+        Vector3 m_position = Vector3.zero;
+        m_position.x = Random.Range(-750.0f, 750.0f);
+        m_position.y = Random.Range(-300.0f, 300.0f);
+        m_position.z = Random.Range(-750.0f, 750.0f);
         transform.localPosition = m_position;
+
+        Vector3 m_scale = Vector3.zero;
+        m_scale.x = Random.Range(0.5f, 15.0f);
+        m_scale.y = m_scale.x;
+        m_scale.z = m_scale.x;        
+
         Vector3 newScale = transform.localScale;
         newScale.x *= m_scale.x;
         newScale.y *= m_scale.y;
@@ -55,6 +49,7 @@ public class Asteroid : MonoBehaviour {
 
     public void DestroyAsteroid() {
         Debug.Log("Destroying Asteroid");
+        AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
         m_generator.DeleteAsteroid();
         Destroy(this.gameObject);
     }
