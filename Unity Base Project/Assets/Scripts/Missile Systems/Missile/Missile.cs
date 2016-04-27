@@ -96,9 +96,17 @@ public class Missile : MonoBehaviour
         }
         else if (col.gameObject.tag == "TransportShip")
         {
+            Die = true;
             Debug.Log("Missile Hit Transport Ship");
             DestroyTimer = 5.0f;
             col.gameObject.SendMessage("Kill");
+        }
+        else if(col.gameObject.tag == "Asteroid")
+        {
+            Die = true;
+            Debug.Log("Missile Hit Asteroid");
+            DestroyTimer = 1.0f;
+            col.gameObject.SendMessage("DestroyAsteroid");
         }
     }
 }
