@@ -30,7 +30,7 @@ public class EnemyScript : MonoBehaviour {
 
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        messages = GameObject.Find("Messages");
+        messages = GameObject.Find("Screen");
 
         playerDir = m_playerPos.position - transform.position;
     }

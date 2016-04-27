@@ -15,7 +15,7 @@ public class LootPickup : MonoBehaviour {
     void Start () {
         collected = false;
         timer = 2.0f;
-        messages = GameObject.Find("Messages");
+        messages = GameObject.Find("Screen");
     }
 	
 	// Update is called once per frame

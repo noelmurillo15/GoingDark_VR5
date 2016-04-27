@@ -20,7 +20,7 @@ public class EnemyMissile : MonoBehaviour {
     private GameObject messages;
 
     void Start() {
-        messages = GameObject.Find("Messages");
+        messages = GameObject.Find("Screen");
         tracking = false; 
         destroyMissile = false;
         velocity = 80.0f;
