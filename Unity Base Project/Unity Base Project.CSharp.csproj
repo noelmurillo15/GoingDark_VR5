@@ -178,6 +178,7 @@
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
+    <Compile Include="Assets\Scripts\Missile Systems\Despawn.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Improved Tracer\Improved_Tracer.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Improved Tracer\ShootImprovedTracer.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Missile\Missile.cs" />

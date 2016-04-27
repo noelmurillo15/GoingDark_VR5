@@ -20,6 +20,9 @@ public class ShootObject : MonoBehaviour
     {
         if (fireCooldown > 0.0f)
             fireCooldown -= Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.T))
+            FireMissile();
     }
 
     public float GetFireCooldown()
@@ -33,9 +36,9 @@ public class ShootObject : MonoBehaviour
         {
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
             
-            if (MissileCount <= MissileLimit - 1)
-            {
-                fireCooldown = 10.0f;
+            //if (MissileCount <= MissileLimit - 1)
+            //{
+                fireCooldown = 2.0f;
                 if (Miss != null)
                 {
                     MissileCount++;
@@ -43,7 +46,7 @@ public class ShootObject : MonoBehaviour
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
-            }
+            //}
         }
     }
 }

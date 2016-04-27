@@ -7,7 +7,7 @@ public class Missile : MonoBehaviour
     public float Speed;
     public int LookSpeed;
     public float TimeTillTrack;
-    public float Timer;
+    public float Timer = 10.0f;
     public float DistanceTillStopLooking;
     public float CalculatedDistance;
     public Vector3 Target;
@@ -24,15 +24,15 @@ public class Missile : MonoBehaviour
     public float DestroyTimer;
 
     void Start() {
-        Enemy = GameObject.FindGameObjectWithTag("Enemy");
-        Transport = GameObject.FindGameObjectWithTag("TransportShip");
+        //Enemy = GameObject.FindGameObjectWithTag("Enemy");
+        //Transport = GameObject.FindGameObjectWithTag("TransportShip");
 
-        if(Enemy != null)
-            Target = Enemy.transform.position;
+        //if(Enemy != null)
+        //    Target = Enemy.transform.position;
 
         Die = false;
 
-        Speed = 50.0f;
+        Speed = 120.0f;
         startTracking = false;
         DestroyTimer = 0.0f;
     }
@@ -40,28 +40,28 @@ public class Missile : MonoBehaviour
     void Update()
     {
 
-        if (Enemy == null)
-            Target = Transport.transform.localPosition;
-        else
-            Target = Enemy.transform.localPosition;
+        //if (Enemy == null)
+        //    Target = Transport.transform.localPosition;
+        //else
+        //    Target = Enemy.transform.localPosition;
 
         if (DestroyTimer > 0.0f)
             DestroyTimer -= Time.deltaTime;
 
-        //Timer += Time.deltaTime;
-        //if (Timer > TimeTillExpire && !Die)
-        //    Die = true;
+        Timer -= Time.deltaTime;
+        if (Timer <= 0.0f && !Die)
+            Die = true;
 
-        CalculatedDistance = Vector3.Distance(gameObject.transform.position, Target);
+        //CalculatedDistance = Vector3.Distance(gameObject.transform.position, Target);
 
         if(!Die)
             transform.Translate(0, 0, Speed * Time.deltaTime);
 
-        if (!Die && startTracking)
-        {
-            targetRotation = Quaternion.LookRotation(Target - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);            
-        }
+        //if (!Die && startTracking)
+        //{
+        //    targetRotation = Quaternion.LookRotation(Target - transform.position);
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);            
+        //}
 
         if (Die)
         {
@@ -72,8 +72,8 @@ public class Missile : MonoBehaviour
                 this.GetComponent<MeshRenderer>().enabled = false;
             }
 
-            if(DestroyTimer <= 0.0f)
-                Destroy(this.gameObject, 0);
+            //if(DestroyTimer <= 0.0f)
+            Destroy(this.gameObject, 0);
         }
     }
 
@@ -105,7 +105,7 @@ public class Missile : MonoBehaviour
         {
             Die = true;
             Debug.Log("Missile Hit Asteroid");
-            DestroyTimer = 1.0f;
+            //DestroyTimer = 1.0f;
             col.gameObject.SendMessage("DestroyAsteroid");
         }
     }
