@@ -6,8 +6,7 @@ public class ReOrientPlayer : MonoBehaviour {
     private GameObject Player;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -17,12 +16,8 @@ public class ReOrientPlayer : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter(Collider col)
-    {
+    void OnTriggerEnter(Collider col) {
         if(col.name == "bone3")
-        {
-            Debug.Log("Re-orienting Player Rotation");
-            Player.SendMessage("ResetOrientation");
-        }
+            Player.SendMessage("ResetOrientation");        
     }
 }
