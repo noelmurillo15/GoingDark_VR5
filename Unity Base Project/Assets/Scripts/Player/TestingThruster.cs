@@ -7,9 +7,11 @@ public class TestingThruster : MonoBehaviour {
     public bool inRange;
     public float offset;
     public float percentage;
-    public ControlPanel cpanel;
     public TestingHandBehavior m_palm;
     public JoyStickMovement m_playerMove;
+
+    private GameObject speedBarColor1;
+    private GameObject speedBarColor2;
 
 
     // Use this for initialization
@@ -18,7 +20,8 @@ public class TestingThruster : MonoBehaviour {
         inRange = false;
         offset = 0.0044f;
         percentage = 0.0f;
-        cpanel = GameObject.Find("ControlPanel").GetComponent<ControlPanel>();
+        speedBarColor1 = GameObject.Find("SpeedColor1");
+        speedBarColor2 = GameObject.Find("SpeedColor2");
         m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
     }
 
@@ -42,22 +45,48 @@ public class TestingThruster : MonoBehaviour {
         }
 
         if (transform.localPosition.z < -0.004f)
+        {
             m_playerMove.DecreaseSpeed();
+            UpdateSpeedGauge();
+        }
         else if (transform.localPosition.z > -0.004f)
+        {
             m_playerMove.IncreaseSpeed(percentage);
+            UpdateSpeedGauge();
+        }        
+    }
 
-        cpanel.UpdateSpeedGauge();
+    private void UpdateSpeedGauge()
+    {
+        float percentage = m_playerMove.GetSpeed() / m_playerMove.GetMaxSpeed();
+
+        Vector3 newScale;
+        newScale.x = speedBarColor1.transform.localScale.x;
+        newScale.y = percentage * 0.001f;
+        newScale.z = speedBarColor1.transform.localScale.z;
+
+        speedBarColor1.transform.localScale = newScale;
+        speedBarColor2.transform.localScale = newScale;
+
+        Vector3 newPos = speedBarColor1.transform.localPosition;
+        float offset = (percentage * 0.00456f) - 0.00456f;
+        newPos.z = offset;
+        speedBarColor1.transform.localPosition = newPos;
+
+        newPos = speedBarColor2.transform.localPosition;
+        newPos.z = offset;
+        speedBarColor2.transform.localPosition = newPos;
     }
 
     #region Collision Detection
     void OnTriggerEnter(Collider col)
     {
-        if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
+        if (col.name == "leftPalm")
             inRange = true;
     }
     void OnTriggerExit(Collider col)
     {
-        if (col.name == "leftPalm" || col.name == "bone1" || col.name == "bone2" || col.name == "bone3")
+        if (col.name == "leftPalm")
             inRange = false;
     }
     #endregion

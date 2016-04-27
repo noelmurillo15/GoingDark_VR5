@@ -89,7 +89,7 @@ public class JoyStickMovement : MonoBehaviour {
             Debug.Log("Auto Move");
             moveDir = Vector3.zero;
             moveDir = transform.TransformDirection(Vector3.forward);
-            moveDir *= (20.0f * Time.deltaTime) * runMultiplier;
+            moveDir *= (50.0f * Time.deltaTime) * runMultiplier;
             m_controller.Move(moveDir);
         }
 
