@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntroScript : MonoBehaviour {
 
@@ -12,16 +13,23 @@ public class IntroScript : MonoBehaviour {
     [SerializeField]
     Image hands;
 
+    private LeapData m_leapData;
+
     private float timer;
     private bool skipActivate;
 	// Use this for initialization
 	void Start () {
         timer = 5.0f;
         skipActivate = false;
+
+        m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (m_leapData.GetNumHands() == 2 && skipActivate)
+            SceneManager.LoadScene("MainMenu");
 
         timer -= Time.deltaTime;
         if (timer <= 0.0f)

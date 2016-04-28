@@ -76,6 +76,10 @@ public class ArmButtons : MonoBehaviour {
 
         else if (transform.name == "HyperDriveButton")
             m_armSettings.InitializeHyperDrive();
+
+        else if (transform.name == "MissileButton")
+            m_armSettings.FireMissile();
+
         else
         {
             Debug.Log("Switching Scene : " + transform.name);

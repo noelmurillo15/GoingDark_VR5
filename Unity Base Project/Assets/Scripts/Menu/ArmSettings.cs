@@ -9,6 +9,7 @@ public class ArmSettings : MonoBehaviour {
     private Cloak playerCloak;
     private PlayerData m_playerData;
     private HyperDrive playerHyperdrive;
+    private ShootObject m_playerMissiles;
 
     // Use this for initialization
     void Start () {        
@@ -17,6 +18,8 @@ public class ArmSettings : MonoBehaviour {
 
         if (m_playerData == null)
             m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
+
+        m_playerMissiles = GameObject.FindGameObjectWithTag("Player").GetComponent<ShootObject>();
         
         playerCloak = m_playerData.GetPlayerCloak();
         playerHyperdrive = m_playerData.GetPlayerHyperDrive();
@@ -42,6 +45,12 @@ public class ArmSettings : MonoBehaviour {
 
     public void CloseSettings() {
         active = false;
+    }
+
+    public void FireMissile()
+    {
+        if(m_playerMissiles.GetFireCooldown() <= 0.0f)
+            m_playerMissiles.FireMissile();
     }
 
     public void SetCloak() {

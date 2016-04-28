@@ -41,7 +41,7 @@ public class HyperDrive : MonoBehaviour {
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
             initializeTimer -= Time.deltaTime;
-            boostTimer = 1.0f;
+            boostTimer = 0.75f;
             m_playerMove.GetComponent<JoyStickMovement>().StopMovement();
             particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
         }
@@ -49,7 +49,7 @@ public class HyperDrive : MonoBehaviour {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
                 particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
-                m_playerMove.transform.Translate(Vector3.forward * 400.0f * Time.deltaTime);
+                m_playerMove.transform.Translate(Vector3.forward * 750.0f * Time.deltaTime);
             }
             else {
                 activated = false;
@@ -61,7 +61,7 @@ public class HyperDrive : MonoBehaviour {
 
     public void HyperDriveInitialize() {
         if (cooldownTimer <= 0.0f) {
-            cooldownTimer = 120.0f;
+            cooldownTimer = 15.0f;
             activated = true;
             particles.SetActive(true);
             initializeTimer = 5.0f;

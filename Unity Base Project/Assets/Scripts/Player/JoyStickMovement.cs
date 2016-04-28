@@ -2,13 +2,15 @@
 using System.Collections;
 
 public class JoyStickMovement : MonoBehaviour {
+    //**        Attach to Player Prefab     **//
 
     //  Movement Vars
     private int turnRateY;
     private int turnRateX;
     private float maxSpeed;
     private float moveSpeed;
-    public float rotateSpeed;
+    private float rotateSpeed;
+    private float maxRotateSpeed;
     private float runMultiplier;
 
     private Vector3 moveDir;
@@ -38,11 +40,10 @@ public class JoyStickMovement : MonoBehaviour {
         turnRateX = 0;
         maxSpeed = 20.0f;
         moveSpeed = 0.0f;
-        rotateSpeed = 10.0f;
+        rotateSpeed = 0.0f;
+        maxRotateSpeed = 10.0f;
         runMultiplier = 1.5f;
-
-        
-
+      
         radar = GameObject.Find("Radar");
         playerBlip = GameObject.Find("Blip_Triangle_Player");
         autoPilotSign = GameObject.Find("AutoPilot");
@@ -57,16 +58,22 @@ public class JoyStickMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        //Vector3 newRot = transform.localEulerAngles;
-        //newRot.x -= 180.0f;
-        //playerBlip.transform.localEulerAngles = newRot;
+        Vector3 newRot = transform.localEulerAngles;
+        newRot.x -= 180.0f;
+        playerBlip.transform.localEulerAngles = newRot;
 
         if (!autoRotate && !autoMove && !resetRotation) {
             moveDir = Vector3.zero;
-            ManualTurnXAxis();
-            ManualTurnYAxis();
-            ManualWalk();
-            m_controller.Move(moveDir);
+
+            if(turnRateX != 0)
+                ManualTurnXAxis();
+            if(turnRateY != 0)
+                ManualTurnYAxis();
+            if(moveSpeed > 0.0f)
+                ManualWalk();
+
+            if(moveDir != Vector3.zero)
+                m_controller.Move(moveDir);
         }
         else if(autoRotate || autoMove)
             Autopilot();
@@ -79,16 +86,14 @@ public class JoyStickMovement : MonoBehaviour {
         float angle = 0.0f;
         if (autoRotate)
         {
-            Debug.Log("Auto Rotate");
             Vector3 playerDir = targetPosition - transform.position;
-            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (rotateSpeed * 0.25f) * Time.deltaTime, 0.0f);
+            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (maxRotateSpeed * 0.1f) * Time.deltaTime, 0.0f);
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
             angle = Vector3.Angle(newEnemyDir, playerDir);
         }
 
         if (autoMove)
         {
-            Debug.Log("Auto Move");
             moveDir = Vector3.zero;
             moveDir = transform.TransformDirection(Vector3.forward);
             moveDir *= (50.0f * Time.deltaTime) * runMultiplier;
@@ -137,15 +142,9 @@ public class JoyStickMovement : MonoBehaviour {
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
-        {
-            rotateSpeed = 20.0f;
             moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
-        }
         else
-        {
-            rotateSpeed = 10.0f;
-            moveDir *= moveSpeed * Time.deltaTime;
-        }
+            moveDir *= moveSpeed * Time.deltaTime;        
     }
     public void IncreaseSpeed(float percentage) {
         if (moveSpeed < (maxSpeed * percentage))
@@ -172,20 +171,33 @@ public class JoyStickMovement : MonoBehaviour {
 
     #region Modifiers
     public void TurnUp() {
+        if (rotateSpeed < maxRotateSpeed)
+            rotateSpeed += 2.5f * Time.deltaTime;
+
         turnRateX = -1;
     }
     public void TurnDown() {
+        if (rotateSpeed < maxRotateSpeed)
+            rotateSpeed += 2.5f * Time.deltaTime;
+
         turnRateX = 1;
     }
     public void TurnLeft() {
+        if (rotateSpeed < maxRotateSpeed)
+            rotateSpeed += 2.5f * Time.deltaTime;
+
         turnRateY = -1;
     }
     public void TurnRight() {
+        if (rotateSpeed < maxRotateSpeed)
+            rotateSpeed += 2.5f * Time.deltaTime;
+
         turnRateY = 1;
     }
     public void turnRateZero() {
         turnRateY = 0;
         turnRateX = 0;
+        rotateSpeed = 0.0f;
     }
     public void StopMovement() {    
         moveSpeed = 0.0f;

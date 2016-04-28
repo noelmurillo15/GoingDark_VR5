@@ -1,111 +1,68 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Missile : MonoBehaviour
-{
 
-    public float Speed;
-    public int LookSpeed;
-    public float TimeTillTrack;
-    public float Timer = 10.0f;
-    public float DistanceTillStopLooking;
-    public float CalculatedDistance;
-    public Vector3 Target;
+public class Missile : MonoBehaviour {
+    //**        Attach to Player Missile        **//
+
+    public bool trackTarget;
+    public bool destroyMissile;
+
+    public float aliveTimer;
+    public float missileSpeed;
+
+    public Vector3 targetPos;
     public Quaternion targetRotation;
-    public GameObject Enemy;
-    public GameObject Transport;
     public GameObject Explosion;
-    public bool stopTurning;
-    public int TimeTillExpire;
-    public bool Die;
-    public bool startTracking;
 
-
-    public float DestroyTimer;
 
     void Start() {
-        //Enemy = GameObject.FindGameObjectWithTag("Enemy");
-        //Transport = GameObject.FindGameObjectWithTag("TransportShip");
+        aliveTimer = 10.0f;
+        missileSpeed = 120.0f;        
 
-        //if(Enemy != null)
-        //    Target = Enemy.transform.position;
-
-        Die = false;
-
-        Speed = 120.0f;
-        startTracking = false;
-        DestroyTimer = 0.0f;
+        trackTarget = false;
+        destroyMissile = false;
     }
 
-    void Update()
-    {
+    void Update() {
+        if (aliveTimer > 0.0f)
+            aliveTimer -= Time.deltaTime;
+        else
+            destroyMissile = true;
 
-        //if (Enemy == null)
-        //    Target = Transport.transform.localPosition;
-        //else
-        //    Target = Enemy.transform.localPosition;
-
-        if (DestroyTimer > 0.0f)
-            DestroyTimer -= Time.deltaTime;
-
-        Timer -= Time.deltaTime;
-        if (Timer <= 0.0f && !Die)
-            Die = true;
-
-        //CalculatedDistance = Vector3.Distance(gameObject.transform.position, Target);
-
-        if(!Die)
-            transform.Translate(0, 0, Speed * Time.deltaTime);
-
-        //if (!Die && startTracking)
-        //{
-        //    targetRotation = Quaternion.LookRotation(Target - transform.position);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);            
-        //}
-
-        if (Die)
-        {
-            if (Explosion != null)
-            {
+        if (!destroyMissile) {
+            transform.Translate(0, 0, missileSpeed * Time.deltaTime);
+            if (trackTarget) {
+                targetRotation = Quaternion.LookRotation(targetPos - transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * missileSpeed);
+            }
+        }
+        else {
+            if (Explosion != null) {
                 Instantiate(Explosion, transform.position, transform.rotation);
                 Explosion = null;
                 this.GetComponent<MeshRenderer>().enabled = false;
             }
-
-            //if(DestroyTimer <= 0.0f)
             Destroy(this.gameObject, 0);
         }
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "TransportShip")
-        {
-            startTracking = true;
-            Debug.Log("Begin Missile Tracking");
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid") {
+            trackTarget = true;
+            targetPos = col.transform.position;
         }
     }
-    void OnCollisionEnter(Collision col)
-    {
-        if(col.gameObject.tag == "Enemy")
-        {
-            Die = true;
+
+    void OnCollisionEnter(Collision col) {
+        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "TransportShip") {
+            destroyMissile = true;
             Debug.Log("Missile Hit Enemy Ship");
-            DestroyTimer = 2.5f;
             col.gameObject.SendMessage("Kill");
         }
-        else if (col.gameObject.tag == "TransportShip")
-        {
-            Die = true;
-            Debug.Log("Missile Hit Transport Ship");
-            DestroyTimer = 5.0f;
-            col.gameObject.SendMessage("Kill");
-        }
-        else if(col.gameObject.tag == "Asteroid")
-        {
-            Die = true;
+
+        else if(col.gameObject.tag == "Asteroid") {
+            destroyMissile = true;
             Debug.Log("Missile Hit Asteroid");
-            //DestroyTimer = 1.0f;
             col.gameObject.SendMessage("DestroyAsteroid");
         }
     }
