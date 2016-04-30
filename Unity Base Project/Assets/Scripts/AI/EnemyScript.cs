@@ -36,8 +36,7 @@ public class EnemyScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (missileCooldown > 0.0f)
             missileCooldown -= Time.deltaTime;
 
@@ -58,7 +57,7 @@ public class EnemyScript : MonoBehaviour {
         if (targetDist < radius && !playerCloak.GetCloaked())
         {
             playerDir = m_playerPos.position - transform.position;
-            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 15.0f, 0.0f);
+            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 1.0f, 0.0f);
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
             float angle = Vector3.Angle(newEnemyDir, playerDir);

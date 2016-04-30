@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EMP : MonoBehaviour {
-
+    //**    Attach to EMP Sphere    **/
     public bool isEmpActive;
     public float EmpCooldown;
     private Transform m_transform;

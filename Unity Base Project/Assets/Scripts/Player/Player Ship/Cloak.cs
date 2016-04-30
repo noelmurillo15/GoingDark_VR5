@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Cloak : MonoBehaviour {
-
+    //**    Attach to Cloak GameObject  **//
     private float padding;
 
     private bool isCloaked;
@@ -37,23 +37,20 @@ public class Cloak : MonoBehaviour {
 
         if (cloakTimer > 0)
             cloakTimer -= Time.deltaTime;
-        else if (cloakTimer < 0)
+        else if (cloakTimer < 0 && GetCloaked())
             SetCloaked(false);
     }
 
-    public void SetCloaked(bool boolean)
-    {
-        if (padding <= 0.0f)
-        {
+    #region Modifiers
+    public void SetCloaked(bool boolean) {
+        if (padding <= 0.0f) {
             padding = 0.2f;
-            if (boolean)
-            {
+            if (boolean) {
                 cloakTimer = 30.0f;
                 for (int x = 0; x < shipLights.Length; x++)
                     shipLights[x].GetComponent<Light>().color = Color.black;
             }
-            else
-            {
+            else {
                 cloakTimer = 0.0f;
                 cloakCooldown = 60.0f;
                 for (int x = 0; x < shipLights.Length; x++)
@@ -62,17 +59,18 @@ public class Cloak : MonoBehaviour {
             isCloaked = boolean;
         }
     }
+    #endregion
 
-    public bool GetCloaked()
-    {
+    #region Accessors
+    public bool GetCloaked() {
         return isCloaked;
     }
-    public float GetCloakTimer()
-    {
+
+    public float GetCloakTimer() {
         return cloakTimer;
     }
-    public float GetCloakCooldown()
-    {
+    public float GetCloakCooldown() {
         return cloakCooldown;
-    }    
+    }
+    #endregion
 }

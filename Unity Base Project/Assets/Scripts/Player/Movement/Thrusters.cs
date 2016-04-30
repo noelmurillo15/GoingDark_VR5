@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestingThruster : MonoBehaviour {
-    //**        Attach to Thruster Prefab       **//
-
+public class Thrusters : MonoBehaviour {
+    //**    Attach to Thruster  **//
     public bool inRange;
     public float offset;
     public float percentage;
-    public TestingHandBehavior m_palm;
-    public JoyStickMovement m_playerMove;
+    public HandBehavior m_palm;
+    public PlayerMovement m_playerMove;
 
     private GameObject speedBarColor1;
     private GameObject speedBarColor2;
@@ -22,7 +21,7 @@ public class TestingThruster : MonoBehaviour {
         percentage = 0.0f;
         speedBarColor1 = GameObject.Find("SpeedColor1");
         speedBarColor2 = GameObject.Find("SpeedColor2");
-        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
+        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame

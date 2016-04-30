@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestingHandBehavior : MonoBehaviour {
-
+public class HandBehavior : MonoBehaviour {
+    //**    Attach to Both Palms    **//
     public LeapData m_leapData;
+
 
 	// Use this for initialization
 	void Start () {

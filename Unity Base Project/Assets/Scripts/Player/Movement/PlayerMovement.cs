@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class JoyStickMovement : MonoBehaviour {
-    //**        Attach to Player Prefab     **//
+public class PlayerMovement : MonoBehaviour {
+    //**    Attach to Player    **//
 
     //  Movement Vars
     private int turnRateY;
@@ -139,6 +139,10 @@ public class JoyStickMovement : MonoBehaviour {
         reorientSign.SetActive(resetRotation);
     }
 
+    public void SetPlayerRotation(Quaternion rot) {
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.6f);
+    }
+
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (moveSpeed >= maxSpeed)
@@ -169,7 +173,15 @@ public class JoyStickMovement : MonoBehaviour {
     }
     #endregion
 
-    #region Modifiers
+    #region Modifiers    
+    public void StopMovement() {    
+        moveSpeed = 0.0f;
+    }
+    public void turnRateZero() {
+        turnRateY = 0;
+        turnRateX = 0;
+        rotateSpeed = 0.0f;
+    }
     public void TurnUp() {
         if (rotateSpeed < maxRotateSpeed)
             rotateSpeed += 2.5f * Time.deltaTime;
@@ -193,15 +205,7 @@ public class JoyStickMovement : MonoBehaviour {
             rotateSpeed += 2.5f * Time.deltaTime;
 
         turnRateY = 1;
-    }
-    public void turnRateZero() {
-        turnRateY = 0;
-        turnRateX = 0;
-        rotateSpeed = 0.0f;
-    }
-    public void StopMovement() {    
-        moveSpeed = 0.0f;
-    }
+    }    
     #endregion
 
     #region Accessors
@@ -210,6 +214,6 @@ public class JoyStickMovement : MonoBehaviour {
     }
     public float GetMaxSpeed() {
         return maxSpeed;
-    }
+    }    
     #endregion
 }

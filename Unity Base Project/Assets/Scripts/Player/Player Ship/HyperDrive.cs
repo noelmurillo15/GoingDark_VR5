@@ -5,13 +5,15 @@ public class HyperDrive : MonoBehaviour {
     //**        Attach to HyperDrive Object     **//
 
     private bool activated;
+
     private float boostTimer;
-    public float cooldownTimer;
+    private float cooldownTimer;
     private float initializeTimer;
 
     private GameObject particles;
-    private GameObject m_playerMove;
     private Vector3 particleOriginPos;
+
+    private GameObject m_playerMove;
 
 
     // Use this for initialization
@@ -41,15 +43,15 @@ public class HyperDrive : MonoBehaviour {
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
             initializeTimer -= Time.deltaTime;
-            boostTimer = 0.75f;
-            m_playerMove.GetComponent<JoyStickMovement>().StopMovement();
+            boostTimer = 0.25f;
+            m_playerMove.GetComponent<PlayerMovement>().StopMovement();
             particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
         }
         else {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
                 particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
-                m_playerMove.transform.Translate(Vector3.forward * 750.0f * Time.deltaTime);
+                m_playerMove.transform.Translate(Vector3.forward * 3000.0f * Time.deltaTime);
             }
             else {
                 activated = false;

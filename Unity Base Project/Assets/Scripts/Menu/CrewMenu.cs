@@ -7,7 +7,7 @@ public class CrewMenu : MonoBehaviour {
     public float padding;
     public EMP emp;
     public GameObject mMenu;
-    public PlayerData playerData;
+    public PlayerShipData playerData;
     public ShootObject missileLauncher;
 
     public ArmSettings missileCam;
@@ -18,7 +18,7 @@ public class CrewMenu : MonoBehaviour {
         padding = 0.0f;
 
         if (playerData == null)
-            playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
+            playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerShipData>();
 
         if (emp == null)
             emp = GameObject.Find("EMP").GetComponent<EMP>();

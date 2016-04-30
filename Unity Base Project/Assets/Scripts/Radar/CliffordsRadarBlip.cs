@@ -50,9 +50,12 @@ public class CliffordsRadarBlip : MonoBehaviour
     {
 
         // Debug.Break();
-       // Debug.Log(" Updated in blip");
-        if (EnemyHandle == null) // if no Enemy or it has been destoryed kill the Blip
+        // Debug.Log(" Updated in blip");
+        if (EnemyHandle == null)
+        {// if no Enemy or it has been destoryed kill the Blip
             Destroy(gameObject);
+            return;
+        }
 
         //keep updating the position
         //Debug.Log(EnemyHandle.GetComponent<Transform>().localPosition + " Enemy Position");

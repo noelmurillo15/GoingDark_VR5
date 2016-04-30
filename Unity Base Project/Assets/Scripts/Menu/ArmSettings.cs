@@ -7,22 +7,18 @@ public class ArmSettings : MonoBehaviour {
     public GameObject m_settingBG;
 
     private Cloak playerCloak;
-    private PlayerData m_playerData;
+    private PlayerShipData m_playerData;
     private HyperDrive playerHyperdrive;
     private ShootObject m_playerMissiles;
 
     // Use this for initialization
-    void Start () {        
+    void Start () {
+        Debug.Log("Arm Start");
         active = false;
+
         m_settingBG = GameObject.Find("SettingsBG");
-
-        if (m_playerData == null)
-            m_playerData = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerData>();
-
         m_playerMissiles = GameObject.FindGameObjectWithTag("Player").GetComponent<ShootObject>();
-        
-        playerCloak = m_playerData.GetPlayerCloak();
-        playerHyperdrive = m_playerData.GetPlayerHyperDrive();
+        m_playerData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();       
     }
 
     // Update is called once per frame
@@ -47,13 +43,15 @@ public class ArmSettings : MonoBehaviour {
         active = false;
     }
 
-    public void FireMissile()
-    {
+    public void FireMissile() {
         if(m_playerMissiles.GetFireCooldown() <= 0.0f)
             m_playerMissiles.FireMissile();
     }
 
     public void SetCloak() {
+        if(playerCloak == null)
+            playerCloak = m_playerData.GetPlayerCloak();
+
         if (playerCloak.GetCloaked()) {
             playerCloak.SetCloaked(false);
             CloseSettings();
@@ -65,19 +63,26 @@ public class ArmSettings : MonoBehaviour {
     }
 
     public void InitializeHyperDrive() {
+        if(playerHyperdrive == null)
+            playerHyperdrive = m_playerData.GetPlayerHyperDrive();
+
         if (playerHyperdrive.GetHyperDriveCooldown() <= 0.0f) {
             playerHyperdrive.HyperDriveInitialize();
             CloseSettings();
         }
     }
 
-    public float HyperDriveCooldown()
-    {
+    public float HyperDriveCooldown() {
+        if (playerHyperdrive == null)
+            playerHyperdrive = m_playerData.GetPlayerHyperDrive();
+
         return playerHyperdrive.GetHyperDriveCooldown();
     }
 
-    public float CloakCooldown()
-    {
+    public float CloakCooldown() {
+        if (playerCloak == null)
+            playerCloak = m_playerData.GetPlayerCloak();
+
         return playerCloak.GetCloakCooldown();
     }
 }

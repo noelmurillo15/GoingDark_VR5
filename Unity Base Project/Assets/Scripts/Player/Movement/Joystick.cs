@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestingJoyStick : MonoBehaviour {
-
+public class Joystick : MonoBehaviour {
+    //**    Attach to Joystick  **//
     public bool inRange;
     public bool palmAttached;
 
     public Transform m_handPos;
-    public TestingHandBehavior m_palm;
-    public JoyStickMovement m_playerMove;
-
+    public HandBehavior m_palm;
+    public PlayerMovement m_playerMove;
     public Quaternion originalRotation;
 
 
@@ -19,7 +18,7 @@ public class TestingJoyStick : MonoBehaviour {
         m_handPos = null;
         palmAttached = false;
         originalRotation = transform.localRotation;                  
-        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<JoyStickMovement>();
+        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame

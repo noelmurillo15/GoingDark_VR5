@@ -5,11 +5,10 @@ public class EnemyMissile : MonoBehaviour {
     //**        Attach to Enemy Missile Prefab      **//
 
     //  Missile Data
-    public int LookSpeed;
     public bool tracking;
+    public int LookSpeed;
     public float velocity;
     public float destroyTimer;
-    public bool destroyMissile;
     public GameObject Explosion;
 
     //  Target Data
@@ -20,38 +19,37 @@ public class EnemyMissile : MonoBehaviour {
     private GameObject messages;
 
     void Start() {
-        messages = GameObject.Find("Screen");
         tracking = false; 
-        destroyMissile = false;
+        LookSpeed = 20;
         velocity = 80.0f;
         destroyTimer = 5.0f;
-        LookSpeed = 20;
+
+        messages = GameObject.Find("Screen");
         messages.SendMessage("MissileIncoming");
     }
 
     void Update() {
-
         if (destroyTimer > 0.0f)
             destroyTimer -= Time.deltaTime;
-        else
-            Destroy(this.gameObject);
+        else Kill();
 
+        if (tracking)
+            LookAt();
 
-        if (!destroyMissile) {
-            transform.position += transform.forward * velocity * Time.deltaTime;
-            if (tracking)
-            {
-                targetRotation = Quaternion.LookRotation(targetLocation - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
-            }
-        }
+        transform.position += transform.forward * velocity * Time.deltaTime;
+    }
 
-        if (destroyMissile && Explosion != null) {
-            Instantiate(Explosion, transform.position, transform.rotation);
-            Explosion = null;            
-        }        
-    }    
+    private void Kill() {
+        Instantiate(Explosion, transform.position, transform.rotation);
+        Destroy(this.gameObject);
+    }
 
+    private void LookAt() {
+        targetRotation = Quaternion.LookRotation(targetLocation - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+    }
+
+    #region Collisions
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
             if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid") {
@@ -62,21 +60,18 @@ public class EnemyMissile : MonoBehaviour {
             }
         }
     }
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.transform.tag == "PlayerShip" && !destroyMissile)
-        {
-            Debug.Log("Enemy Missile Collided with " + col.transform.tag);
-            destroyMissile = true;
+
+    void OnCollisionEnter(Collision col) {
+        if (col.transform.tag == "PlayerShip") {
             col.gameObject.SendMessage("Hit");
             messages.SendMessage("MissileDestroyed");
+            Kill();
         }
-        if (col.transform.tag == "Asteroid" && !destroyMissile)
-        {
-            Debug.Log("Enemy Missile Collided with " + col.transform.tag);
-            destroyMissile = true;
-            col.gameObject.SendMessage("DestroyAsteroid");
+        if (col.transform.tag == "Asteroid") {
             messages.SendMessage("MissileDestroyed");
+            col.gameObject.SendMessage("DestroyAsteroid");
+            Kill();
         }
     }
+    #endregion
 }

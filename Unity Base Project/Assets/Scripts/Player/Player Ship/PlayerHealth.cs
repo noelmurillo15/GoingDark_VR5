@@ -2,9 +2,8 @@
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
-
+    //**    Attach to Player Health Gameobject  **//
     public float autoRepairTimer;
-
     private GameObject health1;
     private GameObject health2;
     private GameObject health3;
