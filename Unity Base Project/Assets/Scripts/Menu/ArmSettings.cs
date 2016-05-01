@@ -13,9 +13,7 @@ public class ArmSettings : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Arm Start");
         active = false;
-
         m_settingBG = GameObject.Find("SettingsBG");
         m_playerMissiles = GameObject.FindGameObjectWithTag("Player").GetComponent<ShootObject>();
         m_playerData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();       

@@ -14,18 +14,8 @@ public class PlayerShipData : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Ship Data Start");
         hitCount = 0;
         m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
-
-
-        m_Cloak = GameObject.Find("Cloak").GetComponent<Cloak>();
-        m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-        m_Hyperdrive = GameObject.Find("HyperDrive").GetComponent<HyperDrive>();
-    }
-
-    void Awake() {
-        Debug.Log("Ship Data Awake");
         m_Cloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
         m_Hyperdrive = GameObject.Find("HyperDrive").GetComponent<HyperDrive>();

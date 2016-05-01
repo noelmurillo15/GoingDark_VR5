@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update(){
         Vector3 newRot = transform.localEulerAngles;
+        radar.transform.localEulerAngles = newRot;
         newRot.x -= 180.0f;
         playerBlip.transform.localEulerAngles = newRot;
 
