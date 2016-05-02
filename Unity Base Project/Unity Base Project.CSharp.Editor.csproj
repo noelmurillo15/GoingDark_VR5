@@ -110,7 +110,6 @@
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
     <None Include="Assets\3rd Party Assets\LeapMotion\Version.txt" />
     <None Include="Assets\3rd Party Assets\LeapMotion\readme.txt" />
-    <None Include="Assets\3rd Party Assets\Particle Ribbon\readme_Simple_Particle_Ribbon.txt" />
     <None Include="Assets\3rd Party Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_DI.shader" />
@@ -188,10 +187,9 @@
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_Nt.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_S.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_St.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

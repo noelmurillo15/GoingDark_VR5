@@ -142,17 +142,17 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
-    <Compile Include="Assets\3rd Party Assets\Particle Ribbon\Scripts\ReverseNormals.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\AfterburnerPhysicsForce.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ExplosionFireAndDebris.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ExplosionPhysicsForce.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\Explosive.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ExtinguishableParticleSystem.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\FireLight.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\Hose.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\ParticleSystemMultiplier.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\SmokeParticles.cs" />
-    <Compile Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\ExplosionFireAndDebris.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\ExplosionPhysicsForce.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\Explosive.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\ExtinguishableParticleSystem.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\FireLight.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\Hose.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
+    <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
@@ -214,7 +214,6 @@
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
     <None Include="Assets\3rd Party Assets\LeapMotion\Version.txt" />
     <None Include="Assets\3rd Party Assets\LeapMotion\readme.txt" />
-    <None Include="Assets\3rd Party Assets\Particle Ribbon\readme_Simple_Particle_Ribbon.txt" />
     <None Include="Assets\3rd Party Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_DI.shader" />
@@ -292,10 +291,9 @@
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_Nt.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_S.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_St.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
-    <None Include="Assets\3rd Party Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
