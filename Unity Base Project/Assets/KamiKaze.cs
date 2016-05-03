@@ -16,7 +16,7 @@ public class KamiKaze : MonoBehaviour
     private bool lockedOn;
 
     public GameObject explode;
-    public float deathTimer = 1.0f;
+    private float deathTimer = 1.0f;
     private bool die = false;
 
     private GameObject messages;
@@ -95,11 +95,11 @@ public class KamiKaze : MonoBehaviour
         transform.position += transform.forward * Time.deltaTime * 4;
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnCollisionEnter(Collision col)
     {
         if (col.transform.tag == "PlayerShip")
         {
-            Debug.Log("BlowYourselfUp = Success");
+            Debug.Log("Kamakazi has Kamakazied you");
             col.gameObject.GetComponentInChildren<PlayerShipData>().SendMessage("Hit");
             die = true;
             deathTimer = 0.25f;

@@ -144,6 +144,7 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
     <Compile Include="Assets\KamiKaze.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
+    <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\ExplosionPhysicsForce.cs" />
