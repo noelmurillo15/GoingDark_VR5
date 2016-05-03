@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Cloak : MonoBehaviour {
     //**    Attach to Cloak GameObject  **//
@@ -12,12 +11,17 @@ public class Cloak : MonoBehaviour {
     private Color originalColor;
     private GameObject[] shipLights;
 
+    //  Decoy
+    public int numDecoys;
+    public GameObject decoy;
 
     // Use this for initialization
     void Start () {
         isCloaked = false;
         cloakTimer = 0.0f;
         cloakCooldown = 0.0f;
+
+        numDecoys = 2;
 
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
@@ -39,6 +43,11 @@ public class Cloak : MonoBehaviour {
             cloakTimer -= Time.deltaTime;
         else if (cloakTimer < 0 && GetCloaked())
             SetCloaked(false);
+
+        if (Input.GetKey(KeyCode.D) && padding <= 0.0f)
+        {
+            LeaveDecoy();
+        }
     }
 
     #region Modifiers
@@ -59,11 +68,23 @@ public class Cloak : MonoBehaviour {
             isCloaked = boolean;
         }
     }
+
+    public void LeaveDecoy() {
+        if (GetNumDecoys() > 0) {
+            numDecoys--;       
+            padding = 0.15f;
+            Instantiate(decoy, transform.position, decoy.transform.rotation);            
+        }
+    }
     #endregion
 
     #region Accessors
     public bool GetCloaked() {
         return isCloaked;
+    }
+
+    public int GetNumDecoys() {
+        return numDecoys;
     }
 
     public float GetCloakTimer() {

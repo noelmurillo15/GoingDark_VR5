@@ -4,66 +4,63 @@
 public class Missile : MonoBehaviour {
     //**        Attach to Player Missile        **//
 
-    public bool trackTarget;
-    public bool destroyMissile;
-
-    public float aliveTimer;
-    public float missileSpeed;
-
-    public Vector3 targetPos;
-    public Quaternion targetRotation;
+    //  Missile Data
+    public bool tracking;
+    public int LookSpeed;
+    public float velocity;
+    public float destroyTimer;
     public GameObject Explosion;
+
+    //  Target Data
+    private Vector3 targetLocation;
+    public Quaternion targetRotation;
 
 
     void Start() {
-        aliveTimer = 10.0f;
-        missileSpeed = 120.0f;        
-
-        trackTarget = false;
-        destroyMissile = false;
+        tracking = false;
+        LookSpeed = 20;
+        velocity = 80.0f;
+        destroyTimer = 5.0f;
     }
 
     void Update() {
-        if (aliveTimer > 0.0f)
-            aliveTimer -= Time.deltaTime;
-        else
-            destroyMissile = true;
+        if (destroyTimer > 0.0f)
+            destroyTimer -= Time.deltaTime;
+        else Kill();
 
-        if (!destroyMissile) {
-            transform.Translate(0, 0, missileSpeed * Time.deltaTime);
-            if (trackTarget) {
-                targetRotation = Quaternion.LookRotation(targetPos - transform.position);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * missileSpeed);
-            }
-        }
-        else {
-            if (Explosion != null) {
-                Instantiate(Explosion, transform.position, transform.rotation);
-                Explosion = null;
-                this.GetComponent<MeshRenderer>().enabled = false;
-            }
-            Destroy(this.gameObject, 0);
-        }
+        if (tracking)
+            LookAt();
+
+        transform.position += transform.forward * velocity * Time.deltaTime;
     }
 
+    private void Kill() {
+        Instantiate(Explosion, transform.position, transform.rotation);
+        Destroy(this.gameObject);
+    }
+
+    private void LookAt()
+    {
+        targetRotation = Quaternion.LookRotation(targetLocation - transform.position);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+    }
+
+    #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid") {
-            trackTarget = true;
-            targetPos = col.transform.position;
+        if (!tracking) {
+            if (col.transform.tag == "Enemy" || col.transform.tag == "Asteroid") {
+                Debug.Log("Player Missile Tracking " + col.transform.tag);
+                targetLocation = col.transform.position;
+                tracking = true;
+            }
         }
     }
 
     void OnCollisionEnter(Collision col) {
-        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "TransportShip") {
-            destroyMissile = true;
-            Debug.Log("Missile Hit Enemy Ship");
+        if (col.transform.tag == "Asteroid" || col.transform.name == "Enemy") {
             col.gameObject.SendMessage("Kill");
-        }
-
-        else if(col.gameObject.tag == "Asteroid") {
-            destroyMissile = true;
-            Debug.Log("Missile Hit Asteroid");
-            col.gameObject.SendMessage("DestroyAsteroid");
+            Kill();
         }
     }
+    #endregion
 }

@@ -58,13 +58,13 @@ public class Asteroid : MonoBehaviour {
         if (m_aliveTimer > 0.0)
             m_aliveTimer -= Time.deltaTime;
         else
-            DestroyAsteroid();
+            Kill();
 
         transform.Rotate(m_rotation * Time.deltaTime);
         transform.Translate(m_velocity * Time.deltaTime);
     }
 
-    public void DestroyAsteroid() {
+    public void Kill() {
         AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
         m_generator.DeleteAsteroid();
         Destroy(this.gameObject);

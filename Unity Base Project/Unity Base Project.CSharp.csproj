@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -197,6 +199,7 @@
     <Compile Include="Assets\Scripts\Player\Movement\ReOrientPlayer.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\Thrusters.cs" />
     <Compile Include="Assets\Scripts\Player\Player Ship\Cloak.cs" />
+    <Compile Include="Assets\Scripts\Player\Player Ship\Decoy.cs" />
     <Compile Include="Assets\Scripts\Player\Player Ship\EMP.cs" />
     <Compile Include="Assets\Scripts\Player\Player Ship\HyperDrive.cs" />
     <Compile Include="Assets\Scripts\Player\Player Ship\PlayerHealth.cs" />

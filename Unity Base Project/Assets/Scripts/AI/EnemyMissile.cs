@@ -11,6 +11,8 @@ public class EnemyMissile : MonoBehaviour {
     public float destroyTimer;
     public GameObject Explosion;
 
+    private string triggerName;
+
     //  Target Data
     private Vector3 targetLocation;
     public Quaternion targetRotation;
@@ -20,9 +22,9 @@ public class EnemyMissile : MonoBehaviour {
 
     void Start() {
         tracking = false; 
-        LookSpeed = 20;
+        LookSpeed = 10;
         velocity = 80.0f;
-        destroyTimer = 5.0f;
+        destroyTimer = 10.0f;
 
         messages = GameObject.Find("Screen");
         messages.SendMessage("MissileIncoming");
@@ -40,6 +42,7 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
+        messages.SendMessage("MissileDestroyed");
         Instantiate(Explosion, transform.position, transform.rotation);
         Destroy(this.gameObject);
     }
@@ -52,24 +55,27 @@ public class EnemyMissile : MonoBehaviour {
     #region Collisions
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
-            if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid") {
-                Debug.Log("Enemy Missile Tracking " + col.transform.tag);
-                this.GetComponent<MeshRenderer>().enabled = false;
-                targetLocation = col.transform.position;
+            if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {              
                 tracking = true;
+                triggerName = col.transform.tag;
+                targetLocation = col.transform.position;
             }
+        }
+    }
+
+    void OnTriggerStay(Collider col) {
+        if (col.transform.tag == triggerName) {
+            targetLocation = col.transform.position;
         }
     }
 
     void OnCollisionEnter(Collision col) {
         if (col.transform.tag == "PlayerShip") {
-            col.gameObject.SendMessage("Hit");
-            messages.SendMessage("MissileDestroyed");
+            col.gameObject.SendMessage("Hit");            
             Kill();
         }
-        if (col.transform.tag == "Asteroid") {
-            messages.SendMessage("MissileDestroyed");
-            col.gameObject.SendMessage("DestroyAsteroid");
+        else if (col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {
+            col.gameObject.SendMessage("Kill");
             Kill();
         }
     }
