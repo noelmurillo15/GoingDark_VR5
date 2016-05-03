@@ -20,7 +20,8 @@ public class LootPickup : MonoBehaviour {
         if (col.transform.tag == "Player") {
             LootCounter lootcounter = GameObject.Find("LootCounter").GetComponent<LootCounter>();
             lootcounter.DecreaseLootCount();
-            collected = true;                                       
+            collected = true;
+            AudioManager.instance.PlayCollect();                       
         }
     }
 }

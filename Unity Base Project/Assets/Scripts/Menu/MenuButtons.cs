@@ -30,9 +30,11 @@ public class MenuButtons : MonoBehaviour {
     public void OnTriggerEnter(Collider col) {
         if (col.name == "bone3") {
             if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex") {
-                transition = 0.1f;
-                cancelTimer = 1.25f;
+                transition = 0.05f;
+                cancelTimer = 1.0f;
                 m_button.CrossFadeColor(Color.green, 0.1f, false, false);
+
+                AudioManager.instance.PlayMenuGood();
             }
         }
     }
@@ -49,7 +51,9 @@ public class MenuButtons : MonoBehaviour {
                 }
 
                 if (cancelTimer <= 0.0f)
-                    m_button.color = Color.red;
+                {
+                    m_button.color = Color.red;                    
+                }
             }
         }
     }
@@ -60,6 +64,7 @@ public class MenuButtons : MonoBehaviour {
                 if (m_button.color == Color.green)
                     TransitionScene();
                 else {
+                    AudioManager.instance.PlayMenuBad();
                     m_button.color = Color.white;
                     m_button.CrossFadeColor(Color.white, 0.01f, false, false);
                 }

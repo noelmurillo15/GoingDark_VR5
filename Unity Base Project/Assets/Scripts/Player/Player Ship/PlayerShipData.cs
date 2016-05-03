@@ -44,7 +44,7 @@ public class PlayerShipData : MonoBehaviour {
 
     #region Modifiers
     public void IncreaseHitCount() {
-        hitCount++;
+        hitCount++;        
     }
 
     public void DecreaseHitCount() {
@@ -57,6 +57,7 @@ public class PlayerShipData : MonoBehaviour {
         IncreaseHitCount();
         m_playerMove.StopMovement();
         m_Health.UpdatePlayerHealth();
+        AudioManager.instance.PlayHit();
 
         if (hitCount > 2)
             SceneManager.LoadScene("Game_Over");

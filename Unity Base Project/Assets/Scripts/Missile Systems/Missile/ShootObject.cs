@@ -3,17 +3,17 @@ using System.Collections;
 
 public class ShootObject : MonoBehaviour
 {
-
-    public GameObject TargetPos;
-    public GameObject Miss;
+    //**  Attach to Player prefab  **//
+    private GameObject Miss;
     public int MissileLimit;
-    public int MissileCount;
-    public GameObject[] Missiles;
+    private int MissileCount;
+    private GameObject[] Missiles;
     public float fireCooldown;
 
     void Start()
     {
         fireCooldown = 0.0f;
+        Miss = Resources.Load<GameObject>("PlayerMissile");
     }
 
     void Update() {

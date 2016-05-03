@@ -42,8 +42,11 @@ public class ArmSettings : MonoBehaviour {
     }
 
     public void FireMissile() {
-        if(m_playerMissiles.GetFireCooldown() <= 0.0f)
+        if (m_playerMissiles.GetFireCooldown() <= 0.0f)
+        {
             m_playerMissiles.FireMissile();
+            AudioManager.instance.PlayMissileLaunch();
+        }
     }
 
     public void SetCloak() {
@@ -56,6 +59,7 @@ public class ArmSettings : MonoBehaviour {
         }
         else if (playerCloak.GetCloakCooldown() <= 0.0f) {
             playerCloak.SetCloaked(true);
+            AudioManager.instance.PlayCloak();
             CloseSettings();
         }
     }
