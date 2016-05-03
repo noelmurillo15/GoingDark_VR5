@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class TransportShipAI : MonoBehaviour {
+    //**    Attach to Transport Prefab  **//
+    public float cloakTimer;
 
     public Material transMat;
     public Material opaqueMat;
@@ -9,34 +11,42 @@ public class TransportShipAI : MonoBehaviour {
     private GameObject mesh1;
     private GameObject mesh2;
 
+
     // Use this for initialization
-    void Start () {
+    void Start () {       
         mesh1 = transform.GetChild(0).gameObject;
         mesh2 = transform.GetChild(1).gameObject;
 
-        
+        CloakOff();
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (cloakTimer > 0.0f)
+            cloakTimer -= Time.deltaTime;
+        else {
+            if(cloakTimer < 0.0f)
+                CloakOff();
 
-    void OnTriggerEnter(Collider col)
-    {
-        if(col.tag == "Player")
-        {
+            cloakTimer = 0.0f;
+        }
+    }
+
+    void CloakOn() {
+        if (cloakTimer <= 0.0f) {
+            cloakTimer = 30.0f;
             mesh1.GetComponent<Renderer>().material = transMat;
             mesh2.GetComponent<Renderer>().material = transMat;
         }
     }
 
-    void OnTriggerExit(Collider col)
-    {
+    void CloakOff() {
+        mesh1.GetComponent<Renderer>().material = opaqueMat;
+        mesh2.GetComponent<Renderer>().material = opaqueMat;
+    }
+
+    void OnTriggerEnter(Collider col) {
         if (col.tag == "Player")
-        {
-            mesh1.GetComponent<Renderer>().material = opaqueMat;
-            mesh2.GetComponent<Renderer>().material = opaqueMat;
-        }
+            CloakOn();
     }
 }

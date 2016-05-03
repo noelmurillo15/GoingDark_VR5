@@ -60,7 +60,7 @@ public class PlayerShipData : MonoBehaviour {
         AudioManager.instance.PlayHit();
 
         if (hitCount > 2)
-            SceneManager.LoadScene("Game_Over");
+            SceneManager.LoadScene("GameOver");
     }
 
     void OnCollisionEnter(Collision col) {
