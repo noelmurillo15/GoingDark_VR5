@@ -45,5 +45,4 @@ public class PersistentGameManager : MonoBehaviour {
 
 
     #endregion
-
 }
