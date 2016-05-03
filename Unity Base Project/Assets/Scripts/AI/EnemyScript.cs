@@ -15,25 +15,29 @@ public class EnemyScript : MonoBehaviour {
     private bool lockedOn;
     private int missileCount;
     private int maxMissileCount;
+    public float velocity;
+    private float maxVelocity;
     private float missileCooldown;
     public GameObject missilePrefab;
 
     private GameObject messages;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         inRange = false;
         lockedOn = false;
+
+        velocity = 0.0f;
+        maxVelocity = 20.0f;
+
         radius = 250.0f;
         missileCount = 0;
-        maxMissileCount = 2;
+        maxMissileCount = 3;
         missileCooldown = 5.0f;
 
+        messages = GameObject.Find("Screen");
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        messages = GameObject.Find("Screen");
-
         playerDir = m_playerPos.position - transform.position;
     }
 
@@ -42,42 +46,68 @@ public class EnemyScript : MonoBehaviour {
         if (missileCooldown > 0.0f)
             missileCooldown -= Time.deltaTime;
 
-        DetermineRange();
-        LockOn();
+        if(!playerCloak.GetCloaked())
+            DetermineRange();               
+    }
 
-        if (lockedOn)
-            Fire();
+    private void IncreaseVelocity() {
+        if (velocity < maxVelocity)
+            velocity += Time.deltaTime * 2.0f;
+    }
+
+    private void DecreaseVelocity() {
+        if (velocity > 0.0f)
+            velocity -= Time.deltaTime * 6.0f;
+        else
+            velocity = 0.0f;
+    }
+
+    private void Chase() {
+        transform.position += transform.forward * Time.deltaTime * velocity;
     }
 
     private void DetermineRange() {
         targetDist = Vector3.Distance(m_playerPos.position, transform.position);
-        if(targetDist < radius) {
-            if(!inRange)
+        if (targetDist < radius) {
+
+            if (!inRange)
                 messages.SendMessage("EnemyClose");
+
+            if (targetDist < 100.0f)
+            {
+                DecreaseVelocity();
+
+                if(lockedOn)
+                    Fire();
+            }
+            else
+                IncreaseVelocity();
+
+            Chase();
+            LockOn();
             inRange = true;
         }
         else {
-            if(inRange)
+            if (inRange)
                 messages.SendMessage("EnemyAway");
+
+            DecreaseVelocity();          
             inRange = false;
         }
     }
 
     private void LockOn() {
-        if (inRange) {
-            if (!playerCloak.GetCloaked()) {
-                playerDir = m_playerPos.position - transform.position;
-                Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 4.0f, 0.0f);
-                transform.rotation = Quaternion.LookRotation(newEnemyDir);
+        playerDir = m_playerPos.position - transform.position;
+        Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 4.0f, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
-                float angle = Vector3.Angle(newEnemyDir, playerDir);
-                if (angle <= 8.0f)
-                    lockedOn = true;
-            }
-        }
+        float angle = Vector3.Angle(newEnemyDir, playerDir);
+
+        if (angle <= 15.0f)
+            lockedOn = true;
         else
             lockedOn = false;
-    }
+    }      
 
     private void Fire() {
         if (missileCount < maxMissileCount) {
@@ -86,18 +116,21 @@ public class EnemyScript : MonoBehaviour {
                 missileCooldown = 10.0f;
                 Instantiate(missilePrefab, this.transform.position, this.transform.rotation);
             }
-        }        
+        }
     }
 
-    public void EMPHit() {
+    public void EMPHit()
+    {
         Debug.Log("EMP has affected Enemy's Systems");
     }
 
-    public void AsteroidHit() {
+    public void AsteroidHit()
+    {
         Debug.Log("Enemy Has Hit Asteroid");
     }
 
-    public void Kill() {
+    public void Kill()
+    {
         Debug.Log("Destroyed Enemy Ship");
         Destroy(this.gameObject);
     }
