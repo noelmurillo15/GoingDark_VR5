@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -155,10 +157,13 @@
     <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyBehavior.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportShipAI.cs" />
+    <Compile Include="Assets\Scripts\AI\WanderAi.cs" />
     <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Debugging\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />

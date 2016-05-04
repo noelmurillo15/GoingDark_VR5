@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class NebulaGenerator : MonoBehaviour
-{
+public class NebulaGenerator : MonoBehaviour {
+    //**    Attach to Environment Gameobject    **//
 
     public int maxNebulaClouds;
     public int numNebulaClouds;

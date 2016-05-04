@@ -41,9 +41,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         if (col.tag == "Player")
         {
             Debug.Log("Out of Bounds");
-            Vector3 CenterOfWorld = this.transform.position;
-            CenterOfWorld.z = 2000.0f;
-            col.SendMessage("OutOfBounds", CenterOfWorld);
+            col.SendMessage("OutOfBounds", this.transform.position);
             timeToReturn = 30.0f;
             danger = true;
         }

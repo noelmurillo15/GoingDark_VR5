@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     //  Movement Vars
     private int turnRateY;
     private int turnRateX;
-    private float maxSpeed;
+    public float maxSpeed;
     private float moveSpeed;
     private float rotateSpeed;
     private float maxRotateSpeed;
@@ -37,8 +37,8 @@ public class PlayerMovement : MonoBehaviour {
         resetRotation = false;
         orientationTimer = 0.0f;
         turnRateY = 0;
-        turnRateX = 0;
-        maxSpeed = 20.0f;
+        turnRateX = 0;        
+        //maxSpeed = 20.0f;
         moveSpeed = 0.0f;
         rotateSpeed = 0.0f;
         maxRotateSpeed = 10.0f;
