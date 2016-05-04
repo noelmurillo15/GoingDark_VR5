@@ -9,12 +9,19 @@ public class AsteroidGenerator : MonoBehaviour {
     public GameObject[] spawnPts;
     public GameObject[] asteroidPrefabs;
 
+    public float boundsX, boundsY;
+
 	// Use this for initialization
 	void Start () {
         numAsteroids = 0;
 
         if (maxAsteroids == 0)
             maxAsteroids = 50;
+
+        BoxCollider col = GetComponent<BoxCollider>();
+
+        boundsX = col.size.x;
+        boundsY = col.size.y;
 	}
 	
 	// Update is called once per frame
@@ -28,8 +35,12 @@ public class AsteroidGenerator : MonoBehaviour {
         GameObject[] gos = AvailableSpawnPoints();
 
         for (int cnt = 0; cnt < gos.Length; cnt++) {
+            float x = Random.Range(-boundsX / 2, boundsX / 2);
+            float y = Random.Range(-boundsY / 2, boundsY / 2);
+            float z = Random.Range(-boundsX / 2, boundsX / 2);
+            Vector3 randomPos = new Vector3(x, y, z);
             GameObject go = Instantiate(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)],
-                            gos[cnt].transform.position, Quaternion.identity) as GameObject;
+                            randomPos, Quaternion.identity) as GameObject;
 
             go.transform.parent = gos[cnt].transform;
             numAsteroids++;

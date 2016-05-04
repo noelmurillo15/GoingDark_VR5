@@ -25,10 +25,6 @@ public class PlayerMovement : MonoBehaviour {
     private GameObject autoPilotSign;
     private GameObject reorientSign;
 
-    //  Radar Vars
-    private GameObject radar;
-    private GameObject playerBlip;
-
 
     // Use this for initialization
     void Start() {
@@ -38,14 +34,12 @@ public class PlayerMovement : MonoBehaviour {
         orientationTimer = 0.0f;
         turnRateY = 0;
         turnRateX = 0;        
-        //maxSpeed = 20.0f;
+        maxSpeed = 120.0f;
         moveSpeed = 0.0f;
         rotateSpeed = 0.0f;
         maxRotateSpeed = 10.0f;
         runMultiplier = 1.5f;
-      
-        radar = GameObject.Find("Radar");
-        playerBlip = GameObject.Find("Blip_Triangle_Player");
+
         autoPilotSign = GameObject.Find("AutoPilot");
         reorientSign = GameObject.Find("Reorient");
 
@@ -58,11 +52,6 @@ public class PlayerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        Vector3 newRot = transform.localEulerAngles;
-        radar.transform.localEulerAngles = newRot;
-        newRot.x -= 180.0f;
-        playerBlip.transform.localEulerAngles = newRot;
-
         if (!autoRotate && !autoMove && !resetRotation) {
             moveDir = Vector3.zero;
 
@@ -152,6 +141,7 @@ public class PlayerMovement : MonoBehaviour {
             moveDir *= moveSpeed * Time.deltaTime;        
     }
     public void IncreaseSpeed(float percentage) {
+        Debug.Log("Player Moving : " + percentage);
         if (moveSpeed < (maxSpeed * percentage))
             moveSpeed += 5.0f * Time.deltaTime;
         else if (moveSpeed > (maxSpeed * percentage))
@@ -167,7 +157,6 @@ public class PlayerMovement : MonoBehaviour {
     }    
     private void ManualTurnYAxis() {
         transform.Rotate(0, turnRateY * rotateSpeed * Time.deltaTime, 0);
-        radar.transform.Rotate(0, -turnRateY * rotateSpeed * Time.deltaTime, 0);
     }
     public void ManualTurnXAxis() {
         transform.Rotate(turnRateX * rotateSpeed * Time.deltaTime, 0, 0);
