@@ -90,7 +90,7 @@ public class KamiKaze : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision col) {
-        if (col.transform.tag == "PlayerShip") {
+        if (col.transform.tag == "PlayerShip" && !die) {
             Debug.Log("Kamakazi has Kamakazied you");
             col.gameObject.GetComponentInChildren<PlayerShipData>().SendMessage("Hit");
             die = true;

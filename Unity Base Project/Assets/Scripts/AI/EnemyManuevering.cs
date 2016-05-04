@@ -8,6 +8,7 @@ public class EnemyManuevering : MonoBehaviour {
     public bool isThereAnyThing = false;
 
     // Specify the target for the enemy.
+    CharacterController controller;
     public GameObject target;
     private RaycastHit hit;
 
@@ -15,7 +16,7 @@ public class EnemyManuevering : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        
+        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -30,55 +31,50 @@ public class EnemyManuevering : MonoBehaviour {
         }
 
         // Move forward in the world
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        //transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        controller.Move(transform.forward * Time.deltaTime * speed);
 
 
         CheckRayCasts();
-        
+
 
         // Now Two More RayCast At The End of Object to detect that object has already pass the obsatacle.
         // Just making this boolean variable false it means there is nothing in front of object.
-        if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, (range / 2.0f)) ||
-        Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, (range / 2.0f)))
+        if (isThereAnyThing)
         {
-            if (hit.collider.gameObject.CompareTag("Asteroid"))
+            if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, (range / 2.0f)) ||
+            Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, (range / 2.0f)))
             {
-                isThereAnyThing = false;
+                if (hit.collider.gameObject.CompareTag("Asteroid"))
+                    isThereAnyThing = false;
             }
         }
 
         // Use to debug the Physics.RayCast.
-        Debug.DrawRay(transform.position + (transform.right * 7), transform.forward * range, Color.red);
-
-        Debug.DrawRay(transform.position - (transform.right * 7), transform.forward * range, Color.red);
+        Debug.DrawRay(transform.position + (transform.right * 12), transform.forward * range, Color.red);
+        Debug.DrawRay(transform.position - (transform.right * 12), transform.forward * range, Color.red);
 
         Debug.DrawRay(transform.position - (transform.forward * 4), -transform.right * (range / 2.0f), Color.yellow);
-
         Debug.DrawRay(transform.position - (transform.forward * 4), transform.right * (range / 2.0f), Color.yellow);
     }
 
     void CheckRayCasts() {
-        Transform leftRay = transform;
-        Transform rightRay = transform;
-
-        if (Physics.Raycast(rightRay.position + (transform.right * 7), transform.forward, out hit, range))
+        if (Physics.Raycast(transform.position + (transform.right * 12), transform.forward, out hit, range))
         {
             if (hit.collider.gameObject.CompareTag("Asteroid"))
             {
                 Debug.Log("Right Raycast Hit");
                 isThereAnyThing = true;
                 transform.Rotate(Vector3.down * Time.deltaTime * rotationSpeed);
-                return;
             }
         }
-        if (Physics.Raycast(leftRay.position - (transform.right * 7), transform.forward, out hit, range))
+        else if (Physics.Raycast(transform.position - (transform.right * 12), transform.forward, out hit, range))
         {
             if (hit.collider.gameObject.CompareTag("Asteroid"))
             {
                 Debug.Log("Left Raycast Hit");
                 isThereAnyThing = true;
                 transform.Rotate(Vector3.up * Time.deltaTime * rotationSpeed);
-                return;
             }
         }
     }
