@@ -163,7 +163,6 @@
     <Compile Include="Assets\Scripts\AI\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\AI\PatrolAi.cs" />
-    <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportShipAI.cs" />
     <Compile Include="Assets\Scripts\Debugging\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />

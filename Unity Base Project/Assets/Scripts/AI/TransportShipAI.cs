@@ -49,4 +49,10 @@ public class TransportShipAI : MonoBehaviour {
         if (col.tag == "Player")
             CloakOn();
     }
+
+    void Kill()
+    {
+        Debug.Log("Transport Ship Destroyed");
+        Destroy(gameObject);
+    }
 }

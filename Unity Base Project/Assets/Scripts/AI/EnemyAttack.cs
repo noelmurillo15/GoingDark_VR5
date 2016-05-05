@@ -22,7 +22,6 @@ public class EnemyAttack : MonoBehaviour {
     void Start() {
         lockedOn = false;
         missileCooldown = 5.0f;
-
         stats = GetComponent<EnemyStats>();
         controller = GetComponent<CharacterController>();               
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
@@ -47,7 +46,7 @@ public class EnemyAttack : MonoBehaviour {
                 Fire();
         }
         else 
-            stats.IncreaseSpeed(1.0f);            
+            stats.IncreaseSpeed(0.75f);            
 
         Chase();
         LockOn();

@@ -7,18 +7,50 @@ public class EnemyStats : MonoBehaviour {
     public float moveSpeed;
     private float rotateSpeed;
     private float acceleration;
-    public float maxSpeed = 40.0f;
+    public float maxSpeed;
 
     //  Weapons
     private int numMissiles;
 
+    //  Enemy Type
+    public enum ENEMY_TYPE
+    {
+        BASIC_ENEMY, TRANSPORT, KAMIKAZE
+    };
+    private ENEMY_TYPE type;
+
 
     void Start()
     {
-        moveSpeed = 0f;
-        rotateSpeed = 20f;
-        acceleration = 2.5f;
-        numMissiles = 5;
+
+        if (transform.name == "BasicEnemy")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 40f;
+            numMissiles = 5;
+            rotateSpeed = 20f;
+            acceleration = 2.5f;
+            type = ENEMY_TYPE.BASIC_ENEMY;
+        }
+        else if (transform.name == "TransportShip")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 50f;
+            numMissiles = 0;
+            rotateSpeed = 15f;
+            acceleration = 1.5f;
+            type = ENEMY_TYPE.TRANSPORT;
+        }
+        else if (transform.name == "Droid")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 50f;
+            numMissiles = 0;
+            rotateSpeed = 15f;
+            acceleration = 1.5f;
+            type = ENEMY_TYPE.KAMIKAZE;
+        }
+
     }
 
     void Update()
@@ -42,6 +74,11 @@ public class EnemyStats : MonoBehaviour {
     public float GetRotateSpeed()
     {
         return rotateSpeed;
+    }
+
+    public ENEMY_TYPE GetEnemyType()
+    {
+        return type;
     }
     #endregion
 

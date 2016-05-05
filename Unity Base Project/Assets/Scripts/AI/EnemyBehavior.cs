@@ -17,6 +17,7 @@ public class EnemyBehavior : MonoBehaviour {
     //  Enemy Scripts
     private PatrolAi wanderAI;
     private EnemyAttack attackAI;
+    private TransportShipAI transportAI;
 
 
     void Start() {
