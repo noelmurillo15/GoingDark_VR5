@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(WanderAi))]
+[RequireComponent(typeof(PatrolAi))]
 [RequireComponent(typeof(EnemyAttack))]
 public class EnemyBehavior : MonoBehaviour {
     //**    Attach to an Enemy  **//
@@ -15,7 +15,7 @@ public class EnemyBehavior : MonoBehaviour {
     private GameObject messages;
 
     //  Enemy Scripts
-    private WanderAi wanderAI;
+    private PatrolAi wanderAI;
     private EnemyAttack attackAI;
 
 
@@ -24,7 +24,7 @@ public class EnemyBehavior : MonoBehaviour {
         playerDetected = false;
         detectionTimer = 2.0f;
 
-        wanderAI = GetComponent<WanderAi>();
+        wanderAI = GetComponent<PatrolAi>();
         attackAI = GetComponent<EnemyAttack>();
 
         ChangeState();
@@ -41,25 +41,7 @@ public class EnemyBehavior : MonoBehaviour {
     private void ChangeState() {
         wanderAI.enabled = wandering;
         attackAI.enabled = playerDetected;
-    }
-
-    #region Msg Functions
-    public void EMPHit()
-    {
-        Debug.Log("EMP has affected Enemy's Systems");
-    }
-
-    public void AsteroidHit()
-    {
-        Debug.Log("Enemy Has Hit Asteroid");
-    }
-
-    public void Kill()
-    {
-        Debug.Log("Destroyed Enemy Ship");
-        Destroy(this.gameObject);
-    }
-    #endregion
+    }    
 
     #region Collision
     void OnTriggerEnter(Collider col) {

@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(EnemyStats))]
 [RequireComponent(typeof(CharacterController))]
-public class WanderAi : MonoBehaviour {
+public class PatrolAi : MonoBehaviour {
     //**        Attach to Enemy     **//
 
     //  Raycast Data
@@ -89,7 +89,6 @@ public class WanderAi : MonoBehaviour {
     }
 
     private void NewHeadingRoutine() {
-        Debug.Log("NewHeadingRoutine");
         var floor = Mathf.Clamp(heading - maxHeadingChange, 0, 360);
         var ceil = Mathf.Clamp(heading + maxHeadingChange, 0, 360);
         heading = Random.Range(floor, ceil);        

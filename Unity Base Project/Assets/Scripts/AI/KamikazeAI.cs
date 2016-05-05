@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class KamiKaze : MonoBehaviour {
+public class KamikazeAI : MonoBehaviour {
     //**        Attach to Enemy Kamikaze Prefab      **//
 
     //  Player Data

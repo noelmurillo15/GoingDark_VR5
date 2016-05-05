@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ReOrientPlayer : MonoBehaviour {
+public class ReorientPlayer : MonoBehaviour {
     //**    Attach to Player blip on Radar  **//
     private GameObject Player;
 

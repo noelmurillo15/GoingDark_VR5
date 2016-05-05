@@ -22,9 +22,9 @@ public class EnemyMissile : MonoBehaviour {
 
     void Start() {
         tracking = false; 
-        LookSpeed = 10;
-        velocity = 80.0f;
-        destroyTimer = 10.0f;
+        LookSpeed = 15;
+        velocity = 180.0f;
+        destroyTimer = 5.0f;
 
         messages = GameObject.Find("Screen");
         messages.SendMessage("MissileIncoming");

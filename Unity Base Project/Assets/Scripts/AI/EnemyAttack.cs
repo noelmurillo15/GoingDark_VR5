@@ -41,7 +41,7 @@ public class EnemyAttack : MonoBehaviour {
     }
 
     private void EliminatePlayer() {
-        if(Vector3.Distance(transform.position, m_playerPos.position) < 200.0f) {
+        if(Vector3.Distance(transform.position, m_playerPos.position) < 360.0f) {
             stats.DecreaseSpeed();
             if (lockedOn)
                 Fire();
@@ -55,12 +55,12 @@ public class EnemyAttack : MonoBehaviour {
 
     private void LockOn() {
         Vector3 playerDir = m_playerPos.position - transform.position;
-        Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 1.5f, 0.0f);
+        Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 2.0f, 0.0f);
         transform.rotation = Quaternion.LookRotation(newEnemyDir);
 
         float angle = Vector3.Angle(newEnemyDir, playerDir);
 
-        if (angle <= 12.0f)
+        if (angle <= 8.0f)
             lockedOn = true;
         else
             lockedOn = false;

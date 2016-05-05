@@ -7,10 +7,10 @@ public class EnemyStats : MonoBehaviour {
     public float moveSpeed;
     private float rotateSpeed;
     private float acceleration;
-    public float maxSpeed = 50.0f;
+    public float maxSpeed = 40.0f;
 
     //  Weapons
-    public int numMissiles = 6;
+    private int numMissiles;
 
 
     void Start()
@@ -18,6 +18,7 @@ public class EnemyStats : MonoBehaviour {
         moveSpeed = 0f;
         rotateSpeed = 20f;
         acceleration = 2.5f;
+        numMissiles = 5;
     }
 
     void Update()
@@ -61,6 +62,24 @@ public class EnemyStats : MonoBehaviour {
             moveSpeed -= Time.deltaTime * acceleration * 5.0f;
         else
             moveSpeed = 0.0f;
+    }
+    #endregion
+
+    #region Msg Functions
+    public void EMPHit()
+    {
+        Debug.Log("EMP has affected Enemy's Systems");
+    }
+
+    public void AsteroidHit()
+    {
+        Debug.Log("Enemy Has Hit Asteroid");
+    }
+
+    public void Kill()
+    {
+        Debug.Log("Destroyed Enemy Ship");
+        Destroy(this.gameObject);
     }
     #endregion
 }
