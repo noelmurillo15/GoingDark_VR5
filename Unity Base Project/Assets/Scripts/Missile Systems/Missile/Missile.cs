@@ -18,15 +18,16 @@ public class Missile : MonoBehaviour {
 
     void Start() {
         tracking = false;
-        LookSpeed = 20;
-        velocity = 200.0f;
+        LookSpeed = 2;
+        velocity = 180.0f;
         destroyTimer = 10.0f;
     }
 
     void Update() {
         if (destroyTimer > 0.0f)
             destroyTimer -= Time.deltaTime;
-        else Kill();
+        else
+            Kill();
 
         if (tracking)
             LookAt();
@@ -47,26 +48,26 @@ public class Missile : MonoBehaviour {
 
     #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (!tracking && col.GetType() == typeof(SphereCollider)) {
-            Debug.Log("Missile hit " + col.transform.name + "'s Sphere Collider");
-            if (col.transform.tag == "Enemy" || col.transform.tag == "Asteroid")
-                {
-                    Debug.Log("Player Missile Tracking " + col.transform.tag);
-                    target = col.transform;
-                    tracking = true;
-                }
-            
-        }
-        else if(tracking && col.GetType() == typeof(CharacterController))
-        {
-                Debug.Log("Missile hit " + col.transform.name + "'s Character Controller");
-                if (col.transform.tag == "Asteroid" || col.transform.tag == "Enemy" || col.transform.tag == "TransportShip")
-                {
-                    col.gameObject.SendMessage("Kill");
-                    Kill();
-                }
+        if (!tracking && col.GetType() == typeof(SphereCollider) && destroyTimer < 5f) {
+            if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
+                Debug.Log("Player Missile Tracking " + col.transform.tag);
+                target = col.transform;
+                tracking = true;
             }
-        
+        }
+        else if (col.GetType() == typeof(CharacterController)) {
+            if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
+                col.gameObject.SendMessage("Kill");
+                Kill();
+            }
+        }
+    }
+
+    void OnCollisionEnter(Collision col) {
+        if(col.transform.tag == "Asteroid") {
+            col.gameObject.SendMessage("Kill");
+            Kill();
+        }
     }
     #endregion
 }

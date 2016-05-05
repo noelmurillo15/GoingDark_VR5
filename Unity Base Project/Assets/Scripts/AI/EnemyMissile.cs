@@ -11,10 +11,8 @@ public class EnemyMissile : MonoBehaviour {
     public float destroyTimer;
     public GameObject Explosion;
 
-    private string triggerName;
-
     //  Target Data
-    private Vector3 targetLocation;
+    private Transform target;
     public Quaternion targetRotation;
 
     // Messages
@@ -48,7 +46,7 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void LookAt() {
-        targetRotation = Quaternion.LookRotation(targetLocation - transform.position);
+        targetRotation = Quaternion.LookRotation(target.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
     }
 
@@ -56,16 +54,9 @@ public class EnemyMissile : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
             if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {              
+                target = col.transform;
                 tracking = true;
-                triggerName = col.transform.tag;
-                targetLocation = col.transform.position;
             }
-        }
-    }
-
-    void OnTriggerStay(Collider col) {
-        if (col.transform.tag == triggerName) {
-            targetLocation = col.transform.position;
         }
     }
 
