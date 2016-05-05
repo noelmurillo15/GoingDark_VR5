@@ -25,6 +25,7 @@ public class EnemyStats : MonoBehaviour {
 
         if (transform.name == "BetterEnemy")
         {
+            Debug.Log("Better Enemy Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 40f;
             numMissiles = 5;
@@ -34,6 +35,7 @@ public class EnemyStats : MonoBehaviour {
         }
         else if (transform.name == "Transport")
         {
+            Debug.Log("Transport Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 50f;
             numMissiles = 0;
@@ -43,6 +45,7 @@ public class EnemyStats : MonoBehaviour {
         }
         else if (transform.name == "Droid")
         {
+            Debug.Log("Droid Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 60f;
             numMissiles = 0;
@@ -94,6 +97,8 @@ public class EnemyStats : MonoBehaviour {
         // alter max speed = 1.0f : does not alter max speed
         if (moveSpeed < (maxSpeed * alterMaxSpeed))
             moveSpeed += Time.deltaTime * acceleration;
+        else
+            moveSpeed = (maxSpeed * alterMaxSpeed);
     }
     public void DecreaseSpeed() {
         if (moveSpeed > 0.0f)

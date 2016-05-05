@@ -32,18 +32,21 @@ public class EnemyBehavior : MonoBehaviour {
 
         if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.BASIC_ENEMY)
         {
+            Debug.Log("Getting Basic Enemy Script");
             kamiAI = null;
             transportAI = null;
             attackAI = GetComponent<EnemyAttack>();
         }
-        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.KAMIKAZE)
+        else if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.KAMIKAZE)
         {
+            Debug.Log("Getting Kami Script");
             attackAI = null;
             transportAI = null;
             kamiAI = GetComponent<KamikazeAI>();
         }
-        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT)
+        else if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT)
         {
+            Debug.Log("Getting Transport Script");
             kamiAI = null;
             attackAI = null;
             transportAI = GetComponent<TransportShipAI>();
@@ -65,10 +68,12 @@ public class EnemyBehavior : MonoBehaviour {
 
         if(attackAI != null)
             attackAI.enabled = playerDetected;
-        if (kamiAI != null)
-            kamiAI.enabled = playerDetected;
+
         if (transportAI != null)
             transportAI.enabled = playerDetected;
+
+        if (kamiAI != null)
+            kamiAI.enabled = playerDetected;        
     }    
 
     #region Collision
