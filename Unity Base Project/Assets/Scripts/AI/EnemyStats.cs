@@ -21,7 +21,6 @@ public class EnemyStats : MonoBehaviour {
 
     void Start()
     {
-
         if (transform.name == "BetterEnemy")
         {
             moveSpeed = 0f;
@@ -50,8 +49,7 @@ public class EnemyStats : MonoBehaviour {
             type = ENEMY_TYPE.KAMIKAZE;
         }
         else
-            Debug.Log("Enemy's Name does not match");
-
+            Debug.Log("Enemy's Name does not match!!");
     }
 
     void Update()

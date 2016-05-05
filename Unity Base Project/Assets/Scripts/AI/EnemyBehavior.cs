@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(PatrolAi))]
+[RequireComponent(typeof(EnemyStats))]
 public class EnemyBehavior : MonoBehaviour {
     //**    Attach to an Enemy  **//
 
@@ -14,6 +15,7 @@ public class EnemyBehavior : MonoBehaviour {
     private GameObject messages;
 
     //  Enemy Scripts
+    private EnemyStats stats;
     private PatrolAi wanderAI;
     private KamikazeAI kamiAI;
     private EnemyAttack attackAI;
@@ -25,8 +27,27 @@ public class EnemyBehavior : MonoBehaviour {
         playerDetected = false;
         detectionTimer = 2.0f;
 
+        stats = GetComponent<EnemyStats>();
         wanderAI = GetComponent<PatrolAi>();
-        attackAI = GetComponent<EnemyAttack>();
+
+        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.BASIC_ENEMY)
+        {
+            kamiAI = null;
+            transportAI = null;
+            attackAI = GetComponent<EnemyAttack>();
+        }
+        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.KAMIKAZE)
+        {
+            attackAI = null;
+            transportAI = null;
+            kamiAI = GetComponent<KamikazeAI>();
+        }
+        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT)
+        {
+            kamiAI = null;
+            attackAI = null;
+            transportAI = GetComponent<TransportShipAI>();
+        }
 
         ChangeState();
 
@@ -39,9 +60,15 @@ public class EnemyBehavior : MonoBehaviour {
             detectionTimer -= Time.deltaTime;
     }
 
-    private void ChangeState() {
+    private void ChangeState() {        
         wanderAI.enabled = wandering;
-        attackAI.enabled = playerDetected;
+
+        if(attackAI != null)
+            attackAI.enabled = playerDetected;
+        if (kamiAI != null)
+            kamiAI.enabled = playerDetected;
+        if (transportAI != null)
+            transportAI.enabled = playerDetected;
     }    
 
     #region Collision
