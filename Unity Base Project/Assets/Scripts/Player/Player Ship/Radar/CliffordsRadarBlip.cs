@@ -8,8 +8,6 @@ using System.Collections;
 // obj.sendmessage("SetEnemy", time)
 // </Setting up the blip>
 
-
-
 public class CliffordsRadarBlip : MonoBehaviour
 {
     [SerializeField]
@@ -17,7 +15,7 @@ public class CliffordsRadarBlip : MonoBehaviour
     [SerializeField]
     private GameObject EnemyHandle;
     //Will need to change on RadarPlane as well
-    
+
     private Vector3 ScalerFactor;// = new Vector3(0.003f, 0.003f, 0.003f);
     [SerializeField]
     private Color LineColor;
@@ -30,19 +28,24 @@ public class CliffordsRadarBlip : MonoBehaviour
     [SerializeField]
     private Material MaterialColorOther;
 
-    GameObject Player;
+    private GameObject Player;
+    private GameObject Radar;
+    GameObject RadarSphere;
 
     // Use this for initialization
     void Start()
     {
 
         Player = GameObject.FindGameObjectWithTag("Player");
+        Radar = GameObject.FindGameObjectWithTag("Radar");
+        RadarSphere = GameObject.Find("RadarSphere");
+
         // transform.localPosition.Set(0.0f, 0.0f, 0.0f);
         //transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         //Destroy(gameObject, 60);
-        ScalerFactor.x = .25f / GetComponentInParent<SphereCollider>().radius;
-        ScalerFactor.y = .25f  / GetComponentInParent<SphereCollider>().radius;
-        ScalerFactor.z = .25f / GetComponentInParent<SphereCollider>().radius;
+        ScalerFactor.x = .005f / Radar.GetComponent<SphereCollider>().radius;
+        ScalerFactor.y = .005f / Radar.GetComponent<SphereCollider>().radius;
+        ScalerFactor.z = .005f / Radar.GetComponent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
@@ -58,25 +61,28 @@ public class CliffordsRadarBlip : MonoBehaviour
         }
 
         //keep updating the position
-        //Debug.Log(EnemyHandle.GetComponent<Transform>().localPosition + " Enemy Position");
-        //Debug.Log(Player.GetComponent<Transform>().localPosition + " Player Position");
+      //  Debug.Log(EnemyHandle.GetComponent<Transform>().localPosition + " Enemy Position");
+      //  Debug.Log(Player.GetComponent<Transform>().localPosition + " Player Position");
         Vector3 tempVec = EnemyHandle.transform.position - Player.transform.position;
-        //Debug.Log(tempVec + " Temp Position");
+     //   Debug.Log(tempVec + " Temp Position");
 
         //taking away the radar plane position;
         //Scale
         tempVec.Scale(ScalerFactor);
-        //Debug.Log(tempVec + " * Scale");
+     //   Debug.Log(tempVec + " * Scale");
 
-    //    Debug.Log(transform.localPosition);
+        //Debug.Log(transform.localPosition);
         //GetComponent<Transform>().localPosition.Set(tempVec.x, tempVec.y, tempVec.z);
         transform.localPosition = tempVec;
-      //  Debug.Log(transform.localPosition +" Setting = to TempVec: " + tempVec);
+        //Debug.Log(transform.localPosition +" Setting = to TempVec: " + tempVec);
 
 
         //ping effect for polish;
 
-
+        //Vector3 newRot = transform.localEulerAngles;
+        //radar.transform.localEulerAngles = newRot;
+        //newRot.x -= 180.0f;
+        //playerBlip.transform.localEulerAngles = newRot;
 
         //drawline(toplane)
         Vector3 TempPositionForY = transform.localPosition;
@@ -85,7 +91,7 @@ public class CliffordsRadarBlip : MonoBehaviour
         //Set first position from Blip
         LineToDraw.SetPosition(0, TempPositionForY);
         //Change in Y for the plane
-        TempPositionForY.y = transform.parent.transform.localPosition.y;
+        TempPositionForY.y = Radar.transform.localPosition.y;
         //Set Position to Draw straight up/down to the plane.
         LineToDraw.SetPosition(1, TempPositionForY);
         //Rotate(towards(direction));

@@ -18,33 +18,36 @@ public class CliffordsRadarPlane : MonoBehaviour
     GameObject Player;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         Player = GameObject.FindGameObjectWithTag("Player");
 
         ScalerFactor.x = .25f / GetComponent<SphereCollider>().radius;
-        ScalerFactor.y = .25f/ GetComponent<SphereCollider>().radius;
-        ScalerFactor.z = .25f/ GetComponent<SphereCollider>().radius;
+        ScalerFactor.y = .25f / GetComponent<SphereCollider>().radius;
+        ScalerFactor.z = .25f / GetComponent<SphereCollider>().radius;
+        transform.localEulerAngles = Player.transform.localEulerAngles;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        transform.localEulerAngles = Player.transform.localEulerAngles;
 
     }
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
     {
         //Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
-        
+
         if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" || ColliderObject.gameObject.tag == "Loot")
-       {
+        {
 
 
 
             Vector3 ColliderPosition = ColliderObject.transform.position; // There he is! Get Him! 
-           // Debug.Log(ColliderPosition + " Poisiton of Enemy");
-           // Debug.Log(GetComponentInParent<Transform>().localPosition + " Poistion of Player");
+                                                                          // Debug.Log(ColliderPosition + " Poisiton of Enemy");
+                                                                          // Debug.Log(GetComponentInParent<Transform>().localPosition + " Poistion of Player");
 
             Vector3 PositionOfEnemy = ColliderPosition - Player.transform.position;// world space of enemy - world space of player = building a vector from player to enemy; 
             //Debug.Log(PositionOfEnemy + " Position of Enemy - Player");
@@ -54,11 +57,11 @@ public class CliffordsRadarPlane : MonoBehaviour
             PositionOfEnemy.Scale(ScalerFactor);
             //Debug.Log(PositionOfEnemy + " * by Scaler");
 
-            Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
+            // Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
 
 
-          //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
-            GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, ColliderRotation) as GameObject;
+            //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
+            GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
 
             Blip.transform.SetParent(transform);
             //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);

@@ -5,16 +5,15 @@ public class EnemyStats : MonoBehaviour {
 
     //  Movement
     public float moveSpeed;
-    private float rotateSpeed;
-    private float acceleration;
     public float maxSpeed;
+    public float rotateSpeed;
+    public float acceleration;
 
     //  Weapons
-    private int numMissiles;
+    public int numMissiles;
 
     //  Enemy Type
-    public enum ENEMY_TYPE
-    {
+    public enum ENEMY_TYPE {
         BASIC_ENEMY, TRANSPORT, KAMIKAZE
     };
     private ENEMY_TYPE type;
@@ -23,7 +22,7 @@ public class EnemyStats : MonoBehaviour {
     void Start()
     {
 
-        if (transform.name == "BasicEnemy")
+        if (transform.name == "BetterEnemy")
         {
             moveSpeed = 0f;
             maxSpeed = 40f;
@@ -32,7 +31,7 @@ public class EnemyStats : MonoBehaviour {
             acceleration = 2.5f;
             type = ENEMY_TYPE.BASIC_ENEMY;
         }
-        else if (transform.name == "TransportShip")
+        else if (transform.name == "Transport")
         {
             moveSpeed = 0f;
             maxSpeed = 50f;
@@ -44,12 +43,14 @@ public class EnemyStats : MonoBehaviour {
         else if (transform.name == "Droid")
         {
             moveSpeed = 0f;
-            maxSpeed = 50f;
+            maxSpeed = 60f;
             numMissiles = 0;
-            rotateSpeed = 15f;
-            acceleration = 1.5f;
+            rotateSpeed = 25f;
+            acceleration = 1.0f;
             type = ENEMY_TYPE.KAMIKAZE;
         }
+        else
+            Debug.Log("Enemy's Name does not match");
 
     }
 

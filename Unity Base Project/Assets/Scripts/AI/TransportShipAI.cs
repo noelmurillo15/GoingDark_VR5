@@ -11,6 +11,8 @@ public class TransportShipAI : MonoBehaviour {
     private GameObject mesh1;
     private GameObject mesh2;
 
+    private EnemyStats stats;
+
 
     // Use this for initialization
     void Start () {       

@@ -55,7 +55,6 @@ public class PlayerShipData : MonoBehaviour {
     #region Msg Calls
     public void Hit() {
         IncreaseHitCount();
-        m_playerMove.StopMovement();
         m_Health.UpdatePlayerHealth();
         AudioManager.instance.PlayHit();
 

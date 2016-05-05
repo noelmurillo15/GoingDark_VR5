@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(PatrolAi))]
-[RequireComponent(typeof(EnemyAttack))]
 public class EnemyBehavior : MonoBehaviour {
     //**    Attach to an Enemy  **//
 
@@ -16,6 +15,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     //  Enemy Scripts
     private PatrolAi wanderAI;
+    private KamikazeAI kamiAI;
     private EnemyAttack attackAI;
     private TransportShipAI transportAI;
 

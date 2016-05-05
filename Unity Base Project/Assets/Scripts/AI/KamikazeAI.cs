@@ -10,7 +10,6 @@ public class KamikazeAI : MonoBehaviour {
     private Transform m_playerPos;
 
     //  Enemy Data
-    private float velocity;
     private float radius;
     private bool inRange;
 
@@ -20,12 +19,13 @@ public class KamikazeAI : MonoBehaviour {
     private float maxVelocity;
     private GameObject messages;
 
+    private EnemyStats stats;
+
     // Use this for initialization
     void Start()
     {
         inRange = false;
         radius = 250.0f;
-        velocity = 5.0f;
         maxVelocity = 80.0f;
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
@@ -33,6 +33,8 @@ public class KamikazeAI : MonoBehaviour {
         // explode = Resources.Load("KamikazeExplode");
 
         playerDir = m_playerPos.position - transform.position;
+
+        stats = GetComponent<EnemyStats>();
     }
 
     // Update is called once per frame
@@ -54,7 +56,7 @@ public class KamikazeAI : MonoBehaviour {
                 messages.SendMessage("EnemyClose");
                 inRange = true;
             }
-            IncreaseVelocity();
+            stats.IncreaseSpeed(1.0f);
             Chase();
             LockOn();
         }
@@ -63,7 +65,7 @@ public class KamikazeAI : MonoBehaviour {
                 messages.SendMessage("EnemyAway");
                 inRange = false;
             }
-            DecreaseVelocity();
+            stats.DecreaseSpeed();
         }
     }
 
@@ -73,20 +75,8 @@ public class KamikazeAI : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(newEnemyDir);            
     }
 
-    private void IncreaseVelocity() {
-        if (velocity < maxVelocity)
-            velocity += Time.deltaTime * 3.0f;
-    }
-
-    private void DecreaseVelocity() {
-        if (velocity > 0.0f)
-            velocity -= Time.deltaTime * 5.0f;
-        else
-            velocity = 0.0f;
-    }
-
     private void Chase() {
-        transform.position += transform.forward * Time.deltaTime * velocity;
+        transform.position += transform.forward * Time.deltaTime * stats.GetMoveSpeed();
     }
 
     void OnCollisionEnter(Collision col) {
