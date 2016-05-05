@@ -12,15 +12,15 @@ public class Missile : MonoBehaviour {
     public GameObject Explosion;
 
     //  Target Data
-    private Vector3 targetLocation;
+    private Transform target;
     public Quaternion targetRotation;
 
 
     void Start() {
         tracking = false;
         LookSpeed = 20;
-        velocity = 80.0f;
-        destroyTimer = 5.0f;
+        velocity = 200.0f;
+        destroyTimer = 10.0f;
     }
 
     void Update() {
@@ -41,26 +41,32 @@ public class Missile : MonoBehaviour {
 
     private void LookAt()
     {
-        targetRotation = Quaternion.LookRotation(targetLocation - transform.position);
+        targetRotation = Quaternion.LookRotation(target.position - transform.position);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
     }
 
     #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (!tracking) {
-            if (col.transform.tag == "Enemy" || col.transform.tag == "Asteroid") {
-                Debug.Log("Player Missile Tracking " + col.transform.tag);
-                targetLocation = col.transform.position;
-                tracking = true;
+        if (!tracking && col.GetType() == typeof(SphereCollider)) {
+            Debug.Log("Missile hit " + col.transform.name + "'s Sphere Collider");
+            if (col.transform.tag == "Enemy" || col.transform.tag == "Asteroid")
+                {
+                    Debug.Log("Player Missile Tracking " + col.transform.tag);
+                    target = col.transform;
+                    tracking = true;
+                }
+            
+        }
+        else if(tracking && col.GetType() == typeof(CharacterController))
+        {
+                Debug.Log("Missile hit " + col.transform.name + "'s Character Controller");
+                if (col.transform.tag == "Asteroid" || col.transform.tag == "Enemy" || col.transform.tag == "TransportShip")
+                {
+                    col.gameObject.SendMessage("Kill");
+                    Kill();
+                }
             }
-        }
-    }
-
-    void OnCollisionEnter(Collision col) {
-        if (col.transform.tag == "Asteroid" || col.transform.name == "Enemy") {
-            col.gameObject.SendMessage("Kill");
-            Kill();
-        }
+        
     }
     #endregion
 }

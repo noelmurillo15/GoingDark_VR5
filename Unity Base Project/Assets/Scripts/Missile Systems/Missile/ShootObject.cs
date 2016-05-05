@@ -20,6 +20,11 @@ public class ShootObject : MonoBehaviour
     void Update() {
         if (fireCooldown > 0.0f)
             fireCooldown -= Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            FireMissile();
+        }
     }
 
     public float GetFireCooldown()
