@@ -167,6 +167,8 @@
     <Compile Include="Assets\Scripts\Debugging\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />
+    <Compile Include="Assets\Scripts\Environment\BlackHole.cs" />
+    <Compile Include="Assets\Scripts\Environment\Death.cs" />
     <Compile Include="Assets\Scripts\Environment\MenuEnvironment.cs" />
     <Compile Include="Assets\Scripts\Environment\NebulaCloud.cs" />
     <Compile Include="Assets\Scripts\Environment\NebulaGenerator.cs" />
