@@ -142,6 +142,7 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
+    <Compile Include="Assets\DeathTimer.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="Assets\Scripts\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\AI\PatrolAi.cs" />
     <Compile Include="Assets\Scripts\AI\TransportShipAI.cs" />
+    <Compile Include="Assets\Scripts\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\Debugging\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />

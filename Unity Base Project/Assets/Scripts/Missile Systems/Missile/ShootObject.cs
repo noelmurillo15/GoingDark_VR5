@@ -13,6 +13,7 @@ public class ShootObject : MonoBehaviour
     void Start()
     {
         fireCooldown = 0.0f;
+        MissileLimit = 5;
         Miss = Resources.Load<GameObject>("PlayerMissile");
     }
 
@@ -32,8 +33,8 @@ public class ShootObject : MonoBehaviour
         {
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
             
-            //if (MissileCount <= MissileLimit - 1)
-            //{
+            if (MissileCount < MissileLimit )
+            {
                 fireCooldown = 2.0f;
                 if (Miss != null)
                 {
@@ -42,7 +43,12 @@ public class ShootObject : MonoBehaviour
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
-            //}
+            }
         }
+    }
+    public void AddMissile()
+    {
+        MissileLimit++;
+        Debug.Log("Missile Added");
     }
 }

@@ -39,13 +39,21 @@ public class KamikazeAI : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if(!playerCloak.GetCloaked())
+
+
+        if (Input.GetKey(KeyCode.G))
+        {
+            Debug.Log("Kami die");
+            stats.SendMessage("Kill");
+        }
+
+        if (!playerCloak.GetCloaked())
             DetermineRange();
 
         if (die) {
             deathTimer -= Time.deltaTime;
             if (deathTimer <= 0.0f)
-                Destroy(gameObject);
+                Destroy(gameObject);            
         }
     }
 

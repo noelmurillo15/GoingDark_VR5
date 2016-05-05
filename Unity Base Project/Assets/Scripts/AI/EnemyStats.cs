@@ -8,7 +8,7 @@ public class EnemyStats : MonoBehaviour {
     public float maxSpeed;
     public float rotateSpeed;
     public float acceleration;
-
+    private GameObject ammo;
     //  Weapons
     public int numMissiles;
 
@@ -21,6 +21,8 @@ public class EnemyStats : MonoBehaviour {
 
     void Start()
     {
+        ammo = Resources.Load<GameObject>("AmmoDrop");
+
         if (transform.name == "BetterEnemy")
         {
             moveSpeed = 0f;
@@ -112,10 +114,21 @@ public class EnemyStats : MonoBehaviour {
         Debug.Log("Enemy Has Hit Asteroid");
     }
 
+    public bool RandomChance()
+    {
+        int chance = Random.Range(0, 100);
+        if (chance > 0)
+            return true;
+        return false;
+    }
+
     public void Kill()
     {
         Debug.Log("Destroyed Enemy Ship");
         Destroy(this.gameObject);
+
+        if (RandomChance())
+            Instantiate(ammo, transform.position, transform.rotation);
     }
     #endregion
 }
