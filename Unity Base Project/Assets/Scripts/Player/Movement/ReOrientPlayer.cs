@@ -11,6 +11,13 @@ public class ReorientPlayer : MonoBehaviour {
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
+    void Update()
+    {
+        Vector3 rot = Player.transform.localEulerAngles;
+        rot.x -= 180;
+        transform.localEulerAngles = rot;
+    }
+
     void OnTriggerEnter(Collider col) {
         if(col.name == "bone3")
             Player.SendMessage("ResetOrientation");        

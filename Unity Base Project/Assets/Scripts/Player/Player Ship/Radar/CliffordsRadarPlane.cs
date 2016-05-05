@@ -22,9 +22,9 @@ public class CliffordsRadarPlane : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
 
-        ScalerFactor.x = .25f / GetComponent<SphereCollider>().radius;
-        ScalerFactor.y = .25f / GetComponent<SphereCollider>().radius;
-        ScalerFactor.z = .25f / GetComponent<SphereCollider>().radius;
+        ScalerFactor.x = .031f / GetComponent<SphereCollider>().radius;
+        ScalerFactor.y = .031f / GetComponent<SphereCollider>().radius;
+        ScalerFactor.z = .031f / GetComponent<SphereCollider>().radius;
         transform.localEulerAngles = Player.transform.localEulerAngles;
 
     }
@@ -32,54 +32,55 @@ public class CliffordsRadarPlane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localEulerAngles = Player.transform.localEulerAngles;
-
+        transform.localEulerAngles = Vector3.zero;
     }
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
     {
         //Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
 
-        if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" || ColliderObject.gameObject.tag == "Loot")
+        if (ColliderObject.GetType() == typeof(CharacterController))
         {
+            if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" || ColliderObject.gameObject.tag == "Loot")
+            {
 
 
 
-            Vector3 ColliderPosition = ColliderObject.transform.position; // There he is! Get Him! 
-                                                                          // Debug.Log(ColliderPosition + " Poisiton of Enemy");
-                                                                          // Debug.Log(GetComponentInParent<Transform>().localPosition + " Poistion of Player");
+                Vector3 ColliderPosition = ColliderObject.transform.localPosition; // There he is! Get Him! 
+                                                                              // Debug.Log(ColliderPosition + " Poisiton of Enemy");
+                                                                              // Debug.Log(GetComponentInParent<Transform>().localPosition + " Poistion of Player");
 
-            Vector3 PositionOfEnemy = ColliderPosition - Player.transform.position;// world space of enemy - world space of player = building a vector from player to enemy; 
-            //Debug.Log(PositionOfEnemy + " Position of Enemy - Player");
-            // vector mag how far in that direction.
+                Vector3 PositionOfEnemy = ColliderPosition - Player.transform.localPosition;// world space of enemy - world space of player = building a vector from player to enemy; 
+                                                                                       //Debug.Log(PositionOfEnemy + " Position of Enemy - Player");
+                                                                                       // vector mag how far in that direction.
 
-            //Scale it by Scaler factor to get smaller vector position(;
-            PositionOfEnemy.Scale(ScalerFactor);
-            //Debug.Log(PositionOfEnemy + " * by Scaler");
+                //Scale it by Scaler factor to get smaller vector position(;
+                PositionOfEnemy.Scale(ScalerFactor);
+                //Debug.Log(PositionOfEnemy + " * by Scaler");
 
-            // Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
-
-
-            //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
-            GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
-
-            Blip.transform.SetParent(transform);
-            //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
-            Blip.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
-            //((GameObject)Blip).transform.parent = this.transform; // Setting the Blip objects parent to this Plane's Transform
-            //Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetTimer", SonarTimeLeft); // Setting a destory!... timer..
-            Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetEnemy", ColliderObject.gameObject);// giving the Blip object the GameObject for further destruction(Updating).
+                // Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
 
 
-            Counter++;// 0 -> 1
-            System.Array.Resize(ref TheObject, Counter); // make space
-            TheObject[Counter - 1] = ColliderObject.gameObject; // put it in at 0 to start;
+                //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
+                GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
 
-            System.Array.Resize(ref TheBlip, Counter); // make space
-            TheBlip[Counter - 1] = Blip; // put it in at 0 to start;
+                Blip.transform.SetParent(transform);
+                //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
+                Blip.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                //((GameObject)Blip).transform.parent = this.transform; // Setting the Blip objects parent to this Plane's Transform
+                //Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetTimer", SonarTimeLeft); // Setting a destory!... timer..
+                Blip.GetComponent<CliffordsRadarBlip>().SendMessage("SetEnemy", ColliderObject.gameObject);// giving the Blip object the GameObject for further destruction(Updating).
 
+
+                Counter++;// 0 -> 1
+                System.Array.Resize(ref TheObject, Counter); // make space
+                TheObject[Counter - 1] = ColliderObject.gameObject; // put it in at 0 to start;
+
+                System.Array.Resize(ref TheBlip, Counter); // make space
+                TheBlip[Counter - 1] = Blip; // put it in at 0 to start;
+
+            }
         }
-
     }
     void OnTriggerExit(Collider ColliderObject)//hey he's leaving!
     {

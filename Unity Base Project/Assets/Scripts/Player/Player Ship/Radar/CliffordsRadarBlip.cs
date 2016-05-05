@@ -43,9 +43,9 @@ public class CliffordsRadarBlip : MonoBehaviour
         // transform.localPosition.Set(0.0f, 0.0f, 0.0f);
         //transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
         //Destroy(gameObject, 60);
-        ScalerFactor.x = .005f / Radar.GetComponent<SphereCollider>().radius;
-        ScalerFactor.y = .005f / Radar.GetComponent<SphereCollider>().radius;
-        ScalerFactor.z = .005f / Radar.GetComponent<SphereCollider>().radius;
+        ScalerFactor.x = .25f / Radar.GetComponent<SphereCollider>().radius;
+        ScalerFactor.y = .25f / Radar.GetComponent<SphereCollider>().radius;
+        ScalerFactor.z = .25f / Radar.GetComponent<SphereCollider>().radius;
     }
 
     // Update is called once per frame
@@ -63,7 +63,7 @@ public class CliffordsRadarBlip : MonoBehaviour
         //keep updating the position
       //  Debug.Log(EnemyHandle.GetComponent<Transform>().localPosition + " Enemy Position");
       //  Debug.Log(Player.GetComponent<Transform>().localPosition + " Player Position");
-        Vector3 tempVec = EnemyHandle.transform.position - Player.transform.position;
+        Vector3 tempVec = EnemyHandle.transform.localPosition - Player.transform.localPosition;
      //   Debug.Log(tempVec + " Temp Position");
 
         //taking away the radar plane position;
