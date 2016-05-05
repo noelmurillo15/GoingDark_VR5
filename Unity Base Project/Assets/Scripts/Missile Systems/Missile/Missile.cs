@@ -18,7 +18,7 @@ public class Missile : MonoBehaviour {
 
     void Start() {
         tracking = false;
-        LookSpeed = 2;
+        LookSpeed = 5;
         velocity = 180.0f;
         destroyTimer = 10.0f;
     }
@@ -48,7 +48,7 @@ public class Missile : MonoBehaviour {
 
     #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (!tracking && col.GetType() == typeof(SphereCollider) && destroyTimer < 5f) {
+        if (!tracking && col.GetType() == typeof(SphereCollider) && destroyTimer < 7.5f) {
             if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
                 Debug.Log("Player Missile Tracking " + col.transform.tag);
                 target = col.transform;

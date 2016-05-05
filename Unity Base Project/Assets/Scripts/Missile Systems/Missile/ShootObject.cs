@@ -1,30 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class ShootObject : MonoBehaviour
-{
+public class ShootObject : MonoBehaviour {
     //**  Attach to Player prefab  **//
-    private GameObject Miss;
-    public int MissileLimit;
-    private int MissileCount;
-    private GameObject[] Missiles;
+    public int MissileCount;
     public float fireCooldown;
+    private GameObject Miss;
+    private GameObject[] Missiles;
+    private GameObject player;
+
 
     void Start()
     {
         fireCooldown = 0.0f;
-        MissileLimit = 5;
+        MissileCount = 10;
         Miss = Resources.Load<GameObject>("PlayerMissile");
+
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update() {
         if (fireCooldown > 0.0f)
             fireCooldown -= Time.deltaTime;
-
-        if (Input.GetKey(KeyCode.F))
-        {
-            FireMissile();
-        }
     }
 
     public float GetFireCooldown()
@@ -38,13 +34,13 @@ public class ShootObject : MonoBehaviour
         {
             Missiles = GameObject.FindGameObjectsWithTag("Missile");
             
-            if (MissileCount < MissileLimit )
+            if (MissileCount > 0 )
             {
-                fireCooldown = 2.0f;
+                fireCooldown = 1.0f;
                 if (Miss != null)
                 {
-                    MissileCount++;
-                    Instantiate(Miss, new Vector3(transform.localPosition.x, transform.localPosition.y - 10.0f, transform.localPosition.z + 10.0f), transform.rotation);
+                    MissileCount--;
+                    Instantiate(Miss, new Vector3(transform.position.x, transform.position.y - 8.0f, transform.position.z), player.transform.rotation);
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
@@ -53,7 +49,16 @@ public class ShootObject : MonoBehaviour
     }
     public void AddMissile()
     {
-        MissileLimit++;
+        MissileCount++;
         Debug.Log("Missile Added");
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+//        Debug.Log(col.name + " has hit Fire Button");
+        if(col.name == "rightPalm" && fireCooldown <= 0.0f)
+        {
+            FireMissile();
+        }
     }
 }

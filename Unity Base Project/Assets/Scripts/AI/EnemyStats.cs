@@ -122,7 +122,7 @@ public class EnemyStats : MonoBehaviour {
     public bool RandomChance()
     {
         int chance = Random.Range(0, 5);
-        if (chance == 2)
+        if (chance > 0)
             return true;
 
         return false;

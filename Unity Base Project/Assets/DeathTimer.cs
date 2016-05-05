@@ -5,7 +5,7 @@ public class DeathTimer : MonoBehaviour {
     private float ammoTimer;
     // Use this for initialization
     void Start () {
-        ammoTimer = 20.0f;
+        ammoTimer = 120.0f;
 
     }
 	

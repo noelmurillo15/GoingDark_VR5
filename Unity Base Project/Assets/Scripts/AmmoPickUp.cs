@@ -9,7 +9,7 @@ public class AmmoPickUp : MonoBehaviour
     void Start()
     {
         collected = false;
-        missile = GameObject.Find("Player").GetComponent<ShootObject>();
+        missile = GameObject.Find("Fire").GetComponent<ShootObject>();
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class AmmoPickUp : MonoBehaviour
     {
         if (col.transform.tag == "Player")
         {
-            missile.gameObject.SendMessage("AddMissile");
+            missile.SendMessage("AddMissile");
             collected = true;
             
         }
