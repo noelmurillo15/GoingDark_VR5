@@ -141,7 +141,6 @@ public class PlayerMovement : MonoBehaviour {
             moveDir *= moveSpeed * Time.deltaTime;        
     }
     public void IncreaseSpeed(float percentage) {
-        Debug.Log("Player Moving : " + percentage);
         if (moveSpeed < (maxSpeed * percentage))
             moveSpeed += 5.0f * Time.deltaTime;
         else if (moveSpeed > (maxSpeed * percentage))

@@ -160,7 +160,8 @@
     <Compile Include="Assets\Scripts\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyMissile.cs" />
-    <Compile Include="Assets\Scripts\AI\EnemyScript.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyAttack.cs" />
+    <Compile Include="Assets\Scripts\AI\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\AI\TransportScript.cs" />
     <Compile Include="Assets\Scripts\AI\TransportShipAI.cs" />
     <Compile Include="Assets\Scripts\AI\WanderAi.cs" />

@@ -1,34 +1,31 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(WanderAi))]
-[RequireComponent(typeof(EnemyScript))]
+[RequireComponent(typeof(EnemyAttack))]
 public class EnemyBehavior : MonoBehaviour {
     //**    Attach to an Enemy  **//
 
     //  Behavior
-    public bool isWandering;
-    public bool foundPlayer;
-    public float detectionTimer;
-
-    //  Attached Scripts
-    private WanderAi wanderAI;
-    private EnemyScript attackAI;
+    public bool wandering;
+    public bool playerDetected;
+    private float detectionTimer;
 
     //  Player Data
     private Cloak playerCloak;
-
-    //  Messages
     private GameObject messages;
+
+    //  Enemy Scripts
+    private WanderAi wanderAI;
+    private EnemyAttack attackAI;
 
 
     void Start() {
-        isWandering = true;
-        foundPlayer = false;
+        wandering = true;
+        playerDetected = false;
         detectionTimer = 2.0f;
 
         wanderAI = GetComponent<WanderAi>();
-        attackAI = GetComponent<EnemyScript>();
+        attackAI = GetComponent<EnemyAttack>();
 
         ChangeState();
 
@@ -42,8 +39,8 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     private void ChangeState() {
-        wanderAI.enabled = isWandering;
-        attackAI.enabled = foundPlayer;
+        wanderAI.enabled = wandering;
+        attackAI.enabled = playerDetected;
     }
 
     #region Msg Functions
@@ -77,9 +74,14 @@ public class EnemyBehavior : MonoBehaviour {
             {
                 if (!playerCloak.GetCloaked())
                 {
-                    Debug.Log("Enemy Detected Player");
-                    foundPlayer = true;
-                    isWandering = false;
+                    wandering = false;
+                    playerDetected = true;
+                    ChangeState();
+                }
+                else
+                {
+                    wandering = true;
+                    playerDetected = false;
                     ChangeState();
                 }
                 detectionTimer = 2.0f;
@@ -89,10 +91,10 @@ public class EnemyBehavior : MonoBehaviour {
 
     void OnTriggerExit(Collider col) {
         if (col.tag == "Player") {
-            Debug.Log("Enemy Lost Player");
+            wandering = true;
+            playerDetected = false;
+            transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
             messages.SendMessage("EnemyAway");
-            foundPlayer = false;
-            isWandering = true;
             ChangeState();
         }
     }
