@@ -6,6 +6,7 @@ public class Death : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {    
-        col.SendMessage("Kill");
+        if(col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid" || col.gameObject.tag == "TransportShip")
+            col.SendMessage("Kill");
     }
 }
