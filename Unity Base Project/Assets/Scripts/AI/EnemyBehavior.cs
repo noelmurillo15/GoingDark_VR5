@@ -97,6 +97,7 @@ public class EnemyBehavior : MonoBehaviour {
                 {
                     wandering = true;
                     playerDetected = false;
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
                     ChangeState();
                 }
                 detectionTimer = 2.0f;
