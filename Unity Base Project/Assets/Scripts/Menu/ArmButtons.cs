@@ -9,7 +9,7 @@ public class ArmButtons : MonoBehaviour {
 
     private Image m_button;
     private ArmSettings m_armSettings;
-   
+    private GameObject m_missionLog;
 
     // Use this for initialization
     void Start() {
@@ -19,6 +19,9 @@ public class ArmButtons : MonoBehaviour {
 
         if (m_armSettings == null)
             m_armSettings = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
+
+        if (m_missionLog == null)
+            m_missionLog = GameObject.Find("ButtonObject");
     }
 
     #region Collision
@@ -79,6 +82,12 @@ public class ArmButtons : MonoBehaviour {
 
         else if (transform.name == "MissileButton")
             m_armSettings.FireMissile();
+
+        else if (transform.name == "MissionLogButton")
+        {
+            m_missionLog.SetActiveRecursively(true);
+            m_armSettings.CloseSettings();
+        }
 
         else
         {
