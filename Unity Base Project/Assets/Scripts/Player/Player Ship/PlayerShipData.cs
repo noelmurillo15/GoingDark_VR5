@@ -63,8 +63,9 @@ public class PlayerShipData : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision col) {
+        Debug.Log("PlayerShip Collided with " + col.transform.name);
         if (col.gameObject.tag == "Asteroid")
             Hit();
-    }
+    }    
     #endregion
 }

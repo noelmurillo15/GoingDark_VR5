@@ -52,6 +52,11 @@ public class TransportShipAI : MonoBehaviour {
             CloakOn();
     }
 
+    public float GetCloakTimer()
+    {
+        return cloakTimer;
+    }
+
     void Kill()
     {
         Debug.Log("Transport Ship Destroyed");

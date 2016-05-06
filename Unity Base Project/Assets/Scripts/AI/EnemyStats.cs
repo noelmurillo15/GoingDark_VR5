@@ -40,7 +40,7 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 50f;
             numMissiles = 0;
             rotateSpeed = 15f;
-            acceleration = 1.5f;
+            acceleration = 3.0f;
             type = ENEMY_TYPE.TRANSPORT;
         }
         else if (transform.name == "Droid")
@@ -50,7 +50,7 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 60f;
             numMissiles = 0;
             rotateSpeed = 25f;
-            acceleration = 1.0f;
+            acceleration = 4f;
             type = ENEMY_TYPE.KAMIKAZE;
         }
         else
@@ -90,19 +90,19 @@ public class EnemyStats : MonoBehaviour {
     public void DecreaseMissileCount()
     {
         numMissiles--;
-    }
+    }    
     
     public void IncreaseSpeed(float alterMaxSpeed) {
         // alter max speed = 0.5f : cuts max speed in half
         // alter max speed = 1.0f : does not alter max speed
         if (moveSpeed < (maxSpeed * alterMaxSpeed))
             moveSpeed += Time.deltaTime * acceleration;
-        else
-            moveSpeed = (maxSpeed * alterMaxSpeed);
+        else if (moveSpeed > (maxSpeed * alterMaxSpeed) + .5f)
+            moveSpeed -= Time.deltaTime * acceleration * 4f;
     }
     public void DecreaseSpeed() {
         if (moveSpeed > 0.0f)
-            moveSpeed -= Time.deltaTime * acceleration * 5.0f;
+            moveSpeed -= Time.deltaTime * acceleration * 2.5f;
         else
             moveSpeed = 0.0f;
     }

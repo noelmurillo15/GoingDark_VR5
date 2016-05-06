@@ -50,6 +50,8 @@ public class EnemyBehavior : MonoBehaviour {
             kamiAI = null;
             attackAI = null;
             transportAI = GetComponent<TransportShipAI>();
+            transportAI.enabled = true;
+            wanderAI.enabled = true;
         }
 
         ChangeState();
@@ -63,14 +65,18 @@ public class EnemyBehavior : MonoBehaviour {
             detectionTimer -= Time.deltaTime;
     }
 
-    private void ChangeState() {        
-        wanderAI.enabled = wandering;
+    private void ChangeState() {
+        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {
+            if (transportAI.GetCloakTimer() != 0.0f)
+                wanderAI.SetSpeedBoost(2.0f);
+            else
+                wanderAI.SetSpeedBoost(0.5f);
+        }
+        else
+            wanderAI.enabled = wandering;
 
-        if(attackAI != null)
+        if (attackAI != null)
             attackAI.enabled = playerDetected;
-
-        if (transportAI != null)
-            transportAI.enabled = playerDetected;
 
         if (kamiAI != null)
             kamiAI.enabled = playerDetected;        
@@ -78,8 +84,11 @@ public class EnemyBehavior : MonoBehaviour {
 
     #region Collision
     void OnTriggerEnter(Collider col) {
-        if (col.tag == "Player") 
-            messages.SendMessage("EnemyClose");        
+        if (col.tag == "Player")
+        {
+            playerDetected = true;
+            messages.SendMessage("EnemyClose");
+        }
     }
 
     void OnTriggerStay(Collider col) {
@@ -91,17 +100,16 @@ public class EnemyBehavior : MonoBehaviour {
                 {
                     wandering = false;
                     playerDetected = true;
-                    ChangeState();
                 }
                 else
                 {
                     wandering = true;
                     playerDetected = false;
                     transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
-                    ChangeState();
                 }
-                detectionTimer = 2.0f;
-            }            
+            }
+            ChangeState();
+            detectionTimer = Random.Range(.5f, 5f);
         }
     }
 

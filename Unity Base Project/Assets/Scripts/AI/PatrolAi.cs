@@ -10,6 +10,7 @@ public class PatrolAi : MonoBehaviour {
     public int range;
     public float interval;
     public float maxHeadingChange;
+    public float speedBoost;
     public bool pathBlocked;
     private RaycastHit hit;
 
@@ -27,7 +28,9 @@ public class PatrolAi : MonoBehaviour {
         interval = 5f;
         maxHeadingChange = 45f;
         pathBlocked = false;
-         
+        speedBoost = 0.5f;
+
+
         stats = GetComponent<EnemyStats>();
         controller = GetComponent<CharacterController>();        
 
@@ -42,7 +45,7 @@ public class PatrolAi : MonoBehaviour {
         if (!pathBlocked)
             transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime / interval);
 
-        stats.IncreaseSpeed(0.5f);
+        stats.IncreaseSpeed(speedBoost);
         controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
 
         CheckRayCasts();
@@ -79,6 +82,11 @@ public class PatrolAi : MonoBehaviour {
         }
     }
     #endregion
+
+    public void SetSpeedBoost(float boost)
+    {
+        speedBoost = boost;
+    }
 
     #region Coroutine
     private IEnumerator NewHeading() {

@@ -24,7 +24,6 @@ public class KamikazeAI : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
         EliminatePlayer();
     }
 
@@ -45,5 +44,13 @@ public class KamikazeAI : MonoBehaviour {
         Vector3 playerDir = m_playerPos.position - transform.position;
         Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 2.0f, 0.0f);
         transform.rotation = Quaternion.LookRotation(newEnemyDir);
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Player")
+        {
+            stats.SendMessage("Kill");
+        }        
     }
 }
