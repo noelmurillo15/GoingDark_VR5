@@ -46,7 +46,7 @@ public class EnemyAttack : MonoBehaviour {
                 Fire();
         }
         else 
-            stats.IncreaseSpeed(0.75f);            
+            stats.IncreaseSpeed(0.8f);            
 
         Chase();
         LockOn();

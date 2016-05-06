@@ -46,11 +46,12 @@ public class KamikazeAI : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(newEnemyDir);
     }
 
-    void OnTriggerEnter(Collider col)
+    void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (col.tag == "Player")
+        if (hit.transform.CompareTag("Player"))
         {
             stats.SendMessage("Kill");
-        }        
+            hit.transform.FindChild("BattleShip").SendMessage("Hit");
+        }
     }
 }
