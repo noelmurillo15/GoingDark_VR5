@@ -73,5 +73,12 @@ public class EnemyAttack : MonoBehaviour {
                 Instantiate(missilePrefab, this.transform.position, this.transform.rotation);
             }
         }
-    }    
+    }
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.CompareTag("Player"))
+        {
+            hit.transform.FindChild("BattleShip").SendMessage("Hit");
+        }
+    }
 }

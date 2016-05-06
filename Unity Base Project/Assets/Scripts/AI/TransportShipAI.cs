@@ -57,9 +57,11 @@ public class TransportShipAI : MonoBehaviour {
         return cloakTimer;
     }
 
-    void Kill()
+    void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("Transport Ship Destroyed");
-        Destroy(gameObject);
+        if (hit.transform.CompareTag("Player"))
+        {
+            hit.transform.FindChild("BattleShip").SendMessage("Hit");
+        }
     }
 }
