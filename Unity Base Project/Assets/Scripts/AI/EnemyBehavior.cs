@@ -32,21 +32,18 @@ public class EnemyBehavior : MonoBehaviour {
 
         if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.BASIC_ENEMY)
         {
-            Debug.Log("Getting Basic Enemy Script");
             kamiAI = null;
             transportAI = null;
             attackAI = GetComponent<EnemyAttack>();
         }
         else if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.KAMIKAZE)
         {
-            Debug.Log("Getting Kami Script");
             attackAI = null;
             transportAI = null;
             kamiAI = GetComponent<KamikazeAI>();
         }
         else if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT)
         {
-            Debug.Log("Getting Transport Script");
             kamiAI = null;
             attackAI = null;
             transportAI = GetComponent<TransportShipAI>();
@@ -66,14 +63,14 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     private void ChangeState() {
+        wanderAI.enabled = wandering;
         if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {
+            wanderAI.enabled = true;
             if (transportAI.GetCloakTimer() != 0.0f)
                 wanderAI.SetSpeedBoost(2.0f);
             else
                 wanderAI.SetSpeedBoost(0.5f);
         }
-        else
-            wanderAI.enabled = wandering;
 
         if (attackAI != null)
             attackAI.enabled = playerDetected;
@@ -83,18 +80,21 @@ public class EnemyBehavior : MonoBehaviour {
     }    
 
     #region Collision
-    void OnTriggerEnter(Collider col) {
-        if (col.tag == "Player")
+    void OnTriggerEnter(Collider col) {       
+        if (col.CompareTag("Player"))
         {
+            wandering = false;
             playerDetected = true;
+            ChangeState();
             messages.SendMessage("EnemyClose");
+            return;
         }
     }
 
     void OnTriggerStay(Collider col) {
         if (detectionTimer <= 0.0f)
         {
-            if (col.tag == "Player")
+            if (col.CompareTag("Player"))
             {
                 if (!playerCloak.GetCloaked())
                 {
@@ -105,7 +105,7 @@ public class EnemyBehavior : MonoBehaviour {
                 {
                     wandering = true;
                     playerDetected = false;
-                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);                
                 }
             }
             ChangeState();
@@ -114,7 +114,7 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     void OnTriggerExit(Collider col) {
-        if (col.tag == "Player") {
+        if (col.CompareTag("Player")) {
             wandering = true;
             playerDetected = false;
             transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);

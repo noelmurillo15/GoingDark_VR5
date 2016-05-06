@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour {
     //**    Attach to Player    **//
+
+    //  Health
+    public int hitCount;
+    //  Weapons
+    public int numMissiles;
+    //  Credits
+    public int numCredits;
     //  Movement
     public float moveSpeed;
     public float maxSpeed;
     public float rotateSpeed;
     public float acceleration;
-    //  Weapons
-    public int numMissiles;
-    //  Credits ( Money )
-    public int numCredits;
 
     // Use this for initialization
     void Start () {
+        hitCount = 0;
         moveSpeed = 0f;
         maxSpeed = 50f;
-        numMissiles = 10;
         rotateSpeed = 20f;
-        acceleration = 2.0f;
+        acceleration = 2.5f;
         numCredits = PlayerPrefs.GetInt("Credits", 100);
-        //pgmanager.GetComponent<PersistentGameManager>().SendMessage("GetPlayerCredits", numCredits);
+        numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
     }
 	
 	// Update is called once per frame
@@ -29,6 +33,10 @@ public class PlayerStats : MonoBehaviour {
 	}
 
     #region Accessors
+    public int GetHitCount()
+    {
+        return hitCount;
+    }
     public int GetNumMissiles()
     {
         return numMissiles;
@@ -52,7 +60,14 @@ public class PlayerStats : MonoBehaviour {
     {
         numMissiles--;
     }
-
+    public void IncreaseHitCount()
+    {
+        hitCount++;
+    }
+    public void DecreaseHitCount()
+    {
+        hitCount--;
+    }
     public void IncreaseSpeed(float percentage)
     {
         if (moveSpeed < (maxSpeed * percentage))
@@ -63,7 +78,7 @@ public class PlayerStats : MonoBehaviour {
     public void DecreaseSpeed()
     {
         if (moveSpeed > 0.0f)
-            moveSpeed -= Time.deltaTime * acceleration * 2.0f;
+            moveSpeed -= Time.deltaTime * acceleration * 2.5f;
         else
             moveSpeed = 0.0f;
     }
@@ -77,7 +92,13 @@ public class PlayerStats : MonoBehaviour {
 
     public void Hit()
     {
-        Debug.Log("Player Has been Hit");
+        IncreaseHitCount();
+        PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
+        m_Health.UpdatePlayerHealth();
+        AudioManager.instance.PlayHit();
+
+        if (hitCount > 2)
+            SceneManager.LoadScene("GameOver");
     }
 
     public void Kill()

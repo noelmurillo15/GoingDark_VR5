@@ -47,11 +47,11 @@ public class KamikazeAI : MonoBehaviour {
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
-    {
+    {        
         if (hit.transform.CompareTag("Player"))
         {
+            hit.transform.SendMessage("Hit");
             stats.SendMessage("Kill");
-            hit.transform.FindChild("BattleShip").SendMessage("Hit");
         }
     }
 }

@@ -18,9 +18,9 @@ public class Missile : MonoBehaviour {
 
     void Start() {
         tracking = false;
-        LookSpeed = 5;
-        velocity = 180.0f;
-        destroyTimer = 10.0f;
+        LookSpeed = 10;
+        velocity = 100.0f;
+        destroyTimer = 15.0f;
     }
 
     void Update() {
@@ -30,7 +30,10 @@ public class Missile : MonoBehaviour {
             Kill();
 
         if (tracking)
+        {
+            velocity = 150f;
             LookAt();
+        }
 
         transform.position += transform.forward * velocity * Time.deltaTime;
     }
@@ -48,24 +51,21 @@ public class Missile : MonoBehaviour {
 
     #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (!tracking && col.GetType() == typeof(SphereCollider) && destroyTimer < 7.5f) {
+        if (!tracking) {
             if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
                 Debug.Log("Player Missile Tracking " + col.transform.tag);
                 target = col.transform;
                 tracking = true;
             }
-        }
-        else if (col.GetType() == typeof(CharacterController)) {
-            if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
-                col.gameObject.SendMessage("Kill");
-                Kill();
-            }
-        }
+        }        
     }
 
-    void OnCollisionEnter(Collision col) {
-        if(col.transform.tag == "Asteroid") {
-            col.gameObject.SendMessage("Kill");
+    void OnCollisionEnter(Collision col)
+    {
+        if(col.transform.CompareTag("Enemy") || col.transform.CompareTag("TransportShip") || col.transform.CompareTag("Asteroid"))
+        {
+            Debug.Log("Player Destroyed " + col.transform.name);
+            col.transform.SendMessage("Kill");
             Kill();
         }
     }

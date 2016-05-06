@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour {
     private GameObject health1;
     private GameObject health2;
     private GameObject health3;
-    private PlayerShipData player;
+    private PlayerStats stats;
 
 
     // Use this for initialization
@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour {
         if (health3 == null)
             health3 = GameObject.Find("Health3");
 
-        player = GameObject.Find("BattleShip").GetComponent<PlayerShipData>();
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         UpdatePlayerHealth();
     }
 
@@ -31,9 +31,9 @@ public class PlayerHealth : MonoBehaviour {
         if (autoRepairTimer > 0.0f)
             autoRepairTimer -= Time.deltaTime;
         else {
-            if (player.GetHitCount() != 0) {
+            if (stats.GetHitCount() != 0) {
                 Debug.Log("Player HP Regenerated");
-                player.DecreaseHitCount();
+                stats.DecreaseHitCount();
                 UpdatePlayerHealth();
             }
             autoRepairTimer = 120.0f;
@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviour {
     }
 
     public void UpdatePlayerHealth() {
-        switch (player.GetHitCount()) {
+        switch (stats.GetHitCount()) {
             case 1:
                 health1.gameObject.GetComponent<Renderer>().material.color = Color.red;
                 health2.gameObject.GetComponent<Renderer>().material.color = Color.green;

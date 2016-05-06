@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(EnemyStats))]
-[RequireComponent(typeof(CharacterController))]
 public class EnemyAttack : MonoBehaviour {
     //**        Attach to Enemy     **//
 
@@ -15,7 +14,6 @@ public class EnemyAttack : MonoBehaviour {
 
     //  Enemy Data
     private EnemyStats stats;
-    private CharacterController controller;
 
 
     // Use this for initialization
@@ -23,7 +21,6 @@ public class EnemyAttack : MonoBehaviour {
         lockedOn = false;
         missileCooldown = 5.0f;
         stats = GetComponent<EnemyStats>();
-        controller = GetComponent<CharacterController>();               
         m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -36,7 +33,7 @@ public class EnemyAttack : MonoBehaviour {
     }
 
     private void Chase() {
-        controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
+        transform.Translate(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
     }
 
     private void EliminatePlayer() {

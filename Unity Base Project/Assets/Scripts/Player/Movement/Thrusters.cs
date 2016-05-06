@@ -39,6 +39,9 @@ public class Thrusters : MonoBehaviour {
                 if(transform.localPosition.z > -offset)
                     percentage = (transform.localPosition.z + offset) / (offset * 2);
 
+                if (percentage > .95f)
+                    percentage = 1f;
+
                 if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) > -offset  &&
                     (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) < offset)
                     transform.localPosition += (velocity * Time.deltaTime * 0.0008f);                
@@ -59,18 +62,17 @@ public class Thrusters : MonoBehaviour {
 
     private void UpdateSpeedGauge()
     {
-        float percentage = stats.GetMoveSpeed() / stats.GetMaxSpeed();
-
+        float percent = stats.GetMoveSpeed() / stats.GetMaxSpeed();
         Vector3 newScale;
         newScale.x = speedBarColor1.transform.localScale.x;
-        newScale.y = percentage * 0.001f;
+        newScale.y = percent * 0.001f;
         newScale.z = speedBarColor1.transform.localScale.z;
 
         speedBarColor1.transform.localScale = newScale;
         speedBarColor2.transform.localScale = newScale;
 
         Vector3 newPos = speedBarColor1.transform.localPosition;
-        float offset = (percentage * 0.00456f) - 0.00456f;
+        float offset = (percent * 0.00456f) - 0.00456f;
         newPos.z = offset;
         speedBarColor1.transform.localPosition = newPos;
 

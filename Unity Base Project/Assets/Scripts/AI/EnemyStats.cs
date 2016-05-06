@@ -8,7 +8,6 @@ public class EnemyStats : MonoBehaviour {
     public float maxSpeed;
     public float rotateSpeed;
     public float acceleration;
-    private GameObject ammo;
     //  Weapons
     public int numMissiles;
 
@@ -20,12 +19,9 @@ public class EnemyStats : MonoBehaviour {
 
 
     void Start()
-    {
-        ammo = Resources.Load<GameObject>("AmmoDrop");
-
+    {       
         if (transform.name == "BetterEnemy")
         {
-            Debug.Log("Better Enemy Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 40f;
             numMissiles = 5;
@@ -35,7 +31,6 @@ public class EnemyStats : MonoBehaviour {
         }
         else if (transform.name == "Transport")
         {
-            Debug.Log("Transport Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 50f;
             numMissiles = 0;
@@ -45,7 +40,6 @@ public class EnemyStats : MonoBehaviour {
         }
         else if (transform.name == "Droid")
         {
-            Debug.Log("Droid Stats Updated");
             moveSpeed = 0f;
             maxSpeed = 60f;
             numMissiles = 0;
@@ -106,6 +100,15 @@ public class EnemyStats : MonoBehaviour {
         else
             moveSpeed = 0.0f;
     }
+
+    private bool RandomChance()
+    {
+        int chance = Random.Range(0, 10);
+        if (chance >= 0)
+            return true;
+
+        return false;
+    }
     #endregion
 
     #region Msg Functions
@@ -117,24 +120,14 @@ public class EnemyStats : MonoBehaviour {
     public void AsteroidHit()
     {
         Debug.Log("Enemy Has Hit Asteroid");
-    }
+    }    
 
-    public bool RandomChance()
-    {
-        int chance = Random.Range(0, 5);
-        if (chance > 0)
-            return true;
-
-        return false;
-    }
-
-    public void Kill()
-    {
-        Debug.Log("Destroyed Enemy Ship");
-        Destroy(this.gameObject);
-
-        if (RandomChance())
+    public void Kill() {
+        if (RandomChance()) {
+            GameObject ammo = Resources.Load<GameObject>("AmmoDrop");
             Instantiate(ammo, transform.position, transform.rotation);
+        }
+        Destroy(this.gameObject);
     }
     #endregion
 }

@@ -1,23 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
-    //  Player Stats
-    private PlayerStats stats;
-
-    //  Movement Vars
-    private int turnRateY;
-    private int turnRateX;
-    private float rotateSpeed;
-    private float maxRotateSpeed;
-    private float runMultiplier;
-
+    //  Movement
     private Vector3 moveDir;
+    private PlayerStats stats;
     private CharacterController m_controller;
 
-    //  Auto Pilot Vars
+    //  Auto-Movement
     private bool autoMove;
     private bool autoRotate;
     private bool resetRotation;
@@ -32,23 +25,17 @@ public class PlayerMovement : MonoBehaviour {
         autoMove = false;
         autoRotate = false;
         resetRotation = false;
-        orientationTimer = 0.0f;
-        turnRateY = 0;
-        turnRateX = 0;        
-        rotateSpeed = 0.0f;
-        maxRotateSpeed = 10.0f;
-        runMultiplier = 1.5f;
+        orientationTimer = 0.0f;    
+        moveDir = Vector3.zero;
 
         stats = GetComponent<PlayerStats>();
+        m_controller = GetComponent<CharacterController>();
 
         autoPilotSign = GameObject.Find("AutoPilot");
         reorientSign = GameObject.Find("Reorient");
 
         reorientSign.SetActive(resetRotation);
         autoPilotSign.SetActive(autoRotate);
-
-        moveDir = Vector3.zero;
-        m_controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -56,10 +43,6 @@ public class PlayerMovement : MonoBehaviour {
         if (!autoRotate && !autoMove && !resetRotation) {
             moveDir = Vector3.zero;
 
-            if(turnRateX != 0)
-                ManualTurnXAxis();
-            if(turnRateY != 0)
-                ManualTurnYAxis();
             if(stats.GetMoveSpeed() > 0.0f)
                 ManualWalk();
 
@@ -78,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
         if (autoRotate)
         {
             Vector3 playerDir = targetPosition - transform.position;
-            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (maxRotateSpeed * 0.1f) * Time.deltaTime, 0.0f);
+            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
             transform.rotation = Quaternion.LookRotation(newEnemyDir);
             angle = Vector3.Angle(newEnemyDir, playerDir);
         }
@@ -87,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             moveDir = Vector3.zero;
             moveDir = transform.TransformDirection(Vector3.forward);
-            moveDir *= (50.0f * Time.deltaTime) * runMultiplier;
+            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 1.5f);
             m_controller.Move(moveDir);
         }
 
@@ -131,59 +114,15 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void SetPlayerRotation(Quaternion rot) {
-        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.6f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.5f);
     }
 
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
         if (stats.GetMoveSpeed() >= stats.GetMaxSpeed())
-            moveDir *= (stats.GetMoveSpeed() * Time.deltaTime) * runMultiplier;
+            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime) * 1.5f;
         else
             moveDir *= stats.GetMoveSpeed() * Time.deltaTime;        
-    }
-      
-    private void ManualTurnYAxis() {
-        transform.Rotate(0, turnRateY * rotateSpeed * Time.deltaTime, 0);
-    }
-    public void ManualTurnXAxis() {
-        transform.Rotate(turnRateX * rotateSpeed * Time.deltaTime, 0, 0);
-    }
+    }     
     #endregion
-
-    #region Modifiers    
-    public void turnRateZero() {
-        turnRateY = 0;
-        turnRateX = 0;
-        rotateSpeed = 0.0f;
-    }
-    public void TurnUp() {
-        if (rotateSpeed < maxRotateSpeed)
-            rotateSpeed += 2.5f * Time.deltaTime;
-
-        turnRateX = -1;
-    }
-    public void TurnDown() {
-        if (rotateSpeed < maxRotateSpeed)
-            rotateSpeed += 2.5f * Time.deltaTime;
-
-        turnRateX = 1;
-    }
-    public void TurnLeft() {
-        if (rotateSpeed < maxRotateSpeed)
-            rotateSpeed += 2.5f * Time.deltaTime;
-
-        turnRateY = -1;
-    }
-    public void TurnRight() {
-        if (rotateSpeed < maxRotateSpeed)
-            rotateSpeed += 2.5f * Time.deltaTime;
-
-        turnRateY = 1;
-    }    
-    #endregion
-
-    public void Kill()
-    {
-        SceneManager.LoadScene("GameOver");
-    }
 }

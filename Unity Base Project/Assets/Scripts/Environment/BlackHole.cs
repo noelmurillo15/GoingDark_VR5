@@ -22,7 +22,6 @@ public class BlackHole : MonoBehaviour
         {
             Debug.Log("Pulling " + col.tag);
             Vector3 pullDirection = new Vector3(transform.position.x, transform.position.y + 70, transform.position.z) - col.transform.position;
-
             pullDirection.Normalize();
             col.transform.position = col.transform.position + pullDirection * Time.deltaTime * 50.0f;
         }
