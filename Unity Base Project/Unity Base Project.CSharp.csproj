@@ -158,6 +158,7 @@
     <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyManuevering.cs" />

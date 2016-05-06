@@ -25,7 +25,7 @@ public class PersistentGameManager : MonoBehaviour {
     #region Getters
 
     int GetPlayerResources() { return PlayerPrefs.GetInt("Resources", 0); }
-    int GetPlayerCredits() { return PlayerPrefs.GetInt("Credits", 0); }
+    int GetPlayerCredits() { return PlayerPrefs.GetInt("Credits", 100); }
     string GetPlayerName() { return PlayerPrefs.GetString("PlayerName", "Captain Planet"); }
     int GetPlayerMissileCount() { return PlayerPrefs.GetInt("MissleCount", 10); }
     int GetPlayerHealth() { return PlayerPrefs.GetInt("PlayerHealth", 3); }

@@ -4,11 +4,12 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
+    //  Player Stats
+    private PlayerStats stats;
+
     //  Movement Vars
     private int turnRateY;
     private int turnRateX;
-    public float maxSpeed;
-    private float moveSpeed;
     private float rotateSpeed;
     private float maxRotateSpeed;
     private float runMultiplier;
@@ -34,11 +35,11 @@ public class PlayerMovement : MonoBehaviour {
         orientationTimer = 0.0f;
         turnRateY = 0;
         turnRateX = 0;        
-        maxSpeed = 120.0f;
-        moveSpeed = 0.0f;
         rotateSpeed = 0.0f;
         maxRotateSpeed = 10.0f;
         runMultiplier = 1.5f;
+
+        stats = GetComponent<PlayerStats>();
 
         autoPilotSign = GameObject.Find("AutoPilot");
         reorientSign = GameObject.Find("Reorient");
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour {
                 ManualTurnXAxis();
             if(turnRateY != 0)
                 ManualTurnYAxis();
-            if(moveSpeed > 0.0f)
+            if(stats.GetMoveSpeed() > 0.0f)
                 ManualWalk();
 
             if(moveDir != Vector3.zero)
@@ -135,25 +136,12 @@ public class PlayerMovement : MonoBehaviour {
 
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
-        if (moveSpeed >= maxSpeed)
-            moveDir *= (moveSpeed * Time.deltaTime) * runMultiplier;
+        if (stats.GetMoveSpeed() >= stats.GetMaxSpeed())
+            moveDir *= (stats.GetMoveSpeed() * Time.deltaTime) * runMultiplier;
         else
-            moveDir *= moveSpeed * Time.deltaTime;        
+            moveDir *= stats.GetMoveSpeed() * Time.deltaTime;        
     }
-    public void IncreaseSpeed(float percentage) {
-        if (moveSpeed < (maxSpeed * percentage))
-            moveSpeed += 5.0f * Time.deltaTime;
-        else if (moveSpeed > (maxSpeed * percentage))
-            moveSpeed -= 5.0f * Time.deltaTime;
-        else
-            moveSpeed = 0.0f;
-    }
-    public void DecreaseSpeed() {
-        if (moveSpeed > 0.0f)
-            moveSpeed -= 10.0f * Time.deltaTime;
-        else
-            moveSpeed = 0.0f;
-    }    
+      
     private void ManualTurnYAxis() {
         transform.Rotate(0, turnRateY * rotateSpeed * Time.deltaTime, 0);
     }
@@ -163,9 +151,6 @@ public class PlayerMovement : MonoBehaviour {
     #endregion
 
     #region Modifiers    
-    public void StopMovement() {    
-        moveSpeed = 0.0f;
-    }
     public void turnRateZero() {
         turnRateY = 0;
         turnRateX = 0;
@@ -194,15 +179,6 @@ public class PlayerMovement : MonoBehaviour {
             rotateSpeed += 2.5f * Time.deltaTime;
 
         turnRateY = 1;
-    }    
-    #endregion
-
-    #region Accessors
-    public float GetSpeed() {
-        return moveSpeed;
-    }
-    public float GetMaxSpeed() {
-        return maxSpeed;
     }    
     #endregion
 

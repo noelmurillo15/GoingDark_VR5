@@ -8,6 +8,7 @@ public class Thrusters : MonoBehaviour {
     public float percentage;
     public HandBehavior m_palm;
     public PlayerMovement m_playerMove;
+    public PlayerStats stats;
 
     private GameObject speedBarColor1;
     private GameObject speedBarColor2;
@@ -21,7 +22,8 @@ public class Thrusters : MonoBehaviour {
         percentage = 0.0f;
         speedBarColor1 = GameObject.Find("SpeedColor1");
         speedBarColor2 = GameObject.Find("SpeedColor2");
-        m_playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame
@@ -45,19 +47,19 @@ public class Thrusters : MonoBehaviour {
 
         if (transform.localPosition.z < -0.004f)
         {
-            m_playerMove.DecreaseSpeed();
+            stats.DecreaseSpeed();
             UpdateSpeedGauge();
         }
         else if (transform.localPosition.z > -0.004f)
         {
-            m_playerMove.IncreaseSpeed(percentage);
+            stats.IncreaseSpeed(percentage);
             UpdateSpeedGauge();
         }        
     }
 
     private void UpdateSpeedGauge()
     {
-        float percentage = m_playerMove.GetSpeed() / m_playerMove.GetMaxSpeed();
+        float percentage = stats.GetMoveSpeed() / stats.GetMaxSpeed();
 
         Vector3 newScale;
         newScale.x = speedBarColor1.transform.localScale.x;
