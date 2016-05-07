@@ -5,21 +5,23 @@
 public class EnemyBehavior : MonoBehaviour {
     //**    Attach to an Enemy  **//
 
-    //  Behavior
+    //  Detection
     public bool wandering;
     public bool playerDetected;
     private float detectionTimer;
 
-    //  Player Data
-    private Cloak playerCloak;
-    private GameObject messages;
-
-    //  Enemy Scripts
+    //  Base AI
     private EnemyStats stats;
     private PatrolAi wanderAI;
+
+    //  Unique AI
     private KamikazeAI kamiAI;
     private EnemyAttack attackAI;
     private TransportShipAI transportAI;
+
+    //  Player Data
+    private Cloak playerCloak;
+    private GameObject messages;
 
 
     void Start() {
@@ -62,11 +64,11 @@ public class EnemyBehavior : MonoBehaviour {
             detectionTimer -= Time.deltaTime;
     }
 
-    private void ChangeState() {
+    public void ChangeState() {
         wanderAI.enabled = wandering;
         if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {
             wanderAI.enabled = true;
-            if (transportAI.GetCloakTimer() != 0.0f)
+            if (transportAI.GetCloakTimer() > 0.0f)
                 wanderAI.SetSpeedBoost(2.0f);
             else
                 wanderAI.SetSpeedBoost(0.5f);
@@ -83,11 +85,9 @@ public class EnemyBehavior : MonoBehaviour {
     void OnTriggerEnter(Collider col) {       
         if (col.CompareTag("Player"))
         {
-            Debug.Log("Player Detected : " + col.tag);
             wandering = false;
             playerDetected = true;
             detectionTimer = 0f;
-            messages.SendMessage("EnemyClose");
         }
     }
 
@@ -95,22 +95,18 @@ public class EnemyBehavior : MonoBehaviour {
     {
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            Debug.Log("Player Detected");
             detectionTimer = Random.Range(.5f, 5f);
             if (!playerCloak.GetCloaked())
             {
-                Debug.Log("Player Found");
                 wandering = false;
                 playerDetected = true;
             }
             else
             {
-                Debug.Log("Player not Found");
                 wandering = true;
                 playerDetected = false;
                 transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
             }
-
             ChangeState();
         }
     }

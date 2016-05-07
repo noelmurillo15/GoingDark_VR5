@@ -10,7 +10,7 @@ public class TransportShipAI : MonoBehaviour {
     private GameObject mesh1;
     private GameObject mesh2;
 
-    private EnemyStats stats;
+    private EnemyBehavior ai;
 
 
     // Use this for initialization
@@ -18,7 +18,7 @@ public class TransportShipAI : MonoBehaviour {
         mesh1 = transform.GetChild(0).gameObject;
         mesh2 = transform.GetChild(1).gameObject;
 
-        CloakOff();
+        ai = GetComponent<EnemyBehavior>();
     }
 	
 	// Update is called once per frame
@@ -42,6 +42,7 @@ public class TransportShipAI : MonoBehaviour {
     }
 
     void CloakOff() {
+        ai.ChangeState();
         mesh1.GetComponent<Renderer>().material = opaqueMat;
         mesh2.GetComponent<Renderer>().material = opaqueMat;
     }

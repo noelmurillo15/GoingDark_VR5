@@ -35,7 +35,7 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 50f;
             numMissiles = 0;
             rotateSpeed = 15f;
-            acceleration = 3.0f;
+            acceleration = 3.5f;
             type = ENEMY_TYPE.TRANSPORT;
         }
         else if (transform.name == "Droid")
@@ -100,11 +100,15 @@ public class EnemyStats : MonoBehaviour {
         else
             moveSpeed = 0.0f;
     }    
+    public void StopMovement()
+    {
+        moveSpeed = 0f;
+    }
 
     private bool RandomChance()
     {
-        int chance = Random.Range(0, 10);
-        if (chance >= 0)
+        int chance = Random.Range(1, 3);
+        if (chance == 1)
             return true;
 
         return false;
@@ -115,11 +119,13 @@ public class EnemyStats : MonoBehaviour {
     public void EMPHit()
     {
         Debug.Log("EMP has affected Enemy's Systems");
+        StopMovement();
     }
 
     public void AsteroidHit()
     {
         Debug.Log("Enemy Has Hit Asteroid");
+        StopMovement();
     }    
 
     public void Kill() {

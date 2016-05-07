@@ -69,7 +69,6 @@ public class MessageScript : MonoBehaviour
             GetComponent<Renderer>().material.mainTexture = missileImage;
 
         missile = true;
-        Debug.Log("Incoming Missile");
     }
 
     void MissileDestroyed()
@@ -79,7 +78,6 @@ public class MessageScript : MonoBehaviour
         else
             GetComponent<Renderer>().material.mainTexture = HUD;
         missile = false;
-        Debug.Log("Missile Destroyed");
     }
 
     void Win()

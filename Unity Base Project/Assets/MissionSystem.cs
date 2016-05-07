@@ -45,7 +45,7 @@ public class MissionSystem : MonoBehaviour {
     
 	// Use this for initialization
 	void Start () {
-        Debug.Log("mission Start");
+        Debug.Log("Mission Start");
         MissionStorage = new Dictionary<string, Mission[]>();
         m_combat = new Mission[3];
         m_stealth = new Mission[1];
@@ -165,7 +165,7 @@ public class MissionSystem : MonoBehaviour {
 
     public Mission[] GetMissionsByLevel(string levelName)
     {
-        Debug.Log("Name" + levelName);
+        Debug.Log("Level Name : " + levelName);
         return MissionStorage[levelName];
     }
 
