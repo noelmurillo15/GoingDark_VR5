@@ -18,9 +18,10 @@ public class Missile : MonoBehaviour {
 
     void Start() {
         tracking = false;
-        LookSpeed = 2;
-        velocity = 125.0f;
-        destroyTimer = 7.5f;
+        LookSpeed = 5;
+        velocity = 200.0f;
+        destroyTimer = 10f;
+        target = null;
     }
 
     void Update() {
@@ -31,7 +32,7 @@ public class Missile : MonoBehaviour {
 
         if (tracking)
         {
-            velocity = 150f;
+            velocity = 225f;
             LookAt();
         }
 
@@ -45,8 +46,11 @@ public class Missile : MonoBehaviour {
 
     private void LookAt()
     {
-        targetRotation = Quaternion.LookRotation(target.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+        if (target != null)
+        {
+            targetRotation = Quaternion.LookRotation(target.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+        }
     }
 
     #region Collisions

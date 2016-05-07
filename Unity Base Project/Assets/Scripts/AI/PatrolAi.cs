@@ -19,7 +19,7 @@ public class PatrolAi : MonoBehaviour {
     public float heading;
     private Vector3 targetRotation;
 
-    //  Enemy Data
+    //  Enemy Data    
     private EnemyStats stats;
     private CharacterController controller;
 
@@ -65,6 +65,7 @@ public class PatrolAi : MonoBehaviour {
         }
         else
         {
+            // Auto-pilot back into playable area
             Vector3 playerDir = Vector3.zero - transform.position;
             Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
             transform.rotation = Quaternion.LookRotation(direction);

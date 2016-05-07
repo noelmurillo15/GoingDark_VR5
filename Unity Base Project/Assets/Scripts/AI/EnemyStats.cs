@@ -20,7 +20,7 @@ public class EnemyStats : MonoBehaviour {
 
     void Start()
     {       
-        if (transform.name == "BetterEnemy")
+        if (transform.name == "BasicEnemy")
         {
             moveSpeed = 0f;
             maxSpeed = 40f;

@@ -2,6 +2,7 @@
 
 public class TransportShipAI : MonoBehaviour {
     //**    Attach to Transport Prefab  **//
+    private float padding;
     public float cloakTimer;
 
     public Material transMat;
@@ -23,6 +24,9 @@ public class TransportShipAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (padding > 0f)
+            padding -= Time.deltaTime;
+
         if (cloakTimer > 0.0f)
             cloakTimer -= Time.deltaTime;
         else {
@@ -59,8 +63,9 @@ public class TransportShipAI : MonoBehaviour {
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.transform.CompareTag("Player"))
+        if (hit.transform.CompareTag("Player") && padding <= 0f)
         {
+            padding = 1f;
             hit.transform.FindChild("BattleShip").SendMessage("Hit");
         }
     }
