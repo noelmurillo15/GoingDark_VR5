@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: aefdd53cbe462714880c122ee9bd3447
+timeCreated: 1461347800
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - EnemyHandle: {instanceID: 0}
+  - MaterialColorRed: {fileID: 2100000, guid: e9aa66e0d8717394e86c5269596022a1, type: 2}
+  - MaterialColorBlue: {fileID: 2100000, guid: 0af55d6f072001840baa51aa10ed5602, type: 2}
+  - MaterialColorYellow: {fileID: 2100000, guid: e9aa66e0d8717394e86c5269596022a1,
+      type: 2}
+  - MaterialColorOther: {fileID: 2100000, guid: f59153504d227ed45b7b70c3423f89e3,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

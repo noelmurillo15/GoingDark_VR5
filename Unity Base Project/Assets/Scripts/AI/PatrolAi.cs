@@ -68,14 +68,12 @@ public class PatrolAi : MonoBehaviour {
     private void CheckRayCasts() {
         if (Physics.Raycast(transform.position + (transform.right * 12), transform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
-                Debug.Log("Right Raycast Hit");
                 pathBlocked = true;
                 transform.Rotate(Vector3.down * Time.deltaTime * stats.GetRotateSpeed());
             }
         }
         else if (Physics.Raycast(transform.position - (transform.right * 12), transform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
-                Debug.Log("Left Raycast Hit");
                 pathBlocked = true;
                 transform.Rotate(Vector3.up * Time.deltaTime * stats.GetRotateSpeed());
             }

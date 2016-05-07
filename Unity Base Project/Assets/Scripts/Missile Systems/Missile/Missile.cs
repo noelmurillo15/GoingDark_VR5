@@ -18,9 +18,9 @@ public class Missile : MonoBehaviour {
 
     void Start() {
         tracking = false;
-        LookSpeed = 10;
-        velocity = 100.0f;
-        destroyTimer = 15.0f;
+        LookSpeed = 2;
+        velocity = 125.0f;
+        destroyTimer = 7.5f;
     }
 
     void Update() {
@@ -51,7 +51,7 @@ public class Missile : MonoBehaviour {
 
     #region Collisions
     void OnTriggerEnter(Collider col) {
-        if (!tracking) {
+        if (!tracking && col.GetType() == typeof(CharacterController)) {
             if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
                 Debug.Log("Player Missile Tracking " + col.transform.tag);
                 target = col.transform;

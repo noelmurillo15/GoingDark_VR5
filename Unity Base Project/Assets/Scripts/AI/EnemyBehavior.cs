@@ -83,33 +83,35 @@ public class EnemyBehavior : MonoBehaviour {
     void OnTriggerEnter(Collider col) {       
         if (col.CompareTag("Player"))
         {
+            Debug.Log("Player Detected : " + col.tag);
             wandering = false;
             playerDetected = true;
-            ChangeState();
+            detectionTimer = 0f;
             messages.SendMessage("EnemyClose");
-            return;
         }
     }
 
-    void OnTriggerStay(Collider col) {
-        if (detectionTimer <= 0.0f)
+    void OnTriggerStay(Collider col)
+    {
+        if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            if (col.CompareTag("Player"))
-            {
-                if (!playerCloak.GetCloaked())
-                {
-                    wandering = false;
-                    playerDetected = true;
-                }
-                else
-                {
-                    wandering = true;
-                    playerDetected = false;
-                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);                
-                }
-            }
-            ChangeState();
+            Debug.Log("Player Detected");
             detectionTimer = Random.Range(.5f, 5f);
+            if (!playerCloak.GetCloaked())
+            {
+                Debug.Log("Player Found");
+                wandering = false;
+                playerDetected = true;
+            }
+            else
+            {
+                Debug.Log("Player not Found");
+                wandering = true;
+                playerDetected = false;
+                transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
+            }
+
+            ChangeState();
         }
     }
 

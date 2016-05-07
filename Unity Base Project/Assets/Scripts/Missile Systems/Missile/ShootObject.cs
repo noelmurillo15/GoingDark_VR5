@@ -40,7 +40,7 @@ public class ShootObject : MonoBehaviour {
                 if (Miss != null)
                 {
                     MissileCount--;
-                    Instantiate(Miss, new Vector3(transform.position.x, transform.position.y - 8.0f, transform.position.z), player.transform.rotation);
+                    Instantiate(Miss, new Vector3(player.transform.position.x, player.transform.position.y - 10.0f, player.transform.position.z), player.transform.rotation);
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");

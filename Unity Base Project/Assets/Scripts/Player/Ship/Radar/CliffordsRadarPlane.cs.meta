@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: e694f8a613b4b694ca09dbb272ff33b0
+timeCreated: 1461347818
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - PreFabBlip: {fileID: 169960, guid: 5cc3522d432048d4b8eb1f07f9412f33, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

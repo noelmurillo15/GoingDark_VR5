@@ -60,17 +60,21 @@ public class Asteroid : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log(col.transform.name + " hit asteroid");
         if (col.GetType() == typeof(MeshCollider) && col.transform.CompareTag("Missile"))
         {
             col.transform.SendMessage("Kill");
             Kill();
         }
+
+        if (col.transform.CompareTag("PlayerShip"))
+        {
+            col.transform.parent.SendMessage("Hit");
+        }
     }
 
     public void Kill() {
-        //AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
-        //m_generator.DeleteAsteroid();
+        AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
+        m_generator.DeleteAsteroid();
         Destroy(this.gameObject);
     }
 }

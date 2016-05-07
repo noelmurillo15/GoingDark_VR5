@@ -99,7 +99,7 @@ public class EnemyStats : MonoBehaviour {
             moveSpeed -= Time.deltaTime * acceleration * 2.5f;
         else
             moveSpeed = 0.0f;
-    }
+    }    
 
     private bool RandomChance()
     {

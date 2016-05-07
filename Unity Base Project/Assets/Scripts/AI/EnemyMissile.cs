@@ -62,7 +62,7 @@ public class EnemyMissile : MonoBehaviour {
 
     void OnCollisionEnter(Collision col) {
         if (col.transform.tag == "PlayerShip") {
-            col.gameObject.SendMessage("Hit");            
+            col.transform.parent.SendMessage("Hit");            
             Kill();
         }
         else if (col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {

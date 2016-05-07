@@ -160,7 +160,8 @@
     <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
-    <Compile Include="Assets\PlayerStats.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerCollisions.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyManuevering.cs" />
@@ -211,15 +212,15 @@
     <Compile Include="Assets\Scripts\Player\Movement\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\ReorientPlayer.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\Thrusters.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Devices\Cloak.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Devices\Decoy.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Devices\EMP.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Devices\HyperDrive.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Devices\PlayerHealth.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\PlayerShipData.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Radar\CliffordsRadarBlip.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Radar\CliffordsRadarPlane.cs" />
-    <Compile Include="Assets\Scripts\Player\Player Ship\Radar\RadarDisplay.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\Cloak.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\Decoy.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\EMP.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\HyperDrive.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\PlayerShipData.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarBlip.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarPlane.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Radar\RadarDisplay.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
