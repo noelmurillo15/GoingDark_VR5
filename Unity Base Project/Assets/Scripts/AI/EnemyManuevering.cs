@@ -31,7 +31,6 @@ public class EnemyManuevering : MonoBehaviour {
         }
 
         // Move forward in the world
-        //transform.Translate(Vector3.forward * Time.deltaTime * speed);
         controller.Move(transform.forward * Time.deltaTime * speed);
 
 

@@ -1,49 +1,42 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class OutOfBoundsScript : MonoBehaviour {
 
-    public bool danger;
-    public float timeToReturn;
-
 	// Use this for initialization
 	void Start () {
-        danger = false;
-        timeToReturn = 30.0f;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (danger)
-            timeToReturn -= Time.deltaTime;
 
-        if (timeToReturn <= 0.0f && danger)
-            SceneManager.LoadScene("Credits_Scene");
     }
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Player") {
-            Debug.Log("In Bounds");
+        if (col.CompareTag("Player")) {
+            Debug.Log("Player in playable area");
             col.SendMessage("InBounds");
-            timeToReturn = 0.0f;
-            danger = false;
         }
 
-        if (col.tag == "Asteroid")
+        if (col.CompareTag("Enemy"))
         {
-            Debug.Log("Asteroid Detected");
+            Debug.Log("Enemy In Bounds");
+            col.SendMessage("InBounds");
         }
     }
 
     void OnTriggerExit(Collider col)
     {
-        if (col.tag == "Player")
+        if (col.CompareTag("Player"))
         {
-            Debug.Log("Out of Bounds");
+            Debug.Log("Player Out Of Bounds");
             col.SendMessage("OutOfBounds", this.transform.position);
-            timeToReturn = 30.0f;
-            danger = true;
+        }
+        if (col.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy Out Of Bounds");
+            col.SendMessage("OutOfBounds", this.transform.position);
         }
     }
 }

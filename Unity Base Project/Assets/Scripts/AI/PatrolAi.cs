@@ -15,7 +15,8 @@ public class PatrolAi : MonoBehaviour {
     private RaycastHit hit;
 
     //  Movement
-    private float heading;
+    public bool autoMove;
+    public float heading;
     private Vector3 targetRotation;
 
     //  Enemy Data
@@ -42,20 +43,38 @@ public class PatrolAi : MonoBehaviour {
     }
 
     void Update() {
-        if (!pathBlocked)
-            transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime / interval);
+        if (!autoMove)
+        {
+            if (!pathBlocked)
+                transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime / interval);
 
-        stats.IncreaseSpeed(speedBoost);
-        controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
+            stats.IncreaseSpeed(speedBoost);
+            controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
 
-        CheckRayCasts();
+            CheckRayCasts();
 
-        if (pathBlocked) {
-            if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, (range / 2.0f)) ||
-            Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, (range / 2.0f))) {
-                if (hit.collider.gameObject.CompareTag("Asteroid"))
-                    pathBlocked = false;
-            }
+            if (pathBlocked)
+            {
+                if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, (range / 2.0f)) ||
+                Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, (range / 2.0f)))
+                {
+                    if (hit.collider.gameObject.CompareTag("Asteroid"))
+                        pathBlocked = false;
+                }
+            }            
+        }
+        else
+        {
+            Vector3 playerDir = Vector3.zero - transform.position;
+            Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
+            transform.rotation = Quaternion.LookRotation(direction);
+
+            Vector3 moveDir = Vector3.zero;
+            moveDir = transform.TransformDirection(Vector3.forward);
+            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
+            controller.Move(moveDir);
+
+            heading = transform.eulerAngles.y;
         }
 
         // Use to debug the Physics.RayCast.
@@ -84,6 +103,16 @@ public class PatrolAi : MonoBehaviour {
     public void SetSpeedBoost(float boost)
     {
         speedBoost = boost;
+    }
+
+    public void OutOfBounds(Vector3 targetPos)
+    {
+        autoMove = true;
+    }
+
+    public void InBounds()
+    {
+        autoMove = false;
     }
 
     #region Coroutine

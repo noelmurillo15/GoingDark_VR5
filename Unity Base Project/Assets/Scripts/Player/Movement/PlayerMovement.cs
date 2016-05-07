@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             moveDir = Vector3.zero;
             moveDir = transform.TransformDirection(Vector3.forward);
-            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 1.5f);
+            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
             m_controller.Move(moveDir);
         }
 
@@ -105,7 +105,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (transform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
             orientationTimer -= Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * 0.75f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * 0.5f);
         }
         else
             resetRotation = false;
@@ -114,7 +114,8 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void SetPlayerRotation(Quaternion rot) {
-        transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.5f);
+        if(!resetRotation && !autoMove && !autoRotate)
+            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.5f);
     }
 
     private void ManualWalk() {
