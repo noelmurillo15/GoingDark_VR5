@@ -19,7 +19,7 @@ public class OutOfBoundsScript : MonoBehaviour {
             col.SendMessage("InBounds");
         }
 
-        if (col.CompareTag("Enemy"))
+        if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {
             Debug.Log("Enemy In Bounds");
             col.SendMessage("InBounds");
@@ -33,7 +33,7 @@ public class OutOfBoundsScript : MonoBehaviour {
             Debug.Log("Player Out Of Bounds");
             col.SendMessage("OutOfBounds", this.transform.position);
         }
-        if (col.CompareTag("Enemy"))
+        if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {
             Debug.Log("Enemy Out Of Bounds");
             col.SendMessage("OutOfBounds", this.transform.position);

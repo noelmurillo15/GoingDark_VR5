@@ -37,7 +37,7 @@ public class PatrolAi : MonoBehaviour {
 
         // Set random initial rotation
         heading = Random.Range(0, 360);
-        transform.eulerAngles = new Vector3(0, heading, 0);
+        transform.localEulerAngles = new Vector3(0, heading, 0);
 
         StartCoroutine(NewHeading());
     }
@@ -46,7 +46,7 @@ public class PatrolAi : MonoBehaviour {
         if (!autoMove)
         {
             if (!pathBlocked)
-                transform.eulerAngles = Vector3.Slerp(transform.eulerAngles, targetRotation, Time.deltaTime / interval);
+                transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / interval);
 
             stats.IncreaseSpeed(speedBoost);
             controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
@@ -74,7 +74,7 @@ public class PatrolAi : MonoBehaviour {
             moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
             controller.Move(moveDir);
 
-            heading = transform.eulerAngles.y;
+            heading = transform.localEulerAngles.y;
         }
 
         // Use to debug the Physics.RayCast.
