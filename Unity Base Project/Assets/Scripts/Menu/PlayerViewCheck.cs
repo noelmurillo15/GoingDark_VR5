@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class PlayerViewCheck : MonoBehaviour {
 
@@ -11,17 +10,20 @@ public class PlayerViewCheck : MonoBehaviour {
     private GameObject curStar;
     private Canvas canvas;
     private Text[] texts;
+    public float delayTimer;
     public bool isSwitching;
+    private TransitionHyperDrive hyperDrive;
     
     // Use this for initialization
     void Start () {
+        delayTimer = 2.0f;
         fov = transform.GetComponent<Camera>().fieldOfView/5;
         rayDirection = Vector3.zero;
-        canvas = gameObject.GetComponentInChildren<Canvas>();
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         stars = GameObject.FindGameObjectsWithTag("Star");
         texts = canvas.GetComponentsInChildren<Text>();
         isSwitching = false;
-
+        hyperDrive = GameObject.Find("TransitionHyperDrive").GetComponent<TransitionHyperDrive>();
     }
 
     // Update is called once per frame
@@ -33,8 +35,15 @@ public class PlayerViewCheck : MonoBehaviour {
             //Vector3.Lerp(transform.position, curStar.transform.position, Time.deltaTime * 10);
             //transform.Rotate()
             canvas.enabled = false;
-            SceneManager.LoadScene("level1");
-            //Application.LoadLevel();
+            hyperDrive.HyperDriveInitialize();
+            if (hyperDrive.IsOver())
+            {
+                SceneManager.LoadScene(curStar.name.ToString());
+            }
+            //if (delayTimer <= 0.0f)
+            //    SceneManager.LoadScene("level1");
+            //else
+            //    delayTimer -= Time.deltaTime;
         }
     }
 
@@ -49,7 +58,6 @@ public class PlayerViewCheck : MonoBehaviour {
             {
                 if (Physics.Raycast(transform.position, rayDirection, out hit))
                 {
-                    //Debug.Log(stars[i].name);
                     curStar = stars[i];
                     canvas.enabled = true;
                     MissionText(stars[i].name);
@@ -73,4 +81,5 @@ public class PlayerViewCheck : MonoBehaviour {
                 texts[i].enabled = false;
         }
     }
+    
 }

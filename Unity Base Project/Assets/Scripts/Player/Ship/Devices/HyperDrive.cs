@@ -17,9 +17,11 @@ public class HyperDrive : MonoBehaviour {
 
     private PlayerStats stats;
 
+    private float beginningTimer;
 
     // Use this for initialization
     void Start () {
+        beginningTimer = 0.5f;
         activated = false;
         cooldownTimer = 0.0f;        
 
@@ -29,14 +31,26 @@ public class HyperDrive : MonoBehaviour {
         if (particles == null)
             particles = GameObject.Find("WarpDriveParticles");
 
-        stats = m_playerMove.GetComponent<PlayerStats>();
+        stats = GetComponent<PlayerStats>();
 
         particleOriginPos = particles.transform.localPosition;
-        particles.SetActive(false);
+        particles.SetActive(true);
     }
 
     // Update is called once per frame
     void Update () {
+
+        if (beginningTimer > 0.0f)
+        {
+            beginningTimer -= Time.deltaTime;
+            particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
+            if (beginningTimer <= 0.0f)
+            {
+                particles.SetActive(false);
+                particles.transform.localPosition = particleOriginPos;
+            }
+        }
+        
         if (cooldownTimer > 0.0f)
             cooldownTimer -= Time.deltaTime;
 
@@ -47,15 +61,15 @@ public class HyperDrive : MonoBehaviour {
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
             initializeTimer -= Time.deltaTime;
-            boostTimer = 0.5f;
+            boostTimer = 0.25f;
             stats.DecreaseSpeed();
-            particles.transform.Translate(Vector3.forward * 25.0f * Time.deltaTime);
+            particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
         }
         else {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
-                particles.transform.Translate(Vector3.forward * 100.0f * Time.deltaTime);
-                m_playerMove.transform.Translate(Vector3.forward * 5000.0f * Time.deltaTime);
+                particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
+                m_playerMove.transform.Translate(Vector3.forward * 3000.0f * Time.deltaTime);
             }
             else {
                 activated = false;

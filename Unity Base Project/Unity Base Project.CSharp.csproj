@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -160,8 +158,6 @@
     <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerCollisions.cs" />
-    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\AI\EnemyManuevering.cs" />
@@ -197,6 +193,7 @@
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
+    <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Despawn.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Improved Tracer\Improved_Tracer.cs" />
     <Compile Include="Assets\Scripts\Missile Systems\Improved Tracer\ShootImprovedTracer.cs" />
@@ -212,6 +209,8 @@
     <Compile Include="Assets\Scripts\Player\Movement\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\ReorientPlayer.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\Thrusters.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerCollisions.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\Cloak.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\Decoy.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\EMP.cs" />

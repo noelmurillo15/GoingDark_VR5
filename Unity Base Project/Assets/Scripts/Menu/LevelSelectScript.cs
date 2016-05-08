@@ -7,7 +7,6 @@ public class LevelSelectScript : MonoBehaviour {
     private Image m_button;
     private float transition;
     private float cancelTimer;
-    private GameObject particles;
     private PlayerViewCheck player;
     //private Vector3 particleOriginPos;
 
@@ -18,17 +17,17 @@ public class LevelSelectScript : MonoBehaviour {
         m_button = this.GetComponent<Image>();
         player = GameObject.Find("CenterEyeAnchor").GetComponent<PlayerViewCheck>();
 
-        if (particles == null)
-            particles = GameObject.Find("WarpDriveParticles");
-
        // particleOriginPos = particles.transform.localPosition;
-        particles.SetActive(false);
     }
 
 
     // Update is called once per frame
     void Update () {
-        
+        if (Input.GetKey(KeyCode.X))
+        {
+            GetComponentInParent<Canvas>().enabled = false;
+            player.isSwitching = true;
+        }
     }
 
     public void OnTriggerEnter(Collider col)
@@ -67,7 +66,6 @@ public class LevelSelectScript : MonoBehaviour {
             if (m_button.color == Color.green)
             {
                 //Debug.Log("selected");
-                particles.SetActive(true);
                 GetComponentInParent<Canvas>().enabled = false;
                 player.isSwitching = true;
 

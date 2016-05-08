@@ -28,14 +28,13 @@ public class PlayerMovement : MonoBehaviour {
         orientationTimer = 0.0f;    
         moveDir = Vector3.zero;
 
+        autoPilotSign = GameObject.Find("AutoPilot");
+        autoPilotSign.SetActive(autoRotate);
+        reorientSign = GameObject.Find("Reorient");
+        reorientSign.SetActive(resetRotation);
+
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
-
-        autoPilotSign = GameObject.Find("AutoPilot");
-        reorientSign = GameObject.Find("Reorient");
-
-        reorientSign.SetActive(resetRotation);
-        autoPilotSign.SetActive(autoRotate);
     }
 
     // Update is called once per frame
