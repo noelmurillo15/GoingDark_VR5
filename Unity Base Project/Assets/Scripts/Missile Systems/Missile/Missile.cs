@@ -19,7 +19,7 @@ public class Missile : MonoBehaviour {
     void Start() {
         tracking = false;
         LookSpeed = 5;
-        velocity = 200.0f;
+        velocity = 150.0f;
         destroyTimer = 10f;
         target = null;
     }
@@ -32,7 +32,7 @@ public class Missile : MonoBehaviour {
 
         if (tracking)
         {
-            velocity = 225f;
+            velocity = 180f;
             LookAt();
         }
 

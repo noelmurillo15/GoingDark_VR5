@@ -14,16 +14,16 @@ public class Asteroid : MonoBehaviour {
         {
             m_aliveTimer = Random.Range(120.0f, 360.0f);
 
-            m_velocity.x = Random.Range(-1.0f, 1.0f);
-            m_velocity.y = Random.Range(-1.0f, 1.0f);
-            m_velocity.z = Random.Range(-1.0f, 1.0f);
+            m_velocity.x = Random.Range(-2.0f, 2.0f);
+            m_velocity.y = Random.Range(-2.0f, 2.0f);
+            m_velocity.z = Random.Range(-2.0f, 2.0f);
 
-            m_rotation.x = Random.Range(-10.0f, 10.0f);
-            m_rotation.y = Random.Range(-10.0f, 10.0f);
-            m_rotation.z = Random.Range(-10.0f, 10.0f);
+            m_rotation.x = Random.Range(-15.0f, 15.0f);
+            m_rotation.y = Random.Range(-15.0f, 15.0f);
+            m_rotation.z = Random.Range(-15.0f, 15.0f);
 
             Vector3 m_scale = Vector3.zero;
-            m_scale.x = Random.Range(0.5f, 15.0f);
+            m_scale.x = Random.Range(0.5f, 20.0f);
             m_scale.y = m_scale.x;
             m_scale.z = m_scale.x;
 
