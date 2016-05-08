@@ -21,7 +21,9 @@ public class HyperDrive : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        beginningTimer = 0.5f;
+        Debug.Log("Player Start Called");
+
+        beginningTimer = 5.0f;
         activated = false;
         cooldownTimer = 0.0f;        
 

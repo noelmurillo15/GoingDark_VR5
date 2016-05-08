@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour {
 
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
+
+        OutOfBounds(Vector3.zero);
     }
 
     // Update is called once per frame
