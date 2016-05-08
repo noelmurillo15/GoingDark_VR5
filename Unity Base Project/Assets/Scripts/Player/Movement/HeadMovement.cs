@@ -8,8 +8,8 @@ public class HeadMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
         m_Player = GameObject.FindGameObjectWithTag("Player");
+        m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
     }
 
     // Update is called once per frame

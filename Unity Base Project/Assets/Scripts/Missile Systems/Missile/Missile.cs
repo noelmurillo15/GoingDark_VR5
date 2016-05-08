@@ -25,6 +25,7 @@ public class Missile : MonoBehaviour {
     }
 
     void Update() {
+
         if (destroyTimer > 0.0f)
             destroyTimer -= Time.deltaTime;
         else
@@ -68,7 +69,6 @@ public class Missile : MonoBehaviour {
     {
         if(col.transform.CompareTag("Enemy") || col.transform.CompareTag("TransportShip") || col.transform.CompareTag("Asteroid"))
         {
-            Debug.Log("Player Destroyed " + col.transform.name);
             col.transform.SendMessage("Kill");
             Kill();
         }

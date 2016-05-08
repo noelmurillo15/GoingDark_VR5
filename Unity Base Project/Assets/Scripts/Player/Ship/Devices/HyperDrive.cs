@@ -23,7 +23,7 @@ public class HyperDrive : MonoBehaviour {
     void Start () {
         Debug.Log("Player Start Called");
 
-        beginningTimer = 5.0f;
+        beginningTimer = 2f;
         activated = false;
         cooldownTimer = 0.0f;        
 
@@ -33,7 +33,7 @@ public class HyperDrive : MonoBehaviour {
         if (particles == null)
             particles = GameObject.Find("WarpDriveParticles");
 
-        stats = GetComponent<PlayerStats>();
+        stats = m_playerMove.GetComponent<PlayerStats>();
 
         particleOriginPos = particles.transform.localPosition;
         particles.SetActive(true);
@@ -63,14 +63,14 @@ public class HyperDrive : MonoBehaviour {
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
             initializeTimer -= Time.deltaTime;
-            boostTimer = 0.25f;
+            boostTimer = 0.5f;
             stats.DecreaseSpeed();
             particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
         }
         else {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
-                particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
+                particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
                 m_playerMove.transform.Translate(Vector3.forward * 3000.0f * Time.deltaTime);
             }
             else {

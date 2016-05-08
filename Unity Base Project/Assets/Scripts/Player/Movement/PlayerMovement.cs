@@ -5,103 +5,92 @@
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
-    //  Movement
+    //  Player
     private Vector3 moveDir;
     private PlayerStats stats;
+    private HeadMovement headMove;
     private CharacterController m_controller;
 
     //  Auto-Movement
-    private bool autoMove;
-    private bool autoRotate;
+    private bool autoPilot;
     private bool resetRotation;
     private float orientationTimer;
-    private Vector3 targetPosition;
-    private GameObject autoPilotSign;
+    private Vector3 autoPilotDestination;
+
     private GameObject reorientSign;
+    private GameObject autoPilotSign;
 
 
     // Use this for initialization
     void Start() {
-        autoMove = false;
-        autoRotate = false;
+        autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;    
         moveDir = Vector3.zero;
+        autoPilotDestination = Vector3.zero;
 
         autoPilotSign = GameObject.Find("AutoPilot");
-        autoPilotSign.SetActive(autoRotate);
+        autoPilotSign.SetActive(autoPilot);
         reorientSign = GameObject.Find("Reorient");
         reorientSign.SetActive(resetRotation);
 
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
+        headMove = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<HeadMovement>();
 
         OutOfBounds(Vector3.zero);
     }
 
     // Update is called once per frame
     void Update(){
-        if (!autoRotate && !autoMove && !resetRotation) {
+        if (!autoPilot && !resetRotation) {
             moveDir = Vector3.zero;
 
-            if(stats.GetMoveSpeed() > 0.0f)
+            if(stats.GetMoveSpeed() > 0f)
                 ManualWalk();
 
             if(moveDir != Vector3.zero)
                 m_controller.Move(moveDir);
         }
-        else if(autoRotate || autoMove)
+        else if(autoPilot)
             Autopilot();
         else if (resetRotation)
             Reorient();        
     }
 
     #region Movement
-    private void Autopilot() {
-        float angle = 0.0f;
-        if (autoRotate)
-        {
-            Vector3 playerDir = targetPosition - transform.position;
-            Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(newEnemyDir);
-            angle = Vector3.Angle(newEnemyDir, playerDir);
-        }
-
-        if (autoMove)
-        {
-            moveDir = Vector3.zero;
-            moveDir = transform.TransformDirection(Vector3.forward);
-            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
-            m_controller.Move(moveDir);
-        }
-
-        if (angle <= 2.5f && autoRotate)
-        {
-            autoRotate = false;
-            autoMove = true;
-        }
-    }
-
     public void OutOfBounds(Vector3 targetPos)
     {
-        autoRotate = true;
-        autoPilotSign.SetActive(autoRotate);
-        targetPosition = targetPos;
+        autoPilot = true;
+        headMove.enabled = false;
+        autoPilotDestination = targetPos;
+        autoPilotSign.SetActive(autoPilot);
     }
-
     public void InBounds()
     {
-        autoRotate = false;
-        autoMove = false;
-        autoPilotSign.SetActive(autoRotate);
+        autoPilot = false;
+        headMove.enabled = true;
+        autoPilotDestination = Vector3.zero;
+        autoPilotSign.SetActive(autoPilot);
     }
-
     public void ResetOrientation()
     {
         orientationTimer = 5.0f;
         resetRotation = true;
     }
 
+    private void Autopilot() {
+        //  Look At
+        Vector3 playerDir = autoPilotDestination - transform.position;
+        Vector3 destination = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.05f) * Time.deltaTime, 0.0f);
+        transform.rotation = Quaternion.LookRotation(destination);
+
+        //  Move Towards
+        moveDir = Vector3.zero;
+        moveDir = transform.TransformDirection(Vector3.forward);
+        moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
+        m_controller.Move(moveDir);        
+    }        
     public void Reorient()
     {
         if (transform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
@@ -114,17 +103,9 @@ public class PlayerMovement : MonoBehaviour {
         reorientSign.SetActive(resetRotation);
     }
 
-    public void SetPlayerRotation(Quaternion rot) {
-        if(!resetRotation && !autoMove && !autoRotate)
-            transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 0.5f);
-    }
-
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
-        if (stats.GetMoveSpeed() >= stats.GetMaxSpeed())
-            moveDir *= (stats.GetMaxSpeed() * Time.deltaTime) * 1.5f;
-        else
-            moveDir *= stats.GetMoveSpeed() * Time.deltaTime;        
+        moveDir *= stats.GetMoveSpeed() * Time.deltaTime;   
     }     
     #endregion
 }

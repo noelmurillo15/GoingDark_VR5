@@ -4,8 +4,7 @@ public class ShootObject : MonoBehaviour {
     //**  Attach to Player prefab  **//
     public int MissileCount;
     public float fireCooldown;
-    private GameObject Miss;
-    private GameObject[] Missiles;
+    private GameObject Missile;
     private GameObject player;
 
 
@@ -13,7 +12,7 @@ public class ShootObject : MonoBehaviour {
     {
         fireCooldown = 0.0f;
         MissileCount = 10;
-        Miss = Resources.Load<GameObject>("PlayerMissile");
+        Missile = Resources.Load<GameObject>("PlayerMissile");
 
         player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -21,6 +20,9 @@ public class ShootObject : MonoBehaviour {
     void Update() {
         if (fireCooldown > 0.0f)
             fireCooldown -= Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.F))
+            FireMissile();
     }
 
     public float GetFireCooldown()
@@ -32,15 +34,14 @@ public class ShootObject : MonoBehaviour {
     {
         if (fireCooldown <= 0.0f)
         {
-            Missiles = GameObject.FindGameObjectsWithTag("Missile");
             
             if (MissileCount > 0 )
             {
                 fireCooldown = 1.0f;
-                if (Miss != null)
+                if (Missile != null)
                 {
                     MissileCount--;
-                    Instantiate(Miss, new Vector3(player.transform.position.x, player.transform.position.y - 10.0f, player.transform.position.z), player.transform.rotation);
+                    Instantiate(Missile, new Vector3(player.transform.localPosition.x, player.transform.localPosition.y - 15f, player.transform.localPosition.z + 10f), player.transform.localRotation);
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
@@ -55,7 +56,6 @@ public class ShootObject : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-//        Debug.Log(col.name + " has hit Fire Button");
         if(col.name == "rightPalm" && fireCooldown <= 0.0f)
         {
             FireMissile();

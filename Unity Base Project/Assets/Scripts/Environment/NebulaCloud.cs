@@ -7,7 +7,7 @@ public class NebulaCloud : MonoBehaviour {
     // Use this for initialization
     void Start() {
         Vector3 m_scale = Vector3.zero;
-        m_scale.x = Random.Range(0.5f, 10.0f);
+        m_scale.x = Random.Range(10f, 20.0f);
         m_scale.y = m_scale.x;
         m_scale.z = m_scale.x;
 
