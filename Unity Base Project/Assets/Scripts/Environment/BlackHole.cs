@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BlackHole : MonoBehaviour
 {
-    private float yRot = -1.0f;
+    private float yRot = -3.0f;
     // Use this for initialization
     void Start()
     {
