@@ -52,7 +52,7 @@ public class KamikazeAI : MonoBehaviour {
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
-    {        
+    {
         if (hit.transform.CompareTag("Player") && padding <= 0f)
         {
             padding = 1f;
@@ -60,4 +60,14 @@ public class KamikazeAI : MonoBehaviour {
             stats.SendMessage("Kill");
         }
     }
+
+    //void OnCollisionEnter(Collision col)
+    //{
+    //    if (col.transform.CompareTag("Player") && padding <= 0f)
+    //    {
+    //        padding = 1f;
+    //        col.transform.SendMessage("Hit");
+    //        stats.SendMessage("Kill");
+    //    }
+    //}
 }

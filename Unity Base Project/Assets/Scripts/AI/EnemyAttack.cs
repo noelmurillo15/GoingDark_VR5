@@ -70,7 +70,7 @@ public class EnemyAttack : MonoBehaviour {
             if (missileCooldown <= 0.0f) {
                 missileCooldown = 10.0f;
                 stats.DecreaseMissileCount();
-                Instantiate(missilePrefab, this.transform.position, this.transform.rotation);
+                Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), this.transform.rotation);
             }
         }
     }
