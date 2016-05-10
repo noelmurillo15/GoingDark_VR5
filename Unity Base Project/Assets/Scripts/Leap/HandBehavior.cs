@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class HandBehavior : MonoBehaviour {
     //**    Attach to Both Palms    **//

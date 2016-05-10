@@ -8,7 +8,7 @@ public class SpinScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //gameObject.transform.localEulerAngles = new Vector3(x, y, z);
+
     }
 
     // Update is called once per frame

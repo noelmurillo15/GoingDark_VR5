@@ -21,7 +21,7 @@ public class OutOfBoundsScript : MonoBehaviour {
 
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {
-            Debug.Log("Enemy In Bounds");
+            Debug.Log("Enemy is in Playable Area");
             col.SendMessage("InBounds");
         }
     }
