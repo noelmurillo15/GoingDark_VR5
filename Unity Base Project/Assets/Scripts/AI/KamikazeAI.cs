@@ -56,18 +56,9 @@ public class KamikazeAI : MonoBehaviour {
         if (hit.transform.CompareTag("Player") && padding <= 0f)
         {
             padding = 1f;
+            Debug.Log("Droid Has Hit");
             hit.transform.SendMessage("Hit");
             stats.SendMessage("Kill");
         }
     }
-
-    //void OnCollisionEnter(Collision col)
-    //{
-    //    if (col.transform.CompareTag("Player") && padding <= 0f)
-    //    {
-    //        padding = 1f;
-    //        col.transform.SendMessage("Hit");
-    //        stats.SendMessage("Kill");
-    //    }
-    //}
 }

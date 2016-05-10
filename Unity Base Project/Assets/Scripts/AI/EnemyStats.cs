@@ -106,11 +106,11 @@ public class EnemyStats : MonoBehaviour {
             moveSpeed -= Time.deltaTime * acceleration * 2.5f;
         else
             moveSpeed = 0.0f;
-    }    
+    }   
     public void StopMovement()
     {
         moveSpeed = 0f;
-    }
+    } 
 
     private bool RandomChance()
     {        
@@ -124,11 +124,11 @@ public class EnemyStats : MonoBehaviour {
     #region Msg Functions
     public void EMPHit()
     {
-        Debug.Log("EMP has affected Enemy's Systems");
+        Debug.Log("EMP has affected " + transform.name + "'s Systems");
         StopMovement();
     }
 
-    public void AsteroidHit()
+    public void Hit()
     {
         Debug.Log("Enemy Has Hit Asteroid");
         StopMovement();

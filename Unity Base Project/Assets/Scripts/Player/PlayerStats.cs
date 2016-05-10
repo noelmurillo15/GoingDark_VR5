@@ -16,13 +16,10 @@ public class PlayerStats : MonoBehaviour {
     public float rotateSpeed;
     public float acceleration;
 
-    //  Disabilities
-    public bool detected;
+    private PlayerShipData shipData;
 
     // Use this for initialization
-    void Start () {
-        detected = false;
-
+    void Start () {      
         hitCount = 0;
         moveSpeed = 0f;
         maxSpeed = 50f;
@@ -30,6 +27,7 @@ public class PlayerStats : MonoBehaviour {
         acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits", 100);
         numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
+        shipData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
     }
 	
 	// Update is called once per frame
@@ -38,10 +36,6 @@ public class PlayerStats : MonoBehaviour {
 	}
 
     #region Accessors
-    public bool GetIsDetected()
-    {
-        return detected;
-    }
     public int GetHitCount()
     {
         return hitCount;
@@ -76,7 +70,7 @@ public class PlayerStats : MonoBehaviour {
     public void DecreaseHitCount()
     {
         hitCount--;
-    }
+    }    
     public void IncreaseSpeed(float percentage)
     {
         if (moveSpeed < (maxSpeed * percentage))
@@ -101,6 +95,7 @@ public class PlayerStats : MonoBehaviour {
     public void EMPHit()
     {
         Debug.Log("EMP has affected Player's Systems");
+        shipData.SetIsStunned(true);
     }
 
     public void Hit()
@@ -111,12 +106,13 @@ public class PlayerStats : MonoBehaviour {
         AudioManager.instance.PlayHit();
 
         if (hitCount > 2)
-            SceneManager.LoadScene("GameOver");
+            Kill();
     }
 
     public void Kill()
     {
         Debug.Log("Destroyed Player Ship");
+        SceneManager.LoadScene("GameOver");
     }
     #endregion    
 }

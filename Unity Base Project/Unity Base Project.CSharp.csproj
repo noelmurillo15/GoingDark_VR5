@@ -171,6 +171,7 @@
     <Compile Include="Assets\Scripts\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\Debugging\FPSDisplay.cs" />
+    <Compile Include="Assets\Scripts\EmpCollision.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />
     <Compile Include="Assets\Scripts\Environment\BlackHole.cs" />

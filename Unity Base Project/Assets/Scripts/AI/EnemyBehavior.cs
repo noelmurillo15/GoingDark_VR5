@@ -21,6 +21,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     //  Player Data
     private Cloak playerCloak;
+    private PlayerShipData playerStats;
 
 
     void Start() {
@@ -54,8 +55,8 @@ public class EnemyBehavior : MonoBehaviour {
 
         ChangeState();
 
-        
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
+        playerStats = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
     }
 
     void Update() {

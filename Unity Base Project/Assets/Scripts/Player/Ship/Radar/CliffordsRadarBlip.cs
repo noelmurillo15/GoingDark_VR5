@@ -82,23 +82,23 @@ public class CliffordsRadarBlip : MonoBehaviour
         //newRot.x -= 180.0f;
         //playerBlip.transform.localEulerAngles = newRot;
 
-        //drawline(toplane)
-        Vector3 TempPositionForY = transform.localPosition;
-        //Get this object's Line Render
-        LineRenderer LineToDraw = GetComponent<LineRenderer>();
-        //Set first position from Blip
-        LineToDraw.SetPosition(0, TempPositionForY);
-        //Change in Y for the plane
-        TempPositionForY.y = Radar.transform.localPosition.y;
-        //Set Position to Draw straight up/down to the plane.
-        LineToDraw.SetPosition(1, TempPositionForY);
+        ////drawline(toplane)
+        //Vector3 TempPositionForY = transform.localPosition;
+        ////Get this object's Line Render
+        //LineRenderer LineToDraw = GetComponent<LineRenderer>();
+        ////Set first position from Blip
+        //LineToDraw.SetPosition(0, TempPositionForY);
+        ////Change in Y for the plane
+        //TempPositionForY.y = Radar.transform.localPosition.y;
+        ////Set Position to Draw straight up/down to the plane.
+        //LineToDraw.SetPosition(1, TempPositionForY);
         //Rotate(towards(direction));
         Vector3 newRot = EnemyHandle.transform.localEulerAngles;
         //newRot.y -= 180.0f;
         newRot.x -= 180.0f;
         transform.localEulerAngles = newRot;
-        LineToDraw.SetColors(LineColor, LineColor);
-        LineToDraw.SetWidth(.001f, .001f);
+        //LineToDraw.SetColors(LineColor, LineColor);
+        //LineToDraw.SetWidth(.001f, .001f);
 
     }
 
