@@ -52,13 +52,15 @@ public class PatrolAi : MonoBehaviour {
             //  Regular Patrolling AI
             if (!pathBlocked)
             {
-                if(target == null)
+                if (target == null)
+                {                    
                     transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / interval);
+                }
                 else
                 {
                     Vector3 relativePos = target.transform.position - transform.position;
                     Quaternion rotation = Quaternion.LookRotation(relativePos);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime / interval);
                     heading = transform.localEulerAngles.y;
                 }
             }
@@ -113,6 +115,13 @@ public class PatrolAi : MonoBehaviour {
                 transform.Rotate(Vector3.up * Time.deltaTime * stats.GetRotateSpeed());
             }
         }
+    }
+    #endregion
+
+    #region Accessors
+    public Transform GetTarget()
+    {
+        return target;
     }
     #endregion
 

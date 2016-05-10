@@ -40,7 +40,7 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
-        messages.SendMessage("MissileDestroyed");
+        messages.SendMessage("NoWarning");
         Instantiate(Explosion, transform.position, transform.rotation);
         Destroy(this.gameObject);
     }
@@ -53,7 +53,7 @@ public class EnemyMissile : MonoBehaviour {
     #region Collisions
     void OnTriggerEnter(Collider col) {
         if (!tracking) {
-            if (col.transform.tag == "PlayerShip" || col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {              
+            if (col.transform.tag == "Player" || col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {              
                 target = col.transform;
                 tracking = true;
             }
@@ -61,8 +61,8 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision col) {
-        if (col.transform.tag == "PlayerShip") {
-            col.transform.parent.SendMessage("Hit");            
+        if (col.transform.tag == "Player") {
+            col.transform.SendMessage("Hit");            
             Kill();
         }
         else if (col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {

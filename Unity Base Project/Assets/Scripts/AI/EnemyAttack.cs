@@ -1,30 +1,27 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(PatrolAi))]
 [RequireComponent(typeof(EnemyStats))]
-[RequireComponent(typeof(CharacterController))]
 public class EnemyAttack : MonoBehaviour {
     //**        Attach to Enemy     **//
 
-    //  Player Data        
-    private Transform m_playerPos;
-
     //  Missile Data
+    public float angle;
     private bool lockedOn;
     private float missileCooldown;
     public GameObject missilePrefab;
 
     //  Enemy Data
     private EnemyStats stats;
-    private CharacterController controller;
+    private PatrolAi patrolAI;
 
 
     // Use this for initialization
     void Start() {
         lockedOn = false;
-        missileCooldown = 5.0f;
+        missileCooldown = 0f;
         stats = GetComponent<EnemyStats>();
-        controller = GetComponent<CharacterController>();
-        m_playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        patrolAI = GetComponent<PatrolAi>();
     }
 
     // Update is called once per frame
@@ -32,34 +29,17 @@ public class EnemyAttack : MonoBehaviour {
         if (missileCooldown > 0.0f)
             missileCooldown -= Time.deltaTime;
 
-        EliminatePlayer();               
-    }
-
-    private void Chase() {
-        controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
-    }
-
-    private void EliminatePlayer() {
-        if(Vector3.Distance(transform.position, m_playerPos.position) < 360.0f) {
-            stats.DecreaseSpeed();
-            if (lockedOn)
-                Fire();
-        }
-        else 
-            stats.IncreaseSpeed(1.0f);            
-
-        Chase();
         LockOn();
+
+        if (lockedOn)
+            Fire();        
     }
 
     private void LockOn() {
-        Vector3 playerDir = m_playerPos.position - transform.position;
-        Vector3 newEnemyDir = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / 2.0f, 0.0f);
-        transform.rotation = Quaternion.LookRotation(newEnemyDir);
+        Vector3 dirFromAtoB = (patrolAI.GetTarget().position - transform.position).normalized;
+        angle = Vector3.Dot(dirFromAtoB, transform.forward);
 
-        float angle = Vector3.Angle(newEnemyDir, playerDir);
-
-        if (angle <= 8.0f)
+        if (angle > .985f)
             lockedOn = true;
         else
             lockedOn = false;
@@ -73,10 +53,5 @@ public class EnemyAttack : MonoBehaviour {
                 Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), this.transform.rotation);
             }
         }
-    }
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.transform.CompareTag("Player"))
-            hit.transform.FindChild("BattleShip").SendMessage("Hit");
-    }
+    }    
 }

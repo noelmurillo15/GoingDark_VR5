@@ -60,13 +60,4 @@ public class TransportShipAI : MonoBehaviour {
     {
         return cloakTimer;
     }
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.transform.CompareTag("Player") && padding <= 0f)
-        {
-            padding = 1f;
-            hit.transform.FindChild("BattleShip").SendMessage("Hit");
-        }
-    }
 }
