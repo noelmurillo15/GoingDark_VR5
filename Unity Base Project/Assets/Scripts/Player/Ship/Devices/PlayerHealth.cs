@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
     //**    Attach to Player Health Gameobject  **//
-    public float autoRepairTimer;
     private GameObject health1;
     private GameObject health2;
     private GameObject health3;
@@ -13,8 +11,6 @@ public class PlayerHealth : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        autoRepairTimer = 0.0f;
-
         if (health1 == null)
             health1 = GameObject.Find("Health1");
         if (health2 == null)
@@ -28,16 +24,7 @@ public class PlayerHealth : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (autoRepairTimer > 0.0f)
-            autoRepairTimer -= Time.deltaTime;
-        else {
-            if (stats.GetHitCount() != 0) {
-                Debug.Log("Player HP Regenerated");
-                stats.DecreaseHitCount();
-                UpdatePlayerHealth();
-            }
-            autoRepairTimer = 120.0f;
-        }
+
     }
 
     public void UpdatePlayerHealth() {

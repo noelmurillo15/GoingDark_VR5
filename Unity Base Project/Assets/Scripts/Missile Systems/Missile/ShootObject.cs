@@ -61,4 +61,9 @@ public class ShootObject : MonoBehaviour {
             FireMissile();
         }
     }
+
+    public int GetMissileCount()
+    {
+        return MissileCount;
+    }
 }

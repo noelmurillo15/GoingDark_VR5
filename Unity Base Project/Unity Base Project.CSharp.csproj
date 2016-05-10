@@ -174,7 +174,9 @@
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />
     <Compile Include="Assets\Scripts\Environment\BlackHole.cs" />
+    <Compile Include="Assets\Scripts\Environment\BlackHoleRenderer.cs" />
     <Compile Include="Assets\Scripts\Environment\Death.cs" />
+    <Compile Include="Assets\Scripts\Environment\JunkYardGenerator.cs" />
     <Compile Include="Assets\Scripts\Environment\MenuEnvironment.cs" />
     <Compile Include="Assets\Scripts\Environment\NebulaCloud.cs" />
     <Compile Include="Assets\Scripts\Environment\NebulaGenerator.cs" />
@@ -214,6 +216,7 @@
     <Compile Include="Assets\Scripts\Player\Messages\MessageScript.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\HeadMovement.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Player\Movement\ReorientPlayer.cs" />
     <Compile Include="Assets\Scripts\Player\Movement\Thrusters.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollisions.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStats.cs" />
@@ -221,12 +224,12 @@
     <Compile Include="Assets\Scripts\Player\Ship\Devices\Decoy.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\EMP.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\HyperDrive.cs" />
+    <Compile Include="Assets\Scripts\Player\Ship\Devices\MissileDisplay.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Devices\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\PlayerShipData.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Radar\RadarDisplay.cs" />
-    <Compile Include="Assets\Scripts\ReorientPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />

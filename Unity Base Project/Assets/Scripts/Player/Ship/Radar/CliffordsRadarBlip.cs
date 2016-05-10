@@ -30,7 +30,6 @@ public class CliffordsRadarBlip : MonoBehaviour
 
     private GameObject Player;
     private GameObject Radar;
-    GameObject RadarSphere;
 
     // Use this for initialization
     void Start()
@@ -38,7 +37,6 @@ public class CliffordsRadarBlip : MonoBehaviour
 
         Player = GameObject.FindGameObjectWithTag("Player");
         Radar = GameObject.FindGameObjectWithTag("Radar");
-        RadarSphere = GameObject.Find("RadarSphere");
 
         // transform.localPosition.Set(0.0f, 0.0f, 0.0f);
         //transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);

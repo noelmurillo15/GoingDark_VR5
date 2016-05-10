@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MessageScript : MonoBehaviour
 {
@@ -20,65 +20,51 @@ public class MessageScript : MonoBehaviour
     Texture HUD;
 
     private Text[] winTexts;
-    private bool enemy;
-    private bool missile;
+
+    private float enemyMsgTimer;
+    private float missileTimder;
 
     // Use this for initialization
     void Start()
     {
-        enemy = false;
-        missile = false;
         winTexts = winMessage.GetComponentsInChildren<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (enemyMsgTimer > 0f)
+            enemyMsgTimer -= Time.deltaTime;
+        else
+        {
+            if(enemyMsgTimer < 0f)
+                NoWarning();
+
+            enemyMsgTimer = 0f;
+        }        
     }
 
+    void NoWarning()
+    {
+        GetComponent<Renderer>().material.mainTexture = HUD;
+    }
     void EnemyClose()
     {
-        if (missile)
-            GetComponent<Renderer>().material.mainTexture = enemyMissileComb;
-        else
-            GetComponent<Renderer>().material.mainTexture = enemyCloseImage;
-        enemy = true;
+        enemyMsgTimer = 5f;
+        GetComponent<Renderer>().material.mainTexture = enemyCloseImage;
     }
-
-    void EnemyAway()
+    void MissileIncoming()
     {
-        if (missile)
+        if(enemyMsgTimer == 0f)
             GetComponent<Renderer>().material.mainTexture = missileImage;
         else
-            GetComponent<Renderer>().material.mainTexture = HUD;
-        enemy = false;
+            GetComponent<Renderer>().material.mainTexture = enemyMissileComb;
     }
-
     void LootPickUp()
     {
         GetComponent<Renderer>().material.mainTexture = lootPickUpImage;
         StartCoroutine(LootMessageWait());
-    }
-
-    void MissileIncoming()
-    {
-        if (enemy)
-            GetComponent<Renderer>().material.mainTexture = enemyMissileComb;
-        else
-            GetComponent<Renderer>().material.mainTexture = missileImage;
-
-        missile = true;
-    }
-
-    void MissileDestroyed()
-    {
-        if (enemy)
-            GetComponent<Renderer>().material.mainTexture = enemyCloseImage;
-        else
-            GetComponent<Renderer>().material.mainTexture = HUD;
-        missile = false;
-    }
+    }    
 
     void Win()
     {

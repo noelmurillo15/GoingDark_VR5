@@ -49,6 +49,8 @@ public class Asteroid : MonoBehaviour {
             m_rotation.z = Random.Range(1.0f, 360.0f);
             this.transform.localEulerAngles = m_rotation;
             m_rotation = Vector3.zero;
+
+            AutoScale(transform.localScale);
         }
     }
 
@@ -109,20 +111,19 @@ public class Asteroid : MonoBehaviour {
         if (RandomChance())
         {
             skipStart = true;
-            float range = Random.Range(2, 4);
+            float range = Random.Range(2, 5);
 
             for (int i = 0; i < range; i++)
             {
                 Instantiate(this.gameObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-                SendMessage("AutoScale", this.transform.localScale);
             }
         }
         Destroy(this.gameObject);
     }
     public void AutoScale(Vector3 _scale)
     {
-        _scale /= 4.0f;
+        _scale /= 3f;
+        asteroidTimer = 10.0f;
         this.transform.localScale = _scale;
-        asteroidTimer = 7.0f;
     }
 }

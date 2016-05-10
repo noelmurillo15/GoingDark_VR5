@@ -16,13 +16,18 @@ public class PlayerStats : MonoBehaviour {
     public float rotateSpeed;
     public float acceleration;
 
+    //  Disabilities
+    public bool detected;
+
     // Use this for initialization
     void Start () {
+        detected = false;
+
         hitCount = 0;
         moveSpeed = 0f;
         maxSpeed = 50f;
         rotateSpeed = 20f;
-        acceleration = 2.5f;
+        acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits", 100);
         numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
     }
@@ -33,6 +38,10 @@ public class PlayerStats : MonoBehaviour {
 	}
 
     #region Accessors
+    public bool GetIsDetected()
+    {
+        return detected;
+    }
     public int GetHitCount()
     {
         return hitCount;

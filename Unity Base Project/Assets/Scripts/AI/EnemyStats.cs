@@ -13,7 +13,7 @@ public class EnemyStats : MonoBehaviour {
 
     //  Enemy Type
     public enum ENEMY_TYPE {
-        BASIC_ENEMY, TRANSPORT, KAMIKAZE
+        BASIC_ENEMY, TRANSPORT, KAMIKAZE, TRIDENT
     };
     private ENEMY_TYPE type;
 
@@ -26,7 +26,7 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 40f;
             numMissiles = 5;
             rotateSpeed = 20f;
-            acceleration = 2.5f;
+            acceleration = 3f;
             type = ENEMY_TYPE.BASIC_ENEMY;
         }
         else if (transform.name == "Transport")
@@ -35,7 +35,7 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 50f;
             numMissiles = 0;
             rotateSpeed = 15f;
-            acceleration = 3.5f;
+            acceleration = 4f;
             type = ENEMY_TYPE.TRANSPORT;
         }
         else if (transform.name == "Droid")
@@ -44,8 +44,17 @@ public class EnemyStats : MonoBehaviour {
             maxSpeed = 60f;
             numMissiles = 0;
             rotateSpeed = 25f;
-            acceleration = 4f;
+            acceleration = 5f;
             type = ENEMY_TYPE.KAMIKAZE;
+        }
+        else if (transform.name == "Trident")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 50f;
+            numMissiles = 0;
+            rotateSpeed = 25f;
+            acceleration = 4.5f;
+            type = ENEMY_TYPE.TRIDENT;
         }
         else
             Debug.Log("Enemy's Name does not match!!");
@@ -87,8 +96,6 @@ public class EnemyStats : MonoBehaviour {
     }    
     
     public void IncreaseSpeed(float alterMaxSpeed) {
-        // alter max speed = 0.5f : cuts max speed in half
-        // alter max speed = 1.0f : does not alter max speed
         if (moveSpeed < (maxSpeed * alterMaxSpeed))
             moveSpeed += Time.deltaTime * acceleration;
         else if (moveSpeed > (maxSpeed * alterMaxSpeed) + .5f)
@@ -106,9 +113,8 @@ public class EnemyStats : MonoBehaviour {
     }
 
     private bool RandomChance()
-    {
-        int chance = Random.Range(1, 3);
-        if (chance == 1)
+    {        
+        if (Random.Range(1, 3) == 1)
             return true;
 
         return false;

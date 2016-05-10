@@ -21,7 +21,6 @@ public class EnemyBehavior : MonoBehaviour {
 
     //  Player Data
     private Cloak playerCloak;
-    private GameObject messages;
 
 
     void Start() {
@@ -55,7 +54,7 @@ public class EnemyBehavior : MonoBehaviour {
 
         ChangeState();
 
-        messages = GameObject.Find("Screen");
+        
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
     }
 
@@ -115,8 +114,7 @@ public class EnemyBehavior : MonoBehaviour {
         if (col.CompareTag("Player")) {
             wandering = true;
             playerDetected = false;
-            transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
-            messages.SendMessage("EnemyAway");
+            transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);            
             ChangeState();
         }
     }

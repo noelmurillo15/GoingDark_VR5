@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class CliffordsRadarPlane : MonoBehaviour
 {
@@ -7,26 +6,24 @@ public class CliffordsRadarPlane : MonoBehaviour
     private Vector3 ScalerFactor;// = new Vector3(0.003f, 0.003f, 0.003f);
     [SerializeField]
     private GameObject PreFabBlip;
-    [SerializeField]
-    private float SonarTimeLeft = 10;
-
 
     private int Counter = 0;
     private GameObject[] TheObject;
     private GameObject[] TheBlip;
 
     GameObject Player;
+    GameObject messages;
 
     // Use this for initialization
     void Start()
     {
+        messages = GameObject.Find("Screen");
         Player = GameObject.FindGameObjectWithTag("Player");
 
         ScalerFactor.x = .031f / GetComponent<SphereCollider>().radius;
         ScalerFactor.y = .031f / GetComponent<SphereCollider>().radius;
         ScalerFactor.z = .031f / GetComponent<SphereCollider>().radius;
         transform.localEulerAngles = Player.transform.localEulerAngles;
-
     }
 
     // Update is called once per frame
@@ -44,7 +41,7 @@ public class CliffordsRadarPlane : MonoBehaviour
             if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" || ColliderObject.gameObject.tag == "Loot")
             {
 
-
+                messages.SendMessage("EnemyClose");
 
                 Vector3 ColliderPosition = ColliderObject.transform.localPosition; // There he is! Get Him! 
                                                                               // Debug.Log(ColliderPosition + " Poisiton of Enemy");
@@ -88,5 +85,4 @@ public class CliffordsRadarPlane : MonoBehaviour
             if (ColliderObject.gameObject == TheObject[i]) // see if they match
                 Destroy(TheBlip[i]); // destory the blip gameobject
     }
-
 }
