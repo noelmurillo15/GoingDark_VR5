@@ -10,7 +10,7 @@ public class NebulaGenerator : MonoBehaviour {
     public GameObject[] spawnPts;
     public GameObject[] nebulaPrefabs;
 
-    public float boundsX, boundsY;
+    private float boundsX, boundsY;
 
     // Use this for initialization
     void Start()
@@ -40,9 +40,9 @@ public class NebulaGenerator : MonoBehaviour {
 
         for (int cnt = 0; cnt < gos.Length; cnt++)
         {
-            float x = Random.Range(-boundsX / 2, boundsX / 2);
+            float x = Random.Range((-boundsX / 2) + 500f, (boundsX / 2) - 500f);
             float y = Random.Range(-boundsY / 2, boundsY / 2);
-            float z = Random.Range(-boundsX / 2, boundsX / 2);
+            float z = Random.Range((-boundsX / 2) + 500f, (boundsX / 2) - 500f);
             Vector3 randomPos = new Vector3(x, y, z);
 
             GameObject go = Instantiate(nebulaPrefabs[Random.Range(0, nebulaPrefabs.Length)],

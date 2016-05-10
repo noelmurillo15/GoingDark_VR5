@@ -6,7 +6,8 @@ public class MissileDisplay : MonoBehaviour
 {
 
     public int missCounter;
-    private GameObject messages;
+    //player stats
+    private GameObject pStat;
     private float timer;
     [SerializeField]
     private Text textCount;
@@ -14,7 +15,8 @@ public class MissileDisplay : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        messages = GameObject.Find("Player");
+        pStat = GameObject.Find("Player");
+
         timer = 0;
     }
 
@@ -22,11 +24,8 @@ public class MissileDisplay : MonoBehaviour
     void Update()
     {
         //timedMessage();
-
-        SendMessage("GetMissileCount");
-
         if (timer <= 0f)
-            SendMessage("GetMissileCount");
+            GetMissileCount();
         else
             timer = 5.0f;
 
@@ -34,16 +33,11 @@ public class MissileDisplay : MonoBehaviour
             timer -= Time.deltaTime;
 
         textCount.text = missCounter.ToString();
-
     }
+
     public void GetMissileCount()
     {
-        missCounter = messages.GetComponent<PlayerStats>().GetNumMissiles();
+        missCounter = pStat.GetComponentInChildren<ShootObject>().GetMissileCount();
     }
-
-    IEnumerator timedMessage()
-    {
-        SendMessage("GetMissileCount");
-        yield return new WaitForSeconds(2.0f);
-    }
+    
 }

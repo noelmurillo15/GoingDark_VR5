@@ -18,6 +18,7 @@ public class PlayerStats : MonoBehaviour {
 
     private PlayerShipData shipData;
 
+
     // Use this for initialization
     void Start () {      
         hitCount = 0;
@@ -55,6 +56,11 @@ public class PlayerStats : MonoBehaviour {
     public float GetRotateSpeed()
     {
         return rotateSpeed;
+    }
+
+    public PlayerShipData GetShipData()
+    {
+        return shipData;
     }
     #endregion
 

@@ -21,7 +21,6 @@ public class EnemyBehavior : MonoBehaviour {
 
     //  Player Data
     private Cloak playerCloak;
-    private PlayerShipData playerStats;
 
 
     void Start() {
@@ -31,6 +30,7 @@ public class EnemyBehavior : MonoBehaviour {
 
         stats = GetComponent<EnemyStats>();
         wanderAI = GetComponent<PatrolAi>();
+        wanderAI.enabled = true;
 
         if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.BASIC_ENEMY)
         {
@@ -50,13 +50,10 @@ public class EnemyBehavior : MonoBehaviour {
             attackAI = null;
             transportAI = GetComponent<TransportShipAI>();
             transportAI.enabled = true;
-            wanderAI.enabled = true;
         }
-
+        
         ChangeState();
-
         playerCloak = GameObject.Find("Cloak").GetComponent<Cloak>();
-        playerStats = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
     }
 
     void Update() {
@@ -65,9 +62,7 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     public void ChangeState() {
-        wanderAI.enabled = wandering;
-        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {
-            wanderAI.enabled = true;
+        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {            
             if (transportAI.GetCloakTimer() > 0.0f)
                 wanderAI.SetSpeedBoost(2.0f);
             else
@@ -88,6 +83,7 @@ public class EnemyBehavior : MonoBehaviour {
             wandering = false;
             playerDetected = true;
             detectionTimer = 0f;
+            wanderAI.SetEnemyTarget(col.transform);
         }
     }
 
@@ -115,6 +111,7 @@ public class EnemyBehavior : MonoBehaviour {
         if (col.CompareTag("Player")) {
             wandering = true;
             playerDetected = false;
+            wanderAI.SetEnemyTarget(null);
             transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);            
             ChangeState();
         }

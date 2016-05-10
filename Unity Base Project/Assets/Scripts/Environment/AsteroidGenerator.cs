@@ -9,7 +9,7 @@ public class AsteroidGenerator : MonoBehaviour {
     public GameObject[] spawnPts;
     public GameObject[] asteroidPrefabs;
 
-    public float boundsX, boundsY;
+    private float boundsX, boundsY;
 
 	// Use this for initialization
 	void Start () {

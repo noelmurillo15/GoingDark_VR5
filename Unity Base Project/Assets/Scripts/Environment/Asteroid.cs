@@ -26,7 +26,7 @@ public class Asteroid : MonoBehaviour {
             m_rotation.z = Random.Range(-15.0f, 15.0f);
 
             Vector3 m_scale = Vector3.zero;
-            m_scale.x = Random.Range(0.5f, 20.0f);
+            m_scale.x = Random.Range(5f, 50.0f);
             m_scale.y = m_scale.x;
             m_scale.z = m_scale.x;
 

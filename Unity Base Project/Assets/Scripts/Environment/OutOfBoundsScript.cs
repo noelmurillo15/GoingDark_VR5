@@ -31,12 +31,12 @@ public class OutOfBoundsScript : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             Debug.Log("Player Out Of Bounds");
-            col.SendMessage("OutOfBounds", this.transform.position);
+            col.SendMessage("OutOfBounds");
         }
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {
             Debug.Log("Enemy Out Of Bounds");
-            col.SendMessage("OutOfBounds", this.transform.position);
+            col.SendMessage("OutOfBounds");
         }
     }
 }

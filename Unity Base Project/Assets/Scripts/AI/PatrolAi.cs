@@ -7,11 +7,11 @@ public class PatrolAi : MonoBehaviour {
     //**        Attach to Enemy     **//
 
     //  Raycast Data
-    public int range;
-    public float interval;
-    public float maxHeadingChange;
-    public float speedBoost;
-    public bool pathBlocked;
+    private int range;
+    private float interval;
+    private float maxHeadingChange;
+    private float speedBoost;
+    private bool pathBlocked;
     private RaycastHit hit;
 
     //  Movement
@@ -20,6 +20,7 @@ public class PatrolAi : MonoBehaviour {
     private Vector3 targetRotation;
 
     //  Enemy Data    
+    public Transform target;
     private EnemyStats stats;
     private CharacterController controller;
 
@@ -31,6 +32,9 @@ public class PatrolAi : MonoBehaviour {
         pathBlocked = false;
         speedBoost = 0.5f;
 
+        target = null;
+
+        targetRotation = Vector3.zero;
 
         stats = GetComponent<EnemyStats>();
         controller = GetComponent<CharacterController>();        
@@ -43,10 +47,21 @@ public class PatrolAi : MonoBehaviour {
     }
 
     void Update() {
-        if (!autoMove)
+        if (!autoMove)  
         {
+            //  Regular Patrolling AI
             if (!pathBlocked)
-                transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / interval);
+            {
+                if(target == null)
+                    transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / interval);
+                else
+                {
+                    Vector3 relativePos = target.transform.position - transform.position;
+                    Quaternion rotation = Quaternion.LookRotation(relativePos);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
+                    heading = transform.localEulerAngles.y;
+                }
+            }
 
             stats.IncreaseSpeed(speedBoost);
             controller.Move(transform.forward * Time.deltaTime * stats.GetMoveSpeed());
@@ -64,7 +79,7 @@ public class PatrolAi : MonoBehaviour {
             }            
         }
         else
-        {
+        {           
             // Auto-pilot back into playable area
             Vector3 playerDir = Vector3.zero - transform.position;
             Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
@@ -101,20 +116,22 @@ public class PatrolAi : MonoBehaviour {
     }
     #endregion
 
+    #region Modifiers
     public void SetSpeedBoost(float boost)
     {
         speedBoost = boost;
     }
 
-    public void OutOfBounds(Vector3 targetPos)
+    public void SetEnemyTarget(Transform _target)
     {
-        autoMove = true;
-    }
+        if (_target == null)
+            SetSpeedBoost(0.5f);
+        else
+            SetSpeedBoost(1f);
 
-    public void InBounds()
-    {
-        autoMove = false;
+        target = _target;
     }
+    #endregion
 
     #region Coroutine
     private IEnumerator NewHeading() {
@@ -129,6 +146,18 @@ public class PatrolAi : MonoBehaviour {
         var ceil = Mathf.Clamp(heading + maxHeadingChange, 0, 360);
         heading = Random.Range(floor, ceil);        
         targetRotation = new Vector3(0f, heading, 0f);
+    }
+    #endregion
+
+    #region Msgs
+    public void OutOfBounds()
+    {
+        autoMove = true;
+    }
+
+    public void InBounds()
+    {
+        autoMove = false;
     }
     #endregion
 }
