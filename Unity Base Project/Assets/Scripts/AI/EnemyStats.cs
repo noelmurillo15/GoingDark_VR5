@@ -10,6 +10,9 @@ public class EnemyStats : MonoBehaviour {
     public float acceleration;
     //  Weapons
     public int numMissiles;
+    //  Disabilities
+    public bool isStunned;
+    public float stunTimer;
 
     //  Enemy Type
     public enum ENEMY_TYPE {
@@ -62,6 +65,15 @@ public class EnemyStats : MonoBehaviour {
 
     void Update()
     {
+        if (stunTimer > 0f)
+        {
+            stunTimer -= Time.deltaTime;
+            StopMovement();
+        }
+        else
+        {
+            isStunned = false;
+        }
         
     }
 
@@ -125,7 +137,8 @@ public class EnemyStats : MonoBehaviour {
     public void EMPHit()
     {
         Debug.Log("EMP has affected " + transform.name + "'s Systems");
-        StopMovement();
+        isStunned = true;
+        stunTimer = 5f;
     }
 
     public void Hit()

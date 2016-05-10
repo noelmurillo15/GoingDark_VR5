@@ -12,9 +12,9 @@ public class ShootObject : MonoBehaviour {
     {
         fireCooldown = 0.0f;
         MissileCount = 10;
-        Missile = Resources.Load<GameObject>("PlayerMissile");
 
         player = GameObject.FindGameObjectWithTag("Player");
+        Missile = Resources.Load<GameObject>("PlayerMissile");
     }
 
     void Update() {

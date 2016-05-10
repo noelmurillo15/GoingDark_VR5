@@ -20,7 +20,7 @@ public class PlayerShipData : MonoBehaviour {
         stunTimer = 0f;
         isStunned = false;
 
-
+        m_Emp = GameObject.Find("EMP").GetComponent<EMP>();
         m_Cloak = GameObject.Find("Cloak").GetComponent<Cloak>();        
         m_Hyperdrive = GameObject.Find("HyperDrive").GetComponent<HyperDrive>();
         m_PlayerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
