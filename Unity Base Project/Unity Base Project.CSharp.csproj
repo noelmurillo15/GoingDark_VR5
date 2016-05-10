@@ -231,6 +231,7 @@
     <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Radar\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\Player\Ship\Radar\RadarDisplay.cs" />
+    <Compile Include="Assets\Scripts\SpaceStation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />

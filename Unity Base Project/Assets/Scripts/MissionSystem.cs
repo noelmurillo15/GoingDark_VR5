@@ -1,33 +1,44 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MissionSystem : MonoBehaviour {
+public class MissionSystem : MonoBehaviour
+{
 
 
-    private enum MissionRewards { EASY = 50, NORMAL = 100, HARD = 150};
-    public enum MissionType { COMBAT, SCAVENGE, STEALTH};
-    public enum EnemyType { ENEMY, KAMIKAZE, TRANSPORT, ANY, NONE};
+    private enum MissionRewards { EASY = 50, NORMAL = 100, HARD = 150 };
+    public enum MissionType { COMBAT, SCAVENGE, STEALTH };
+    public enum EnemyType { BASIC_ENEMY, KAMIKAZE, TRANSPORT, ANY, NONE };
 
     public struct Mission
     {
         public string missionName;
         public string missionInfo;
-        
+
         public bool completed;
         public bool isOptional;
         public bool spotted;
+        public bool isActive;
 
         public float missionTimer;
-       
+
         public int credits;
         public int objectives;
-       
+
         public MissionType type;
         public EnemyType enemy;
+
+
+        public int Objectives
+        {
+            get { return objectives; }
+            set { objectives = value; }
+        }
+
     }
 
     /// <summary>
@@ -41,24 +52,29 @@ public class MissionSystem : MonoBehaviour {
     private Mission[] m_scavenge;
 
     private Mission[] level1;
-
-    
-	// Use this for initialization
-	void Start () {
+    private MissionLog m_missionLog;
+    // Use this for initialization
+    void Start()
+    {
         Debug.Log("Mission Start");
         MissionStorage = new Dictionary<string, Mission[]>();
+        m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
+
         m_combat = new Mission[3];
         m_stealth = new Mission[1];
         m_scavenge = new Mission[3];
         level1 = new Mission[4];
         // Load in all the missions with IO
         LoadMissions();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    #region Missions
 
     void CombatMissions()
     {
@@ -109,6 +125,7 @@ public class MissionSystem : MonoBehaviour {
         m_stealth[0].missionName = "Silent Thief";
         m_stealth[0].missionInfo = "Locate 3 objectives without getting seen by the enemy fleet";
         m_stealth[0].missionTimer = 0.0f;
+        m_stealth[0].objectives = 3;
         m_stealth[0].spotted = false;
         m_stealth[0].credits = (int)MissionRewards.HARD;
 
@@ -118,7 +135,7 @@ public class MissionSystem : MonoBehaviour {
     void ScavengeMissions()
     {
         // set all missions to incomplete
-        for (int i = 0; i < m_stealth.Length; i++)
+        for (int i = 0; i < m_scavenge.Length; i++)
         {
             m_scavenge[i].completed = false;
             m_scavenge[i].type = MissionType.SCAVENGE;
@@ -137,7 +154,7 @@ public class MissionSystem : MonoBehaviour {
         m_scavenge[1].credits = (int)MissionRewards.EASY;
         m_scavenge[1].isOptional = false;
         m_scavenge[1].missionTimer = 0.0f;
-        m_scavenge[1].objectives = 4;
+        m_scavenge[1].objectives = 1;
 
         m_scavenge[2].missionName = "Hoarder";
         m_scavenge[2].missionInfo = "Collect 10 objectives";
@@ -148,6 +165,11 @@ public class MissionSystem : MonoBehaviour {
 
     }
 
+    #endregion
+
+    /// <summary>
+    /// Loads all missions into a Dictionary
+    /// </summary>
     void LoadMissions()
     {
         ScavengeMissions();
@@ -163,10 +185,80 @@ public class MissionSystem : MonoBehaviour {
         MissionStorage.Add("Level1", level1);
     }
 
+    /// <summary>
+    /// Takes in a level name and returns the assigned missions for that level
+    /// </summary>
+    /// <returns></returns>
     public Mission[] GetMissionsByLevel(string levelName)
     {
         Debug.Log("Level Name : " + levelName);
         return MissionStorage[levelName];
+    }
+
+
+    void LootPickedUp()
+    {
+        if (SceneManager.GetActiveScene().name == "Level1")
+        {
+            Debug.Log("Scene is Level 1");
+            for (int i = 0; i < 4; i++)
+            {
+                if (level1[i].type == MissionType.SCAVENGE && level1[i].isActive)
+                {
+                    level1[i].objectives--;
+                    m_missionLog.SendMessage("UpdateObjectCount", level1[i]);
+                    Debug.Log("Updated Objective count int System");
+
+                    if (level1[i].objectives == 0)
+                    {
+                        m_missionLog.SendMessage("CompletedMission", i + 1);
+                        Debug.Log("Mission Completed");
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    /// <summary>
+    /// Kill message recieved from Enemy ship
+    /// </summary>
+    void BASIC_ENEMY()
+    {
+
+    }
+
+    /// <summary>
+    /// Kill message recieved from Transport ship
+    /// </summary>
+    void TRANSPORT()
+    {
+
+    }
+
+    /// <summary>
+    /// Kill message recieved from Kamikaze ship
+    /// </summary>
+    void KAMIKAZE()
+    {
+
+    }
+
+
+    /// <summary>
+    ///  Handles turn in of a mission
+    /// </summary>
+    /// <param name="index"></param>
+    void TurnIn(int index)
+    {
+        string name = SceneManager.GetActiveScene().name;
+        PlayerStats stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+
+        if (name == "Level1")
+        {
+            stats.numCredits += level1[index - 1].credits;
+        }
     }
 
 }

@@ -23,11 +23,14 @@ public class MessageScript : MonoBehaviour
 
     private float enemyMsgTimer;
     private float missileTimder;
+    private GameObject m_missionSystem;
 
     // Use this for initialization
     void Start()
     {
         winTexts = winMessage.GetComponentsInChildren<Text>();
+        m_missionSystem = GameObject.Find("PersistentGameObject");
+
     }
 
     // Update is called once per frame
@@ -63,6 +66,7 @@ public class MessageScript : MonoBehaviour
     void LootPickUp()
     {
         GetComponent<Renderer>().material.mainTexture = lootPickUpImage;
+        m_missionSystem.SendMessage("LootPickedUp");
         StartCoroutine(LootMessageWait());
     }    
 

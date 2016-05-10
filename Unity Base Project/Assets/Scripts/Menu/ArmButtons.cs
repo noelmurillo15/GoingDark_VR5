@@ -10,6 +10,7 @@ public class ArmButtons : MonoBehaviour {
     private Image m_button;
     private ArmSettings m_armSettings;
     private GameObject m_missionLog;
+    private GameObject m_radar;
 
     // Use this for initialization
     void Start() {
@@ -22,6 +23,9 @@ public class ArmButtons : MonoBehaviour {
 
         if (m_missionLog == null)
             m_missionLog = GameObject.Find("ButtonObject");
+
+        if (m_radar == null)
+            m_radar = GameObject.Find("Radar");
     }
 
     #region Collision
@@ -86,6 +90,12 @@ public class ArmButtons : MonoBehaviour {
         else if (transform.name == "MissionLogButton")
         {
             m_missionLog.SetActiveRecursively(true);
+            m_armSettings.CloseSettings();
+        }
+
+        else if (transform.name == "ToggleRadarButton")
+        {
+            m_radar.SetActive(!m_radar.activeSelf);
             m_armSettings.CloseSettings();
         }
 

@@ -3,11 +3,12 @@
 public class LootPickup : MonoBehaviour {
 
     private bool collected;
-    
 
+    private GameObject messages;
     // Use this for initialization
     void Start () {
-        collected = false;        
+        collected = false;
+        messages = GameObject.Find("Screen");
     }
 	
 	// Update is called once per frame
@@ -18,8 +19,10 @@ public class LootPickup : MonoBehaviour {
 
     void OnTriggerEnter(Collider col) {
         if (col.transform.tag == "Player") {
-            LootCounter lootcounter = GameObject.Find("LootCounter").GetComponent<LootCounter>();
-            lootcounter.DecreaseLootCount();
+            //LootCounter lootcounter = GameObject.Find("LootCounter").GetComponent<LootCounter>();
+            //lootcounter.DecreaseLootCount();
+            messages.SendMessage("LootPickUp");
+
             collected = true;
             AudioManager.instance.PlayCollect();                       
         }

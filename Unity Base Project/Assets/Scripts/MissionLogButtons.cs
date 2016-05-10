@@ -11,14 +11,12 @@ public class MissionLogButtons : MonoBehaviour
     private float cancelTimer;
     private GameObject missionLog;
     private GameObject buttonObject;
-   // private MissionLog missionLogScript;
     // Use this for initialization
     void Start()
     {
         m_button = GetComponent<Image>();
         missionLog = GameObject.Find("MissionLog");
         buttonObject = GameObject.Find("ButtonObject");
-     //   missionLogScript = missionLog.GetComponent<MissionLog>();
 
         transition = 0.0f;
         cancelTimer = 0.0f;
@@ -37,14 +35,10 @@ public class MissionLogButtons : MonoBehaviour
         {
             if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
             {
-                transition = 0.05f;
-                cancelTimer = 1.0f;
-                if (transform.name == "CloseLog")
-                    m_button.CrossFadeColor(Color.green, 0.1f, false, false);
-                else
-                    m_button.CrossFadeColor(Color.blue, 0.1f, false, false);
-
-                AudioManager.instance.PlayMenuGood();
+                transition = 0.25f;
+                cancelTimer = 1.25f;
+                m_button.CrossFadeColor(Color.blue, 0.1f, false, false);
+                //AudioManager.instance.PlayMenuGood();
             }
         }
     }
@@ -61,11 +55,7 @@ public class MissionLogButtons : MonoBehaviour
                 if (transition <= 0.0f)
                 {
                     m_button.CrossFadeColor(Color.white, 0.01f, false, false);
-                    if (transform.name == "CloseLog")
-                        m_button.color = Color.green;
-                    else
-                        m_button.color = Color.blue;
-
+                    m_button.color = Color.blue;
                 }
 
                 if (cancelTimer <= 0.0f)
@@ -89,7 +79,7 @@ public class MissionLogButtons : MonoBehaviour
                 }
                 else
                 {
-                    AudioManager.instance.PlayMenuBad();
+                    //AudioManager.instance.PlayMenuBad();
                     m_button.color = Color.white;
                     m_button.CrossFadeColor(Color.white, 0.01f, false, false);
                 }
@@ -105,6 +95,13 @@ public class MissionLogButtons : MonoBehaviour
         {
             buttonObject.SetActive(false);
             missionLog.SendMessage(transform.name);
+        }
+        else if (transform.name == "AcceptMission")
+        {
+            missionLog.SendMessage("AcceptMission", transform.parent.name);
+            transform.gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
+
         }
         else
             missionLog.SendMessage(transform.name);

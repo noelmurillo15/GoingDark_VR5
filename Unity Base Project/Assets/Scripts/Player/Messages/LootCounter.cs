@@ -22,12 +22,7 @@ public class LootCounter : MonoBehaviour {
 	}    
 
     public void DecreaseLootCount() {
-        lootCounter--;
-        
-        if (lootCounter == 0)
-            messages.SendMessage("Win");
-        else
-            messages.SendMessage("LootPickUp");
+        messages.SendMessage("LootPickUp");
     }
 
     public int GetLootCount() {
