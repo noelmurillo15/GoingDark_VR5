@@ -24,7 +24,7 @@ public class EnemyMissile : MonoBehaviour {
         velocity = 180.0f;
         destroyTimer = 5.0f;
 
-        messages = GameObject.Find("Screen");
+        messages = GameObject.Find("WarningMessages");
         messages.SendMessage("MissileIncoming");
     }
 
@@ -40,7 +40,7 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
-        messages.SendMessage("NoWarning");
+        messages.SendMessage("MissileDestroyed");
         Instantiate(Explosion, transform.position, transform.rotation);
         Destroy(this.gameObject);
     }

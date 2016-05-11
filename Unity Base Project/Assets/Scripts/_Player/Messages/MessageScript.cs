@@ -18,6 +18,8 @@ public class MessageScript : MonoBehaviour
     Text missileInc;
     [SerializeField]
     Text collectedLoot;
+    [SerializeField]
+    Text poisonMsg;
 
     private Text[] winTexts;
 
@@ -65,8 +67,9 @@ public class MessageScript : MonoBehaviour
         enemyClose.enabled = false;
         missileInc.enabled = false;
         collectedLoot.enabled = false;
-}
-    void EnemyClose()
+        poisonMsg.enabled = false;
+    }
+    public void EnemyClose()
     {
         enemyMsgTimer = 10f;
         enemyClose.enabled = true;
@@ -99,6 +102,15 @@ public class MessageScript : MonoBehaviour
     void NoOrient()
     {
         reorientMsg.enabled = false;
+    }
+
+    void Poison()
+    {
+        poisonMsg.enabled = true;
+    }
+    void NoPoison()
+    {
+        poisonMsg.enabled = false;
     }
     #endregion
 

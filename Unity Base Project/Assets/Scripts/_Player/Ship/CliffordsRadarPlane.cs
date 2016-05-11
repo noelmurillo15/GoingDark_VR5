@@ -17,7 +17,7 @@ public class CliffordsRadarPlane : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        messages = GameObject.Find("Screen");
+        messages = GameObject.Find("WarningMessages");
         Player = GameObject.FindGameObjectWithTag("Player");
 
         ScalerFactor.x = .031f / GetComponent<SphereCollider>().radius;
