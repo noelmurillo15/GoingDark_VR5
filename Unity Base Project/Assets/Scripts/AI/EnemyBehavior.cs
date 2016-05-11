@@ -3,7 +3,6 @@
 [RequireComponent(typeof(PatrolAi))]
 [RequireComponent(typeof(EnemyStats))]
 public class EnemyBehavior : MonoBehaviour {
-    //**    Attach to an Enemy  **//
 
     //  Detection
     public bool wandering;
@@ -62,13 +61,6 @@ public class EnemyBehavior : MonoBehaviour {
     }
 
     public void ChangeState() {
-        if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT) {            
-            if (transportAI.GetCloakTimer() > 0.0f)
-                wanderAI.SetSpeedBoost(2.0f);
-            else
-                wanderAI.SetSpeedBoost(0.5f);
-        }
-
         if (attackAI != null)
             attackAI.enabled = playerDetected;
 

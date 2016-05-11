@@ -36,8 +36,8 @@ public class EnemyAttack : MonoBehaviour {
     }
 
     private void LockOn() {
-        Vector3 dirFromAtoB = (patrolAI.GetTarget().position - transform.position).normalized;
-        angle = Vector3.Dot(dirFromAtoB, transform.forward);
+        Vector3 playerDir = (patrolAI.GetTarget().position - transform.position).normalized;
+        angle = Vector3.Dot(playerDir, transform.forward);
 
         if (angle > .985f)
             lockedOn = true;

@@ -26,41 +26,38 @@ public class PatrolAi : MonoBehaviour {
 
 
     void Awake() {
+        pathBlocked = false;
+
         range = 100;
         interval = 5f;
-        maxHeadingChange = 45f;
-        pathBlocked = false;
         speedBoost = 0.5f;
+        maxHeadingChange = 45f;
 
         target = null;
-
         targetRotation = Vector3.zero;
-
         stats = GetComponent<EnemyStats>();
         controller = GetComponent<CharacterController>();        
 
         // Set random initial rotation
         heading = Random.Range(0, 360);
         transform.localEulerAngles = new Vector3(0, heading, 0);
-
         StartCoroutine(NewHeading());
     }
 
     void Update() {
         if (!autoMove)  
         {
-            //  Regular Patrolling AI
             if (!pathBlocked)
             {
                 if (target == null)
-                {                    
-                    transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / interval);
+                {
+                    transform.localEulerAngles = Vector3.Slerp(transform.localEulerAngles, targetRotation, Time.deltaTime / stats.GetRotateSpeed());
                 }
                 else
                 {
-                    Vector3 relativePos = target.transform.position - transform.position;
-                    Quaternion rotation = Quaternion.LookRotation(relativePos);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime / interval);
+                    Vector3 playerDir = target.position - transform.position;
+                    Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / stats.GetRotateSpeed(), 0.0f);
+                    transform.rotation = Quaternion.LookRotation(direction);
                     heading = transform.localEulerAngles.y;
                 }
             }
@@ -84,7 +81,7 @@ public class PatrolAi : MonoBehaviour {
         {           
             // Auto-pilot back into playable area
             Vector3 playerDir = Vector3.zero - transform.position;
-            Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.1f) * Time.deltaTime, 0.0f);
+            Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.075f) * Time.deltaTime, 0.0f);
             transform.rotation = Quaternion.LookRotation(direction);
 
             Vector3 moveDir = Vector3.zero;
@@ -126,20 +123,24 @@ public class PatrolAi : MonoBehaviour {
     #endregion
 
     #region Modifiers
-    public void SetSpeedBoost(float boost)
-    {
-        speedBoost = boost;
-    }
-
     public void SetEnemyTarget(Transform _target)
     {
         if (_target == null)
-            SetSpeedBoost(0.5f);
+        {
+            if (stats.GetEnemyType() == EnemyStats.ENEMY_TYPE.TRANSPORT)
+                SetSpeedBoost(0.25f);
+            else
+                SetSpeedBoost(.5f);
+        }
         else
             SetSpeedBoost(1f);
 
         target = _target;
     }
+    public void SetSpeedBoost(float boost)
+    {
+        speedBoost = boost;
+    }    
     #endregion
 
     #region Coroutine

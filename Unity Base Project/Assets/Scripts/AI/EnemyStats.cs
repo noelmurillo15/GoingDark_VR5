@@ -1,53 +1,36 @@
 ﻿using UnityEngine;
 
 public class EnemyStats : MonoBehaviour {
-    //**    Attach to an Enemy  **//
 
     //  Movement
     public float moveSpeed;
     public float maxSpeed;
     public float rotateSpeed;
     public float acceleration;
+
     //  Weapons
     public int numMissiles;
+
     //  Disabilities
     public bool isStunned;
     public float stunTimer;
 
     //  Enemy Type
     public enum ENEMY_TYPE {
-        BASIC_ENEMY, TRANSPORT, KAMIKAZE, TRIDENT
+        BASIC_ENEMY, TRANSPORT, KAMIKAZE, TRIDENT, BOSS
     };
     private ENEMY_TYPE type;
 
 
     void Start()
     {       
-        if (transform.name == "BasicEnemy")
-        {
-            moveSpeed = 0f;
-            maxSpeed = 40f;
-            numMissiles = 5;
-            rotateSpeed = 20f;
-            acceleration = 3f;
-            type = ENEMY_TYPE.BASIC_ENEMY;
-        }
-        else if (transform.name == "Transport")
-        {
-            moveSpeed = 0f;
-            maxSpeed = 50f;
-            numMissiles = 0;
-            rotateSpeed = 15f;
-            acceleration = 4f;
-            type = ENEMY_TYPE.TRANSPORT;
-        }
-        else if (transform.name == "Droid")
+        if (transform.name == "Droid")
         {
             moveSpeed = 0f;
             maxSpeed = 60f;
             numMissiles = 0;
-            rotateSpeed = 25f;
-            acceleration = 5f;
+            rotateSpeed = 2f;
+            acceleration = 6f;
             type = ENEMY_TYPE.KAMIKAZE;
         }
         else if (transform.name == "Trident")
@@ -55,9 +38,36 @@ public class EnemyStats : MonoBehaviour {
             moveSpeed = 0f;
             maxSpeed = 50f;
             numMissiles = 0;
-            rotateSpeed = 25f;
-            acceleration = 4.5f;
+            rotateSpeed = 3.6f;
+            acceleration = 5f;
             type = ENEMY_TYPE.TRIDENT;
+        }
+        else if (transform.name == "BasicEnemy")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 40f;
+            numMissiles = 5;
+            rotateSpeed = 4f;
+            acceleration = 4.5f;
+            type = ENEMY_TYPE.BASIC_ENEMY;
+        }
+        else if (transform.name == "Transport")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 100f;
+            numMissiles = 0;
+            rotateSpeed = 5f;
+            acceleration = 4f;
+            type = ENEMY_TYPE.TRANSPORT;
+        }                
+        else if (transform.name == "Boss")
+        {
+            moveSpeed = 0f;
+            maxSpeed = 20f;
+            numMissiles = 100;
+            rotateSpeed = 10f;
+            acceleration = 1.5f;
+            type = ENEMY_TYPE.BOSS;
         }
         else
             Debug.Log("Enemy's Name does not match!!");
@@ -73,8 +83,7 @@ public class EnemyStats : MonoBehaviour {
         else
         {
             isStunned = false;
-        }
-        
+        }        
     }
 
     #region Accessors
@@ -102,11 +111,14 @@ public class EnemyStats : MonoBehaviour {
     #endregion
 
     #region Modifiers
+    public void StopMovement()
+    {
+        moveSpeed = 0f;
+    }
     public void DecreaseMissileCount()
     {
         numMissiles--;
-    }    
-    
+    }        
     public void IncreaseSpeed(float alterMaxSpeed) {
         if (moveSpeed < (maxSpeed * alterMaxSpeed))
             moveSpeed += Time.deltaTime * acceleration;
@@ -118,12 +130,7 @@ public class EnemyStats : MonoBehaviour {
             moveSpeed -= Time.deltaTime * acceleration * 2.5f;
         else
             moveSpeed = 0.0f;
-    }   
-    public void StopMovement()
-    {
-        moveSpeed = 0f;
-    } 
-
+    }       
     private bool RandomChance()
     {        
         if (Random.Range(1, 3) == 1)
@@ -143,7 +150,7 @@ public class EnemyStats : MonoBehaviour {
 
     public void Hit()
     {
-        Debug.Log("Enemy Has Hit Asteroid");
+        Debug.Log(transform.name + " Has Hit Asteroid");
         StopMovement();
     }    
 

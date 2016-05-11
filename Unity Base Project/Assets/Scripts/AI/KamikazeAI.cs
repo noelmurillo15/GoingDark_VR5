@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(EnemyStats))]
-[RequireComponent(typeof(CharacterController))]
 public class KamikazeAI : MonoBehaviour {
     //**        Attach to Enemy     **//
 
@@ -25,7 +23,7 @@ public class KamikazeAI : MonoBehaviour {
     {
         if (hit.transform.CompareTag("Player") && padding <= 0f)
         {
-            padding = 1f;
+            padding = 2f;
             Debug.Log("Droid Has Hit");
             hit.transform.SendMessage("Hit");
             hit.transform.SendMessage("EMPHit");

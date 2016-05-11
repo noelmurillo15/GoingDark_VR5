@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(EnemyBehavior))]
 public class TransportShipAI : MonoBehaviour {
     //**    Attach to Transport Prefab  **//
     private float padding;
