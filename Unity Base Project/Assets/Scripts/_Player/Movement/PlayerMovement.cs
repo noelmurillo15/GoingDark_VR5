@@ -20,8 +20,6 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        Debug.Log("Playermove Script Start");
-
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;    

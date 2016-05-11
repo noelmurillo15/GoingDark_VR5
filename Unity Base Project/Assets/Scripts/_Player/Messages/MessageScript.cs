@@ -29,7 +29,6 @@ public class MessageScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Msg Script Start");
         winTexts = winMessage.GetComponentsInChildren<Text>();
         NoWarning();
         autopilotMsg.enabled = true;

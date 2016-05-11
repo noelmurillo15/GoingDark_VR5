@@ -6,7 +6,6 @@ public class OutOfBoundsScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("OutOfBounds Script Start");
         messages = GameObject.Find("WarningMessages");
     }
 	
