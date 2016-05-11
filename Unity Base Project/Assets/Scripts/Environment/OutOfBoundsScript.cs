@@ -2,10 +2,13 @@
 
 public class OutOfBoundsScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    private GameObject messages;
 
-	}
+    // Use this for initialization
+    void Start () {
+        Debug.Log("OutOfBounds Script Start");
+        messages = GameObject.Find("WarningMessages");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -16,6 +19,7 @@ public class OutOfBoundsScript : MonoBehaviour {
     {
         if (col.CompareTag("Player")) {
             Debug.Log("Player in playable area");
+            messages.SendMessage("ManualPilot");
             col.SendMessage("InBounds");
         }
 
@@ -31,6 +35,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             Debug.Log("Player Out Of Bounds");
+            messages.SendMessage("AutoPilot");
             col.SendMessage("OutOfBounds");
         }
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))

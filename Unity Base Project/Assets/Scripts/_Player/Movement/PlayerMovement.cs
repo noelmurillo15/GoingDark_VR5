@@ -17,22 +17,17 @@ public class PlayerMovement : MonoBehaviour {
     private float orientationTimer;
     private Vector3 autoPilotDestination;
 
-    private GameObject reorientSign;
-    private GameObject autoPilotSign;
-
 
     // Use this for initialization
     void Start() {
+        Debug.Log("Playermove Script Start");
+
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;    
         moveDir = Vector3.zero;
         autoPilotDestination = Vector3.zero;
 
-        autoPilotSign = GameObject.Find("AutoPilot");
-        autoPilotSign.SetActive(autoPilot);
-        reorientSign = GameObject.Find("Reorient");
-        reorientSign.SetActive(resetRotation);
 
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
@@ -63,15 +58,13 @@ public class PlayerMovement : MonoBehaviour {
     {
         autoPilot = true;
         headMove.enabled = false;
-        autoPilotDestination = targetPos;
-        autoPilotSign.SetActive(autoPilot);
+        autoPilotDestination = targetPos;        
     }
     public void InBounds()
     {
         autoPilot = false;
         headMove.enabled = true;
-        autoPilotDestination = Vector3.zero;
-        autoPilotSign.SetActive(autoPilot);
+        autoPilotDestination = Vector3.zero;        
     }
     public void ResetOrientation()
     {
@@ -99,8 +92,6 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
             resetRotation = false;
-
-        reorientSign.SetActive(resetRotation);
     }
 
     private void ManualWalk() {

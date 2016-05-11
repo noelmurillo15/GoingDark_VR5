@@ -9,28 +9,28 @@ public class MessageScript : MonoBehaviour
     GameObject winMessage;
 
     [SerializeField]
-    Texture missileImage;
+    Text reorientMsg;
     [SerializeField]
-    Texture enemyCloseImage;
+    Text autopilotMsg;
     [SerializeField]
-    Texture lootPickUpImage;
+    Text enemyClose;
     [SerializeField]
-    Texture enemyMissileComb;
+    Text missileInc;
     [SerializeField]
-    Texture HUD;
+    Text collectedLoot;
 
     private Text[] winTexts;
 
     private float enemyMsgTimer;
-    private float missileTimder;
-    private GameObject m_missionSystem;
+    private float reorientTimer;
 
     // Use this for initialization
     void Start()
     {
+        Debug.Log("Msg Script Start");
         winTexts = winMessage.GetComponentsInChildren<Text>();
-        m_missionSystem = GameObject.Find("PersistentGameObject");
-
+        NoWarning();
+        autopilotMsg.enabled = true;
     }
 
     // Update is called once per frame
@@ -40,48 +40,73 @@ public class MessageScript : MonoBehaviour
             enemyMsgTimer -= Time.deltaTime;
         else
         {
-            if(enemyMsgTimer < 0f)
-                NoWarning();
+            if (enemyMsgTimer < 0f)
+                EnemyAway();
 
             enemyMsgTimer = 0f;
-        }        
+        }
+
+        if (reorientTimer > 0f)
+            reorientTimer -= Time.deltaTime;
+        else
+        {
+            if (reorientTimer < 0f)
+                NoOrient();
+
+            reorientTimer = 0f;
+        }
     }
 
+    #region Msg Functions
     void NoWarning()
     {
-        GetComponent<Renderer>().material.mainTexture = HUD;
-    }
+        reorientMsg.enabled = false;
+        autopilotMsg.enabled = false;
+        enemyClose.enabled = false;
+        missileInc.enabled = false;
+        collectedLoot.enabled = false;
+}
     void EnemyClose()
     {
-        enemyMsgTimer = 5f;
-        GetComponent<Renderer>().material.mainTexture = enemyCloseImage;
+        enemyMsgTimer = 10f;
+        enemyClose.enabled = true;
+    }
+    void EnemyAway()
+    {
+        enemyClose.enabled = false;
     }
     void MissileIncoming()
     {
-        if(enemyMsgTimer == 0f)
-            GetComponent<Renderer>().material.mainTexture = missileImage;
-        else
-            GetComponent<Renderer>().material.mainTexture = enemyMissileComb;
-    }
-    void LootPickUp()
+        missileInc.enabled = true;
+    }  
+    void MissileDestroyed()
     {
-        GetComponent<Renderer>().material.mainTexture = lootPickUpImage;
-        m_missionSystem.SendMessage("LootPickedUp");
-        StartCoroutine(LootMessageWait());
-    }    
+        missileInc.enabled = false;
+    }
+    public void AutoPilot()
+    {
+        autopilotMsg.enabled = true;
+    }
+    public void ManualPilot()
+    {
+        autopilotMsg.enabled = false;
+    }
+    void ReOrient()
+    {
+        reorientTimer = 5f;
+        reorientMsg.enabled = true;
+    }
+    void NoOrient()
+    {
+        reorientMsg.enabled = false;
+    }
+    #endregion
 
     void Win()
     {
-        GetComponent<Renderer>().material.mainTexture = HUD;
         winMessage.SetActive(true);
         Debug.Log("Won");
         StartCoroutine(WinMessage());
-    }
-
-    IEnumerator LootMessageWait()
-    {
-        yield return new WaitForSeconds(3.0f);
-        GetComponent<Renderer>().material.mainTexture = HUD;
     }
 
     IEnumerator WinMessage()
