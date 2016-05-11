@@ -602,6 +602,7 @@
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
+    <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootCounter.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootPickup.cs" />

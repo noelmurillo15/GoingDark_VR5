@@ -115,6 +115,16 @@ public class PlayerStats : MonoBehaviour {
             Kill();
     }
 
+    public void EnvironmentalDMG()
+    {
+        IncreaseHitCount();
+        PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
+        m_Health.UpdatePlayerHealth();
+
+        if (hitCount > 2)
+            Kill();
+    }
+
     public void Kill()
     {
         Debug.Log("Destroyed Player Ship");

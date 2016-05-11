@@ -31,6 +31,11 @@ public class NebulaCloud : MonoBehaviour {
     #region Collision
     public void OnTriggerEnter(Collider col)
     {
+        if (timer > 0.0f)
+        {
+            timer += Time.deltaTime;
+
+        }
 
     }
 
@@ -38,11 +43,10 @@ public class NebulaCloud : MonoBehaviour {
     {
         if (col.transform.tag == "Player")
         {
-        timer += Time.deltaTime;
-            if (timer >= 5.0f)
+            if (timer <= 0.0f)
             {
-                player.Hit();
-                timer = 0.0f;
+                //player.EnvironmentalDMG();
+                timer = 10.0f;
             }
         }
         
