@@ -584,6 +584,8 @@
     <Compile Include="Assets\Scripts\Environment\NebulaGenerator.cs" />
     <Compile Include="Assets\Scripts\Environment\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\Environment\PillarLighting.cs" />
+    <Compile Include="Assets\Scripts\Environment\Portal.cs" />
+    <Compile Include="Assets\Scripts\Environment\PortalCam.cs" />
     <Compile Include="Assets\Scripts\Environment\SpinScript.cs" />
     <Compile Include="Assets\Scripts\Game Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
