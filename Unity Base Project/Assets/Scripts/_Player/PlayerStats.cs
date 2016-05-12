@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour {
     public float rotateSpeed;
     public float acceleration;
 
-    private PlayerShipData shipData;
+    private ShipDevices devices;
 
     //  Shields
     private bool shieldOn;
@@ -33,7 +33,7 @@ public class PlayerStats : MonoBehaviour {
         acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits", 100);
         numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
-        shipData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
+        devices = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<ShipDevices>();
 
         // shield defaults
         shieldOn = true;
@@ -83,9 +83,9 @@ public class PlayerStats : MonoBehaviour {
         return shieldOn;
     }
 
-    public PlayerShipData GetShipData()
+    public ShipDevices GetDevices()
     {
-        return shipData;
+        return devices;
     }
     #endregion
 
@@ -126,7 +126,6 @@ public class PlayerStats : MonoBehaviour {
     public void EMPHit()
     {
         Debug.Log("EMP has affected Player's Systems");
-        shipData.SetIsStunned(true);
     }
 
     public void Hit()

@@ -4,53 +4,100 @@ using UnityEngine.SceneManagement;
 
 public class ArmButtons : MonoBehaviour {
 
+    #region Properties
+    private bool initialized;
+    private float delay;
     private float transition;
     private float cancelTimer;
 
     private Image m_button;
-    private ArmSettings m_armSettings;
-    private GameObject m_missionLog;
-    private GameObject m_radar;
+    private ShipDevices devices;
+    private ArmSettings settings;
+    #endregion
+
 
     // Use this for initialization
     void Start() {
+        delay = .5f;
         transition = 0.0f;
-        cancelTimer = 0.0f;
-        m_button = null;     
+        cancelTimer = 0.0f;                
 
-        if (m_armSettings == null)
-            m_armSettings = GameObject.Find("leftForearm").GetComponent<ArmSettings>();
+        m_button = null;
+        initialized = false;
+    }
 
-        if (m_missionLog == null)
-            m_missionLog = GameObject.Find("ButtonObject");
+    void Update()
+    {
+        if (initialized)
+        {
+            if (delay > 0f)
+                delay -= Time.deltaTime;
+            else
+            {
+                UpdateCooldowns();
+                delay = .5f;
+            }
+        }
+    }
 
-        if (m_radar == null)
-            m_radar = GameObject.Find("Radar");
+    void Initialize()
+    {
+        if (m_button == null)
+            m_button = GetComponent<Image>();
+        if (settings == null)
+            settings = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<ArmSettings>();
+        if (devices == null)
+            devices = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<ShipDevices>();
+
+        initialized = true;
+    }
+
+    void UpdateCooldowns()
+    {
+        switch (transform.name)
+        {
+            case "HyperDriveButton":
+                if (devices.HyperDrive.Cooldown > 0.0f)
+                    m_button.color = Color.red;
+                else
+                    m_button.color = Color.white;
+                break;
+
+            case "CloakButton":
+                if (devices.Cloak.Cooldown > 0.0f)
+                    m_button.color = Color.red;
+                else
+                    m_button.color = Color.white;
+                break;
+            case "EmpButton":
+                if (devices.Emp.Cooldown > 0.0f)
+                    m_button.color = Color.red;
+                else
+                    m_button.color = Color.white;
+                break;
+
+            case "MissileButton":
+                if (devices.MissileLaunch.Cooldown > 0.0f)
+                    m_button.color = Color.red;
+                else
+                    m_button.color = Color.white;
+                break;
+        }
     }
 
     #region Collision
     public void OnTriggerEnter(Collider col) {
-        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+        if (col.name == "bone3")
         {
-            if(m_button == null)
-                m_button = GetComponent<Image>();
-
-            transition = 0.25f;
-            cancelTimer = 1.25f;
-            m_button.color = Color.grey;
-
-            if (transform.name == "HyperDriveButton")
-                if (m_armSettings.HyperDriveCooldown() > 0.0f)
-                    m_button.color = Color.red;
-
-            if (transform.name == "CloakButton")
-                if (m_armSettings.CloakCooldown() > 0.0f)
-                    m_button.color = Color.red;
+            Initialize();
+            transition = 0.1f;
+            cancelTimer = 1.5f;
+            m_button.color = Color.grey;                     
         }        
     }
 
     public void OnTriggerStay(Collider col) {
-        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+        if (col.name == "bone3")
         {
             if (cancelTimer > 0.0f)
             {
@@ -66,43 +113,56 @@ public class ArmButtons : MonoBehaviour {
     }
 
     public void OnTriggerExit(Collider col) {        
-        if (col.name == "bone3" && col.transform.parent.name == "rightIndex")
+        if (col.name == "bone3")
             if (m_button.color == Color.green)
                 ActivateButton();   
     }
     #endregion
 
-    private void ActivateButton() {
+    private void ActivateButton() {        
+        switch (transform.name)
+        {
+            case "CloseSettings":
+                settings.CloseSettings();
+                return; 
+
+            case "CloakButton":
+                devices.Cloak.Activate(!devices.Cloak.Activated);
+                break;
+
+            case "HyperDriveButton":
+                devices.HyperDrive.HyperDriveInitialize();
+                break;
+
+            case "MissileButton":
+                devices.MissileLaunch.FireMissile();
+                break;
+
+            case "MissionLogButton":
+                devices.MissionLog.SetActiveRecursively(true);
+                break;
+
+            case "ToggleRadarButton":
+                devices.Radar.SetActive(!devices.Radar.activeSelf);
+                break;
+
+            case "EmpButton":
+                devices.Emp.SetEmpActive(true);
+                break;
+
+            case "DecoyButton":
+                devices.Decoy.LeaveDecoy();
+                break;
+
+
+            default:
+                Debug.Log("Switching Scene : " + transform.name);
+                SceneManager.LoadScene(transform.name);
+                break;
+        }
         m_button.color = Color.white;
 
-        if (transform.name == "CloseSettings")
-            m_armSettings.CloseSettings();
-
-        else if (transform.name == "CloakButton")
-            m_armSettings.SetCloak();
-
-        else if (transform.name == "HyperDriveButton")
-            m_armSettings.InitializeHyperDrive();
-
-        else if (transform.name == "MissileButton")
-            m_armSettings.FireMissile();
-
-        else if (transform.name == "MissionLogButton")
-        {
-            m_missionLog.SetActiveRecursively(true);
-            m_armSettings.CloseSettings();
-        }
-
-        else if (transform.name == "ToggleRadarButton")
-        {
-            m_radar.SetActive(!m_radar.activeSelf);
-            m_armSettings.CloseSettings();
-        }
-
-        else
-        {
-            Debug.Log("Switching Scene : " + transform.name);
-            SceneManager.LoadScene(transform.name);
-        }
+        if (settings.Active)
+            settings.CloseSettings();
     }
 }

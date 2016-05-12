@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 
 public class Cloak : MonoBehaviour {
-    //**    Attach to Cloak GameObject  **//
+
+    #region Properties
+    public bool Activated { get; private set; }
+    public float Cooldown { get; private set; }
+
     private float padding;
-
-    private bool isCloaked;
     private float cloakTimer;
-    private float cloakCooldown;
-
     private Color originalColor;
     private GameObject[] shipLights;
 
     //  Decoy
-    public int numDecoys;
-    public GameObject decoy;
+    
+    #endregion
 
     // Use this for initialization
     void Start () {
-        isCloaked = false;
-        cloakTimer = 0.0f;
-        cloakCooldown = 0.0f;
-
-        numDecoys = 2;
+        Activated = false;
+        Cooldown = 0.0f;
+        cloakTimer = 0.0f;        
 
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
@@ -36,22 +34,17 @@ public class Cloak : MonoBehaviour {
         if (padding > 0.0f)
             padding -= Time.deltaTime;
 
-        if (cloakCooldown > 0)
-            cloakCooldown -= Time.deltaTime;
+        if (Cooldown > 0)
+            Cooldown -= Time.deltaTime;
 
         if (cloakTimer > 0)
             cloakTimer -= Time.deltaTime;
-        else if (cloakTimer < 0 && GetCloaked())
-            SetCloaked(false);
-
-        if (Input.GetKey(KeyCode.D) && padding <= 0.0f)
-        {
-            LeaveDecoy();
-        }
+        else if (cloakTimer < 0 && Activated)
+            Activate(false);
     }
 
-    #region Modifiers
-    public void SetCloaked(bool boolean) {
+    #region Private Methods
+    public void Activate(bool boolean) {
         if (padding <= 0.0f) {
             padding = 0.2f;
             if (boolean) {
@@ -61,37 +54,12 @@ public class Cloak : MonoBehaviour {
             }
             else {
                 cloakTimer = 0.0f;
-                cloakCooldown = 60.0f;
+                Cooldown = 60.0f;
                 for (int x = 0; x < shipLights.Length; x++)
                     shipLights[x].GetComponent<Light>().color = originalColor;
             }
-            isCloaked = boolean;
+            Activated = boolean;
         }
-    }
-
-    public void LeaveDecoy() {
-        if (GetNumDecoys() > 0) {
-            numDecoys--;       
-            padding = 0.15f;
-            Instantiate(decoy, transform.position, decoy.transform.rotation);            
-        }
-    }
-    #endregion
-
-    #region Accessors
-    public bool GetCloaked() {
-        return isCloaked;
-    }
-
-    public int GetNumDecoys() {
-        return numDecoys;
-    }
-
-    public float GetCloakTimer() {
-        return cloakTimer;
-    }
-    public float GetCloakCooldown() {
-        return cloakCooldown;
-    }
+    }    
     #endregion
 }

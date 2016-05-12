@@ -2,35 +2,37 @@
 
 public class EMP : MonoBehaviour
 {
-    //**    Attach to EMP Sphere    **/
-    public bool isEmpActive;
+    #region Properties
+    public bool Activated { get; private set; }
+    public float Cooldown { get; private set; }
+
     public float empTimer;
-    public float empCooldown;
     private GameObject shockwave;
+    #endregion
 
 
     // Use this for initialization
     void Start()
     {
         empTimer = 0f;
-        empCooldown = 0f;
-        isEmpActive = false;
+        Cooldown = 0f;
+        Activated = false;
 
         shockwave = transform.GetChild(0).gameObject;
-        shockwave.SetActive(isEmpActive);
+        shockwave.SetActive(Activated);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (empCooldown > 0f)
-            empCooldown -= Time.deltaTime;
+        if (Cooldown > 0f)
+            Cooldown -= Time.deltaTime;
 
         if (empTimer > 0f)
             empTimer -= Time.deltaTime;
         else
         {
-            if (isEmpActive)
+            if (Activated)
                 SetEmpActive(false);
         }
 
@@ -39,30 +41,18 @@ public class EMP : MonoBehaviour
     }
 
 
-    #region Accessors
-    public bool GetEmpActive()
-    {
-        return isEmpActive;
-    }
-
-    public float GetEmpCooldown()
-    {
-        return empCooldown;
-    }
-    #endregion
-
     #region Modifiers
     public void SetEmpActive(bool boolean)
     {
-        if (empTimer <= 0f && empCooldown <= 0f)
+        if (empTimer <= 0f && Cooldown <= 0f)
         {
             if (boolean)
                 empTimer = 5f;
             else
-                empCooldown = 5f;
+                Cooldown = 5f;
 
-            isEmpActive = boolean;
-            shockwave.SetActive(isEmpActive);
+            Activated = boolean;
+            shockwave.SetActive(Activated);
         } 
     }
     #endregion

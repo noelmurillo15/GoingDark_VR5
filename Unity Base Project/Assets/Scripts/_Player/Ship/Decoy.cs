@@ -1,32 +1,33 @@
 ﻿using UnityEngine;
 
 public class Decoy : MonoBehaviour {
-    //**    Attach to Decoy GameObject  **//
-    private float aliveTimer;
 
+    #region Properties
+    public bool Activated { get; private set; }
+    public float Cooldown { get; private set; }
+
+    public int numDecoys;
+    private GameObject cam;
+    public GameObject decoy;
+    #endregion
 
     // Use this for initialization
     void Start() {
-        aliveTimer = 30.0f;
+        numDecoys = 5;
+        cam = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update() {
-        if (aliveTimer > 0.0f)
-            aliveTimer -= Time.deltaTime;
-        else
-            Destroy(this.gameObject);
+
     }
 
-    #region Modifiers
-    #endregion
-
-    #region Accessors
-    #endregion
-
-    #region Msg Calls
-    public void Kill() {
-        Destroy(this.gameObject);
+    public void LeaveDecoy()
+    {
+        if (numDecoys > 0)
+        {
+            numDecoys--;
+            Instantiate(decoy, cam.transform.position, cam.transform.localRotation);
+        }
     }
-    #endregion
 }

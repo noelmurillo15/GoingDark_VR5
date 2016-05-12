@@ -38,7 +38,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         {
             //Debug.Log("Player Out Of Bounds");
             messages.SendMessage("AutoPilot");
-            col.SendMessage("OutOfBounds");
+            col.SendMessage("OutOfBounds", Vector3.zero);
         }
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {

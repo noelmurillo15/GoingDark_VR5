@@ -8,7 +8,7 @@ public class EnemyCollision : MonoBehaviour {
 
     #region Properties
     public float detectionTimer;
-    private PlayerShipData player;
+    private ShipDevices devices;
     private EnemyBehavior behavior;
     #endregion
 
@@ -16,7 +16,7 @@ public class EnemyCollision : MonoBehaviour {
     {
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
-        player = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
+        devices = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<ShipDevices>();
     }
 
     void Update()
@@ -38,7 +38,7 @@ public class EnemyCollision : MonoBehaviour {
     {
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {           
-            if (player.GetPlayerCloak().GetCloaked())
+            if (devices.Cloak.Activated)
             {
                 behavior.losingSight = 5f;
                 behavior.ChangeState(EnemyStates.SEARCHING);

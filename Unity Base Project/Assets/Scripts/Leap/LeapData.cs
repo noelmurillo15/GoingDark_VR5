@@ -22,7 +22,7 @@ public class LeapData : MonoBehaviour {
     private Vector3 palmPosL;
     private Vector3 palmPosR;
     private Vector3 palmNormsL;
-    public Vector3 palmNormsR;
+    private Vector3 palmNormsR;
     private Vector3 palmVelocityL;
     private Vector3 palmVelocityR;
 

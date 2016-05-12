@@ -3,10 +3,11 @@
 public class HyperDrive : MonoBehaviour {
     //**        Attach to HyperDrive Object     **//
 
-    private bool activated;
+    #region Properties
+    public bool Activated { get; private set; }
+    public float Cooldown { get; private set; }
 
     private float boostTimer;
-    private float cooldownTimer;
     private float initializeTimer;
 
     private GameObject particles;
@@ -17,12 +18,13 @@ public class HyperDrive : MonoBehaviour {
     private PlayerStats stats;
 
     private float beginningTimer;
+    #endregion
 
     // Use this for initialization
     void Start () {
         beginningTimer = 2f;
-        activated = false;
-        cooldownTimer = 0.0f;        
+        Activated = false;
+        Cooldown = 0.0f;        
 
         if (m_playerMove == null)
             m_playerMove = GameObject.FindGameObjectWithTag("Player");
@@ -50,13 +52,14 @@ public class HyperDrive : MonoBehaviour {
             }
         }
         
-        if (cooldownTimer > 0.0f)
-            cooldownTimer -= Time.deltaTime;
+        if (Cooldown > 0.0f)
+            Cooldown -= Time.deltaTime;
 
-        if (activated)
+        if (Activated)
             HyperDriveBoost();
     }
 
+    #region Private Methods
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
             initializeTimer -= Time.deltaTime;
@@ -71,7 +74,7 @@ public class HyperDrive : MonoBehaviour {
                 m_playerMove.transform.Translate(Vector3.forward * 3000.0f * Time.deltaTime);
             }
             else {
-                activated = false;
+                Activated = false;
                 particles.transform.localPosition = particleOriginPos;
                 particles.SetActive(false);
             }
@@ -79,15 +82,12 @@ public class HyperDrive : MonoBehaviour {
     }
 
     public void HyperDriveInitialize() {
-        if (cooldownTimer <= 0.0f) {
-            cooldownTimer = 15.0f;
-            activated = true;
+        if (Cooldown <= 0.0f) {
+            Cooldown = 15.0f;
+            Activated = true;
             particles.SetActive(true);
             initializeTimer = 5.0f;
         }
     }
-
-    public float GetHyperDriveCooldown() {
-        return cooldownTimer;
-    }
+    #endregion
 }

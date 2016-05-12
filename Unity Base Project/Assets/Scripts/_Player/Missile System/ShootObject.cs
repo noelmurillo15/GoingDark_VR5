@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 
 public class ShootObject : MonoBehaviour {
-    //**  Attach to Player prefab  **//
+    public float Cooldown { get; private set; }
     public int MissileCount;
-    public float fireCooldown;
     private GameObject Missile;
     private GameObject player;
 
 
     void Start()
     {
-        fireCooldown = 0.0f;
+        Cooldown = 0.0f;
         MissileCount = 10;
 
         player = GameObject.FindGameObjectWithTag("Player");
@@ -18,26 +17,21 @@ public class ShootObject : MonoBehaviour {
     }
 
     void Update() {
-        if (fireCooldown > 0.0f)
-            fireCooldown -= Time.deltaTime;
+        if (Cooldown > 0.0f)
+            Cooldown -= Time.deltaTime;
 
         if (Input.GetKey(KeyCode.F))
             FireMissile();
     }
 
-    public float GetFireCooldown()
-    {
-        return fireCooldown;
-    }
-
     public void FireMissile()
     {
-        if (fireCooldown <= 0.0f)
+        if (Cooldown <= 0.0f)
         {
             
             if (MissileCount > 0 )
             {
-                fireCooldown = 1.0f;
+                Cooldown = 1.0f;
                 if (Missile != null)
                 {
                     MissileCount--;
@@ -56,7 +50,7 @@ public class ShootObject : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.name == "rightPalm" && fireCooldown <= 0.0f)
+        if(col.name == "rightPalm" && Cooldown <= 0.0f)
         {
             FireMissile();
         }
