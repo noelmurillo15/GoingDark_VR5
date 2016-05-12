@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour {
         if (!autoPilot && !resetRotation) {
             moveDir = Vector3.zero;
 
-            if(stats.GetMoveSpeed() > 0f)
+            if(stats.GetMoveData().Speed > 0f)
                 ManualWalk();
 
             if(moveDir != Vector3.zero)
@@ -73,13 +73,13 @@ public class PlayerMovement : MonoBehaviour {
     private void Autopilot() {
         //  Look At
         Vector3 playerDir = autoPilotDestination - transform.position;
-        Vector3 destination = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetRotateSpeed() * 0.05f) * Time.deltaTime, 0.0f);
+        Vector3 destination = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetMoveData().RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
         transform.rotation = Quaternion.LookRotation(destination);
 
         //  Move Towards
         moveDir = Vector3.zero;
         moveDir = transform.TransformDirection(Vector3.forward);
-        moveDir *= (stats.GetMaxSpeed() * Time.deltaTime * 5f);
+        moveDir *= (stats.GetMoveData().MaxSpeed * Time.deltaTime * 5f);
         m_controller.Move(moveDir);        
     }        
     public void Reorient()
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour {
 
     private void ManualWalk() {
         moveDir = transform.TransformDirection(Vector3.forward);
-        moveDir *= stats.GetMoveSpeed() * Time.deltaTime;   
+        moveDir *= stats.GetMoveData().Speed * Time.deltaTime;   
     }     
     #endregion
 }

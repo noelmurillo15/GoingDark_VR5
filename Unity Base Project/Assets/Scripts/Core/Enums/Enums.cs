@@ -1,5 +1,7 @@
 ﻿namespace GD.Core.Enums
 {
+    using UnityEngine;
+
     public enum EnemyTypes
     {
         BASIC,
@@ -22,5 +24,15 @@
         NONE,
         SLOWED,
         STUNNED,
+    }
+
+
+    public struct MovementStats
+    {
+        public float Speed { get; set; }
+        public float Boost { get; set; }
+        public float MaxSpeed { get; set; }
+        public float RotateSpeed { get; set; }
+        public float Acceleration { get; set; }        
     }
 }

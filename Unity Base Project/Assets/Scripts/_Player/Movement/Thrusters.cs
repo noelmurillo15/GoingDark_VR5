@@ -54,14 +54,14 @@ public class Thrusters : MonoBehaviour {
         }
         else if (transform.localPosition.z > -0.004f)
         {
-            stats.IncreaseSpeed(percentage);
+            stats.IncreaseSpeed();
             UpdateSpeedGauge();
         }        
     }
 
     private void UpdateSpeedGauge()
     {
-        float percent = stats.GetMoveSpeed() / stats.GetMaxSpeed();
+        float percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
         Vector3 newScale;
         newScale.x = speedBarColor1.transform.localScale.x;
         newScale.y = percent * 0.001f;

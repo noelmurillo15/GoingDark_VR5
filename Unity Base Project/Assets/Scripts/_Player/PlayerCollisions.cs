@@ -24,7 +24,7 @@ public class PlayerCollisions : MonoBehaviour {
         {
             if (hit.transform.CompareTag("Asteroid"))
             {
-                if(stats.GetMoveSpeed() > (stats.GetMaxSpeed() / 2f))
+                if(stats.GetMoveData().Speed > (stats.GetMoveData().MaxSpeed / 2f))
                     stats.SendMessage("Hit");
 
                 stats.SendMessage("StopMovement");

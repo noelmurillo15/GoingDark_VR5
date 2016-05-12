@@ -4,14 +4,9 @@ using GD.Core.Enums;
 public class EnemyStats : MonoBehaviour {
 
     #region Properties    
-    public EnemyTypes Type { get; private set; }    
+    public EnemyTypes Type { get; private set; }
 
-    // Movement
-    public float Speed { get; private set; }
-    public float Boost { get; private set; }
-    public float MaxSpeed { get; private set; }
-    public float RotateSpeed { get; private set; }
-    public float Acceleration { get; private set; }
+    public MovementStats MoveData;
 
     //  Weapons
     public int MissileCount { get; private set; }
@@ -23,8 +18,8 @@ public class EnemyStats : MonoBehaviour {
 
     void Start()
     {
-        Speed = 0f;
-        Boost = 1f;
+        MoveData.Speed = 0f;
+        MoveData.Boost = 1f;
         MissileCount = 0;
         Initialize(transform.name);
     }
@@ -42,6 +37,11 @@ public class EnemyStats : MonoBehaviour {
         }        
     }
 
+    public MovementStats GetMoveData()
+    {
+        return MoveData;
+    }
+
     #region Private Methods
     void Initialize(string enemyName)
     {
@@ -49,35 +49,35 @@ public class EnemyStats : MonoBehaviour {
         {
             case "Droid":
                 Type = EnemyTypes.KAMIKAZE;
-                Acceleration = 6f;
-                RotateSpeed = 2f;
-                MaxSpeed = 75f;
+                MoveData.Acceleration = 6f;
+                MoveData.RotateSpeed = 2f;
+                MoveData.MaxSpeed = 75f;
                 break;
             case "Trident":
                 Type = EnemyTypes.TRIDENT;
-                Acceleration = 4f;
-                RotateSpeed = 3f;
-                MaxSpeed = 50f;
+                MoveData.Acceleration = 4f;
+                MoveData.RotateSpeed = 3f;
+                MoveData.MaxSpeed = 50f;
                 break;
             case "BasicEnemy":
                 Type = EnemyTypes.BASIC;
                 MissileCount = 5;
-                Acceleration = 3.6f;
-                RotateSpeed = 4f;
-                MaxSpeed = 40f;
+                MoveData.Acceleration = 3.6f;
+                MoveData.RotateSpeed = 4f;
+                MoveData.MaxSpeed = 40f;
                 break;
             case "Transport":
                 Type = EnemyTypes.TRANSPORT;
-                Acceleration = 4f;
-                RotateSpeed = 5f;
-                MaxSpeed = 100f;
+                MoveData.Acceleration = 4f;
+                MoveData.RotateSpeed = 5f;
+                MoveData.MaxSpeed = 100f;
                 break;
             case "Boss":
                 Type = EnemyTypes.BOSS;
                 MissileCount = 100;
-                Acceleration = 1.5f;
-                RotateSpeed = 10f;
-                MaxSpeed = 20f;
+                MoveData.Acceleration = 1.5f;
+                MoveData.RotateSpeed = 10f;
+                MoveData.MaxSpeed = 20f;
                 break;
 
 
@@ -87,30 +87,33 @@ public class EnemyStats : MonoBehaviour {
         }        
     }    
 
-    public void StopMovement()
-    {
-        Speed = 0f;
-    }
     public void SetSpeedBoost(float newBoost)
     {
-        Boost = newBoost;
+        MoveData.Boost = newBoost;
+    }
+    public void StopMovement()
+    {
+        MoveData.Speed = 0f;
+    }
+    public void IncreaseSpeed()
+    {
+        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
+            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
+        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
+            DecreaseSpeed();
+    }
+    public void DecreaseSpeed()
+    {
+        if (MoveData.Speed > 0.0f)
+            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 4f;
+        else
+            MoveData.Speed = 0.0f;
     }
     public void DecreaseMissileCount()
     {
         MissileCount--;
     }        
-    public void IncreaseSpeed() {
-        if (Speed < (MaxSpeed * Boost))
-            Speed += Time.deltaTime * Acceleration;
-        else if (Speed > (MaxSpeed * Boost) + .5f)
-            Speed -= Time.deltaTime * Acceleration * 4f;
-    }
-    public void DecreaseSpeed() {
-        if (Speed > 0.0f)
-            Speed -= Time.deltaTime * Acceleration * 2.5f;
-        else
-            Speed = 0.0f;
-    }       
+          
     private bool RandomChance()
     {        
         if (Random.Range(1, 3) == 1)

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour {
@@ -11,10 +12,7 @@ public class PlayerStats : MonoBehaviour {
     //  Credits
     public int numCredits;
     //  Movement
-    public float moveSpeed;
-    public float maxSpeed;
-    public float rotateSpeed;
-    public float acceleration;
+    private MovementStats MoveData;
 
     private ShipDevices devices;
 
@@ -27,10 +25,11 @@ public class PlayerStats : MonoBehaviour {
     // Use this for initialization
     void Start () {      
         hitCount = 0;
-        moveSpeed = 0f;
-        maxSpeed = 50f;
-        rotateSpeed = 20f;
-        acceleration = 5f;
+        MoveData.Speed = 0f;
+        MoveData.Boost = 1f;
+        MoveData.MaxSpeed = 50f;
+        MoveData.RotateSpeed = 20f;
+        MoveData.Acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits", 100);
         numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
         devices = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<ShipDevices>();
@@ -57,6 +56,10 @@ public class PlayerStats : MonoBehaviour {
     }
 
     #region Accessors
+    public bool GetShield()
+    {
+        return shieldOn;
+    }
     public int GetHitCount()
     {
         return hitCount;
@@ -64,32 +67,36 @@ public class PlayerStats : MonoBehaviour {
     public int GetNumMissiles()
     {
         return numMissiles;
-    }
-    public float GetMoveSpeed()
-    {
-        return moveSpeed;
-    }
-    public float GetMaxSpeed()
-    {
-        return maxSpeed;
-    }
-    public float GetRotateSpeed()
-    {
-        return rotateSpeed;
-    }
-
-    public bool GetShield()
-    {
-        return shieldOn;
-    }
-
+    }           
     public ShipDevices GetDevices()
     {
         return devices;
     }
+    public MovementStats GetMoveData()
+    {
+        return MoveData;
+    }
     #endregion
 
     #region Modifiers
+    public void StopMovement()
+    {
+        MoveData.Speed = 0f;
+    }
+    public void IncreaseSpeed()
+    {
+        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
+            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
+        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
+            DecreaseSpeed();
+    }
+    public void DecreaseSpeed()
+    {
+        if (MoveData.Speed > 0.0f)
+            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 4f;
+        else
+            MoveData.Speed = 0.0f;
+    }
     public void DecreaseMissileCount()
     {
         numMissiles--;
@@ -102,24 +109,6 @@ public class PlayerStats : MonoBehaviour {
     {
         hitCount--;
     }    
-    public void IncreaseSpeed(float percentage)
-    {
-        if (moveSpeed < (maxSpeed * percentage))
-            moveSpeed += Time.deltaTime * acceleration;
-        else if (moveSpeed > (maxSpeed * percentage) + .5f)
-            DecreaseSpeed();
-    }
-    public void DecreaseSpeed()
-    {
-        if (moveSpeed > 0.0f)
-            moveSpeed -= Time.deltaTime * acceleration * 2.5f;
-        else
-            moveSpeed = 0.0f;
-    }
-    public void StopMovement()
-    {
-        moveSpeed = 0f;
-    }
     #endregion
 
     #region Msg Functions

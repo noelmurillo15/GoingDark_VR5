@@ -54,12 +54,12 @@ public class PatrolAi : MonoBehaviour {
             {
                 if (behavior.Target == null) 
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.RotateSpeed);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.GetMoveData().RotateSpeed);
                 }
                 else
                 {
                     Vector3 playerDir = behavior.Target.position - transform.position;
-                    Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / stats.RotateSpeed, 0.0f);
+                    Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / stats.GetMoveData().RotateSpeed, 0.0f);
                     transform.rotation = Quaternion.LookRotation(direction);
                     headingX = transform.eulerAngles.x;
                     headingY = transform.eulerAngles.y;
@@ -95,7 +95,7 @@ public class PatrolAi : MonoBehaviour {
             headingY = transform.eulerAngles.y;
         }
 
-        controller.Move(transform.forward * Time.deltaTime * stats.Speed);
+        controller.Move(transform.forward * Time.deltaTime * stats.GetMoveData().Speed);
 
         // Use to debug the Physics.RayCast.
         Debug.DrawRay(transform.position + (transform.right * 12), transform.forward * range, Color.red);
@@ -108,13 +108,13 @@ public class PatrolAi : MonoBehaviour {
         if (Physics.Raycast(transform.position + (transform.right * 12), transform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                transform.Rotate(Vector3.down * Time.deltaTime * stats.RotateSpeed);
+                transform.Rotate(Vector3.down * Time.deltaTime * stats.GetMoveData().RotateSpeed);
             }
         }
         else if (Physics.Raycast(transform.position - (transform.right * 12), transform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                transform.Rotate(Vector3.up * Time.deltaTime * stats.RotateSpeed);
+                transform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);
             }
         }
     }
