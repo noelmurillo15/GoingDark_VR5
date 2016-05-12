@@ -73,8 +73,6 @@ public class LeapData : MonoBehaviour {
         controller = new Controller();
         while (!controller.IsServiceConnected)
             Debug.Log("Leap is connecting...");
-
-        Debug.Log("Leap connected");
     }
 
     // Update is called once per frame

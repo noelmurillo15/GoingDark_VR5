@@ -1,11 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity Base Project.CSharp.Plugins", "Unity Base Project.CSharp.Plugins.csproj", "{E8D98538-493B-D56B-62B4-6C6C0D36D125}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity Base Project.CSharp", "Unity Base Project.CSharp.csproj", "{678334E6-67F2-CFB4-86B5-43CDE86400E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity Base Project.CSharp.Editor.Plugins", "Unity Base Project.CSharp.Editor.Plugins.csproj", "{99BB1143-C54B-452E-1B87-6C5B8DA0ED0A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity Base Project.CSharp.Editor", "Unity Base Project.CSharp.Editor.csproj", "{CE50D5C9-79D0-8046-3170-FD3A57E97A6E}"
 EndProject
@@ -15,18 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8D98538-493B-D56B-62B4-6C6C0D36D125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8D98538-493B-D56B-62B4-6C6C0D36D125}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8D98538-493B-D56B-62B4-6C6C0D36D125}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8D98538-493B-D56B-62B4-6C6C0D36D125}.Release|Any CPU.Build.0 = Release|Any CPU
 		{678334E6-67F2-CFB4-86B5-43CDE86400E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{678334E6-67F2-CFB4-86B5-43CDE86400E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{678334E6-67F2-CFB4-86B5-43CDE86400E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{678334E6-67F2-CFB4-86B5-43CDE86400E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99BB1143-C54B-452E-1B87-6C5B8DA0ED0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99BB1143-C54B-452E-1B87-6C5B8DA0ED0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99BB1143-C54B-452E-1B87-6C5B8DA0ED0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99BB1143-C54B-452E-1B87-6C5B8DA0ED0A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE50D5C9-79D0-8046-3170-FD3A57E97A6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE50D5C9-79D0-8046-3170-FD3A57E97A6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE50D5C9-79D0-8046-3170-FD3A57E97A6E}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -56,7 +56,7 @@ public class MissionSystem : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Mission Start");
+        //Debug.Log("Mission Start");
         MissionStorage = new Dictionary<string, Mission[]>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
 
@@ -181,7 +181,7 @@ public class MissionSystem : MonoBehaviour
         level1[2] = m_combat[2];
         level1[3] = m_stealth[0];
 
-        Debug.Log("Loading mission");
+        //Debug.Log("Loading mission");
         MissionStorage.Add("Level1", level1);
     }
 
@@ -191,7 +191,7 @@ public class MissionSystem : MonoBehaviour
     /// <returns></returns>
     public Mission[] GetMissionsByLevel(string levelName)
     {
-        Debug.Log("Level Name : " + levelName);
+        //Debug.Log("Level Name : " + levelName);
         return MissionStorage[levelName];
     }
 

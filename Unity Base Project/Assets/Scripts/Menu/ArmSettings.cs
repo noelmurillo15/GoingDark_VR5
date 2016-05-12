@@ -5,17 +5,18 @@ public class ArmSettings : MonoBehaviour {
     public bool active;
     public GameObject m_settingBG;
 
-    private Cloak playerCloak;
     private PlayerShipData m_playerData;
-    private HyperDrive playerHyperdrive;
     private ShootObject m_playerMissiles;
+
+    private PlayerShipData stats;
 
     // Use this for initialization
     void Start () {
         active = false;
         m_settingBG = GameObject.Find("SettingsBG");
         m_playerMissiles = GameObject.FindGameObjectWithTag("Player").GetComponent<ShootObject>();
-        m_playerData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();       
+        m_playerData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();           
+        stats = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
     }
 
     // Update is called once per frame
@@ -49,41 +50,29 @@ public class ArmSettings : MonoBehaviour {
     }
 
     public void SetCloak() {
-        if(playerCloak == null)
-            playerCloak = m_playerData.GetPlayerCloak();
-
-        if (playerCloak.GetCloaked()) {
-            playerCloak.SetCloaked(false);
+        if (stats.GetPlayerCloak().GetCloaked()) {
+            stats.GetPlayerCloak().SetCloaked(false);
             CloseSettings();
         }
-        else if (playerCloak.GetCloakCooldown() <= 0.0f) {
-            playerCloak.SetCloaked(true);
+        else if (stats.GetPlayerCloak().GetCloakCooldown() <= 0.0f) {
+            stats.GetPlayerCloak().SetCloaked(true);
             AudioManager.instance.PlayCloak();
             CloseSettings();
         }
     }
 
     public void InitializeHyperDrive() {
-        if(playerHyperdrive == null)
-            playerHyperdrive = m_playerData.GetPlayerHyperDrive();
-
-        if (playerHyperdrive.GetHyperDriveCooldown() <= 0.0f) {
-            playerHyperdrive.HyperDriveInitialize();
+        if (stats.GetPlayerHyperDrive().GetHyperDriveCooldown() <= 0.0f) {
+            stats.GetPlayerHyperDrive().HyperDriveInitialize();
             CloseSettings();
         }
     }
 
     public float HyperDriveCooldown() {
-        if (playerHyperdrive == null)
-            playerHyperdrive = m_playerData.GetPlayerHyperDrive();
-
-        return playerHyperdrive.GetHyperDriveCooldown();
+        return stats.GetPlayerHyperDrive().GetHyperDriveCooldown();
     }
 
     public float CloakCooldown() {
-        if (playerCloak == null)
-            playerCloak = m_playerData.GetPlayerCloak();
-
-        return playerCloak.GetCloakCooldown();
+        return stats.GetPlayerCloak().GetCloakCooldown();
     }
 }
