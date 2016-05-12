@@ -2,7 +2,7 @@
 
 public class NebulaCloud : MonoBehaviour {
 
-    private float timer;
+    public float timer;
     private PlayerStats player;
 
     // Use this for initialization
@@ -29,32 +29,32 @@ public class NebulaCloud : MonoBehaviour {
     }
 
     #region Collision
-    public void OnTriggerEnter(Collider col)
-    {
-        if (timer > 0.0f)
-        {
-            timer += Time.deltaTime;
-
-        }
-
-    }
-
     public void OnTriggerStay(Collider col)
     {
         if (col.transform.tag == "Player")
         {
-            if (timer <= 0.0f)
+            if (!col.GetComponentInChildren<PlayerStats>().GetShield())
             {
-                //player.EnvironmentalDMG();
-                timer = 10.0f;
+                timer += Time.deltaTime;
+                if (timer <= 100.0f)
+                {
+                    player.EnvironmentalDMG();
+                    timer = 0.0f;
+                }
             }
+            else
+                timer = 0.0f;
+            
         }
         
     }
 
     public void OnTriggerExit(Collider col)
     {
-        timer = 0.0f;
+        if (col.transform.tag == "Player")
+        {
+            timer = 0.0f;
+        }
     }
     #endregion
 }
