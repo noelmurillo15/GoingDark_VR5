@@ -7,7 +7,6 @@ public class ShipDevices : MonoBehaviour {
     public Cloak Cloak { get; private set; }
     public Decoy Decoy { get; private set; }
     public HyperDrive HyperDrive { get; private set; }
-    public PlayerStats PlayerStats { get; private set; }
     public ShootObject MissileLaunch { get; private set; }
 
     public GameObject Radar { get; private set; }
@@ -24,7 +23,6 @@ public class ShipDevices : MonoBehaviour {
         Cloak = GameObject.Find("Cloak").GetComponent<Cloak>();
         HyperDrive = GameObject.Find("HyperDrive").GetComponent<HyperDrive>();
         MissileLaunch = GameObject.Find("MissileLaunch").GetComponent<ShootObject>();
-        PlayerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 	
 	// Update is called once per frame

@@ -17,4 +17,10 @@
         ATTACKING,
         SEARCHING
     }
+    public enum Impairments
+    {
+        NONE,
+        SLOWED,
+        STUNNED,
+    }
 }

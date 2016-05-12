@@ -210,7 +210,7 @@
     <Compile Include="Assets\Scripts\_Player\Missile System\Missile.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\ParticleDespawn.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\ShootImprovedTracer.cs" />
-    <Compile Include="Assets\Scripts\_Player\Missile System\ShootObject.cs" />
+    <Compile Include="Assets\Scripts\_Player\Ship\ShootObject.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\ShootTracer.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\Tracer.cs" />
     <Compile Include="Assets\Scripts\_Player\Mission System\MissionLog.cs" />
