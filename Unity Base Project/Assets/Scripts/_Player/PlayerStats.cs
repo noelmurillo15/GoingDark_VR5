@@ -18,6 +18,11 @@ public class PlayerStats : MonoBehaviour {
 
     private PlayerShipData shipData;
 
+    //  Shields
+    private bool shieldOn;
+    private float shieldTimer;
+    private int shieldHealth;
+    private GameObject shield;
 
     // Use this for initialization
     void Start () {      
@@ -29,12 +34,27 @@ public class PlayerStats : MonoBehaviour {
         numCredits = PlayerPrefs.GetInt("Credits", 100);
         numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
         shipData = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<PlayerShipData>();
+
+        // shield defaults
+        shieldOn = true;
+        shieldTimer = 0.0f;
+        shieldHealth = 3;
+        shield = GameObject.FindGameObjectWithTag("Shield");
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        // shield cooldown and reactivate
+        if (shieldTimer > 0.0f)
+        {
+            shieldTimer -= Time.deltaTime;
+            if (shieldTimer <= 0.0f)
+            {
+                shieldOn = true;
+                shield.SetActive(shieldOn);
+            }
+        }
+    }
 
     #region Accessors
     public int GetHitCount()
@@ -56,6 +76,11 @@ public class PlayerStats : MonoBehaviour {
     public float GetRotateSpeed()
     {
         return rotateSpeed;
+    }
+
+    public bool GetShield()
+    {
+        return shieldOn;
     }
 
     public PlayerShipData GetShipData()
@@ -106,9 +131,23 @@ public class PlayerStats : MonoBehaviour {
 
     public void Hit()
     {
-        IncreaseHitCount();
-        PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-        m_Health.UpdatePlayerHealth();
+        if (shieldOn)
+        {
+            shieldHealth--;
+            if (shieldHealth == 0)
+            {
+                shieldHealth = 100;
+                shieldOn = false;
+                shield.SetActive(shieldOn);
+                shieldTimer = 10.0f;
+            }
+        }
+        else
+        {
+            IncreaseHitCount();
+            PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
+            m_Health.UpdatePlayerHealth();
+        }
         AudioManager.instance.PlayHit();
 
         if (hitCount > 2)
@@ -117,9 +156,23 @@ public class PlayerStats : MonoBehaviour {
 
     public void EnvironmentalDMG()
     {
-        IncreaseHitCount();
-        PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-        m_Health.UpdatePlayerHealth();
+        if (shieldOn)
+        {
+            shieldHealth--;
+            if (shieldHealth == 0)
+            {
+                shieldHealth = 100;
+                shieldOn = false;
+                shield.SetActive(shieldOn);
+                shieldTimer = 10.0f;
+            }
+        }
+        else
+        {
+            IncreaseHitCount();
+            PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
+            m_Health.UpdatePlayerHealth();
+        }
 
         if (hitCount > 2)
             Kill();

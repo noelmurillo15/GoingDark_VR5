@@ -6,12 +6,14 @@ public class KamikazeAI : MonoBehaviour {
     private float detectionTimer;
     public float autoTimer;
     private PatrolAi patrol;
+    private EnemyBehavior behavior;
     // Use this for initialization
     void Start()
     {
         detectionTimer = 0f;
         autoTimer = 0f;
         patrol = GetComponent<PatrolAi>();
+        behavior = GetComponent<EnemyBehavior>();
     }
 
     // Update is called once per frame
@@ -47,9 +49,11 @@ public class KamikazeAI : MonoBehaviour {
     {
         if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
         {
-            Debug.Log("Heading Back to Enemy");
-            patrol.AutoPilot = true;
-            autoTimer = 5f;
+            if (behavior.Target == null) {
+                Debug.Log("Heading Back to Enemy");
+                patrol.AutoPilot = true;
+                autoTimer = 5f;
+            }
         }
     }
 
