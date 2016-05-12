@@ -1,0 +1,139 @@
+﻿using UnityEngine;
+using GD.Core.Enums;
+
+[RequireComponent(typeof(PatrolAi))]
+public class EnemyBehavior : MonoBehaviour {
+
+    #region Properties
+    public EnemyStates State { get; private set; }
+
+    //  Detection
+    public float losingSight { get; set; }
+    public Transform Target { get; private set; }
+
+    //  Behaviors
+    private EnemyStats stats;
+    private PatrolAi patrol;
+    private KamikazeAI kamiAI;
+    private EnemyAttack attackAI;
+    private TransportShipAI transportAI;
+    #endregion
+
+    void Start() {
+        Target = null;
+        losingSight = 0f;
+
+        stats = GetComponent<EnemyStats>();
+
+        Initialize();
+        ChangeState(EnemyStates.PATROL);
+    }
+
+    void Update() {      
+        if (losingSight > 0f)
+            losingSight -= Time.deltaTime;
+        else
+        {
+            if(losingSight < 0f)
+                SetEnemyTarget(null);
+
+            losingSight = 0f;
+        }
+    }
+
+    #region Private Methods
+    void Initialize()
+    {
+        kamiAI = null;
+        attackAI = null;
+        transportAI = null;
+        patrol = GetComponent<PatrolAi>();
+        switch (stats.Type)
+        {
+            case EnemyTypes.BASIC:
+                attackAI = GetComponent<EnemyAttack>();
+                break;
+
+            case EnemyTypes.KAMIKAZE:
+                kamiAI = GetComponent<KamikazeAI>();
+                break;
+
+            case EnemyTypes.TRANSPORT:
+                transportAI = GetComponent<TransportShipAI>();
+                break;
+
+            case EnemyTypes.TRIDENT:
+                break;
+
+            case EnemyTypes.BOSS:
+                break;
+
+
+            default:
+                break;
+        }
+    }
+    
+    public void ChangeBehavior() {
+        switch (State)
+        {
+            case EnemyStates.IDLE:
+                patrol.enabled = false;
+                if (attackAI != null)
+                    attackAI.enabled = false;
+                if (transportAI != null)
+                    transportAI.enabled = false;
+                break;
+
+            case EnemyStates.PATROL:
+                if (attackAI != null)
+                    attackAI.enabled = false;
+                break;
+
+            case EnemyStates.RUNNING:
+                break;
+
+            case EnemyStates.ATTACKING:
+                if (attackAI != null)
+                    attackAI.enabled = true;
+                break;
+
+            case EnemyStates.SEARCHING:
+                break;
+
+
+            default:
+                Debug.Log("Invalid State : " + State.ToString());
+                break;
+        }
+            
+    }
+
+    public void SetEnemyTarget(Transform newTarget)
+    {
+        if (newTarget == null)
+        {
+            if (stats.Type == EnemyTypes.TRANSPORT)
+                stats.SetSpeedBoost(0.25f);
+            else
+                stats.SetSpeedBoost(.5f);
+
+            ChangeState(EnemyStates.PATROL);
+        }
+        else
+        {
+            stats.SetSpeedBoost(1f);
+            ChangeState(EnemyStates.ATTACKING);
+        }
+
+        Target = newTarget;
+    }
+
+    public void ChangeState(EnemyStates newState)
+    {
+        Debug.Log(transform.name + " has changed state to : " + newState.ToString());
+        State = newState;
+        ChangeBehavior();
+    }        
+    #endregion
+}
