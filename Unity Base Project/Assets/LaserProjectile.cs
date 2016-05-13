@@ -13,7 +13,7 @@ public class LaserProjectile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-        transform.Translate(0.0f, 0.0f, speed * Time.deltaTime);
+        transform.Translate(0f, 0f, speed * Time.deltaTime);
         lifetime -= Time.deltaTime;
         if (lifetime < 0.0f)
             Destroy(this.gameObject);
@@ -21,7 +21,7 @@ public class LaserProjectile : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid" || col.gameObject.tag == "TransportShip")
+        if (col.gameObject.tag == "Enemy" /*|| col.gameObject.tag == "Asteroid"*/ || col.gameObject.tag == "TransportShip")
         {
             col.gameObject.SendMessage("Kill");
             Destroy(this.gameObject);
