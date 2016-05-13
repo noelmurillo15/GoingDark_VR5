@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class HyperDrive : MonoBehaviour {
     //**        Attach to HyperDrive Object     **//
 
     #region Properties
+    public DeviceStatus Status { get; private set; }
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -85,7 +86,7 @@ public class ArmButtons : MonoBehaviour
                 break;
 
             case "MissileButton":
-                if (devices.MissileLaunch.Cooldown > 0.0f)
+                if (devices.Missiles.Cooldown > 0.0f)
                     m_button.color = Color.red;
                 else
                     m_button.color = Color.white;
@@ -145,22 +146,22 @@ public class ArmButtons : MonoBehaviour
 
             case "Homing Missile":
                 Debug.Log("Homing message");
-                m_shootObj.SetMissileType(0);
+                m_shootObj.SetMissileType(MissileType.BASIC);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "EMP Missile":
                 Debug.Log("EMP message");
-                m_shootObj.SetMissileType(1);
+                m_shootObj.SetMissileType(MissileType.EMP);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "Chromatic Missile":
                 Debug.Log("Chromatic message");
-                m_shootObj.SetMissileType(2);
+                m_shootObj.SetMissileType(MissileType.CHROMATIC);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "ShieldBreaker Missile":
                 Debug.Log("ShieldBreak message");
-                m_shootObj.SetMissileType(3);
+                m_shootObj.SetMissileType(MissileType.SHIELDBREAKER);
                 devices.WeaponSelect.SetActive(false);
                 break;
 
@@ -173,7 +174,7 @@ public class ArmButtons : MonoBehaviour
                 break;
 
             case "MissileButton":
-                devices.MissileLaunch.FireMissile();
+                devices.Missiles.FireMissile();
                 break;
 
             case "MissionLogButton":
@@ -181,7 +182,7 @@ public class ArmButtons : MonoBehaviour
                 break;
 
             case "ToggleRadarButton":
-                devices.Radar.SetActive(!devices.Radar.activeSelf);
+                devices.ToggleDeviceStatus(Devices.RADAR);
                 break;
 
             case "EmpButton":

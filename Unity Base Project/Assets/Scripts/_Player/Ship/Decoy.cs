@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class Decoy : MonoBehaviour {
 

@@ -1,5 +1,6 @@
 ﻿namespace GD.Core.Enums
 {
+    using UnityEngine;
     public enum EnemyTypes
     {
         BASIC,
@@ -22,6 +23,38 @@
         NONE,
         SLOWED,
         STUNNED,
+    }
+
+    public enum DeviceStatus
+    {
+        NOTAVAILABLE,
+        OFFLINE,
+        ONLINE
+    }
+
+    public enum Devices
+    {
+        EMP,
+        CLOAK,
+        RADAR,
+        DECOY,
+        LASERS,
+        MISSILES,
+        HYPERDRIVE
+    }
+
+    public enum MissileType
+    {
+        EMP,
+        BASIC,
+        CHROMATIC,
+        SHIELDBREAKER
+    }
+
+    public struct Device
+    {        
+        public DeviceStatus Status { get; set; }       
+        public GameObject Object { get; set; }
     }
 
 

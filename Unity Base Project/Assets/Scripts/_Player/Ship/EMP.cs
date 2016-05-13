@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class EMP : MonoBehaviour
 {
@@ -6,7 +7,7 @@ public class EMP : MonoBehaviour
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 
-    public float empTimer;
+    private float empTimer;
     private GameObject shockwave;
     #endregion
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class ShootObject : MonoBehaviour
 {
@@ -7,15 +8,15 @@ public class ShootObject : MonoBehaviour
     public float Cooldown { get; private set; }
     private GameObject Missile;
     private GameObject player;
-    public int MissileType;
+    public MissileType Type { get; private set; }
 
     void Start()
     {
-        MissileType = 2;
+        Type = MissileType.BASIC;
         Cooldown = 0.0f;
         MissileCount = 10;
         player = GameObject.FindGameObjectWithTag("Player");
-        WeaponChoice(MissileType);
+        WeaponChoice(Type);
     }
 
     void Update()
@@ -28,20 +29,20 @@ public class ShootObject : MonoBehaviour
             FireMissile();
 
     }
-    public int GetMissileType()
+    public MissileType GetMissileType()
     {
-        return MissileType;
+        return Type;
     }
 
-    public void SetMissileType(int _val)
+    public void SetMissileType(MissileType _val)
     {
-        MissileType = _val;
+        Type = _val;
     }
 
     public void FireMissile()
     {
-        WeaponChoice(MissileType);
-        SetMissileType(MissileType);
+        WeaponChoice(Type);
+        SetMissileType(Type);
         if (Cooldown <= 0.0f)
         {
             if (MissileCount > 0)
@@ -50,7 +51,9 @@ public class ShootObject : MonoBehaviour
                 if (Missile != null)
                 {
                     MissileCount--;
-                    Instantiate(Missile, new Vector3(player.transform.localPosition.x, player.transform.localPosition.y - 15f, player.transform.localPosition.z + 10f), player.transform.localRotation);
+                    
+                    GameObject go = Instantiate(Missile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+                    go.transform.parent = transform;
                 }
                 else
                     Debug.Log("No Missile Gameobj attached");
@@ -65,38 +68,32 @@ public class ShootObject : MonoBehaviour
     public int GetMissileCount()
     {
         return MissileCount;
-    }
+    }    
 
-    void OnTriggerEnter(Collider col)
+    public MissileType WeaponChoice(MissileType _type)
     {
-        if (col.name == "rightPalm" && Cooldown <= 0.0f)
-            FireMissile();
-    }
+        Type = _type;
 
-    public int WeaponChoice(int _type)
-    {
-        MissileType = _type;
-
-        switch (MissileType)
+        switch (Type)
         {
-            case 0:
+            case MissileType.BASIC:
                 Missile = Resources.Load<GameObject>("PlayerMissile");
                 Debug.Log("Fired Regular Missile");
-                return MissileType;
-            case 1:
+                return Type;
+            case MissileType.EMP:
                 Missile = Resources.Load<GameObject>("EMPMissile");
                 Debug.Log("Fired EMP Missile");
-                return MissileType;
-            case 2:
+                return Type;
+            case MissileType.CHROMATIC:
                 Missile = Resources.Load<GameObject>("ChromaticMissile");
                 Debug.Log("Got ChromaticMissile");
-                return MissileType;
-            case 3:
+                return Type;
+            case MissileType.SHIELDBREAKER:
                 Missile = Resources.Load<GameObject>("PlayerMissile");
                 Debug.Log("Got ShieldBreaker");
-                return MissileType;
+                return Type;
         }
 
-        return MissileType;
+        return Type;
     }
 }
