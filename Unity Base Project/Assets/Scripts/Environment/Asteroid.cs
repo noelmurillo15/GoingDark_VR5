@@ -38,8 +38,7 @@ public class Asteroid : MonoBehaviour {
         }
         else
         {
-            m_aliveTimer = Random.Range(120.0f, 360.0f);
-
+            m_aliveTimer = 10000f;
             m_velocity.x = Random.Range(-35.0f, 35.0f);
             m_velocity.y = Random.Range(-35.0f, 35.0f);
             m_velocity.z = Random.Range(-35.0f, 35.0f);
@@ -47,10 +46,8 @@ public class Asteroid : MonoBehaviour {
             m_rotation.x = Random.Range(1.0f, 360.0f);
             m_rotation.y = Random.Range(1.0f, 360.0f);
             m_rotation.z = Random.Range(1.0f, 360.0f);
-            this.transform.localEulerAngles = m_rotation;
+            transform.localEulerAngles = m_rotation;
             m_rotation = Vector3.zero;
-
-            AutoScale(transform.localScale);
         }
     }
 
@@ -79,16 +76,16 @@ public class Asteroid : MonoBehaviour {
                 m_velocity -= (m_velocity.normalized * Time.deltaTime * 50.0f);
         }
     }
-    private bool RandomChance()
-    {
-        int randValue = Random.Range(0, 100);
-        if (randValue > 0)
-        {
-            Debug.Log("Chance Pass");
-            return true;
-        }
-        return false;
-    }
+    //private bool RandomChance()
+    //{
+    //    int randValue = Random.Range(0, 100);
+    //    if (randValue > 0)
+    //    {
+    //        Debug.Log("Chance Pass");
+    //        return true;
+    //    }
+    //    return false;
+    //}
 
     void OnCollisionEnter(Collision col)
     {
@@ -97,33 +94,28 @@ public class Asteroid : MonoBehaviour {
             col.transform.SendMessage("Kill");
             Kill();
         }
-
-        if (col.transform.CompareTag("PlayerShip"))
-        {
-            col.transform.parent.SendMessage("Hit");
-        }
     }
 
     public void Kill() {
         AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
         m_generator.DeleteAsteroid();
 
-        if (RandomChance())
-        {
-            skipStart = true;
-            float range = Random.Range(2, 5);
+        //if (RandomChance())
+        //{
+        //    skipStart = true;
+        //    float range = Random.Range(2, 5);
 
-            for (int i = 0; i < range; i++)
-            {
-                Instantiate(this.gameObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-            }
-        }
+        //    for (int i = 0; i < range; i++)
+        //    {
+        //        Instantiate(this.gameObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+        //    }
+        //}
         Destroy(this.gameObject);
     }
-    public void AutoScale(Vector3 _scale)
-    {
-        _scale /= 3f;
-        asteroidTimer = 10.0f;
-        this.transform.localScale = _scale;
-    }
+    //public void AutoScale(Vector3 _scale)
+    //{
+    //    _scale /= 3f;
+    //    asteroidTimer = 10.0f;
+    //    this.transform.localScale = _scale;
+    //}
 }
