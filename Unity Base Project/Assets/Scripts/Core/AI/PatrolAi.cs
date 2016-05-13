@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 using System.Collections;
 
 [RequireComponent(typeof(EnemyStats))]
@@ -53,9 +54,7 @@ public class PatrolAi : MonoBehaviour {
             if (!pathBlocked)
             {
                 if (behavior.Target == null) 
-                {
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.GetMoveData().RotateSpeed);
-                }
                 else
                 {
                     Vector3 playerDir = behavior.Target.position - transform.position;
@@ -66,7 +65,11 @@ public class PatrolAi : MonoBehaviour {
                 }
             }
 
-            stats.IncreaseSpeed();
+            if (stats.Debuff == Impairments.NONE)
+                stats.IncreaseSpeed();
+            else if (stats.Debuff == Impairments.STUNNED)
+                stats.DecreaseSpeed();
+
             CheckRayCasts();
 
             if (pathBlocked)
@@ -127,7 +130,6 @@ public class PatrolAi : MonoBehaviour {
             yield return new WaitForSeconds(interval);
         }
     }
-
     private void NewHeadingRoutine() {
         var floor = Mathf.Clamp(headingX - maxHeadingChange, 0, 360);
         var ceil = Mathf.Clamp(headingX + maxHeadingChange, 0, 360);

@@ -56,13 +56,13 @@ public class HandBehavior : MonoBehaviour {
         velocity = m_leapData.GetLPalmVelocity();
         velocity /= 5.0f;
 
-        if (velocity.x < 12.0f && velocity.x > -12.0f)
+        if (velocity.x < 10.0f && velocity.x > -10.0f)
             velocity.x = 0.0f;
 
-        if (velocity.y < 12.0f && velocity.y > -12.0f)
+        if (velocity.y < 10.0f && velocity.y > -10.0f)
             velocity.y = 0.0f;
 
-        if (velocity.z < 12.0f && velocity.y > -12.0f)
+        if (velocity.z < 10.0f && velocity.y > -10.0f)
             velocity.z = 0.0f;
 
         return velocity;

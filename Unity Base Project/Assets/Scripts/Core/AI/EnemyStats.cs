@@ -5,42 +5,47 @@ public class EnemyStats : MonoBehaviour {
 
     #region Properties    
     public EnemyTypes Type { get; private set; }
+    public Impairments Debuff { get; private set; }
 
-    public MovementStats MoveData;
+    //  Impairment Timers
+    private float StunTimer { get; set; }     
+    private float SlowTimer { get; set; }
 
     //  Weapons
     public int MissileCount { get; private set; }
 
-    //  Impairments
-    public bool Stunned { get; private set; }
-    private float StunTimer { get; set; }     
+    //  Movement
+    public MovementStats MoveData;
     #endregion
 
     void Start()
     {
-        MoveData.Speed = 0f;
-        MoveData.Boost = 1f;
         MissileCount = 0;
+        MoveData.Speed = 0f;
+        Debuff = Impairments.NONE;
         Initialize(transform.name);
     }
 
     void Update()
     {
         if (StunTimer > 0f)
-        {
             StunTimer -= Time.deltaTime;
-            DecreaseSpeed();
-        }
         else
-        {
-            Stunned = false;
-        }        
+            Debuff = Impairments.NONE;
+
+
+        if (SlowTimer > 0f)
+            SlowTimer -= Time.deltaTime;
+        else
+            Debuff = Impairments.NONE;
     }
 
+    #region Accessors
     public MovementStats GetMoveData()
     {
         return MoveData;
     }
+    #endregion
 
     #region Private Methods
     void Initialize(string enemyName)
@@ -85,16 +90,20 @@ public class EnemyStats : MonoBehaviour {
                 Debug.Log("Invalid Enemy Name : " + enemyName);
                 break;
         }        
-    }    
-
-    public void SetSpeedBoost(float newBoost)
-    {
-        MoveData.Boost = newBoost;
     }
+
     public void StopMovement()
     {
         MoveData.Speed = 0f;
     }
+    public void DecreaseMissileCount()
+    {
+        MissileCount--;
+    }
+    public void SetSpeedBoost(float newBoost)
+    {
+        MoveData.Boost = newBoost;
+    }    
     public void IncreaseSpeed()
     {
         if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
@@ -108,11 +117,7 @@ public class EnemyStats : MonoBehaviour {
             MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 4f;
         else
             MoveData.Speed = 0.0f;
-    }
-    public void DecreaseMissileCount()
-    {
-        MissileCount--;
-    }        
+    }         
           
     private bool RandomChance()
     {        
@@ -126,15 +131,17 @@ public class EnemyStats : MonoBehaviour {
     #region Msg Functions
     public void EMPHit()
     {
-        Debug.Log("EMP has affected " + transform.name + "'s Systems");
-        Stunned = true;
+        Debug.Log("Enemy has been hit by Emp");
+        Debuff = Impairments.STUNNED;
         StunTimer = 10f;
     }
+
     public void Hit()
     {
         Debug.Log(transform.name + " Has Hit Asteroid");
         StopMovement();
     }    
+
     public void Kill() {
         if (RandomChance()) {
             GameObject ammo = Resources.Load<GameObject>("AmmoDrop");

@@ -5,22 +5,25 @@ using UnityEngine.SceneManagement;
 public class PlayerStats : MonoBehaviour {
     //**    Attach to Player    **//
 
-    //  Health
+    #region Properties
+    public Impairments Debuff { get; private set; }
+    private MovementStats MoveData;
+    private ShipDevices devices;
+
+    // Health
     public int hitCount;
     //  Weapons
     public int numMissiles;
     //  Credits
     public int numCredits;
-    //  Movement
-    private MovementStats MoveData;
-
-    private ShipDevices devices;
 
     //  Shields
     private bool shieldOn;
     private float shieldTimer;
     private int shieldHealth;
     private GameObject shield;
+    #endregion
+
 
     // Use this for initialization
     void Start () {      

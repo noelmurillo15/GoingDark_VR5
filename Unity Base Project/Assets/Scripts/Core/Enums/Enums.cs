@@ -1,7 +1,5 @@
 ﻿namespace GD.Core.Enums
 {
-    using UnityEngine;
-
     public enum EnemyTypes
     {
         BASIC,

@@ -4,13 +4,10 @@ public class Thrusters : MonoBehaviour {
     //**    Attach to Thruster  **//
     public bool inRange;
     public float offset;
-    public float percentage;
     public HandBehavior m_palm;
-    public PlayerMovement m_playerMove;
     public PlayerStats stats;
+    private GameObject speedGauge;
 
-    private GameObject speedBarColor1;
-    private GameObject speedBarColor2;
 
 
     // Use this for initialization
@@ -18,41 +15,47 @@ public class Thrusters : MonoBehaviour {
     {
         inRange = false;
         offset = 0.0044f;
-        percentage = 0.0f;
-        speedBarColor1 = GameObject.Find("SpeedColor1");
-        speedBarColor2 = GameObject.Find("SpeedColor2");
-
+        speedGauge = GameObject.Find("SpeedColor");
         stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     // Update is called once per frame
     void Update() {
-        if (inRange) {
-            if (m_palm.GetisLHandClosed() && m_palm.GetIsLeftHandIn()) {
+        if (m_palm.GetIsLeftHandIn())
+        {
+            if (inRange && m_palm.GetisLHandClosed())
+            {
                 Vector3 velocity;
                 velocity = m_palm.GetLPalmVelocity();
-                velocity.z = velocity.y;
-                velocity.x = 0.0f;
+                velocity.x = velocity.y;
+                velocity.z = 0.0f;
                 velocity.y = 0.0f;
 
-                if(transform.localPosition.z > -offset)
-                    percentage = (transform.localPosition.z + offset) / (offset * 2);
+                if (transform.localEulerAngles.x > 30f && transform.localEulerAngles.x < 45)
+                {
+                    Vector3 euler = transform.localEulerAngles;
+                    euler.x = 30f;
+                    transform.localEulerAngles = euler;
+                }
+                else if (transform.localEulerAngles.x < 330f && transform.localEulerAngles.x > 315f)
+                {
+                    Vector3 euler = transform.localEulerAngles;
+                    euler.x = 330f;
+                    transform.localEulerAngles = euler;
+                }
 
-                if (percentage > .95f)
-                    percentage = 1f;
-
-                if ((transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) > -offset  &&
-                    (transform.localPosition.z + (velocity.z * Time.deltaTime * 0.0008f)) < offset)
-                    transform.localPosition += (velocity * Time.deltaTime * 0.0008f);                
+                transform.localEulerAngles += (velocity * Time.deltaTime);
             }
         }
+        else
+            inRange = false;
 
-        if (transform.localPosition.z < -0.004f)
+        if (transform.localEulerAngles.x > 328f && transform.localEulerAngles.x < 355f)
         {
             stats.DecreaseSpeed();
             UpdateSpeedGauge();
         }
-        else if (transform.localPosition.z > -0.004f)
+        else if (transform.localEulerAngles.x > 5f && transform.localEulerAngles.x < 32)
         {
             stats.IncreaseSpeed();
             UpdateSpeedGauge();
@@ -62,22 +65,17 @@ public class Thrusters : MonoBehaviour {
     private void UpdateSpeedGauge()
     {
         float percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
+
         Vector3 newScale;
-        newScale.x = speedBarColor1.transform.localScale.x;
+        newScale.x = speedGauge.transform.localScale.x;
         newScale.y = percent * 0.001f;
-        newScale.z = speedBarColor1.transform.localScale.z;
+        newScale.z = speedGauge.transform.localScale.z;
+        speedGauge.transform.localScale = newScale;
 
-        speedBarColor1.transform.localScale = newScale;
-        speedBarColor2.transform.localScale = newScale;
-
-        Vector3 newPos = speedBarColor1.transform.localPosition;
+        Vector3 newPos = speedGauge.transform.localPosition;
         float offset = (percent * 0.00456f) - 0.00456f;
         newPos.z = offset;
-        speedBarColor1.transform.localPosition = newPos;
-
-        newPos = speedBarColor2.transform.localPosition;
-        newPos.z = offset;
-        speedBarColor2.transform.localPosition = newPos;
+        speedGauge.transform.localPosition = newPos;
     }
 
     #region Collision Detection

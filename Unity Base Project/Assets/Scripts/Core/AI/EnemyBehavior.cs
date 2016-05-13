@@ -22,7 +22,6 @@ public class EnemyBehavior : MonoBehaviour {
     void Start() {
         Target = null;
         losingSight = 0f;
-
         stats = GetComponent<EnemyStats>();
 
         Initialize();
@@ -69,7 +68,7 @@ public class EnemyBehavior : MonoBehaviour {
                 break;
 
 
-            default:
+            default:                
                 break;
         }
     }
@@ -78,14 +77,15 @@ public class EnemyBehavior : MonoBehaviour {
         switch (State)
         {
             case EnemyStates.IDLE:
-                patrol.enabled = false;
-                if (attackAI != null)
-                    attackAI.enabled = false;
-                if (transportAI != null)
-                    transportAI.enabled = false;
+                stats.SetSpeedBoost(0f);
                 break;
 
             case EnemyStates.PATROL:
+                if (stats.Type == EnemyTypes.TRANSPORT)
+                    stats.SetSpeedBoost(.25f);
+                else
+                    stats.SetSpeedBoost(.5f);
+
                 if (attackAI != null)
                     attackAI.enabled = false;
                 break;
@@ -94,11 +94,14 @@ public class EnemyBehavior : MonoBehaviour {
                 break;
 
             case EnemyStates.ATTACKING:
+                stats.SetSpeedBoost(1f);
+
                 if (attackAI != null)
                     attackAI.enabled = true;
                 break;
 
             case EnemyStates.SEARCHING:
+                stats.SetSpeedBoost(1f);
                 break;
 
 
@@ -112,19 +115,9 @@ public class EnemyBehavior : MonoBehaviour {
     public void SetEnemyTarget(Transform newTarget)
     {
         if (newTarget == null)
-        {
-            if (stats.Type == EnemyTypes.TRANSPORT)
-                stats.SetSpeedBoost(0.25f);
-            else
-                stats.SetSpeedBoost(.5f);
-
-            ChangeState(EnemyStates.PATROL);
-        }
+            ChangeState(EnemyStates.PATROL);        
         else
-        {
-            stats.SetSpeedBoost(1f);
-            ChangeState(EnemyStates.ATTACKING);
-        }
+            ChangeState(EnemyStates.ATTACKING);        
 
         Target = newTarget;
     }
