@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class Cloak : MonoBehaviour {
+public class CloakSystem : MonoBehaviour {
 
     #region Properties
-    public SystemStatus Status { get; private set; }
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 
@@ -12,6 +11,8 @@ public class Cloak : MonoBehaviour {
     private float cloakTimer;
     private Color originalColor;
     private GameObject[] shipLights;
+
+    private SystemsManager manager;
     #endregion
 
     // Use this for initialization
@@ -26,6 +27,7 @@ public class Cloak : MonoBehaviour {
             shipLights[x] = parentLight.transform.GetChild(x).gameObject;
 
         originalColor = shipLights[0].GetComponent<Light>().color;
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 	
 	// Update is called once per frame
@@ -40,6 +42,9 @@ public class Cloak : MonoBehaviour {
             cloakTimer -= Time.deltaTime;
         else if (cloakTimer < 0 && Activated)
             Activate(false);
+
+        if (Input.GetKey(KeyCode.C))
+            manager.ActivateSystem(SystemType.CLOAK);
     }
 
     #region Private Methods

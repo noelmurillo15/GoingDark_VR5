@@ -35,6 +35,6 @@ public class MissileDisplay : MonoBehaviour
 
     public void GetMissileCount()
     {
-        missCounter = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>().GetMissileCount();
+        missCounter = GameObject.FindGameObjectWithTag("Systems").GetComponent<MissileSystem>().Count;
     }    
 }

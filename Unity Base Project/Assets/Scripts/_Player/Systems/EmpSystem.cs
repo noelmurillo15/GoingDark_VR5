@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class EMP : MonoBehaviour
+public class EmpSystem : MonoBehaviour
 {
     #region Properties
     public bool Activated { get; private set; }
@@ -9,6 +9,8 @@ public class EMP : MonoBehaviour
 
     private float empTimer;
     private GameObject shockwave;
+
+    private SystemsManager manager;
     #endregion
 
 
@@ -21,6 +23,8 @@ public class EMP : MonoBehaviour
 
         shockwave = transform.GetChild(0).gameObject;
         shockwave.SetActive(Activated);
+
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     // Update is called once per frame
@@ -34,16 +38,16 @@ public class EMP : MonoBehaviour
         else
         {
             if (Activated)
-                SetEmpActive(false);
+                Activate(false);
         }
 
         if (Input.GetKey(KeyCode.E))
-            SetEmpActive(true);
+            manager.ActivateSystem(SystemType.EMP);
     }
 
 
     #region Modifiers
-    public void SetEmpActive(bool boolean)
+    public void Activate(bool boolean)
     {
         if (empTimer <= 0f && Cooldown <= 0f)
         {

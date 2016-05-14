@@ -1,33 +1,37 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class Decoy : MonoBehaviour {
+public class DecoySystem : MonoBehaviour {
 
     #region Properties
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 
-    public int numDecoys;
+    public int Count { get; private set; }
     private GameObject cam;
     public GameObject decoy;
+
+    private SystemsManager manager;
     #endregion
 
     // Use this for initialization
     void Start() {
-        numDecoys = 5;
+        Count = 5;
         cam = GameObject.FindGameObjectWithTag("Player");
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (Input.GetKey(KeyCode.D))
+            manager.ActivateSystem(SystemType.DECOY);
     }
 
-    public void LeaveDecoy()
+    public void Activate()
     {
-        if (numDecoys > 0)
+        if (Count > 0)
         {
-            numDecoys--;
+            Count--;
             Instantiate(decoy, cam.transform.position, cam.transform.localRotation);
         }
     }

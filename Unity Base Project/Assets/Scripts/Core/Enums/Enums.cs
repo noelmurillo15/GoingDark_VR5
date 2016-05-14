@@ -46,6 +46,7 @@
         RADAR,
         DECOY,
         LASERS,
+        SHIELD,
         MISSILES,
         HYPERDRIVE
     }   
@@ -54,6 +55,7 @@
     {        
         public SystemStatus Status { get; set; }       
         public GameObject Object { get; set; }
+        public Component SystemData { get; set; }
     }
 
 

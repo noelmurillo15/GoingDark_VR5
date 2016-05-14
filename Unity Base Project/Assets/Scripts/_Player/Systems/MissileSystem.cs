@@ -7,9 +7,10 @@ public class MissileSystem : MonoBehaviour
     #region Properties
     public MissileType Type { get; private set; }
     public float Cooldown { get; private set; }
+    public int Count { get; private set; }
 
-    public int MissileCount;
-    private GameObject Missile;
+    private GameObject missilePrefab;
+    private SystemsManager manager;
     #endregion
 
 
@@ -17,8 +18,9 @@ public class MissileSystem : MonoBehaviour
     {
         Type = MissileType.BASIC;
         Cooldown = 0.0f;
-        MissileCount = 10;
+        Count = 10;
         MissileSelect(Type);
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     void Update()
@@ -27,7 +29,7 @@ public class MissileSystem : MonoBehaviour
             Cooldown -= Time.deltaTime;
 
         if (Input.GetKey(KeyCode.F))
-            FireMissile();
+            manager.ActivateSystem(SystemType.MISSILES);
 
         if (Input.GetKey(KeyCode.Keypad1))
             MissileSelect(MissileType.BASIC);
@@ -39,17 +41,17 @@ public class MissileSystem : MonoBehaviour
             MissileSelect(MissileType.SHIELDBREAKER);
     }
 
-    public void FireMissile()
+    public void Activate()
     {
         if (Cooldown <= 0.0f)
         {
-            if (MissileCount > 0)
+            if (Count > 0)
             {
-                if (Missile != null)
+                if (missilePrefab != null)
                 {
-                    MissileCount--;                    
+                    Count--;                    
                     Cooldown = 5.0f;
-                    GameObject go = Instantiate(Missile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+                    GameObject go = Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
                     go.transform.parent = transform;
                 }
                 else
@@ -60,32 +62,28 @@ public class MissileSystem : MonoBehaviour
     public void AddMissile()
     {
         int rand = Random.Range(2, 5);
-        MissileCount += rand;
+        Count += rand;
         Debug.Log(rand + " Missiles Added");
     }
-    public int GetMissileCount()
-    {
-        return MissileCount;
-    }    
 
     public void MissileSelect(MissileType _type)
     {       
         switch (Type)
         {
             case MissileType.BASIC:
-                Missile = Resources.Load<GameObject>("Missiles/BasicMissile");
+                missilePrefab = Resources.Load<GameObject>("Missiles/BasicMissile");
                 break;
 
             case MissileType.EMP:
-                Missile = Resources.Load<GameObject>("Missiles/EmpMissile");
+                missilePrefab = Resources.Load<GameObject>("Missiles/EmpMissile");
                 break;
 
             case MissileType.CHROMATIC:
-                Missile = Resources.Load<GameObject>("Missiles/ChromaticMissile");
+                missilePrefab = Resources.Load<GameObject>("Missiles/ChromaticMissile");
                 break;
 
             case MissileType.SHIELDBREAKER:
-                Missile = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
+                missilePrefab = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
                 break;
 
             default:

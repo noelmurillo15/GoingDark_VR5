@@ -22,7 +22,7 @@ public class GunObject : MonoBehaviour
         if (cooldown > 0.0f)
             cooldown -= Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.H) || Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKey(KeyCode.L) || Input.GetKeyDown(KeyCode.L))
             ShootGun();
     }
 

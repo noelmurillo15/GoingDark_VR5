@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -26,12 +27,15 @@ public class MessageScript : MonoBehaviour
     private float enemyMsgTimer;
     private float reorientTimer;
 
+    private QuickSlot opt;
+
     // Use this for initialization
     void Start()
     {
         winTexts = winMessage.GetComponentsInChildren<Text>();
         NoWarning();
         autopilotMsg.enabled = true;
+        opt = GameObject.Find("QuickSlot").GetComponent<QuickSlot>();
     }
 
     // Update is called once per frame
@@ -71,6 +75,10 @@ public class MessageScript : MonoBehaviour
     public void EnemyClose()
     {
         enemyMsgTimer = 10f;
+        //Debug.Log("Quick Slot buttons Added");
+        //opt.ActivateOption(SystemType.CLOAK);
+        //opt.ActivateOption(SystemType.EMP);
+        //opt.ActivateOption(SystemType.HYPERDRIVE);
         enemyClose.enabled = true;
     }
     void EnemyAway()

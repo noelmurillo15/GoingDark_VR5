@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class HyperDrive : MonoBehaviour {
+public class HyperdriveSystem : MonoBehaviour {
     //**        Attach to HyperDrive Object     **//
 
     #region Properties
-    public SystemStatus Status { get; private set; }
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 
@@ -20,6 +19,8 @@ public class HyperDrive : MonoBehaviour {
     private PlayerStats stats;
 
     private float beginningTimer;
+
+    private SystemsManager manager;
     #endregion
 
     // Use this for initialization
@@ -38,6 +39,8 @@ public class HyperDrive : MonoBehaviour {
 
         particleOriginPos = particles.transform.localPosition;
         particles.SetActive(true);
+
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     // Update is called once per frame
@@ -59,6 +62,9 @@ public class HyperDrive : MonoBehaviour {
 
         if (Activated)
             HyperDriveBoost();
+
+        if (Input.GetKey(KeyCode.H))
+            manager.ActivateSystem(SystemType.HYPERDRIVE);
     }
 
     #region Private Methods
@@ -83,7 +89,7 @@ public class HyperDrive : MonoBehaviour {
         }
     }
 
-    public void HyperDriveInitialize() {
+    public void Activate() {
         if (Cooldown <= 0.0f) {
             Cooldown = 15.0f;
             Activated = true;
