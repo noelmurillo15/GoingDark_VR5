@@ -11,7 +11,6 @@ public class ArmButtons : MonoBehaviour
     private float transition;
     private float cancelTimer;
 
-
     private Image m_button;    
     private SystemsManager manager;
     #endregion

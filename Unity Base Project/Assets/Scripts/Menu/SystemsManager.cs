@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class SystemsManager : MonoBehaviour
 {
-
+    #region Properties
     private float padding;
     private ShipSystems Systems;
 
@@ -13,6 +13,7 @@ public class SystemsManager : MonoBehaviour
     private DecoySystem decoy;
     private MissileSystem missiles;
     private HyperdriveSystem hypedrive;
+    #endregion
 
 
     // Use this for initialization
