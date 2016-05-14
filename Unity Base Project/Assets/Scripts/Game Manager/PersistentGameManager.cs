@@ -15,7 +15,14 @@ public class PersistentGameManager : MonoBehaviour {
             DestroyImmediate(this);
             return;
         }
-	}
+
+        SetPlayerResources(100);
+        SetPlayerCredits(100);
+        SetPlayerName("Captain");
+        SetPlayerMissileCount(10);
+        SetPlayerHealth(2);
+        SetCurrentLevel(1);
+    }
 	
 	// Update is called once per frame
 	void Update () {

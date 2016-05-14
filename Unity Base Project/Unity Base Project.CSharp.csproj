@@ -143,6 +143,7 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
     <Compile Include="Assets\LaserProjectile.cs" />
+    <Compile Include="Assets\MenuButtons.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Assets\Scripts\Menu\PlayerViewCheck.cs" />
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
+    <Compile Include="Assets\Scripts\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
     <Compile Include="Assets\Scripts\Menu\SystemsManager.cs" />
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />

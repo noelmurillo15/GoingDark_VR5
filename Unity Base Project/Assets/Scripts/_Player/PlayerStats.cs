@@ -29,8 +29,8 @@ public class PlayerStats : MonoBehaviour {
         MoveData.MaxSpeed = 50f;
         MoveData.RotateSpeed = 20f;
         MoveData.Acceleration = 5f;
-        numCredits = PlayerPrefs.GetInt("Credits", 100);
-        numMissiles = PlayerPrefs.GetInt("MissleCount", 10);
+        numCredits = PlayerPrefs.GetInt("Credits");
+        numMissiles = PlayerPrefs.GetInt("MissleCount");
         Systems = GameObject.Find("Devices").GetComponent<ShipSystems>();
 
         // shield defaults
