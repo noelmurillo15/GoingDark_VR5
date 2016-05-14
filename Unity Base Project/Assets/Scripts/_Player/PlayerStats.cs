@@ -9,9 +9,6 @@ public class PlayerStats : MonoBehaviour {
     public Impairments Debuff { get; private set; }
     private MovementStats MoveData;
     private ShipSystems Systems;
-
-    // Health
-    public int hitCount;
     //  Weapons
     public int numMissiles;
     //  Credits
@@ -27,7 +24,6 @@ public class PlayerStats : MonoBehaviour {
 
     // Use this for initialization
     void Start () {      
-        hitCount = 0;
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 50f;
@@ -63,10 +59,7 @@ public class PlayerStats : MonoBehaviour {
     {
         return shieldOn;
     }
-    public int GetHitCount()
-    {
-        return hitCount;
-    }
+ 
     public int GetNumMissiles()
     {
         return numMissiles;
@@ -104,14 +97,6 @@ public class PlayerStats : MonoBehaviour {
     {
         numMissiles--;
     }
-    public void IncreaseHitCount()
-    {
-        hitCount++;
-    }
-    public void DecreaseHitCount()
-    {
-        hitCount--;
-    }    
     #endregion
 
     #region Msg Functions
@@ -135,15 +120,11 @@ public class PlayerStats : MonoBehaviour {
         }
         else
         {
-            IncreaseHitCount();
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
             m_Health.UpdatePlayerHealth();
         }
         AudioManager.instance.PlayHit();
-
-        if (hitCount > 2)
-            Kill();
-    }
+       }
 
     public void EnvironmentalDMG()
     {
@@ -160,13 +141,12 @@ public class PlayerStats : MonoBehaviour {
         }
         else
         {
-            IncreaseHitCount();
+            
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
             m_Health.UpdatePlayerHealth();
         }
 
-        if (hitCount > 2)
-            Kill();
+
     }
 
     public void Kill()

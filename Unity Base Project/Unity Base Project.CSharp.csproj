@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -144,8 +142,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
-    <Compile Include="Assets\Scripts\Menu\SystemsManager.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
     <Compile Include="Assets\LaserProjectile.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
@@ -203,15 +199,16 @@
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
+    <Compile Include="Assets\Scripts\Menu\SystemsManager.cs" />
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
-    <Compile Include="Assets\Scripts\_Player\Messages\QuickSlot.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootCounter.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootPickup.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\MessageScript.cs" />
+    <Compile Include="Assets\Scripts\_Player\Messages\QuickSlot.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\Despawn.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\Improved_Tracer.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\Missile.cs" />
@@ -228,20 +225,22 @@
     <Compile Include="Assets\Scripts\_Player\Movement\Thrusters.cs" />
     <Compile Include="Assets\Scripts\_Player\PlayerCollisions.cs" />
     <Compile Include="Assets\Scripts\_Player\PlayerStats.cs" />
+    <Compile Include="Assets\Scripts\_Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CloakSystem.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\EmpSystem.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\EmpSystem.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\MissileDisplay.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\ShipSystems.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\MissileSystem.cs" />
-    <Compile Include="Assets\Scripts\_Player\SpaceStation.cs" />
+    <Compile Include="Assets\ShipArmor.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>
   <ItemGroup>
