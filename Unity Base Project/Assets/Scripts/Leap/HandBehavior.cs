@@ -10,11 +10,6 @@ public class HandBehavior : MonoBehaviour {
         m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
 	}
 
-    void Awake() {
-        if(m_leapData == null)
-            m_leapData = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<LeapData>();
-    }
-
     public bool GetisRHandClosed() {        
         if (m_leapData.GetNumRFingersHeld() != 5)
             return true;
@@ -29,7 +24,10 @@ public class HandBehavior : MonoBehaviour {
     }
     public bool GetIsLeftHandIn()
     {
-        return m_leapData.GetIsLHandOnScreen();
+        if(m_leapData != null)
+            return m_leapData.GetIsLHandOnScreen();
+
+        return false;
     }
 
     public bool GetIsRightHandIn()

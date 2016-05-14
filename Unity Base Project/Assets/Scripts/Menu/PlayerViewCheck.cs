@@ -38,6 +38,7 @@ public class PlayerViewCheck : MonoBehaviour {
             hyperDrive.HyperDriveInitialize();
             if (hyperDrive.IsOver())
             {
+                Debug.Log("Loading : " + curStar.name.ToString());
                 SceneManager.LoadScene(curStar.name.ToString());
             }
             //if (delayTimer <= 0.0f)

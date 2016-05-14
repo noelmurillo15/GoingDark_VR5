@@ -9,7 +9,6 @@ public class Thrusters : MonoBehaviour {
     private GameObject speedGauge;
 
 
-
     // Use this for initialization
     void Start()
     {
