@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource _Messages;
     public AudioSource _Button;
     Dictionary<string, AudioClip> sounds;
+    Dictionary<string, AudioClip> music;
     public static AudioManager instance = null;
 
     [Range(0.0f,1.0f)]
@@ -28,11 +29,17 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
 
         sounds = new Dictionary<string, AudioClip>();
+        music = new Dictionary<string, AudioClip>();
         //AudioClip[] clips = new AudioClip[];
         AudioClip[] clips = Resources.LoadAll<AudioClip>("Audio/SFX");
+        AudioClip[] songs = Resources.LoadAll<AudioClip>("Audio/Music");
         for (int i = 0; i < clips.Length; i++)
         {
             sounds.Add(clips[i].name, clips[i]);
+        }
+        for (int i = 0; i < songs.Length; i++)
+        {
+            music.Add(songs[i].name, songs[i]);
         }
         //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
         
@@ -106,6 +113,20 @@ public class AudioManager : MonoBehaviour
         _Gadget.Play();
     }
 
+    public void PlayShieldOff()
+    {
+        _Gadget.clip = sounds["ShieldOff"];
+        _Gadget.volume = SoundVolume * MasterVolume;
+        _Gadget.Play();
+    }
+
+    public void PlayShieldOn()
+    {
+        _Gadget.clip = sounds["ShieldOn"];
+        _Gadget.volume = SoundVolume * MasterVolume;
+        _Gadget.Play();
+    }
+
     public void PlayMenuGood()
     {
         _Gadget.clip = sounds["MenuGood"];
@@ -134,6 +155,13 @@ public class AudioManager : MonoBehaviour
         _Hit.Play();
     }
 
+    public void PlayShieldHit()
+    {
+        _Hit.clip = sounds["ShieldHit"];
+        _Hit.volume = SoundVolume * MasterVolume;
+        _Hit.Play();
+    }
+
     public void PlayMessagePop()
     {
         _Messages.clip = sounds["Msg"];
@@ -141,10 +169,38 @@ public class AudioManager : MonoBehaviour
         _Messages.Play();
     }
 
-    public void PlayMusic(AudioClip audio)
+    public void PlayLaser()
+    {
+        _Gadget.clip = sounds["LaserBeam"];
+        _Gadget.volume = SoundVolume * MasterVolume;
+        _Gadget.Play();
+    }
+
+    public void PlayLevel1()
     {
         _Music.Stop();
-        _Music.clip = audio;
+        _Music.clip = music["Level1theme"];
+        _Music.Play();
+    }
+
+    public void PlayLevel2()
+    {
+        _Music.Stop();
+        _Music.clip = music["Level2theme"];
+        _Music.Play();
+    }
+
+    public void PlayLevel3()
+    {
+        _Music.Stop();
+        _Music.clip = music["Level3theme"];
+        _Music.Play();
+    }
+
+    public void PlayMainMenu()
+    {
+        _Music.Stop();
+        _Music.clip = music["MainMenuTheme"];
         _Music.Play();
     }
 }
