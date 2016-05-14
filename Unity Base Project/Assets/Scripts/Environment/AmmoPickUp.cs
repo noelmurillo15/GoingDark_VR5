@@ -2,13 +2,13 @@
 
 public class AmmoPickUp : MonoBehaviour
 {
-    ShootObject missile;
+    private MissileSystem missile;
     bool collected;
     // Use this for initialization
     void Start()
     {
         collected = false;
-        missile = GameObject.Find("MissileLaunch").GetComponent<ShootObject>();
+        missile = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
     }
 
     // Update is called once per frame
@@ -23,7 +23,7 @@ public class AmmoPickUp : MonoBehaviour
         if (col.transform.tag == "Player")
         {
             missile.SendMessage("AddMissile");
-            collected = true;            
+            collected = true;
         }
     }
 }

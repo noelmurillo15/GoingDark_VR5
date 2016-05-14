@@ -12,7 +12,7 @@ public class ShipDevices : MonoBehaviour
     public EMP Emp { get; private set; }
     public Cloak Cloak { get; private set; }
     public Decoy Decoy { get; private set; }
-    public ShootObject Missiles { get; private set; }
+    public MissileSystem Missiles { get; private set; }
     public HyperDrive HyperDrive { get; private set; }
 
     // Constant Devices
@@ -149,19 +149,19 @@ public class ShipDevices : MonoBehaviour
         switch (type)
         {
             case Devices.EMP:
-                Emp = GameObject.Find("Emp(Clone)").GetComponent<EMP>();
+                Emp = GetComponentInChildren<EMP>();
                 break;
             case Devices.CLOAK:
-                Cloak = GameObject.Find("Cloak(Clone)").GetComponent<Cloak>();
+                Cloak = GetComponentInChildren<Cloak>();
                 break;
             case Devices.DECOY:
-                Decoy = GameObject.Find("Decoy(Clone)").GetComponent<Decoy>();
+                Decoy = GetComponentInChildren<Decoy>();
                 break;
             case Devices.HYPERDRIVE:
-                HyperDrive = GameObject.Find("HyperDrive(Clone)").GetComponent<HyperDrive>();
+                HyperDrive = GetComponentInChildren<HyperDrive>();
                 break;
             case Devices.MISSILES:
-                Missiles = GameObject.Find("Missiles(Clone)").GetComponent<ShootObject>();
+                Missiles = GetComponentInChildren<MissileSystem>();
                 break;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class MissileDisplay : MonoBehaviour
 {
@@ -17,13 +16,12 @@ public class MissileDisplay : MonoBehaviour
     {
         pStat = GameObject.Find("Player");
 
-        timer = 0;
+        timer = 5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //timedMessage();
         if (timer <= 0f)
             GetMissileCount();
         else
@@ -37,7 +35,6 @@ public class MissileDisplay : MonoBehaviour
 
     public void GetMissileCount()
     {
-        missCounter = pStat.GetComponentInChildren<ShootObject>().GetMissileCount();
-    }
-    
+        missCounter = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>().GetMissileCount();
+    }    
 }

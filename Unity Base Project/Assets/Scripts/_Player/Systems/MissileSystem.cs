@@ -1,48 +1,46 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class ShootObject : MonoBehaviour
+public class MissileSystem : MonoBehaviour
 {
-    //**  Attach to Player prefab  **//
-    public int MissileCount;
-    public float Cooldown { get; private set; }
-    private GameObject Missile;
-    private GameObject player;
+
+    #region Properties
     public MissileType Type { get; private set; }
+    public float Cooldown { get; private set; }
+
+    public int MissileCount;
+    private GameObject Missile;
+    #endregion
+
 
     void Start()
     {
         Type = MissileType.BASIC;
         Cooldown = 0.0f;
         MissileCount = 10;
-        player = GameObject.FindGameObjectWithTag("Player");
-        WeaponChoice(Type);
+        MissileSelect(Type);
     }
 
     void Update()
     {
-
         if (Cooldown > 0.0f)
             Cooldown -= Time.deltaTime;
 
         if (Input.GetKey(KeyCode.F))
             FireMissile();
 
-    }
-    public MissileType GetMissileType()
-    {
-        return Type;
-    }
-
-    public void SetMissileType(MissileType _val)
-    {
-        Type = _val;
+        if (Input.GetKey(KeyCode.Keypad1))
+            MissileSelect(MissileType.BASIC);
+        if (Input.GetKey(KeyCode.Keypad2))
+            MissileSelect(MissileType.EMP);
+        if (Input.GetKey(KeyCode.Keypad3))
+            MissileSelect(MissileType.CHROMATIC);
+        if (Input.GetKey(KeyCode.Keypad4))
+            MissileSelect(MissileType.SHIELDBREAKER);
     }
 
     public void FireMissile()
     {
-        WeaponChoice(Type);
-        SetMissileType(Type);
         if (Cooldown <= 0.0f)
         {
             if (MissileCount > 0)
@@ -70,30 +68,32 @@ public class ShootObject : MonoBehaviour
         return MissileCount;
     }    
 
-    public MissileType WeaponChoice(MissileType _type)
-    {
-        Type = _type;
-
+    public void MissileSelect(MissileType _type)
+    {       
         switch (Type)
         {
             case MissileType.BASIC:
-                Missile = Resources.Load<GameObject>("PlayerMissile");
-                Debug.Log("Fired Regular Missile");
-                return Type;
+                Missile = Resources.Load<GameObject>("Missiles/BasicMissile");
+                break;
+
             case MissileType.EMP:
-                Missile = Resources.Load<GameObject>("EMPMissile");
-                Debug.Log("Fired EMP Missile");
-                return Type;
+                Missile = Resources.Load<GameObject>("Missiles/EmpMissile");
+                break;
+
             case MissileType.CHROMATIC:
-                Missile = Resources.Load<GameObject>("ChromaticMissile");
-                Debug.Log("Got ChromaticMissile");
-                return Type;
+                Missile = Resources.Load<GameObject>("Missiles/ChromaticMissile");
+                break;
+
             case MissileType.SHIELDBREAKER:
-                Missile = Resources.Load<GameObject>("PlayerMissile");
-                Debug.Log("Got ShieldBreaker");
-                return Type;
+                Missile = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
+                break;
+
+            default:
+                Debug.Log("Invalid Missile Type : " + _type.ToString());
+                break;
         }
 
-        return Type;
+        Debug.Log(_type.ToString() + " Missile Selected");
+        Type = _type;
     }
 }

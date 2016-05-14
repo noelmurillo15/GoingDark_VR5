@@ -16,7 +16,7 @@ public class ArmButtons : MonoBehaviour
     private ShipDevices devices;
     private ArmSettings settings;
     
-    private ShootObject m_shootObj;
+    private MissileSystem m_shootObj;
       
 
     #endregion
@@ -30,7 +30,7 @@ public class ArmButtons : MonoBehaviour
         cancelTimer = 0.0f;
         m_button = null;
         initialized = false;
-        m_shootObj = GameObject.Find("Player").GetComponentInChildren<ShootObject>();
+        m_shootObj = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
     }
 
     void Update()
@@ -146,22 +146,22 @@ public class ArmButtons : MonoBehaviour
 
             case "Homing Missile":
                 Debug.Log("Homing message");
-                m_shootObj.SetMissileType(MissileType.BASIC);
+                m_shootObj.MissileSelect(MissileType.BASIC);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "EMP Missile":
                 Debug.Log("EMP message");
-                m_shootObj.SetMissileType(MissileType.EMP);
+                m_shootObj.MissileSelect(MissileType.EMP);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "Chromatic Missile":
                 Debug.Log("Chromatic message");
-                m_shootObj.SetMissileType(MissileType.CHROMATIC);
+                m_shootObj.MissileSelect(MissileType.CHROMATIC);
                 devices.WeaponSelect.SetActive(false);
                 break;
             case "ShieldBreaker Missile":
                 Debug.Log("ShieldBreak message");
-                m_shootObj.SetMissileType(MissileType.SHIELDBREAKER);
+                m_shootObj.MissileSelect(MissileType.SHIELDBREAKER);
                 devices.WeaponSelect.SetActive(false);
                 break;
 

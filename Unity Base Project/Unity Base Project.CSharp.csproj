@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -225,19 +227,19 @@
     <Compile Include="Assets\Scripts\_Player\Movement\Thrusters.cs" />
     <Compile Include="Assets\Scripts\_Player\PlayerCollisions.cs" />
     <Compile Include="Assets\Scripts\_Player\PlayerStats.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\CliffordsRadarBlip.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\CliffordsRadarPlane.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\Cloak.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\Decoy.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\DecoyMovement.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\EMP.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\EmpCollision.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\HyperDrive.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\MissileDisplay.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\PlayerHealth.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\RadarDisplay.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\ShipDevices.cs" />
-    <Compile Include="Assets\Scripts\_Player\Ship\ShootObject.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarBlip.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarPlane.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\Cloak.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\Decoy.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\EMP.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\HyperDrive.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\MissileDisplay.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\ShipDevices.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\SpaceStation.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>
