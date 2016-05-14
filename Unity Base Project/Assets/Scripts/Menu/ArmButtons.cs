@@ -13,7 +13,7 @@ public class ArmButtons : MonoBehaviour
     private float cancelTimer;
 
     private Image m_button;
-    private ShipDevices devices;
+    private ShipSystems Systems;
     private ArmSettings settings;
     
     private MissileSystem m_shootObj;
@@ -53,8 +53,8 @@ public class ArmButtons : MonoBehaviour
             m_button = GetComponent<Image>();
         if (settings == null)
             settings = GameObject.FindGameObjectWithTag("LeapControl").GetComponent<ArmSettings>();
-        if (devices == null)
-            devices = GameObject.FindGameObjectWithTag("PlayerShip").GetComponent<ShipDevices>();
+        if (Systems == null)
+            Systems = GameObject.Find("Devices").GetComponent<ShipSystems>();
         
 
 
@@ -66,27 +66,27 @@ public class ArmButtons : MonoBehaviour
         switch (transform.name)
         {
             case "HyperDriveButton":
-                if (devices.HyperDrive.Cooldown > 0.0f)
+                if (Systems.HyperDrive.Cooldown > 0.0f)
                     m_button.color = Color.red;
                 else
                     m_button.color = Color.white;
                 break;
 
             case "CloakButton":
-                if (devices.Cloak.Cooldown > 0.0f)
+                if (Systems.Cloak.Cooldown > 0.0f)
                     m_button.color = Color.red;
                 else
                     m_button.color = Color.white;
                 break;
             case "EmpButton":
-                if (devices.Emp.Cooldown > 0.0f)
+                if (Systems.Emp.Cooldown > 0.0f)
                     m_button.color = Color.red;
                 else
                     m_button.color = Color.white;
                 break;
 
             case "MissileButton":
-                if (devices.Missiles.Cooldown > 0.0f)
+                if (Systems.Missiles.Cooldown > 0.0f)
                     m_button.color = Color.red;
                 else
                     m_button.color = Color.white;
@@ -140,60 +140,60 @@ public class ArmButtons : MonoBehaviour
                 return;
 
             case "CloseLog":
-                devices.WeaponSelect.SetActive(false);
+                Systems.WeaponSelect.SetActive(false);
                 Debug.Log("close message");
                 break;
 
             case "Homing Missile":
                 Debug.Log("Homing message");
                 m_shootObj.MissileSelect(MissileType.BASIC);
-                devices.WeaponSelect.SetActive(false);
+                Systems.WeaponSelect.SetActive(false);
                 break;
             case "EMP Missile":
                 Debug.Log("EMP message");
                 m_shootObj.MissileSelect(MissileType.EMP);
-                devices.WeaponSelect.SetActive(false);
+                Systems.WeaponSelect.SetActive(false);
                 break;
             case "Chromatic Missile":
                 Debug.Log("Chromatic message");
                 m_shootObj.MissileSelect(MissileType.CHROMATIC);
-                devices.WeaponSelect.SetActive(false);
+                Systems.WeaponSelect.SetActive(false);
                 break;
             case "ShieldBreaker Missile":
                 Debug.Log("ShieldBreak message");
                 m_shootObj.MissileSelect(MissileType.SHIELDBREAKER);
-                devices.WeaponSelect.SetActive(false);
+                Systems.WeaponSelect.SetActive(false);
                 break;
 
             case "CloakButton":
-                devices.Cloak.Activate(!devices.Cloak.Activated);
+                Systems.Cloak.Activate(!Systems.Cloak.Activated);
                 break;
 
             case "HyperDriveButton":
-                devices.HyperDrive.HyperDriveInitialize();
+                Systems.HyperDrive.HyperDriveInitialize();
                 break;
 
             case "MissileButton":
-                devices.Missiles.FireMissile();
+                Systems.Missiles.FireMissile();
                 break;
 
             case "MissionLogButton":
-                devices.MissionLog.SetActiveRecursively(true);
+                Systems.MissionLog.SetActiveRecursively(true);
                 break;
 
             case "ToggleRadarButton":
-                devices.ToggleDeviceStatus(Devices.RADAR);
+                Systems.ToggleDeviceStatus(SystemType.RADAR);
                 break;
 
             case "EmpButton":
-                devices.Emp.SetEmpActive(true);
+                Systems.Emp.SetEmpActive(true);
                 break;
 
             case "DecoyButton":
-                devices.Decoy.LeaveDecoy();
+                Systems.Decoy.LeaveDecoy();
                 break;
             case "WeaponSelectButton":
-                devices.WeaponSelect.SetActiveRecursively(true);
+                Systems.WeaponSelect.SetActiveRecursively(true);
                 break;
 
             default:

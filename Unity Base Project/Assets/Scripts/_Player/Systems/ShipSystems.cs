@@ -2,11 +2,11 @@
 using GD.Core.Enums;
 using System.Collections.Generic;
 
-public class ShipDevices : MonoBehaviour
+public class ShipSystems : MonoBehaviour
 {
 
     #region Properties
-    public Dictionary<Devices, Device> MyDevices;
+    public Dictionary<SystemType, ShipDevice> MyDevices;
 
     // Pick-up Devices
     public EMP Emp { get; private set; }
@@ -24,16 +24,16 @@ public class ShipDevices : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        MyDevices = new Dictionary<Devices, Device>();
+        MyDevices = new Dictionary<SystemType, ShipDevice>();
 
         // Initialize once you collect the device (?)
-        InitializeDevice(Devices.EMP);
-        InitializeDevice(Devices.CLOAK);
-        InitializeDevice(Devices.RADAR);
-        InitializeDevice(Devices.DECOY);
-        InitializeDevice(Devices.LASERS);
-        InitializeDevice(Devices.MISSILES);
-        InitializeDevice(Devices.HYPERDRIVE);
+        InitializeDevice(SystemType.EMP);
+        InitializeDevice(SystemType.CLOAK);
+        InitializeDevice(SystemType.RADAR);
+        InitializeDevice(SystemType.DECOY);
+        InitializeDevice(SystemType.LASERS);
+        InitializeDevice(SystemType.MISSILES);
+        InitializeDevice(SystemType.HYPERDRIVE);
 
         // Constant Devices
         MissionLog = GameObject.Find("ButtonObject");
@@ -46,37 +46,37 @@ public class ShipDevices : MonoBehaviour
 
     }
 
-    void InitializeDevice(Devices type)
+    void InitializeDevice(SystemType key)
     {
-        if (MyDevices.ContainsKey(type))
+        if (MyDevices.ContainsKey(key))
         {
-            Debug.Log("Device is already initialized : " + type.ToString());
+            Debug.Log("Device is already initialized : " + key.ToString());
             return;
         }
 
         GameObject obj = null;
-        Device dev = new Device();
-        switch (type)
+        ShipDevice dev = new ShipDevice();
+        switch (key)
         {
-            case Devices.EMP:
+            case SystemType.EMP:
                 obj = Resources.Load<GameObject>("Devices/Emp");
                 break;
-            case Devices.CLOAK:
+            case SystemType.CLOAK:
                 obj = Resources.Load<GameObject>("Devices/Cloak");
                 break;
-            case Devices.RADAR:
+            case SystemType.RADAR:
                 obj = Resources.Load<GameObject>("Devices/Radar");
                 break;
-            case Devices.DECOY:
+            case SystemType.DECOY:
                 obj = Resources.Load<GameObject>("Devices/Decoy");
                 break;
-            case Devices.LASERS:
+            case SystemType.LASERS:
                 obj = Resources.Load<GameObject>("Devices/Lasers");
                 break;
-            case Devices.MISSILES:
+            case SystemType.MISSILES:
                 obj = Resources.Load<GameObject>("Devices/Missiles");
                 break;
-            case Devices.HYPERDRIVE:
+            case SystemType.HYPERDRIVE:
                 obj = Resources.Load<GameObject>("Devices/HyperDrive");
                 break;
         }
@@ -86,81 +86,81 @@ public class ShipDevices : MonoBehaviour
             GameObject go = Instantiate(obj, (transform.position + obj.transform.localPosition), obj.transform.rotation) as GameObject;
             go.transform.parent = transform;
 
-            RetrieveData(type);
+            RetrieveData(key);
 
             dev.Object = go;
-            dev.Status = DeviceStatus.ONLINE;
-            MyDevices.Add(type, dev);
-            Debug.Log(type.ToString() + " : " + dev.Status.ToString());
+            dev.Status = SystemStatus.ONLINE;
+            MyDevices.Add(key, dev);
+            Debug.Log(key.ToString() + " : " + dev.Status.ToString());
         }
     }
 
-    public void ChangeDeviceStatus(Devices dev, DeviceStatus stat)
+    public void ChangeDeviceStatus(SystemType key, SystemStatus stat)
     {
-        if (!MyDevices.ContainsKey(dev))
+        if (!MyDevices.ContainsKey(key))
         {
-            Debug.Log("Device is not initialized : " + dev.ToString());
+            Debug.Log("Device is not initialized : " + key.ToString());
             return;
         }
 
-        Device m_dev = MyDevices[dev];
+        ShipDevice m_dev = MyDevices[key];
 
-        if (stat == DeviceStatus.OFFLINE)
+        if (stat == SystemStatus.OFFLINE)
             m_dev.Object.SetActive(false);
         else
             m_dev.Object.SetActive(true);
 
         m_dev.Status = stat;
-        MyDevices[dev] = m_dev;
+        MyDevices[key] = m_dev;
     }
 
-    public void ToggleDeviceStatus(Devices dev)
+    public void ToggleDeviceStatus(SystemType key)
     {
-        if (!MyDevices.ContainsKey(dev))
+        if (!MyDevices.ContainsKey(key))
         {
-            Debug.Log("Device is not initialized : " + dev.ToString());
+            Debug.Log("Device is not initialized : " + key.ToString());
             return;
         }
 
-        Device m_dev = MyDevices[dev];
-        if (m_dev.Status == DeviceStatus.OFFLINE)
+        ShipDevice m_dev = MyDevices[key];
+        if (m_dev.Status == SystemStatus.OFFLINE)
         {
-            m_dev.Status = DeviceStatus.ONLINE;
+            m_dev.Status = SystemStatus.ONLINE;
             m_dev.Object.SetActive(true);
         }
         else
         {
-            m_dev.Status = DeviceStatus.OFFLINE;
+            m_dev.Status = SystemStatus.OFFLINE;
             m_dev.Object.SetActive(false);
         }
-        MyDevices[dev] = m_dev;
+        MyDevices[key] = m_dev;
     }
 
-    public DeviceStatus GetDeviceStatus(Devices dev)
+    public SystemStatus GetDeviceStatus(SystemType key)
     {
-        if (MyDevices.ContainsKey(dev))
-            return MyDevices[dev].Status;
+        if (MyDevices.ContainsKey(key))
+            return MyDevices[key].Status;
         else
-            return DeviceStatus.NOTAVAILABLE;
+            return SystemStatus.NOTAVAILABLE;
     }
 
-    void RetrieveData(Devices type)
+    void RetrieveData(SystemType key)
     {
-        switch (type)
+        switch (key)
         {
-            case Devices.EMP:
+            case SystemType.EMP:
                 Emp = GetComponentInChildren<EMP>();
                 break;
-            case Devices.CLOAK:
+            case SystemType.CLOAK:
                 Cloak = GetComponentInChildren<Cloak>();
                 break;
-            case Devices.DECOY:
+            case SystemType.DECOY:
                 Decoy = GetComponentInChildren<Decoy>();
                 break;
-            case Devices.HYPERDRIVE:
+            case SystemType.HYPERDRIVE:
                 HyperDrive = GetComponentInChildren<HyperDrive>();
                 break;
-            case Devices.MISSILES:
+            case SystemType.MISSILES:
                 Missiles = GetComponentInChildren<MissileSystem>();
                 break;
         }

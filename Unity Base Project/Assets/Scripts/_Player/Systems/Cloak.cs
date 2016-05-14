@@ -4,7 +4,7 @@ using GD.Core.Enums;
 public class Cloak : MonoBehaviour {
 
     #region Properties
-    public DeviceStatus Status { get; private set; }
+    public SystemStatus Status { get; private set; }
     public bool Activated { get; private set; }
     public float Cooldown { get; private set; }
 

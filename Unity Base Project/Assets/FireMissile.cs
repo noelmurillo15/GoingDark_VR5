@@ -3,7 +3,7 @@ using GD.Core.Enums;
 
 public class FireMissile : MonoBehaviour {
 
-    private ShipDevices devices;
+    private ShipSystems Systems;
 	// Use this for initialization
 	void Start () {
 	        
@@ -16,9 +16,9 @@ public class FireMissile : MonoBehaviour {
 
     private void Fire()
     {
-        if (devices.GetDeviceStatus(Devices.MISSILES) == DeviceStatus.ONLINE)
+        if (Systems.GetDeviceStatus(SystemType.MISSILES) == SystemStatus.ONLINE)
         {
-            devices.Missiles.FireMissile();
+            Systems.Missiles.FireMissile();
         }
     }
 
