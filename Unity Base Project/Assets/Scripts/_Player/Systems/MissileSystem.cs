@@ -45,11 +45,10 @@ public class MissileSystem : MonoBehaviour
         {
             if (MissileCount > 0)
             {
-                Cooldown = 1.0f;
                 if (Missile != null)
                 {
-                    MissileCount--;
-                    
+                    MissileCount--;                    
+                    Cooldown = 5.0f;
                     GameObject go = Instantiate(Missile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
                     go.transform.parent = transform;
                 }
@@ -60,8 +59,9 @@ public class MissileSystem : MonoBehaviour
     }
     public void AddMissile()
     {
-        MissileCount++;
-        Debug.Log("Missile Added");
+        int rand = Random.Range(2, 5);
+        MissileCount += rand;
+        Debug.Log(rand + " Missiles Added");
     }
     public int GetMissileCount()
     {
