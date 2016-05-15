@@ -1,63 +1,53 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class MissileSystem : MonoBehaviour {
+public class MissileSystem : ShipDevice
+{
 
     #region Properties
     public MissileType Type { get; private set; }
-    public float Cooldown { get; private set; }
     public int Count { get; private set; }
 
+    private GameObject environment;
     private GameObject missilePrefab;
-    private SystemsManager manager;
     #endregion
 
 
     void Start()
     {
-        Type = MissileType.BASIC;
-        Cooldown = 0.0f;
         Count = 10;
+        maxCooldown = 5f;
+        Type = MissileType.BASIC;
         MissileSelect(Type);
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
+        environment = GameObject.Find("Environment");
     }
 
     void Update()
     {
-        if (Cooldown > 0.0f)
-            Cooldown -= Time.deltaTime;
+        if (Cooldown == maxCooldown)
+        {
+            Debug.Log("Missile has been launched");
+            LaunchMissile();
+        }
 
-        if (Input.GetKey(KeyCode.F))
-            manager.ActivateSystem(SystemType.MISSILES);
-
-        if (Input.GetKey(KeyCode.Keypad1))
-            MissileSelect(MissileType.BASIC);
-        if (Input.GetKey(KeyCode.Keypad2))
-            MissileSelect(MissileType.EMP);
-        if (Input.GetKey(KeyCode.Keypad3))
-            MissileSelect(MissileType.CHROMATIC);
-        if (Input.GetKey(KeyCode.Keypad4))
-            MissileSelect(MissileType.SHIELDBREAKER);
+        UpdateCooldown();
     }
 
-    public void Activate()
+    public void LaunchMissile()
     {
-        if (Cooldown <= 0.0f)
+        if (missilePrefab == null)
         {
-            if (Count > 0)
-            {
-                if (missilePrefab != null)
-                {
-                    Count--;                    
-                    Cooldown = 5.0f;
-                    GameObject go = Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
-                    go.transform.parent = transform;
-                }
-                else
-                    Debug.Log("No Missile Gameobj attached");
-            }
+            Debug.Log("Missile Gameobject not attached");
+            return;
+        }
+        if (Count > 0)
+        {
+            Count--;
+            GameObject go = Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+            go.transform.parent = environment.transform;
         }
     }
+
     public void AddMissile()
     {
         int rand = Random.Range(2, 5);

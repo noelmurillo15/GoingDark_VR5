@@ -1,46 +1,36 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
 
-public class HyperdriveSystem : MonoBehaviour {
+public class HyperdriveSystem : ShipDevice
+{
     //**        Attach to HyperDrive Object     **//
 
     #region Properties
-    public bool Activated { get; private set; }
-    public float Cooldown { get; private set; }
+    private bool hypeJump;
+    private float beginningTimer;
 
     private float boostTimer;
     private float initializeTimer;
 
-    private GameObject particles;
-    private Vector3 particleOriginPos;
-
+    private PlayerStats stats;
     private GameObject m_playerMove;
 
-    private PlayerStats stats;
-
-    private float beginningTimer;
-
-    private SystemsManager manager;
+    private GameObject particles;
+    private Vector3 particleOriginPos;
     #endregion
 
     // Use this for initialization
     void Start () {
-        beginningTimer = 2f;
-        Activated = false;
-        Cooldown = 0.0f;        
+        hypeJump = false;
+        maxCooldown = 10f;
+        beginningTimer = 2f;    
 
-        if (m_playerMove == null)
-            m_playerMove = GameObject.FindGameObjectWithTag("Player");
-
-        if (particles == null)
-            particles = GameObject.Find("WarpDriveParticles");
+        m_playerMove = GameObject.FindGameObjectWithTag("Player");
+        particles = GameObject.Find("WarpDriveParticles");
 
         stats = m_playerMove.GetComponent<PlayerStats>();
 
         particleOriginPos = particles.transform.localPosition;
         particles.SetActive(true);
-
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     // Update is called once per frame
@@ -56,20 +46,23 @@ public class HyperdriveSystem : MonoBehaviour {
                 particles.transform.localPosition = particleOriginPos;
             }
         }
-        
-        if (Cooldown > 0.0f)
-            Cooldown -= Time.deltaTime;
 
-        if (Activated)
+        if (Cooldown == maxCooldown)
+        {
+            Debug.Log("Hyperdrive sequence has been initialized");
+            InitializeHyperdriveSequence();
+        }
+
+        if (hypeJump)
             HyperDriveBoost();
 
-        if (Input.GetKey(KeyCode.H))
-            manager.ActivateSystem(SystemType.HYPERDRIVE);
+        UpdateCooldown();
     }
 
     #region Private Methods
     public void HyperDriveBoost() {
         if (initializeTimer > 0.0f) {
+            particles.SetActive(true);
             initializeTimer -= Time.deltaTime;
             boostTimer = 0.5f;
             stats.DecreaseSpeed();
@@ -79,23 +72,19 @@ public class HyperdriveSystem : MonoBehaviour {
             if (boostTimer > 0.0f) {
                 boostTimer -= Time.deltaTime;
                 particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
-                m_playerMove.transform.Translate(Vector3.forward * 3000.0f * Time.deltaTime);
+                m_playerMove.transform.Translate(Vector3.forward * 8000.0f * Time.deltaTime);
             }
             else {
-                Activated = false;
                 particles.transform.localPosition = particleOriginPos;
                 particles.SetActive(false);
+                hypeJump = false;
             }
         }
     }
 
-    public void Activate() {
-        if (Cooldown <= 0.0f) {
-            Cooldown = 15.0f;
-            Activated = true;
-            particles.SetActive(true);
-            initializeTimer = 5.0f;
-        }
+    public void InitializeHyperdriveSequence() {
+        hypeJump = true;    
+        initializeTimer = 5.0f;        
     }
     #endregion
 }

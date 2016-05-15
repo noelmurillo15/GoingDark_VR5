@@ -23,14 +23,14 @@ public class ShipSystems : MonoBehaviour
         manager = GetComponent<SystemsManager>();
 
         // Initialize once you collect the device (?)
-        //InitializeDevice(SystemType.EMP);
-        //InitializeDevice(SystemType.CLOAK);
+        InitializeDevice(SystemType.EMP);
+        InitializeDevice(SystemType.CLOAK);
         //InitializeDevice(SystemType.RADAR);
         InitializeDevice(SystemType.DECOY);
         //InitializeDevice(SystemType.LASERS);
         //InitializeDevice(SystemType.SHIELD);
-        //InitializeDevice(SystemType.MISSILES);
-        //InitializeDevice(SystemType.HYPERDRIVE);
+        InitializeDevice(SystemType.MISSILES);
+        InitializeDevice(SystemType.HYPERDRIVE);
 
         // Constant Devices
         MissionLog = GameObject.Find("ButtonObject");

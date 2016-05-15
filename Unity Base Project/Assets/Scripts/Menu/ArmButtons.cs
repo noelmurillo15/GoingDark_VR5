@@ -10,7 +10,6 @@ public class ArmButtons : MonoBehaviour
     public SystemType Type { get; private set; }
 
     private float transition;
-    private float cancelTimer;
     private Image m_button;
     private Color original;
 
@@ -22,44 +21,19 @@ public class ArmButtons : MonoBehaviour
     // Use this for initialization
     void Start()
     {        
-        Initialize();
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
+        Initialize();        
+        StartCoroutine(UpdateCooldowns());
     }
 
     void Update()
     {
-        UpdateCooldowns();
-    }
 
-    void UpdateCooldowns()
-    {
-        //if (Type != SystemType.NONE)
-        //{
-        //    Debug.Log("Checking Cooldown");
-        //    if (manager.GetSystemCooldown(Type) > 0f)
-        //        m_button.color = Color.red;
-        //    else
-        //        m_button.color = original;
-        //}
-    }
-
-    void OnBecameVisible()
-    {
-        Debug.Log("Button Is Visible");
-        enabled = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        Debug.Log("Button Out Of Sight");
-        enabled = false;
-    }
+    }    
 
     #region Private Methods
     void Initialize()
     {
         transition = 0f;
-        cancelTimer = 0f;
         m_button = GetComponent<Image>();        
         switch (transform.name)
         {
@@ -89,6 +63,7 @@ public class ArmButtons : MonoBehaviour
                 break;
         }
         original = m_button.color;
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
     private void ActivateButton()
     {
@@ -102,14 +77,31 @@ public class ArmButtons : MonoBehaviour
     }
     #endregion
 
+    #region Coroutine
+    private IEnumerator UpdateCooldowns()
+    {
+        while (true)
+        {
+            CooldownCheck();
+            yield return new WaitForSeconds(2);
+        }
+    }
+    private void CooldownCheck()
+    {
+        if (manager.GetSystemCooldown(Type) > 0f)
+            m_button.color = Color.red;
+        else
+            m_button.color = original;
+    }
+    #endregion
+
     #region Collision
     public void OnTriggerEnter(Collider col)
     {
         if (col.name == "bone3" && m_button.color == original)
         {
-            transition = 0.1f;
-            cancelTimer = 1.5f;
-            m_button.color = Color.grey;
+            transition = 0.2f;
+            m_button.color = Color.green;
         }
     }
 
@@ -117,24 +109,16 @@ public class ArmButtons : MonoBehaviour
     {
         if (col.name == "bone3")
         {
-            if (cancelTimer > 0.0f)
-            {
-                transition -= Time.deltaTime;
-                cancelTimer -= Time.deltaTime;
-
-                if (transition <= 0.0f && m_button.color == Color.grey)
-                    m_button.color = Color.green;
-            }
-            else
-                m_button.color = Color.red;
+            transition -= Time.deltaTime;
+            if (transition <= 0.0f && m_button.color == Color.green)
+                ActivateButton();
         }
-    }    
+    }
 
     public void OnTriggerExit(Collider col)
     {
         if (col.name == "bone3")
-            if (m_button.color == Color.green)
-                ActivateButton();
+            m_button.color = original;
     }
     #endregion    
 }

@@ -30,11 +30,31 @@ public class SystemsManager : MonoBehaviour
             case SystemType.DECOY:
                 AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<DecoySystem>() as ShipDevice);
                 break;
+            case SystemType.EMP:
+                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<EmpSystem>() as ShipDevice);
+                break;
+            case SystemType.HYPERDRIVE:
+                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<HyperdriveSystem>() as ShipDevice);
+                break;
+            case SystemType.MISSILES:
+                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<MissileSystem>() as ShipDevice);
+                break;
+            case SystemType.CLOAK:
+                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<CloakSystem>() as ShipDevice);
+                break;
         }        
     }
 
     public void ActivateSystem(SystemType type)
     {
         AvailableDevices[type].Activate();
+    }
+
+    public float GetSystemCooldown(SystemType type)
+    {
+        if(AvailableDevices.ContainsKey(type))
+            return AvailableDevices[type].Cooldown;
+
+        return 0f;
     }
 }

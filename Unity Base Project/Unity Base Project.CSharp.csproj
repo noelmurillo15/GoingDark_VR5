@@ -203,7 +203,7 @@
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
-    <Compile Include="Assets\Scripts\Menu\SystemsManager.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\SystemsManager.cs" />
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
@@ -233,19 +233,19 @@
     <Compile Include="Assets\Scripts\_Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarPlane.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\CloakSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\DecoySystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\EmpSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\EmpSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\HyperdriveSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\MissileDisplay.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\MissileSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\ShipDevice.cs" />
-    <Compile Include="Assets\Scripts\_Player\Systems\ShipSystems.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\ShipSystems.cs" />
     <Compile Include="Assets\ShipArmor.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>

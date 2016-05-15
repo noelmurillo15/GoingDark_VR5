@@ -25,7 +25,6 @@ public class ShipDevice : MonoBehaviour
             {
                 Activated = false;
                 Cooldown = 0f;
-                Debug.Log("System ready for Use");
             }                
         }
     }
