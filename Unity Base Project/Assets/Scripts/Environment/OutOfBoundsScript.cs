@@ -26,7 +26,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         {
             if (col.GetType() == typeof(CharacterController))
             {
-                Debug.Log("Enemy In Bounds");
+                //Debug.Log("Enemy In Bounds");
                 col.SendMessage("InBounds");
             }
         }
@@ -44,7 +44,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         {
             if (col.GetType() == typeof(CharacterController))
             {
-                Debug.Log("Enemy Out Of Bounds");
+                //Debug.Log("Enemy Out Of Bounds");
                 col.SendMessage("OutOfBounds");
             }
         }

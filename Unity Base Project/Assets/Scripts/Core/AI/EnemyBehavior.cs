@@ -124,7 +124,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     public void ChangeState(EnemyStates newState)
     {
-        Debug.Log(transform.name + " has changed state to : " + newState.ToString());
+        //Debug.Log(transform.name + " has changed state to : " + newState.ToString());
         State = newState;
         ChangeBehavior();
     }        

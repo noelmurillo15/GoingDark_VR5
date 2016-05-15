@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
-using UnityEngine.SceneManagement;
 
 public class SystemsManager : MonoBehaviour
 {

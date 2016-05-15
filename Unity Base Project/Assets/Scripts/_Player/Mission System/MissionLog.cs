@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 
 public class MissionLog : MonoBehaviour
 {
@@ -16,18 +12,13 @@ public class MissionLog : MonoBehaviour
     public Image[] checkmarks;
     public GameObject missionButtonPanel;
 
-    private MissionSystem.Mission[] missions;
+    //private MissionSystem.Mission[] missions;
 
     private MissionSystem m_missionSystem;
-    private bool atStation;
     // Use this for initialization
     void Start()
     {
-
-        atStation = false;
-        // will load different missions for different levels
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        // load level 1 missions
         LoadMissions();
     }
 
@@ -90,16 +81,16 @@ public class MissionLog : MonoBehaviour
     /// </summary>
     public void LoadMissions()
     {
-        missions = m_missionSystem.GetMissionsByLevel("Level1");
+        //missions = m_missionSystem.m_LevelMissions;
 
         Text[] text;
         for (int i = 0; i < 4; i++)
         {
-            buttons[i].GetComponentInChildren<Text>().text = missions[i].missionName;
+            buttons[i].GetComponentInChildren<Text>().text = m_missionSystem.m_LevelMissions[i].missionName;
             checkmarks[i].gameObject.SetActive(false);
             text = infoPanels[i].GetComponentsInChildren<Text>();
-            text[0].text = missions[i].missionInfo;
-            text[1].text = "Objectives Left : " + missions[i].objectives;
+            text[0].text = m_missionSystem.m_LevelMissions[i].missionInfo;
+            text[1].text = "Objectives Left : " + m_missionSystem.m_LevelMissions[i].objectives;
         }
     }
 
@@ -109,8 +100,8 @@ public class MissionLog : MonoBehaviour
     /// <param name="missionNum"></param>
     void CompletedMission(int missionNum)
     {
-        missions[missionNum - 1].completed = true;
-        missions[missionNum - 1].isActive = false;
+        m_missionSystem.m_LevelMissions[missionNum - 1].completed = true;
+        m_missionSystem.m_LevelMissions[missionNum - 1].isActive = false;
         checkmarks[missionNum - 1].gameObject.SetActive(true);
         Text[] text = infoPanels[missionNum - 1].GetComponentsInChildren<Text>();
         text[1].text = "Return to station to turn in missions";
@@ -124,12 +115,12 @@ public class MissionLog : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (missions[i].missionName == m.missionName)
+            if (m_missionSystem.m_LevelMissions[i].missionName == m.missionName)
             {
                 Text[] text;
-                missions[i].objectives = m.objectives;
+                m_missionSystem.m_LevelMissions[i].objectives = m.objectives;
                 text = infoPanels[i].GetComponentsInChildren<Text>();
-                text[1].text = "Objectives Left : " + missions[i].objectives;
+                text[1].text = "Objectives Left : " + m_missionSystem.m_LevelMissions[i].objectives;
                 Debug.Log("Updated objective count");
             }
         }
@@ -144,9 +135,9 @@ public class MissionLog : MonoBehaviour
     {
         if (parentName == "Mission1_InfoPanel")
         {
-            if (!missions[0].completed)
+            if (!m_missionSystem.m_LevelMissions[0].completed)
             {
-                missions[0].isActive = true;
+                m_missionSystem.m_LevelMissions[0].isActive = true;
                 checkmarks[0].gameObject.SetActive(true);
             }
             else
@@ -158,9 +149,9 @@ public class MissionLog : MonoBehaviour
         }
         else if (parentName == "Mission2_InfoPanel")
         {
-            if (!missions[1].completed)
+            if (!m_missionSystem.m_LevelMissions[1].completed)
             {
-                missions[1].isActive = true;
+                m_missionSystem.m_LevelMissions[1].isActive = true;
                 checkmarks[1].gameObject.SetActive(true);
             }
             else
@@ -168,9 +159,9 @@ public class MissionLog : MonoBehaviour
         }
         else if (parentName == "Mission3_InfoPanel")
         {
-            if (!missions[2].completed)
+            if (!m_missionSystem.m_LevelMissions[2].completed)
             {
-                missions[2].isActive = true;
+                m_missionSystem.m_LevelMissions[2].isActive = true;
                 checkmarks[2].gameObject.SetActive(true);
             }
             else
@@ -180,9 +171,9 @@ public class MissionLog : MonoBehaviour
         }
         else if (parentName == "Mission4_InfoPanel")
         {
-            if (!missions[3].completed)
+            if (!m_missionSystem.m_LevelMissions[3].completed)
             {
-                missions[3].isActive = true;
+                m_missionSystem.m_LevelMissions[3].isActive = true;
                 checkmarks[3].gameObject.SetActive(true);
             }
             else
@@ -200,7 +191,7 @@ public class MissionLog : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (missions[i].completed)
+            if (m_missionSystem.m_LevelMissions[i].completed)
             {
                 missionButtons[i].gameObject.SetActive(true);
                 missionButtons[i].GetComponentInChildren<Text>().text = "Turn In";
@@ -216,7 +207,7 @@ public class MissionLog : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (missions[i].completed)
+            if (m_missionSystem.m_LevelMissions[i].completed)
             {
                 missionButtons[i].gameObject.SetActive(false);
                 Text[] text = infoPanels[i].GetComponentsInChildren<Text>();

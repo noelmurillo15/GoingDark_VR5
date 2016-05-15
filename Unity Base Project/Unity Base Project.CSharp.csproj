@@ -218,6 +218,7 @@
     <Compile Include="Assets\Scripts\_Player\Missile System\ShootImprovedTracer.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\ShootTracer.cs" />
     <Compile Include="Assets\Scripts\_Player\Missile System\Tracer.cs" />
+    <Compile Include="Assets\Scripts\_Player\Mission System\MissionLoader.cs" />
     <Compile Include="Assets\Scripts\_Player\Mission System\MissionLog.cs" />
     <Compile Include="Assets\Scripts\_Player\Mission System\MissionLogButtons.cs" />
     <Compile Include="Assets\Scripts\_Player\Mission System\MissionSystem.cs" />
@@ -334,6 +335,7 @@
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
+    <None Include="Assets\Resources\Level1.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

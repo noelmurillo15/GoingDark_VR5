@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class MissileSystem : MonoBehaviour
-{
+public class MissileSystem : MonoBehaviour {
 
     #region Properties
     public MissileType Type { get; private set; }

@@ -13,6 +13,7 @@ public class ArmButtons : MonoBehaviour
 
     private Image m_button;    
     private SystemsManager manager;
+    public GameObject missionLog;
     #endregion
 
 
@@ -42,31 +43,38 @@ public class ArmButtons : MonoBehaviour
     {
         switch (transform.name)
         {
-            case "Emp":
+            case "EmpButton":
                 Type = SystemType.EMP;
                 break;
-            case "Cloak":
+            case "CloakButton":
                 Type = SystemType.CLOAK;
                 break;
-            case "Hyperdrive":
+            case "HyperdriveButton":
                 Type = SystemType.HYPERDRIVE;
                 break;
-            case "Missile":
+            case "MissileButton":
                 Type = SystemType.MISSILES;
                 break;
-            case "Decoy":
+            case "DecoyButton":
                 Type = SystemType.DECOY;
+                break;
+            case "RadarButton":
+                Type = SystemType.RADAR;
                 break;
 
 
             default:
-                Debug.Log("Init : " + transform.name);
+                Debug.Log("Button Not Initialized : " + transform.name);
                 break;
         }
     }
     private void ActivateButton()
     {
-        manager.SendMessage("ActivateSystem", Type);
+        if (transform.name == "MissionLogButton")
+            missionLog.SetActiveRecursively(true);
+        else
+            manager.SendMessage("ActivateSystem", Type);
+
         m_button.color = Color.white;
     }
     #endregion
