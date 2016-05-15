@@ -6,52 +6,50 @@ public class ShipSystems : MonoBehaviour
 {
 
     #region Properties
-    public Dictionary<SystemType, ShipDevice> MyDevices;
+    public Dictionary<SystemType, GameObject> MyDevices;
 
     // Constant Devices
     public GameObject MissionLog { get; private set; }
     public GameObject WeaponSelect { get; private set; }
+
+    private SystemsManager manager;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        MyDevices = new Dictionary<SystemType, ShipDevice>();
+        MyDevices = new Dictionary<SystemType, GameObject>();
+        manager = GetComponent<SystemsManager>();
 
         // Initialize once you collect the device (?)
-        InitializeDevice(SystemType.EMP);
-        InitializeDevice(SystemType.CLOAK);
-        InitializeDevice(SystemType.RADAR);
+        //InitializeDevice(SystemType.EMP);
+        //InitializeDevice(SystemType.CLOAK);
+        //InitializeDevice(SystemType.RADAR);
         InitializeDevice(SystemType.DECOY);
-        InitializeDevice(SystemType.LASERS);
-        InitializeDevice(SystemType.SHIELD);
-        InitializeDevice(SystemType.MISSILES);
-        InitializeDevice(SystemType.HYPERDRIVE);
+        //InitializeDevice(SystemType.LASERS);
+        //InitializeDevice(SystemType.SHIELD);
+        //InitializeDevice(SystemType.MISSILES);
+        //InitializeDevice(SystemType.HYPERDRIVE);
 
         // Constant Devices
         MissionLog = GameObject.Find("ButtonObject");
         WeaponSelect = GameObject.Find("WeaponButtonObj");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     #region Accessors
-    public SystemStatus GetDeviceStatus(SystemType key)
+    public SystemStatus GetSystemStatus(SystemType key)
     {
         if (MyDevices.ContainsKey(key))
-            return MyDevices[key].Status;
+            return SystemStatus.AVAILABLE;
         else
             return SystemStatus.NOTAVAILABLE;
     }
-    public Component AccessSystemData(SystemType key)
+
+    public GameObject GetSystem(SystemType key)
     {
-        if (MyDevices.ContainsKey(key))
-            return MyDevices[key].SystemData;
+        if (GetSystemStatus(key) == SystemStatus.AVAILABLE)
+            return MyDevices[key];
 
         return null;
     }
@@ -67,7 +65,6 @@ public class ShipSystems : MonoBehaviour
         }
 
         GameObject obj = null;
-        ShipDevice dev = new ShipDevice();
         switch (key)
         {
             case SystemType.EMP:
@@ -100,68 +97,9 @@ public class ShipSystems : MonoBehaviour
         {
             GameObject go = Instantiate(obj, (transform.position + obj.transform.localPosition), obj.transform.rotation) as GameObject;
             go.transform.parent = transform;
-            dev.Object = go;
-            dev.Status = SystemStatus.OFFLINE;
-            MyDevices.Add(key, dev);
-            RetrieveSystemData(key);
+            MyDevices.Add(key, go);
+            manager.SendMessage("AddDevice", key);
         }
     }    
-
-    public void ChangeDeviceStatus(SystemType key, SystemStatus stat)
-    {
-        if (!MyDevices.ContainsKey(key))
-        {
-            Debug.Log("Device is not initialized : " + key.ToString());
-            return;
-        }
-
-        ShipDevice m_dev = MyDevices[key];
-        m_dev.Status = stat;
-        MyDevices[key] = m_dev;
-    }
-
-    public void ToggleDeviceStatus(SystemType key)
-    {
-        if (!MyDevices.ContainsKey(key))
-        {
-            Debug.Log("Device is not initialized : " + key.ToString());
-            return;
-        }
-
-        ShipDevice m_dev = MyDevices[key];
-        if (m_dev.Status == SystemStatus.OFFLINE)
-            m_dev.Status = SystemStatus.ONLINE;
-        else
-            m_dev.Status = SystemStatus.OFFLINE;
-        MyDevices[key] = m_dev;
-    }    
-
-    private void RetrieveSystemData(SystemType key)
-    {
-        if (MyDevices.ContainsKey(key))
-        {
-            ShipDevice m_dev = MyDevices[key];
-            switch (key)
-            {
-                case SystemType.EMP:
-                    m_dev.SystemData = m_dev.Object.GetComponent<EmpSystem>();
-                    break;
-                case SystemType.CLOAK:
-                    m_dev.SystemData = m_dev.Object.GetComponent<CloakSystem>();
-                    break;
-                case SystemType.DECOY:
-                    m_dev.SystemData = m_dev.Object.GetComponent<DecoySystem>();
-                    break;
-                case SystemType.HYPERDRIVE:
-                    m_dev.SystemData = m_dev.Object.GetComponent<HyperdriveSystem>();
-                    break;
-                case SystemType.MISSILES:
-                    m_dev.SystemData = m_dev.Object.GetComponent<MissileSystem>();
-                    break;
-            }
-            m_dev.Status = SystemStatus.ONLINE;
-            MyDevices[key] = m_dev;
-        }
-    }
     #endregion
 }

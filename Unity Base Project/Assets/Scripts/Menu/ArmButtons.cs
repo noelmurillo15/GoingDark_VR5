@@ -33,14 +33,14 @@ public class ArmButtons : MonoBehaviour
 
     void UpdateCooldowns()
     {
-        if (Type != SystemType.NONE)
-        {
-            Debug.Log("Checking Cooldown");
-            if (manager.GetSystemCooldown(Type) > 0f)
-                m_button.color = Color.red;
-            else
-                m_button.color = original;
-        }
+        //if (Type != SystemType.NONE)
+        //{
+        //    Debug.Log("Checking Cooldown");
+        //    if (manager.GetSystemCooldown(Type) > 0f)
+        //        m_button.color = Color.red;
+        //    else
+        //        m_button.color = original;
+        //}
     }
 
     void OnBecameVisible()

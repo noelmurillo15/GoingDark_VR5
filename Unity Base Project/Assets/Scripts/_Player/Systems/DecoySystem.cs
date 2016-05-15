@@ -1,38 +1,39 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
 
-public class DecoySystem : MonoBehaviour {
+public class DecoySystem : ShipDevice
+{
 
     #region Properties
-    public bool Activated { get; private set; }
-    public float Cooldown { get; private set; }
-
     public int Count { get; private set; }
+
     private GameObject cam;
     public GameObject decoy;
-
-    private SystemsManager manager;
     #endregion
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         Count = 5;
+        maxCooldown = 10f;
         cam = GameObject.FindGameObjectWithTag("Player");
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     // Update is called once per frame
-    void Update() {
-        if (Input.GetKey(KeyCode.D))
-            manager.ActivateSystem(SystemType.DECOY);
+    void Update()
+    {
+        if (Cooldown == maxCooldown)
+        {
+            Debug.Log("Decoy has been activated");
+            SendDecoy();
+        }
+
+        UpdateCooldown();
     }
 
-    public void Activate()
+    public void SendDecoy()
     {
-        if (Count > 0)
-        {
-            Count--;
-            Instantiate(decoy, cam.transform.position, cam.transform.localRotation);
-        }
+        Count--;
+        GameObject go = Instantiate(decoy, cam.transform.position, cam.transform.localRotation) as GameObject;
+        go.transform.parent = transform;
     }
 }

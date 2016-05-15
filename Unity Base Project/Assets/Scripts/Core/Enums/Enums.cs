@@ -35,6 +35,11 @@
     public enum SystemStatus
     {
         NOTAVAILABLE,
+        AVAILABLE
+    }
+
+    public enum DeviceStatus
+    {
         OFFLINE,
         ONLINE
     }
@@ -51,14 +56,6 @@
         MISSILES,
         HYPERDRIVE
     }   
-
-    public struct ShipDevice
-    {        
-        public SystemStatus Status { get; set; }       
-        public GameObject Object { get; set; }
-        public Component SystemData { get; set; }
-    }
-
 
     public struct MovementStats
     {
