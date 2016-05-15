@@ -83,7 +83,6 @@ public class SystemsManager : MonoBehaviour
         if(MainDevices.ContainsKey(type))
             return MainDevices[type].Cooldown;
 
-        Debug.Log("System has no cooldown");
         return 0f;
     }
 }

@@ -58,7 +58,6 @@ public class ArmButtons : MonoBehaviour
 
 
             default:
-                Debug.Log("Button Not Initialized : " + transform.name);
                 Type = SystemType.NONE;
                 break;
         }
