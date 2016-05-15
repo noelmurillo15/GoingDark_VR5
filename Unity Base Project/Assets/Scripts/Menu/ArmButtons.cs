@@ -67,13 +67,20 @@ public class ArmButtons : MonoBehaviour
     }
     private void ActivateButton()
     {
-        if (transform.name != "MissionLogButton")
-            manager.SendMessage("ActivateSystem", Type);
-        else
-            missionLog.SetActiveRecursively(true);
-            
-
         m_button.color = original;
+
+        if (Type == SystemType.RADAR || Type == SystemType.SHIELD || Type == SystemType.LASERS)
+        {
+            manager.ToggleSystem(Type);
+            return;
+        }
+        if (transform.name != "MissionLogButton")
+        {
+            manager.ActivateSystem(Type);
+            return;
+        }
+        else
+            missionLog.SetActiveRecursively(true);                   
     }
     #endregion
 

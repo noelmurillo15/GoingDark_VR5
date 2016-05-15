@@ -29,10 +29,10 @@ public class ShipSystems : MonoBehaviour
         InitializeDevice(SystemType.MISSILES);
         InitializeDevice(SystemType.HYPERDRIVE);
 
-        // Secondary System
+        // Secondary Systems
+        InitializeDevice(SystemType.RADAR);
         //InitializeDevice(SystemType.LASERS);
         //InitializeDevice(SystemType.SHIELD);
-        //InitializeDevice(SystemType.RADAR);
 
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");

@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class SystemsManager : MonoBehaviour
 {
     #region Properties
-    public Dictionary<SystemType, ShipDevice> AvailableDevices;
+    public Dictionary<SystemType, ShipDevice> MainDevices;
+    public Dictionary<SystemType, GameObject> SecondaryDevices;
     private ShipSystems Systems;
     #endregion
 
@@ -13,7 +14,8 @@ public class SystemsManager : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        AvailableDevices = new Dictionary<SystemType, ShipDevice>();
+        MainDevices = new Dictionary<SystemType, ShipDevice>();
+        SecondaryDevices = new Dictionary<SystemType, GameObject>();
         Systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<ShipSystems>();
     }
 
@@ -27,36 +29,61 @@ public class SystemsManager : MonoBehaviour
     {        
         switch (key)
         {
+            #region Main Devices
             case SystemType.DECOY:
-                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<DecoySystem>() as ShipDevice);
+                MainDevices.Add(key, Systems.GetSystem(key).GetComponent<DecoySystem>() as ShipDevice);
+                MainDevices[key].SetStatus(DeviceStatus.ONLINE);
                 break;
             case SystemType.EMP:
-                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<EmpSystem>() as ShipDevice);
+                MainDevices.Add(key, Systems.GetSystem(key).GetComponent<EmpSystem>() as ShipDevice);
+                MainDevices[key].SetStatus(DeviceStatus.ONLINE);
                 break;
             case SystemType.HYPERDRIVE:
-                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<HyperdriveSystem>() as ShipDevice);
+                MainDevices.Add(key, Systems.GetSystem(key).GetComponent<HyperdriveSystem>() as ShipDevice);
+                MainDevices[key].SetStatus(DeviceStatus.ONLINE);
                 break;
             case SystemType.MISSILES:
-                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<MissileSystem>() as ShipDevice);
+                MainDevices.Add(key, Systems.GetSystem(key).GetComponent<MissileSystem>() as ShipDevice);
+                MainDevices[key].SetStatus(DeviceStatus.ONLINE);
                 break;
             case SystemType.CLOAK:
-                AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<CloakSystem>() as ShipDevice);
+                MainDevices.Add(key, Systems.GetSystem(key).GetComponent<CloakSystem>() as ShipDevice);
+                MainDevices[key].SetStatus(DeviceStatus.ONLINE);
                 break;
+            #endregion
+
+            #region Secondary Devices
+            case SystemType.RADAR:
+                SecondaryDevices.Add(key, Systems.GetSystem(key));
+                break;
+            case SystemType.SHIELD:
+                SecondaryDevices.Add(key, Systems.GetSystem(key));
+                break;
+            case SystemType.LASERS:
+                SecondaryDevices.Add(key, Systems.GetSystem(key));
+                break;
+                #endregion
         }
-        AvailableDevices[key].SetStatus(DeviceStatus.ONLINE);
     }
 
     public void ActivateSystem(SystemType type)
     {
-        if(AvailableDevices[type].Status == DeviceStatus.ONLINE)
-            AvailableDevices[type].Activate();
+        if(MainDevices[type].Status == DeviceStatus.ONLINE)
+            MainDevices[type].Activate();
+    }
+
+    public void ToggleSystem(SystemType type)
+    {
+        if (SecondaryDevices.ContainsKey(type))
+            SecondaryDevices[type].SetActive(!SecondaryDevices[type].activeSelf);
     }
 
     public float GetSystemCooldown(SystemType type)
     {
-        if(AvailableDevices.ContainsKey(type))
-            return AvailableDevices[type].Cooldown;
+        if(MainDevices.ContainsKey(type))
+            return MainDevices[type].Cooldown;
 
+        Debug.Log("System has no cooldown");
         return 0f;
     }
 }
