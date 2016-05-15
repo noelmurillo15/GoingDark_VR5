@@ -24,6 +24,7 @@ public class PatrolAi : MonoBehaviour {
     private EnemyStats stats;
     private EnemyBehavior behavior;
     private CharacterController controller;
+    private Transform MyTransform;
 
 
     void Awake() {
@@ -41,10 +42,12 @@ public class PatrolAi : MonoBehaviour {
         behavior = GetComponent<EnemyBehavior>();
         controller = GetComponent<CharacterController>();
 
+        MyTransform = transform;
+
         // Set random initial rotation
         headingX = 0f;
         headingY = Random.Range(0, 360);
-        transform.eulerAngles = new Vector3(headingX, headingY, 0);
+        MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
         StartCoroutine(NewHeading());
     }
 
@@ -53,15 +56,15 @@ public class PatrolAi : MonoBehaviour {
         {
             if (!pathBlocked)
             {
-                if (behavior.Target == null) 
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.GetMoveData().RotateSpeed);
+                if (behavior.Target == null)
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.GetMoveData().RotateSpeed);
                 else
                 {
-                    Vector3 playerDir = behavior.Target.position - transform.position;
-                    Vector3 direction = Vector3.RotateTowards(transform.forward, playerDir, Time.deltaTime / stats.GetMoveData().RotateSpeed, 0.0f);
-                    transform.rotation = Quaternion.LookRotation(direction);
-                    headingX = transform.eulerAngles.x;
-                    headingY = transform.eulerAngles.y;
+                    Vector3 playerDir = behavior.Target.position - MyTransform.position;
+                    Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / stats.GetMoveData().RotateSpeed, 0.0f);
+                    MyTransform.rotation = Quaternion.LookRotation(direction);
+                    headingX = MyTransform.eulerAngles.x;
+                    headingY = MyTransform.eulerAngles.y;
                 }
             }
 
@@ -74,8 +77,8 @@ public class PatrolAi : MonoBehaviour {
 
             if (pathBlocked)
             {
-                if (Physics.Raycast(transform.position - (transform.forward * 4), transform.right, out hit, (range / 2.0f)) ||
-                Physics.Raycast(transform.position - (transform.forward * 4), -transform.right, out hit, (range / 2.0f)))
+                if (Physics.Raycast(MyTransform.position - (MyTransform.forward * 4), MyTransform.right, out hit, (range / 2.0f)) ||
+                Physics.Raycast(MyTransform.position - (MyTransform.forward * 4), -MyTransform.right, out hit, (range / 2.0f)))
                 {
                     if (hit.collider.gameObject.CompareTag("Asteroid"))
                         pathBlocked = false;
@@ -88,36 +91,36 @@ public class PatrolAi : MonoBehaviour {
             Vector3 direction = Vector3.zero;
 
             if (SecondaryTarget != null)
-                direction = SecondaryTarget.position - transform.position;
+                direction = SecondaryTarget.position - MyTransform.position;
             else
-                direction = direction - transform.position;
+                direction = direction - MyTransform.position;
 
-            Vector3 rotation = Vector3.RotateTowards(transform.forward, direction, Time.deltaTime, 0.0f);
-            transform.rotation = Quaternion.LookRotation(rotation);
-            headingX = transform.eulerAngles.x;
-            headingY = transform.eulerAngles.y;
+            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, direction, Time.deltaTime, 0.0f);
+            MyTransform.rotation = Quaternion.LookRotation(rotation);
+            headingX = MyTransform.eulerAngles.x;
+            headingY = MyTransform.eulerAngles.y;
         }
 
-        controller.Move(transform.forward * Time.deltaTime * stats.GetMoveData().Speed);
+        controller.Move(MyTransform.forward * Time.deltaTime * stats.GetMoveData().Speed);
 
         // Use to debug the Physics.RayCast.
-        Debug.DrawRay(transform.position + (transform.right * 12), transform.forward * range, Color.red);
-        Debug.DrawRay(transform.position - (transform.right * 12), transform.forward * range, Color.red);
-        Debug.DrawRay(transform.position - (transform.forward * 4), -transform.right * (range / 2.0f), Color.yellow);
-        Debug.DrawRay(transform.position - (transform.forward * 4), transform.right * (range / 2.0f), Color.yellow);
+        //Debug.DrawRay(MyTransform.position + (MyTransform.right * 12), MyTransform.forward * range, Color.red);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.right * 12), MyTransform.forward * range, Color.red);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.forward * 4), -MyTransform.right * (range / 2.0f), Color.yellow);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.forward * 4), MyTransform.right * (range / 2.0f), Color.yellow);
     }
     #region Asteroid Avoidance
     private void CheckRayCasts() {
-        if (Physics.Raycast(transform.position + (transform.right * 12), transform.forward, out hit, range)) {
+        if (Physics.Raycast(MyTransform.position + (MyTransform.right * 12), MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                transform.Rotate(Vector3.down * Time.deltaTime * stats.GetMoveData().RotateSpeed);
+                MyTransform.Rotate(Vector3.down * Time.deltaTime * stats.GetMoveData().RotateSpeed);
             }
         }
-        else if (Physics.Raycast(transform.position - (transform.right * 12), transform.forward, out hit, range)) {
+        else if (Physics.Raycast(MyTransform.position - (MyTransform.right * 12), MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                transform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);
+                MyTransform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);
             }
         }
     }

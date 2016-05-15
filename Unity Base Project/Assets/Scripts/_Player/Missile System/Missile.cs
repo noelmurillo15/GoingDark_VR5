@@ -6,9 +6,14 @@ public class Missile : MonoBehaviour {
     //  Missile Data
     public bool tracking;
     public int LookSpeed;
+    public float acceleration;
+
     public float velocity;
+    public float maxVelocity;
+
     public float destroyTimer;
     public GameObject Explosion;
+    private Transform MyTransform;
 
     //  Target Data
     private Transform target;
@@ -16,11 +21,16 @@ public class Missile : MonoBehaviour {
 
 
     void Start() {
-        tracking = false;
-        LookSpeed = 5;
-        velocity = 150.0f;
-        destroyTimer = 10f;
         target = null;
+        tracking = false;
+
+        velocity = 0f;
+        LookSpeed = 5;
+        maxVelocity = 200f;
+        acceleration = 50f;
+        destroyTimer = 10f;
+
+        MyTransform = transform;
     }
 
     void Update() {
@@ -30,17 +40,20 @@ public class Missile : MonoBehaviour {
         else
             Kill();
 
+        if (velocity < maxVelocity)
+            velocity += Time.deltaTime * acceleration;
+
         if (tracking)
         {
             velocity = 180f;
             LookAt();
         }
 
-        transform.position += transform.forward * velocity * Time.deltaTime;
+        MyTransform.position += MyTransform.forward * velocity * Time.deltaTime;
     }
 
     private void Kill() {
-        Instantiate(Explosion, transform.position, transform.rotation);
+        Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         Destroy(this.gameObject);
     }
 
@@ -48,8 +61,8 @@ public class Missile : MonoBehaviour {
     {
         if (target != null)
         {
-            targetRotation = Quaternion.LookRotation(target.position - transform.position);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+            targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
         }
     }
 

@@ -10,6 +10,7 @@ public class EnemyMissile : MonoBehaviour {
     public float velocity;
     public float destroyTimer;
     public GameObject Explosion;
+    private Transform MyTransform;
 
     //  Target Data
     private Transform target;
@@ -19,6 +20,7 @@ public class EnemyMissile : MonoBehaviour {
     private GameObject messages;
 
     void Start() {
+        MyTransform = transform;
         tracking = false; 
         LookSpeed = 15;
         velocity = 180.0f;
@@ -36,18 +38,18 @@ public class EnemyMissile : MonoBehaviour {
         if (tracking)
             LookAt();
 
-        transform.position += transform.forward * velocity * Time.deltaTime;
+        MyTransform.position += MyTransform.forward * velocity * Time.deltaTime;
     }
 
     private void Kill() {
         messages.SendMessage("MissileDestroyed");
-        Instantiate(Explosion, transform.position, transform.rotation);
+        Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         Destroy(this.gameObject);
     }
 
     private void LookAt() {
-        targetRotation = Quaternion.LookRotation(target.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+        targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
+        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
     }
 
     #region Collisions

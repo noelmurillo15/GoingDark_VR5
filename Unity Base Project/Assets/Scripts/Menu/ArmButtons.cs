@@ -1,46 +1,53 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 using UnityEngine.UI;
+using System.Collections;
 
 public class ArmButtons : MonoBehaviour
 {
 
     #region Properties
     public SystemType Type { get; private set; }
-    private float delay;
+
     private float transition;
     private float cancelTimer;
+    private Image m_button;
+    private Color original;
 
-    private Image m_button;    
-    private SystemsManager manager;
     public GameObject missionLog;
+    private SystemsManager manager;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        Initialize();
-        delay = 10f;
-        transition = 0f;
-        cancelTimer = 0f;
-        m_button = GetComponent<Image>();
+        Initialize();        
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
     void Update()
     {
-        if (delay > 0f)
-            delay -= Time.deltaTime;
+        UpdateCooldowns();
+    }
+
+    void UpdateCooldowns()
+    {
+        Debug.Log("Checking Cooldown");
+        if (manager.GetSystemCooldown(Type) > 0f)
+            m_button.color = Color.red;
         else
-        {
-            delay = .5f;
-        }
+            m_button.color = original;
+
+        
     }
 
     #region Private Methods
     void Initialize()
     {
+        transition = 0f;
+        cancelTimer = 0f;
+        m_button = GetComponent<Image>();        
         switch (transform.name)
         {
             case "EmpButton":
@@ -67,22 +74,24 @@ public class ArmButtons : MonoBehaviour
                 Debug.Log("Button Not Initialized : " + transform.name);
                 break;
         }
+        original = m_button.color;
     }
     private void ActivateButton()
     {
-        if (transform.name == "MissionLogButton")
-            missionLog.SetActiveRecursively(true);
-        else
+        if (transform.name != "MissionLogButton")
             manager.SendMessage("ActivateSystem", Type);
+        else
+            missionLog.SetActiveRecursively(true);
+            
 
-        m_button.color = Color.white;
+        m_button.color = original;
     }
     #endregion
 
     #region Collision
     public void OnTriggerEnter(Collider col)
     {
-        if (col.name == "bone3")
+        if (col.name == "bone3" && m_button.color == original)
         {
             transition = 0.1f;
             cancelTimer = 1.5f;

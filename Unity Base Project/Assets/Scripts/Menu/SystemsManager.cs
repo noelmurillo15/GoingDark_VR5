@@ -58,6 +58,31 @@ public class SystemsManager : MonoBehaviour
         }
     }
 
+    public float GetSystemCooldown(SystemType type)
+    {
+        if (Systems.GetDeviceStatus(type) != SystemStatus.ONLINE)
+        {
+            Debug.Log(type.ToString() + " System Offline");
+            return 0f;
+        }
+
+        switch (type)
+        {
+            case SystemType.EMP:
+                return emp.Cooldown;
+            case SystemType.CLOAK:
+                return cloak.Cooldown;
+            case SystemType.DECOY:
+                return decoy.Cooldown;
+            case SystemType.MISSILES:
+                return missiles.Cooldown; ;
+            case SystemType.HYPERDRIVE:
+                return hypedrive.Cooldown;
+        }
+        Debug.Log("System Not Found");
+        return 0f;
+    }
+
 
     private void LaunchMissile()
     {

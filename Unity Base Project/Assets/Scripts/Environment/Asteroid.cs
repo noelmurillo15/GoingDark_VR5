@@ -2,14 +2,13 @@
 
 public class Asteroid : MonoBehaviour {
 
-    private float m_aliveTimer;
     private Vector3 m_velocity;
     private Vector3 m_rotation;
+    private Transform MyTransform;
 
     // Use this for initialization
     void Start() {
-        m_aliveTimer = Random.Range(120.0f, 360.0f);
-
+        MyTransform = transform;
         m_velocity.x = Random.Range(-2.0f, 2.0f);
         m_velocity.y = Random.Range(-2.0f, 2.0f);
         m_velocity.z = Random.Range(-2.0f, 2.0f);
@@ -26,22 +25,17 @@ public class Asteroid : MonoBehaviour {
         m_scale.y = m_scale.x;
         m_scale.z = m_scale.x;
 
-        Vector3 newScale = transform.localScale;
+        Vector3 newScale = MyTransform.localScale;
         newScale.x *= m_scale.x;
         newScale.y *= m_scale.y;
         newScale.z *= m_scale.z;
-        transform.localScale = newScale;
+        MyTransform.localScale = newScale;
     }
 
     // Update is called once per frame
-    void Update() {
-        if (m_aliveTimer > 0.0)
-            m_aliveTimer -= Time.deltaTime;
-        else
-            Kill();
-        
-        transform.Rotate(m_rotation * Time.deltaTime);
-        transform.Translate(m_velocity * Time.deltaTime);
+    void FixedUpdate() {
+        MyTransform.Rotate(m_rotation * Time.deltaTime);
+        MyTransform.Translate(m_velocity * Time.deltaTime);
     }
 
     void OnCollisionEnter(Collision col)
@@ -51,6 +45,18 @@ public class Asteroid : MonoBehaviour {
             col.transform.SendMessage("Kill");
             Kill();
         }
+    }
+
+    void OnBecameVisible()
+    {
+        enabled = true;
+        //Debug.Log("Asteroid In Sight");
+    }
+
+    void OnBecameInvisible()
+    {
+        enabled = false;
+        //Debug.Log("Asteroid Out Of Sight");
     }
 
     public void Kill() {

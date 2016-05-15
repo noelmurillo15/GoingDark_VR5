@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(CharacterController))]
@@ -17,15 +18,17 @@ public class PlayerMovement : MonoBehaviour {
     private float orientationTimer;
     private Vector3 autoPilotDestination;
 
+    private Transform MyTransform;
+
 
     // Use this for initialization
     void Start() {
+        MyTransform = transform;
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;    
         moveDir = Vector3.zero;
         autoPilotDestination = Vector3.zero;
-
 
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
@@ -72,28 +75,28 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Autopilot() {
         //  Look At
-        Vector3 playerDir = autoPilotDestination - transform.position;
-        Vector3 destination = Vector3.RotateTowards(transform.forward, playerDir, (stats.GetMoveData().RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
-        transform.rotation = Quaternion.LookRotation(destination);
+        Vector3 playerDir = autoPilotDestination - MyTransform.position;
+        Vector3 destination = Vector3.RotateTowards(MyTransform.forward, playerDir, (stats.GetMoveData().RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
+        MyTransform.rotation = Quaternion.LookRotation(destination);
 
         //  Move Towards
         moveDir = Vector3.zero;
-        moveDir = transform.TransformDirection(Vector3.forward);
+        moveDir = MyTransform.TransformDirection(Vector3.forward);
         moveDir *= (stats.GetMoveData().MaxSpeed * Time.deltaTime * 5f);
         m_controller.Move(moveDir);        
     }        
     public void Reorient()
     {
-        if (transform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
+        if (MyTransform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
             orientationTimer -= Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.identity, Time.deltaTime * 0.5f);
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.identity, Time.deltaTime * 0.5f);
         }
         else
             resetRotation = false;
     }
 
     private void ManualWalk() {
-        moveDir = transform.TransformDirection(Vector3.forward);
+        moveDir = MyTransform.TransformDirection(Vector3.forward);
         moveDir *= stats.GetMoveData().Speed * Time.deltaTime;   
     }     
     #endregion
