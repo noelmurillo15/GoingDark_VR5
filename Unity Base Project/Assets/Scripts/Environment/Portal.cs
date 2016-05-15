@@ -39,6 +39,16 @@ public class Portal : MonoBehaviour {
         }
     }
 
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        enabled = false;
+    }
+
     public void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")

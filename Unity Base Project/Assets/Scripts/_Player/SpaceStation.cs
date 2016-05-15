@@ -8,8 +8,8 @@ public class SpaceStation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
+        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
     }
 	
 	// Update is called once per frame
@@ -18,7 +18,6 @@ public class SpaceStation : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider col)
-
     {
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")

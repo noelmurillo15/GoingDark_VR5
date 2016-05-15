@@ -45,8 +45,7 @@ public class NebulaCloud : MonoBehaviour {
             else
                 timer = 0.0f;
             
-        }
-        
+        }        
     }
 
     public void OnTriggerExit(Collider col)

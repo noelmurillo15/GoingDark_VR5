@@ -14,10 +14,12 @@ public class EnemyAttack : MonoBehaviour {
     //  Enemy Data
     private EnemyStats stats;
     private EnemyBehavior beahvior;
+    private Transform MyTransform;
 
 
     // Use this for initialization
     void Start() {
+        MyTransform = transform;
         lockedOn = false;
         missileCooldown = 0f;
         stats = GetComponent<EnemyStats>();
@@ -36,8 +38,8 @@ public class EnemyAttack : MonoBehaviour {
     }
 
     private void LockOn() {
-        Vector3 playerDir = (beahvior.Target.position - transform.position).normalized;
-        angle = Vector3.Dot(playerDir, transform.forward);
+        Vector3 playerDir = (beahvior.Target.position - MyTransform.position).normalized;
+        angle = Vector3.Dot(playerDir, MyTransform.forward);
 
         if (angle > .985f)
             lockedOn = true;
@@ -50,7 +52,7 @@ public class EnemyAttack : MonoBehaviour {
             if (missileCooldown <= 0.0f) {
                 missileCooldown = 10.0f;
                 stats.DecreaseMissileCount();
-                Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), this.transform.rotation);
+                Instantiate(missilePrefab, new Vector3(MyTransform.position.x, MyTransform.position.y, MyTransform.position.z), MyTransform.rotation);
             }
         }
     }    

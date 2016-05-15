@@ -15,6 +15,16 @@ public class BlackHole : MonoBehaviour
         transform.Rotate(0.0f, yRot, 0.0f);        
     }
 
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        enabled = false;
+    }
+
     void OnTriggerStay(Collider col)
     {
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid" || col.gameObject.tag == "TransportShip")

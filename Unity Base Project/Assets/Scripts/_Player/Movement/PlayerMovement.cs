@@ -6,10 +6,11 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
-    //  Player
+    #region Properties
     private Vector3 moveDir;
     private PlayerStats stats;
     private HeadMovement headMove;
+    private Transform MyTransform;
     private CharacterController m_controller;
 
     //  Auto-Movement
@@ -17,36 +18,29 @@ public class PlayerMovement : MonoBehaviour {
     private bool resetRotation;
     private float orientationTimer;
     private Vector3 autoPilotDestination;
+    #endregion
 
-    private Transform MyTransform;
 
 
     // Use this for initialization
     void Start() {
-        MyTransform = transform;
-        autoPilot = false;
-        resetRotation = false;
-        orientationTimer = 0.0f;    
         moveDir = Vector3.zero;
-        autoPilotDestination = Vector3.zero;
-
+        MyTransform = transform;
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
         headMove = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<HeadMovement>();
 
-        OutOfBounds(Vector3.zero);
+        autoPilot = false;
+        resetRotation = false;
+        orientationTimer = 0.0f;
+        autoPilotDestination = Vector3.zero;
+        OutOfBounds(autoPilotDestination);
     }
 
     // Update is called once per frame
     void Update(){
-        if (!autoPilot && !resetRotation) {
-            moveDir = Vector3.zero;
-
-            if(stats.GetMoveData().Speed > 0f)
-                ManualWalk();
-
-            if(moveDir != Vector3.zero)
-                m_controller.Move(moveDir);
+        if (!autoPilot && !resetRotation) {            
+            Flight();                
         }
         else if(autoPilot)
             Autopilot();
@@ -95,9 +89,14 @@ public class PlayerMovement : MonoBehaviour {
             resetRotation = false;
     }
 
-    private void ManualWalk() {
+    private void Flight() {
+        if (stats.GetMoveData().Speed <= 0f)
+            return;
+
+        moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= stats.GetMoveData().Speed * Time.deltaTime;   
+        moveDir *= stats.GetMoveData().Speed * Time.deltaTime;
+        m_controller.Move(moveDir);
     }     
     #endregion
 }

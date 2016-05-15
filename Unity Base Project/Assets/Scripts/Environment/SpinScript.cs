@@ -16,4 +16,14 @@ public class SpinScript : MonoBehaviour
     {
         gameObject.transform.Rotate(new Vector3(x, y, z), y * Time.deltaTime);
     }
+
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        enabled = false;
+    }
 }

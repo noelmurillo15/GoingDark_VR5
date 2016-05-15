@@ -50,13 +50,11 @@ public class Asteroid : MonoBehaviour {
     void OnBecameVisible()
     {
         enabled = true;
-        //Debug.Log("Asteroid In Sight");
     }
 
     void OnBecameInvisible()
     {
         enabled = false;
-        //Debug.Log("Asteroid Out Of Sight");
     }
 
     public void Kill() {

@@ -21,8 +21,8 @@ public class ArmButtons : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
-        Initialize();        
+    {        
+        Initialize();
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
     }
 
@@ -33,13 +33,26 @@ public class ArmButtons : MonoBehaviour
 
     void UpdateCooldowns()
     {
-        Debug.Log("Checking Cooldown");
-        if (manager.GetSystemCooldown(Type) > 0f)
-            m_button.color = Color.red;
-        else
-            m_button.color = original;
+        if (Type != SystemType.NONE)
+        {
+            Debug.Log("Checking Cooldown");
+            if (manager.GetSystemCooldown(Type) > 0f)
+                m_button.color = Color.red;
+            else
+                m_button.color = original;
+        }
+    }
 
-        
+    void OnBecameVisible()
+    {
+        Debug.Log("Button Is Visible");
+        enabled = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        Debug.Log("Button Out Of Sight");
+        enabled = false;
     }
 
     #region Private Methods
@@ -72,6 +85,7 @@ public class ArmButtons : MonoBehaviour
 
             default:
                 Debug.Log("Button Not Initialized : " + transform.name);
+                Type = SystemType.NONE;
                 break;
         }
         original = m_button.color;
@@ -114,7 +128,7 @@ public class ArmButtons : MonoBehaviour
             else
                 m_button.color = Color.red;
         }
-    }
+    }    
 
     public void OnTriggerExit(Collider col)
     {

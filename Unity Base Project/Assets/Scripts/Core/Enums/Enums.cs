@@ -41,6 +41,7 @@
 
     public enum SystemType
     {
+        NONE,
         EMP,
         CLOAK,
         RADAR,
