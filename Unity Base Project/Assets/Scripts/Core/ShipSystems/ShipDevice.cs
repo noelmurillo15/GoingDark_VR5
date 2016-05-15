@@ -5,10 +5,11 @@ using GD.Core.Enums;
 public class ShipDevice : MonoBehaviour {
 
     #region Properties
-    public DeviceStatus Status { get; set; }
+    public DeviceStatus Status { get; protected set; }
     public bool Activated { get; protected set; }
     public float Cooldown { get; protected set; }
 
+    // When activated Cooldown Gets set to this
     protected float maxCooldown;
     #endregion
 

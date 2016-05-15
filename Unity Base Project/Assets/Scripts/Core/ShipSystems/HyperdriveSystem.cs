@@ -65,7 +65,7 @@ public class HyperdriveSystem : ShipDevice
             initializeTimer -= Time.deltaTime;
             boostTimer = 0.5f;
             stats.DecreaseSpeed();
-            particles.transform.Translate(Vector3.forward * 50.0f * Time.deltaTime);
+            particles.transform.Translate(Vector3.forward * 25.0f * Time.deltaTime);
         }
         else {
             if (boostTimer > 0.0f) {
@@ -83,7 +83,7 @@ public class HyperdriveSystem : ShipDevice
 
     public void InitializeHyperdriveSequence() {
         hypeJump = true;    
-        initializeTimer = 5.0f;        
+        initializeTimer = 10.0f;        
     }
     #endregion
 }

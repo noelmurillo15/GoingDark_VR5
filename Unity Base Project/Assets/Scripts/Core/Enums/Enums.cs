@@ -1,29 +1,11 @@
 ﻿namespace GD.Core.Enums
 {
-    using UnityEngine;
     public enum MissileType
     {
         EMP,
         BASIC,
         CHROMATIC,
         SHIELDBREAKER
-    }
-    public enum EnemyTypes
-    {
-        BASIC,
-        KAMIKAZE,
-        TRANSPORT,
-        TRIDENT,
-        BOSS
-    };
-
-    public enum EnemyStates
-    {
-        IDLE,
-        PATROL,
-        RUNNING,
-        ATTACKING,
-        SEARCHING
     }
     public enum Impairments
     {
@@ -32,18 +14,26 @@
         STUNNED,
     }
 
-    public enum SystemStatus
+    #region EnemyAI
+    public enum EnemyTypes
     {
-        NOTAVAILABLE,
-        AVAILABLE
-    }
-
-    public enum DeviceStatus
+        BASIC,
+        KAMIKAZE,
+        TRANSPORT,
+        TRIDENT,
+        BOSS
+    };
+    public enum EnemyStates
     {
-        OFFLINE,
-        ONLINE
+        IDLE,
+        PATROL,
+        RUNNING,
+        ATTACKING,
+        SEARCHING
     }
+    #endregion
 
+    #region Ship Systems
     public enum SystemType
     {
         NONE,
@@ -56,6 +46,17 @@
         MISSILES,
         HYPERDRIVE
     }   
+    public enum SystemStatus
+    {
+        NOTAVAILABLE,
+        AVAILABLE
+    }
+    public enum DeviceStatus
+    {
+        OFFLINE,
+        ONLINE
+    }
+    #endregion
 
     public struct MovementStats
     {

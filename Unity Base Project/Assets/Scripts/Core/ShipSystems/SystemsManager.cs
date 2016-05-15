@@ -2,8 +2,8 @@
 using GD.Core.Enums;
 using System.Collections.Generic;
 
-public class SystemsManager : MonoBehaviour
-{
+public class SystemsManager : MonoBehaviour {
+
     #region Properties
     public Dictionary<SystemType, ShipDevice> MainDevices;
     public Dictionary<SystemType, GameObject> SecondaryDevices;
@@ -11,7 +11,6 @@ public class SystemsManager : MonoBehaviour
     #endregion
 
 
-    // Use this for initialization
     void Awake()
     {
         MainDevices = new Dictionary<SystemType, ShipDevice>();
@@ -25,7 +24,8 @@ public class SystemsManager : MonoBehaviour
 
     }
 
-    void AddDevice(SystemType key)
+    #region Public Methods
+    public void AddDevice(SystemType key)
     {        
         switch (key)
         {
@@ -66,23 +66,31 @@ public class SystemsManager : MonoBehaviour
         }
     }
 
-    public void ActivateSystem(SystemType type)
+    public void ActivateSystem(SystemType key)
     {
-        if(MainDevices[type].Status == DeviceStatus.ONLINE)
-            MainDevices[type].Activate();
+        if (MainDevices.ContainsKey(key))
+        {
+            if (MainDevices[key].Status == DeviceStatus.ONLINE)
+                MainDevices[key].Activate();
+        }
     }
 
-    public void ToggleSystem(SystemType type)
+    public void ToggleSystem(SystemType key)
     {
-        if (SecondaryDevices.ContainsKey(type))
-            SecondaryDevices[type].SetActive(!SecondaryDevices[type].activeSelf);
+        if (SecondaryDevices.ContainsKey(key))
+            SecondaryDevices[key].SetActive(!SecondaryDevices[key].activeSelf);
     }
 
-    public float GetSystemCooldown(SystemType type)
+    public float GetSystemCooldown(SystemType key)
     {
-        if(MainDevices.ContainsKey(type))
-            return MainDevices[type].Cooldown;
-
+        if (MainDevices.ContainsKey(key))
+        {
+            if (MainDevices[key].Status == DeviceStatus.ONLINE)
+                return MainDevices[key].Cooldown;
+            else
+                return 100f;
+        }
         return 0f;
     }
+    #endregion
 }

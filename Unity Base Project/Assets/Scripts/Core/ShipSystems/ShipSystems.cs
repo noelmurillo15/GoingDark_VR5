@@ -2,8 +2,7 @@
 using GD.Core.Enums;
 using System.Collections.Generic;
 
-public class ShipSystems : MonoBehaviour
-{
+public class ShipSystems : MonoBehaviour {
 
     #region Properties
     public Dictionary<SystemType, GameObject> MyDevices;
@@ -16,7 +15,6 @@ public class ShipSystems : MonoBehaviour
     #endregion
 
 
-    // Use this for initialization
     void Awake()
     {
         MyDevices = new Dictionary<SystemType, GameObject>();
@@ -57,7 +55,7 @@ public class ShipSystems : MonoBehaviour
     }
     #endregion
 
-    #region Modifiers
+    #region Private Methods
     private void InitializeDevice(SystemType key)
     {
         if (MyDevices.ContainsKey(key))
@@ -101,7 +99,9 @@ public class ShipSystems : MonoBehaviour
             go.transform.parent = transform;
             MyDevices.Add(key, go);
             manager.SendMessage("AddDevice", key);
+            return;
         }
+        Debug.Log(key.ToString() + " Device was not Initialized");
     }    
     #endregion
 }
