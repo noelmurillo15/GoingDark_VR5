@@ -12,7 +12,7 @@ public class EmpSystem : ShipDevice
     void Start()
     {
         empTimer = 0f;
-        maxCooldown = 10f;
+        maxCooldown = 30f;
         shockwave = transform.GetChild(0).gameObject;
         shockwave.SetActive(Activated);
     }

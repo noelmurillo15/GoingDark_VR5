@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class DecoySystem : ShipDevice
-{
+public class DecoySystem : ShipDevice {
 
     #region Properties
     public int Count { get; private set; }

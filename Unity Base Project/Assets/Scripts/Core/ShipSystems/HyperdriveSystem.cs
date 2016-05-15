@@ -2,7 +2,6 @@
 
 public class HyperdriveSystem : ShipDevice
 {
-    //**        Attach to HyperDrive Object     **//
 
     #region Properties
     private bool hypeJump;
@@ -21,7 +20,7 @@ public class HyperdriveSystem : ShipDevice
     // Use this for initialization
     void Start () {
         hypeJump = false;
-        maxCooldown = 10f;
+        maxCooldown = 60f;
         beginningTimer = 2f;    
 
         m_playerMove = GameObject.FindGameObjectWithTag("Player");

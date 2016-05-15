@@ -17,22 +17,24 @@ public class ShipSystems : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         MyDevices = new Dictionary<SystemType, GameObject>();
         manager = GetComponent<SystemsManager>();
 
-        // Initialize once you collect the device (?)
+        // Main Systems
         InitializeDevice(SystemType.EMP);
         InitializeDevice(SystemType.CLOAK);
-        //InitializeDevice(SystemType.RADAR);
         InitializeDevice(SystemType.DECOY);
-        //InitializeDevice(SystemType.LASERS);
-        //InitializeDevice(SystemType.SHIELD);
         InitializeDevice(SystemType.MISSILES);
         InitializeDevice(SystemType.HYPERDRIVE);
 
-        // Constant Devices
+        // Secondary System
+        //InitializeDevice(SystemType.LASERS);
+        //InitializeDevice(SystemType.SHIELD);
+        //InitializeDevice(SystemType.RADAR);
+
+        // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");
         WeaponSelect = GameObject.Find("WeaponButtonObj");
     }

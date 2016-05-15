@@ -42,12 +42,14 @@ public class SystemsManager : MonoBehaviour
             case SystemType.CLOAK:
                 AvailableDevices.Add(key, Systems.GetSystem(key).GetComponent<CloakSystem>() as ShipDevice);
                 break;
-        }        
+        }
+        AvailableDevices[key].SetStatus(DeviceStatus.ONLINE);
     }
 
     public void ActivateSystem(SystemType type)
     {
-        AvailableDevices[type].Activate();
+        if(AvailableDevices[type].Status == DeviceStatus.ONLINE)
+            AvailableDevices[type].Activate();
     }
 
     public float GetSystemCooldown(SystemType type)

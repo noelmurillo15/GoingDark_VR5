@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
-public class ShipDevice : MonoBehaviour
-{
+//  Parent class of all Ship Systems
+public class ShipDevice : MonoBehaviour {
+
+    #region Properties
+    public DeviceStatus Status { get; set; }
     public bool Activated { get; protected set; }
     public float Cooldown { get; protected set; }
 
     protected float maxCooldown;
+    #endregion
 
 
     public ShipDevice()
@@ -13,6 +18,7 @@ public class ShipDevice : MonoBehaviour
         Cooldown = 0f;
         maxCooldown = 0f;
         Activated = false;
+        Status = DeviceStatus.OFFLINE;
     }
 
     public void UpdateCooldown()
@@ -35,6 +41,11 @@ public class ShipDevice : MonoBehaviour
             Activated = true;
             Cooldown = maxCooldown;
         }
+    }
+
+    public void SetStatus(DeviceStatus stat)
+    {
+        Status = stat;
     }
 }
    
