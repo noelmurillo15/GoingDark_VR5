@@ -31,13 +31,24 @@ public class EnemyStats : MonoBehaviour {
         if (StunTimer > 0f)
             StunTimer -= Time.deltaTime;
         else
-            Debuff = Impairments.NONE;
+        {
+            if(StunTimer < 0f)
+                Debuff = Impairments.NONE;
+
+            StunTimer = 0f;
+        }
 
 
         if (SlowTimer > 0f)
             SlowTimer -= Time.deltaTime;
         else
-            Debuff = Impairments.NONE;
+        {
+            if (SlowTimer < 0f)
+                Debuff = Impairments.NONE;
+
+            SlowTimer = 0f;
+
+        }
     }
 
     #region Accessors

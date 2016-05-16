@@ -25,12 +25,12 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.HYPERDRIVE);
 
         // Secondary Systems        
-        InitializeDevice(SystemType.SHIELD);
-            InitializeDevice(SystemType.MISSILES);
+        InitializeDevice(SystemType.SHIELD);            
 
         string level = transform.parent.parent.name;
         if(level != "Level1")
         {
+            InitializeDevice(SystemType.MISSILES);
             InitializeDevice(SystemType.EMP);
             InitializeDevice(SystemType.CLOAK);
             InitializeDevice(SystemType.DECOY);
