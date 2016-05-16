@@ -101,7 +101,7 @@ public class EnemyBehavior : MonoBehaviour {
                 break;
 
             case EnemyStates.SEARCHING:
-                stats.SetSpeedBoost(1f);
+                stats.SetSpeedBoost(1.25f);
                 break;
 
 

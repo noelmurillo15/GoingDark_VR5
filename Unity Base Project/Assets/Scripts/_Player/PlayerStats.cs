@@ -14,8 +14,7 @@ public class PlayerStats : MonoBehaviour {
 
     //  Shields
     private bool shieldOn;
-    private float shieldTimer;
-    private int shieldHealth;
+    private float shieldHealth;
     private GameObject shield;
     #endregion
 
@@ -33,7 +32,6 @@ public class PlayerStats : MonoBehaviour {
 
         // shield defaults
         shieldOn = true;
-        shieldTimer = 0.0f;
         shieldHealth = 3;
         shield = GameObject.FindGameObjectWithTag("Shield");
     }
@@ -41,15 +39,9 @@ public class PlayerStats : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // shield cooldown and reactivate
-        if (shieldTimer > 0.0f)
+        if (shieldHealth != 0.0f)
         {
-            shieldTimer -= Time.deltaTime;
-            if (shieldTimer <= 0.0f)
-            {
-                shieldOn = true;
-                shield.SetActive(shieldOn);
-                AudioManager.instance.PlayShieldOn();
-            }
+            shieldHealth += Time.deltaTime;
         }
     }
 
@@ -100,14 +92,12 @@ public class PlayerStats : MonoBehaviour {
         if (shieldOn)
         {
             AudioManager.instance.PlayShieldHit();
-            Systems.SystemDamaged();
             shieldHealth -= 100;
             if (shieldHealth <= 0)
             {
-                shieldHealth = 100;
+                shieldHealth = 0;
                 shieldOn = false;
                 shield.SetActive(shieldOn);
-                shieldTimer = 10.0f;
             }
         }
         else
@@ -123,17 +113,18 @@ public class PlayerStats : MonoBehaviour {
     {
         if (shieldOn)
         {
-            shieldHealth-=33;
-            if (shieldHealth == 0)
+            AudioManager.instance.PlayShieldHit();
+            shieldHealth -= 100;
+            if (shieldHealth <= 0)
             {
-                shieldHealth = 100;
+                shieldHealth = 0;
                 shieldOn = false;
                 shield.SetActive(shieldOn);
-                shieldTimer = 10.0f;
             }
         }
         else
-        {            
+        {        
+            Systems.SystemDamaged();
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
             m_Health.Hit();
         }

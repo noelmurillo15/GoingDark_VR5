@@ -45,7 +45,7 @@ public class EnemyCollision : MonoBehaviour {
 
             if (Systems.GetSystemCooldown(SystemType.CLOAK) > 0f)
             {
-                Debug.Log("Accessing Systems");
+                Debug.Log("Player is Cloaked");
                 behavior.losingSight = 5f;
                 behavior.ChangeState(EnemyStates.SEARCHING);
             }
