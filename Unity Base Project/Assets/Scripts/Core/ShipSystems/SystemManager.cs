@@ -24,11 +24,11 @@ public class SystemManager : MonoBehaviour {
 
         // Secondary Systems        
         InitializeDevice(SystemType.SHIELD);
+            InitializeDevice(SystemType.MISSILES);
 
         string level = transform.parent.parent.name;
         if(level != "Level1")
         {
-            InitializeDevice(SystemType.MISSILES);
             InitializeDevice(SystemType.EMP);
             InitializeDevice(SystemType.CLOAK);
             InitializeDevice(SystemType.DECOY);

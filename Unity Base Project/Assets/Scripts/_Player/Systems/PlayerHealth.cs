@@ -98,7 +98,6 @@ public class PlayerHealth : MonoBehaviour
                 break;
         }
        // PlayerShip.SendMessage("ChangeArmor", ArmorStage);
-
     }
 
     public void Kill()

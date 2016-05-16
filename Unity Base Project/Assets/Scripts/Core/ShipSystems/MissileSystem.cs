@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
+using UnityEngine.UI;
 
 public class MissileSystem : ShipDevice
 {
 
     #region Properties
-    public MissileType Type { get; private set; }
     public int Count { get; private set; }
 
     //  Missle's parent
@@ -16,8 +16,10 @@ public class MissileSystem : ShipDevice
     private GameObject emp;
     private GameObject chromatic;
     private GameObject shieldbreak;
-    private GameObject display;
     private GameObject selectedMissile;
+
+    //  Missile Display
+    private Text textCount;
     #endregion
 
 
@@ -26,14 +28,14 @@ public class MissileSystem : ShipDevice
         Count = 10;
         maxCooldown = 5f;
 
-        display = GameObject.Find("MissileDisplay");
         environment = GameObject.Find("Environment");
         basic = Resources.Load<GameObject>("Missiles/BasicMissile");
         emp = Resources.Load<GameObject>("Missiles/EmpMissile");
         chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
         shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
 
-        Type = MissileType.BASIC;
+        textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
+        textCount.text = Count.ToString();
         selectedMissile = basic;
     }
 
@@ -45,7 +47,6 @@ public class MissileSystem : ShipDevice
             LaunchMissile();
         }
         
-
         UpdateCooldown();
     }
 
@@ -56,9 +57,11 @@ public class MissileSystem : ShipDevice
             Debug.Log("Missile Gameobject not attached");
             return;
         }
+
         if (Count > 0)
         {
             Count--;
+            textCount.text = Count.ToString();
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
             go.transform.parent = environment.transform;
         }
@@ -68,7 +71,7 @@ public class MissileSystem : ShipDevice
     {
         int rand = Random.Range(2, 5);
         Count += rand;
-        display.SendMessage("GetMissileCount");
+        textCount.text = Count.ToString();
         Debug.Log(rand + " Missiles Added");
     }  
     
