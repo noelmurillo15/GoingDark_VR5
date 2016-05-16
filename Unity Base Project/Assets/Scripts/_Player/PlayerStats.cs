@@ -50,6 +50,7 @@ public class PlayerStats : MonoBehaviour {
             {
                 shieldOn = true;
                 shield.SetActive(shieldOn);
+                AudioManager.instance.PlayShieldOn();
             }
         }
     }
@@ -109,6 +110,7 @@ public class PlayerStats : MonoBehaviour {
     {
         if (shieldOn)
         {
+            AudioManager.instance.PlayShieldHit();
             shieldHealth--;
             if (shieldHealth == 0)
             {
@@ -122,8 +124,8 @@ public class PlayerStats : MonoBehaviour {
         {
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
             m_Health.UpdatePlayerHealth();
+            AudioManager.instance.PlayHit();
         }
-        AudioManager.instance.PlayHit();
        }
 
     public void EnvironmentalDMG()

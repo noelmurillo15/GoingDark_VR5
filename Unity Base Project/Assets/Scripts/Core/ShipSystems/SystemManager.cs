@@ -20,15 +20,15 @@ public class SystemManager : MonoBehaviour {
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
         // Main Systems
-        InitializeDevice(SystemType.EMP);
-        InitializeDevice(SystemType.CLOAK);
-        InitializeDevice(SystemType.DECOY);
-        InitializeDevice(SystemType.LASERS);
-        InitializeDevice(SystemType.MISSILES);
+        //InitializeDevice(SystemType.EMP);
+        //InitializeDevice(SystemType.CLOAK);
+        //InitializeDevice(SystemType.DECOY);
+        //InitializeDevice(SystemType.LASERS);
+        //InitializeDevice(SystemType.MISSILES);
         InitializeDevice(SystemType.HYPERDRIVE);
 
         // Secondary Systems
-        InitializeDevice(SystemType.RADAR);
+        //InitializeDevice(SystemType.RADAR);
         InitializeDevice(SystemType.SHIELD);
 
         // Constant Systems
@@ -165,7 +165,7 @@ public class SystemManager : MonoBehaviour {
 
     public void ToggleMissionLog()
     {
-        MissionLog.SetActiveRecursively(true);
+        MissionLog.SetActiveRecursively(!MissionLog.activeSelf);
     }
     public void ToggleWeaponSelect()
     {

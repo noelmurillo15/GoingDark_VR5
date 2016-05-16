@@ -53,9 +53,13 @@ public class Portal : MonoBehaviour {
     {
         if (col.transform.tag == "Player")
         {
-            col.transform.position = otherPortal.transform.position + otherPortal.transform.forward * 20;
+            col.transform.position = otherPortal.transform.position + otherPortal.transform.forward * 40;
             teleSound.Play();
-            
+        }
+        else if (col.transform.tag == "Enemy")
+        {
+            col.transform.position = otherPortal.transform.position + otherPortal.transform.forward * 40;
+            col.transform.rotation = new Quaternion(otherPortal.transform.forward.x, otherPortal.transform.forward.y, otherPortal.transform.forward.z, 1);
         }
     }
 
