@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -59,6 +57,12 @@
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
@@ -169,6 +173,14 @@
     <Compile Include="Assets\Scripts\Core\AI\PatrolAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TransportShipAI.cs" />
     <Compile Include="Assets\Scripts\Core\Enums\Enums.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\CloakSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\DecoySystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\EmpSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\HyperdriveSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\LaserSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\MissileSystem.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\Environment\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
@@ -190,7 +202,6 @@
     <Compile Include="Assets\Scripts\Game Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\Leap\HandBehavior.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmButtons.cs" />
@@ -233,19 +244,12 @@
     <Compile Include="Assets\Scripts\_Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarBlip.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\CliffordsRadarPlane.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\EmpSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\MissileDisplay.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\ShipArmor.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>

@@ -14,9 +14,10 @@ public class MissileDisplay : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        pStat = GameObject.Find("Player");
+        pStat = GameObject.Find("Device");
 
-        timer = 5f;
+        timer = 5.0f;
+        GetMissileCount();
     }
 
     // Update is called once per frame
@@ -35,6 +36,6 @@ public class MissileDisplay : MonoBehaviour
 
     public void GetMissileCount()
     {
-        missCounter = GameObject.FindGameObjectWithTag("Systems").GetComponent<MissileSystem>().Count;
+        missCounter = pStat.GetComponent<MissileSystem>().Count;
     }    
 }

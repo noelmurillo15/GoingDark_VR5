@@ -16,7 +16,7 @@ public class MissileSystem : ShipDevice
     private GameObject emp;
     private GameObject chromatic;
     private GameObject shieldbreak;
-
+    private GameObject display;
     private GameObject selectedMissile;
     #endregion
 
@@ -26,8 +26,8 @@ public class MissileSystem : ShipDevice
         Count = 10;
         maxCooldown = 5f;
 
+        display = GameObject.Find("MissileDisplay");
         environment = GameObject.Find("Environment");
-
         basic = Resources.Load<GameObject>("Missiles/BasicMissile");
         emp = Resources.Load<GameObject>("Missiles/EmpMissile");
         chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
@@ -44,6 +44,7 @@ public class MissileSystem : ShipDevice
             Debug.Log("Missile has been launched");
             LaunchMissile();
         }
+        
 
         UpdateCooldown();
     }
@@ -67,6 +68,7 @@ public class MissileSystem : ShipDevice
     {
         int rand = Random.Range(2, 5);
         Count += rand;
+        display.SendMessage("GetMissileCount");
         Debug.Log(rand + " Missiles Added");
     }  
     
