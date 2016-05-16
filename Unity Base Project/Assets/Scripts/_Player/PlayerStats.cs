@@ -123,7 +123,7 @@ public class PlayerStats : MonoBehaviour {
         else
         {
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-            m_Health.UpdatePlayerHealth();
+            m_Health.Hit();
             AudioManager.instance.PlayHit();
         }
        }
@@ -142,10 +142,9 @@ public class PlayerStats : MonoBehaviour {
             }
         }
         else
-        {
-            
+        {            
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-            m_Health.UpdatePlayerHealth();
+            m_Health.Hit();
         }
 
 
