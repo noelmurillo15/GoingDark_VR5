@@ -7,7 +7,6 @@ public class SystemManager : MonoBehaviour {
     #region Properties
     public Dictionary<SystemType, ShipDevice> MainDevices;
     public Dictionary<SystemType, GameObject> SecondaryDevices;
-
     // Constant Devices
     public GameObject MissionLog { get; private set; }
     public GameObject WeaponSelect { get; private set; }
@@ -19,17 +18,22 @@ public class SystemManager : MonoBehaviour {
         MainDevices = new Dictionary<SystemType, ShipDevice>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
-        // Main Systems
-        //InitializeDevice(SystemType.EMP);
-        //InitializeDevice(SystemType.CLOAK);
-        //InitializeDevice(SystemType.DECOY);
-        //InitializeDevice(SystemType.LASERS);
-        //InitializeDevice(SystemType.MISSILES);
+        // Main Systems        
         InitializeDevice(SystemType.HYPERDRIVE);
 
-        // Secondary Systems
-        //InitializeDevice(SystemType.RADAR);
+        // Secondary Systems        
         InitializeDevice(SystemType.SHIELD);
+
+        string level = transform.parent.parent.name;
+        if(level != "level1")
+        {
+            InitializeDevice(SystemType.EMP);
+            InitializeDevice(SystemType.CLOAK);
+            InitializeDevice(SystemType.DECOY);
+            InitializeDevice(SystemType.LASERS);
+            InitializeDevice(SystemType.MISSILES);
+            InitializeDevice(SystemType.RADAR);
+        }
 
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");
