@@ -8,7 +8,7 @@ public class PlayerStats : MonoBehaviour {
     #region Properties
     public Impairments Debuff { get; private set; }
     private MovementStats MoveData;
-    private ShipSystems Systems;
+    private SystemManager Systems;
     //  Weapons
     public int numMissiles;
     //  Credits
@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour {
         MoveData.Acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits");
         numMissiles = PlayerPrefs.GetInt("MissleCount");
-        Systems = GameObject.Find("Devices").GetComponent<ShipSystems>();
+        Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
         // shield defaults
         shieldOn = true;
@@ -64,7 +64,7 @@ public class PlayerStats : MonoBehaviour {
     {
         return numMissiles;
     }           
-    public ShipSystems GetSystems()
+    public SystemManager GetSystems()
     {
         return Systems;
     }

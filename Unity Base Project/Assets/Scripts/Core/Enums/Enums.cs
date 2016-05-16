@@ -48,11 +48,6 @@
     }   
     public enum SystemStatus
     {
-        NOTAVAILABLE,
-        AVAILABLE
-    }
-    public enum DeviceStatus
-    {
         OFFLINE,
         ONLINE
     }

@@ -203,7 +203,6 @@
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\SystemsManager.cs" />
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
@@ -245,7 +244,7 @@
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
-    <Compile Include="Assets\Scripts\Core\ShipSystems\ShipSystems.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\ShipArmor.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>

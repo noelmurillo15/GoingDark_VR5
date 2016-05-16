@@ -8,7 +8,7 @@ public class EnemyCollision : MonoBehaviour {
 
     #region Properties
     public float detectionTimer;
-    private ShipSystems Systems;
+    private SystemManager Systems;
     private EnemyBehavior behavior;
     #endregion
 
@@ -40,7 +40,7 @@ public class EnemyCollision : MonoBehaviour {
         {           
 
             if(Systems == null)
-                Systems = GameObject.Find("Devices").GetComponent<ShipSystems>();
+                Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
 
             //Debug.Log("Accessing Systems");

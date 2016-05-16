@@ -5,7 +5,7 @@ using GD.Core.Enums;
 public class ShipDevice : MonoBehaviour {
 
     #region Properties
-    public DeviceStatus Status { get; protected set; }
+    public SystemStatus Status { get; protected set; }
     public bool Activated { get; protected set; }
     public float Cooldown { get; protected set; }
 
@@ -19,7 +19,7 @@ public class ShipDevice : MonoBehaviour {
         Cooldown = 0f;
         maxCooldown = 0f;
         Activated = false;
-        Status = DeviceStatus.OFFLINE;
+        Status = SystemStatus.OFFLINE;
     }
 
     public void UpdateCooldown()
@@ -44,7 +44,7 @@ public class ShipDevice : MonoBehaviour {
         }
     }
 
-    public void SetStatus(DeviceStatus stat)
+    public void SetStatus(SystemStatus stat)
     {
         Status = stat;
     }

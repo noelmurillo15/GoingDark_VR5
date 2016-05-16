@@ -3,12 +3,12 @@ using GD.Core.Enums;
 
 public class FireMissile : MonoBehaviour {
 
-    private SystemsManager manager;
+    private SystemManager manager;
 
 
     // Use this for initialization
     void Start () {
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 	
 	// Update is called once per frame

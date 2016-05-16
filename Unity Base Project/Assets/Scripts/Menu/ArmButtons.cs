@@ -14,7 +14,7 @@ public class ArmButtons : MonoBehaviour
     private Color original;
 
     public GameObject missionLog;
-    private SystemsManager manager;
+    private SystemManager manager;
     #endregion
 
 
@@ -62,7 +62,7 @@ public class ArmButtons : MonoBehaviour
                 break;
         }
         original = m_button.color;
-        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemsManager>();
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
     private void ActivateButton()
     {
