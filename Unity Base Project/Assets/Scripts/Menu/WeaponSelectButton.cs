@@ -44,12 +44,13 @@ public class WeaponSelectButton : MonoBehaviour
 
             default:
                 Debug.Log("Invalid Missile Type");
+                Type = MissileType.NONE;
                 break;
         }
     }
 
     void ActivateButton()
-    {
+    {    
         manager.MissileSelect(Type);
     }
 

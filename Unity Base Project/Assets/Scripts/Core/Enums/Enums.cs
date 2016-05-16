@@ -2,6 +2,7 @@
 {
     public enum MissileType
     {
+        NONE,
         EMP,
         BASIC,
         CHROMATIC,
