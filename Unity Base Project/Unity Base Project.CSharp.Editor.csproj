@@ -135,6 +135,7 @@
     <None Include="Assets\3rd Party Assets\LeapMotion\Version.txt" />
     <None Include="Assets\3rd Party Assets\LeapMotion\readme.txt" />
     <None Include="Assets\3rd Party Assets\Plugins\donotdelete.txt" />
+    <None Include="Assets\3rd Party Assets\Shaders\Outlined_Diffuse.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_DS.shader" />

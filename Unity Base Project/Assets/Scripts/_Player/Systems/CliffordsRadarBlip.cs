@@ -109,6 +109,9 @@ public class CliffordsRadarBlip : MonoBehaviour
         {
             LineColor = Color.red;
             GetComponent<Renderer>().material = MaterialColorRed;
+            
+
+
         }
         else if (enemy.tag == "Loot")
         {

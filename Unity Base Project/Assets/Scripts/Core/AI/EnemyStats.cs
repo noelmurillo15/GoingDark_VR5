@@ -16,7 +16,9 @@ public class EnemyStats : MonoBehaviour {
 
     //  Movement
     public MovementStats MoveData;
+
     #endregion
+
 
     void Start()
     {
@@ -160,5 +162,7 @@ public class EnemyStats : MonoBehaviour {
         }
         Destroy(this.gameObject);
     }
+
+
     #endregion
 }

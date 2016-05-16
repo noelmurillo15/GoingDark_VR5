@@ -36,9 +36,9 @@ public class CliffordsRadarPlane : MonoBehaviour
     {
         //Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
 
-        if (ColliderObject.GetType() == typeof(CharacterController))
+        if (ColliderObject.GetType() == typeof(CharacterController) || (ColliderObject.GetType() == typeof(BoxCollider) && ColliderObject.gameObject.tag == "Loot"))
         {
-            if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" || ColliderObject.gameObject.tag == "Loot")
+            if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" )
             {
 
                 messages.SendMessage("EnemyClose");
