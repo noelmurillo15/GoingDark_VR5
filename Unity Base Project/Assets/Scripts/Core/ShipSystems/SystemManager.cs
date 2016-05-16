@@ -25,7 +25,7 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.SHIELD);
 
         string level = transform.parent.parent.name;
-        if(level != "level1")
+        if(level != "Level1")
         {
             InitializeDevice(SystemType.EMP);
             InitializeDevice(SystemType.CLOAK);

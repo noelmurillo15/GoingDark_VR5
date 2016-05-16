@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Level1>
   <mission name ="Scavenger"
-    info = "Collect 4 objectives"
+    info = "Collect 6 ship systems"
     credits = "100"
-    objectives = "4"
+    objectives = "6"
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
@@ -11,7 +11,7 @@
   />
 
   <mission name ="Silent Thief"
-    info = "Locate 3 objectives without getting seen by the enemy fleet"
+    info = "Locate 3 systems without getting seen by the enemy fleet"
     credits = "200"
     objectives = "3"
     type = "Stealth"
@@ -31,7 +31,7 @@
   />
 
   <mission name ="Fast and Furious"
-   info = "Collect 4 objectives in 2 minutes"
+   info = "Collect 4 systems in 2 minutes"
    credits = "150"
    objectives = "4"
    type = "Scavenge"
