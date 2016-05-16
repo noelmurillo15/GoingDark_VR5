@@ -115,4 +115,12 @@ public class PlayerHealth : MonoBehaviour
         if (hitCount >= ArmorStage)
             Kill();
     }
+
+    public void EnvironmentalDMG()
+    {
+        hitCount++;
+        UpdatePlayerHealth();
+        if (hitCount >= ArmorStage)
+            Kill();
+    }
 }

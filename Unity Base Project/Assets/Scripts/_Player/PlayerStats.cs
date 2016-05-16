@@ -132,7 +132,7 @@ public class PlayerStats : MonoBehaviour {
     {
         if (shieldOn)
         {
-            shieldHealth--;
+            shieldHealth-=33;
             if (shieldHealth == 0)
             {
                 shieldHealth = 100;
