@@ -19,18 +19,17 @@ public class SystemManager : MonoBehaviour {
         MainDevices = new Dictionary<SystemType, ShipDevice>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
-
         // Main Systems
         InitializeDevice(SystemType.EMP);
         InitializeDevice(SystemType.CLOAK);
         InitializeDevice(SystemType.DECOY);
+        InitializeDevice(SystemType.LASERS);
         InitializeDevice(SystemType.MISSILES);
         InitializeDevice(SystemType.HYPERDRIVE);
 
         // Secondary Systems
         InitializeDevice(SystemType.RADAR);
-        //InitializeDevice(SystemType.LASERS);
-        //InitializeDevice(SystemType.SHIELD);
+        InitializeDevice(SystemType.SHIELD);
 
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");
@@ -91,24 +90,27 @@ public class SystemManager : MonoBehaviour {
             #region Main Devices
             case SystemType.DECOY:
                 MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.ONLINE);
-                break;
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
+
             case SystemType.EMP:
                 MainDevices.Add(key, dev.GetComponent<EmpSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.ONLINE);
-                break;
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
+
             case SystemType.HYPERDRIVE:
                 MainDevices.Add(key, dev.GetComponent<HyperdriveSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.ONLINE);
-                break;
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
+
             case SystemType.MISSILES:
                 MainDevices.Add(key, dev.GetComponent<MissileSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.ONLINE);
-                break;
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
+
             case SystemType.CLOAK:
                 MainDevices.Add(key, dev.GetComponent<CloakSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.ONLINE);
-                break;
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
+
+            case SystemType.LASERS:
+                MainDevices.Add(key, dev.GetComponent<LaserSystem>() as ShipDevice);
+                MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
             #endregion
 
             #region Secondary Devices
@@ -117,10 +119,7 @@ public class SystemManager : MonoBehaviour {
                 break;
             case SystemType.SHIELD:
                 SecondaryDevices.Add(key, dev);
-                break;
-            case SystemType.LASERS:
-                SecondaryDevices.Add(key, dev);
-                break;
+                break;            
                 #endregion
         }
     }
@@ -133,6 +132,14 @@ public class SystemManager : MonoBehaviour {
         {
             if (MainDevices[key].Status == SystemStatus.ONLINE)
                 MainDevices[key].Activate();
+        }
+    }
+
+    public void MissileSelect(MissileType type)
+    {
+        if (MainDevices.ContainsKey(SystemType.MISSILES))
+        {
+            MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);
         }
     }
 
@@ -152,6 +159,15 @@ public class SystemManager : MonoBehaviour {
                 return 100f;
         }
         return 0f;
+    }
+
+    public void ToggleMissionLog()
+    {
+        MissionLog.SetActiveRecursively(true);
+    }
+    public void ToggleWeaponSelect()
+    {
+        WeaponSelect.SetActiveRecursively(true);
     }
     #endregion
 }

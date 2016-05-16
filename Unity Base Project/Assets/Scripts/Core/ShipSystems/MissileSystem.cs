@@ -8,8 +8,16 @@ public class MissileSystem : ShipDevice
     public MissileType Type { get; private set; }
     public int Count { get; private set; }
 
+    //  Missle's parent
     private GameObject environment;
-    private GameObject missilePrefab;
+
+    //  Missile Types
+    private GameObject basic;
+    private GameObject emp;
+    private GameObject chromatic;
+    private GameObject shieldbreak;
+
+    private GameObject selectedMissile;
     #endregion
 
 
@@ -17,9 +25,16 @@ public class MissileSystem : ShipDevice
     {
         Count = 10;
         maxCooldown = 5f;
-        Type = MissileType.BASIC;
-        MissileSelect(Type);
+
         environment = GameObject.Find("Environment");
+
+        basic = Resources.Load<GameObject>("Missiles/BasicMissile");
+        emp = Resources.Load<GameObject>("Missiles/EmpMissile");
+        chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
+        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
+
+        Type = MissileType.BASIC;
+        selectedMissile = basic;
     }
 
     void Update()
@@ -35,7 +50,7 @@ public class MissileSystem : ShipDevice
 
     public void LaunchMissile()
     {
-        if (missilePrefab == null)
+        if (selectedMissile == null)
         {
             Debug.Log("Missile Gameobject not attached");
             return;
@@ -43,7 +58,7 @@ public class MissileSystem : ShipDevice
         if (Count > 0)
         {
             Count--;
-            GameObject go = Instantiate(missilePrefab, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+            GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
             go.transform.parent = environment.transform;
         }
     }
@@ -53,34 +68,25 @@ public class MissileSystem : ShipDevice
         int rand = Random.Range(2, 5);
         Count += rand;
         Debug.Log(rand + " Missiles Added");
-    }
-
-    public void MissileSelect(MissileType _type)
-    {       
-        switch (Type)
+    }  
+    
+    
+    public void WeaponSelect(MissileType type)
+    {
+        switch (type)
         {
-            case MissileType.BASIC:
-                missilePrefab = Resources.Load<GameObject>("Missiles/BasicMissile");
-                break;
-
             case MissileType.EMP:
-                missilePrefab = Resources.Load<GameObject>("Missiles/EmpMissile");
+                selectedMissile = emp;
                 break;
-
+            case MissileType.BASIC:
+                selectedMissile = basic;
+                break;
             case MissileType.CHROMATIC:
-                missilePrefab = Resources.Load<GameObject>("Missiles/ChromaticMissile");
+                selectedMissile = chromatic;
                 break;
-
             case MissileType.SHIELDBREAKER:
-                missilePrefab = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
-                break;
-
-            default:
-                Debug.Log("Invalid Missile Type : " + _type.ToString());
+                selectedMissile = shieldbreak;
                 break;
         }
-
-        Debug.Log(_type.ToString() + " Missile Selected");
-        Type = _type;
-    }
+    }  
 }

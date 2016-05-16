@@ -12,8 +12,6 @@ public class ArmButtons : MonoBehaviour
     private float transition;
     private Image m_button;
     private Color original;
-
-    public GameObject missionLog;
     private SystemManager manager;
     #endregion
 
@@ -49,6 +47,9 @@ public class ArmButtons : MonoBehaviour
             case "MissileButton":
                 Type = SystemType.MISSILES;
                 break;
+            case "LaserButton":
+                Type = SystemType.LASERS;
+                break;
             case "DecoyButton":
                 Type = SystemType.DECOY;
                 break;
@@ -66,20 +67,22 @@ public class ArmButtons : MonoBehaviour
     }
     private void ActivateButton()
     {
-        m_button.color = original;
-
-        if (Type == SystemType.RADAR || Type == SystemType.SHIELD || Type == SystemType.LASERS)
+        m_button.color = original;        
+        if (Type == SystemType.RADAR || Type == SystemType.SHIELD)
         {
             manager.ToggleSystem(Type);
             return;
         }
-        if (transform.name != "MissionLogButton")
+        if (Type != SystemType.NONE)
         {
             manager.ActivateSystem(Type);
             return;
         }
-        else
-            missionLog.SetActiveRecursively(true);                   
+
+        if (transform.name == "MissionLogButton")
+            manager.ToggleMissionLog();
+        else if (transform.name == "WeaponSelectButton")
+            manager.ToggleWeaponSelect();
     }
     #endregion
 

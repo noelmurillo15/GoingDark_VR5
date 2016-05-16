@@ -190,7 +190,7 @@
     <Compile Include="Assets\Scripts\Game Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
-    <Compile Include="Assets\Scripts\GunObject.cs" />
+    <Compile Include="Assets\Scripts\Core\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\Leap\HandBehavior.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmButtons.cs" />
@@ -205,6 +205,7 @@
     <Compile Include="Assets\Scripts\Menu\SwitchLevel.cs" />
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
+    <Compile Include="Assets\Scripts\Menu\WeaponSelectButton.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
