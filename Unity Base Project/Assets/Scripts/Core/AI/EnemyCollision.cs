@@ -43,17 +43,17 @@ public class EnemyCollision : MonoBehaviour {
                 Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
 
-            //Debug.Log("Accessing Systems");
-            //if (Systems.Cloak.Activated)
-            //{
-            //    behavior.losingSight = 5f;
-            //    behavior.ChangeState(EnemyStates.SEARCHING);
-            //}
-            //else
-            //{
+            if (Systems.GetSystemCooldown(SystemType.CLOAK) > 0f)
+            {
+                Debug.Log("Accessing Systems");
+                behavior.losingSight = 5f;
+                behavior.ChangeState(EnemyStates.SEARCHING);
+            }
+            else
+            {
                 behavior.losingSight = 0f;
                 behavior.SetEnemyTarget(col.transform);
-            //}
+            }
             detectionTimer = Random.Range(.5f, 4.5f);
         }
     }

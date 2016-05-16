@@ -8,11 +8,13 @@ public class LootPickup : MonoBehaviour {
     //private GameObject messages;
     private GameObject mission;
     private SystemManager manager;
+    private MessageScript messages;
     // Use this for initialization
     void Start () {
         Initialize();
         collected = false;
         mission = GameObject.Find("PersistentGameObject");
+        messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 	
@@ -54,6 +56,7 @@ public class LootPickup : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.transform.tag == "Player") {
             manager.SendMessage("InitializeDevice", Type);
+            messages.SendMessage("SystemCollection", Type);
             mission.SendMessage("LootPickedUp");
             collected = true;
             AudioManager.instance.PlayCollect();                       

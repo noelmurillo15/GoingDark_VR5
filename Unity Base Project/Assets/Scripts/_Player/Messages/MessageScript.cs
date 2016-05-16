@@ -21,17 +21,25 @@ public class MessageScript : MonoBehaviour
     Text collectedLoot;
     [SerializeField]
     Text poisonMsg;
+    [SerializeField]
+    Text systemName;
+    [SerializeField]
+    Text systemCollect;
 
     private Text[] winTexts;
 
     private float enemyMsgTimer;
     private float reorientTimer;
+    private float sysCollectTimer;
 
     private QuickSlot opt;
 
     // Use this for initialization
     void Start()
     {
+        reorientTimer = 0f;
+        enemyMsgTimer = 0f;
+        sysCollectTimer = 0f;
         winTexts = winMessage.GetComponentsInChildren<Text>();
         NoWarning();
         autopilotMsg.enabled = true;
@@ -60,6 +68,16 @@ public class MessageScript : MonoBehaviour
 
             reorientTimer = 0f;
         }
+
+        if (sysCollectTimer > 0f)
+            sysCollectTimer -= Time.deltaTime;
+        else
+        {
+            if (sysCollectTimer < 0f)
+                SystemInstalled();
+
+            sysCollectTimer = 0f;
+        }
     }
 
     #region Msg Functions
@@ -71,6 +89,20 @@ public class MessageScript : MonoBehaviour
         missileInc.enabled = false;
         collectedLoot.enabled = false;
         poisonMsg.enabled = false;
+        systemCollect.enabled = false;
+        systemName.enabled = false;
+    }
+    public void SystemCollection(SystemType type)
+    {
+        systemName.enabled = true;
+        systemCollect.enabled = true;
+        systemName.text = type.ToString();
+        sysCollectTimer = 5f;
+    }
+    public void SystemInstalled()
+    {
+        systemName.enabled = false;
+        systemCollect.enabled = false;
     }
     public void EnemyClose()
     {

@@ -7,6 +7,7 @@ public class SystemManager : MonoBehaviour {
     #region Properties
     public Dictionary<SystemType, ShipDevice> MainDevices;
     public Dictionary<SystemType, GameObject> SecondaryDevices;
+
     // Constant Devices
     public GameObject MissionLog { get; private set; }
     public GameObject WeaponSelect { get; private set; }
@@ -38,6 +39,7 @@ public class SystemManager : MonoBehaviour {
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");
         WeaponSelect = GameObject.Find("WeaponButtonObj");
+        
     }
 
     #region Private Methods
@@ -80,8 +82,10 @@ public class SystemManager : MonoBehaviour {
 
         if (system != null)
         {
-            GameObject go = Instantiate(system, (transform.position + system.transform.localPosition), system.transform.rotation) as GameObject;
+            GameObject go = Instantiate(system, Vector3.zero, Quaternion.identity) as GameObject;
             go.transform.parent = transform;
+            go.transform.localPosition = system.transform.localPosition;
+            go.transform.localRotation = system.transform.localRotation;
             AddDevice(key, go);
             return;
         }
@@ -93,6 +97,7 @@ public class SystemManager : MonoBehaviour {
         {
             #region Main Devices
             case SystemType.DECOY:
+                
                 MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipDevice);
                 MainDevices[key].SetStatus(SystemStatus.ONLINE); break;
 
@@ -125,7 +130,7 @@ public class SystemManager : MonoBehaviour {
                 SecondaryDevices.Add(key, dev);
                 break;            
                 #endregion
-        }
+        }        
     }
     #endregion
 
