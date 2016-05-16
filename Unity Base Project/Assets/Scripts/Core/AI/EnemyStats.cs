@@ -66,7 +66,7 @@ public class EnemyStats : MonoBehaviour {
                 break;
             case "BasicEnemy":
                 Type = EnemyTypes.BASIC;
-                MissileCount = 5;
+                MissileCount = 10;
                 MoveData.Acceleration = 3.6f;
                 MoveData.RotateSpeed = 4f;
                 MoveData.MaxSpeed = 40f;

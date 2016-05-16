@@ -100,8 +100,9 @@ public class PlayerStats : MonoBehaviour {
         if (shieldOn)
         {
             AudioManager.instance.PlayShieldHit();
-            shieldHealth--;
-            if (shieldHealth == 0)
+            Systems.SystemDamaged();
+            shieldHealth -= 100;
+            if (shieldHealth <= 0)
             {
                 shieldHealth = 100;
                 shieldOn = false;
@@ -111,6 +112,7 @@ public class PlayerStats : MonoBehaviour {
         }
         else
         {
+            Systems.SystemDamaged();
             PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
             m_Health.Hit();
             AudioManager.instance.PlayHit();

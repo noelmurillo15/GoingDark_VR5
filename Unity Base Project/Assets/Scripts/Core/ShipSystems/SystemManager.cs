@@ -8,6 +8,8 @@ public class SystemManager : MonoBehaviour {
     public Dictionary<SystemType, ShipDevice> MainDevices;
     public Dictionary<SystemType, GameObject> SecondaryDevices;
 
+    private MessageScript messages;
+
     // Constant Devices
     public GameObject MissionLog { get; private set; }
     public GameObject WeaponSelect { get; private set; }
@@ -39,7 +41,7 @@ public class SystemManager : MonoBehaviour {
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");
         WeaponSelect = GameObject.Find("WeaponButtonObj");
-        
+        messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
     }
 
     #region Private Methods
@@ -144,12 +146,22 @@ public class SystemManager : MonoBehaviour {
         }
     }
 
+    public void SystemDamaged()
+    {
+        SystemType rand = (SystemType)Random.Range(0, 8);
+        if (MainDevices.ContainsKey(rand))
+        {
+            MainDevices[rand].SetStatus(SystemStatus.OFFLINE);
+            messages.SendMessage("SystemReport", rand.ToString());
+        }
+    }
+
     public void MissileSelect(MissileType type)
     {
-        if (type != MissileType.NONE)
+        if (MainDevices.ContainsKey(SystemType.MISSILES))
         {
-            if (MainDevices.ContainsKey(SystemType.MISSILES))
-                MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);           
+            if (type != MissileType.NONE)
+                MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);
         }
         ToggleWeaponSelect();
     }

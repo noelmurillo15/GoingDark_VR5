@@ -25,12 +25,17 @@ public class MessageScript : MonoBehaviour
     Text systemName;
     [SerializeField]
     Text systemCollect;
+    [SerializeField]
+    Text offlineDevices;
+    [SerializeField]
+    Text systemReport;
 
     private Text[] winTexts;
 
     private float enemyMsgTimer;
     private float reorientTimer;
     private float sysCollectTimer;
+    private float systemReportTimer;
 
     private QuickSlot opt;
 
@@ -78,6 +83,16 @@ public class MessageScript : MonoBehaviour
 
             sysCollectTimer = 0f;
         }
+
+        if (systemReportTimer > 0f)
+            systemReportTimer -= Time.deltaTime;
+        else
+        {
+            if (systemReportTimer < 0f)
+                EndReport();
+
+            systemReportTimer = 0f;
+        }
     }
 
     #region Msg Functions
@@ -91,6 +106,8 @@ public class MessageScript : MonoBehaviour
         poisonMsg.enabled = false;
         systemCollect.enabled = false;
         systemName.enabled = false;
+        systemReport.enabled = false;
+        offlineDevices.enabled = false;
     }
     public void SystemCollection(SystemType type)
     {
@@ -103,6 +120,18 @@ public class MessageScript : MonoBehaviour
     {
         systemName.enabled = false;
         systemCollect.enabled = false;
+    }
+    public void SystemReport(string systemsdown)
+    {
+        systemReport.enabled = true;
+        offlineDevices.enabled = true;
+        offlineDevices.text = systemsdown;
+        systemReportTimer = 5f;
+    }
+    public void EndReport()
+    {
+        systemReport.enabled = false;
+        offlineDevices.enabled = false;
     }
     public void EnemyClose()
     {

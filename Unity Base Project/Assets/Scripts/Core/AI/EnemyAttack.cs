@@ -50,7 +50,7 @@ public class EnemyAttack : MonoBehaviour {
     private void Fire() {
         if (stats.MissileCount > 0) {
             if (missileCooldown <= 0.0f) {
-                missileCooldown = 10.0f;
+                missileCooldown = 5.0f;
                 stats.DecreaseMissileCount();
                 Instantiate(missilePrefab, new Vector3(MyTransform.position.x, MyTransform.position.y, MyTransform.position.z), MyTransform.rotation);
             }
