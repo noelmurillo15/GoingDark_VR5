@@ -40,15 +40,16 @@ public class NebulaGenerator : MonoBehaviour {
 
         for (int cnt = 0; cnt < gos.Length; cnt++)
         {
-            //float x = Random.Range((-boundsX / 2) + 500f, (boundsX / 2) - 500f);
-            //float y = Random.Range(-boundsY / 2, boundsY / 2);
-            //float z = Random.Range((-boundsX / 2) + 500f, (boundsX / 2) - 500f);
-            //Vector3 randomPos = new Vector3(x, y, z);
+            float x = Random.Range((-boundsX / 2), (boundsX / 2));
+            float y = Random.Range(-boundsY / 2, boundsY / 2);
+            float z = Random.Range((-boundsX / 2), (boundsX / 2));
+            Vector3 randomPos = new Vector3(x, y, z);
 
             GameObject go = Instantiate(nebulaPrefabs[Random.Range(0, nebulaPrefabs.Length)],
-                        gos[cnt].transform.position, Quaternion.identity) as GameObject;
+                        Vector3.zero, Quaternion.identity) as GameObject;
 
             go.transform.parent = gos[cnt].transform;
+            go.transform.localPosition = randomPos;
             numNebulaClouds++;
         }
     }
