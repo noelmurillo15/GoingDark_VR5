@@ -20,5 +20,4 @@ namespace PixelCrushers.SceneStreamer
 		public string[] sceneNames;
 
 	}
-
 }

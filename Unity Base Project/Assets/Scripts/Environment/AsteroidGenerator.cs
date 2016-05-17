@@ -40,9 +40,10 @@ public class AsteroidGenerator : MonoBehaviour {
             float z = Random.Range(-boundsX / 2, boundsX / 2);
             Vector3 randomPos = new Vector3(x, y, z);
             GameObject go = Instantiate(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)],
-                            randomPos, Quaternion.identity) as GameObject;
+                            Vector3.zero, Quaternion.identity) as GameObject;
 
             go.transform.parent = gos[cnt].transform;
+            go.transform.localPosition = randomPos;
             numAsteroids++;
         }        
     }

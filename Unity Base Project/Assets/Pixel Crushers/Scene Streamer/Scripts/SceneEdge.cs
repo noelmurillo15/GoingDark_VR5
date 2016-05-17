@@ -45,7 +45,6 @@ namespace PixelCrushers.SceneStreamer
 		/// <param name="other">Other.</param>
 		public void OnTriggerEnter2D(Collider2D other)
 		{
-
 			CheckEdge(other.tag);
 		}
 

@@ -196,6 +196,7 @@
     <None Include="Assets\Resources\Level1.xml" />
     <None Include="Assets\Resources\Level2.xml" />
     <None Include="Assets\Resources\Level3.xml" />
+    <None Include="Assets\Resources\OpenWorld.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

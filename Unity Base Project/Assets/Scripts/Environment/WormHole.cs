@@ -12,14 +12,14 @@ public class WormHole : MonoBehaviour {
         myTransform = transform;
         jumpTimer = Random.Range(120, 180);
 
-        BoxCollider box = GameObject.Find("Environment").GetComponent<BoxCollider>();
+        BoxCollider box = GetComponentInParent<BoxCollider>();
 
         jumpRangeX = box.size.x / 2;
         jumpRangeY = box.size.y / 2;
         jumpRangeZ = box.size.z / 2;
 
         teleSound = GetComponent<AudioSource>();
-        transform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+        myTransform.localPosition = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class WormHole : MonoBehaviour {
         if (jumpTimer <= 0.0f)
         {
             jumpTimer = Random.Range(120f, 180f);
-            myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+            myTransform.localPosition = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
         }
     }
 
@@ -49,20 +49,25 @@ public class WormHole : MonoBehaviour {
         if (col.transform.tag == "Player")
         {
             Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-            while (Vector3.Distance(myTransform.position, randPos) < 2400)
+            while (Vector3.Distance(myTransform.localPosition, randPos) < 500)
                 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-            
-            col.transform.position = randPos;
+
+            Vector3 newpos = col.transform.position += randPos;
+            col.transform.position = newpos;
             col.transform.rotation = Quaternion.identity;
             teleSound.Play();
         }
         else if (col.transform.tag == "Enemy")
         {
             Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-            while (Vector3.Distance(myTransform.position, randPos) < 2400)
+
+            while (Vector3.Distance(myTransform.localPosition, randPos) < 500)
                 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-            col.transform.rotation =  Quaternion.identity;
-            col.transform.position = randPos;
+
+            Vector3 newpos = col.transform.position += randPos;
+            col.transform.position = newpos;
+            col.transform.rotation = Quaternion.identity;
+            teleSound.Play();
         }
     }
 }

@@ -8,9 +8,6 @@ public class MissileSystem : ShipDevice
     #region Properties
     public int Count { get; private set; }
 
-    //  Missle's parent
-    private GameObject environment;
-
     //  Missile Types
     private GameObject basic;
     private GameObject emp;
@@ -25,10 +22,10 @@ public class MissileSystem : ShipDevice
 
     void Start()
     {
+        Debug.Log("Initializing Missiles");
         Count = 10;
         maxCooldown = 5f;
 
-        environment = GameObject.Find("Environment");
         basic = Resources.Load<GameObject>("Missiles/BasicMissile");
         emp = Resources.Load<GameObject>("Missiles/EmpMissile");
         chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
@@ -63,7 +60,6 @@ public class MissileSystem : ShipDevice
             Count--;
             textCount.text = Count.ToString();
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
-            go.transform.parent = environment.transform;
         }
     }
 

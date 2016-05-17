@@ -17,7 +17,7 @@ public class OutOfBoundsScript : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player")) {
-            //Debug.Log("Player in playable area");
+            Debug.Log("Player in playable area");
             messages.SendMessage("ManualPilot");
             col.SendMessage("InBounds");
         }
@@ -26,7 +26,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         {
             if (col.GetType() == typeof(CharacterController))
             {
-                //Debug.Log("Enemy In Bounds");
+                Debug.Log("Enemy In Bounds");
                 col.SendMessage("InBounds");
             }
         }
@@ -36,7 +36,7 @@ public class OutOfBoundsScript : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            //Debug.Log("Player Out Of Bounds");
+            Debug.Log("Player Out Of Bounds");
             messages.SendMessage("AutoPilot");
             col.SendMessage("OutOfBounds", Vector3.zero);
         }
@@ -44,7 +44,7 @@ public class OutOfBoundsScript : MonoBehaviour {
         {
             if (col.GetType() == typeof(CharacterController))
             {
-                //Debug.Log("Enemy Out Of Bounds");
+                Debug.Log("Enemy Out Of Bounds");
                 col.SendMessage("OutOfBounds");
             }
         }

@@ -23,7 +23,7 @@ public class PlayerStats : MonoBehaviour {
     void Start () {      
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 50f;
+        MoveData.MaxSpeed = 120f;
         MoveData.RotateSpeed = 20f;
         MoveData.Acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits");

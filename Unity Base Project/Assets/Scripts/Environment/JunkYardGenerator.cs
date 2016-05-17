@@ -35,15 +35,17 @@ public class JunkYardGenerator : MonoBehaviour {
 
         for (int i = 0; i < points.Length; i++)
         {
-            Vector3 randomPos = new Vector3(Random.Range(-boundsX + transform.position.x, boundsX + transform.position.x),
-                Random.Range(-boundsY + transform.position.y, boundsY + transform.position.y),
-                Random.Range(-boundsZ + transform.position.z, boundsZ + transform.position.z));
+            float x = Random.Range((-boundsX), (boundsX));
+            float y = Random.Range(-boundsY, boundsY);
+            float z = Random.Range((-boundsX), (boundsX));
+            Vector3 randomPos = new Vector3(x, y, z);
 
             GameObject junk = Instantiate(junkPrefabs[Random.Range(0, junkPrefabs.Length)],
-                               randomPos,new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)))
+                               Vector3.zero ,new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)))
                                as GameObject;
 
             junk.transform.parent = points[i].transform;
+            junk.transform.localPosition = randomPos;
             numJunk++;
         }
         

@@ -9,7 +9,7 @@ public class LaserSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Starting Lasers");
+        Debug.Log("Initializing Lasers");
         reload = 0f;
         maxCooldown = 10f;
         Laser = Resources.Load<GameObject>("LaserBeam");
