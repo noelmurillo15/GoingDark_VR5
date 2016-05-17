@@ -90,10 +90,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity Base Project.CSharp.Plugins.csproj">
-      <Project>{E8D98538-493B-D56B-62B4-6C6C0D36D125}</Project>
-      <Name>Unity Base Project.CSharp.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="Unity Base Project.CSharp.csproj">
       <Project>{678334E6-67F2-CFB4-86B5-43CDE86400E6}</Project>
       <Name>Unity Base Project.CSharp</Name>
@@ -104,7 +100,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\Editor\EyeTypeEditor.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\Editor\LeapTemporalWarpingEditor.cs" />
-    <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
@@ -196,15 +191,11 @@
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
-    <None Include="Assets\Pixel Crushers\Scene Streamer\Example\_IMPORTANT_READ_ME_FIRST.txt" />
-    <None Include="Assets\Pixel Crushers\Scene Streamer\_README.txt" />
-    <None Include="Assets\Resources\Level1.xml" />
-    <None Include="Assets\Resources\Level2.xml" />
-    <None Include="Assets\Resources\Level3.xml" />
-    <None Include="Assets\Resources\OpenWorld.xml" />
+    <None Include="Assets\Resources\XML\Level1.xml" />
+    <None Include="Assets\Resources\XML\Level2.xml" />
+    <None Include="Assets\Resources\XML\Level3.xml" />
+    <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
-    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -63,12 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity Base Project.CSharp.Plugins.csproj">
-      <Project>{E8D98538-493B-D56B-62B4-6C6C0D36D125}</Project>
-      <Name>Unity Base Project.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\3rd Party Assets\LeapC\Arm.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapC\Bone.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapC\CSharpExtensions.cs" />
@@ -163,10 +157,10 @@
     <Compile Include="Assets\Particles\Standard\Scripts\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
-    <Compile Include="Assets\Pixel Crushers\Scene Streamer\Scripts\NeighboringScenes.cs" />
-    <Compile Include="Assets\Pixel Crushers\Scene Streamer\Scripts\SceneEdge.cs" />
-    <Compile Include="Assets\Pixel Crushers\Scene Streamer\Scripts\SceneStreamer.cs" />
-    <Compile Include="Assets\Pixel Crushers\Scene Streamer\Scripts\SetStartScene.cs" />
+    <Compile Include="Assets\Scripts\ActivateTrigger.cs" />
+    <Compile Include="Assets\Scripts\AutoMobileShaderSwitch.cs" />
+    <Compile Include="Assets\Scripts\AutoMoveAndRotate.cs" />
+    <Compile Include="Assets\Scripts\CameraRefocus.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyCollision.cs" />
@@ -187,6 +181,9 @@
     <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\FPSDisplay.cs" />
+    <Compile Include="Assets\Scripts\CurveControlledBob.cs" />
+    <Compile Include="Assets\Scripts\DragRigidbody.cs" />
+    <Compile Include="Assets\Scripts\DynamicShadowSettings.cs" />
     <Compile Include="Assets\Scripts\Environment\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />
@@ -205,11 +202,15 @@
     <Compile Include="Assets\Scripts\Environment\PortalCam.cs" />
     <Compile Include="Assets\Scripts\Environment\SpinScript.cs" />
     <Compile Include="Assets\Scripts\Environment\WormHole.cs" />
+    <Compile Include="Assets\Scripts\FOVKick.cs" />
+    <Compile Include="Assets\Scripts\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\FollowTarget.cs" />
     <Compile Include="Assets\Scripts\Game Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
     <Compile Include="Assets\Scripts\Leap\HandBehavior.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
+    <Compile Include="Assets\Scripts\LerpControlledBob.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmButtons.cs" />
     <Compile Include="Assets\Scripts\Menu\ArmSettings.cs" />
     <Compile Include="Assets\Scripts\Menu\IntroScript.cs" />
@@ -223,9 +224,22 @@
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\Menu\WeaponSelectButton.cs" />
+    <Compile Include="Assets\Scripts\NeighboringScenes.cs" />
+    <Compile Include="Assets\Scripts\ObjectResetter.cs" />
+    <Compile Include="Assets\Scripts\ParticleSystemDestroyer.cs" />
+    <Compile Include="Assets\Scripts\PlatformSpecificContent.cs" />
+    <Compile Include="Assets\Scripts\SceneEdge.cs" />
+    <Compile Include="Assets\Scripts\SceneStreamer.cs" />
+    <Compile Include="Assets\Scripts\SetStartScene.cs" />
+    <Compile Include="Assets\Scripts\SimpleActivatorMenu.cs" />
+    <Compile Include="Assets\Scripts\SmoothFollow.cs" />
+    <Compile Include="Assets\Scripts\TimedObjectActivator.cs" />
+    <Compile Include="Assets\Scripts\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
+    <Compile Include="Assets\Scripts\WaypointCircuit.cs" />
+    <Compile Include="Assets\Scripts\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootCounter.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\LootPickup.cs" />
     <Compile Include="Assets\Scripts\_Player\Messages\MessageScript.cs" />
@@ -348,15 +362,11 @@
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
-    <None Include="Assets\Pixel Crushers\Scene Streamer\Example\_IMPORTANT_READ_ME_FIRST.txt" />
-    <None Include="Assets\Pixel Crushers\Scene Streamer\_README.txt" />
-    <None Include="Assets\Resources\Level1.xml" />
-    <None Include="Assets\Resources\Level2.xml" />
-    <None Include="Assets\Resources\Level3.xml" />
-    <None Include="Assets\Resources\OpenWorld.xml" />
+    <None Include="Assets\Resources\XML\Level1.xml" />
+    <None Include="Assets\Resources\XML\Level2.xml" />
+    <None Include="Assets\Resources\XML\Level3.xml" />
+    <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
-    <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
-    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -22,7 +22,7 @@ public class MissionLoader : MonoBehaviour {
         string levelName = SceneManager.GetActiveScene().name;
 
         // load in the file into an element
-        XElement mRoot = XElement.Load(@"Assets\Resources\" + levelName + ".xml");
+        XElement mRoot = XElement.Load(@"Assets\Resources\XML\" + levelName + ".xml");
         
         // get the list of elements in the file
         IEnumerable<XElement> missonList = mRoot.Elements();
