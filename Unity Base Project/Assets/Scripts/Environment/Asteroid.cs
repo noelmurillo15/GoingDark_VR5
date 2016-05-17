@@ -58,8 +58,8 @@ public class Asteroid : MonoBehaviour {
     }
 
     public void Kill() {
-        AsteroidGenerator m_generator = GameObject.Find("Environment").GetComponent<AsteroidGenerator>();
+        AsteroidGenerator m_generator = transform.parent.GetComponentInParent<AsteroidGenerator>();
         m_generator.DeleteAsteroid();
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

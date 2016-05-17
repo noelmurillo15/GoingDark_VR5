@@ -351,7 +351,7 @@ namespace PixelCrushers.SceneStreamer {
 		/// <param name="sceneName">Scene name.</param>
 		public void Unload(string sceneName) 
 		{           
-			Destroy(GameObject.Find(sceneName).gameObject);
+			Destroy(GameObject.Find(sceneName));
 			m_loaded.Remove(sceneName);
 		}
 
@@ -390,8 +390,6 @@ namespace PixelCrushers.SceneStreamer {
 		public static void UnloadScene(string sceneName)
 		{
 			instance.Unload(sceneName);
-		}
-		
+		}		
 	}
-
 }
