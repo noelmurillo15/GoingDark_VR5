@@ -5,7 +5,7 @@ public class DecoySystem : ShipDevice {
     #region Properties
     public int Count { get; private set; }
 
-    private GameObject cam;
+    private GameObject player;
     public GameObject decoy;
     private GameObject environment;
     #endregion
@@ -16,8 +16,7 @@ public class DecoySystem : ShipDevice {
         Debug.Log("Initializing Decoy");
         Count = 5;
         maxCooldown = 10f;
-        cam = GameObject.FindGameObjectWithTag("Player");
-        environment = GameObject.Find("Environment");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -35,7 +34,7 @@ public class DecoySystem : ShipDevice {
     public void SendDecoy()
     {
         Count--;
-        GameObject go = Instantiate(decoy, cam.transform.position, cam.transform.localRotation) as GameObject;
-        go.transform.parent = environment.transform;
+        GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
+        go.transform.parent = player.transform.parent;
     }
 }
