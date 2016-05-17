@@ -44,7 +44,7 @@ namespace PixelCrushers.SceneStreamer {
 		/// The max number of neighbors to load out from the current scene.
 		/// </summary>
 		[Tooltip("Max number of neighbors to load out from the current scene")]
-		public int maxNeighborDistance = 1;
+		public int maxNeighborDistance = 2;
 
 		/// <summary>
 		/// A failsafe in case loading hangs. After this many seconds, the SceneStreamer
@@ -351,8 +351,8 @@ namespace PixelCrushers.SceneStreamer {
 		/// <param name="sceneName">Scene name.</param>
 		public void Unload(string sceneName) 
 		{           
-			Destroy(GameObject.Find(sceneName));
 			m_loaded.Remove(sceneName);
+			Destroy(GameObject.Find(sceneName));
 		}
 
 		/// <summary>
