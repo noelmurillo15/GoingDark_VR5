@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class AsteroidGenerator : MonoBehaviour {
 
@@ -41,13 +40,6 @@ public class AsteroidGenerator : MonoBehaviour {
             go.transform.parent = spawnPts.transform;
             go.transform.localPosition = randomPos;
             numAsteroids++;    
-    }
-
-    private bool CheckAsteroidPrefabs() {
-        if (asteroidPrefabs.Length > 0)
-            return true;
-
-        return false;
     }
 
     public void DeleteAsteroid()
