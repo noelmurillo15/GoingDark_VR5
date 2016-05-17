@@ -5,10 +5,12 @@ public class Asteroid : MonoBehaviour {
     private Vector3 m_velocity;
     private Vector3 m_rotation;
     private Transform MyTransform;
+    private MeshRenderer rend;
 
     // Use this for initialization
     void Start() {
         MyTransform = transform;
+        rend = GetComponent<MeshRenderer>();
         m_velocity.x = Random.Range(-2.0f, 2.0f);
         m_velocity.y = Random.Range(-2.0f, 2.0f);
         m_velocity.z = Random.Range(-2.0f, 2.0f);
@@ -33,7 +35,7 @@ public class Asteroid : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
         MyTransform.Rotate(m_rotation * Time.deltaTime);
         MyTransform.Translate(m_velocity * Time.deltaTime);
     }

@@ -20,53 +20,45 @@ public class NebulaCloud : MonoBehaviour {
         newScale.z *= m_scale.z;
         transform.localScale = newScale;
 
-        timer = 0.0f;
-        playerHealth = GameObject.Find("Health").GetComponent<PlayerHealth>();
+        timer = 0f;
         player = GameObject.Find("Player").GetComponent<PlayerStats>();
         message = GameObject.Find("WarningMessages");
+        playerHealth = GameObject.Find("Health").GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (timer > 0f)
+            timer -= Time.deltaTime;
+    }
 
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+    void OnBecameInvisible()
+    {
+        enabled = false;
     }
 
     #region Collision
     public void OnTriggerStay(Collider col)
     {
-        if (col.transform.tag == "Player")
-        {
-            timer += Time.deltaTime;
+        if (col.transform.tag == "Player" && timer <= 0f) {
+            timer = 10f;
             message.SendMessage("Poison");
             if (col.GetComponentInChildren<PlayerStats>().GetShield())
-            {
-                if (timer >= 9.0f)
-                {
-                    player.EnvironmentalDMG();
-                    timer = 0.0f;
-                }
-            }
+                player.EnvironmentalDMG();
             else
-            {
-                if (timer >= 9.0f)
-                {
-                    timer = 0.0f;
-                    playerHealth.EnvironmentalDMG();
-
-                }
-               
-            }
+                playerHealth.EnvironmentalDMG();
         }
     }
 
     public void OnTriggerExit(Collider col)
     {
         if (col.transform.tag == "Player")
-        {
-            message.SendMessage("NoPoison");
-            timer = 0.0f;
-        }
+            message.SendMessage("NoPoison");        
     }
     #endregion
 }
