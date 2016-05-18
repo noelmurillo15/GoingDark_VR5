@@ -23,7 +23,7 @@ public class PatrolAi : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Patrol Ai Initializing...");
+        Debug.Log("PatrolAi Initializing...");
         targetRotation = Vector3.zero;
         pathBlocked = false;
         headingChange = 45f;

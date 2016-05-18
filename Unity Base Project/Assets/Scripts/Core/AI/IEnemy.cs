@@ -9,7 +9,6 @@ public class IEnemy : MonoBehaviour
     public int MissileCount;
     public Transform Target { get; protected set; }
     public Transform MyTransform { get; protected set; }
-
     private MovementStats MoveData;
     #endregion
 

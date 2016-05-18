@@ -6,7 +6,7 @@ public class EnemyBehavior : IEnemy
 
     #region Properties
     public bool AutoPilot;
-    public EnemyStates State;
+    public EnemyStates State;    
     #endregion
 
     void Awake()
