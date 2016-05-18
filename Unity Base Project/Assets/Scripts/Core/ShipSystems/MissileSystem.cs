@@ -60,6 +60,7 @@ public class MissileSystem : ShipDevice
             Count--;
             textCount.text = Count.ToString();
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+            AudioManager.instance.PlayMissileLaunch();
         }
     }
 

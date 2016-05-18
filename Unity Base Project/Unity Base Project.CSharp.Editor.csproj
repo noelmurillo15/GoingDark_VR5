@@ -191,6 +191,7 @@
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
+    <None Include="Assets\Resources\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\Level1.xml" />
     <None Include="Assets\Resources\XML\Level2.xml" />
     <None Include="Assets\Resources\XML\Level3.xml" />

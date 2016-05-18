@@ -28,6 +28,12 @@ public class BlackHoleRenderer : MonoBehaviour {
 	{
 		shader = Resources.Load<Shader>("BlackHoleDistortion");
 		material.SetInt("_EinsteinR", EinsteinRadiusCompliance == true ? 1 : 0);
+        if(BH == null)
+        {
+            BH = GameObject.Find("Black_Hole_Center");
+            if (BH == null)
+                enabled = false;
+        }
 	}
 
 	protected virtual void OnDisable() 
@@ -63,4 +69,14 @@ public class BlackHoleRenderer : MonoBehaviour {
 			Graphics.Blit(source, destination, material);
 		}
 	}
+
+    void OnBecameVisible()
+    {
+        enabled = true;
+    }
+
+    void OnBecameInvisible()
+    {
+        enabled = false;
+    }
 }

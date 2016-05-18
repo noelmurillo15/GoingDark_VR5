@@ -2,7 +2,7 @@
 
 public class BlackHole : MonoBehaviour
 {
-    private float yRot = -3.0f;
+    public float yRot = -3.0f;
     // Use this for initialization
     void Start()
     {
@@ -32,7 +32,16 @@ public class BlackHole : MonoBehaviour
             Debug.Log("Pulling " + col.tag);
             Vector3 pullDirection = new Vector3(transform.position.x, transform.position.y + 70, transform.position.z) - col.transform.position;
             pullDirection.Normalize();
+            float distance = (transform.position - col.transform.position).magnitude;
             col.transform.position = col.transform.position + pullDirection * Time.deltaTime * 50.0f;
+            if (col.gameObject.tag == "Player")
+                AudioManager.instance.LowerMusicVolume();
         }
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.gameObject.tag == "Player")
+            AudioManager.instance.RaiseMusicVolume();
     }
 }

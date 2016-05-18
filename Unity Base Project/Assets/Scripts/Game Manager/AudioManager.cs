@@ -13,8 +13,10 @@ public class AudioManager : MonoBehaviour
     Dictionary<string, AudioClip> sounds;
     Dictionary<string, AudioClip> music;
     public static AudioManager instance = null;
+    private bool Raise;
+    private bool Lower;
 
-    [Range(0.0f,1.0f)]
+    [Range(0.0f, 1.0f)]
     public float MasterVolume = 1.0f;
     [Range(0.0f, 1.0f)]
     public float SoundVolume = 1.0f;
@@ -27,6 +29,9 @@ public class AudioManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+
+        Raise = false;
+        Lower = false;
 
         sounds = new Dictionary<string, AudioClip>();
         music = new Dictionary<string, AudioClip>();
@@ -42,19 +47,44 @@ public class AudioManager : MonoBehaviour
             music.Add(songs[i].name, songs[i]);
         }
         //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
-        
+
         DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Raise || Lower)
+        {
+            if (Raise && Lower)
+                Raise = Lower = false;
+            else if (Raise)
+            {
+                MusicVolume += 0.01f;
+                if (MusicVolume > 1.0f)
+                {
+                    MusicVolume = 1.0f;
+                    Raise = false;
+                }
+            }
+            else if (Lower)
+            {
+                MusicVolume -= 0.01f;
+                if (MusicVolume < 0.0f)
+                {
+                    Lower = false;
+                    MusicVolume = 0.0f;
+                }
+            }
+        }
+
+
         _Music.volume = MusicVolume * MasterVolume;
     }
 
     public void PlaySound(AudioClip _clip, int source)
     {
-        switch(source)
+        switch (source)
         {
             case 0:
                 _Alarms.clip = _clip;
@@ -202,6 +232,22 @@ public class AudioManager : MonoBehaviour
         _Music.Stop();
         _Music.clip = music["MainMenuTheme"];
         _Music.Play();
+    }
+
+    public void LowerMusicVolume(float vol = 100.0f)
+    {
+        if (vol != 100.0f && vol >= 0.0f && vol <= 1.0f)
+            MusicVolume = vol;
+        else
+            Lower = true;
+    }
+
+    public void RaiseMusicVolume(float vol = 100.0f)
+    {
+        if (vol != 100.0f && vol >= 0.0f && vol <= 1.0f)
+            MusicVolume = vol;
+        else
+            Raise = true;
     }
 }
 
