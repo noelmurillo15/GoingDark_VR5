@@ -18,6 +18,7 @@
     #region EnemyAI
     public enum EnemyTypes
     {
+        NONE,
         BASIC,
         KAMIKAZE,
         TRANSPORT,

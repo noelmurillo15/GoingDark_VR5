@@ -22,7 +22,7 @@ public class MissileSystem : ShipDevice
 
     void Start()
     {
-        Debug.Log("Initializing Missiles");
+        //Debug.Log("Initializing Missiles");
         Count = 10;
         maxCooldown = 5f;
 

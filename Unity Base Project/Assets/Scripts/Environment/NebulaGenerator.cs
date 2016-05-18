@@ -35,9 +35,9 @@ public class NebulaGenerator : MonoBehaviour
 
     private void SpawnCloud()
     {
-        float x = Random.Range((-boundsX / 2), (boundsX / 2));
-        float y = Random.Range(-boundsY / 2, boundsY / 2);
-        float z = Random.Range((-boundsX / 2), (boundsX / 2));
+        float x = Random.Range(-boundsX * .5f, boundsX * .5f);
+        float y = Random.Range(-boundsY * .5f, boundsY * .5f);
+        float z = Random.Range(-boundsX * .5f, boundsX * .5f);
         Vector3 randomPos = new Vector3(x, y, z);
 
         GameObject go = Instantiate(nebulaPrefabs[Random.Range(0, nebulaPrefabs.Length)],

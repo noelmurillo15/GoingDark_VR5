@@ -11,7 +11,7 @@ public class EmpSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Initializing Emp");
+        //Debug.Log("Initializing Emp");
         empTimer = 0f;
         maxCooldown = 30f;
         shockwave = transform.GetChild(0).gameObject;

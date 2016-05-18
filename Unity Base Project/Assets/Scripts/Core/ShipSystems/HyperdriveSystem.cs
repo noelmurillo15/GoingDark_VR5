@@ -19,7 +19,7 @@ public class HyperdriveSystem : ShipDevice
 
     // Use this for initialization
     void Start () {
-        Debug.Log("Initializing Hyperdrive");
+        //Debug.Log("Initializing Hyperdrive");
         hypeJump = false;
         maxCooldown = 60f;
         beginningTimer = 2f;    

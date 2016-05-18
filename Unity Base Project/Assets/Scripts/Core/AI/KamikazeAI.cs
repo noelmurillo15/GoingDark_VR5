@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
 
-public class KamikazeAI : MonoBehaviour {
+public class KamikazeAI : MonoBehaviour
+{
     //**        Attach to Enemy     **//
 
     private float detectionTimer;
     public float autoTimer;
     private PatrolAi patrol;
-    private EnemyBehavior behavior;
+    private EnemyStats stats;
     // Use this for initialization
     void Start()
     {
         detectionTimer = 0f;
         autoTimer = 0f;
         patrol = GetComponent<PatrolAi>();
-        behavior = GetComponent<EnemyBehavior>();
+        stats = GetComponent<EnemyStats>();
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class KamikazeAI : MonoBehaviour {
             if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
             {                
                 Debug.Log("Kamikaze patrolling with : " + col.name);
-                patrol.SecondaryTarget = col.transform;
+                //patrol.SecondaryTarget = col.transform;
             }
         }     
     }
@@ -49,7 +50,7 @@ public class KamikazeAI : MonoBehaviour {
     {
         if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
         {
-            if (behavior.Target == null) {
+            if (stats.Target == null) {
                 Debug.Log("Heading Back to Enemy");
                 patrol.AutoPilot = true;
                 autoTimer = 5f;

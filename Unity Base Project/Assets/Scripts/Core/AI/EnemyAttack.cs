@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PatrolAi))]
-[RequireComponent(typeof(EnemyStats))]
-public class EnemyAttack : MonoBehaviour {
+public class EnemyAttack : MonoBehaviour
+{
     //**        Attach to Enemy     **//
 
     //  Missile Data
@@ -11,19 +10,14 @@ public class EnemyAttack : MonoBehaviour {
     private float missileCooldown;
     public GameObject missilePrefab;
 
-    //  Enemy Data
     private EnemyStats stats;
-    private EnemyBehavior beahvior;
-    private Transform MyTransform;
 
 
     // Use this for initialization
     void Start() {
-        MyTransform = transform;
         lockedOn = false;
         missileCooldown = 0f;
         stats = GetComponent<EnemyStats>();
-        beahvior = GetComponent<EnemyBehavior>();
     }
 
     // Update is called once per frame
@@ -38,8 +32,8 @@ public class EnemyAttack : MonoBehaviour {
     }
 
     private void LockOn() {
-        Vector3 playerDir = (beahvior.Target.position - MyTransform.position).normalized;
-        angle = Vector3.Dot(playerDir, MyTransform.forward);
+        Vector3 playerDir = (stats.Target.position - stats.MyTransform.position).normalized;
+        angle = Vector3.Dot(playerDir, stats.MyTransform.forward);
 
         if (angle > .985f)
             lockedOn = true;
@@ -52,7 +46,7 @@ public class EnemyAttack : MonoBehaviour {
             if (missileCooldown <= 0.0f) {
                 missileCooldown = 5.0f;
                 stats.DecreaseMissileCount();
-                Instantiate(missilePrefab, new Vector3(MyTransform.position.x, MyTransform.position.y, MyTransform.position.z), MyTransform.rotation);
+                Instantiate(missilePrefab, new Vector3(stats.MyTransform.position.x, stats.MyTransform.position.y, stats.MyTransform.position.z), stats.MyTransform.rotation);
             }
         }
     }    

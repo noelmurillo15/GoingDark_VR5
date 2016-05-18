@@ -13,7 +13,7 @@ public class DecoySystem : ShipDevice {
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Initializing Decoy");
+        //Debug.Log("Initializing Decoy");
         Count = 5;
         maxCooldown = 10f;
         player = GameObject.FindGameObjectWithTag("Player");

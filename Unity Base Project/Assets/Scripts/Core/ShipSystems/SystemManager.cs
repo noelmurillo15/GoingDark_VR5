@@ -28,7 +28,7 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.SHIELD);            
 
         string level = transform.parent.parent.name;
-        if(level != "Level1")
+        if(level != "Tutorial")
         {
             InitializeDevice(SystemType.MISSILES);
             InitializeDevice(SystemType.EMP);

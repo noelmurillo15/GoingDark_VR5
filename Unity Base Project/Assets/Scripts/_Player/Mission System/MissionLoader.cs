@@ -17,7 +17,7 @@ public class MissionLoader : MonoBehaviour {
 
     public MissionSystem.Mission[] LoadMissions()
     {
-        Debug.Log("Loading Missions");
+        //Debug.Log("Loading Missions");
         int count = 0;
         string levelName = SceneManager.GetActiveScene().name;
 

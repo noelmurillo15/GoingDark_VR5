@@ -1,22 +1,17 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-[RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(EnemyBehavior))]
-[RequireComponent(typeof(SphereCollider))]
-public class EnemyCollision : MonoBehaviour {
+public class EnemyCollision : MonoBehaviour
+{
 
     #region Properties
     public float detectionTimer;
     private SystemManager Systems;
-    private EnemyBehavior behavior;
     #endregion
 
     void Start()
     {
-        detectionTimer = 0f;
-        behavior = GetComponent<EnemyBehavior>();
-        
+        detectionTimer = 0f;        
     }
 
     void Update()
@@ -46,13 +41,11 @@ public class EnemyCollision : MonoBehaviour {
             if (Systems.GetSystemCooldown(SystemType.CLOAK) > 0f)
             {
                 Debug.Log("Player is Cloaked");
-                behavior.losingSight = 5f;
-                behavior.ChangeState(EnemyStates.SEARCHING);
+                //ChangeState(EnemyStates.SEARCHING);
             }
             else
             {
-                behavior.losingSight = 0f;
-                behavior.SetEnemyTarget(col.transform);
+                //SetEnemyTarget(col.transform);
             }
             detectionTimer = Random.Range(.5f, 4.5f);
         }
@@ -62,8 +55,7 @@ public class EnemyCollision : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            behavior.losingSight = 5f;
-            behavior.ChangeState(EnemyStates.SEARCHING);
+            //ChangeState(EnemyStates.SEARCHING);
         }
     }
     #endregion

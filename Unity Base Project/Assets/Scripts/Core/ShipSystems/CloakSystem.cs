@@ -12,7 +12,7 @@ public class CloakSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        Debug.Log("Initializing Cloak");
+        //Debug.Log("Initializing Cloak");
         maxCooldown = 60f;
         cloakTimer = 0f;
         shipLights = new GameObject[5];

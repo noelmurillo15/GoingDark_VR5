@@ -30,9 +30,9 @@ public class AsteroidGenerator : MonoBehaviour {
     }
 
     private void SpawnAsteroid() {
-            float x = Random.Range(-boundsX / 2, boundsX / 2);
-            float y = Random.Range(-boundsY / 2, boundsY / 2);
-            float z = Random.Range(-boundsX / 2, boundsX / 2);
+            float x = Random.Range(-boundsX * .5f, boundsX * .5f);
+            float y = Random.Range(-boundsY * .5f, boundsY * .5f);
+            float z = Random.Range(-boundsX * .5f, boundsX * .5f);
             Vector3 randomPos = new Vector3(x, y, z);
             GameObject go = Instantiate(asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)],
                             Vector3.zero, Quaternion.identity) as GameObject;
