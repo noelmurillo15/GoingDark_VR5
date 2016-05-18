@@ -270,6 +270,7 @@
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
     <Compile Include="Assets\ShipArmor.cs" />
+    <Compile Include="Assets\SpaceSector.cs" />
     <Compile Include="Assets\Turret.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,9 @@ public class PlayerStats : MonoBehaviour {
     //  Credits
     public int numCredits;
 
+    //  Current Sector Name
+    public string sectorName;
+
     //  Shields
     private bool shieldOn;
     private float shieldHealth;
@@ -82,6 +85,10 @@ public class PlayerStats : MonoBehaviour {
     #endregion
 
     #region Msg Functions
+    public void UpdateSector(string _name)
+    {
+        sectorName = _name;
+    }
     public void EMPHit()
     {
         Debug.Log("EMP has affected Player's Systems");
