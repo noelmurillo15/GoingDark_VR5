@@ -2,82 +2,72 @@
 using GD.Core.Enums;
 using System.Collections;
 
-public class PatrolAi : EnemyBehavior
+public class PatrolAi : MonoBehaviour
 {
-    //**        Attach to Enemy     **//
 
     //  Raycast Data
     private int range;    
     private bool pathBlocked;
     private RaycastHit hit;
 
-    //  Movement
-    public bool AutoPilot;
+    //  Movement    
     private float interval;
     public float headingX, headingY;
-    private float maxHeadingChange;
+    private float headingChange;
     private Vector3 targetRotation;
-    public Transform SecondaryTarget { get; protected set; }
 
-    //  Enemy Data        
+    //  Enemy Data   
+    private EnemyBehavior behavior;     
     private CharacterController controller;
 
 
-    void Awake() {
-        Debug.Log("PatrolAI Awake Called");
-        Init();
-    }
-
-    public override void Init()
+    void Start()
     {
-        base.Init();
-
-        ChangeState(EnemyStates.PATROL);
-
-        AutoPilot = false;
-        pathBlocked = false;
-        SecondaryTarget = null;
-
-        range = 100;
-        interval = 5f;
-        maxHeadingChange = 45f;
-
+        Debug.Log("Patrol Ai Initializing...");
         targetRotation = Vector3.zero;
-        stats = GetComponent<EnemyStats>();
+        pathBlocked = false;
+        headingChange = 45f;
+        interval = 5f;
+        range = 100;
+
         controller = GetComponent<CharacterController>();
+        behavior = GetComponent<EnemyBehavior>();
+        behavior.ChangeState(EnemyStates.PATROL);
+        behavior.AutoPilot = false;
 
         // Set random initial rotation
         headingX = 0f;
         headingY = Random.Range(0, 360);
-        stats.MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
+        behavior.MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
         StartCoroutine(NewHeading());
-
-        Debug.Log("PatrolAI Initialized");
+        Debug.Log("PatrolAI READY!");
     }
 
     void Update() {
-        if (!AutoPilot)  
+        if (!behavior.AutoPilot)  
         {
             if (!pathBlocked)
             {
-                if (stats.Target == null)
-                    stats.MyTransform.rotation = Quaternion.Slerp(stats.MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / stats.GetMoveData().RotateSpeed);
+                if (behavior.Target == null)
+                    behavior.MyTransform.rotation = Quaternion.Slerp(behavior.MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
                 else
                 {
-                    Vector3 playerDir = stats.Target.position - stats.MyTransform.position;
-                    Vector3 direction = Vector3.RotateTowards(stats.MyTransform.forward, playerDir, Time.deltaTime / stats.GetMoveData().RotateSpeed, 0.0f);
-                    stats.MyTransform.rotation = Quaternion.LookRotation(direction);
-                    headingX = stats.MyTransform.eulerAngles.x;
-                    headingY = stats.MyTransform.eulerAngles.y;
+                    Vector3 playerDir = behavior.Target.position - behavior.MyTransform.position;
+                    Vector3 direction = Vector3.RotateTowards(behavior.MyTransform.forward, playerDir, Time.deltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
+                    behavior.MyTransform.rotation = Quaternion.LookRotation(direction);
+                    headingX = behavior.MyTransform.eulerAngles.x;
+                    headingY = behavior.MyTransform.eulerAngles.y;
                 }
             }
+
+            behavior.IncreaseSpeed();
 
             CheckRayCasts();
 
             if (pathBlocked)
             {
-                if (Physics.Raycast(stats.MyTransform.position - (stats.MyTransform.forward * 4), stats.MyTransform.right, out hit, (range / 2.0f)) ||
-                Physics.Raycast(stats.MyTransform.position - (stats.MyTransform.forward * 4), -stats.MyTransform.right, out hit, (range / 2.0f)))
+                if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), behavior.MyTransform.right, out hit, (range / 2.0f)) ||
+                Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), -behavior.MyTransform.right, out hit, (range / 2.0f)))
                 {
                     if (hit.collider.gameObject.CompareTag("Asteroid"))
                         pathBlocked = false;
@@ -89,37 +79,37 @@ public class PatrolAi : EnemyBehavior
             // Auto-pilot back into playable area
             Vector3 direction = Vector3.zero;
 
-            if (SecondaryTarget != null)
-                direction = SecondaryTarget.position - stats.MyTransform.position;
-            else
-                direction = direction - stats.MyTransform.position;
+            //if (SecondaryTarget != null)
+            //    direction = SecondaryTarget.position - MyTransform.position;
+            //else
+                direction = direction - behavior.MyTransform.position;
 
-            Vector3 rotation = Vector3.RotateTowards(stats.MyTransform.forward, direction, Time.deltaTime, 0.0f);
-            stats.MyTransform.rotation = Quaternion.LookRotation(rotation);
-            headingX = stats.MyTransform.eulerAngles.x;
-            headingY = stats.MyTransform.eulerAngles.y;
+            Vector3 rotation = Vector3.RotateTowards(behavior.MyTransform.forward, direction, Time.deltaTime, 0.0f);
+            behavior.MyTransform.rotation = Quaternion.LookRotation(rotation);
+            headingX = behavior.MyTransform.eulerAngles.x;
+            headingY = behavior.MyTransform.eulerAngles.y;
         }
 
-        controller.Move(stats.MyTransform.forward * Time.deltaTime * stats.GetMoveData().Speed);
+        controller.Move(behavior. MyTransform.forward * Time.deltaTime * behavior.GetMoveData().Speed);
 
         // Use to debug the Physics.RayCast.
-        Debug.DrawRay(stats.MyTransform.position + (stats.MyTransform.right * 12), stats.MyTransform.forward * range, Color.red);
-        Debug.DrawRay(stats.MyTransform.position - (stats.MyTransform.right * 12), stats.MyTransform.forward * range, Color.red);
-        Debug.DrawRay(stats.MyTransform.position - (stats.MyTransform.forward * 4), -stats.MyTransform.right * (range / 2.0f), Color.yellow);
-        Debug.DrawRay(stats.MyTransform.position - (stats.MyTransform.forward * 4), stats.MyTransform.right * (range / 2.0f), Color.yellow);
+        Debug.DrawRay(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward * range, Color.red);
+        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward * range, Color.red);
+        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), -behavior.MyTransform.right * (range / 2.0f), Color.yellow);
+        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), behavior.MyTransform.right * (range / 2.0f), Color.yellow);
     }
     #region Asteroid Avoidance
     private void CheckRayCasts() {
-        if (Physics.Raycast(stats.MyTransform.position + (stats.MyTransform.right * 12), stats.MyTransform.forward, out hit, range)) {
+        if (Physics.Raycast(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                stats.MyTransform.Rotate(Vector3.down * Time.deltaTime * stats.GetMoveData().RotateSpeed);
+                behavior.MyTransform.Rotate(Vector3.down * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
         }
-        else if (Physics.Raycast(stats.MyTransform.position - (stats.MyTransform.right * 12), stats.MyTransform.forward, out hit, range)) {
+        else if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
                 pathBlocked = true;
-                stats.MyTransform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);
+                behavior.MyTransform.Rotate(Vector3.up * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
         }
     }
@@ -133,12 +123,12 @@ public class PatrolAi : EnemyBehavior
         }
     }
     private void NewHeadingRoutine() {
-        var floor = Mathf.Clamp(headingX - maxHeadingChange, 0, 360);
-        var ceil = Mathf.Clamp(headingX + maxHeadingChange, 0, 360);
+        var floor = Mathf.Clamp(headingX - headingChange, 0, 360);
+        var ceil = Mathf.Clamp(headingX + headingChange, 0, 360);
         headingX = Random.Range(floor, ceil);
 
-        floor = Mathf.Clamp(headingY - maxHeadingChange, 0, 360);
-        ceil = Mathf.Clamp(headingY + maxHeadingChange, 0, 360);
+        floor = Mathf.Clamp(headingY - headingChange, 0, 360);
+        ceil = Mathf.Clamp(headingY + headingChange, 0, 360);
         headingY = Random.Range(floor, ceil);
 
         targetRotation = new Vector3(headingX, headingY, 0f);
@@ -148,12 +138,12 @@ public class PatrolAi : EnemyBehavior
     #region Msgs
     void OutOfBounds()
     {
-        AutoPilot = true;
+        behavior.AutoPilot = true;
     }
 
     void InBounds()
     {
-        AutoPilot = false;
+        behavior.AutoPilot = false;
     }
     #endregion
 }

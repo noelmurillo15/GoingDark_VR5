@@ -7,14 +7,12 @@ public class KamikazeAI : MonoBehaviour
     private float detectionTimer;
     public float autoTimer;
     private PatrolAi patrol;
-    private EnemyStats stats;
     // Use this for initialization
     void Start()
     {
         detectionTimer = 0f;
         autoTimer = 0f;
         patrol = GetComponent<PatrolAi>();
-        stats = GetComponent<EnemyStats>();
     }
 
     // Update is called once per frame
@@ -27,8 +25,8 @@ public class KamikazeAI : MonoBehaviour
             autoTimer -= Time.deltaTime;
         else
         {
-            if (autoTimer < 0f)
-                patrol.AutoPilot = false;
+            //if (autoTimer < 0f)
+            //    patrol.AutoPilot = false;
 
             autoTimer = 0f;
         }
@@ -36,7 +34,7 @@ public class KamikazeAI : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.transform.name != transform.name && patrol.SecondaryTarget == null)
+        if (col.transform.name != transform.name/* && patrol.SecondaryTarget == null*/)
         {
             if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
             {                
@@ -50,11 +48,11 @@ public class KamikazeAI : MonoBehaviour
     {
         if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
         {
-            if (stats.Target == null) {
-                Debug.Log("Heading Back to Enemy");
-                patrol.AutoPilot = true;
-                autoTimer = 5f;
-            }
+            //if (stats.Target == null) {
+            //    Debug.Log("Heading Back to Enemy");
+            //    patrol.AutoPilot = true;
+            //    autoTimer = 5f;
+            //}
         }
     }
 

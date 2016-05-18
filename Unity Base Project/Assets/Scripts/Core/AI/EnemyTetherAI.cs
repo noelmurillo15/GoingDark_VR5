@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(EnemyStats))]
 public class EnemyTetherAI : MonoBehaviour {
     
 

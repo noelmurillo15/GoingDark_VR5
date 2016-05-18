@@ -167,7 +167,6 @@
     <Compile Include="Assets\Scripts\Core\AI\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyMissile.cs" />
-    <Compile Include="Assets\Scripts\Core\AI\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyTetherAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\IEnemy.cs" />
     <Compile Include="Assets\Scripts\Core\AI\KamikazeAI.cs" />

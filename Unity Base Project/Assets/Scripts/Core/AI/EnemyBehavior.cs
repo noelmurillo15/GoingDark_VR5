@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class EnemyBehavior : MonoBehaviour
+public class EnemyBehavior : IEnemy
 {
 
     #region Properties
-    public EnemyStates State;    
-    protected EnemyStats stats;
+    public bool AutoPilot;
+    public EnemyStates State;
     #endregion
 
-    public virtual void Init()
+    void Awake()
     {
-        Debug.Log("EnemyBehavior Initialize Called");
+        Debug.Log("EnemyBehavior Initializing...");
+        base.Initialize();
         ChangeState(EnemyStates.IDLE);
-        stats = null;
+        AutoPilot = false;
+        Debug.Log("EnemyBehavior READY");
     }
 
     #region Public Methods
