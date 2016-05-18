@@ -4,21 +4,21 @@ public class EnemyAttack : MonoBehaviour
 {
 
     //  Missile Data
-    public float angle;
+    private float angle;
     private bool lockedOn;
     private float missileCooldown;
     public GameObject missilePrefab;
 
-    private EnemyBehavior stats;
+    private EnemyBehavior behavior;
 
 
     // Use this for initialization
     void Start()
     {
         Debug.Log("EnemyAI Initializing...");
-        lockedOn = false;
+        behavior = GetComponent<EnemyBehavior>();
         missileCooldown = 0f;
-        stats = GetComponent<EnemyBehavior>();
+        lockedOn = false;
         Debug.Log("EnemyAI Initialized");
     }
 
@@ -36,8 +36,8 @@ public class EnemyAttack : MonoBehaviour
 
     private void LockOn()
     {
-        Vector3 playerDir = (stats.Target.position - stats.MyTransform.position).normalized;
-        angle = Vector3.Dot(playerDir, stats.MyTransform.forward);
+        Vector3 playerDir = (behavior.Target.position - behavior.MyTransform.position).normalized;
+        angle = Vector3.Dot(playerDir, behavior.MyTransform.forward);
 
         if (angle > .985f)
             lockedOn = true;
@@ -47,13 +47,13 @@ public class EnemyAttack : MonoBehaviour
 
     private void Fire()
     {
-        if (stats.MissileCount > 0)
+        if (behavior.MissileCount > 0)
         {
             if (missileCooldown <= 0.0f)
             {
                 missileCooldown = 5.0f;
-                stats.DecreaseMissileCount();
-                Instantiate(missilePrefab, new Vector3(stats.MyTransform.position.x, stats.MyTransform.position.y, stats.MyTransform.position.z), stats.MyTransform.rotation);
+                behavior.DecreaseMissileCount();
+                Instantiate(missilePrefab, new Vector3(behavior.MyTransform.position.x, behavior.MyTransform.position.y, behavior.MyTransform.position.z), behavior.MyTransform.rotation);
             }
         }
     }

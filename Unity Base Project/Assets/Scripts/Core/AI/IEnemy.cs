@@ -5,11 +5,12 @@ public class IEnemy : MonoBehaviour
 {
 
     #region Properties
-    public EnemyTypes Type;    
-    public int MissileCount;
-    public Transform Target { get; protected set; }
     public Transform MyTransform { get; protected set; }
-    private MovementStats MoveData;
+    public Transform Target { get; protected set; }
+
+    public EnemyTypes Type;  
+    public int MissileCount;
+    protected MovementStats MoveData;
     #endregion
 
 
@@ -17,7 +18,7 @@ public class IEnemy : MonoBehaviour
     {
         Debug.Log("IEnemy Initializing...");
         MyTransform = transform;
-        Type = EnemyTypes.NONE;       
+        Type = EnemyTypes.NONE;
         MissileCount = 0;
         Target = null;
 
@@ -93,7 +94,7 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Private Methods
-    private void Init(string enemyName)
+    void Init(string enemyName)
     {
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;

@@ -12,7 +12,7 @@ public class PatrolAi : MonoBehaviour
 
     //  Movement    
     private float interval;
-    public float headingX, headingY;
+    private float headingX, headingY;
     private float headingChange;
     private Vector3 targetRotation;
 
@@ -24,21 +24,25 @@ public class PatrolAi : MonoBehaviour
     void Start()
     {
         Debug.Log("PatrolAi Initializing...");
+        // Patrol Data
         targetRotation = Vector3.zero;
         pathBlocked = false;
         headingChange = 45f;
         interval = 5f;
         range = 100;
 
+        // Enemy Data
         controller = GetComponent<CharacterController>();
         behavior = GetComponent<EnemyBehavior>();
         behavior.ChangeState(EnemyStates.PATROL);
         behavior.AutoPilot = false;
 
-        // Set random initial rotation
+        // Set random rotation
         headingX = 0f;
         headingY = Random.Range(0, 360);
         behavior.MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
+
+        //  Start Coroutine
         StartCoroutine(NewHeading());
         Debug.Log("PatrolAI READY!");
     }

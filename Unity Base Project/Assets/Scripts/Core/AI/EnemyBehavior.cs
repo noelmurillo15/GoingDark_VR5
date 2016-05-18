@@ -4,17 +4,16 @@ using GD.Core.Enums;
 public class EnemyBehavior : IEnemy
 {
 
-    #region Properties
+    #region Properties    
     public bool AutoPilot;
-    public EnemyStates State;    
+    public EnemyStates State;
     #endregion
 
     void Awake()
     {
         Debug.Log("EnemyBehavior Initializing...");
         base.Initialize();
-        ChangeState(EnemyStates.IDLE);
-        AutoPilot = false;
+        State = EnemyStates.IDLE;        
         Debug.Log("EnemyBehavior READY");
     }
 
@@ -28,6 +27,24 @@ public class EnemyBehavior : IEnemy
 
     public void ChangeBehavior() {
         Debug.Log("Changing Enemy Behavior");
+        switch (State)
+        {
+            case EnemyStates.IDLE:
+                break;
+            case EnemyStates.PATROL:
+                break;
+            case EnemyStates.RUNNING:
+                break;
+            case EnemyStates.ATTACKING:
+                break;
+            case EnemyStates.SEARCHING:
+                break;
+
+
+            default:
+                Debug.Log("Invalid Enemy State!");
+                break;
+        }
     }             
     #endregion
 }
