@@ -7,7 +7,7 @@ public class ShipDevice : MonoBehaviour {
     #region Properties
     public SystemStatus Status { get; protected set; }
     public bool Activated { get; protected set; }
-    public float Cooldown { get; protected set; }
+    public float Cooldown;
 
     // When activated Cooldown Gets set to this
     protected float maxCooldown;    

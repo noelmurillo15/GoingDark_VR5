@@ -14,6 +14,8 @@ public class MissileSystem : ShipDevice
     private GameObject chromatic;
     private GameObject shieldbreak;
     private GameObject selectedMissile;
+    private bool missSwitch;
+    private float missTimer;
 
     //  Missile Display
     private Text textCount;
@@ -22,6 +24,8 @@ public class MissileSystem : ShipDevice
 
     void Start()
     {
+        missSwitch = false;
+        missTimer = 5;
         //Debug.Log("Initializing Missiles");
         Count = 10;
         maxCooldown = 5f;
@@ -41,9 +45,26 @@ public class MissileSystem : ShipDevice
         if (Cooldown == maxCooldown)
         {
             Debug.Log("Missile has been launched");
+            Cooldown -= .5f;
             LaunchMissile();
         }
-        
+
+        //if(missTimer >= 4.0f)
+        //{
+        //    if (Input.GetKey(KeyCode.F))
+        //        LaunchMissile();
+        //    missSwitch = true;
+        //}
+
+        //if(missSwitch)
+        //{
+        //    missTimer -= Time.deltaTime;
+        //}
+        //if(missTimer <= 0)
+        //{
+        //    missTimer = 5;
+        //    missSwitch = false;
+        //}
         UpdateCooldown();
     }
 

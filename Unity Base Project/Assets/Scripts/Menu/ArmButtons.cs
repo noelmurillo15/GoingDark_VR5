@@ -68,7 +68,7 @@ public class ArmButtons : MonoBehaviour
     private void ActivateButton()
     {
         m_button.color = original;
-        AudioManager.instance.PlayMenuGood();
+        //AudioManager.instance.PlayMenuGood();
         if (Type == SystemType.RADAR || Type == SystemType.SHIELD)
         {
             manager.ToggleSystem(Type);
