@@ -142,9 +142,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
-    <Compile Include="Assets\BasicEnemyMaterialChange.cs" />
-    <Compile Include="Assets\LaserProjectile.cs" />
-    <Compile Include="Assets\MenuButtons.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
@@ -160,6 +157,7 @@
     <Compile Include="Assets\Scripts\ActivateTrigger.cs" />
     <Compile Include="Assets\Scripts\AutoMobileShaderSwitch.cs" />
     <Compile Include="Assets\Scripts\AutoMoveAndRotate.cs" />
+    <Compile Include="Assets\Scripts\BasicEnemyMaterialChange.cs" />
     <Compile Include="Assets\Scripts\CameraRefocus.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyBehavior.cs" />
@@ -180,6 +178,7 @@
     <Compile Include="Assets\Scripts\Core\ShipSystems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\ShipDevice.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
+    <Compile Include="Assets\Scripts\Core\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\CurveControlledBob.cs" />
     <Compile Include="Assets\Scripts\DragRigidbody.cs" />
@@ -208,6 +207,7 @@
     <Compile Include="Assets\Scripts\Game Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Game Manager\PersistentGameManager.cs" />
+    <Compile Include="Assets\Scripts\LaserProjectile.cs" />
     <Compile Include="Assets\Scripts\Leap\HandBehavior.cs" />
     <Compile Include="Assets\Scripts\Leap\LeapData.cs" />
     <Compile Include="Assets\Scripts\LerpControlledBob.cs" />
@@ -224,6 +224,7 @@
     <Compile Include="Assets\Scripts\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\Menu\WeaponSelectButton.cs" />
+    <Compile Include="Assets\Scripts\MenuButtons.cs" />
     <Compile Include="Assets\Scripts\NeighboringScenes.cs" />
     <Compile Include="Assets\Scripts\ObjectResetter.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemDestroyer.cs" />
@@ -231,10 +232,13 @@
     <Compile Include="Assets\Scripts\SceneEdge.cs" />
     <Compile Include="Assets\Scripts\SceneStreamer.cs" />
     <Compile Include="Assets\Scripts\SetStartScene.cs" />
+    <Compile Include="Assets\Scripts\ShipArmor.cs" />
     <Compile Include="Assets\Scripts\SimpleActivatorMenu.cs" />
     <Compile Include="Assets\Scripts\SmoothFollow.cs" />
+    <Compile Include="Assets\Scripts\SpaceSector.cs" />
     <Compile Include="Assets\Scripts\TimedObjectActivator.cs" />
     <Compile Include="Assets\Scripts\TimedObjectDestructor.cs" />
+    <Compile Include="Assets\Scripts\Turret.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
@@ -269,9 +273,6 @@
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
-    <Compile Include="Assets\ShipArmor.cs" />
-    <Compile Include="Assets\SpaceSector.cs" />
-    <Compile Include="Assets\Turret.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />

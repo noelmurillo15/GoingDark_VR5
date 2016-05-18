@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviour {
     public Impairments Debuff { get; private set; }
     private MovementStats MoveData;
     private SystemManager Systems;
+
     //  Credits
     public int numCredits;
 
@@ -30,7 +31,6 @@ public class PlayerStats : MonoBehaviour {
         MoveData.RotateSpeed = 20f;
         MoveData.Acceleration = 5f;
         numCredits = PlayerPrefs.GetInt("Credits");
-       // numMissiles = PlayerPrefs.GetInt("MissleCount");
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
         // shield defaults

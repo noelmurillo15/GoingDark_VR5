@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour {
         resetRotation = false;
         orientationTimer = 0.0f;
         autoPilotDestination = Vector3.zero;
-        OutOfBounds(autoPilotDestination);
+        //OutOfBounds(autoPilotDestination);
     }
 
     // Update is called once per frame

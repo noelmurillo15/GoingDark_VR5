@@ -7,19 +7,23 @@ public class WormHole : MonoBehaviour {
     private float jumpRangeX, jumpRangeY, jumpRangeZ;
     private AudioSource teleSound;
     private float jumpTimer;
+    public GameObject owningScene;
+    public GameObject owningEnvironment;
     // Use this for initialization
     void Start () {
         myTransform = transform;
         jumpTimer = Random.Range(120, 180);
 
-        BoxCollider box = GetComponentInParent<BoxCollider>();
-
-        jumpRangeX = box.size.x / 2;
-        jumpRangeY = box.size.y / 2;
-        jumpRangeZ = box.size.z / 2;
-
+        BoxCollider box = owningEnvironment.GetComponent<BoxCollider>();
+        
+        jumpRangeX = box.size.x / 2 + owningScene.transform.position.x;
+        jumpRangeY = box.size.y / 2 + owningScene.transform.position.y;
+        jumpRangeZ = box.size.z / 2 + owningScene.transform.position.z;
+        Debug.Log(jumpRangeX);
+        Debug.Log(jumpRangeY);
+        Debug.Log(jumpRangeZ);
         teleSound = GetComponent<AudioSource>();
-        myTransform.localPosition = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+        //myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
     }
 
     // Update is called once per frame
@@ -30,7 +34,7 @@ public class WormHole : MonoBehaviour {
         if (jumpTimer <= 0.0f)
         {
             jumpTimer = Random.Range(120f, 180f);
-            myTransform.localPosition = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+            myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
         }
     }
 
@@ -49,11 +53,10 @@ public class WormHole : MonoBehaviour {
         if (col.transform.tag == "Player")
         {
             Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-            while (Vector3.Distance(myTransform.localPosition, randPos) < 500)
+            while (Vector3.Distance(myTransform.position, randPos) < 1500)
                 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
-
-            Vector3 newpos = col.transform.position += randPos;
-            col.transform.position = newpos;
+            
+            col.transform.position = randPos;
             col.transform.rotation = Quaternion.identity;
             teleSound.Play();
         }
@@ -61,7 +64,7 @@ public class WormHole : MonoBehaviour {
         {
             Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
 
-            while (Vector3.Distance(myTransform.localPosition, randPos) < 500)
+            while (Vector3.Distance(myTransform.position, randPos) < 1500)
                 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
 
             Vector3 newpos = col.transform.position += randPos;
