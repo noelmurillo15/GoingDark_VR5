@@ -3,9 +3,9 @@
 public class NebulaCloud : MonoBehaviour {
 
     public float timer;
-    private PlayerHealth playerHealth;
-    private PlayerStats player;
-    private GameObject message;
+    //private PlayerHealth playerHealth;
+    //private PlayerStats player;
+    //private GameObject message;
 
     // Use this for initialization
     void Start() {
@@ -21,9 +21,9 @@ public class NebulaCloud : MonoBehaviour {
         transform.localScale = newScale;
 
         timer = 0f;
-        player = GameObject.Find("Player").GetComponent<PlayerStats>();
-        message = GameObject.Find("WarningMessages");
-        playerHealth = GameObject.Find("Health").GetComponent<PlayerHealth>();
+        //player = GameObject.Find("Player").GetComponent<PlayerStats>();
+        //message = GameObject.Find("WarningMessages");
+        //playerHealth = GameObject.Find("Health").GetComponent<PlayerHealth>();
     }
 
     // Update is called once per frame
@@ -47,18 +47,18 @@ public class NebulaCloud : MonoBehaviour {
     {
         if (col.transform.tag == "Player" && timer <= 0f) {
             timer = 10f;
-            message.SendMessage("Poison");
-            if (col.GetComponentInChildren<PlayerStats>().GetShield())
-                player.EnvironmentalDMG();
-            else
-                playerHealth.EnvironmentalDMG();
+            //message.SendMessage("Poison");
+            //if (col.GetComponentInChildren<PlayerStats>().GetShield())
+            //    player.EnvironmentalDMG();
+            //else
+            //    playerHealth.EnvironmentalDMG();
         }
     }
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.transform.tag == "Player")
-            message.SendMessage("NoPoison");        
+        //if (col.transform.tag == "Player")
+        //    message.SendMessage("NoPoison");        
     }
     #endregion
 }

@@ -352,7 +352,8 @@ namespace PixelCrushers.SceneStreamer {
 		public void Unload(string sceneName) 
 		{           
 			m_loaded.Remove(sceneName);
-			Destroy(GameObject.Find(sceneName));
+            Destroy(GameObject.Find(sceneName));
+            Resources.UnloadUnusedAssets();
 		}
 
 		/// <summary>
@@ -390,6 +391,7 @@ namespace PixelCrushers.SceneStreamer {
 		public static void UnloadScene(string sceneName)
 		{
 			instance.Unload(sceneName);
-		}		
-	}
+
+        }
+    }
 }

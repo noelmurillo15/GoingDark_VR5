@@ -18,7 +18,7 @@ public class ReorientPlayer : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.name == "bone3")
-            Player.GetComponent<PlayerMovement>().SendMessage("Reorient");
+            Player.GetComponent<PlayerMovement>().SendMessage("ResetOrientation");
     }
 
 }

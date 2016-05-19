@@ -27,16 +27,16 @@ public class SystemManager : MonoBehaviour {
         // Secondary Systems        
         InitializeDevice(SystemType.SHIELD);            
 
-        string level = transform.parent.parent.name;
-        if(level != "Tutorial")
-        {
-            InitializeDevice(SystemType.MISSILES);
-            InitializeDevice(SystemType.EMP);
-            InitializeDevice(SystemType.CLOAK);
-            InitializeDevice(SystemType.DECOY);
-            InitializeDevice(SystemType.LASERS);
-            InitializeDevice(SystemType.RADAR);
-        }
+        //string level = transform.parent.parent.name;
+        //if(level != "Tutorial")
+        //{
+        //    InitializeDevice(SystemType.MISSILES);
+        //    InitializeDevice(SystemType.EMP);
+        //    InitializeDevice(SystemType.CLOAK);
+        //    InitializeDevice(SystemType.DECOY);
+        //    InitializeDevice(SystemType.LASERS);
+        //    InitializeDevice(SystemType.RADAR);
+        //}
 
         // Constant Systems
         MissionLog = GameObject.Find("ButtonObject");

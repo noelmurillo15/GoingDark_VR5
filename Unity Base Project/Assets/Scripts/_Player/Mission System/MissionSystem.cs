@@ -42,7 +42,7 @@ public class MissionSystem : MonoBehaviour
     void Start()
     {
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_LevelMissions = gameObject.GetComponent<MissionLoader>().LoadMissions();
+        //m_LevelMissions = gameObject.GetComponent<MissionLoader>().LoadMissions();
         Debug.Log("Mission Received : " + m_LevelMissions[0].missionName);
         // Load in all the missions with IO
     }

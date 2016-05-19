@@ -16,7 +16,7 @@ public class SpaceSector : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            col.SendMessage("UpdateSector", transform.parent.name.ToString());
+            //col.SendMessage("UpdateSector", transform.parent.name.ToString());
         }
     }
 }

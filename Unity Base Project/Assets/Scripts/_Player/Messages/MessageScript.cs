@@ -45,7 +45,7 @@ public class MessageScript : MonoBehaviour
         reorientTimer = 0f;
         enemyMsgTimer = 0f;
         sysCollectTimer = 0f;
-        winTexts = winMessage.GetComponentsInChildren<Text>();
+        //winTexts = winMessage.GetComponentsInChildren<Text>();
         NoWarning();
         autopilotMsg.enabled = true;
         opt = GameObject.Find("QuickSlot").GetComponent<QuickSlot>();

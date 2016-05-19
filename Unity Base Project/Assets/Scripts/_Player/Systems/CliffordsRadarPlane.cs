@@ -27,9 +27,9 @@ public class CliffordsRadarPlane : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        transform.localEulerAngles = Vector3.zero;
+        transform.rotation = Quaternion.identity;
     }
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
