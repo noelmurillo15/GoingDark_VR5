@@ -140,9 +140,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
-    <Compile Include="Assets\AssetBundleManager\AssetBundleLoadOperation.cs" />
-    <Compile Include="Assets\AssetBundleManager\AssetBundleManager.cs" />
-    <Compile Include="Assets\AssetBundleManager\Utility.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
@@ -156,6 +153,8 @@
     <Compile Include="Assets\Particles\Standard\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\WaterHoseParticles.cs" />
     <Compile Include="Assets\Scripts\ActivateTrigger.cs" />
+    <Compile Include="Assets\Scripts\AssetBundleLoadOperation.cs" />
+    <Compile Include="Assets\Scripts\AssetBundleManager.cs" />
     <Compile Include="Assets\Scripts\AutoMobileShaderSwitch.cs" />
     <Compile Include="Assets\Scripts\AutoMoveAndRotate.cs" />
     <Compile Include="Assets\Scripts\BasicEnemyMaterialChange.cs" />
@@ -242,6 +241,7 @@
     <Compile Include="Assets\Scripts\TimedObjectActivator.cs" />
     <Compile Include="Assets\Scripts\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\Turret.cs" />
+    <Compile Include="Assets\Scripts\Utility.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\Utils\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\VolumetricLines\Scripts\VolumetricLineBehavior.cs" />
