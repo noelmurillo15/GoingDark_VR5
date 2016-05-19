@@ -47,8 +47,7 @@ public class AudioManager : MonoBehaviour
             music.Add(songs[i].name, songs[i]);
         }
         //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
-
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

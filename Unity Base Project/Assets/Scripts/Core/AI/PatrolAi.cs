@@ -4,32 +4,36 @@ using System.Collections;
 
 public class PatrolAi : MonoBehaviour
 {
-
+    #region Properties
     //  Raycast Data
     private int range;    
-    private bool pathBlocked;
+    private bool blocked;
     private RaycastHit hit;
 
     //  Movement    
     private float interval;
-    private float headingX, headingY;
     private float headingChange;
+    private float headingX, headingY;
     private Vector3 targetRotation;
 
     //  Enemy Data   
     private EnemyBehavior behavior;     
     private CharacterController controller;
+    #endregion
 
 
     void Start()
     {
-        Debug.Log("PatrolAi Initializing...");
         // Patrol Data
         targetRotation = Vector3.zero;
-        pathBlocked = false;
-        headingChange = 45f;
-        interval = 5f;
+        blocked = false;
         range = 100;
+
+        //  Movement
+        headingY = Random.Range(0, 360);
+        headingChange = 45f;
+        headingX = 0f;
+        interval = 5f;
 
         // Enemy Data
         controller = GetComponent<CharacterController>();
@@ -38,19 +42,16 @@ public class PatrolAi : MonoBehaviour
         behavior.AutoPilot = false;
 
         // Set random rotation
-        headingX = 0f;
-        headingY = Random.Range(0, 360);
         behavior.MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
 
         //  Start Coroutine
         StartCoroutine(NewHeading());
-        Debug.Log("PatrolAI READY!");
     }
 
     void Update() {
         if (!behavior.AutoPilot)  
         {
-            if (!pathBlocked)
+            if (!blocked)
             {
                 if (behavior.Target == null)
                     behavior.MyTransform.rotation = Quaternion.Slerp(behavior.MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
@@ -68,13 +69,13 @@ public class PatrolAi : MonoBehaviour
 
             CheckRayCasts();
 
-            if (pathBlocked)
+            if (blocked)
             {
                 if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), behavior.MyTransform.right, out hit, (range / 2.0f)) ||
                 Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), -behavior.MyTransform.right, out hit, (range / 2.0f)))
                 {
                     if (hit.collider.gameObject.CompareTag("Asteroid"))
-                        pathBlocked = false;
+                        blocked = false;
                 }
             }            
         }
@@ -106,13 +107,13 @@ public class PatrolAi : MonoBehaviour
     private void CheckRayCasts() {
         if (Physics.Raycast(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
-                pathBlocked = true;
+                blocked = true;
                 behavior.MyTransform.Rotate(Vector3.down * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
         }
         else if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
             if (hit.collider.gameObject.CompareTag("Asteroid")) {
-                pathBlocked = true;
+                blocked = true;
                 behavior.MyTransform.Rotate(Vector3.up * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
         }

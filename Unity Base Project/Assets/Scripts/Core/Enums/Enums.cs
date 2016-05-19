@@ -25,13 +25,22 @@
         TRIDENT,
         BOSS
     };
+    public enum EnemyDifficulty
+    {
+        NONE,
+        EASY,
+        MED,
+        HARD,
+        NIGHTMARE
+    }
     public enum EnemyStates
     {
         IDLE,
         PATROL,
         RUNNING,
         ATTACKING,
-        SEARCHING
+        SEARCHING,
+        FOLLOW
     }
     #endregion
 

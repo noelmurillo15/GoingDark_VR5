@@ -5,15 +5,16 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
-    public float detectionTimer;
+    private float detectionTimer;
     private EnemyBehavior behavior;
-    private SystemManager Systems;
+    private SystemManager systemManager;
     #endregion
 
     void Start()
     {
         detectionTimer = 0f;
-        behavior = GetComponent<EnemyBehavior>();      
+        behavior = GetComponent<EnemyBehavior>();
+        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
     }
 
     void Update()
@@ -26,30 +27,19 @@ public class EnemyCollision : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player"))
-        {
             detectionTimer = 0f;                       
-        }
     }
 
     void OnTriggerStay(Collider col)
     {
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {           
-
-            if(Systems == null)
-                Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
-
-
-            if (Systems.GetSystemCooldown(SystemType.CLOAK) > 0f)
-            {
-                Debug.Log("Player is Cloaked");
-                behavior.ChangeState(EnemyStates.SEARCHING);
-            }
+            if (systemManager.GetSystemCooldown(SystemType.CLOAK) > 0f)
+                behavior.ChangeState(EnemyStates.SEARCHING);            
             else
-            {
                 behavior.SetEnemyTarget(col.transform);
-            }
-            detectionTimer = Random.Range(.5f, 4.5f);
+            
+            detectionTimer = Random.Range(.5f, 5f);
         }
     }
 

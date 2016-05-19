@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(EnemyBehavior))]
-public class TransportShipAI : MonoBehaviour {
-    //**    Attach to Transport Prefab  **//
+public class TransportShipAI : MonoBehaviour
+{
+    #region Properties
+    //  Transport Data
     private float padding;
     public float cloakTimer;
 
@@ -12,15 +14,18 @@ public class TransportShipAI : MonoBehaviour {
     private GameObject mesh1;
     private GameObject mesh2;
 
-    private EnemyBehavior ai;
+    // Enemy Data
+    private EnemyBehavior behavior;
+    #endregion
 
 
     // Use this for initialization
-    void Start () {       
+    void Start () {
+        behavior = GetComponent<EnemyBehavior>();
+        behavior.SetUniqueAi(this);
+
         mesh1 = transform.GetChild(0).gameObject;
         mesh2 = transform.GetChild(1).gameObject;
-
-        ai = GetComponent<EnemyBehavior>();
     }
 	
 	// Update is called once per frame
@@ -47,7 +52,7 @@ public class TransportShipAI : MonoBehaviour {
     }
 
     void CloakOff() {
-        ai.ChangeBehavior();
+        behavior.ChangeBehavior();
         mesh1.GetComponent<Renderer>().material = opaqueMat;
         mesh2.GetComponent<Renderer>().material = opaqueMat;
     }

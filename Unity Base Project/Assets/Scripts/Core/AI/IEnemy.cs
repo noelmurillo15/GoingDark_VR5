@@ -5,25 +5,22 @@ public class IEnemy : MonoBehaviour
 {
 
     #region Properties
-    public Transform MyTransform { get; protected set; }
-    public Transform Target { get; protected set; }
+    public Transform MyTransform { get; private set; }    
 
-    public EnemyTypes Type;  
+    public EnemyTypes Type;
+    public EnemyDifficulty Level = EnemyDifficulty.NONE;
     public int MissileCount;
-    protected MovementStats MoveData;
+
+    private MovementStats MoveData;
     #endregion
 
 
     public virtual void Initialize()
     {
-        Debug.Log("IEnemy Initializing...");
         MyTransform = transform;
         Type = EnemyTypes.NONE;
         MissileCount = 0;
-        Target = null;
-
-        Init(transform.name);
-        Debug.Log("IEnemy READY");
+        LoadEnemyData();
     }
 
     #region Accessors
@@ -38,12 +35,7 @@ public class IEnemy : MonoBehaviour
     {
         Debug.Log("Setting Enemy Type : " + _type);
         Type = _type;
-    }
-    public void SetEnemyTarget(Transform _target)
-    {
-        Debug.Log("Setting Enemy Target : " + _target.name);
-        Target = _target;
-    }
+    }    
     #endregion
 
     #region Msg Functions
@@ -94,14 +86,14 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Private Methods
-    void Init(string enemyName)
+    void LoadEnemyData()
     {
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 50f;
         MoveData.RotateSpeed = 2f;
         MoveData.Acceleration = 5f;
-        switch (enemyName)
+        switch (transform.name)
         {
             case "Droid":
                 SetEnemyType(EnemyTypes.KAMIKAZE);
@@ -138,7 +130,7 @@ public class IEnemy : MonoBehaviour
 
 
             default:
-                Debug.Log("Invalid Enemy Name : " + enemyName);
+                Debug.Log("Invalid Enemy Name : " + transform.name);
                 break;
         }
     }

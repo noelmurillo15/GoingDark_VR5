@@ -96,6 +96,7 @@ public class PlayerStats : MonoBehaviour {
 
     public void Hit()
     {
+        Debug.Log("Player Has Been Hit");
         if (shieldOn)
         {
             AudioManager.instance.PlayShieldHit();

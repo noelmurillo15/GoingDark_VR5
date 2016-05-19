@@ -1,18 +1,36 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class KamikazeAI : MonoBehaviour
 {
-    //**        Attach to Enemy     **//
-
-    private float detectionTimer;
+    #region Properties
+    //  Kami Data
     public float autoTimer;
+    private float detectionTimer;
+    private float selfdestructTimer;
+
+    //  Enemy Data
+    private bool empBot;
+    private bool explodeBot;
     private PatrolAi patrol;
+    private EnemyBehavior behavior;
+    #endregion
+
+
     // Use this for initialization
     void Start()
     {
+        behavior = GetComponent<EnemyBehavior>();
+        patrol = GetComponent<PatrolAi>();
+        behavior.SetUniqueAi(this);
+        selfdestructTimer = 20f;
         detectionTimer = 0f;
         autoTimer = 0f;
-        patrol = GetComponent<PatrolAi>();
+
+        if (GetComponent<Light>().color == Color.red)
+            explodeBot = true;
+        else
+            empBot = true;        
     }
 
     // Update is called once per frame
@@ -32,39 +50,55 @@ public class KamikazeAI : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider col)
+    #region Self-Destruct
+    void SelfDestruct()
     {
-        if (col.transform.name != transform.name/* && patrol.SecondaryTarget == null*/)
-        {
-            if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
-            {                
-                Debug.Log("Kamikaze patrolling with : " + col.name);
-                //patrol.SecondaryTarget = col.transform;
-            }
-        }     
+        Invoke("Explosion", selfdestructTimer);
     }
 
-    void OnTriggerExit(Collider col)
+    private void Explosion()
     {
-        if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
-        {
-            //if (stats.Target == null) {
-            //    Debug.Log("Heading Back to Enemy");
-            //    patrol.AutoPilot = true;
-            //    autoTimer = 5f;
-            //}
-        }
+        GameObject go = Instantiate(Resources.Load("Particles/Boom"), behavior.MyTransform.position, Quaternion.identity) as GameObject;
+        go.transform.parent = behavior.MyTransform.parent;
+        DestroyObject(gameObject);
     }
+    #endregion
 
+    #region Collision Detection
+    //void OnTriggerEnter(Collider col)
+    //{
+    //    if (col.transform.name != transform.name/* && patrol.SecondaryTarget == null*/)
+    //    {
+    //        if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
+    //        {                
+    //            Debug.Log("Kamikaze patrolling with : " + col.name);
+    //            behavior.ChangeState(EnemyStates.FOLLOW);
+    //            //patrol.SecondaryTarget = col.transform;
+    //        }
+    //    }     
+    //}
+    //void OnTriggerExit(Collider col)
+    //{
+    //    if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
+    //    {
+    //        //if (stats.Target == null) {
+    //        //    Debug.Log("Heading Back to Enemy");
+    //        //    patrol.AutoPilot = true;
+    //        //    autoTimer = 5f;
+    //        //}
+    //    }
+    //}
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         if (hit.transform.CompareTag("Player") && detectionTimer <= 0f)
         {
             detectionTimer = 1f;
-            Debug.Log("Droid Blew Up");
-            hit.transform.SendMessage("Hit");
-            hit.transform.SendMessage("EMPHit");
-            transform.SendMessage("Kill");
+            if(explodeBot)
+                hit.transform.SendMessage("Hit");
+            else
+                hit.transform.SendMessage("EMPHit");
+            Explosion();
         }
     }
+    #endregion
 }

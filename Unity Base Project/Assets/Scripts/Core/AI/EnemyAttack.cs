@@ -2,24 +2,25 @@
 
 public class EnemyAttack : MonoBehaviour
 {
-
+    #region Properties
     //  Missile Data
     private float angle;
     private bool lockedOn;
     private float missileCooldown;
     public GameObject missilePrefab;
 
+    //  Enemy Data
     private EnemyBehavior behavior;
+    #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        Debug.Log("EnemyAI Initializing...");
         behavior = GetComponent<EnemyBehavior>();
+        behavior.SetUniqueAi(this);
         missileCooldown = 0f;
         lockedOn = false;
-        Debug.Log("EnemyAI Initialized");
     }
 
     // Update is called once per frame
