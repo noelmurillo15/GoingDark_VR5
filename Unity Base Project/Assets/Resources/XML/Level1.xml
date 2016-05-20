@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Level1>
   <mission name ="Scavenger"
-    info = "Collect 6 ship systems"
+    info = "Collect 1 ship systems"
     credits = "100"
-    objectives = "6"
+    objectives = "1"
     type = "Scavenge"
     enemy = "None"
     time = "0.0"

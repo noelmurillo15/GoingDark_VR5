@@ -11,11 +11,12 @@ public class MissionLogButtons : MonoBehaviour
     private GameObject missionLog;
     private GameObject buttonObject;
     // Use this for initialization
+
     void Start()
     {
         m_button = GetComponent<Image>();
         missionLog = GameObject.Find("MissionLog");
-        buttonObject = GameObject.Find("ButtonObject");
+        buttonObject = GameObject.Find("MissionPanel");
 
         transition = 0.0f;
         cancelTimer = 0.0f;
@@ -37,7 +38,6 @@ public class MissionLogButtons : MonoBehaviour
                 transition = 0.25f;
                 cancelTimer = 1.25f;
                 m_button.CrossFadeColor(Color.blue, 0.1f, false, false);
-                //AudioManager.instance.PlayMenuGood();
             }
         }
     }
@@ -78,7 +78,6 @@ public class MissionLogButtons : MonoBehaviour
                 }
                 else
                 {
-                    //AudioManager.instance.PlayMenuBad();
                     m_button.color = Color.white;
                     m_button.CrossFadeColor(Color.white, 0.01f, false, false);
                 }
@@ -90,19 +89,6 @@ public class MissionLogButtons : MonoBehaviour
 
     private void ClickButton()
     {
-        if (transform.name == "CloseLog")
-        {
-            buttonObject.SetActive(false);
-            missionLog.SendMessage(transform.name);
-        }
-        else if (transform.name == "AcceptMission")
-        {
-            missionLog.SendMessage("AcceptMission", transform.parent.name);
-            transform.gameObject.SetActive(false);
-            transform.parent.gameObject.SetActive(false);
-
-        }
-        else
-            missionLog.SendMessage(transform.name);
+        missionLog.SendMessage("ButtonPressed", transform.name);
     }
 }

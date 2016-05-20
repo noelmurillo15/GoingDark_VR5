@@ -6,215 +6,295 @@ public class MissionLog : MonoBehaviour
 
     // need all these public for stupid gameobjects not found when inactive >=(
     public GameObject[] buttons;
-    public GameObject[] infoPanels;
-    public GameObject[] missionButtons;
-    // public GameObject[] turnInButtons;
     public Image[] checkmarks;
     public GameObject missionButtonPanel;
+    public Text missionInfo;
+    public Text objectives;
 
-    //private MissionSystem.Mission[] missions;
+    // station missions
+    public GameObject[] stationButtons;
+    public GameObject stationMissionPanel;
+    public Text stationInfo;
 
     private MissionSystem m_missionSystem;
+
+    private int buttonNum;
+    private bool[] turnedIn;
     // Use this for initialization
     void Start()
     {
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        LoadMissions();
+        turnedIn = new bool[4];
+        buttonNum = 0;
+        missionInfo.text = "Active Missions";
+
+        ActiveMissions();
+        AssignMissionInfo("MissionLog");
+        AssignMissionInfo("Station");
     }
 
     // Update is called once per frame
     void Update()
     {
 
-
     }
 
-    void Mission1()
+    void UpdateInfo(MissionSystem.Mission mission)
     {
-        infoPanels[0].SetActive(!infoPanels[0].activeSelf);
-        CheckActivePanels(0);
-    }
-
-    void Mission2()
-    {
-        infoPanels[1].SetActive(!infoPanels[1].activeSelf);
-        CheckActivePanels(1);
-    }
-
-    void Mission3()
-    {
-        infoPanels[2].SetActive(!infoPanels[2].activeSelf);
-        CheckActivePanels(2);
-    }
-
-    void Mission4()
-    {
-        infoPanels[3].SetActive(!infoPanels[3].activeSelf);
-        CheckActivePanels(3);
-    }
-
-    void CloseLog()
-    {
-        for (int i = 0; i < 4; i++)
-            infoPanels[i].SetActive(false);
-    }
-
-    /// <summary>
-    /// Checks what mission log panels are active and turn them off
-    /// num = panel to not turn off
-    /// </summary>
-    /// <param name="num"></param>
-    void CheckActivePanels(int num)
-    {
-        if (infoPanels[0].activeSelf && num != 0)
-            infoPanels[0].SetActive(false);
-        if (infoPanels[1].activeSelf && num != 1)
-            infoPanels[1].SetActive(false);
-        if (infoPanels[2].activeSelf && num != 2)
-            infoPanels[2].SetActive(false);
-        if (infoPanels[3].activeSelf && num != 3)
-            infoPanels[3].SetActive(false);
-    }
-
-    /// <summary>
-    ///  Loads missions for current level
-    /// </summary>
-    public void LoadMissions()
-    {
-        //missions = m_missionSystem.m_LevelMissions;
-
-        Text[] text;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
         {
-            buttons[i].GetComponentInChildren<Text>().text = m_missionSystem.m_LevelMissions[i].missionName;
-            checkmarks[i].gameObject.SetActive(false);
-            text = infoPanels[i].GetComponentsInChildren<Text>();
-            text[0].text = m_missionSystem.m_LevelMissions[i].missionInfo;
-            text[1].text = "Objectives Left : " + m_missionSystem.m_LevelMissions[i].objectives;
+            if (m_missionSystem.m_ActiveMissions[i].missionName == mission.missionName)
+            {
+                objectives.text = "Objectives Left : " + mission.objectives;
+                if (mission.completed)
+                {
+                    objectives.text = "Return to the Station to turn in your mission";
+                }
+            }
         }
     }
 
-    /// <summary>
-    /// Marks mission as completed
-    /// </summary>
-    /// <param name="missionNum"></param>
-    void CompletedMission(int missionNum)
+    void Docked(bool isDocked)
     {
-        m_missionSystem.m_LevelMissions[missionNum - 1].completed = true;
-        m_missionSystem.m_LevelMissions[missionNum - 1].isActive = false;
-        checkmarks[missionNum - 1].gameObject.SetActive(true);
-        Text[] text = infoPanels[missionNum - 1].GetComponentsInChildren<Text>();
-        text[1].text = "Return to station to turn in missions";
+        if (isDocked)
+        {
+            missionButtonPanel.SetActive(false);
+            stationMissionPanel.SetActive(true);
+        }
+        else
+            stationMissionPanel.SetActive(false);
     }
 
-    /// <summary>
-    /// Updates objective count for set mission
-    /// </summary>
-    /// <param name="m"></param>
-    void UpdateObjectCount(MissionSystem.Mission m)
+    void TogglePanel()
     {
-        for (int i = 0; i < 4; i++)
+        Debug.Log("Opened Mission Panel");
+        ActiveMissions();
+        AssignMissionInfo("MissionLog");
+        missionButtonPanel.SetActive(!missionButtonPanel.activeSelf);
+    }
+
+    void ActiveMissions()
+    {
+        for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
+            buttons[i].gameObject.SetActive(true);
+    }
+
+    void AssignMissionInfo(string name)
+    {
+        if (name == "MissionLog")
         {
-            if (m_missionSystem.m_LevelMissions[i].missionName == m.missionName)
+            for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
             {
-                Text[] text;
-                m_missionSystem.m_LevelMissions[i].objectives = m.objectives;
-                text = infoPanels[i].GetComponentsInChildren<Text>();
-                text[1].text = "Objectives Left : " + m_missionSystem.m_LevelMissions[i].objectives;
-                Debug.Log("Updated objective count");
+                buttons[i].GetComponentInChildren<Text>().text = m_missionSystem.m_ActiveMissions[i].missionName;
+            }
+        }
+        else if (name == "Station")
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                stationButtons[i].GetComponentInChildren<Text>().text = m_missionSystem.m_stationMissions[i].missionName;
+            }
+        }
+    }
+
+    void ToggleButtons(bool toggle, string name)
+    {
+        if (name == "Station")
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (!turnedIn[i])
+                    stationButtons[i].SetActive(toggle);
+            }
+        }
+        else if (name == "MissionLog")
+        {
+            for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
+            {
+                buttons[i].SetActive(toggle);
             }
         }
     }
 
 
-    /// <summary>
-    /// Starts mission depending on the name of the parent of the clicked button
-    /// </summary>
-    /// <param name="parentName"></param>
-    void AcceptMission(string parentName)
-    {
-        if (parentName == "Mission1_InfoPanel")
-        {
-            if (!m_missionSystem.m_LevelMissions[0].completed)
-            {
-                m_missionSystem.m_LevelMissions[0].isActive = true;
-                checkmarks[0].gameObject.SetActive(true);
-            }
-            else
-            {
-                m_missionSystem.SendMessage("TurnIn", 1);
-                buttons[0].GetComponent<Button>().interactable = false;
-                buttons[0].GetComponent<BoxCollider>().enabled = false;
-            }
-        }
-        else if (parentName == "Mission2_InfoPanel")
-        {
-            if (!m_missionSystem.m_LevelMissions[1].completed)
-            {
-                m_missionSystem.m_LevelMissions[1].isActive = true;
-                checkmarks[1].gameObject.SetActive(true);
-            }
-            else
-                m_missionSystem.SendMessage("TurnIn", 2);
-        }
-        else if (parentName == "Mission3_InfoPanel")
-        {
-            if (!m_missionSystem.m_LevelMissions[2].completed)
-            {
-                m_missionSystem.m_LevelMissions[2].isActive = true;
-                checkmarks[2].gameObject.SetActive(true);
-            }
-            else
-            {
-                m_missionSystem.SendMessage("TurnIn", 3);
-            }
-        }
-        else if (parentName == "Mission4_InfoPanel")
-        {
-            if (!m_missionSystem.m_LevelMissions[3].completed)
-            {
-                m_missionSystem.m_LevelMissions[3].isActive = true;
-                checkmarks[3].gameObject.SetActive(true);
-            }
-            else
-            {
-                m_missionSystem.SendMessage("TurnIn", 4);
+    #region Button Messages
 
-            }
+    void ButtonPressed(string buttonName)
+    {
+        string obj = "Objectives left : ";
+        switch (buttonName)
+        {
+            case "Mission1":
+                {
+                    ToggleButtons(false, "MissionLog");
+                    missionInfo.text = m_missionSystem.m_ActiveMissions[0].missionInfo;
+                    objectives.text = obj + m_missionSystem.m_ActiveMissions[0].objectives;
+                    objectives.gameObject.SetActive(true);
+                    missionInfo.gameObject.SetActive(true);
+                    buttons[5].SetActive(true);
+                    buttons[4].SetActive(false);
+                    break;
+                }
+            case "Mission2":
+                {
+                    ToggleButtons(false, "MissionLog");
+                    missionInfo.text = m_missionSystem.m_ActiveMissions[1].missionInfo;
+                    objectives.text = obj + m_missionSystem.m_ActiveMissions[1].objectives;
+                    objectives.gameObject.SetActive(true);
+                    missionInfo.gameObject.SetActive(true);
+                    buttons[5].SetActive(true);
+                    buttons[4].SetActive(false);
+                    break;
+                }
+            case "Mission3":
+                {
+                    ToggleButtons(false, "MissionLog");
+                    missionInfo.text = m_missionSystem.m_ActiveMissions[2].missionInfo;
+                    objectives.text = obj + m_missionSystem.m_ActiveMissions[2].objectives;
+                    objectives.gameObject.SetActive(true);
+                    missionInfo.gameObject.SetActive(true);
+                    buttons[5].SetActive(true);
+                    buttons[4].SetActive(false);
+                    break;
+                }
+            case "Mission4":
+                {
+                    ToggleButtons(false, "MissionLog");
+                    missionInfo.text = m_missionSystem.m_ActiveMissions[3].missionInfo;
+                    objectives.text = obj + m_missionSystem.m_ActiveMissions[3].objectives;
+                    objectives.gameObject.SetActive(true);
+                    missionInfo.gameObject.SetActive(true);
+                    buttons[5].SetActive(true);
+                    buttons[4].SetActive(false);
+                    break;
+                }
+            case "CloseLog":
+                {
+                    missionButtonPanel.SetActive(false);
+                    missionInfo.text = "Active Missions";
+                    objectives.gameObject.SetActive(false);
+                    ActiveMissions();
+                    break;
+                }
+            case "Back":
+                {
+                    buttons[5].SetActive(false);
+                    buttons[4].SetActive(true);
+                    missionInfo.text = "Active Missions";
+                    ToggleButtons(true, "MissionLog");
+                    break;
+                }
+            case "StationMission1":
+                {
+                    buttonNum = 0;
+                    ToggleButtons(false, "Station");
+                    stationInfo.text = m_missionSystem.m_stationMissions[0].missionInfo;
+                    stationInfo.gameObject.SetActive(true);
+                    // close
+                    stationButtons[4].SetActive(false);
+                    CheckIfCompleted(buttonNum);
+                    // back
+                    stationButtons[6].SetActive(true);
+                    break;
+                }
+            case "StationMission2":
+                {
+                    buttonNum = 1;
+                    ToggleButtons(false, "Station");
+                    stationInfo.text = m_missionSystem.m_stationMissions[1].missionInfo;
+                    stationInfo.gameObject.SetActive(true);
+                    // accept button
+                    stationButtons[4].SetActive(false);
+                    CheckIfCompleted(buttonNum);
+                    stationButtons[6].SetActive(true);
+                    break;
+                }
+            case "StationMission3":
+                {
+                    buttonNum = 2;
+                    ToggleButtons(false, "Station");
+                    stationInfo.text = m_missionSystem.m_stationMissions[2].missionInfo;
+                    stationInfo.gameObject.SetActive(true);
+                    // accept button
+                    stationButtons[4].SetActive(false);
+                    CheckIfCompleted(buttonNum);
+                    stationButtons[6].SetActive(true);
+                    break;
+                }
+            case "StationMission4":
+                {
+                    buttonNum = 3;
+                    ToggleButtons(false, "Station");
+                    stationInfo.text = m_missionSystem.m_stationMissions[3].missionInfo;
+                    stationInfo.gameObject.SetActive(true);
+                    // accept button
+                    stationButtons[4].SetActive(false);
+                    CheckIfCompleted(buttonNum);
+                    stationButtons[6].SetActive(true);
+                    break;
+                }
+            case "StationCloseLog":
+                {
+                    buttonNum = 0;
+                    stationMissionPanel.SetActive(false);
+                    ToggleButtons(true, "Station");
+                    break;
+                }
+            case "StationBack":
+                {
+                    stationInfo.gameObject.SetActive(false);
+                    ToggleButtons(true, "Station");
+                    stationButtons[4].SetActive(true);
+                    // accept button
+                    stationButtons[5].SetActive(false);
+                    stationButtons[6].SetActive(false);
+                    objectives.gameObject.SetActive(false);
+                    break;
+                }
+            case "StationAcceptMission":
+                {
+                    m_missionSystem.AddActiveMission(buttonNum, m_missionSystem.m_stationMissions[buttonNum]);
+                    stationInfo.gameObject.SetActive(false);
+                    ToggleButtons(true, "Station");
+                    stationButtons[4].SetActive(true);
+                    // accept button
+                    stationButtons[5].SetActive(false);
+                    stationButtons[6].SetActive(false);
+                    break;
+                }
+            case "StationTurnIn":
+                {
+                    m_missionSystem.TurnInMission(buttonNum);
+                    ToggleButtons(true, "Station");
+                    stationButtons[buttonNum].SetActive(false);
+                    stationButtons[4].SetActive(true);
+                    stationButtons[6].SetActive(false);
+                    stationButtons[7].SetActive(false);
+                    stationInfo.gameObject.SetActive(false);
+                    turnedIn[buttonNum] = true;
+                    break;
+                }
+            default:
+                break;
         }
     }
 
-    /// <summary>
-    /// Sets all text and buttons for completed missions to Turn In
-    /// </summary>
-    void AtStation()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            if (m_missionSystem.m_LevelMissions[i].completed)
-            {
-                missionButtons[i].gameObject.SetActive(true);
-                missionButtons[i].GetComponentInChildren<Text>().text = "Turn In";
+    #endregion
 
+    void CheckIfCompleted(int missionNum)
+    {
+        if (m_missionSystem.m_ActiveMissions.ContainsKey(missionNum))
+        {
+            if (m_missionSystem.m_ActiveMissions[missionNum].completed)
+            {
+                stationButtons[7].SetActive(true);
             }
         }
-    }
-
-    /// <summary>
-    /// Resets objects and text in mission log for completed missions
-    /// </summary>
-    void LeavingStation()
-    {
-        for (int i = 0; i < 4; i++)
+        else
         {
-            if (m_missionSystem.m_LevelMissions[i].completed)
-            {
-                missionButtons[i].gameObject.SetActive(false);
-                Text[] text = infoPanels[i].GetComponentsInChildren<Text>();
-                text[1].text = "Return to station to turn in missions";
-
-            }
+            stationButtons[5].SetActive(true);
         }
-    }
 
+
+    }
 }

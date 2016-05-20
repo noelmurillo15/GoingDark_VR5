@@ -54,151 +54,151 @@ public class Tutorial : MonoBehaviour
         ProgressTest();
     }
 
-    void Progress()
-    {
-        string string1, string2, string3;
-        switch (phase)
-        {
-            case 0:
-                //Arrow.SetActive(true);
-                //Arrow.transform.LookAt(GetClosestShipPart());
-                if (!buffer)
-                {
-                    headMovement.enabled = false;
-                    thruster.enabled = false;
-                    string1 = "Please Open the mission log to accept \"Scarvenger\"";
-                    string2 = "Touch your left forearm with your right Index to open control board";
-                    string3 = "Use your right index to select/use items";
-                    StartCoroutine(Delay(5.0f, string1, string2, string3));
-                    buffer = true;
-                }
+    //void Progress()
+    //{
+    //    string string1, string2, string3;
+    //    switch (phase)
+    //    {
+    //        case 0:
+    //            //Arrow.SetActive(true);
+    //            //Arrow.transform.LookAt(GetClosestShipPart());
+    //            if (!buffer)
+    //            {
+    //                headMovement.enabled = false;
+    //                thruster.enabled = false;
+    //                string1 = "Please Open the mission log to accept \"Scarvenger\"";
+    //                string2 = "Touch your left forearm with your right Index to open control board";
+    //                string3 = "Use your right index to select/use items";
+    //                StartCoroutine(Delay(5.0f, string1, string2, string3));
+    //                buffer = true;
+    //            }
 
-                if (mission.m_LevelMissions[0].isActive)
-                {
-                    ClearText();
-                    line1.text = "Good Job!";
-                    headMovement.enabled = true;
-                    thruster.enabled = true;
-                    phase++;
-                    buffer = false;
-                }
-                break;
+    //            if (mission.m_LevelMissions[0].isActive)
+    //            {
+    //                ClearText();
+    //                line1.text = "Good Job!";
+    //                headMovement.enabled = true;
+    //                thruster.enabled = true;
+    //                phase++;
+    //                buffer = false;
+    //            }
+    //            break;
 
-            case 1:
-                if (!buffer)
-                {
-                    string1 = "Push the handle on your left to start the ship";
-                    string2 = "You may rotate your head to change direction";
-                    string3 = "";
-                    StartCoroutine(Delay(2.0f, string1, string2, string3));
-                    buffer = true;
-                }
+    //        case 1:
+    //            if (!buffer)
+    //            {
+    //                string1 = "Push the handle on your left to start the ship";
+    //                string2 = "You may rotate your head to change direction";
+    //                string3 = "";
+    //                StartCoroutine(Delay(2.0f, string1, string2, string3));
+    //                buffer = true;
+    //            }
 
-                if (player.GetMoveData().Speed > 0)
-                {
-                    ClearText();
-                    phase++;
-                    buffer = false;
-                    Arrow.SetActive(true);
-                }
+    //            if (player.GetMoveData().Speed > 0)
+    //            {
+    //                ClearText();
+    //                phase++;
+    //                buffer = false;
+    //                Arrow.SetActive(true);
+    //            }
 
-                break;
+    //            break;
 
-            case 2:
-                line1.text = "Collect 6 ship parts to form a complete ship";
-                line2.text = "Completion (" + mission.m_LevelMissions[0].objectives + " / 6)";
-                line3.text = "";
-                Arrow.transform.LookAt(GetClosestShipPart());
-                if (mission.m_LevelMissions[0].objectives == 6)
-                {
-                    Arrow.SetActive(false);
-                    phase++;
-                }
-                break;
-            case 3:
-                if (!buffer)
-                {
-                    string1 = "Congradulations!";
-                    string2 = "You may return to the Station and turn in the mission!";
-                    string3 = "";
-                    StartCoroutine(Delay(3.0f, string1, string2, string3));
-                    buffer = true;
-                }
+    //        case 2:
+    //            line1.text = "Collect 6 ship parts to form a complete ship";
+    //            line2.text = "Completion (" + mission.m_LevelMissions[0].objectives + " / 6)";
+    //            line3.text = "";
+    //            Arrow.transform.LookAt(GetClosestShipPart());
+    //            if (mission.m_LevelMissions[0].objectives == 6)
+    //            {
+    //                Arrow.SetActive(false);
+    //                phase++;
+    //            }
+    //            break;
+    //        case 3:
+    //            if (!buffer)
+    //            {
+    //                string1 = "Congradulations!";
+    //                string2 = "You may return to the Station and turn in the mission!";
+    //                string3 = "";
+    //                StartCoroutine(Delay(3.0f, string1, string2, string3));
+    //                buffer = true;
+    //            }
 
-                if (mission.m_LevelMissions[0].completed)
-                {
-                    buffer = false;
-                    ClearText();
-                    phase++;
-                }
-                break;
+    //            if (mission.m_LevelMissions[0].completed)
+    //            {
+    //                buffer = false;
+    //                ClearText();
+    //                phase++;
+    //            }
+    //            break;
 
-            case 4:
-                if (!buffer)
-                {
-                    string1 = "Please Accept \"Kill....\" from the mission log";
-                    string2 = "Touch your left forearm with your right Index to open control board";
-                    string3 = "Use your right index to select items";
-                    StartCoroutine(Delay(0.0f, string1, string2, string3));
-                    buffer = true;
-                }
+    //        case 4:
+    //            if (!buffer)
+    //            {
+    //                string1 = "Please Accept \"Kill....\" from the mission log";
+    //                string2 = "Touch your left forearm with your right Index to open control board";
+    //                string3 = "Use your right index to select items";
+    //                StartCoroutine(Delay(0.0f, string1, string2, string3));
+    //                buffer = true;
+    //            }
 
-                if (mission.m_LevelMissions[1].isActive)
-                {
-                    buffer = false;
-                    ClearText();
-                    phase++;
-                    Arrow.SetActive(true);
-                    GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity);
-                }
-                break;
+    //            if (mission.m_LevelMissions[1].isActive)
+    //            {
+    //                buffer = false;
+    //                ClearText();
+    //                phase++;
+    //                Arrow.SetActive(true);
+    //                GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity);
+    //            }
+    //            break;
 
-            case 5:
-                Arrow.transform.LookAt(enemyShip.transform.position);
-                line1.text = "Kill the enemy ship";
-                line2.text = "Completion (" + mission.m_LevelMissions[1].objectives + " / 1)";
-                line3.text = "You can use either missile or laser to do the job!";
-                if (mission.m_LevelMissions[1].objectives == 1)
-                {
-                    phase++;
-                }
-                break;
+    //        case 5:
+    //            Arrow.transform.LookAt(enemyShip.transform.position);
+    //            line1.text = "Kill the enemy ship";
+    //            line2.text = "Completion (" + mission.m_LevelMissions[1].objectives + " / 1)";
+    //            line3.text = "You can use either missile or laser to do the job!";
+    //            if (mission.m_LevelMissions[1].objectives == 1)
+    //            {
+    //                phase++;
+    //            }
+    //            break;
 
-            case 6:
-                if (!buffer)
-                {
-                    string1 = "Congradulations!";
-                    string2 = "You may return to the Station and turn in the mission!";
-                    string3 = "";
-                    StartCoroutine(Delay(2.0f, string1, string2, string3));
+    //        case 6:
+    //            if (!buffer)
+    //            {
+    //                string1 = "Congratulations!";
+    //                string2 = "You may return to the Station and turn in the mission!";
+    //                string3 = "";
+    //                StartCoroutine(Delay(2.0f, string1, string2, string3));
 
-                    string1 = "";
-                    string2 = "";
-                    string3 = "";
-                    StartCoroutine(Delay(1.0f, string1, string2, string3));
+    //                string1 = "";
+    //                string2 = "";
+    //                string3 = "";
+    //                StartCoroutine(Delay(1.0f, string1, string2, string3));
 
-                    string1 = "You must also watch out your surrounding";
-                    string2 = "Some environment can be toxic and deadly, such as Nebulas Clous";
-                    string3 = "However you can also randomly relocate youself by going through a wormhole";
-                    StartCoroutine(Delay(3.0f, string1, string2, string3));
-                    buffer = true;
-                }
+    //                string1 = "You must also watch your surrounding";
+    //                string2 = "Some environment can be toxic and deadly, such as Nebula Clouds";
+    //                string3 = "However you can also randomly relocate yourself by going through a wormhole";
+    //                StartCoroutine(Delay(3.0f, string1, string2, string3));
+    //                buffer = true;
+    //            }
 
-                if (mission.m_LevelMissions[1].completed)
-                {
-                    phase++;
-                    ClearText();
-                }
-                break;
+    //            if (mission.m_LevelMissions[1].completed)
+    //            {
+    //                phase++;
+    //                ClearText();
+    //            }
+    //            break;
 
-            case 7:
-                StartCoroutine(Transition());
-                break;
+    //        case 7:
+    //            StartCoroutine(Transition());
+    //            break;
 
-            default:
-                break;
-        }
-    }
+    //        default:
+    //            break;
+    //    }
+    //}
 
     void ProgressTest()
     {
@@ -311,7 +311,7 @@ public class Tutorial : MonoBehaviour
                 {
                     ClearText();
                     s1 = "You can stun the surrounding enemies with EMP";
-                    s2 = "EMP is also extremely affective against the droid.";
+                    s2 = "EMP is also extremely effective against the droid.";
                     s3 = "It will make them self explode";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
@@ -326,7 +326,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "Cloak can make you invisible to the enemies.";
                     s2 = "It is very useful when you need to avoid battle.";
-                    s3 = "It only last 20 seconds, use wisely";
+                    s3 = "It only last 20 seconds, use it wisely";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                 }
@@ -338,9 +338,9 @@ public class Tutorial : MonoBehaviour
                 if (!buffer)
                 {
                     ClearText();
-                    s1 = "Nearby enemies and loots will appear on the radar.";
+                    s1 = "Nearby enemies and loot will appear on the radar.";
                     s2 = "You can pick up the radar with your hand open.";
-                    s3 = "Relocate to where you prefer by closing your hand";
+                    s3 = "Relocate radar to where you prefer by closing your hand";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                 }
@@ -353,7 +353,7 @@ public class Tutorial : MonoBehaviour
                 {
                     ClearText();
                     s1 = "You can lure the enemies away by spawning a decoy.";
-                    s2 = "Use decoy with the cloak can ease up your journey.";
+                    s2 = "Using decoy with the cloak can ease up your journey.";
                     s3 = "Be smart, be strategic.";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
@@ -393,7 +393,7 @@ public class Tutorial : MonoBehaviour
                     enemy2.GetComponent<EnemyBehavior>().enabled = false;
                     enemy2.GetComponent<PatrolAi>().enabled = false;
                     ClearText();
-                    s1 = "Missile is a powerful pase weapon with long range.";
+                    s1 = "Missile is a powerful weapon with long range.";
                     s2 = "Try to fire a missile to eliminate the enemy.";
                     s3 = "";
                     buffer = true;

@@ -39,7 +39,7 @@ public class SystemManager : MonoBehaviour {
         }
 
         // Constant Systems
-        MissionLog = GameObject.Find("ButtonObject");
+        MissionLog = GameObject.Find("MissionLog");
         WeaponSelect = GameObject.Find("WeaponButtonObj");
         messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
     }
@@ -186,7 +186,7 @@ public class SystemManager : MonoBehaviour {
 
     public void ToggleMissionLog()
     {
-        MissionLog.SetActiveRecursively(!MissionLog.activeSelf);
+        MissionLog.SendMessage("TogglePanel");
     }
     public void ToggleWeaponSelect()
     {
