@@ -30,6 +30,8 @@ public class MenuButtons : MonoBehaviour
     #region Private Methods
     private void ActivateButton()
     {
+        AudioManager.instance.PlayMenuGood();
+
         switch (transform.name)
         {
             case "Exit":
