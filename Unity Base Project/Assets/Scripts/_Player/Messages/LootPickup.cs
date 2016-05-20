@@ -64,7 +64,7 @@ public class LootPickup : MonoBehaviour {
             AudioManager.instance.PlayCollect();
             if (tutorial)
             {
-                tutorial.IncreamentDevice();
+                tutorial.IncreamentDevice(Type);
             }
         }
     }

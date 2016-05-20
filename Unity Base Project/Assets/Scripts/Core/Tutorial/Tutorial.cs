@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using GD.Core.Enums;
 
 public class Tutorial : MonoBehaviour
 {
@@ -13,11 +14,13 @@ public class Tutorial : MonoBehaviour
     private MissionSystem mission;
     private Text line1, line2, line3;
     private int deviceCollected, enemyKilled;
+    private SystemType type;
     private PlayerStats player;
     public GameObject Arrow;
     bool buffer;
     private GameObject[] shipParts;
     public GameObject enemyShip;
+    private GameObject enemy1 = null, enemy2 = null;
 
 
     // Use this for initialization
@@ -41,7 +44,7 @@ public class Tutorial : MonoBehaviour
         enemyKilled = 0;
         buffer = false;
         Arrow.SetActive(false);
-
+        type = SystemType.NONE;
     }
 
     // Update is called once per frame
@@ -200,7 +203,6 @@ public class Tutorial : MonoBehaviour
     void ProgressTest()
     {
         string string1, string2, string3;
-        GameObject go = null;
         switch (phase)
         {
             case 0:
@@ -224,58 +226,36 @@ public class Tutorial : MonoBehaviour
                 break;
 
             case 1:
-                line1.text = "Collect 6 ship parts to form a complete ship";
-                line2.text = "Completion (" + deviceCollected + " / 6)";
-                line3.text = "";
-                Arrow.transform.LookAt(GetClosestShipPart());
-                if (deviceCollected == 6)
+                if (type != SystemType.NONE)
                 {
-                    //Arrow.SetActive(false);
-                    ClearText();
-                    phase++;
-                    go = GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity) as GameObject;
-                    go.transform.parent = GameObject.Find("Enemy").transform;
+                    playerMovement.enabled = false;
+                    //playerMovement.SendMessage();
+                    ShowDevice();
                 }
-                break;
-
-            case 2:
-                Arrow.transform.LookAt(go.transform.position);
-                line1.text = "Kill the enemy ship";
-                line2.text = "Completion (" + enemyKilled + " / 1)";
-                line3.text = "You can use either missile or laser to do the job!";
-                if (!go)
-                    enemyKilled++;
-
-                if (enemyKilled == 1)
+                else
                 {
-                    phase++;
+                    line1.text = "Collect 6 ship parts to form a complete ship";
+                    line2.text = "Completion (" + deviceCollected + " / 6)";
+                    line3.text = "";
+                    Arrow.transform.LookAt(GetClosestShipPart());
+
+                    if (deviceCollected == 6)
+                    {
+                        Arrow.SetActive(false);
+                        ClearText();
+                        phase++;
+                    }
                 }
                 break;
 
             case 3:
                 if (!buffer)
                 {
-                    string1 = "Congradulations!";
-                    string2 = "You may return to the Station and turn in the mission!";
-                    string3 = "";
-                    StartCoroutine(Delay(2.0f, string1, string2, string3));
-
-                    string1 = "";
-                    string2 = "";
-                    string3 = "";
-                    StartCoroutine(Delay(1.0f, string1, string2, string3));
-
                     string1 = "You must also watch out your surrounding";
                     string2 = "Some environment can be toxic and deadly, such as Nebulas Clous";
                     string3 = "However you can also randomly relocate youself by going through a wormhole";
-                    StartCoroutine(Delay(3.0f, string1, string2, string3));
+                    StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
-                }
-
-                if (mission.m_LevelMissions[1].completed)
-                {
-                    phase++;
-                    ClearText();
                 }
                 break;
 
@@ -321,6 +301,127 @@ public class Tutorial : MonoBehaviour
         line3.text = "";
     }
 
+    void ShowDevice()
+    {
+        string s1, s2, s3;
+        switch (type)
+        {
+            case SystemType.EMP:
+                if (!buffer)
+                {
+                    ClearText();
+                    s1 = "You can stun the surrounding enemies with EMP";
+                    s2 = "EMP is also extremely affective against the droid.";
+                    s3 = "It will make them self explode";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+
+                break;
+            case SystemType.CLOAK:
+                if (!buffer)
+                {
+                    ClearText();
+                    s1 = "Cloak can make you invisible to the enemies.";
+                    s2 = "It is very useful when you need to avoid battle.";
+                    s3 = "It only last 20 seconds, use wisely";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+
+                break;
+            case SystemType.RADAR:
+                if (!buffer)
+                {
+                    ClearText();
+                    s1 = "Nearby enemies and loots will appear on the radar.";
+                    s2 = "You can pick up the radar with your hand open.";
+                    s3 = "Relocate to where you prefer by closing your hand";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+
+                break;
+            case SystemType.DECOY:
+                if (!buffer)
+                {
+                    ClearText();
+                    s1 = "You can lure the enemies away by spawning a decoy.";
+                    s2 = "Use decoy with the cloak can ease up your journey.";
+                    s3 = "Be smart, be strategic.";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+
+                break;
+            case SystemType.LASERS:
+                if (!buffer)
+                {
+                    enemy1 = GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity) as GameObject;
+                    enemy1.transform.parent = GameObject.Find("Enemy").transform;
+                    enemy1.GetComponent<EnemyBehavior>().enabled = false;
+                    enemy1.GetComponent<PatrolAi>().enabled = false;
+                    ClearText();
+                    s1 = "Laser is a fast pase weapon.";
+                    s2 = "Try to use the laser to eliminate the enemy.";
+                    s3 = "";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    Arrow.transform.LookAt(enemy1.transform.position);
+
+                if (!enemy1 && buffer)
+                {
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+                }
+                break;
+
+            case SystemType.MISSILES:
+                if (!buffer)
+                {
+                    enemy2 = GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity) as GameObject;
+                    enemy2.transform.parent = GameObject.Find("Enemy").transform;
+                    enemy2.GetComponent<EnemyBehavior>().enabled = false;
+                    enemy2.GetComponent<PatrolAi>().enabled = false;
+                    ClearText();
+                    s1 = "Missile is a powerful pase weapon with long range.";
+                    s2 = "Try to fire a missile to eliminate the enemy.";
+                    s3 = "";
+                    buffer = true;
+                    StartCoroutine(Delay(0.0f, s1, s2, s3));
+                }
+                else
+                    Arrow.transform.LookAt(enemy2.transform.position);
+
+                if (!enemy2 && buffer)
+                {
+                    StartCoroutine(ShowDeviceEnd(5.0f));
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private IEnumerator ShowDeviceEnd(float length)
+    {
+        yield return new WaitForSeconds(length);
+        playerMovement.enabled = true;
+        ClearText();
+        buffer = false;
+        type = SystemType.NONE;
+    }
+
     private Vector3 GetClosestShipPart()
     {
         Vector3 target = Vector3.zero;
@@ -339,8 +440,9 @@ public class Tutorial : MonoBehaviour
         return target;
     }
 
-    public void IncreamentDevice()
+    public void IncreamentDevice(SystemType _type)
     {
         deviceCollected++;
+        type = _type;
     }
 }
