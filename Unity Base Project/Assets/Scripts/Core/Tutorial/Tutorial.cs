@@ -3,7 +3,8 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class Tutorial : MonoBehaviour {
+public class Tutorial : MonoBehaviour
+{
 
     private int phase;
     private HeadMovement headMovement;
@@ -11,21 +12,23 @@ public class Tutorial : MonoBehaviour {
     private PlayerMovement playerMovement;
     private MissionSystem mission;
     private Text line1, line2, line3;
-    //private int deviceCollected, enemyKilled;
+    private int deviceCollected, enemyKilled;
     private PlayerStats player;
     public GameObject Arrow;
     bool buffer;
     private GameObject[] shipParts;
-    private GameObject enemyShip;
+    public GameObject enemyShip;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start()
+    {
         headMovement = GameObject.Find("CenterEyeAnchor").GetComponent<HeadMovement>();
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         player = GameObject.Find("Player").GetComponent<PlayerStats>();
         thruster = GameObject.Find("Thruster").GetComponent<Thrusters>();
         shipParts = GameObject.FindGameObjectsWithTag("Loot");
-        enemyShip = GameObject.FindGameObjectWithTag("Enemy");
+        //enemyShip = GameObject.FindGameObjectWithTag("Enemy");
 
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
@@ -34,25 +37,26 @@ public class Tutorial : MonoBehaviour {
         line2.text = "";
         line3.text = "";
         phase = 0;
-        //deviceCollected = 0;
-        //enemyKilled = 0;
+        deviceCollected = 0;
+        enemyKilled = 0;
         buffer = false;
         Arrow.SetActive(false);
-        
-    }
-	
-	// Update is called once per frame
-	void Update () {
 
-        Progress();
-	}
-    
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Progress();
+        ProgressTest();
+    }
+
     void Progress()
     {
         string string1, string2, string3;
         switch (phase)
         {
-                case 0:
+            case 0:
                 //Arrow.SetActive(true);
                 //Arrow.transform.LookAt(GetClosestShipPart());
                 if (!buffer)
@@ -86,7 +90,7 @@ public class Tutorial : MonoBehaviour {
                     StartCoroutine(Delay(2.0f, string1, string2, string3));
                     buffer = true;
                 }
-                
+
                 if (player.GetMoveData().Speed > 0)
                 {
                     ClearText();
@@ -117,7 +121,7 @@ public class Tutorial : MonoBehaviour {
                     StartCoroutine(Delay(3.0f, string1, string2, string3));
                     buffer = true;
                 }
-                
+
                 if (mission.m_LevelMissions[0].completed)
                 {
                     buffer = false;
@@ -142,6 +146,7 @@ public class Tutorial : MonoBehaviour {
                     ClearText();
                     phase++;
                     Arrow.SetActive(true);
+                    GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity);
                 }
                 break;
 
@@ -184,9 +189,100 @@ public class Tutorial : MonoBehaviour {
                 break;
 
             case 7:
-               StartCoroutine(Transition());
+                StartCoroutine(Transition());
                 break;
-           
+
+            default:
+                break;
+        }
+    }
+
+    void ProgressTest()
+    {
+        string string1, string2, string3;
+        GameObject go = null;
+        switch (phase)
+        {
+            case 0:
+                if (!buffer)
+                {
+                    string1 = "Push the handle on your left to start the ship";
+                    string2 = "You may rotate your head to change direction";
+                    string3 = "";
+                    StartCoroutine(Delay(2.0f, string1, string2, string3));
+                    buffer = true;
+                }
+
+                if (player.GetMoveData().Speed > 0)
+                {
+                    ClearText();
+                    phase++;
+                    buffer = false;
+                    Arrow.SetActive(true);
+                }
+
+                break;
+
+            case 1:
+                line1.text = "Collect 6 ship parts to form a complete ship";
+                line2.text = "Completion (" + deviceCollected + " / 6)";
+                line3.text = "";
+                Arrow.transform.LookAt(GetClosestShipPart());
+                if (deviceCollected == 6)
+                {
+                    //Arrow.SetActive(false);
+                    ClearText();
+                    phase++;
+                    go = GameObject.Instantiate(enemyShip, Vector3.zero, Quaternion.identity) as GameObject;
+                    go.transform.parent = GameObject.Find("Enemy").transform;
+                }
+                break;
+
+            case 2:
+                Arrow.transform.LookAt(go.transform.position);
+                line1.text = "Kill the enemy ship";
+                line2.text = "Completion (" + enemyKilled + " / 1)";
+                line3.text = "You can use either missile or laser to do the job!";
+                if (!go)
+                    enemyKilled++;
+
+                if (enemyKilled == 1)
+                {
+                    phase++;
+                }
+                break;
+
+            case 3:
+                if (!buffer)
+                {
+                    string1 = "Congradulations!";
+                    string2 = "You may return to the Station and turn in the mission!";
+                    string3 = "";
+                    StartCoroutine(Delay(2.0f, string1, string2, string3));
+
+                    string1 = "";
+                    string2 = "";
+                    string3 = "";
+                    StartCoroutine(Delay(1.0f, string1, string2, string3));
+
+                    string1 = "You must also watch out your surrounding";
+                    string2 = "Some environment can be toxic and deadly, such as Nebulas Clous";
+                    string3 = "However you can also randomly relocate youself by going through a wormhole";
+                    StartCoroutine(Delay(3.0f, string1, string2, string3));
+                    buffer = true;
+                }
+
+                if (mission.m_LevelMissions[1].completed)
+                {
+                    phase++;
+                    ClearText();
+                }
+                break;
+
+            case 7:
+                StartCoroutine(Transition());
+                break;
+
             default:
                 break;
         }
@@ -233,7 +329,6 @@ public class Tutorial : MonoBehaviour {
         {
             if (!shipParts[i])
             {
-                Debug.Log("1");
                 continue;
             }
             else if (Vector3.Distance(shipParts[i].transform.position, player.transform.position) < distance)
@@ -246,6 +341,6 @@ public class Tutorial : MonoBehaviour {
 
     public void IncreamentDevice()
     {
-        //deviceCollected++;
+        deviceCollected++;
     }
 }

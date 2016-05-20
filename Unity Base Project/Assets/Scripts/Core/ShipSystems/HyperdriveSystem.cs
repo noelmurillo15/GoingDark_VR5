@@ -39,7 +39,7 @@ public class HyperdriveSystem : ShipDevice
         if (beginningTimer > 0.0f)
         {
             beginningTimer -= Time.deltaTime;
-            particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
+            particles.transform.Translate(Vector3.forward * 100.0f * Time.deltaTime);
             if (beginningTimer <= 0.0f)
             {
                 particles.SetActive(false);

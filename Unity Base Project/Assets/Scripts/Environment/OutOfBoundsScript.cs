@@ -17,9 +17,9 @@ public class OutOfBoundsScript : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Player")) {
-            //Debug.Log("Player in playable area");
-            //messages.SendMessage("ManualPilot");
-            //col.SendMessage("InBounds");
+            Debug.Log("Player in playable area");
+            messages.SendMessage("ManualPilot");
+            col.SendMessage("InBounds");
         }
 
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
@@ -36,9 +36,9 @@ public class OutOfBoundsScript : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            //Debug.Log("Player Out Of Bounds");
-            //messages.SendMessage("AutoPilot");
-            //col.SendMessage("OutOfBounds", Vector3.zero);
+            Debug.Log("Player Out Of Bounds");
+            messages.SendMessage("AutoPilot");
+            col.SendMessage("OutOfBounds", Vector3.zero);
         }
         if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
         {
