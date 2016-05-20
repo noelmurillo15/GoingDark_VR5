@@ -60,7 +60,6 @@ public class Asteroid : MonoBehaviour
         int randValue = Random.Range(0, 100);
         if (randValue > 0)
         {
-            Debug.Log("Chance Pass");
             return true;
         }
         return false;

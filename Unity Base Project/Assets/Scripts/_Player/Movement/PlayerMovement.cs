@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour {
     #endregion
 
 
-
     // Use this for initialization
     void Start() {
         moveDir = Vector3.zero;
