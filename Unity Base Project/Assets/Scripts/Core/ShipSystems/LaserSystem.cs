@@ -37,8 +37,10 @@ public class LaserSystem : ShipDevice
 
         if (reload <= 0f)
         {
-            Instantiate(Laser, gun1.transform.position, gun1.transform.rotation);
-            Instantiate(Laser, gun2.transform.position, gun2.transform.rotation);
+            GameObject go = Instantiate(Laser, gun1.transform.position, gun1.transform.rotation) as GameObject;
+            go.transform.parent = transform.parent;        
+            go = Instantiate(Laser, gun2.transform.position, gun2.transform.rotation) as GameObject;
+            go.transform.parent = transform.parent;
             reload = 1f;
         }
     }

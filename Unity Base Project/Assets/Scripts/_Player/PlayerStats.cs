@@ -34,7 +34,7 @@ public class PlayerStats : MonoBehaviour {
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
         // shield defaults
-        shieldOn = true;
+        shieldOn = false;
         shieldHealth = 3;
         shield = GameObject.FindGameObjectWithTag("Shield");
     }

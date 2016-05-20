@@ -174,10 +174,12 @@ public class MessageScript : MonoBehaviour
 
     void Poison()
     {
+        AudioManager.instance.PlayNebulaAlarm();
         poisonMsg.enabled = true;
     }
     void NoPoison()
     {
+        AudioManager.instance.StopNebulaAlarm();
         poisonMsg.enabled = false;
     }
     #endregion

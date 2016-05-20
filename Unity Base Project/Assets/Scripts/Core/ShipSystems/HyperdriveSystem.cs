@@ -70,6 +70,7 @@ public class HyperdriveSystem : ShipDevice
         }
         else {
             if (boostTimer > 0.0f) {
+                AudioManager.instance.PlayHyperDrive();
                 boostTimer -= Time.deltaTime;
                 particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
                 m_playerMove.transform.Translate(Vector3.forward * 8000.0f * Time.deltaTime);

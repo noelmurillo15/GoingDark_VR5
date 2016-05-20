@@ -128,6 +128,30 @@ public class AudioManager : MonoBehaviour
         _Gadget.Play();
     }
 
+    public void PlayNebulaAlarm()
+    {
+        _Alarms.clip = sounds["NebulaAlarm"];
+        _Alarms.loop = true;
+        _Alarms.volume = SoundVolume * MasterVolume * .75f;
+        _Alarms.Play();
+    }
+
+    public void PlayHyperDrive()
+    {
+        if (!_Sonar.isPlaying || _Sonar.clip != sounds["HyperDrive"])
+        {
+            _Sonar.clip = sounds["HyperDrive"];
+            _Sonar.volume = SoundVolume * MasterVolume;
+            _Sonar.Play();
+        }
+    }
+
+    public void StopNebulaAlarm()
+    {
+        if (_Alarms.clip == sounds["NebulaAlarm"])
+            _Alarms.Stop();
+    }
+
     public void PlayEMP()
     {
         _Gadget.clip = sounds["EMP"];
