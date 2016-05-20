@@ -88,44 +88,107 @@ public class IEnemy : MonoBehaviour
     #region Private Methods
     void LoadEnemyData()
     {
+        if(Level == EnemyDifficulty.NONE)
+        {
+            Debug.LogError("Enemy's does not have a difficulty");
+            return;
+        }
+        
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 50f;
-        MoveData.RotateSpeed = 2f;
-        MoveData.Acceleration = 5f;
         switch (transform.name)
         {
             case "Droid":
                 SetEnemyType(EnemyTypes.KAMIKAZE);
-                MoveData.Acceleration = 6f;
-                MoveData.RotateSpeed = 2f;
-                MoveData.MaxSpeed = 75f;
+                if (Level == EnemyDifficulty.EASY)
+                {
+                    MoveData.Acceleration = 6f;
+                    MoveData.RotateSpeed = 3f;
+                    MoveData.MaxSpeed = 80f;
+                }
+                else if(Level == EnemyDifficulty.MED)
+                {
+                    MoveData.Acceleration = 8f;
+                    MoveData.RotateSpeed = 2.5f;
+                    MoveData.MaxSpeed = 120f;
+                }
+                else if (Level == EnemyDifficulty.HARD)
+                {
+                    MoveData.Acceleration = 10f;
+                    MoveData.RotateSpeed = 2f;
+                    MoveData.MaxSpeed = 150f;
+                }
                 break;
             case "Trident":
-                SetEnemyType(EnemyTypes.TRIDENT);
-                MoveData.Acceleration = 4f;
-                MoveData.RotateSpeed = 3f;
-                MoveData.MaxSpeed = 50f;
+                SetEnemyType(EnemyTypes.TRIDENT);                
+                if (Level == EnemyDifficulty.EASY)
+                {
+                    MoveData.Acceleration = 5f;
+                    MoveData.RotateSpeed = 4f;
+                    MoveData.MaxSpeed = 70f;
+                }
+                else if (Level == EnemyDifficulty.MED)
+                {
+                    MoveData.Acceleration = 7f;
+                    MoveData.RotateSpeed = 3.5f;
+                    MoveData.MaxSpeed = 90f;
+                }
+                else if (Level == EnemyDifficulty.HARD)
+                {
+                    MoveData.Acceleration = 9f;
+                    MoveData.RotateSpeed = 3f;
+                    MoveData.MaxSpeed = 120f;
+                }
                 break;
             case "BasicEnemy":
                 SetEnemyType(EnemyTypes.BASIC);
                 MissileCount = 10;
-                MoveData.Acceleration = 3.6f;
-                MoveData.RotateSpeed = 4f;
-                MoveData.MaxSpeed = 40f;
+                if (Level == EnemyDifficulty.EASY)
+                {
+                    MoveData.Acceleration = 4f;
+                    MoveData.RotateSpeed = 5f;
+                    MoveData.MaxSpeed = 60f;
+                }
+                else if (Level == EnemyDifficulty.MED)
+                {
+                    MoveData.Acceleration = 6f;
+                    MoveData.RotateSpeed = 4.5f;
+                    MoveData.MaxSpeed = 90f;
+                }
+                else if (Level == EnemyDifficulty.HARD)
+                {
+                    MoveData.Acceleration = 8f;
+                    MoveData.RotateSpeed = 4f;
+                    MoveData.MaxSpeed = 110f;
+                }                               
                 break;
             case "Transport":
                 SetEnemyType(EnemyTypes.TRANSPORT);
-                MoveData.Acceleration = 4f;
-                MoveData.RotateSpeed = 5f;
-                MoveData.MaxSpeed = 100f;
+                if (Level == EnemyDifficulty.EASY)
+                {
+                    MoveData.Acceleration = 5f;
+                    MoveData.RotateSpeed = 6f;
+                    MoveData.MaxSpeed = 100f;
+                }
+                else if (Level == EnemyDifficulty.MED)
+                {
+                    MoveData.Acceleration = 8f;
+                    MoveData.RotateSpeed = 5f;
+                    MoveData.MaxSpeed = 150f;
+                }
+                else if (Level == EnemyDifficulty.HARD)
+                {
+                    MoveData.Acceleration = 12f;
+                    MoveData.RotateSpeed = 4.5f;
+                    MoveData.MaxSpeed = 200f;
+                }                
                 break;
             case "Boss":
                 SetEnemyType(EnemyTypes.BOSS);
                 MissileCount = 100;
-                MoveData.Acceleration = 1.5f;
+                MoveData.Acceleration = 2f;
                 MoveData.RotateSpeed = 10f;
-                MoveData.MaxSpeed = 20f;
+                MoveData.MaxSpeed = 50f;
                 break;
 
 

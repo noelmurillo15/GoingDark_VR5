@@ -40,7 +40,8 @@
         RUNNING,
         ATTACKING,
         SEARCHING,
-        FOLLOW
+        FOLLOW,
+        ALERT
     }
     #endregion
 

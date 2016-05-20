@@ -3,7 +3,7 @@
 public class LeftArmCollision : MonoBehaviour
 {
 
-    private GameObject settings;
+    [SerializeField] GameObject settings;
 
     // Use this for initialization
     void Start()

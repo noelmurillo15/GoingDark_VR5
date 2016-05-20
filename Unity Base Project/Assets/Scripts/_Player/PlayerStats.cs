@@ -29,7 +29,7 @@ public class PlayerStats : MonoBehaviour {
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 120f;
         MoveData.RotateSpeed = 20f;
-        MoveData.Acceleration = 5f;
+        MoveData.Acceleration = 10f;
         numCredits = PlayerPrefs.GetInt("Credits");
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 

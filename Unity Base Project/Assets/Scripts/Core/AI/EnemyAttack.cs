@@ -37,13 +37,16 @@ public class EnemyAttack : MonoBehaviour
 
     private void LockOn()
     {
-        Vector3 playerDir = (behavior.Target.position - behavior.MyTransform.position).normalized;
-        angle = Vector3.Dot(playerDir, behavior.MyTransform.forward);
+        if (behavior.Target != null)
+        {
+            Vector3 playerDir = (behavior.Target.position - behavior.MyTransform.position).normalized;
+            angle = Vector3.Dot(playerDir, behavior.MyTransform.forward);
 
-        if (angle > .985f)
-            lockedOn = true;
-        else
-            lockedOn = false;
+            if (angle > .985f)
+                lockedOn = true;
+            else
+                lockedOn = false;
+        }
     }
 
     private void Fire()

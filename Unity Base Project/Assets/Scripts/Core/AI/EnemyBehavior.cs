@@ -13,16 +13,19 @@ public class EnemyBehavior : IEnemy
 
     public bool lostSight;
     public float losingsightTimer;
+
+    private EnemyManager manager;
     #endregion
 
     void Awake()
     {
-        Initialize();
+        Initialize();        
     }
 
     public override void Initialize()
     {
         base.Initialize();
+        manager = transform.parent.GetComponent<EnemyManager>();
         State = EnemyStates.IDLE;
         losingsightTimer = 0f;
         lostSight = false;
@@ -37,7 +40,8 @@ public class EnemyBehavior : IEnemy
 
         if (lostSight && losingsightTimer <= 0)
         {
-            Debug.Log("Enemy is lost");
+            Debug.Log("Enemy Lost Player's Position");
+            SetEnemyTarget(null);
             ChangeState(EnemyStates.PATROL);
         }
     }
@@ -48,12 +52,29 @@ public class EnemyBehavior : IEnemy
         Target = _target;
         if (Target != null && Target.CompareTag("Player"))
             ChangeState(EnemyStates.ATTACKING);
+
+        manager.FoundTarget(_target, MyTransform.position);
     }
+
+    public void BroadcastAlert(object[] storage)
+    {
+        if (Target == null)
+        {
+            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 2000f)
+            {
+                Target = (Transform)storage[0];
+                if (Target != null && Target.CompareTag("Player"))
+                    ChangeState(EnemyStates.ALERT);
+            }
+        }
+    }
+
     public void SetUniqueAi(MonoBehaviour _script)
     {
         if(uniqueAi == null)
             uniqueAi = _script;
     }
+
     public void ChangeState(EnemyStates newState)
     {
         Debug.Log("Changing enemy State : " + newState);
@@ -82,10 +103,14 @@ public class EnemyBehavior : IEnemy
                     uniqueAi.SendMessage("SelfDestruct");
                 break;
             case EnemyStates.SEARCHING:
-                SetSpeedBoost(.9f);
+                SetSpeedBoost(1f);
                 lostSight = true;
                 losingsightTimer = 10f;
-                SetEnemyTarget(null);
+                break;
+            case EnemyStates.ALERT:
+                SetSpeedBoost(1f);
+                lostSight = true;
+                losingsightTimer = 30f;
                 break;
             case EnemyStates.FOLLOW:
                 SetSpeedBoost(.6f);
