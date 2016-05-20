@@ -12,18 +12,14 @@ public class DecoyMovement : MonoBehaviour
     void Start()
     {
         speed = 0f;
-        aliveTimer = 30.0f;
+        aliveTimer = 30f;
+        Invoke("Kill", aliveTimer);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (aliveTimer > 0.0f)
-            aliveTimer -= Time.deltaTime;
-        else
-            Destroy(this.gameObject);
-
-        if (speed < 50f)
+        if (speed < 100f)
             speed += Time.deltaTime * 5f;
 
         transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.Self);
@@ -32,7 +28,11 @@ public class DecoyMovement : MonoBehaviour
     #region Msg Calls
     public void Kill()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
+    }
+    public void SetSpeed(float _speed)
+    {
+        speed = _speed;
     }
     #endregion
 }

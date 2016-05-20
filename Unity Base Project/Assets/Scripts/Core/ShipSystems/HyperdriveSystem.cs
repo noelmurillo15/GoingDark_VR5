@@ -49,8 +49,9 @@ public class HyperdriveSystem : ShipDevice
 
         if (Cooldown == maxCooldown)
         {
-            Debug.Log("Hyperdrive sequence has been initialized");
+            Cooldown -= .01f;
             InitializeHyperdriveSequence();
+            Debug.Log("Hyperdrive sequence has been initialized");
         }
 
         if (hypeJump)

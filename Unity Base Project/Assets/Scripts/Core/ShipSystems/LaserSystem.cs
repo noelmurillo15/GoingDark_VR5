@@ -31,7 +31,6 @@ public class LaserSystem : ShipDevice
 
     public void ShootGun()
     {
-        Debug.Log("Shooting Lasers");
         if (Laser == null)
             return;
 
@@ -41,7 +40,7 @@ public class LaserSystem : ShipDevice
             go.transform.parent = transform.parent;        
             go = Instantiate(Laser, gun2.transform.position, gun2.transform.rotation) as GameObject;
             go.transform.parent = transform.parent;
-            reload = 1f;
+            reload = 2f;
         }
     }
 }
