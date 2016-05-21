@@ -114,13 +114,14 @@ public class IEnemy : MonoBehaviour
                 }
                 else if (Level == EnemyDifficulty.HARD)
                 {
-                    MoveData.Acceleration = 10f;
+                    MoveData.Acceleration = 20f;
                     MoveData.RotateSpeed = 2f;
-                    MoveData.MaxSpeed = 150f;
+                    MoveData.MaxSpeed = 220f;
                 }
                 break;
             case "Trident":
-                SetEnemyType(EnemyTypes.TRIDENT);                
+                SetEnemyType(EnemyTypes.TRIDENT);
+                MissileCount = 20;
                 if (Level == EnemyDifficulty.EASY)
                 {
                     MoveData.Acceleration = 5f;
@@ -135,14 +136,14 @@ public class IEnemy : MonoBehaviour
                 }
                 else if (Level == EnemyDifficulty.HARD)
                 {
-                    MoveData.Acceleration = 9f;
-                    MoveData.RotateSpeed = 3f;
-                    MoveData.MaxSpeed = 120f;
+                    MoveData.Acceleration = 18f;
+                    MoveData.RotateSpeed = 2f;
+                    MoveData.MaxSpeed = 210f;
                 }
                 break;
             case "BasicEnemy":
                 SetEnemyType(EnemyTypes.BASIC);
-                MissileCount = 10;
+                MissileCount = 20;
                 if (Level == EnemyDifficulty.EASY)
                 {
                     MoveData.Acceleration = 4f;
@@ -157,9 +158,9 @@ public class IEnemy : MonoBehaviour
                 }
                 else if (Level == EnemyDifficulty.HARD)
                 {
-                    MoveData.Acceleration = 8f;
-                    MoveData.RotateSpeed = 4f;
-                    MoveData.MaxSpeed = 110f;
+                    MoveData.Acceleration = 18f;
+                    MoveData.RotateSpeed = 2f;
+                    MoveData.MaxSpeed = 200f;
                 }                               
                 break;
             case "Transport":
@@ -178,9 +179,9 @@ public class IEnemy : MonoBehaviour
                 }
                 else if (Level == EnemyDifficulty.HARD)
                 {
-                    MoveData.Acceleration = 12f;
-                    MoveData.RotateSpeed = 4.5f;
-                    MoveData.MaxSpeed = 200f;
+                    MoveData.Acceleration = 25f;
+                    MoveData.RotateSpeed = 2f;
+                    MoveData.MaxSpeed = 250f;
                 }                
                 break;
             case "Boss":

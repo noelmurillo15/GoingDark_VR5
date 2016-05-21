@@ -23,8 +23,8 @@ public class EnemyMissile : MonoBehaviour {
         MyTransform = transform;
         tracking = false; 
         LookSpeed = 15;
-        velocity = 180.0f;
-        destroyTimer = 5.0f;
+        velocity = 200.0f;
+        destroyTimer = 10.0f;
 
         messages = GameObject.Find("WarningMessages");
         messages.SendMessage("MissileIncoming");

@@ -24,19 +24,25 @@ public class DecoySystem : ShipDevice {
     {
         if (Cooldown == maxCooldown)
         {
-            Debug.Log("Decoy has been sent");
+            
             Cooldown -= .01f;
             SendDecoy();
         }
 
-        UpdateCooldown();
+        if (Input.GetKey(KeyCode.D) && Cooldown <= 0F)
+            Activate();
+
+        if (Activated)
+            SendDecoy();
     }
 
     public void SendDecoy()
     {
         Count--;
+        Activated = false;
         GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
         go.transform.parent = player.transform.parent;
         go.SendMessage("SetSpeed", player.GetComponent<PlayerStats>().GetMoveData().Speed);
+        Debug.Log("Decoy has been sent");
     }
 }

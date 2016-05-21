@@ -14,6 +14,9 @@ public class MissileSystem : ShipDevice
     private GameObject chromatic;
     private GameObject shieldbreak;
     private GameObject selectedMissile;
+
+    
+
     private bool missSwitch;
     private float missTimer;
 
@@ -28,8 +31,9 @@ public class MissileSystem : ShipDevice
         missTimer = 5;
         //Debug.Log("Initializing Missiles");
         Count = 10;
-        maxCooldown = 5f;
+        maxCooldown = 1f;
 
+        
         basic = Resources.Load<GameObject>("Missiles/BasicMissile");
         emp = Resources.Load<GameObject>("Missiles/EmpMissile");
         chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
@@ -42,30 +46,11 @@ public class MissileSystem : ShipDevice
 
     void Update()
     {
-        if (Cooldown == maxCooldown)
-        {
-            Debug.Log("Missile has been launched");
-            Cooldown -= .5f;
+        if (Input.GetKey(KeyCode.F) && Cooldown <= 0F)
+            Activate();
+
+        if (Activated)
             LaunchMissile();
-        }
-
-        //if(missTimer >= 4.0f)
-        //{
-        //    if (Input.GetKey(KeyCode.F))
-        //        LaunchMissile();
-        //    missSwitch = true;
-        //}
-
-        //if(missSwitch)
-        //{
-        //    missTimer -= Time.deltaTime;
-        //}
-        //if(missTimer <= 0)
-        //{
-        //    missTimer = 5;
-        //    missSwitch = false;
-        //}
-        UpdateCooldown();
     }
 
     public void LaunchMissile()
@@ -80,8 +65,10 @@ public class MissileSystem : ShipDevice
         {
             Count--;
             textCount.text = Count.ToString();
+            Activated = false;
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
             AudioManager.instance.PlayMissileLaunch();
+            Debug.Log("Missile has been launched");
         }
     }
 

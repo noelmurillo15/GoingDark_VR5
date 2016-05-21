@@ -164,6 +164,7 @@ public class AudioManager : MonoBehaviour
         _Gadget.clip = sounds["Cloak"];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
+        _Music.pitch = Time.timeScale;    
     }
 
     public void PlayShieldOff()
@@ -233,7 +234,7 @@ public class AudioManager : MonoBehaviour
     {
         _Music.Stop();
         _Music.clip = music["Level1theme"];
-        _Music.Play();
+        _Music.Play();        
     }
 
     public void PlayLevel2()

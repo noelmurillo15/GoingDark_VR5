@@ -26,7 +26,8 @@ public class MissionLog : MonoBehaviour
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         turnedIn = new bool[4];
         buttonNum = 0;
-        missionInfo.text = "Active Missions";
+
+        //missionInfo.text = "Active Missions";
 
         ActiveMissions();
         AssignMissionInfo("MissionLog");

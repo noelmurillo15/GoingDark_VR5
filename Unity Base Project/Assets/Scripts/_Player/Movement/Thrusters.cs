@@ -47,7 +47,9 @@ public class Thrusters : MonoBehaviour {
             }
         }
         else
+        {
             inRange = false;
+        }
 
         if (transform.localEulerAngles.x > 328f && transform.localEulerAngles.x < 355f)
         {

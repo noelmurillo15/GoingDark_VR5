@@ -33,13 +33,11 @@ public class CloakSystem : ShipDevice
                 UnCloakShip();
         }
 
-        if (Cooldown == maxCooldown)
-        {
-            Debug.Log("Ship has been cloaked");
-            CloakShip();
-        }
+        if (Input.GetKey(KeyCode.C) && Cooldown <= 0F)
+            Activate();
 
-        UpdateCooldown();
+        if (Activated)
+            CloakShip();
     }
 
     #region Private Methods
@@ -48,6 +46,11 @@ public class CloakSystem : ShipDevice
         cloakTimer = 20.0f;
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = Color.black;
+
+        Debug.Log("Cloaked");
+        Time.timeScale = .8f;
+        Activated = false;
+
         AudioManager.instance.PlayCloak();
     }
 
@@ -56,6 +59,10 @@ public class CloakSystem : ShipDevice
         cloakTimer = 0f;
             for (int x = 0; x<shipLights.Length; x++)
                 shipLights[x].GetComponent<Light>().color = originalColor;
+
+        Debug.Log("Un-Cloaked");
+        Time.timeScale = 1f;
+
         AudioManager.instance.PlayCloak();
     }
     #endregion

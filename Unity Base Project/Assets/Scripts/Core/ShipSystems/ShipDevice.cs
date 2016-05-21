@@ -22,18 +22,12 @@ public class ShipDevice : MonoBehaviour {
         Status = SystemStatus.OFFLINE;
     }
 
-    public void UpdateCooldown()
+    void LateUpdate()
     {
-        if (Activated)
-        {
-            if(Cooldown > 0f)
-                Cooldown -= Time.deltaTime;
-            else
-            {
-                Activated = false;
-                Cooldown = 0f;
-            }                
-        }
+        if (Cooldown > 0f)
+            Cooldown -= Time.deltaTime;
+        else
+            Cooldown = 0f;
     }
     public void Activate()
     {

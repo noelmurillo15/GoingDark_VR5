@@ -3,11 +3,13 @@ using GD.Core.Enums;
 
 public class FireMissile : MonoBehaviour {
 
+   
     private SystemManager manager;
 
 
     // Use this for initialization
     void Start () {
+        
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 	

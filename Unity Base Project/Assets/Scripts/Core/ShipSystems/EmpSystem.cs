@@ -26,14 +26,11 @@ public class EmpSystem : ShipDevice
         else
             shockwave.SetActive(false);
 
+        if (Input.GetKey(KeyCode.E) && Cooldown <= 0F)
+            Activate();
 
-        if (Cooldown == maxCooldown)
-        {
-            Debug.Log("Emp has been activated");
-            ElectricMagneticPulse();
-        }
-
-        UpdateCooldown();
+        if (Activated)
+            ElectricMagneticPulse();               
     }
 
 
@@ -41,7 +38,9 @@ public class EmpSystem : ShipDevice
     public void ElectricMagneticPulse()
     {
         empTimer = 5f;
+        Activated = false;
         shockwave.SetActive(true);
+        Debug.Log("Emp Activated");
     }
     #endregion
 }

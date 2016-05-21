@@ -23,9 +23,10 @@ public class LaserSystem : ShipDevice
         if (reload > 0f)
             reload -= Time.deltaTime;
 
-        UpdateCooldown();
+        if(Input.GetKey(KeyCode.L) && Cooldown <= 0F)
+            Activate();
 
-        if (Activated)
+        if (Cooldown > 0f)
             ShootGun();
     }
 

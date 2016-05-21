@@ -27,9 +27,9 @@ public class PlayerStats : MonoBehaviour {
     void Start () {      
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 120f;
-        MoveData.RotateSpeed = 20f;
-        MoveData.Acceleration = 10f;
+        MoveData.MaxSpeed = 220f;
+        MoveData.RotateSpeed = 50f;
+        MoveData.Acceleration = 25f;
         numCredits = PlayerPrefs.GetInt("Credits");
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
@@ -78,7 +78,7 @@ public class PlayerStats : MonoBehaviour {
     public void DecreaseSpeed()
     {
         if (MoveData.Speed > 0.0f)
-            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 4f;
+            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 5f;
         else
             MoveData.Speed = 0.0f;
     }

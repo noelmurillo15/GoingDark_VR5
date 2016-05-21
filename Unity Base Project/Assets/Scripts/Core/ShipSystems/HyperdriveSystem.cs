@@ -45,19 +45,16 @@ public class HyperdriveSystem : ShipDevice
                 particles.SetActive(false);
                 particles.transform.localPosition = particleOriginPos;
             }
-        }
+        }        
 
-        if (Cooldown == maxCooldown)
-        {
-            Cooldown -= .01f;
+        if (Input.GetKey(KeyCode.H) && Cooldown <= 0F)
+            Activate();
+
+        if (Activated)
             InitializeHyperdriveSequence();
-            Debug.Log("Hyperdrive sequence has been initialized");
-        }
 
         if (hypeJump)
             HyperDriveBoost();
-
-        UpdateCooldown();
     }
 
     #region Private Methods
@@ -85,8 +82,10 @@ public class HyperdriveSystem : ShipDevice
     }
 
     public void InitializeHyperdriveSequence() {
-        hypeJump = true;    
-        initializeTimer = 10.0f;        
+        hypeJump = true;
+        Activated = false;
+        initializeTimer = 10.0f;
+        Debug.Log("Hyperdrive sequence has been initialized");
     }
     #endregion
 }

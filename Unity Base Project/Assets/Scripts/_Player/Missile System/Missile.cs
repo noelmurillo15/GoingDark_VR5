@@ -16,11 +16,13 @@ public class Missile : MonoBehaviour {
     private Transform MyTransform;
 
     //  Target Data
+    private PlayerStats stats;
     private Transform target;
     public Quaternion targetRotation;
 
 
     void Start() {
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         target = null;
         tracking = false;
 
@@ -29,6 +31,9 @@ public class Missile : MonoBehaviour {
         maxVelocity = 200f;
         acceleration = 50f;
         destroyTimer = 10f;
+
+        velocity = stats.GetMoveData().Speed + 25f;
+        maxVelocity = velocity + 100;
 
         MyTransform = transform;
     }
@@ -44,8 +49,7 @@ public class Missile : MonoBehaviour {
             velocity += Time.deltaTime * acceleration;
 
         if (tracking)
-        {
-            velocity = 180f;
+        {            
             LookAt();
         }
 
