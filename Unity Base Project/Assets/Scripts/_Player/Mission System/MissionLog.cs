@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MissionLog : MonoBehaviour
 {
@@ -261,6 +262,10 @@ public class MissionLog : MonoBehaviour
                     // accept button
                     stationButtons[5].SetActive(false);
                     stationButtons[6].SetActive(false);
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        GameObject.Find("Tutorial").GetComponent<Tutorial>().SendMessage("MissionAccepted");
+                    }
                     break;
                 }
             case "StationTurnIn":
@@ -273,6 +278,10 @@ public class MissionLog : MonoBehaviour
                     stationButtons[7].SetActive(false);
                     stationInfo.gameObject.SetActive(false);
                     turnedIn[buttonNum] = true;
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        GameObject.Find("Tutorial").GetComponent<Tutorial>().SendMessage("MissionTurnedIn");
+                    }
                     break;
                 }
             default:

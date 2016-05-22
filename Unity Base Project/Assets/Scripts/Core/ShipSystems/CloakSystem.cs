@@ -42,14 +42,15 @@ public class CloakSystem : ShipDevice
 
     #region Private Methods
     public void CloakShip()
-    {
-        cloakTimer = 20.0f;
+    {        
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = Color.black;
 
         Debug.Log("Cloaked");
-        Time.timeScale = .8f;
+        Time.timeScale = .5f;
         Activated = false;
+
+        cloakTimer = 25.0f * Time.timeScale;
 
         AudioManager.instance.PlayCloak();
     }

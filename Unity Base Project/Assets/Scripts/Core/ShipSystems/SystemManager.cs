@@ -146,6 +146,15 @@ public class SystemManager : MonoBehaviour {
         }
     }
 
+    public bool GetActive(SystemType key)
+    {
+        if (MainDevices.ContainsKey(key))
+            return MainDevices[key].Activated;
+
+        return false;
+    }
+
+
     public void SystemDamaged()
     {
         SystemType rand = (SystemType)Random.Range(0, 8);

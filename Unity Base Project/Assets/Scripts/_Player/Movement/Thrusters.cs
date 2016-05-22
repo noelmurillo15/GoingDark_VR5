@@ -63,7 +63,7 @@ public class Thrusters : MonoBehaviour {
         }        
     }
 
-    private void UpdateSpeedGauge()
+    public void UpdateSpeedGauge()
     {
         float percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
 
@@ -77,6 +77,13 @@ public class Thrusters : MonoBehaviour {
         float offset = (percent * 0.00456f) - 0.00456f;
         newPos.z = offset;
         speedGauge.transform.localPosition = newPos;
+    }
+
+    public void Reset()
+    {
+        Vector3 euler = transform.localEulerAngles;
+        euler.x = 0f;
+        transform.localEulerAngles = euler;
     }
 
     #region Collision Detection

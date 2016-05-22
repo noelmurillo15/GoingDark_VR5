@@ -82,8 +82,13 @@ public class MissionSystem : MonoBehaviour
                 mission.objectives--;
 
                 if (mission.objectives == 0)
+                {
                     mission.completed = true;
-
+                    if (SceneManager.GetActiveScene().name == "Tutorial")
+                    {
+                        GameObject.Find("Tutorial").GetComponent<Tutorial>().SendMessage("MissionCompleted");
+                    }
+                }
                 m_ActiveMissions[i] = mission;
                 m_missionLog.SendMessage("UpdateInfo", m_ActiveMissions[i]);
             }
