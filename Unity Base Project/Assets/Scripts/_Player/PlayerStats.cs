@@ -27,9 +27,9 @@ public class PlayerStats : MonoBehaviour {
     void Start () {      
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 220f;
-        MoveData.RotateSpeed = 50f;
-        MoveData.Acceleration = 25f;
+        MoveData.MaxSpeed = 100f;
+        MoveData.RotateSpeed = 25f;
+        MoveData.Acceleration = 20f;
         numCredits = PlayerPrefs.GetInt("Credits");
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
         // shield cooldown and reactivate
         if (shieldHealth != 0.0f)
         {

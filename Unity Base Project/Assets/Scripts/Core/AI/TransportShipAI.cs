@@ -11,8 +11,8 @@ public class TransportShipAI : MonoBehaviour
     public Material transMat;
     public Material opaqueMat;
 
-    private GameObject mesh1;
-    private GameObject mesh2;
+    private Renderer mesh1;
+    private Renderer mesh2;
 
     // Enemy Data
     private EnemyBehavior behavior;
@@ -24,8 +24,8 @@ public class TransportShipAI : MonoBehaviour
         behavior = GetComponent<EnemyBehavior>();
         behavior.SetUniqueAi(this);
 
-        mesh1 = transform.GetChild(0).gameObject;
-        mesh2 = transform.GetChild(1).gameObject;
+        mesh1 = transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
+        mesh2 = transform.GetChild(0).GetChild(1).GetComponent<Renderer>();
     }
 	
 	// Update is called once per frame
@@ -46,15 +46,15 @@ public class TransportShipAI : MonoBehaviour
     void CloakOn() {
         if (cloakTimer <= 0.0f) {
             cloakTimer = 30.0f;
-            mesh1.GetComponent<Renderer>().material = transMat;
-            mesh2.GetComponent<Renderer>().material = transMat;
+            mesh1.material = transMat;
+            mesh2.material = transMat;
         }
     }
 
     void CloakOff() {
         behavior.ChangeBehavior();
-        mesh1.GetComponent<Renderer>().material = opaqueMat;
-        mesh2.GetComponent<Renderer>().material = opaqueMat;
+        mesh1.material = opaqueMat;
+        mesh2.material = opaqueMat;
     }
 
     void OnTriggerEnter(Collider col) {

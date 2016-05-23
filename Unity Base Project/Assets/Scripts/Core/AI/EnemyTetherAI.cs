@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(EnemyBehavior))]
 public class EnemyTetherAI : MonoBehaviour
 {
     #region Properties

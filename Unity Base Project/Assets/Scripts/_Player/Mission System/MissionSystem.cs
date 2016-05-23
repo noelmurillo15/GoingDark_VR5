@@ -9,6 +9,8 @@ public class MissionSystem : MonoBehaviour
     public enum MissionType { COMBAT, SCAVENGE, STEALTH };
     public enum EnemyType { BASIC_ENEMY, KAMIKAZE, TRANSPORT, ANY, NONE };
 
+    public string filename;
+
     public struct Mission
     {
         public string missionName;
@@ -50,7 +52,7 @@ public class MissionSystem : MonoBehaviour
         m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
 
         maxMissions = 4;
-        m_stationMissions = m_missionLoader.LoadMissions("Tutorial");
+        m_stationMissions = m_missionLoader.LoadMissions(filename);
 
         // m_ActiveMissions.Add(m_stationMissions[0]);
     }
