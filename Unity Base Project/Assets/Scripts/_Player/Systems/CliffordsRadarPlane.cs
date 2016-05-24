@@ -6,10 +6,13 @@ public class CliffordsRadarPlane : MonoBehaviour
     private Vector3 ScalerFactor;// = new Vector3(0.003f, 0.003f, 0.003f);
     [SerializeField]
     private GameObject PreFabBlip;
+    [SerializeField]
+    private GameObject PreFabMissle;
 
     private int Counter = 0;
     private GameObject[] TheObject;
     private GameObject[] TheBlip;
+
 
     GameObject Player;
     GameObject messages;
@@ -36,12 +39,12 @@ public class CliffordsRadarPlane : MonoBehaviour
     {
         //Debug.Log("Collision Detected with "+ ColliderObject.gameObject.tag);
 
-        if (ColliderObject.GetType() == typeof(CharacterController) || (ColliderObject.GetType() == typeof(BoxCollider) && ColliderObject.gameObject.tag == "Loot"))
-        {
-            if (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip" )
-            {
-
-                messages.SendMessage("EnemyClose");
+        if ((ColliderObject.GetType() == typeof(CharacterController) &&
+            (ColliderObject.gameObject.tag == "Enemy" || ColliderObject.gameObject.tag == "TransportShip")) ||
+            (ColliderObject.GetType() == typeof(BoxCollider) && ColliderObject.gameObject.tag == "Loot") ||
+            ColliderObject.gameObject.tag == "Missile")
+        { 
+            messages.SendMessage("EnemyClose");
 
                 Vector3 ColliderPosition = ColliderObject.transform.localPosition; // There he is! Get Him! 
                                                                               // Debug.Log(ColliderPosition + " Poisiton of Enemy");
@@ -53,15 +56,19 @@ public class CliffordsRadarPlane : MonoBehaviour
 
                 //Scale it by Scaler factor to get smaller vector position(;
                 PositionOfEnemy.Scale(ScalerFactor);
-                //Debug.Log(PositionOfEnemy + " * by Scaler");
+            //Debug.Log(PositionOfEnemy + " * by Scaler");
 
-                // Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
+            Quaternion ColliderRotation = ColliderObject.transform.rotation; //Gobal Space Rotation!(;
 
+            GameObject Blip;
 
-                //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
-                GameObject Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
+            //  GameObject Blip = (GameObject)Instantiate(PreFabBlip); //, PositionOfEnemy, Quaternion.identity); // Making the new object giving it a position and rotation.
+            if (ColliderObject.gameObject.tag == "Missile")
+                Blip = Instantiate(PreFabMissle, PositionOfEnemy, ColliderRotation) as GameObject;
+            else
+                Blip = Instantiate(PreFabBlip, PositionOfEnemy, Quaternion.identity) as GameObject;
 
-                Blip.transform.SetParent(transform);
+            Blip.transform.SetParent(transform);
                 //Blip.transform.localPosition.Set(0.0f, 0.0f, 0.0f);
                 Blip.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 //((GameObject)Blip).transform.parent = this.transform; // Setting the Blip objects parent to this Plane's Transform
@@ -78,7 +85,6 @@ public class CliffordsRadarPlane : MonoBehaviour
 
             }
         }
-    }
     void OnTriggerExit(Collider ColliderObject)//hey he's leaving!
     {
         for (int i = 0; i < Counter; i++)

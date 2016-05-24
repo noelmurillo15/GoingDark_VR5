@@ -36,5 +36,6 @@ public class SpaceStation : MonoBehaviour
     void OnTriggerExti()
     {
         m_missionLog.SendMessage("Docked", false);
+        
     }
 }

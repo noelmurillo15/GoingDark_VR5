@@ -22,6 +22,7 @@ public class Tutorial : MonoBehaviour
     private GameObject enemy1 = null, enemy2 = null, droidBot = null;
     private SystemManager systemManager;
     private GameObject station;
+    private bool isNearStation;
 
 
     // Use this for initialization
@@ -51,6 +52,7 @@ public class Tutorial : MonoBehaviour
         missionTurnedIn = false;
         Arrow.SetActive(false);
         type = SystemType.NONE;
+        isNearStation = false;
     }
 
     // Update is called once per frame
@@ -65,24 +67,39 @@ public class Tutorial : MonoBehaviour
         switch (phase)
         {
             case 0:
-                //Arrow.SetActive(true);
-                //Arrow.transform.LookAt(GetClosestShipPart());
                 if (!buffer)
                 {
-                    string1 = "Please Open the mission log to accept " + mission.m_stationMissions[0].missionName;
-                    string2 = "Touch your left forearm with your right Index to open control board";
-                    string3 = "Use your right index to select/use items";
-                    StartCoroutine(Delay(0.0f, string1, string2, string3));
+                    string1 = "Push the handle on your left to increase your movement speed";
+                    string2 = "Rotate your head to rotate your ship";
+                    string3 = "Drive to the station (Hint: Follow the arrow)";
+                    StartCoroutine(Delay(2.0f, string1, string2, string3));
                     buffer = true;
+                    Arrow.SetActive(true);
+
                 }
-                if (Vector3.Distance(player.transform.position, station.transform.position) < 50 && playerMovement.enabled == true)
+                Arrow.transform.LookAt(station.transform);
+
+                if (Vector3.Distance(player.transform.position, station.transform.position) <= 80)
                 {
+                    ClearText();
                     playerMovement.enabled = false;
                     player.StopMovement();
                     thruster.UpdateSpeedGauge();
                     thruster.Reset();
+                    buffer = false;
+                    phase++;
                 }
-                
+                break;
+            case 1:
+                if (!buffer)
+                {
+                    string1 = "Touch your left forearm with your right palm to open the Arm Menu";
+                    string2 = "Click the mission log button";
+                    string3 = "Accept the first mission : " + mission.m_stationMissions[0].missionName;
+                    StartCoroutine(Delay(0.0f, string1, string2, string3));
+                    buffer = true;
+                }
+                                
                 if (missionAccepted)
                 {
                     playerMovement.enabled = true;
@@ -91,26 +108,7 @@ public class Tutorial : MonoBehaviour
                     buffer = false;
                 }
                 break;
-            case 1:
-                if (!buffer)
-                {
-                    string1 = "Push the handle on your left to start the ship";
-                    string2 = "You may rotate your head to change direction";
-                    string3 = "";
-                    StartCoroutine(Delay(2.0f, string1, string2, string3));
-                    buffer = true;
-                }
-
-                if (player.GetMoveData().Speed > 0)
-                {
-                    ClearText();
-                    phase++;
-                    buffer = false;
-                    Arrow.SetActive(true);
-                }
-                break;
             
-
             case 2:
                 if (type != SystemType.NONE)
                 {
@@ -121,7 +119,7 @@ public class Tutorial : MonoBehaviour
                 {
                     line1.text = "Collect 6 ship parts to form a complete ship";
                     line2.text = "Completion (" + deviceCollected + " / 6)";
-                    line3.text = "";
+                    line3.text = "Hint: Follow the arrow";
                     Arrow.transform.LookAt(GetClosestShipPart());
 
                     if (missionCompleted)
@@ -140,14 +138,14 @@ public class Tutorial : MonoBehaviour
                     StartCoroutine(Delay(3.0f, string1, string2, string3));
                     buffer = true;
                 }
-                if (Vector3.Distance(player.transform.position, station.transform.position) <= 50)
+                if (Vector3.Distance(player.transform.position, station.transform.position) <= 80)
                 {
                     player.StopMovement();
                     thruster.UpdateSpeedGauge();
                     thruster.Reset();
                 }
                     Arrow.transform.LookAt(station.transform);
-                if (missionCompleted)
+                if (missionTurnedIn)
                 {
                     buffer = false;
                     ClearText();
@@ -167,9 +165,9 @@ public class Tutorial : MonoBehaviour
     {
         yield return new WaitForSeconds(length);
         line1.text = s1;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         line2.text = s2;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2f);
         line3.text = s3;
     }
 
@@ -209,8 +207,8 @@ public class Tutorial : MonoBehaviour
                     droidBot.transform.parent = GameObject.Find("Enemy").transform;
 
                     ClearText();
-                    s1 = "You can stun the surrounding enemies with EMP";
-                    s2 = "EMP is also extremely effective against the droid.";
+                    s1 = "You now have an EMP which slows all enemies nearby";
+                    s2 = "EMP is also extremely effective against droids.";
                     s3 = "Try to use it on the droid!";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
@@ -233,9 +231,9 @@ public class Tutorial : MonoBehaviour
                     Vector3 temp = player.transform.position + player.transform.forward * 100;
                     enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
-                    Debug.Log("1");
+                    
                     ClearText();
-                    s1 = "Cloak can make you invisible to the enemies.";
+                    s1 = "Cloak can make you invisible to the enemies and slows down time.s";
                     s2 = "It is very useful when you need to avoid battle.";
                     s3 = "Try to use it!";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
@@ -248,9 +246,11 @@ public class Tutorial : MonoBehaviour
                 {
                     enemy1.transform.position = player.transform.position + player.transform.forward * 100;
                 }
-                if(systemManager.GetActive(SystemType.CLOAK))
+                if (systemManager.GetActive(SystemType.CLOAK))
+                {
                     StartCoroutine(ShowDeviceEnd(1.0f));
-
+                    Invoke("DestroyEnemy", 2f);
+                }
                 break;
             case SystemType.RADAR:
                 if (!buffer)
@@ -262,7 +262,7 @@ public class Tutorial : MonoBehaviour
                    
                     ClearText();
                     s1 = "Nearby enemies and loot will appear on the radar.";
-                    s2 = "You can pick up the radar with your hand open.";
+                    s2 = "You can pick up the radar by scooping it up with your right hand";
                     s3 = "Relocate radar to where you prefer by closing your hand";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -279,7 +279,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "You can lure the enemies away by spawning a decoy.";
                     s2 = "Using decoy with the cloak can ease up your journey.";
-                    s3 = "Be smart, be strategic.";
+                    s3 = "Try to use it!";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -298,9 +298,9 @@ public class Tutorial : MonoBehaviour
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
                     
                     ClearText();
-                    s1 = "Laser is a fast pase weapon.";
+                    s1 = "Laser is a fast pace weapon.";
                     s2 = "Try to use the laser to eliminate the enemy.";
-                    s3 = "";
+                    s3 = "Pew! Pew! Pew!";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -311,9 +311,10 @@ public class Tutorial : MonoBehaviour
                 else if(enemy1)
                     Arrow.transform.LookAt(enemy1.transform.position);
 
-                else// (!enemy1 && buffer)
+                if (systemManager.GetActive(SystemType.LASERS))
                 {
-                    StartCoroutine(ShowDeviceEnd(1.0f));
+                    Invoke("DestroyEnemy", 2f);
+                    StartCoroutine(ShowDeviceEnd(2.0f));
                 }
                 break;
 
@@ -323,7 +324,7 @@ public class Tutorial : MonoBehaviour
                     Vector3 temp = player.transform.position + player.transform.forward * 100;
                     enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
-                    
+
                     ClearText();
                     s1 = "Missile is a powerful weapon with long range.";
                     s2 = "Try to fire a missile to eliminate the enemy.";
@@ -334,11 +335,13 @@ public class Tutorial : MonoBehaviour
                     thruster.UpdateSpeedGauge();
                     thruster.Reset();
                 }
-                else if(enemy1)
+                else if (enemy1)
                     Arrow.transform.LookAt(enemy1.transform.position);
-                else// (!enemy2 && buffer)
+                
+                if (systemManager.GetActive(SystemType.MISSILES))
                 {
-                    StartCoroutine(ShowDeviceEnd(1.0f));
+                    Invoke("DestroyEnemy", 1.5f);
+                    StartCoroutine(ShowDeviceEnd(2.0f));
                 }
                 break;
 
@@ -396,5 +399,31 @@ public class Tutorial : MonoBehaviour
     public void MissionTurnedIn()
     {
         missionTurnedIn = true;
+    }
+
+    public void EnterStation()
+    {
+        isNearStation = true;
+    }
+
+    public void ExitStation()
+    {
+        isNearStation = false;
+
+    }
+
+    void DestroyEnemy()
+    {
+        if (type == SystemType.EMP)
+        {
+            Destroy(droidBot.gameObject);
+            droidBot = null;
+        }
+        else
+        {
+            Destroy(enemy1.gameObject);
+            enemy1 = null;
+        }
+        
     }
 }

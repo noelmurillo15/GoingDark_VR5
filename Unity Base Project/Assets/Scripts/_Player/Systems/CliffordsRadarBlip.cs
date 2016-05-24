@@ -92,10 +92,13 @@ public class CliffordsRadarBlip : MonoBehaviour
         ////Set Position to Draw straight up/down to the plane.
         //LineToDraw.SetPosition(1, TempPositionForY);
         //Rotate(towards(direction));
-        Vector3 newRot = EnemyHandle.transform.localEulerAngles;
-        //newRot.y -= 180.0f;
-        newRot.x -= 180.0f;
-        transform.localEulerAngles = newRot;
+        if (EnemyHandle.tag != "Missile")
+        {
+            Vector3 newRot = EnemyHandle.transform.localEulerAngles;
+            //newRot.y -= 180.0f;
+            newRot.x -= 180.0f;
+            transform.localEulerAngles = newRot;
+        }
         //LineToDraw.SetColors(LineColor, LineColor);
         //LineToDraw.SetWidth(.001f, .001f);
 

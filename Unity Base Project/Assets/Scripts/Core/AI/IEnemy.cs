@@ -10,6 +10,7 @@ public class IEnemy : MonoBehaviour
 
     public int MissileCount;
     private MovementStats MoveData;
+    private GameObject explosion;
     public Transform MyTransform { get; private set; }    
     #endregion
 
@@ -19,6 +20,7 @@ public class IEnemy : MonoBehaviour
         MyTransform = transform;
         MissileCount = 0;
         LoadEnemyData();
+        explosion = Resources.Load<GameObject>("EnemyExplosion");
     }
 
     #region Accessors
@@ -50,6 +52,7 @@ public class IEnemy : MonoBehaviour
     public void Kill()
     {
         Debug.Log("Enemy has been Destroyed");
+        Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
     #endregion
