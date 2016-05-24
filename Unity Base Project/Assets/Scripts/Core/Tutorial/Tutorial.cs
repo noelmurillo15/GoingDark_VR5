@@ -8,29 +8,24 @@ public class Tutorial : MonoBehaviour
 {
 
     private int phase;
-    //private Thrusters thruster;
     private PlayerMovement playerMovement;
     private MissionSystem mission;
     private Text line1, line2, line3;
-    private int deviceCollected, enemyKilled;
+    private int deviceCollected;
     private SystemType type;
     private PlayerStats player;
     public GameObject Arrow;
-    private bool buffer, missionCompleted, missionAccepted, missionTurnedIn;
+    private bool buffer, missionCompleted, missionAccepted, missionTurnedIn, isNearStation;
     private GameObject[] shipParts;
-    public GameObject enemyShip, droid;
-    private GameObject enemy1 = null, enemy2 = null, droidBot = null;
+    private GameObject enemy1 = null, droidBot = null;
     private SystemManager systemManager;
     private GameObject station;
-    private bool isNearStation;
-
 
     // Use this for initialization
     void Start()
     {
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         player = GameObject.Find("Player").GetComponent<PlayerStats>();
-        //thruster = GameObject.Find("Thruster").GetComponent<Thrusters>();
         shipParts = GameObject.FindGameObjectsWithTag("Loot");
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
@@ -45,7 +40,6 @@ public class Tutorial : MonoBehaviour
         line3.text = "";
         phase = 0;
         deviceCollected = 0;
-        enemyKilled = 0;
         buffer = false;
         missionAccepted = false;
         missionCompleted = false;
@@ -79,13 +73,11 @@ public class Tutorial : MonoBehaviour
                 }
                 Arrow.transform.LookAt(station.transform);
 
-                if (Vector3.Distance(player.transform.position, station.transform.position) <= 80)
+                if (isNearStation)
                 {
                     ClearText();
                     playerMovement.enabled = false;
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
                     buffer = false;
                     phase++;
                 }
@@ -138,11 +130,9 @@ public class Tutorial : MonoBehaviour
                     StartCoroutine(Delay(3.0f, string1, string2, string3));
                     buffer = true;
                 }
-                if (Vector3.Distance(player.transform.position, station.transform.position) <= 80)
+                if (isNearStation)
                 {
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
                 }
                     Arrow.transform.LookAt(station.transform);
                 if (missionTurnedIn)
@@ -197,12 +187,13 @@ public class Tutorial : MonoBehaviour
     void ShowDevice()
     {
         string s1, s2, s3;
+        Debug.Log(type);
         switch (type)
         {
             case SystemType.EMP:
                 if (!buffer)
                 {
-                    Vector3 temp = player.transform.position + player.transform.forward * 100;
+                    Vector3 temp = player.transform.position + player.transform.forward * 50;
                     droidBot = Instantiate(Resources.Load("Tutorial/Droid"), temp, Quaternion.identity) as GameObject;
                     droidBot.transform.parent = GameObject.Find("Enemy").transform;
 
@@ -213,13 +204,11 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
-
                 }
                 else if (systemManager.GetActive(SystemType.EMP))
                 {
-                    Destroy(droidBot);
+                    //Invoke("DestroyEnemy", 1f);
+                    //Destroy(droidBot);
                     StartCoroutine(ShowDeviceEnd(1.0f));
                 }
 
@@ -229,7 +218,7 @@ public class Tutorial : MonoBehaviour
                 {
                     buffer = true;
                     Vector3 temp = player.transform.position + player.transform.forward * 100;
-                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
+                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp,new Quaternion()) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
                     
                     ClearText();
@@ -238,17 +227,14 @@ public class Tutorial : MonoBehaviour
                     s3 = "Try to use it!";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
                 }
-
-                if (Vector3.Distance(enemy1.transform.position, player.transform.position) <= 40)
-                {
-                    enemy1.transform.position = player.transform.position + player.transform.forward * 100;
-                }
+                //if (Vector3.Distance(enemy1.transform.position, player.transform.position) <= 40)
+                //{
+                //    enemy1.transform.position = player.transform.position + player.transform.forward * 100;
+                //}
                 if (systemManager.GetActive(SystemType.CLOAK))
                 {
-                    StartCoroutine(ShowDeviceEnd(1.0f));
+                    StartCoroutine(ShowDeviceEnd(2.0f));
                     Invoke("DestroyEnemy", 2f);
                 }
                 break;
@@ -257,21 +243,19 @@ public class Tutorial : MonoBehaviour
                 {
                     buffer = true;
                     Vector3 temp = player.transform.position + player.transform.forward * 500;
-                    enemy2 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
-                    enemy2.transform.parent = GameObject.Find("Enemy").transform;
-                   
+                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
+                    enemy1.transform.parent = GameObject.Find("Enemy").transform;
+
                     ClearText();
                     s1 = "Nearby enemies and loot will appear on the radar.";
                     s2 = "You can pick up the radar by scooping it up with your right hand";
                     s3 = "Relocate radar to where you prefer by closing your hand";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
-                }
-                else
+                    Invoke("DestroyEnemy", 15.0f);
                     StartCoroutine(ShowDeviceEnd(15.0f));
-
+                }
+                
                 break;
             case SystemType.DECOY:
                 if (!buffer)
@@ -283,8 +267,6 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
                 }
                 else if (systemManager.GetActive(SystemType.DECOY))
                     StartCoroutine(ShowDeviceEnd(1.0f));
@@ -293,7 +275,7 @@ public class Tutorial : MonoBehaviour
             case SystemType.LASERS:
                 if (!buffer)
                 {
-                    Vector3 temp = player.transform.position + player.transform.forward * 100;
+                    Vector3 temp = player.transform.position + player.transform.forward * 150;
                     enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
                     
@@ -304,24 +286,20 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
-
                 }
-                else if(enemy1)
+                if(enemy1)
                     Arrow.transform.LookAt(enemy1.transform.position);
-
-                if (systemManager.GetActive(SystemType.LASERS))
+                else
                 {
-                    Invoke("DestroyEnemy", 2f);
-                    StartCoroutine(ShowDeviceEnd(2.0f));
+                    StartCoroutine(ShowDeviceEnd(1.0f));
+                    //Invoke("DestroyEnemy", 2f);
                 }
                 break;
 
             case SystemType.MISSILES:
                 if (!buffer)
                 {
-                    Vector3 temp = player.transform.position + player.transform.forward * 100;
+                    Vector3 temp = player.transform.position + player.transform.forward * 150;
                     enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
 
@@ -332,16 +310,13 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    //thruster.UpdateSpeedGauge();
-                    //thruster.Reset();
                 }
-                else if (enemy1)
+                if (enemy1)
                     Arrow.transform.LookAt(enemy1.transform.position);
-                
-                if (systemManager.GetActive(SystemType.MISSILES))
-                {
-                    Invoke("DestroyEnemy", 1.5f);
-                    StartCoroutine(ShowDeviceEnd(2.0f));
+                else
+                { 
+                    StartCoroutine(ShowDeviceEnd(1.0f));
+                    //Invoke("DestroyEnemy", 1.5f);
                 }
                 break;
 
@@ -352,15 +327,16 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator ShowDeviceEnd(float length)
     {
+        if (type != SystemType.RADAR)
+            type = SystemType.NONE;
+        
         yield return new WaitForSeconds(length);
+        if (type == SystemType.EMP)
+            Destroy(droidBot);
+        type = SystemType.NONE;
         playerMovement.enabled = true;
         //ClearText();
         buffer = false;
-        if (type == SystemType.RADAR)
-        {
-            Destroy(enemy2);
-        }
-        type = SystemType.NONE;
     }
 
     private Vector3 GetClosestShipPart()
@@ -414,16 +390,10 @@ public class Tutorial : MonoBehaviour
 
     void DestroyEnemy()
     {
-        if (type == SystemType.EMP)
-        {
-            Destroy(droidBot.gameObject);
-            droidBot = null;
-        }
-        else
+        if (enemy1)
         {
             Destroy(enemy1.gameObject);
             enemy1 = null;
         }
-        
     }
 }

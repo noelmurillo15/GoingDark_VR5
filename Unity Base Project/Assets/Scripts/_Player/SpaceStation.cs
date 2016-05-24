@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpaceStation : MonoBehaviour
 {
@@ -24,18 +25,25 @@ public class SpaceStation : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider col)
+    public void OnTriggerEnter(Collider col)
     {
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")
         {
             m_missionLog.SendMessage("Docked", true);
+            if (SceneManager.GetActiveScene().name == "Tutorial")
+                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
         }
     }
 
-    void OnTriggerExti()
+    public void OnTriggerExit(Collider col)
     {
-        m_missionLog.SendMessage("Docked", false);
-        
+        if (col.transform.tag == "Player")
+        {
+            m_missionLog.SendMessage("Docked", false);
+            if (SceneManager.GetActiveScene().name == "Tutorial")
+                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("ExitStation");
+        }
+
     }
 }

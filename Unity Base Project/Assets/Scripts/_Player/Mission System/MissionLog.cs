@@ -264,7 +264,7 @@ public class MissionLog : MonoBehaviour
                     stationButtons[6].SetActive(false);
                     if (SceneManager.GetActiveScene().name == "Tutorial")
                     {
-                        GameObject.Find("Tutorial").GetComponent<Tutorial>().SendMessage("MissionAccepted");
+                        GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("MissionAccepted");
                     }
                     break;
                 }
@@ -280,7 +280,7 @@ public class MissionLog : MonoBehaviour
                     turnedIn[buttonNum] = true;
                     if (SceneManager.GetActiveScene().name == "Tutorial")
                     {
-                        GameObject.Find("Tutorial").GetComponent<Tutorial>().SendMessage("MissionTurnedIn");
+                        GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("MissionTurnedIn");
                     }
                     break;
                 }

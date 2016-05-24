@@ -17,7 +17,7 @@ public class LootPickup : MonoBehaviour {
         mission = GameObject.Find("PersistentGameObject");
         messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
-        tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
+        tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
     }
 	
 	// Update is called once per frame
