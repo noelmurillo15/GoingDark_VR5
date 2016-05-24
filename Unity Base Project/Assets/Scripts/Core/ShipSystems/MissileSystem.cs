@@ -13,9 +13,7 @@ public class MissileSystem : ShipDevice
     private GameObject emp;
     private GameObject chromatic;
     private GameObject shieldbreak;
-    private GameObject selectedMissile;
-
-    
+    private GameObject selectedMissile;    
 
     private bool missSwitch;
     private float missTimer;
@@ -49,6 +47,9 @@ public class MissileSystem : ShipDevice
         if (Input.GetKey(KeyCode.F) && Cooldown <= 0F)
             Activate();
 
+        if (Input.GetAxisRaw("LBumper") > 0f && Cooldown <= 0F)
+            Activate();
+
         if (Activated)
             LaunchMissile();
     }
@@ -68,7 +69,6 @@ public class MissileSystem : ShipDevice
             Activated = false;
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
             AudioManager.instance.PlayMissileLaunch();
-            Debug.Log("Missile has been launched");
         }
     }
 

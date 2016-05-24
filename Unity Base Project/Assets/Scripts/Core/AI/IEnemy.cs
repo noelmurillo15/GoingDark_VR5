@@ -33,7 +33,7 @@ public class IEnemy : MonoBehaviour
     #region Modifiers
     public void SetEnemyType(EnemyTypes _type)
     {
-        Debug.Log("Setting Enemy Type : " + _type);
+        //Debug.Log("Setting Enemy Type : " + _type);
         Type = _type;
     }    
     #endregion

@@ -8,7 +8,7 @@ public class Tutorial : MonoBehaviour
 {
 
     private int phase;
-    private Thrusters thruster;
+    //private Thrusters thruster;
     private PlayerMovement playerMovement;
     private MissionSystem mission;
     private Text line1, line2, line3;
@@ -30,7 +30,7 @@ public class Tutorial : MonoBehaviour
     {
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         player = GameObject.Find("Player").GetComponent<PlayerStats>();
-        thruster = GameObject.Find("Thruster").GetComponent<Thrusters>();
+        //thruster = GameObject.Find("Thruster").GetComponent<Thrusters>();
         shipParts = GameObject.FindGameObjectsWithTag("Loot");
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
@@ -84,8 +84,8 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     playerMovement.enabled = false;
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                     buffer = false;
                     phase++;
                 }
@@ -141,8 +141,8 @@ public class Tutorial : MonoBehaviour
                 if (Vector3.Distance(player.transform.position, station.transform.position) <= 80)
                 {
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                 }
                     Arrow.transform.LookAt(station.transform);
                 if (missionTurnedIn)
@@ -213,8 +213,8 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
 
                 }
                 else if (systemManager.GetActive(SystemType.EMP))
@@ -238,8 +238,8 @@ public class Tutorial : MonoBehaviour
                     s3 = "Try to use it!";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                 }
 
                 if (Vector3.Distance(enemy1.transform.position, player.transform.position) <= 40)
@@ -266,8 +266,8 @@ public class Tutorial : MonoBehaviour
                     s3 = "Relocate radar to where you prefer by closing your hand";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                 }
                 else
                     StartCoroutine(ShowDeviceEnd(15.0f));
@@ -283,8 +283,8 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                 }
                 else if (systemManager.GetActive(SystemType.DECOY))
                     StartCoroutine(ShowDeviceEnd(1.0f));
@@ -304,8 +304,8 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
 
                 }
                 else if(enemy1)
@@ -332,8 +332,8 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
-                    thruster.UpdateSpeedGauge();
-                    thruster.Reset();
+                    //thruster.UpdateSpeedGauge();
+                    //thruster.Reset();
                 }
                 else if (enemy1)
                     Arrow.transform.LookAt(enemy1.transform.position);
