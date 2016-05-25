@@ -91,6 +91,7 @@ public class CliffordsRadarPlane : MonoBehaviour
             if (ColliderObject.gameObject == TheObject[i]) // see if they match
             {
                 Destroy(TheBlip[i]); // destory the blip gameobject
+                if(ColliderObject.gameObject.name == "BasicEnemy" || ColliderObject.gameObject.name == "Droid")
                 ColliderObject.gameObject.GetComponentInChildren<BasicEnemyMaterialChange>().ChangeMateralToOutlined();
             }
 

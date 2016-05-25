@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour {
     #region Properties
     private Vector3 moveDir;
     private PlayerStats stats;
-    private HeadMovement headMove;
     private Transform MyTransform;
     private CharacterController m_controller;
 
@@ -27,7 +26,6 @@ public class PlayerMovement : MonoBehaviour {
         MyTransform = transform;
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
-        headMove = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<HeadMovement>();
 
         autoPilot = false;
         resetRotation = false;
@@ -44,7 +42,24 @@ public class PlayerMovement : MonoBehaviour {
         else if(autoPilot)
             Autopilot();
         else if (resetRotation)
-            Reorient();        
+            Reorient();
+
+
+        if (Input.GetAxis("LTrigger") > 0f)
+            stats.IncreaseSpeed();
+        else
+            stats.DecreaseSpeed();
+
+        if (Input.GetAxis("Horizontal") > 0f)
+            TurnLeft();
+        else if (Input.GetAxis("Horizontal") < 0f)
+            TurnRight();
+
+
+        if (Input.GetAxis("Vertical") > 0f)
+            GoUp();
+        else if (Input.GetAxis("Vertical") < 0f)
+            GoDown();
     }
 
     #region Movement
@@ -62,6 +77,23 @@ public class PlayerMovement : MonoBehaviour {
     {
         orientationTimer = 5.0f;
         resetRotation = true;
+    }
+
+    public void TurnLeft()
+    {
+        MyTransform.Rotate(Vector3.up * Time.deltaTime * -stats.GetMoveData().RotateSpeed);
+    }
+    public void TurnRight()
+    {
+        MyTransform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);     
+    }
+    public void GoUp()
+    {
+        MyTransform.Rotate(Vector3.right * Time.deltaTime * stats.GetMoveData().RotateSpeed);
+    }
+    public void GoDown()
+    {
+        MyTransform.Rotate(Vector3.right * Time.deltaTime * -stats.GetMoveData().RotateSpeed);
     }
 
     private void Autopilot() {

@@ -13,7 +13,10 @@ public class MissileSystem : ShipDevice
     private GameObject emp;
     private GameObject chromatic;
     private GameObject shieldbreak;
-    private GameObject selectedMissile;    
+    private GameObject selectedMissile;
+
+    private Transform MyTransform;
+    private Transform leapcam; 
 
     private bool missSwitch;
     private float missTimer;
@@ -37,6 +40,9 @@ public class MissileSystem : ShipDevice
         chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
         shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
 
+        MyTransform = transform;
+        leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+
         textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
         textCount.text = Count.ToString();
         selectedMissile = basic;
@@ -52,6 +58,8 @@ public class MissileSystem : ShipDevice
 
         if (Activated)
             LaunchMissile();
+
+        MyTransform.rotation = leapcam.rotation;
     }
 
     public void LaunchMissile()
@@ -67,7 +75,7 @@ public class MissileSystem : ShipDevice
             Count--;
             textCount.text = Count.ToString();
             Activated = false;
-            GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z - 1f), transform.rotation) as GameObject;
+            GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y, transform.position.z + .5f), transform.rotation) as GameObject;
             AudioManager.instance.PlayMissileLaunch();
         }
     }

@@ -110,7 +110,7 @@ public class ArmButtons : MonoBehaviour
     {
         if (col.name == "bone3" && m_button.color == original)
         {
-            transition = 0.2f;
+            transition = 0.1f;
             m_button.color = Color.green;
         }
     }

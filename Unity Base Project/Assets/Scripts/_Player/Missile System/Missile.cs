@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 public class Missile : MonoBehaviour {
     //**        Attach to Player Missile        **//
 
     //  Missile Data
+    public MissileType Type = MissileType.NONE;
     public bool tracking;
     public int LookSpeed;
     public float acceleration;
@@ -83,7 +85,26 @@ public class Missile : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.transform.CompareTag("Enemy") || col.transform.CompareTag("TransportShip") || col.transform.CompareTag("Asteroid"))
+        if(col.transform.CompareTag("Enemy") || col.transform.CompareTag("TransportShip"))
+        {
+            switch (Type)
+            {
+                case MissileType.EMP:
+                    col.transform.SendMessage("EMPHit");
+                    break;
+                case MissileType.BASIC:
+                    col.transform.SendMessage("Kill");
+                    break;
+                case MissileType.CHROMATIC:
+                    col.transform.SendMessage("Kill");
+                    break;
+                case MissileType.SHIELDBREAKER:
+                    col.transform.SendMessage("Kill");
+                    break;
+            }            
+            Kill();
+        }
+        else if (col.transform.CompareTag("Asteroid"))
         {
             col.transform.SendMessage("Kill");
             Kill();

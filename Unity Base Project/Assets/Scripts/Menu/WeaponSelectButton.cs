@@ -40,12 +40,6 @@ public class WeaponSelectButton : MonoBehaviour
             case "ShieldBreakerMissile":
                 Type = MissileType.SHIELDBREAKER;
                 break;
-
-
-            default:
-                Debug.Log("Invalid Missile Type");
-                Type = MissileType.NONE;
-                break;
         }
     }
 
