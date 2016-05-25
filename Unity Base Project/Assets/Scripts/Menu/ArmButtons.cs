@@ -47,7 +47,7 @@ public class ArmButtons : MonoBehaviour
             case "MissileButton":
                 Type = SystemType.MISSILES;
                 break;
-            case "LaserButton":
+            case "WSButton":
                 Type = SystemType.LASERS;
                 break;
             case "DecoyButton":

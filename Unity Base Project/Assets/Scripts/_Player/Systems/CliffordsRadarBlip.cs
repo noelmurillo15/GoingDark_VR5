@@ -112,7 +112,7 @@ public class CliffordsRadarBlip : MonoBehaviour
         {
             LineColor = Color.red;
             GetComponent<Renderer>().material = MaterialColorRed;
-            
+            enemy.GetComponentInChildren<BasicEnemyMaterialChange>().ChangeMateralToNormal();
 
 
         }

@@ -89,6 +89,10 @@ public class CliffordsRadarPlane : MonoBehaviour
     {
         for (int i = 0; i < Counter; i++)
             if (ColliderObject.gameObject == TheObject[i]) // see if they match
+            {
                 Destroy(TheBlip[i]); // destory the blip gameobject
+                ColliderObject.gameObject.GetComponentInChildren<BasicEnemyMaterialChange>().ChangeMateralToOutlined();
+            }
+
     }
 }

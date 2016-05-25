@@ -21,12 +21,12 @@ public class BasicEnemyMaterialChange : MonoBehaviour {
 
 
 
-    void ChangeMateralToOutlined()
+    public void ChangeMateralToOutlined()
     {
         gameObject.GetComponent<MeshRenderer>().material = OutlineMaterial;
     }
 
-    void ChangeMateralToNormal()
+    public void ChangeMateralToNormal()
     {
         gameObject.GetComponent<MeshRenderer>().material = NormalMaterial;
     }
