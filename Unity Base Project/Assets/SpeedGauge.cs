@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class Thruster : MonoBehaviour {
+public class SpeedGauge : MonoBehaviour
+{
     //**    Attach to Thruster  **//
     public float offset;
     public PlayerStats stats;

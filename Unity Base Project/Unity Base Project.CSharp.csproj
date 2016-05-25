@@ -142,7 +142,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRCameraControl.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
-    <Compile Include="Assets\ChargeLaser.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />
@@ -162,12 +161,16 @@
     <Compile Include="Assets\Scripts\AutoMoveAndRotate.cs" />
     <Compile Include="Assets\Scripts\BasicEnemyMaterialChange.cs" />
     <Compile Include="Assets\Scripts\CameraRefocus.cs" />
+    <Compile Include="Assets\Scripts\ChargeLaser.cs" />
+    <Compile Include="Assets\Scripts\ContinuousLaserGrowth.cs" />
+    <Compile Include="Assets\Scripts\ContinuousLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyAttack.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyCollision.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyMissile.cs" />
+    <Compile Include="Assets\Scripts\Core\AI\EnemyShield.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyTetherAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\IEnemy.cs" />
     <Compile Include="Assets\Scripts\Core\AI\KamikazeAI.cs" />
@@ -280,6 +283,7 @@
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
+    <Compile Include="Assets\SpeedGauge.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />

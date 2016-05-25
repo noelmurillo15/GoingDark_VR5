@@ -6,7 +6,7 @@ public class Despawn : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Duration = 2.0f;
+        //Duration = 10.0f;
     }
 
     // Update is called once per frame
