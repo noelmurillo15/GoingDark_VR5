@@ -20,6 +20,8 @@ public class Tutorial : MonoBehaviour
     private GameObject enemy1 = null, droidBot = null;
     private SystemManager systemManager;
     private GameObject station;
+    private HyperdriveSystem hyperDrive;
+    private GameObject hyperDriveParticle;
 
     // Use this for initialization
     void Start()
@@ -30,7 +32,8 @@ public class Tutorial : MonoBehaviour
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         station = GameObject.Find("Station");
-        //enemyShip = GameObject.FindGameObjectWithTag("Enemy");
+        hyperDrive = GameObject.Find("HyperDrive(Clone)").GetComponent<HyperdriveSystem>();
+        hyperDriveParticle = GameObject.Find("WarpDriveParticles");
 
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
@@ -63,15 +66,18 @@ public class Tutorial : MonoBehaviour
             case 0:
                 if (!buffer)
                 {
-                    string1 = "Push the handle on your left to increase your movement speed";
-                    string2 = "Rotate your head to rotate your ship";
+                    string1 = "Push the left trigger to accelerate the ship";
+                    string2 = "Use the left stick to rotate the ship";
                     string3 = "Drive to the station (Hint: Follow the arrow)";
                     StartCoroutine(Delay(2.0f, string1, string2, string3));
                     buffer = true;
                     Arrow.SetActive(true);
-
                 }
                 Arrow.transform.LookAt(station.transform);
+                if (!hyperDriveParticle.activeSelf)
+                {
+                    hyperDrive.enabled = false;
+                }
 
                 if (isNearStation)
                 {
@@ -137,12 +143,30 @@ public class Tutorial : MonoBehaviour
                     Arrow.transform.LookAt(station.transform);
                 if (missionTurnedIn)
                 {
+                    hyperDrive.enabled = true;
                     buffer = false;
                     ClearText();
                     phase++;
                 }
                 break;
             case 4:
+                if (!buffer)
+                {
+                    string1 = "You have completed your training!";
+                    string2 = "Use the hyper drive to exit the scene!";
+                    string3 = "Hyper drive allows you to travel with speed of light";
+                    StartCoroutine(Delay(0.0f, string1, string2, string3));
+                    buffer = true;
+                }
+                if (systemManager.GetActive(SystemType.HYPERDRIVE))
+                {
+                    ClearText();
+                    buffer = true;
+                    phase++;
+                }
+                break;
+
+            case 5:
                 StartCoroutine(Transition());
                 break;
 
@@ -187,6 +211,7 @@ public class Tutorial : MonoBehaviour
     void ShowDevice()
     {
         string s1, s2, s3;
+        Debug.Log(type);
         switch (type)
         {
             case SystemType.EMP:
@@ -204,10 +229,17 @@ public class Tutorial : MonoBehaviour
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
                 }
-                else if (systemManager.GetActive(SystemType.EMP))
+                if (!droidBot)
+                {
+                    Vector3 temp = player.transform.position + player.transform.forward * 50;
+                    droidBot = Instantiate(Resources.Load("Tutorial/Droid"), temp, Quaternion.identity) as GameObject;
+                    droidBot.transform.parent = GameObject.Find("Enemy").transform;
+                }
+                if (systemManager.GetActive(SystemType.EMP) && droidBot)
                 {
                     //Invoke("DestroyEnemy", 1f);
                     //Destroy(droidBot);
+                    droidBot.GetComponent<TutorialEnemy>().Kill();
                     StartCoroutine(ShowDeviceEnd(1.0f));
                 }
 
@@ -281,7 +313,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "Laser is a fast pace weapon.";
                     s2 = "Try to use the laser to eliminate the enemy.";
-                    s3 = "Pew! Pew! Pew!";
+                    s3 = "Press right trigger to shoot laser";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -305,7 +337,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "Missile is a powerful weapon with long range.";
                     s2 = "Try to fire a missile to eliminate the enemy.";
-                    s3 = "";
+                    s3 = "Press Left Bumper to fire a missile";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -330,8 +362,6 @@ public class Tutorial : MonoBehaviour
             type = SystemType.NONE;
         
         yield return new WaitForSeconds(length);
-        if (type == SystemType.EMP)
-            Destroy(droidBot);
         type = SystemType.NONE;
         playerMovement.enabled = true;
         //ClearText();
@@ -391,7 +421,7 @@ public class Tutorial : MonoBehaviour
     {
         if (enemy1)
         {
-            Destroy(enemy1.gameObject);
+            enemy1.GetComponent<TutorialEnemy>().Kill();
             enemy1 = null;
         }
     }
