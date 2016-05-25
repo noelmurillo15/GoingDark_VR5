@@ -187,7 +187,6 @@ public class Tutorial : MonoBehaviour
     void ShowDevice()
     {
         string s1, s2, s3;
-        Debug.Log(type);
         switch (type)
         {
             case SystemType.EMP:

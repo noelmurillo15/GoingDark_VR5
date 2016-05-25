@@ -2,17 +2,23 @@
 
 public class LaserSystem : ShipDevice
 {
-    private GameObject Laser;
+    #region Properties
     private GameObject gun1;
     private GameObject gun2;
+    private GameObject Laser;
+    private GameObject Environment;
+    #endregion
+
+
     // Use this for initialization
     void Start()
     {
         //Debug.Log("Initializing Lasers");
         maxCooldown = 1f;
-        Laser = Resources.Load<GameObject>("LaserBeam");
         gun1 = GameObject.Find("Gun1");
         gun2 = GameObject.Find("Gun2");
+        Environment = GameObject.Find("Environment");
+        Laser = Resources.Load<GameObject>("LaserBeam");
     }
 
     // Update is called once per frame
@@ -31,9 +37,9 @@ public class LaserSystem : ShipDevice
     public void ShootGun()
     {
         GameObject go = Instantiate(Laser, gun1.transform.position, gun1.transform.rotation) as GameObject;
-        go.transform.parent = transform.parent;
+        go.transform.parent = Environment.transform;
         go = Instantiate(Laser, gun2.transform.position, gun2.transform.rotation) as GameObject;
-        go.transform.parent = transform.parent;
+        go.transform.parent = Environment.transform;
         Activated = false;
     }
 }

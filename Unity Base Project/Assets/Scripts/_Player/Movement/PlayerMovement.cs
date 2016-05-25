@@ -51,13 +51,11 @@ public class PlayerMovement : MonoBehaviour {
     public void OutOfBounds(Vector3 targetPos)
     {
         autoPilot = true;
-        headMove.enabled = false;
         autoPilotDestination = targetPos;        
     }
     public void InBounds()
     {
         autoPilot = false;
-        headMove.enabled = true;
         autoPilotDestination = Vector3.zero;        
     }
     public void ResetOrientation()

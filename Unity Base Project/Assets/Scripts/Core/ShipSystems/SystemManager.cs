@@ -140,10 +140,7 @@ public class SystemManager : MonoBehaviour {
     public void ActivateSystem(SystemType key)
     {
         if (MainDevices.ContainsKey(key))
-        {
-            if (MainDevices[key].Status == SystemStatus.ONLINE)
-                MainDevices[key].Activate();
-        }
+            MainDevices[key].Activate();
     }
 
     public bool GetActive(SystemType key)
@@ -154,14 +151,23 @@ public class SystemManager : MonoBehaviour {
         return false;
     }
 
+    public GameObject GetSystem(SystemType key)
+    {
+        if (MainDevices.ContainsKey(key))
+            return MainDevices[key].gameObject;
+
+        return null;
+    }
 
     public void SystemDamaged()
     {
-        SystemType rand = (SystemType)Random.Range(0, 8);
-        if (MainDevices.ContainsKey(rand))
+        List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
+        int rand = Random.Range(0, keylist.Count);
+        SystemType type = keylist[rand];
+        if (MainDevices.ContainsKey(type))
         {
-            MainDevices[rand].SetStatus(SystemStatus.OFFLINE);
-            messages.SendMessage("SystemReport", rand.ToString());
+            MainDevices[type].SetStatus(SystemStatus.OFFLINE);
+            messages.SendMessage("SystemReport", type.ToString());
         }
     }
 

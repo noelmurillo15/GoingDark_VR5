@@ -10,7 +10,7 @@ public class ShipDevice : MonoBehaviour {
     public float Cooldown;
 
     // When activated Cooldown Gets set to this
-    protected float maxCooldown;    
+    protected float maxCooldown;
     #endregion
 
 
@@ -31,7 +31,7 @@ public class ShipDevice : MonoBehaviour {
     }
     public void Activate()
     {
-        if (Cooldown == 0f)
+        if (Cooldown == 0f && Status == SystemStatus.ONLINE)
         {
             Activated = true;
             Cooldown = maxCooldown;

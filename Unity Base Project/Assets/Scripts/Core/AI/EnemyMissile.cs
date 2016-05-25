@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyMissile : MonoBehaviour {
     //**        Attach to Enemy Missile Prefab      **//
@@ -44,12 +43,15 @@ public class EnemyMissile : MonoBehaviour {
     private void Kill() {
         messages.SendMessage("MissileDestroyed");
         Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void LookAt() {
-        targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
-        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+        if (target != null)
+        {
+            targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+        }
     }
 
     #region Collisions

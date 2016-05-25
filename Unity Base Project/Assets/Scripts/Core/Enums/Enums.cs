@@ -39,7 +39,6 @@
         PATROL,
         RUNNING,
         ATTACKING,
-        SEARCHING,
         FOLLOW,
         ALERT
     }
