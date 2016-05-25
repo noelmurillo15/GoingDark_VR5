@@ -11,12 +11,14 @@ public class WeaponSelectButton : MonoBehaviour
     private Image m_button;
     private Color original;
     private SystemManager manager;
+    private bool wFlip;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
+        wFlip = false;
         transition = 0f;
         m_button = GetComponent<Image>();
         original = m_button.color;
@@ -44,7 +46,7 @@ public class WeaponSelectButton : MonoBehaviour
     }
 
     void ActivateButton()
-    {    
+    {
         manager.MissileSelect(Type);
     }
 
@@ -56,16 +58,20 @@ public class WeaponSelectButton : MonoBehaviour
         {
             transition = 0.2f;
             m_button.color = Color.green;
+            wFlip = true;
         }
     }
 
     public void OnTriggerStay(Collider col)
     {
-        if (col.name == "bone3")
+        if (col.name == "bone3" && wFlip)
         {
             transition -= Time.deltaTime;
             if (transition <= 0.0f && m_button.color == Color.green)
+            {
                 ActivateButton();
+                wFlip = false;
+            }
         }
     }
 
