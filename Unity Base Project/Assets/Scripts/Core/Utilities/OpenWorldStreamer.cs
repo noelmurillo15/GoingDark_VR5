@@ -62,7 +62,7 @@ namespace Gd.Core.Utilities
         protected IEnumerator InitializeLevelAsync(string levelName, bool isAdditive)
         {
             // This is simply to get the elapsed time for this phase of AssetLoading.
-            //float startTime = Time.realtimeSinceStartup;
+            float startTime = Time.realtimeSinceStartup;
 
             // Load level from assetBundle.
             AssetBundleLoadOperation request = AssetBundleManager.LoadLevelAsync(currentAssetBundle, levelName, isAdditive);
@@ -71,8 +71,8 @@ namespace Gd.Core.Utilities
             yield return StartCoroutine(request);
 
             // Calculate and display the elapsed time.
-            //float elapsedTime = Time.realtimeSinceStartup - startTime;
-            //Debug.Log("Finished loading scene " + levelName + " in " + elapsedTime + " seconds");
+            float elapsedTime = Time.realtimeSinceStartup - startTime;
+            Debug.Log("Finished loading scene " + levelName + " in " + elapsedTime + " seconds");
         }
 
         private void DestroyScene()

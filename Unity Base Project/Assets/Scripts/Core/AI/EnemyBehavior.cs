@@ -74,7 +74,7 @@ public class EnemyBehavior : IEnemy
     {
         if (Target == null)
         {
-            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 1500f)
+            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 2000f)
             {
                 Target = (Transform)storage[0];
                 if (Target != null && Target.CompareTag("Player"))

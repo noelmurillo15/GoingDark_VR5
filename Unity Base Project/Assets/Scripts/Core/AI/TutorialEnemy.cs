@@ -14,9 +14,13 @@ public class TutorialEnemy : MonoBehaviour {
     void Update () {
 	
 	}
-    public void Kill()
+    public void Hit()
     {
         Instantiate(explosion, transform.position, Quaternion.identity);
         Destroy(gameObject);
+    }
+    void ShieldHit()
+    {
+        Debug.Log("Enemy Shield Hit");
     }
 }

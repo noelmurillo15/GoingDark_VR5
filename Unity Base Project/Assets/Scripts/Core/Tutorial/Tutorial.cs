@@ -22,6 +22,7 @@ public class Tutorial : MonoBehaviour
     private GameObject station;
     private HyperdriveSystem hyperDrive;
     private GameObject hyperDriveParticle;
+    private BoxCollider hyperDriveButton;
 
     // Use this for initialization
     void Start()
@@ -34,6 +35,7 @@ public class Tutorial : MonoBehaviour
         station = GameObject.Find("Station");
         hyperDrive = GameObject.Find("HyperDrive(Clone)").GetComponent<HyperdriveSystem>();
         hyperDriveParticle = GameObject.Find("WarpDriveParticles");
+        hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
 
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
@@ -77,6 +79,7 @@ public class Tutorial : MonoBehaviour
                 if (!hyperDriveParticle.activeSelf)
                 {
                     hyperDrive.enabled = false;
+                    hyperDriveButton.enabled = false;
                 }
 
                 if (isNearStation)
@@ -144,6 +147,7 @@ public class Tutorial : MonoBehaviour
                 if (missionTurnedIn)
                 {
                     hyperDrive.enabled = true;
+                    hyperDriveButton.enabled = true;
                     buffer = false;
                     ClearText();
                     phase++;
@@ -243,7 +247,7 @@ public class Tutorial : MonoBehaviour
                 {
                     //Invoke("DestroyEnemy", 1f);
                     //Destroy(droidBot);
-                    droidBot.GetComponent<TutorialEnemy>().Kill();
+                    droidBot.GetComponent<TutorialEnemy>().Hit();
                     StartCoroutine(ShowDeviceEnd(1.0f));
                 }
 
@@ -425,7 +429,7 @@ public class Tutorial : MonoBehaviour
     {
         if (enemy1)
         {
-            enemy1.GetComponent<TutorialEnemy>().Kill();
+            enemy1.GetComponent<TutorialEnemy>().Hit();
             enemy1 = null;
         }
     }
