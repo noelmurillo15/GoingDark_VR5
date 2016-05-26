@@ -19,7 +19,7 @@ public class OutOfBoundsScript : MonoBehaviour
             col.SendMessage("InBounds");
         }
 
-        if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
+        if (col.CompareTag("Enemy"))
             if (col.GetType() == typeof(CharacterController))
                 col.SendMessage("InBounds");
     }
@@ -32,7 +32,7 @@ public class OutOfBoundsScript : MonoBehaviour
             col.SendMessage("OutOfBounds", Vector3.zero);
         }
 
-        if (col.CompareTag("Enemy") || col.CompareTag("TransportShip"))
+        if (col.CompareTag("Enemy"))
             if (col.GetType() == typeof(CharacterController))
                 col.SendMessage("OutOfBounds");
     }

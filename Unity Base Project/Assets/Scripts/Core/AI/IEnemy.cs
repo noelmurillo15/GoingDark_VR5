@@ -9,6 +9,7 @@ public class IEnemy : MonoBehaviour
     public EnemyDifficulty Level = EnemyDifficulty.NONE;
     public Impairments Debuff = Impairments.NONE;
 
+    public int Health;
     public int MissileCount;
     private MovementStats MoveData;
     private GameObject explosion;
@@ -20,8 +21,9 @@ public class IEnemy : MonoBehaviour
 
     public virtual void Initialize()
     {
-        MyTransform = transform;
+        Health = 0;
         MissileCount = 0;
+        MyTransform = transform;
         LoadEnemyData();
         explosion = Resources.Load<GameObject>("EnemyExplosion");
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
@@ -42,26 +44,29 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Msg Functions
-    public void EMPHit()
+    void EMPHit()
     {
+        Debug.Log("Enemy has been stunned by Emp");
         Debuff = Impairments.STUNNED;
         Invoke("ResetDebuff", 10f);
         if (Type == EnemyTypes.KAMIKAZE)        
-            Kill();        
-    }
+            Hit();        
+    }    
 
-    public void ResetDebuff()
+    void ShieldHit()
     {
-        SetSpeedBoost(.5f);
-        Debuff = Impairments.NONE;
+        Debug.Log("Enemy Shield Hit");
     }
 
-    public void Hit()
+    void Hit()
     {
-        Debug.Log("Enemy has creashed with an Asteroid");
+        Debug.Log("Enemy was Hit");
+        Health--;
+        if (Health <= 0)
+            Kill();
     }
 
-    public void Kill()
+    void Kill()
     {
         Debug.Log("Enemy has been Destroyed");
         Instantiate(explosion, transform.position, Quaternion.identity);
@@ -71,6 +76,11 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Public Methods
+    public void ResetDebuff()
+    {
+        SetSpeedBoost(.5f);
+        Debuff = Impairments.NONE;
+    }
     public void StopMovement()
     {
         MoveData.Speed = 0f;
@@ -120,16 +130,19 @@ public class IEnemy : MonoBehaviour
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = .5f;
                         MoveData.MaxSpeed = 100f;
+                        Health = 1;
                         break;
                     case EnemyDifficulty.MED:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 1f;
                         MoveData.MaxSpeed = 120f;
+                        Health = 2;
                         break;
                     case EnemyDifficulty.HARD:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 1f;
                         MoveData.MaxSpeed = 160f;
+                        Health = 3;
                         break;
                     case EnemyDifficulty.NIGHTMARE:
                         break;
@@ -144,16 +157,19 @@ public class IEnemy : MonoBehaviour
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 95f;
+                        Health = 2;
                         break;
                     case EnemyDifficulty.MED:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 120f;
+                        Health = 3;
                         break;
                     case EnemyDifficulty.HARD:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 160f;
+                        Health = 4;
                         break;
                     case EnemyDifficulty.NIGHTMARE:
                         break;
@@ -168,16 +184,19 @@ public class IEnemy : MonoBehaviour
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 90f;
+                        Health = 3;
                         break;
                     case EnemyDifficulty.MED:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 120f;
+                        Health = 4;
                         break;
                     case EnemyDifficulty.HARD:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 180f;
+                        Health = 5;
                         break;
                     case EnemyDifficulty.NIGHTMARE:
                         break;
@@ -191,16 +210,19 @@ public class IEnemy : MonoBehaviour
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 120f;
+                        Health = 3;
                         break;
                     case EnemyDifficulty.MED:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 140f;
+                        Health = 4;
                         break;
                     case EnemyDifficulty.HARD:
                         MoveData.Acceleration = 25f;
                         MoveData.RotateSpeed = 2f;
                         MoveData.MaxSpeed = 200f;
+                        Health = 5;
                         break;
                     case EnemyDifficulty.NIGHTMARE:
                         break;
@@ -209,9 +231,10 @@ public class IEnemy : MonoBehaviour
             case "Boss":
                 SetEnemyType(EnemyTypes.BOSS);
                 MissileCount = 100;
-                MoveData.Acceleration = 2f;
-                MoveData.RotateSpeed = 10f;
-                MoveData.MaxSpeed = 50f;
+                MoveData.Acceleration = 10f;
+                MoveData.RotateSpeed = 6f;
+                MoveData.MaxSpeed = 60f;
+                Health = 10;
                 break;
 
 

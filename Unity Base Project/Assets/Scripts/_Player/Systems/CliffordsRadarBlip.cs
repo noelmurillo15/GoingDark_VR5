@@ -110,23 +110,24 @@ public class CliffordsRadarBlip : MonoBehaviour
         EnemyHandle = enemy;
         if (enemy.tag == "Enemy")
         {
-            LineColor = Color.red;
-            GetComponent<Renderer>().material = MaterialColorRed;
-                if(enemy.gameObject.name == "BasicEnemy" || enemy.gameObject.name == "Droid")
-                  enemy.GetComponentInChildren<BasicEnemyMaterialChange>().ChangeMateralToNormal();
-
-
+            if (enemy.name == "Transport")
+            {
+                LineColor = Color.yellow;
+                GetComponent<Renderer>().material = MaterialColorYellow;
+            }
+            else
+            {
+                LineColor = Color.red;
+                GetComponent<Renderer>().material = MaterialColorRed;
+                if (enemy.gameObject.name == "BasicEnemy" || enemy.gameObject.name == "Droid")
+                    enemy.GetComponentInChildren<BasicEnemyMaterialChange>().ChangeMateralToNormal();
+            }
         }
         else if (enemy.tag == "Loot")
         {
             LineColor = Color.blue;
             GetComponent<Renderer>().material = MaterialColorBlue;
 
-        }
-        else if (enemy.tag == "TransportShip")
-        {
-            LineColor = Color.yellow;
-            GetComponent<Renderer>().material = MaterialColorYellow;
         }
     }
     //void SetTimer(float TimeLeftOnSonar) // Time left until destoryed because of Sonar Shutting off.

@@ -27,7 +27,7 @@ public class BlackHole : MonoBehaviour
 
     void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid" || col.gameObject.tag == "TransportShip")
+        if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid")
         {
             Debug.Log("Pulling " + col.tag);
             Vector3 pullDirection = new Vector3(transform.position.x, transform.position.y + 70, transform.position.z) - col.transform.position;

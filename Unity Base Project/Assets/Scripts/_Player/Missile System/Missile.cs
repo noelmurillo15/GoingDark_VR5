@@ -75,7 +75,7 @@ public class Missile : MonoBehaviour {
     #region Collisions
     void OnTriggerEnter(Collider col) {
         if (!tracking && col.GetType() == typeof(CharacterController)) {
-            if (col.transform.tag == "Enemy" || col.transform.tag == "TransportShip") {
+            if (col.CompareTag("Enemy")) {
                 Debug.Log("Player Missile Tracking " + col.transform.tag);
                 target = col.transform;
                 tracking = true;
@@ -85,7 +85,7 @@ public class Missile : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.transform.CompareTag("Enemy") || col.transform.CompareTag("TransportShip"))
+        if(col.transform.CompareTag("Enemy"))
         {
             switch (Type)
             {
@@ -93,13 +93,13 @@ public class Missile : MonoBehaviour {
                     col.transform.SendMessage("EMPHit");
                     break;
                 case MissileType.BASIC:
-                    col.transform.SendMessage("Kill");
+                    col.transform.SendMessage("Hit");
                     break;
                 case MissileType.CHROMATIC:
-                    col.transform.SendMessage("Kill");
+                    col.transform.SendMessage("Hit");
                     break;
                 case MissileType.SHIELDBREAKER:
-                    col.transform.SendMessage("Kill");
+                    col.transform.SendMessage("ShieldHit");
                     break;
             }            
             Kill();

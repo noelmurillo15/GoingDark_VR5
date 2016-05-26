@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class ContinuousLaserProjectile : MonoBehaviour
 {
@@ -15,12 +14,12 @@ public class ContinuousLaserProjectile : MonoBehaviour
     {
         lifetime -= Time.deltaTime;
         if (lifetime < 0.0f)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Enemy" /*|| col.gameObject.tag == "Asteroid"*/ || col.gameObject.tag == "TransportShip")
+        if (col.transform.CompareTag("Enemy"))
         {
             col.gameObject.SendMessage("Kill");
         }
