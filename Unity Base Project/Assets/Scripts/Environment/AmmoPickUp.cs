@@ -15,9 +15,9 @@ public class AmmoPickUp : MonoBehaviour
     void Update()
     {
         if (collected)
-            Destroy(this.gameObject);
+            Destroy(gameObject);
     }
-
+   
     void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")

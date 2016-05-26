@@ -31,7 +31,7 @@ public class MissileSystem : ShipDevice
         missSwitch = false;
         missTimer = 5;
         //Debug.Log("Initializing Missiles");
-        Count = 10;
+        Count = 15;
         maxCooldown = 1f;
 
         
@@ -82,7 +82,7 @@ public class MissileSystem : ShipDevice
 
     public void AddMissile()
     {
-        int rand = Random.Range(2, 5);
+        int rand = Random.Range(3, 6);
         Count += rand;
         textCount.text = Count.ToString();
         Debug.Log(rand + " Missiles Added");

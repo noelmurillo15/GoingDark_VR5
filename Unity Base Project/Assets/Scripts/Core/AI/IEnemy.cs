@@ -15,7 +15,7 @@ public class IEnemy : MonoBehaviour
     private GameObject explosion;
     private GameObject ammoDrop;
 
-    public Transform MyTransform { get; private set; }    
+    public Transform MyTransform { get; private set; }
     #endregion
 
 
@@ -40,7 +40,7 @@ public class IEnemy : MonoBehaviour
     public void SetEnemyType(EnemyTypes _type)
     {
         Type = _type;
-    }    
+    }
     #endregion
 
     #region Msg Functions
@@ -49,9 +49,9 @@ public class IEnemy : MonoBehaviour
         Debug.Log("Enemy has been stunned by Emp");
         Debuff = Impairments.STUNNED;
         Invoke("ResetDebuff", 10f);
-        if (Type == EnemyTypes.KAMIKAZE)        
-            Hit();        
-    }    
+        if (Type == EnemyTypes.KAMIKAZE)
+            Hit();
+    }
 
     void ShieldHit()
     {
@@ -65,12 +65,20 @@ public class IEnemy : MonoBehaviour
         if (Health <= 0)
             Kill();
     }
+    private bool RandomChance()
+    {
+        float wDrop = Random.Range(0, 100);
+        if (wDrop < 66.0f)
+            return true;
 
+        return false;
+    }
     void Kill()
     {
         Debug.Log("Enemy has been Destroyed");
         Instantiate(explosion, transform.position, Quaternion.identity);
-        Instantiate(ammoDrop, transform.position, Quaternion.identity);
+        if (RandomChance())
+            Instantiate(ammoDrop, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
     #endregion
@@ -112,12 +120,12 @@ public class IEnemy : MonoBehaviour
     #region Private Methods
     void LoadEnemyData()
     {
-        if(Level == EnemyDifficulty.NONE)
+        if (Level == EnemyDifficulty.NONE)
         {
             Debug.LogError("Enemy's does not have a difficulty");
             return;
         }
-        
+
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         switch (transform.name)
