@@ -13,7 +13,7 @@ public class ChargeLaser : MonoBehaviour
     {
         environment = GameObject.Find("Environment");
         leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
-        // laser = Resources.Load<GameObject>("ChargedShot");
+        //laser = Resources.Load<GameObject>("ChargedShot");
     }
 
     // Update is called once per frame
@@ -23,7 +23,6 @@ public class ChargeLaser : MonoBehaviour
         if (delay <= 0.0f)
         {
             GameObject go = Instantiate(laser, transform.position, leapcam.transform.rotation) as GameObject;
-            go.transform.parent = environment.transform;
             enabled = false;
         }
     }
