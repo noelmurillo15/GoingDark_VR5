@@ -23,6 +23,7 @@ public class Tutorial : MonoBehaviour
     private HyperdriveSystem hyperDrive;
     private GameObject hyperDriveParticle;
     private BoxCollider hyperDriveButton;
+    private GameObject decoyButtonParticle, hyperDriveButtonParticle, cloakButtonParticle, empButtonParticle;
 
     // Use this for initialization
     void Start()
@@ -36,6 +37,10 @@ public class Tutorial : MonoBehaviour
         hyperDrive = GameObject.Find("HyperDrive(Clone)").GetComponent<HyperdriveSystem>();
         hyperDriveParticle = GameObject.Find("WarpDriveParticles");
         hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
+        decoyButtonParticle = GameObject.Find("DecoyButtonParticle");
+        empButtonParticle = GameObject.Find("EmpButtonParticle");
+        cloakButtonParticle = GameObject.Find("CloakButtonParticle");
+        hyperDriveButtonParticle = GameObject.Find("HyperButtonParticle");
 
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
@@ -52,6 +57,10 @@ public class Tutorial : MonoBehaviour
         Arrow.SetActive(false);
         type = SystemType.NONE;
         isNearStation = false;
+        decoyButtonParticle.SetActive(false);
+        empButtonParticle.SetActive(false);
+        cloakButtonParticle.SetActive(false);
+        hyperDriveButtonParticle.SetActive(false);
     }
 
     // Update is called once per frame
@@ -133,7 +142,7 @@ public class Tutorial : MonoBehaviour
             case 3:
                 if (!buffer)
                 {
-                    string1 = "Congradulations!";
+                    string1 = "Congratulations!";
                     string2 = "You may return to the Station and turn in the mission!";
                     string3 = "Hint: Follow the arrow";
                     StartCoroutine(Delay(3.0f, string1, string2, string3));
@@ -151,6 +160,7 @@ public class Tutorial : MonoBehaviour
                     buffer = false;
                     ClearText();
                     phase++;
+                    hyperDriveButtonParticle.SetActive(true);
                 }
                 break;
             case 4:
@@ -167,6 +177,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     buffer = false;
                     phase++;
+                    hyperDriveButtonParticle.SetActive(false);
                 }
                 break;
 
@@ -236,6 +247,7 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
+                    empButtonParticle.SetActive(true);
                 }
                 if (!droidBot)
                 {
@@ -249,6 +261,7 @@ public class Tutorial : MonoBehaviour
                     //Destroy(droidBot);
                     droidBot.GetComponent<TutorialEnemy>().Hit();
                     StartCoroutine(ShowDeviceEnd(1.0f));
+                    empButtonParticle.SetActive(false);
                 }
 
                 break;
@@ -266,6 +279,7 @@ public class Tutorial : MonoBehaviour
                     s3 = "Try to use it!";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
+                    cloakButtonParticle.SetActive(true);
                 }
                 //if (Vector3.Distance(enemy1.transform.position, player.transform.position) <= 40)
                 //{
@@ -275,6 +289,7 @@ public class Tutorial : MonoBehaviour
                 {
                     StartCoroutine(ShowDeviceEnd(2.0f));
                     Invoke("DestroyEnemy", 2f);
+                    cloakButtonParticle.SetActive(false);
                 }
                 break;
             case SystemType.RADAR:
@@ -306,9 +321,13 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
+                    decoyButtonParticle.SetActive(true);
                 }
-                else if (systemManager.GetActive(SystemType.DECOY))
+                if (systemManager.GetActive(SystemType.DECOY))
+                {
                     StartCoroutine(ShowDeviceEnd(1.0f));
+                    decoyButtonParticle.SetActive(false);
+                }
 
                 break;
             case SystemType.LASERS:

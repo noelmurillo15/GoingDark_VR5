@@ -14,7 +14,7 @@ public class IEnemy : MonoBehaviour
     private MovementStats MoveData;
     private GameObject explosion;
     private GameObject ammoDrop;
-
+    private GameObject stunned;
     public Transform MyTransform { get; private set; }
     #endregion
 
@@ -27,6 +27,8 @@ public class IEnemy : MonoBehaviour
         LoadEnemyData();
         explosion = Resources.Load<GameObject>("EnemyExplosion");
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
+        stunned = transform.GetChild(0).gameObject;
+        stunned.SetActive(false);
     }
 
     #region Accessors
@@ -48,6 +50,7 @@ public class IEnemy : MonoBehaviour
     {
         Debug.Log("Enemy has been stunned by Emp");
         Debuff = Impairments.STUNNED;
+        stunned.SetActive(true);
         Invoke("ResetDebuff", 10f);
         if (Type == EnemyTypes.KAMIKAZE)
             Hit();
@@ -88,6 +91,7 @@ public class IEnemy : MonoBehaviour
     {
         SetSpeedBoost(.5f);
         Debuff = Impairments.NONE;
+        stunned.SetActive(false);
     }
     public void StopMovement()
     {

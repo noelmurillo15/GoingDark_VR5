@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GD.Core.Enums;
 
 [RequireComponent(typeof(EnemyBehavior))]
 public class EnemyAttack : MonoBehaviour
@@ -32,7 +33,7 @@ public class EnemyAttack : MonoBehaviour
 
         LockOn();
 
-        if (lockedOn)
+        if (lockedOn && behavior.Debuff != Impairments.STUNNED)
             Fire();
     }
 
