@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public class NebulaCloud : MonoBehaviour {
+public class NebulaCloud : MonoBehaviour
+{
 
-    public float timer;
-   // private PlayerHealth playerHealth;
     private PlayerStats player;
     private GameObject message;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         Vector3 m_scale = Vector3.zero;
         m_scale.x = Random.Range(10f, 20.0f);
         m_scale.y = m_scale.x;
@@ -18,19 +18,7 @@ public class NebulaCloud : MonoBehaviour {
         newScale.x *= m_scale.x;
         newScale.y *= m_scale.y;
         newScale.z *= m_scale.z;
-        transform.localScale = newScale;
-
-        timer = 0f;
-        player = GameObject.Find("Player").GetComponent<PlayerStats>();
-        message = GameObject.Find("WarningMessages");
-        //playerHealth = GameObject.Find("Health").GetComponent<PlayerHealth>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (timer > 0f)
-            timer -= Time.deltaTime;
+        transform.localScale = newScale;        
     }
 
     void OnBecameVisible()
@@ -43,22 +31,27 @@ public class NebulaCloud : MonoBehaviour {
     }
 
     #region Collision
-    public void OnTriggerStay(Collider col)
+    public void OnTriggerEnter(Collider col)
     {
-        if (col.transform.tag == "Player" && timer <= 0f) {
-            timer = 15f;
+        if (col.CompareTag("Player"))
+        {
+            if(player == null || message == null)
+            {
+                message = GameObject.Find("WarningMessages");
+                player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+            }
             message.SendMessage("Poison");
-            if (col.GetComponentInChildren<PlayerStats>().GetShield())
-                player.EnvironmentalDMG();
-            //else
-            //    playerHealth.EnvironmentalDMG();
+            player.InvokeRepeating("EnvironmentalDMG", 10f, 5f);
         }
     }
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.transform.tag == "Player")
+        if (col.CompareTag("Player"))
+        {
             message.SendMessage("NoPoison");
+            player.CancelInvoke("EnvironmentalDMG");
+        }
     }
     #endregion
 }

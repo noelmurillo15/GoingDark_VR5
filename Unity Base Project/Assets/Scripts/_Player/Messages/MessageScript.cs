@@ -32,67 +32,12 @@ public class MessageScript : MonoBehaviour
 
     private Text[] winTexts;
 
-    private float enemyMsgTimer;
-    private float reorientTimer;
-    private float sysCollectTimer;
-    private float systemReportTimer;
-
-    private QuickSlot opt;
 
     // Use this for initialization
     void Start()
     {
-        reorientTimer = 0f;
-        enemyMsgTimer = 0f;
-        sysCollectTimer = 0f;
-        //winTexts = winMessage.GetComponentsInChildren<Text>();
         NoWarning();
         autopilotMsg.enabled = true;
-        opt = GameObject.Find("QuickSlot").GetComponent<QuickSlot>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (enemyMsgTimer > 0f)
-            enemyMsgTimer -= Time.deltaTime;
-        else
-        {
-            if (enemyMsgTimer < 0f)
-                EnemyAway();
-
-            enemyMsgTimer = 0f;
-        }
-
-        if (reorientTimer > 0f)
-            reorientTimer -= Time.deltaTime;
-        else
-        {
-            if (reorientTimer < 0f)
-                NoOrient();
-
-            reorientTimer = 0f;
-        }
-
-        if (sysCollectTimer > 0f)
-            sysCollectTimer -= Time.deltaTime;
-        else
-        {
-            if (sysCollectTimer < 0f)
-                SystemInstalled();
-
-            sysCollectTimer = 0f;
-        }
-
-        if (systemReportTimer > 0f)
-            systemReportTimer -= Time.deltaTime;
-        else
-        {
-            if (systemReportTimer < 0f)
-                EndReport();
-
-            systemReportTimer = 0f;
-        }
     }
 
     #region Msg Functions
@@ -114,7 +59,8 @@ public class MessageScript : MonoBehaviour
         systemName.enabled = true;
         systemCollect.enabled = true;
         systemName.text = type.ToString();
-        sysCollectTimer = 5f;
+        if(!IsInvoking("SystemInstalled"))
+            Invoke("SystemInstalled", 5f);
     }
     public void SystemInstalled()
     {
@@ -126,7 +72,8 @@ public class MessageScript : MonoBehaviour
         systemReport.enabled = true;
         offlineDevices.enabled = true;
         offlineDevices.text = systemsdown;
-        systemReportTimer = 5f;
+        if (!IsInvoking("EndReport"))
+            Invoke("EndReport", 10f);
     }
     public void EndReport()
     {
@@ -135,12 +82,9 @@ public class MessageScript : MonoBehaviour
     }
     public void EnemyClose()
     {
-        enemyMsgTimer = 10f;
-        //Debug.Log("Quick Slot buttons Added");
-        //opt.ActivateOption(SystemType.CLOAK);
-        //opt.ActivateOption(SystemType.EMP);
-        //opt.ActivateOption(SystemType.HYPERDRIVE);
         enemyClose.enabled = true;
+        if (!IsInvoking("EnemyAway"))
+            Invoke("EnemyAway", 5f);
     }
     void EnemyAway()
     {
@@ -164,8 +108,9 @@ public class MessageScript : MonoBehaviour
     }
     void ReOrient()
     {
-        reorientTimer = 5f;
         reorientMsg.enabled = true;
+        if (!IsInvoking("NoOrient"))
+            Invoke("NoOrient", 4.5f);
     }
     void NoOrient()
     {

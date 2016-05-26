@@ -161,13 +161,17 @@ public class Tutorial : MonoBehaviour
                 if (systemManager.GetActive(SystemType.HYPERDRIVE))
                 {
                     ClearText();
-                    buffer = true;
+                    buffer = false;
                     phase++;
                 }
                 break;
 
             case 5:
-                StartCoroutine(Transition());
+                if (!buffer)
+                {
+                    StartCoroutine(Transition());
+                    buffer = true;
+                }
                 break;
 
             default:

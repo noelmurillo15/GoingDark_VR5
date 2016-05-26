@@ -15,12 +15,10 @@ public class CliffordsRadarPlane : MonoBehaviour
 
 
     GameObject Player;
-    GameObject messages;
 
     // Use this for initialization
     void Start()
     {
-        messages = GameObject.Find("WarningMessages");
         Player = GameObject.FindGameObjectWithTag("Player");
 
         ScalerFactor.x = .031f / GetComponent<SphereCollider>().radius;
@@ -44,7 +42,7 @@ public class CliffordsRadarPlane : MonoBehaviour
             (ColliderObject.GetType() == typeof(BoxCollider) && ColliderObject.gameObject.tag == "Loot") ||
             ColliderObject.gameObject.tag == "Missile")
         { 
-            messages.SendMessage("EnemyClose");
+            
 
                 Vector3 ColliderPosition = ColliderObject.transform.localPosition; // There he is! Get Him! 
                                                                               // Debug.Log(ColliderPosition + " Poisiton of Enemy");

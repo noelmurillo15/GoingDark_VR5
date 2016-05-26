@@ -29,7 +29,7 @@ public class PlayerCollisions : MonoBehaviour {
 
                 stats.SendMessage("StopMovement");
             }
-            padding = 1f;
+            padding = 5f;
         }
     }
 }

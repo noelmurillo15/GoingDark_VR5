@@ -2,8 +2,8 @@
 using GD.Core.Enums;
 using UnityEngine.SceneManagement;
 
-public class PlayerStats : MonoBehaviour {
-    //**    Attach to Player    **//
+public class PlayerStats : MonoBehaviour
+{
 
     #region Properties
     public Impairments Debuff { get; private set; }
@@ -20,37 +20,32 @@ public class PlayerStats : MonoBehaviour {
     private bool shieldOn;
     private float shieldHealth;
     private GameObject shield;
+    private PlayerHealth m_Health;
     #endregion
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
+        shieldOn = true;
+        shieldHealth = 50;
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 100f;
         MoveData.RotateSpeed = 25f;
         MoveData.Acceleration = 25f;
-        numCredits = PlayerPrefs.GetInt("Credits");
-        Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
 
-        // shield defaults
-        shieldOn = false;
-        shieldHealth = 3;
+        numCredits = PlayerPrefs.GetInt("Credits");
         shield = GameObject.FindGameObjectWithTag("Shield");
-    }
-	
-	// Update is called once per frame
-	void Update() {
-        // shield cooldown and reactivate
-        if (shieldHealth != 0.0f)
-            shieldHealth += Time.deltaTime;        
+        m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
+        Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
     }
 
     #region Accessors
     public bool GetShield()
     {
         return shieldOn;
-    }       
+    }
     public SystemManager GetSystems()
     {
         return Systems;
@@ -76,69 +71,65 @@ public class PlayerStats : MonoBehaviour {
     public void DecreaseSpeed()
     {
         if (MoveData.Speed > 0.0f)
-            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 5f;
+            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 2.5f;
         else
             MoveData.Speed = 0.0f;
     }
     #endregion
 
-    #region Msg Functions
-    public void UpdateSector(string _name)
+    #region Private Methods
+    void UpdateSector(string _name)
     {
         sectorName = _name;
-    }
-    public void EMPHit()
+    }    
+    void RemoveDebuff()
     {
-        Debug.Log("EMP has affected Player's Systems");
+        Debuff = Impairments.NONE;
+        MoveData.Boost = 1f;
     }
-
-    public void Hit()
+    void Hit()
     {
-        Debug.Log("Player Has Been Hit");
         if (shieldOn)
         {
-            AudioManager.instance.PlayShieldHit();
-            shieldHealth -= 100;
-            if (shieldHealth <= 0)
-            {
-                shieldHealth = 0;
-                shieldOn = false;
-                shield.SetActive(shieldOn);
-            }
+            ShieldHit();
+            return;
         }
-        else
-        {
-            Systems.SystemDamaged();
-            PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-            m_Health.Hit();
-            AudioManager.instance.PlayHit();
-        }
-       }
 
+        m_Health.Hit();
+        Systems.SystemDamaged();        
+        AudioManager.instance.PlayHit();
+        Debug.Log("Player Has Been Hit");
+    }
+    void EMPHit()
+    {
+        Debug.Log("EMP has affected Player's Systems");
+        Debuff = Impairments.STUNNED;
+        MoveData.Boost = 0f;
+        if(!IsInvoking("RemoveDebuff"))
+            Invoke("RemoveDebuff", 10f);
+    }
+    void ShieldHit()
+    {
+        shieldHealth -= 25;
+        if (shieldHealth <= 0)
+        {
+            shieldHealth = 0;
+            shieldOn = false;
+            shield.SetActive(shieldOn);
+        }
+        AudioManager.instance.PlayShieldHit();
+    }
     public void EnvironmentalDMG()
     {
         if (shieldOn)
         {
-            AudioManager.instance.PlayShieldHit();
-            shieldHealth -= 100;
-            if (shieldHealth <= 0)
-            {
-                shieldHealth = 0;
-                shieldOn = false;
-                shield.SetActive(shieldOn);
-            }
+            ShieldHit();
+            return;
         }
-        else
-        {        
-            Systems.SystemDamaged();
-            PlayerHealth m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-            m_Health.Hit();
-        }
-
-
+        m_Health.Hit();
+        Systems.SystemDamaged();
     }
-
-    public void Kill()
+    void Kill()
     {
         Debug.Log("Destroyed Player Ship");
         SceneManager.LoadScene("GameOver");

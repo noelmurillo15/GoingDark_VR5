@@ -9,6 +9,7 @@ public class EnemyCollision : MonoBehaviour
     private EnemyBehavior behavior;
 
     //  Player
+    private GameObject messages;
     private CloakSystem pCloak;
     private SystemManager systemManager;
     #endregion
@@ -17,6 +18,7 @@ public class EnemyCollision : MonoBehaviour
     {
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
+        messages = GameObject.Find("WarningMessages");
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
     }
 
@@ -32,6 +34,7 @@ public class EnemyCollision : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             detectionTimer = 0f;
+            messages.SendMessage("EnemyClose");
             pCloak = systemManager.GetSystem(SystemType.CLOAK).GetComponent<CloakSystem>();
         }
 

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyShield : MonoBehaviour
 {
@@ -43,8 +42,6 @@ public class EnemyShield : MonoBehaviour
         else if(health <= -1.0f)
         {
             alive = false;
-    //        Debug.Log("Blow UPPP!!!!");
-//SendMessage("Kill");
         }
     }
     

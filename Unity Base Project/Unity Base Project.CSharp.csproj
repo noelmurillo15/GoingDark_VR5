@@ -245,6 +245,7 @@
     <Compile Include="Assets\Scripts\SimpleActivatorMenu.cs" />
     <Compile Include="Assets\Scripts\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\SpaceSector.cs" />
+    <Compile Include="Assets\Scripts\SpeedGauge.cs" />
     <Compile Include="Assets\Scripts\TimedObjectActivator.cs" />
     <Compile Include="Assets\Scripts\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\Turret.cs" />
@@ -283,7 +284,6 @@
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
-    <Compile Include="Assets\SpeedGauge.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
@@ -376,8 +376,6 @@
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Resources\BlackHoleDistortion.shader" />
-    <None Include="Assets\Resources\XML\Level2.xml" />
-    <None Include="Assets\Resources\XML\Level3.xml" />
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />

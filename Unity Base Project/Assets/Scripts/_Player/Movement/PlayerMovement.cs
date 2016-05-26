@@ -30,39 +30,44 @@ public class PlayerMovement : MonoBehaviour {
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;
-        autoPilotDestination = Vector3.zero;
-        OutOfBounds(autoPilotDestination);
+        OutOfBounds();
     }
 
     // Update is called once per frame
     void Update(){
-        if (!autoPilot && !resetRotation) {            
-            Flight();                
+        if (!autoPilot && !resetRotation)
+        {
+            //  Speed
+            if (Input.GetAxis("LTrigger") > 0f)
+                stats.IncreaseSpeed();
+            else
+                stats.DecreaseSpeed();
+
+            //  Rotation
+            if (Input.GetAxis("Horizontal") > 0f)
+                TurnLeft();
+            else if (Input.GetAxis("Horizontal") < 0f)
+                TurnRight();
+
+            if (Input.GetAxis("Vertical") > 0f)
+                GoUp();
+            else if (Input.GetAxis("Vertical") < 0f)
+                GoDown();
+
+            Flight();
         }
-        else if(autoPilot)
+        else if (autoPilot)
             Autopilot();
         else if (resetRotation)
-            Reorient();
-
-
-        if (Input.GetAxis("LTrigger") > 0f)
-            stats.IncreaseSpeed();
-        else
-            stats.DecreaseSpeed();
-
-        if (Input.GetAxis("Horizontal") > 0f)
-            TurnLeft();
-        else if (Input.GetAxis("Horizontal") < 0f)
-            TurnRight();
-
-
-        if (Input.GetAxis("Vertical") > 0f)
-            GoUp();
-        else if (Input.GetAxis("Vertical") < 0f)
-            GoDown();
+            Reorient();        
     }
 
     #region Movement
+    public void OutOfBounds()
+    {
+        autoPilot = true;
+        autoPilotDestination = Vector3.zero;
+    }
     public void OutOfBounds(Vector3 targetPos)
     {
         autoPilot = true;
@@ -71,7 +76,6 @@ public class PlayerMovement : MonoBehaviour {
     public void InBounds()
     {
         autoPilot = false;
-        autoPilotDestination = Vector3.zero;        
     }
     public void ResetOrientation()
     {
@@ -103,9 +107,10 @@ public class PlayerMovement : MonoBehaviour {
         MyTransform.rotation = Quaternion.LookRotation(destination);
 
         //  Move Towards
+        stats.IncreaseSpeed();
         moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= (stats.GetMoveData().MaxSpeed * Time.deltaTime * 5f);
+        moveDir *= (stats.GetMoveData().Speed * Time.deltaTime);
         m_controller.Move(moveDir);        
     }        
     public void Reorient()
