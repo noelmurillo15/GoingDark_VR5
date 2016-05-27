@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 [RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(CharacterController))]

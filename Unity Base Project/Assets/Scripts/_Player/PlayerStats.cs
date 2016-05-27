@@ -7,19 +7,13 @@ public class PlayerStats : MonoBehaviour
 
     #region Properties
     public Impairments Debuff { get; private set; }
-    private MovementStats MoveData;
     private SystemManager Systems;
+    
+    public MovementProperties MoveData;
+    public ShieldProperties ShieldData;
+    public PlayerSaveData playerSaveData;
 
-    //  Credits
-    public int numCredits;
 
-    //  Current Sector Name
-    public string sectorName;
-
-    //  Shields
-    private bool shieldOn;
-    private float shieldHealth;
-    private GameObject shield;
     private PlayerHealth m_Health;
     #endregion
 
@@ -27,32 +21,32 @@ public class PlayerStats : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        shieldOn = true;
-        shieldHealth = 50;
+        ShieldData.ShieldActive = true;
+        ShieldData.ShieldHealth = 50;
         MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 100f;
         MoveData.RotateSpeed = 40f;
         MoveData.Acceleration = 25f;
 
-        numCredits = PlayerPrefs.GetInt("Credits");
-        shield = GameObject.FindGameObjectWithTag("Shield");
+        playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
+        ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
     }
 
     #region Accessors
-    public bool GetShield()
-    {
-        return shieldOn;
-    }
     public SystemManager GetSystems()
     {
         return Systems;
     }
-    public MovementStats GetMoveData()
+    public MovementProperties GetMoveData()
     {
         return MoveData;
+    }
+    public void AddCredits(int _credits)
+    {
+        playerSaveData.Credits += _credits;
     }
     #endregion
 
@@ -80,7 +74,7 @@ public class PlayerStats : MonoBehaviour
     #region Private Methods
     void UpdateSector(string _name)
     {
-        sectorName = _name;
+        playerSaveData.SectorName = _name;
     }    
     void RemoveDebuff()
     {
@@ -89,7 +83,7 @@ public class PlayerStats : MonoBehaviour
     }
     void Hit()
     {
-        if (shieldOn)
+        if (ShieldData.ShieldActive)
         {
             ShieldHit();
             return;
@@ -110,18 +104,18 @@ public class PlayerStats : MonoBehaviour
     }
     void ShieldHit()
     {
-        shieldHealth -= 25;
-        if (shieldHealth <= 0)
+        ShieldData.ShieldHealth -= 25;
+        if (ShieldData.ShieldHealth <= 0)
         {
-            shieldHealth = 0;
-            shieldOn = false;
-            shield.SetActive(shieldOn);
+            ShieldData.ShieldHealth = 0;
+            ShieldData.ShieldActive = false;
+            ShieldData.Shield.SetActive(false);
         }
         AudioManager.instance.PlayShieldHit();
     }
     public void EnvironmentalDMG()
     {
-        if (shieldOn)
+        if (ShieldData.ShieldActive)
         {
             ShieldHit();
             return;

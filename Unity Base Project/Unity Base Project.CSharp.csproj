@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -178,6 +180,9 @@
     <Compile Include="Assets\Scripts\Core\AI\TransportShipAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\Core\Enums\Enums.cs" />
+    <Compile Include="Assets\Scripts\Core\Properties\MovementProperties.cs" />
+    <Compile Include="Assets\Scripts\Core\Properties\PlayerSaveData.cs" />
+    <Compile Include="Assets\Scripts\Core\Properties\ShieldProperties.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\Core\ShipSystems\EmpSystem.cs" />
@@ -243,6 +248,7 @@
     <Compile Include="Assets\Scripts\SetStartScene.cs" />
     <Compile Include="Assets\Scripts\ShipArmor.cs" />
     <Compile Include="Assets\Scripts\SimpleActivatorMenu.cs" />
+    <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\SpaceSector.cs" />
     <Compile Include="Assets\Scripts\SpeedGauge.cs" />

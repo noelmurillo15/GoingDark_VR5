@@ -28,7 +28,7 @@ public class DecoyMovement : MonoBehaviour
     #region Msg Calls
     public void Kill()
     {
-        GameObject.Find("Enemies").SendMessage("TargetDestroyed");
+        //GameObject.Find("Enemies").SendMessage("TargetDestroyed");
         Destroy(gameObject);
     }
     public void SetSpeed(float _speed)

@@ -63,13 +63,4 @@
         ONLINE
     }
     #endregion
-
-    public struct MovementStats
-    {
-        public float Speed { get; set; }
-        public float Boost { get; set; }
-        public float MaxSpeed { get; set; }
-        public float RotateSpeed { get; set; }
-        public float Acceleration { get; set; }        
-    }
 }

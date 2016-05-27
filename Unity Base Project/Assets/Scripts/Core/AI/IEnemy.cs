@@ -11,10 +11,14 @@ public class IEnemy : MonoBehaviour
 
     public int Health;
     public int MissileCount;
-    private MovementStats MoveData;
+    public MovementProperties MoveData;
+
     private GameObject explosion;
     private GameObject ammoDrop;
     private GameObject stunned;
+
+    private SphereCollider SCollider;
+    private float colRadius;
     public Transform MyTransform { get; private set; }
     #endregion
 
@@ -29,10 +33,12 @@ public class IEnemy : MonoBehaviour
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(0).gameObject;
         stunned.SetActive(false);
+        SCollider = GetComponent<SphereCollider>();
+        colRadius = SCollider.radius;
     }
 
     #region Accessors
-    public MovementStats GetMoveData()
+    public MovementProperties GetMoveData()
     {
         return MoveData;
     }
@@ -52,6 +58,13 @@ public class IEnemy : MonoBehaviour
         Debuff = Impairments.STUNNED;
         stunned.SetActive(true);
         Invoke("ResetDebuff", 10f);
+
+        SCollider.radius = colRadius * 2;
+        if (IsInvoking("ResetDetectionRadius"))
+            CancelInvoke("ResetDetectionRadius");
+
+        Invoke("ResetDetectionRadius", 10f);
+
         if (Type == EnemyTypes.KAMIKAZE)
             Hit();
     }
@@ -65,13 +78,24 @@ public class IEnemy : MonoBehaviour
     {
         Debug.Log("Enemy was Hit");
         Health--;
+
+        SCollider.radius = colRadius * 2;
+        if (IsInvoking("ResetDetectionRadius"))
+            CancelInvoke("ResetDetectionRadius");
+
+        Invoke("ResetDetectionRadius", 10f);
         if (Health <= 0)
             Kill();
     }
+
+    void ResetDetectionRadius()
+    {
+        SCollider.radius = colRadius;
+    }
     private bool RandomChance()
     {
-        float wDrop = Random.Range(0, 100);
-        if (wDrop < 66.0f)
+        float wDrop = Random.Range(1, 3);
+        if (wDrop == 3)
             return true;
 
         return false;
