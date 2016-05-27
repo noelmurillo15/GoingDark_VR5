@@ -42,7 +42,7 @@ public class DecoySystem : ShipDevice {
         Activated = false;
         GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
         go.transform.parent = player.transform.parent;
-        go.SendMessage("SetSpeed", player.GetComponent<PlayerStats>().GetMoveData().Speed);
+        go.SendMessage("SetSpeed", player.GetComponent<PlayerMovement>().GetMoveData().Speed);
         Debug.Log("Decoy has been sent");
     }
 }

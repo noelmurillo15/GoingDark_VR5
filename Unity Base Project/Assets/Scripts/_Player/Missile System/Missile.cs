@@ -18,13 +18,13 @@ public class Missile : MonoBehaviour {
     private Transform MyTransform;
 
     //  Target Data
-    private PlayerStats stats;
+    private PlayerMovement stats;
     private Transform target;
     public Quaternion targetRotation;
 
 
     void Start() {
-        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         target = null;
         tracking = false;
 

@@ -4,7 +4,7 @@ public class SpeedGauge : MonoBehaviour
 {
     //**    Attach to Thruster  **//
     public float offset;
-    public PlayerStats stats;
+    public PlayerMovement stats;
     private GameObject speedGauge;
 
 
@@ -13,7 +13,7 @@ public class SpeedGauge : MonoBehaviour
     {
         offset = 0.0044f;
         speedGauge = GameObject.Find("SpeedColor");
-        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame

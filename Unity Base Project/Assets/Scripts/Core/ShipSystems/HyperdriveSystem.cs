@@ -10,7 +10,7 @@ public class HyperdriveSystem : ShipDevice
     private float boostTimer;
     private float initializeTimer;
 
-    private PlayerStats stats;
+    private PlayerMovement stats;
     private GameObject m_playerMove;
 
     private GameObject particles;
@@ -27,7 +27,7 @@ public class HyperdriveSystem : ShipDevice
         m_playerMove = GameObject.FindGameObjectWithTag("Player");
         particles = GameObject.Find("WarpDriveParticles");
 
-        stats = m_playerMove.GetComponent<PlayerStats>();
+        stats = m_playerMove.GetComponent<PlayerMovement>();
 
         particleOriginPos = particles.transform.localPosition;
         particles.SetActive(true);

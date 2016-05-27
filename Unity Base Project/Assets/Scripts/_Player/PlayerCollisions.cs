@@ -4,12 +4,12 @@
 public class PlayerCollisions : MonoBehaviour {
 
     private float padding;
-    private PlayerStats stats;
+    private PlayerMovement stats;
 
     void Start()
     {
         padding = 0f;
-        stats = GetComponent<PlayerStats>();
+        stats = GetComponent<PlayerMovement>();
     }
 
     void Update()

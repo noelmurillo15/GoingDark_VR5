@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     #region Properties
     private Vector3 moveDir;
     private PlayerStats stats;
+    public MovementProperties MoveData;
     private Transform MyTransform;
     private CharacterController m_controller;
 
@@ -26,6 +27,12 @@ public class PlayerMovement : MonoBehaviour {
         stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
 
+        MoveData.Speed = 0f;
+        MoveData.Boost = 1f;
+        MoveData.MaxSpeed = 100f;
+        MoveData.RotateSpeed = 40f;
+        MoveData.Acceleration = 25f;
+
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;
@@ -33,14 +40,16 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update(){
+    void FixedUpdate(){
         if (!autoPilot && !resetRotation)
         {
+            moveDir = Vector3.zero;
+
             //  Speed
             if (Input.GetAxis("LTrigger") > 0f)
-                stats.IncreaseSpeed();
+                IncreaseSpeed();
             else
-                stats.DecreaseSpeed();
+                DecreaseSpeed();
 
             //  Rotation
             if (Input.GetAxis("Horizontal") > 0f)
@@ -62,74 +71,97 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     #region Movement
-    public void OutOfBounds()
+    public MovementProperties GetMoveData()
+    {
+        return MoveData;
+    }
+    public void StopMovement()
+    {
+        MoveData.Speed = 0f;
+    }
+    public void IncreaseSpeed()
+    {
+        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
+            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
+        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
+            DecreaseSpeed();
+    }
+    public void DecreaseSpeed()
+    {
+        if (MoveData.Speed > 0.0f)
+            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 2.5f;
+        else
+            MoveData.Speed = 0.0f;
+    }
+    public void TurnLeft()
+    {
+        MyTransform.Rotate(Vector3.up * Time.deltaTime * -MoveData.RotateSpeed);
+    }
+    public void TurnRight()
+    {
+        MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed);     
+    }
+    public void GoUp()
+    {
+        MyTransform.Rotate(Vector3.right * Time.deltaTime * MoveData.RotateSpeed);
+    }
+    public void GoDown()
+    {
+        MyTransform.Rotate(Vector3.right * Time.deltaTime * -MoveData.RotateSpeed);
+    }    
+    void Flight()
+    {
+        if (MoveData.Speed <= 0f)
+            return;
+
+        moveDir = MyTransform.TransformDirection(Vector3.forward);
+        moveDir *= MoveData.Speed * Time.deltaTime;
+        m_controller.Move(moveDir);
+    }
+    #endregion
+
+    #region Auto-Pilot
+    void OutOfBounds()
     {
         autoPilot = true;
         autoPilotDestination = Vector3.zero;
     }
-    public void OutOfBounds(Vector3 targetPos)
+    void OutOfBounds(Vector3 targetPos)
     {
         autoPilot = true;
-        autoPilotDestination = targetPos;        
+        autoPilotDestination = targetPos;
     }
-    public void InBounds()
+    void InBounds()
     {
         autoPilot = false;
     }
-    public void ResetOrientation()
+    void ResetOrientation()
     {
         orientationTimer = 5.0f;
         resetRotation = true;
     }
-
-    public void TurnLeft()
+    void Reorient()
     {
-        MyTransform.Rotate(Vector3.up * Time.deltaTime * -stats.GetMoveData().RotateSpeed);
-    }
-    public void TurnRight()
-    {
-        MyTransform.Rotate(Vector3.up * Time.deltaTime * stats.GetMoveData().RotateSpeed);     
-    }
-    public void GoUp()
-    {
-        MyTransform.Rotate(Vector3.right * Time.deltaTime * stats.GetMoveData().RotateSpeed);
-    }
-    public void GoDown()
-    {
-        MyTransform.Rotate(Vector3.right * Time.deltaTime * -stats.GetMoveData().RotateSpeed);
-    }
-
-    private void Autopilot() {
-        //  Look At
-        Vector3 playerDir = autoPilotDestination - MyTransform.position;
-        Vector3 destination = Vector3.RotateTowards(MyTransform.forward, playerDir, (stats.GetMoveData().RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
-        MyTransform.rotation = Quaternion.LookRotation(destination);
-
-        //  Move Towards
-        stats.IncreaseSpeed();
-        moveDir = Vector3.zero;
-        moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= (stats.GetMoveData().Speed * Time.deltaTime);
-        m_controller.Move(moveDir);        
-    }        
-    public void Reorient()
-    {
-        if (MyTransform.rotation != Quaternion.identity && orientationTimer > 0.0f) {
+        if (MyTransform.rotation != Quaternion.identity && orientationTimer > 0.0f)
+        {
             orientationTimer -= Time.deltaTime;
             MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.identity, Time.deltaTime * 0.5f);
         }
         else
             resetRotation = false;
     }
+    void Autopilot() {
+        //  Look At
+        Vector3 playerDir = autoPilotDestination - MyTransform.position;
+        Vector3 destination = Vector3.RotateTowards(MyTransform.forward, playerDir, (MoveData.RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
+        MyTransform.rotation = Quaternion.LookRotation(destination);
 
-    private void Flight() {
-        if (stats.GetMoveData().Speed <= 0f)
-            return;
-
+        //  Move Towards
+        IncreaseSpeed();
         moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= stats.GetMoveData().Speed * Time.deltaTime;
-        m_controller.Move(moveDir);
-    }     
+        moveDir *= (MoveData.Speed * Time.deltaTime);
+        m_controller.Move(moveDir);        
+    }                  
     #endregion
 }

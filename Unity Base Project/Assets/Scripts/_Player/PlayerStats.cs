@@ -9,7 +9,7 @@ public class PlayerStats : MonoBehaviour
     public Impairments Debuff { get; private set; }
     private SystemManager Systems;
     
-    public MovementProperties MoveData;
+    
     public ShieldProperties ShieldData;
     public PlayerSaveData playerSaveData;
 
@@ -23,11 +23,7 @@ public class PlayerStats : MonoBehaviour
     {
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
-        MoveData.Speed = 0f;
-        MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 100f;
-        MoveData.RotateSpeed = 40f;
-        MoveData.Acceleration = 25f;
+        
 
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
@@ -40,10 +36,7 @@ public class PlayerStats : MonoBehaviour
     {
         return Systems;
     }
-    public MovementProperties GetMoveData()
-    {
-        return MoveData;
-    }
+    
     public void AddCredits(int _credits)
     {
         playerSaveData.Credits += _credits;
@@ -51,24 +44,7 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Modifiers
-    public void StopMovement()
-    {
-        MoveData.Speed = 0f;
-    }
-    public void IncreaseSpeed()
-    {
-        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
-            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
-        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
-            DecreaseSpeed();
-    }
-    public void DecreaseSpeed()
-    {
-        if (MoveData.Speed > 0.0f)
-            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 2.5f;
-        else
-            MoveData.Speed = 0.0f;
-    }
+    
     #endregion
 
     #region Private Methods
@@ -79,7 +55,7 @@ public class PlayerStats : MonoBehaviour
     void RemoveDebuff()
     {
         Debuff = Impairments.NONE;
-        MoveData.Boost = 1f;
+        //MoveData.Boost = 1f;
     }
     void Hit()
     {
@@ -98,7 +74,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("EMP has affected Player's Systems");
         Debuff = Impairments.STUNNED;
-        MoveData.Boost = 0f;
+        //MoveData.Boost = 0f;
         if(!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 10f);
     }

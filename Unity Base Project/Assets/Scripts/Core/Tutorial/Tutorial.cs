@@ -13,7 +13,7 @@ public class Tutorial : MonoBehaviour
     private Text line1, line2, line3;
     private int deviceCollected;
     private SystemType type;
-    private PlayerStats player;
+    private PlayerMovement player;
     public GameObject Arrow;
     private bool buffer, missionCompleted, missionAccepted, missionTurnedIn, isNearStation;
     private GameObject[] shipParts;
@@ -29,7 +29,7 @@ public class Tutorial : MonoBehaviour
     void Start()
     {
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        player = GameObject.Find("Player").GetComponent<PlayerStats>();
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
         shipParts = GameObject.FindGameObjectsWithTag("Loot");
         playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
