@@ -11,7 +11,6 @@ public class EmpSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        //Debug.Log("Initializing Emp");
         empTimer = 0f;
         maxCooldown = 30f;
         shockwave = transform.GetChild(0).gameObject;
@@ -19,14 +18,14 @@ public class EmpSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (empTimer > 0f)
             empTimer -= Time.deltaTime;
         else
             shockwave.SetActive(false);
 
-        if (Input.GetKey(KeyCode.E) && Cooldown <= 0F)
+        if (Input.GetKey(KeyCode.E))
             Activate();
 
         if (Activated)
@@ -38,9 +37,8 @@ public class EmpSystem : ShipDevice
     public void ElectricMagneticPulse()
     {
         empTimer = 5f;
-        Activated = false;
+        DeActivate();
         shockwave.SetActive(true);
-        Debug.Log("Emp Activated");
     }
     #endregion
 }

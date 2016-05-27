@@ -12,7 +12,6 @@ public class DecoySystem : ShipDevice {
     // Use this for initialization
     void Start()
     {
-        //Debug.Log("Initializing Decoy");
         Count = 5;
         maxCooldown = 10f;
         player = GameObject.FindGameObjectWithTag("Player");
@@ -20,16 +19,9 @@ public class DecoySystem : ShipDevice {
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Cooldown == maxCooldown)
-        {
-            
-            Cooldown -= .01f;
-            SendDecoy();
-        }
-
-        if (Input.GetKey(KeyCode.D) && Cooldown <= 0F)
+        if (Input.GetKey(KeyCode.D))
             Activate();
 
         if (Activated)
@@ -38,11 +30,13 @@ public class DecoySystem : ShipDevice {
 
     public void SendDecoy()
     {
-        Count--;
-        Activated = false;
-        GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
-        go.transform.parent = player.transform.parent;
-        go.SendMessage("SetSpeed", player.GetComponent<PlayerMovement>().GetMoveData().Speed);
-        Debug.Log("Decoy has been sent");
+        if (Count > 0f)
+        {
+            Count--;
+            DeActivate();
+            GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
+            go.SendMessage("SetSpeed", player.GetComponent<PlayerMovement>().GetMoveData().Speed);
+            go.transform.parent = player.transform.parent;
+        }
     }
 }

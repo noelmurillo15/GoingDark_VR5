@@ -46,7 +46,7 @@ public class EnemyCollision : MonoBehaviour
     {
         if (detectionTimer <= 0.0f && col.CompareTag("Player"))
         {
-            if (pCloak != null && pCloak.GetCloakTimer() > 0f)
+            if (pCloak != null && pCloak.GetPlayerCloaked())
                 behavior.ChangeState(EnemyStates.ALERT);           
             else            
                 behavior.SetEnemyTarget(col.transform);

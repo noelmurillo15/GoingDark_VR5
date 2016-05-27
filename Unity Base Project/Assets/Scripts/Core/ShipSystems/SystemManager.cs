@@ -187,16 +187,13 @@ public class SystemManager : MonoBehaviour {
             SecondaryDevices[key].SetActive(!SecondaryDevices[key].activeSelf);
     }
 
-    public float GetSystemCooldown(SystemType key)
+    public bool GetSystemCooldown(SystemType key)
     {
         if (MainDevices.ContainsKey(key))
-        {
             if (MainDevices[key].Status == SystemStatus.ONLINE)
                 return MainDevices[key].Cooldown;
-            else
-                return 100f;
-        }
-        return 0f;
+        
+        return true;
     }
 
     public void ToggleMissionLog()

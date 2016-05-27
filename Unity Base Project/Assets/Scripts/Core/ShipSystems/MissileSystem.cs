@@ -30,7 +30,6 @@ public class MissileSystem : ShipDevice
     {
         missSwitch = false;
         missTimer = 5;
-        //Debug.Log("Initializing Missiles");
         Count = 15;
         maxCooldown = 1f;
 
@@ -48,12 +47,12 @@ public class MissileSystem : ShipDevice
         selectedMissile = basic;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.F) && Cooldown <= 0F)
+        if (Input.GetKey(KeyCode.F))
             Activate();
 
-        if (Input.GetAxisRaw("LBumper") > 0f && Cooldown <= 0F)
+        if (Input.GetAxisRaw("LBumper") > 0f)
             Activate();
 
         if (Activated)
@@ -74,7 +73,7 @@ public class MissileSystem : ShipDevice
         {
             Count--;
             textCount.text = Count.ToString();
-            Activated = false;
+            DeActivate();
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y, transform.position.z + .5f), transform.rotation) as GameObject;
             AudioManager.instance.PlayMissileLaunch();
         }
@@ -85,10 +84,8 @@ public class MissileSystem : ShipDevice
         int rand = Random.Range(3, 6);
         Count += rand;
         textCount.text = Count.ToString();
-        Debug.Log(rand + " Missiles Added");
     }  
-    
-    
+        
     public void WeaponSelect(MissileType type)
     {
         switch (type)

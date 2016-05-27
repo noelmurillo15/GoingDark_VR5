@@ -4,6 +4,7 @@ public class CloakSystem : ShipDevice
 {
 
     #region Properties
+    private bool isCloaked;
     private float cloakTimer;
     private Color originalColor;
     private GameObject[] shipLights;
@@ -12,9 +13,8 @@ public class CloakSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        //Debug.Log("Initializing Cloak");
         maxCooldown = 60f;
-        cloakTimer = 0f;
+        cloakTimer = 10;
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
         for (int x = 0; x < parentLight.transform.childCount; x++)
@@ -23,54 +23,39 @@ public class CloakSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (cloakTimer > 0)
-            cloakTimer -= Time.deltaTime;
-        else
-        {
-            if(cloakTimer < 0f)
-                UnCloakShip();
-        }
-
-        if (Input.GetKey(KeyCode.C) && Cooldown <= 0F)
+        if (Input.GetKey(KeyCode.C))
             Activate();
 
         if (Activated)
             CloakShip();
     }
 
-    #region Public Methods
-    public float GetCloakTimer()
+    public bool GetPlayerCloaked()
     {
-        return cloakTimer;
+        return isCloaked;
     }
-    #endregion
 
     #region Private Methods
     void CloakShip()
-    {        
+    {
+        AudioManager.instance.PlayCloak();
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = Color.black;
 
-        Debug.Log("Cloaked");
+        DeActivate();
         Time.timeScale = .5f;
-        Activated = false;
-
-        cloakTimer = 20.0f * Time.timeScale;
-        AudioManager.instance.PlayCloak();
+        Invoke("UnCloakShip", cloakTimer);
     }
 
     void UnCloakShip()
     {
-        cloakTimer = 0f;
-            for (int x = 0; x<shipLights.Length; x++)
-                shipLights[x].GetComponent<Light>().color = originalColor;
-
-        Debug.Log("Un-Cloaked");
-        Time.timeScale = 1f;
-
         AudioManager.instance.PlayCloak();
+        for (int x = 0; x < shipLights.Length; x++)
+            shipLights[x].GetComponent<Light>().color = originalColor;
+
+        Time.timeScale = 1f;
     }
     #endregion
 }

@@ -12,7 +12,6 @@ public class LaserSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        //Debug.Log("Initializing Lasers");
         maxCooldown = 1f;
         gun1 = GameObject.Find("Gun1");
         gun2 = GameObject.Find("Gun2");
@@ -20,12 +19,12 @@ public class LaserSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.L) && Cooldown <= 0F)
+        if(Input.GetKey(KeyCode.L))
             Activate();
 
-        if (Input.GetAxisRaw("RTrigger") > 0f && Cooldown <= 0F)
+        if (Input.GetAxisRaw("RTrigger") > 0f)
             Activate();
 
         if (Activated)
@@ -38,6 +37,6 @@ public class LaserSystem : ShipDevice
         go.transform.parent = transform;
         go = Instantiate(Laser, gun2.transform.position, Quaternion.identity) as GameObject;
         go.transform.parent = transform;
-        Activated = false;
+        DeActivate();
     }
 }

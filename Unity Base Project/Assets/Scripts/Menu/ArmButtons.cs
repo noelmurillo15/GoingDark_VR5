@@ -98,7 +98,7 @@ public class ArmButtons : MonoBehaviour
     }
     private void CooldownCheck()
     {
-        if (manager.GetSystemCooldown(Type) > 0f)
+        if (manager.GetSystemCooldown(Type))
             m_button.color = Color.red;
         else
             m_button.color = original;

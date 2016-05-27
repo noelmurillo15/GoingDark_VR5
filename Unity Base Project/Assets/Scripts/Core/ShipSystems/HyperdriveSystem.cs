@@ -19,7 +19,6 @@ public class HyperdriveSystem : ShipDevice
 
     // Use this for initialization
     void Start () {
-        //Debug.Log("Initializing Hyperdrive");
         hypeJump = false;
         maxCooldown = 60f;
         beginningTimer = 2f;    
@@ -34,7 +33,7 @@ public class HyperdriveSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate() {
 
         if (beginningTimer > 0.0f)
         {
@@ -47,7 +46,7 @@ public class HyperdriveSystem : ShipDevice
             }
         }        
 
-        if (Input.GetKey(KeyCode.H) && Cooldown <= 0F)
+        if (Input.GetKey(KeyCode.H))
             Activate();
 
         if (Activated)
@@ -83,9 +82,8 @@ public class HyperdriveSystem : ShipDevice
 
     public void InitializeHyperdriveSequence() {
         hypeJump = true;
-        Activated = false;
+        DeActivate();
         initializeTimer = 10.0f;
-        Debug.Log("Hyperdrive sequence has been initialized");
     }
     #endregion
 }
