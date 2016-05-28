@@ -12,7 +12,7 @@ public class EmpSystem : ShipDevice
     void Start()
     {
         empTimer = 0f;
-        maxCooldown = 30f;
+        maxCooldown = 10f;
         shockwave = transform.GetChild(0).gameObject;
         shockwave.SetActive(Activated);
     }
@@ -36,7 +36,7 @@ public class EmpSystem : ShipDevice
     #region Modifiers
     public void ElectricMagneticPulse()
     {
-        empTimer = 5f;
+        empTimer = 4.5f;
         DeActivate();
         shockwave.SetActive(true);
     }

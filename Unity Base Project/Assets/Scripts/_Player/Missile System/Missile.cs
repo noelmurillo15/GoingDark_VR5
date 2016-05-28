@@ -2,25 +2,19 @@
 using GD.Core.Enums;
 
 public class Missile : MonoBehaviour {
-    //**        Attach to Player Missile        **//
 
     //  Missile Data
-    public MissileType Type = MissileType.NONE;
-    public bool tracking;
-    public int LookSpeed;
-    public float acceleration;
+    MissileType Type = MissileType.NONE;
+    public MovementProperties moveData;
+    private bool tracking;
 
-    public float velocity;
-    public float maxVelocity;
-
-    public float destroyTimer;
     public GameObject Explosion;
     private Transform MyTransform;
 
     //  Target Data
-    private PlayerMovement stats;
     private Transform target;
-    public Quaternion targetRotation;
+    private PlayerMovement stats;
+    private Quaternion targetRotation;
 
 
     void Start() {
@@ -28,39 +22,31 @@ public class Missile : MonoBehaviour {
         target = null;
         tracking = false;
 
-        velocity = 0f;
-        LookSpeed = 5;
-        maxVelocity = 200f;
-        acceleration = 50f;
-        destroyTimer = 10f;
+        moveData.Boost = 1f;
+        moveData.MaxSpeed = 500f;
+        moveData.RotateSpeed = 5f;
+        moveData.Acceleration = 100f;
+        moveData.Speed = stats.GetMoveData().Speed + 50f;
 
-        velocity = stats.GetMoveData().Speed + 25f;
-        maxVelocity = velocity + 100;
+        Invoke("Kill", 5f);
 
         MyTransform = transform;
     }
 
     void Update() {
 
-        if (destroyTimer > 0.0f)
-            destroyTimer -= Time.deltaTime;
-        else
-            Kill();
+        if (moveData.Speed < moveData.MaxSpeed)
+            moveData.Speed += Time.deltaTime * moveData.Acceleration;
 
-        if (velocity < maxVelocity)
-            velocity += Time.deltaTime * acceleration;
+        if (tracking)        
+            LookAt();        
 
-        if (tracking)
-        {            
-            LookAt();
-        }
-
-        MyTransform.position += MyTransform.forward * velocity * Time.deltaTime;
+        MyTransform.position += MyTransform.forward * moveData.Speed * Time.deltaTime;
     }
 
     private void Kill() {
         Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     private void LookAt()
@@ -68,7 +54,7 @@ public class Missile : MonoBehaviour {
         if (target != null)
         {
             targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
-            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * moveData.RotateSpeed);
         }
     }
 
