@@ -4,7 +4,7 @@ using GD.Core.Enums;
 public class Missile : MonoBehaviour {
 
     //  Missile Data
-    MissileType Type = MissileType.NONE;
+    public MissileType Type = MissileType.NONE;
     public MovementProperties moveData;
     private bool tracking;
 

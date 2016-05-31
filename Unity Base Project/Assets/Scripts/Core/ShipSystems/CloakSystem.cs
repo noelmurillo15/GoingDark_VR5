@@ -45,7 +45,6 @@ public class CloakSystem : ShipDevice
             shipLights[x].GetComponent<Light>().color = Color.black;
 
         DeActivate();
-        Time.timeScale = .5f;
         Invoke("UnCloakShip", cloakTimer);
     }
 
@@ -54,8 +53,6 @@ public class CloakSystem : ShipDevice
         AudioManager.instance.PlayCloak();
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = originalColor;
-
-        Time.timeScale = 1f;
     }
     #endregion
 }
