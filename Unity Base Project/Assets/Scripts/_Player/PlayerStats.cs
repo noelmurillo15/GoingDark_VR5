@@ -26,7 +26,7 @@ public class PlayerStats : MonoBehaviour
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
 
-        camShake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
+        camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
@@ -91,6 +91,7 @@ public class PlayerStats : MonoBehaviour
             ShieldData.ShieldActive = false;
             ShieldData.Shield.SetActive(false);
         }
+        camShake.PlayShake();
         AudioManager.instance.PlayShieldHit();
     }
     public void EnvironmentalDMG()

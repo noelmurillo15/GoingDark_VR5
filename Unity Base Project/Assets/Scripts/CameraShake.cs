@@ -9,20 +9,15 @@ public class CameraShake : MonoBehaviour {
     Transform MyTransform;
     Vector3 originalpos;
 
-    void Update()
+    void Start()
     {
-        //Press F on the keyboard to simulate the effect
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            PlayShake();
-        }
+        MyTransform = transform;
+        originalpos = MyTransform.localPosition;
     }
 
-    //This function is used outside (or inside) the script
     public void PlayShake()
     {
-        Debug.Log("Camera Shake");
-        MyTransform = transform;
+        Debug.Log("Camera Shake");        
         StopAllCoroutines();
         StartCoroutine("Shake");
     }
@@ -31,7 +26,7 @@ public class CameraShake : MonoBehaviour {
     {
         float elapsed = 0.0f;
 
-        Vector3 originalCamPos = MyTransform.localPosition;
+        Vector3 originalCamPos = originalpos;
         float randomStart = Random.Range(-1000.0f, 1000.0f);
 
         while (elapsed < duration)
@@ -54,6 +49,6 @@ public class CameraShake : MonoBehaviour {
             yield return 0;
         }
         Debug.Log("Camera Stopped Shake");
-        MyTransform.localPosition = Vector3.zero;
+        MyTransform.localPosition = originalpos;
     }
 }
