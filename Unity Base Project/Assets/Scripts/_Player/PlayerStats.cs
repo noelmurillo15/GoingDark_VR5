@@ -13,6 +13,8 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties ShieldData;
     public PlayerSaveData playerSaveData;
 
+    private CameraShake camShake;
+
 
     private PlayerHealth m_Health;
     #endregion
@@ -23,8 +25,8 @@ public class PlayerStats : MonoBehaviour
     {
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
-        
 
+        camShake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
@@ -64,6 +66,8 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
+
+        camShake.PlayShake();
 
         m_Health.Hit();
         Systems.SystemDamaged();        

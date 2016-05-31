@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class DecoyMovement : MonoBehaviour
 {
 
     #region Properties
     private float speed;
     private float aliveTimer;
+    private Vector3 moveDir;
+    private Transform MyTransform;
+    private CharacterController m_controller;
     #endregion
 
     // Use this for initialization
@@ -13,16 +17,22 @@ public class DecoyMovement : MonoBehaviour
     {
         speed = 0f;
         aliveTimer = 30f;
+        moveDir = Vector3.zero;
+        MyTransform = transform;
         Invoke("Kill", aliveTimer);
+        m_controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (speed < 100f)
             speed += Time.deltaTime * 5f;
 
-        transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.Self);
+        moveDir = Vector3.zero;
+        moveDir = MyTransform.TransformDirection(Vector3.forward);
+        moveDir *= (speed * Time.deltaTime);
+        m_controller.Move(moveDir);
     }
 
     #region Msg Calls

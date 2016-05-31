@@ -1,43 +1,46 @@
 ﻿using UnityEngine;
 
 public class EnemyMissile : MonoBehaviour {
-    //**        Attach to Enemy Missile Prefab      **//
 
-    //  Missile Data
-    public bool tracking;
-    public int LookSpeed;
-    public float velocity;
-    public float destroyTimer;
-    public GameObject Explosion;
+    #region Properties
+    public MovementProperties moveData;
+    private bool tracking;
+
     private Transform MyTransform;
+    public GameObject Explosion;
 
     //  Target Data
     private Transform target;
-    public Quaternion targetRotation;
 
     // Messages
     private GameObject messages;
+    #endregion
+
 
     void Start() {
         MyTransform = transform;
-        tracking = false; 
-        LookSpeed = 15;
-        velocity = 200.0f;
-        destroyTimer = 10.0f;
+        tracking = false;
+
+        moveData.Boost = 1f;
+        moveData.MaxSpeed = 500f;
+        moveData.RotateSpeed = 5f;
+        moveData.Acceleration = 100f;
+        moveData.Speed = 100f;
 
         messages = GameObject.Find("WarningMessages");
         messages.SendMessage("MissileIncoming");
+
+        Invoke("Kill", 5f);
     }
 
-    void Update() {
-        if (destroyTimer > 0.0f)
-            destroyTimer -= Time.deltaTime;
-        else Kill();
+    void FixedUpdate() {
+        if (moveData.Speed < moveData.MaxSpeed)
+            moveData.Speed += Time.deltaTime * moveData.Acceleration;
 
         if (tracking)
             LookAt();
 
-        MyTransform.position += MyTransform.forward * velocity * Time.deltaTime;
+        MyTransform.position += MyTransform.forward * moveData.Speed * Time.deltaTime;
     }
 
     private void Kill() {
@@ -49,8 +52,8 @@ public class EnemyMissile : MonoBehaviour {
     private void LookAt() {
         if (target != null)
         {
-            targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
-            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * LookSpeed);
+            Quaternion targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * moveData.RotateSpeed);
         }
     }
 

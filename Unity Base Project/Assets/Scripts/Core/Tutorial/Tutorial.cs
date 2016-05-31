@@ -198,10 +198,13 @@ public class Tutorial : MonoBehaviour
     {
         yield return new WaitForSeconds(length);
         line1.text = s1;
+        AudioManager.instance.PlayMessagePop();
         yield return new WaitForSeconds(2f);
         line2.text = s2;
+        AudioManager.instance.PlayMessagePop();
         yield return new WaitForSeconds(2f);
         line3.text = s3;
+        AudioManager.instance.PlayMessagePop();
     }
 
     IEnumerator Transition()

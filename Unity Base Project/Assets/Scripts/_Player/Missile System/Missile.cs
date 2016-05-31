@@ -3,7 +3,7 @@ using GD.Core.Enums;
 
 public class Missile : MonoBehaviour {
 
-    //  Missile Data
+    #region Properties
     public MissileType Type = MissileType.NONE;
     public MovementProperties moveData;
     private bool tracking;
@@ -13,12 +13,11 @@ public class Missile : MonoBehaviour {
 
     //  Target Data
     private Transform target;
-    private PlayerMovement stats;
-    private Quaternion targetRotation;
+    #endregion
 
 
     void Start() {
-        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        MyTransform = transform;
         target = null;
         tracking = false;
 
@@ -26,15 +25,12 @@ public class Missile : MonoBehaviour {
         moveData.MaxSpeed = 500f;
         moveData.RotateSpeed = 5f;
         moveData.Acceleration = 100f;
-        moveData.Speed = stats.GetMoveData().Speed + 50f;
+        moveData.Speed = 100f;
 
         Invoke("Kill", 5f);
-
-        MyTransform = transform;
     }
 
-    void Update() {
-
+    void FixedUpdate() {
         if (moveData.Speed < moveData.MaxSpeed)
             moveData.Speed += Time.deltaTime * moveData.Acceleration;
 
@@ -53,7 +49,7 @@ public class Missile : MonoBehaviour {
     {
         if (target != null)
         {
-            targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
+            Quaternion targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
             MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * moveData.RotateSpeed);
         }
     }
