@@ -44,7 +44,7 @@ public class MissileSystem : ShipDevice
 
         textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
         textCount.text = Count.ToString();
-        selectedMissile = emp;
+        selectedMissile = chromatic;
     }
 
     void FixedUpdate()
