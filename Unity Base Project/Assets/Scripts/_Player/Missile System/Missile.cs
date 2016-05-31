@@ -23,7 +23,7 @@ public class Missile : MonoBehaviour {
 
         moveData.Boost = 1f;
         moveData.MaxSpeed = 500f;
-        moveData.RotateSpeed = 5f;
+        moveData.RotateSpeed = 10f;
         moveData.Acceleration = 100f;
         moveData.Speed = 100f;
 

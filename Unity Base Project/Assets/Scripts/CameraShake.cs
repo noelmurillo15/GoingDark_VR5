@@ -17,7 +17,6 @@ public class CameraShake : MonoBehaviour {
 
     public void PlayShake()
     {
-        Debug.Log("Camera Shake");        
         StopAllCoroutines();
         StartCoroutine("Shake");
     }
@@ -48,7 +47,6 @@ public class CameraShake : MonoBehaviour {
 
             yield return 0;
         }
-        Debug.Log("Camera Stopped Shake");
         MyTransform.localPosition = originalpos;
     }
 }
