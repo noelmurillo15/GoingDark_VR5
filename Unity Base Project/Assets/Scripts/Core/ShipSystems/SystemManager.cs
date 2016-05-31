@@ -173,12 +173,8 @@ public class SystemManager : MonoBehaviour {
     public void FullSystemRepair()
     {
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
-
-        for (int i = 0; i < keylist.Count; i++)
-        {
-            Debug.Log(keylist[i].ToString() + " has been repaired");
-            MainDevices[keylist[i]].SetStatus(SystemStatus.ONLINE);
-        }
+        for (int i = 0; i < keylist.Count; i++)        
+            MainDevices[keylist[i]].SetStatus(SystemStatus.ONLINE);        
     }
     public void MissileSelect(MissileType type)
     {

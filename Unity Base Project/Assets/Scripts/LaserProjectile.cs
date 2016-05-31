@@ -4,6 +4,7 @@ public class LaserProjectile : MonoBehaviour {
 
     public float speed = 1.0f;
     public float lifetime = 2.0f;
+    public GameObject explosion;
 	// Use this for initialization
 	void Start () {
 	
@@ -15,8 +16,8 @@ public class LaserProjectile : MonoBehaviour {
         transform.Translate(0f, 0f, speed * Time.deltaTime);
         lifetime -= Time.deltaTime;
         if (lifetime < 0.0f)
-            Destroy(gameObject);
-	}
+            Kill();
+    }
 
     void OnCollisionEnter(Collision col)
     {
@@ -24,13 +25,19 @@ public class LaserProjectile : MonoBehaviour {
         {
             col.gameObject.SendMessage("ShieldHit"); 
             col.gameObject.SendMessage("Hit");
-            Destroy(gameObject);
+            Kill();
         }
 
         if (col.transform.CompareTag("Asteroid"))
         {
             col.transform.SendMessage("Kill");
-            Destroy(gameObject);
+            Kill();
         }
+    }
+
+    void Kill()
+    {
+        Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
