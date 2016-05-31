@@ -54,6 +54,8 @@ public class MissileSystem : ShipDevice
 
         if (Input.GetAxisRaw("LBumper") > 0f)
             Activate();
+        if (Input.GetAxisRaw("RBumper") > 0f)
+            Activate();
 
         if (Activated)
             LaunchMissile();

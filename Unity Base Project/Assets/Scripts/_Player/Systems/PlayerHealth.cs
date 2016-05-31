@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private GameObject[] health;
     [SerializeField]
-    private int hitCount = 0;
+    public int hitCount { get; set; }
     [SerializeField]
     private PlayerStats stats;
     [SerializeField]
@@ -20,19 +20,23 @@ public class PlayerHealth : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
-        PlayerShip = GameObject.FindGameObjectWithTag("PlayerShip");
-        health = new GameObject[6];
-        ArmorStage = 5;
-        //setting active or inactive
-        //grabs all the health bars
-        for (int x = 0; x < transform.childCount; x++)
+        hitCount = 0;
+        if (hitCount == 0)
         {
-            health[x] = transform.GetChild(x).gameObject;
+            stats = GameObject.Find("Player").GetComponent<PlayerStats>();
+            PlayerShip = GameObject.FindGameObjectWithTag("PlayerShip");
+            health = new GameObject[6];
+            ArmorStage = 5;
+            //setting active or inactive
+            //grabs all the health bars
+            for (int x = 0; x < transform.childCount; x++)
+            {
+                health[x] = transform.GetChild(x).gameObject;
+            }
+            UpdateHealthBars();
+            //update
+            UpdatePlayerHealth();
         }
-        UpdateHealthBars();
-        //update
-        UpdatePlayerHealth();
     }
 
     // Update is called once per frame
@@ -103,7 +107,8 @@ public class PlayerHealth : MonoBehaviour
     public void Kill()
     {
         Debug.Log("Destroyed Player Ship");
-        SceneManager.LoadScene("GameOver");
+        stats.SendMessage("Kill");
+       // SceneManager.LoadScene("GameOver");
     }
 
     public void Hit()

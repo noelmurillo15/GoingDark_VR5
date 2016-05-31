@@ -8,8 +8,8 @@ public class PlayerStats : MonoBehaviour
     #region Properties
     public Impairments Debuff { get; private set; }
     private SystemManager Systems;
-    
-    
+    private MissileSystem missiles;
+    private Transform station;
     public ShieldProperties ShieldData;
     public PlayerSaveData playerSaveData;
 
@@ -25,7 +25,7 @@ public class PlayerStats : MonoBehaviour
     {
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
-
+        station = GameObject.Find("Station").transform;
         camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
@@ -106,8 +106,20 @@ public class PlayerStats : MonoBehaviour
     }
     void Kill()
     {
-        Debug.Log("Destroyed Player Ship");
-        SceneManager.LoadScene("GameOver");
+        Debug.Log("Player Stats : Destroyed Player Ship");
+        Invoke("Respawn", 2);
+        //SceneManager.LoadScene("GameOver");
+    }
+    void Respawn()
+    {
+        m_Health.GetComponent<PlayerHealth>().hitCount = 0;
+        m_Health.SendMessage("UpdatePlayerHealth");
+        ShieldData.ShieldActive = true;
+        ShieldData.ShieldHealth = 100;
+        ShieldData.Shield.SetActive(true);
+        Systems.FullSystemRepair();
+        
+        transform.position = new Vector3(station.position.x, station.position.y + 30, station.position.z);
     }
     #endregion    
 }
