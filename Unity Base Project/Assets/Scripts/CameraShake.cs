@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour {
 
-    float duration = .5f;
+    float duration = .25f;
     float speed = 10.0f;
     float magnitude = .1f;
     Transform MyTransform;
@@ -54,6 +54,6 @@ public class CameraShake : MonoBehaviour {
             yield return 0;
         }
         Debug.Log("Camera Stopped Shake");
-        MyTransform.localPosition = Vector3.Lerp(MyTransform.localPosition, Vector3.zero, Time.deltaTime * 5f);
+        MyTransform.localPosition = Vector3.zero;
     }
 }
