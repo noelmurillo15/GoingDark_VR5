@@ -23,4 +23,11 @@ public class TutorialEnemy : MonoBehaviour {
     {
         Debug.Log("Enemy Shield Hit");
     }
+
+    void OutOfBounds()
+    {
+    }
+    void InBounds()
+    {
+    }
 }

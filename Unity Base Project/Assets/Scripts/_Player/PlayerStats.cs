@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties ShieldData;
     public PlayerSaveData playerSaveData;
 
-    private CameraShake camShake;
+    public CameraShake camShake;
 
 
     private PlayerHealth m_Health;
@@ -26,11 +26,11 @@ public class PlayerStats : MonoBehaviour
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
         station = GameObject.Find("Station").transform;
-        camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
+        camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
     }
 
     #region Accessors

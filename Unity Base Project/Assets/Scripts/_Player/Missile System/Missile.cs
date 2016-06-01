@@ -41,7 +41,8 @@ public class Missile : MonoBehaviour {
     }
 
     private void Kill() {
-        Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
+        if(Explosion != null)
+            Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         Destroy(gameObject);
     }
 

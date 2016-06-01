@@ -127,7 +127,12 @@ public class AudioManager : MonoBehaviour
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
-
+    //public void PlayThrusterSound()
+    //{
+    //    _Gadget.clip = sounds["MainThruster"];
+    //    _Gadget.volume = SoundVolume * MasterVolume;
+    //    _Gadget.Play();
+    //}
     public void PlayNebulaAlarm()
     {
         _Alarms.clip = sounds["NebulaAlarm"];

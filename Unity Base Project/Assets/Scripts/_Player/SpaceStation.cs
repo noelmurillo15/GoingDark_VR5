@@ -9,14 +9,18 @@ public class SpaceStation : MonoBehaviour
     private MissionSystem m_missionSystem;
     private MissionLog m_missionLog;
     private MissionLoader m_missionLoader;
+    private AudioSource sound;
 
     // Use this for initialization
     void Start()
     {
+        sound = GetComponent<AudioSource>();
+
         stationMissions = new MissionSystem.Mission[4];
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
+
     }
 
     // Update is called once per frame
@@ -30,9 +34,11 @@ public class SpaceStation : MonoBehaviour
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")
         {
+            sound.Play();
             m_missionLog.SendMessage("Docked", true);
             if (SceneManager.GetActiveScene().name == "Tutorial")
                 GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
+
         }
     }
 

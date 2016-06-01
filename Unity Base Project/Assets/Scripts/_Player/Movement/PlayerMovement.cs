@@ -47,7 +47,10 @@ public class PlayerMovement : MonoBehaviour {
 
             //  Speed
             if (Input.GetAxis("LTrigger") > 0f)
+            {
                 IncreaseSpeed();
+               // AudioManager.instance.PlayThrusterSound();
+            }
             else
                 DecreaseSpeed();
 
