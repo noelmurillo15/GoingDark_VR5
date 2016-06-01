@@ -4,26 +4,24 @@ using System.Collections;
 public class WormHole : MonoBehaviour {
 
     Transform myTransform;
-    private float jumpRangeX, jumpRangeY, jumpRangeZ;
+    private float jumpRangeX, jumpRangeY, jumpRangeZ, offsetZ;
     private AudioSource teleSound;
     private float jumpTimer;
-    public GameObject owningScene;
-    public GameObject owningEnvironment;
+    
     // Use this for initialization
     void Start () {
         myTransform = transform;
         jumpTimer = Random.Range(120, 180);
 
-        BoxCollider box = owningEnvironment.GetComponent<BoxCollider>();
+        BoxCollider box = GameObject.Find("OpenWorldStreamer").GetComponent<BoxCollider>();
         
-        jumpRangeX = box.size.x / 2 + owningScene.transform.position.x;
-        jumpRangeY = box.size.y / 2 + owningScene.transform.position.y;
-        jumpRangeZ = box.size.z / 2 + owningScene.transform.position.z;
-        Debug.Log(jumpRangeX);
-        Debug.Log(jumpRangeY);
-        Debug.Log(jumpRangeZ);
+        jumpRangeX = box.size.x / 2;
+        jumpRangeY = box.size.y / 2;
+        jumpRangeZ = box.size.z / 2;
+        offsetZ = box.center.z;
+        
         teleSound = GetComponent<AudioSource>();
-        //myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+        myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
     }
 
     // Update is called once per frame
@@ -34,7 +32,7 @@ public class WormHole : MonoBehaviour {
         if (jumpTimer <= 0.0f)
         {
             jumpTimer = Random.Range(120f, 180f);
-            myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+            myTransform.position = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
         }
     }
 
@@ -52,9 +50,9 @@ public class WormHole : MonoBehaviour {
     {
         if (col.transform.tag == "Player")
         {
-            Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+            Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
             while (Vector3.Distance(myTransform.position, randPos) < 1500)
-                randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+                randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
             
             col.transform.position = randPos;
             col.transform.rotation = Quaternion.identity;
@@ -62,10 +60,10 @@ public class WormHole : MonoBehaviour {
         }
         else if (col.transform.tag == "Enemy")
         {
-            Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+            Vector3 randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
 
             while (Vector3.Distance(myTransform.position, randPos) < 1500)
-                randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ, jumpRangeZ));
+                randPos = new Vector3(Random.Range(-jumpRangeX, jumpRangeX), Random.Range(-jumpRangeY, jumpRangeY), Random.Range(-jumpRangeZ + offsetZ, jumpRangeZ + offsetZ));
 
             Vector3 newpos = col.transform.position += randPos;
             col.transform.position = newpos;
