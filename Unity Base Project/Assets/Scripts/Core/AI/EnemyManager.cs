@@ -1,18 +1,11 @@
 ﻿using UnityEngine;
 
-//  Parent class of all Ship Systems
 public class EnemyManager : MonoBehaviour
 {
 
     #region Properties
     public Transform Target { get; set; }
     #endregion
-
-
-    void Awake()
-    {
-        Debug.Log("Enemy Manager Awake");
-    }
 
     public void FoundTarget(Transform _target, Vector3 enemypos)
     {
