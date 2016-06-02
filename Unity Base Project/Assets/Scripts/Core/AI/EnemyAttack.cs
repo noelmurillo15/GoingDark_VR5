@@ -53,6 +53,10 @@ public class EnemyAttack : MonoBehaviour
 
     private void Fire()
     {
+        if(missilePrefab == null)
+        {
+            missilePrefab = Resources.Load<GameObject>("Missiles/EnemyMissile");
+        }
         if (behavior.MissileCount > 0)
         {
             if (missileCooldown <= 0.0f)

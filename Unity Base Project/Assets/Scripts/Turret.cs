@@ -1,61 +1,46 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Turret : MonoBehaviour
 {
-    private float cooldown;
+    //  Enemy Data
+    private EnemyBehavior behavior;
 
-    private Transform target;
     private GameObject Laser;
+    private bool lockedOn;
+    private float angle;
+    private float randomShot;
+
+    bool playerdetected = false;
     // Use this for initialization
     void Start()
     {
-        target = null;
-        cooldown = 0.0f;
-        Laser = Resources.Load<GameObject>("LaserBeam");
+        randomShot = 1;
+        lockedOn = false;
+        Laser = Resources.Load<GameObject>("EnemyLaser");
+        behavior = transform.parent.parent.GetComponent<EnemyBehavior>();
+
+        InvokeRepeating("DestroyPlayer", 10f, randomShot);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (cooldown > 0.0f)
-            cooldown -= Time.deltaTime;
-
-        if(target != null)
+        if (behavior.Target != null)
         {
-            transform.LookAt(target.position);
+            transform.LookAt(behavior.Target);
+        }
+    }
+    void DestroyPlayer()
+    {
+        if (behavior.Target != null)
+        {
             Shoot();
         }
     }
 
-    void OnTriggerEnter(Collider col)
-    {
-        if(col.CompareTag("Player"))
-        {
-            Debug.Log("Initializing KillPlayer.exe");
-            target = col.transform;
-        }
-    }
-
-    void OnTriggerExit(Collider col)
-    {
-        if (col.CompareTag("Player"))
-        {
-            Debug.Log("AsteroidTurret Lost Target");
-            target = null;
-        }
-    }
-
-
     public void Shoot()
     {
-        if (cooldown <= 0.0f)
-        {
-            cooldown = 0.5f;
-            if (Laser != null)
-            {
-                Instantiate(Laser, transform.position, transform.rotation);
-            }
-        }
+        if (Laser != null)
+            Instantiate(Laser, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
     }
 }
