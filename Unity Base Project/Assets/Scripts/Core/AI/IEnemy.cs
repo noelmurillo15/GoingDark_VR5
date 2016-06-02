@@ -57,7 +57,11 @@ public class IEnemy : MonoBehaviour
         Debug.Log("Enemy has been stunned by Emp");
         Debuff = Impairments.STUNNED;
         stunned.SetActive(true);
-        Invoke("ResetDebuff", 10f);
+
+        if(Type == EnemyTypes.BOSS)
+            Invoke("ResetDebuff", 1f);
+        else
+            Invoke("ResetDebuff", 5f);
 
         SCollider.radius = colRadius * 2;
         if (IsInvoking("ResetDetectionRadius"))
@@ -266,11 +270,11 @@ public class IEnemy : MonoBehaviour
                 break;
             case "Boss":
                 SetEnemyType(EnemyTypes.BOSS);
-                MissileCount = 100;
-                MoveData.Acceleration = 10f;
-                MoveData.RotateSpeed = 6f;
-                MoveData.MaxSpeed = 60f;
-                Health = 10;
+                MissileCount = 1000;
+                MoveData.Acceleration = 15f;
+                MoveData.RotateSpeed = 5f;
+                MoveData.MaxSpeed = 80f;
+                Health = 20;
                 break;
 
 

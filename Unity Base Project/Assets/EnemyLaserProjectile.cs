@@ -2,22 +2,21 @@
 
 public class EnemyLaserProjectile : MonoBehaviour
 {
-    public float speed = 1.0f;
-    public float lifetime = 4.0f;
+    public float Speed = 1000.0f;
+    public float lifetime = 1f;
     public GameObject explosion;
+    Transform MyTransform;
     // Use this for initialization
     void Start()
     {
-
+        MyTransform = transform;
+        Invoke("Kill", lifetime);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(0f, 0f, speed * Time.deltaTime);
-        lifetime -= Time.deltaTime;
-        if (lifetime < 0.0f)
-            Kill();
+        MyTransform.position += MyTransform.forward * Speed * Time.deltaTime;
     }
 
     void OnCollisionEnter(Collision col)
@@ -26,7 +25,6 @@ public class EnemyLaserProjectile : MonoBehaviour
         {
             col.gameObject.SendMessage("ShieldHit");
             col.gameObject.SendMessage("Hit");
-           // Kill();
         }
 
         if (col.transform.CompareTag("Asteroid"))
