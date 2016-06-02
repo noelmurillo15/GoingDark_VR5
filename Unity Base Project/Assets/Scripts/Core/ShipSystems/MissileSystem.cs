@@ -47,10 +47,11 @@ public class MissileSystem : ShipDevice
         textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
         textMissileChoice = GameObject.Find("MissileChoice").GetComponent<Text>();
 
-        textMissileChoice.text = "Basic Missile";
+        textMissileChoice.text = "Chromatic Missile";
         textCount.text = Count.ToString();
 
-        selectedMissile = basic;
+        Wchoice = 3;
+        selectedMissile = chromatic;
     }
 
     void Update()
@@ -113,8 +114,8 @@ public class MissileSystem : ShipDevice
     {
         if (selectedMissile == null)
         {
-            Debug.Log("Missile Gameobject not attached");
-            return;
+            selectedMissile = chromatic;
+            Count = 15;
         }
 
         if (Count > 0)

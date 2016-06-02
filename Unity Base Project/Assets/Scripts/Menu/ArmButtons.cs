@@ -2,6 +2,7 @@
 using GD.Core.Enums;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ArmButtons : MonoBehaviour
 {
@@ -84,6 +85,11 @@ public class ArmButtons : MonoBehaviour
             manager.ToggleMissionLog();
         else if (transform.name == "WeaponSelectButton")
             manager.ToggleWeaponSelect();
+        else
+        {
+            Debug.Log("Loading Scene : " + transform.name);
+            SceneManager.LoadScene(transform.name);
+        }
     }
     #endregion
 

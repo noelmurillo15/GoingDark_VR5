@@ -35,6 +35,7 @@ public class MenuButtons : MonoBehaviour
         switch (transform.name)
         {
             case "Exit":
+                Application.Quit();
                 break;
 
 

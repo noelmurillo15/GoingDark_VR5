@@ -103,9 +103,9 @@ public class Tutorial : MonoBehaviour
             case 1:
                 if (!buffer)
                 {
-                    string1 = "Touch your left forearm with your right palm to open the Arm Menu";
-                    string2 = "Click the mission log button";
-                    string3 = "Accept the first mission : " + mission.m_stationMissions[0].missionName;
+                    string1 = "Click the first Mission : Scavenger";
+                    string2 = "Accept the Mission";
+                    string3 = "Go Collect your ship's devices. Hint(The particles)";
                     StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
                 }
@@ -366,7 +366,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "Missile is a powerful weapon with long range.";
                     s2 = "Try to fire a missile to eliminate the enemy.";
-                    s3 = "Press Left Bumper to fire a missile";
+                    s3 = "Press Right Bumper to fire a missile";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
