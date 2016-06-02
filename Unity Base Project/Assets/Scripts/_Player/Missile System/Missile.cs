@@ -13,6 +13,8 @@ public class Missile : MonoBehaviour {
 
     //  Target Data
     private Transform target;
+    //HitMarker
+    GameObject HitMarker;// = GameObject.Find("PlaceHolderCircle");
     #endregion
 
 
@@ -28,6 +30,9 @@ public class Missile : MonoBehaviour {
         moveData.Speed = 100f;
 
         Invoke("Kill", 5f);
+
+       HitMarker = GameObject.Find("PlaceHolderCircle");
+
     }
 
     void FixedUpdate() {
@@ -70,6 +75,7 @@ public class Missile : MonoBehaviour {
     {
         if(col.transform.CompareTag("Enemy"))
         {
+            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             switch (Type)
             {
                 case MissileType.EMP:
@@ -89,6 +95,7 @@ public class Missile : MonoBehaviour {
         }
         else if (col.transform.CompareTag("Asteroid"))
         {
+            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             col.transform.SendMessage("Kill");
             Kill();
         }

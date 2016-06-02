@@ -4,11 +4,14 @@ public class OutOfBoundsScript : MonoBehaviour
 {
 
     private GameObject messages;
+    private GameObject Player;
+    private float DisplayDuration;
 
     // Use this for initialization
     void Start()
     {
         messages = GameObject.Find("WarningMessages");
+        DisplayDuration = 10.0f;
     }
 
     void OnTriggerEnter(Collider col)
@@ -17,6 +20,8 @@ public class OutOfBoundsScript : MonoBehaviour
         {
             messages.SendMessage("ManualPilot");
             col.SendMessage("InBounds");
+            if (IsInvoking("EnableAutoPilot"))
+                CancelInvoke("EnableAutoPilot");
         }
 
         if (col.CompareTag("Enemy"))
@@ -28,12 +33,22 @@ public class OutOfBoundsScript : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            messages.SendMessage("AutoPilot");
-            col.SendMessage("OutOfBounds", Vector3.zero);
+            Player = col.gameObject;
+            SendWarning();
+            Invoke("EnableAutoPilot", DisplayDuration);
         }
 
         if (col.CompareTag("Enemy"))
             if (col.GetType() == typeof(CharacterController))
                 col.SendMessage("OutOfBounds");
+    }
+    void SendWarning()
+    {
+        messages.SendMessage("AutoPilot");
+    }
+
+    void EnableAutoPilot()
+    {
+        Player.SendMessage("OutOfBounds", Vector3.zero);
     }
 }

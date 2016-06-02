@@ -65,7 +65,7 @@ public class MissileSystem : ShipDevice
         if (Input.GetButtonDown("Y"))
             missSwitch = true;
 
-        if (missSwitch /*&& missTimer <= 0*/ )
+        if (missSwitch)
         {
             Wchoice++;
             SwitchWeapon();
