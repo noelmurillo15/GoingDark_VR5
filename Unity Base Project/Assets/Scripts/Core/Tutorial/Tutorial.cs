@@ -24,6 +24,9 @@ public class Tutorial : MonoBehaviour
     private GameObject hyperDriveParticle;
     private BoxCollider hyperDriveButton;
     private GameObject decoyButtonParticle, hyperDriveButtonParticle, cloakButtonParticle, empButtonParticle;
+    private GameObject[] loots;
+    private AudioSource tutorialRemind;
+    float remindTimer;
 
     // Use this for initialization
     void Start()
@@ -41,6 +44,8 @@ public class Tutorial : MonoBehaviour
         empButtonParticle = GameObject.Find("EmpButtonParticle");
         cloakButtonParticle = GameObject.Find("CloakButtonParticle");
         hyperDriveButtonParticle = GameObject.Find("HyperButtonParticle");
+        loots = GameObject.FindGameObjectsWithTag("Loot");
+        tutorialRemind = GetComponent<AudioSource>();
 
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
@@ -50,6 +55,7 @@ public class Tutorial : MonoBehaviour
         line3.text = "";
         phase = 0;
         deviceCollected = 0;
+        remindTimer = 6.0f;
         buffer = false;
         missionAccepted = false;
         missionCompleted = false;
@@ -61,6 +67,11 @@ public class Tutorial : MonoBehaviour
         empButtonParticle.SetActive(false);
         cloakButtonParticle.SetActive(false);
         hyperDriveButtonParticle.SetActive(false);
+        for (int i = 0; i < loots.Length; i++)
+        {
+            //loots[i].GetComponent<BoxCollider>().enabled = false;
+            loots[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -84,6 +95,7 @@ public class Tutorial : MonoBehaviour
                     buffer = true;
                     Arrow.SetActive(true);
                 }
+                TutorialRemind();
                 Arrow.transform.LookAt(station.transform);
                 if (!hyperDriveParticle.activeSelf)
                 {
@@ -98,24 +110,34 @@ public class Tutorial : MonoBehaviour
                     player.StopMovement();
                     buffer = false;
                     phase++;
+                    StopTutorialRemind();
                 }
                 break;
             case 1:
                 if (!buffer)
                 {
-                    string1 = "Click the first Mission : Scavenger";
-                    string2 = "Accept the Mission";
-                    string3 = "Go Collect your ship's devices. Hint(The particles)";
+                    string1 = "Touch your left forearm with your right palm to open the Arm Menu";
+                    string2 = "Click the mission log button";
+                    string3 = "Accept the first mission : " + mission.m_stationMissions[0].missionName;
                     StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
                 }
-                                
+                TutorialRemind();
+
                 if (missionAccepted)
                 {
                     playerMovement.enabled = true;
                     ClearText();
                     phase++;
                     buffer = false;
+                    for (int i = 0; i < loots.Length; i++)
+                    {
+                        //loots[i].GetComponent<BoxCollider>().enabled = true;
+                        loots[i].SetActive(true);
+
+                    }
+                    StopTutorialRemind();
+
                 }
                 break;
             
@@ -148,6 +170,8 @@ public class Tutorial : MonoBehaviour
                     StartCoroutine(Delay(3.0f, string1, string2, string3));
                     buffer = true;
                 }
+                TutorialRemind();
+
                 if (isNearStation)
                 {
                     player.StopMovement();
@@ -161,6 +185,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     phase++;
                     hyperDriveButtonParticle.SetActive(true);
+                    StopTutorialRemind();
                 }
                 break;
             case 4:
@@ -172,12 +197,16 @@ public class Tutorial : MonoBehaviour
                     StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
                 }
+                TutorialRemind();
+
                 if (systemManager.GetActive(SystemType.HYPERDRIVE))
                 {
                     ClearText();
                     buffer = false;
                     phase++;
                     hyperDriveButtonParticle.SetActive(false);
+                    StopTutorialRemind();
+
                 }
                 break;
 
@@ -366,7 +395,7 @@ public class Tutorial : MonoBehaviour
                     ClearText();
                     s1 = "Missile is a powerful weapon with long range.";
                     s2 = "Try to fire a missile to eliminate the enemy.";
-                    s3 = "Press Right Bumper to fire a missile";
+                    s3 = "Press Left Bumper to fire a missile";
                     buffer = true;
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
                     player.StopMovement();
@@ -413,6 +442,21 @@ public class Tutorial : MonoBehaviour
             }
         }
         return target;
+    }
+
+    private void TutorialRemind()
+    {
+        remindTimer += Time.deltaTime;
+        if (remindTimer>=12f)
+        {
+            tutorialRemind.Play();
+            remindTimer = 0.0f;
+        }
+    }
+    private void StopTutorialRemind()
+    {
+        tutorialRemind.Stop();
+        remindTimer = 6f;
     }
 
     public void IncreamentDevice(SystemType _type)
