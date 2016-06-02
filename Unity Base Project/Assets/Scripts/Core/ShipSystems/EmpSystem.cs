@@ -18,7 +18,7 @@ public class EmpSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (empTimer > 0f)
             empTimer -= Time.deltaTime;
@@ -28,8 +28,11 @@ public class EmpSystem : ShipDevice
         if (Input.GetKey(KeyCode.E))
             Activate();
 
+        if (Input.GetButtonDown("A"))
+            Activate();
+
         if (Activated)
-            ElectricMagneticPulse();               
+            ElectricMagneticPulse();
     }
 
 

@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
     #region Properties
     private Vector3 moveDir;
-    private PlayerStats stats;
     public MovementProperties MoveData;
     private Transform MyTransform;
     private CharacterController m_controller;
@@ -24,7 +22,6 @@ public class PlayerMovement : MonoBehaviour {
     void Start() {
         moveDir = Vector3.zero;
         MyTransform = transform;
-        stats = GetComponent<PlayerStats>();
         m_controller = GetComponent<CharacterController>();
 
         MoveData.Speed = 0f;

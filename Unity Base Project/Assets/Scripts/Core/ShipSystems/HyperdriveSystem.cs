@@ -33,7 +33,7 @@ public class HyperdriveSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
 
         if (beginningTimer > 0.0f)
         {
@@ -47,6 +47,9 @@ public class HyperdriveSystem : ShipDevice
         }        
 
         if (Input.GetKey(KeyCode.H))
+            Activate();
+
+        if (Input.GetAxisRaw("RBumper") > 0f)
             Activate();
 
         if (Activated)

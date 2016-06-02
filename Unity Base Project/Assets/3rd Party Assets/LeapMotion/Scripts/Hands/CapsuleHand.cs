@@ -90,15 +90,14 @@ namespace Leap.Unity{
   
     public override void UpdateHand() {
       //Update the spheres first
-      updateSpheres();
-  
-      //Update Arm only if we need to
-      if (_showArm) {
-        updateArm();
-      }
-  
-      //The capsule transforms are deterimined by the spheres they are connected to
-      updateCapsules();
+        updateSpheres();
+
+        //Update Arm only if we need to
+        if (_showArm)
+            updateArm();
+        
+        //The capsule transforms are deterimined by the spheres they are connected to
+        updateCapsules();
     }
   
     //Transform updating methods
