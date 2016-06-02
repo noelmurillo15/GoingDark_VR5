@@ -80,32 +80,28 @@ public class MissileSystem : ShipDevice
 
     public void SwitchWeapon()
     {
-        if (Wchoice >= 5)
+        if (Wchoice >= 4)
             Wchoice = 0;
 
         if (Wchoice == 0)
         {
             selectedMissile = basic;
-            textMissileChoice.text = "Basic Selected"; //selectedMissile.ToString();
-            Debug.Log("basic is current weapon");
+            textMissileChoice.text = "Basic Selected";
         }
         else if (Wchoice == 1)
         {
             selectedMissile = emp;
             textMissileChoice.text = "EMP Selected";
-            Debug.Log("emp is current weapon");
         }
         else if (Wchoice == 2)
         {
             selectedMissile = shieldbreak;
-            textMissileChoice.text = "ShieldBreaker Selected"; //selectedMissile.ToString();
-            Debug.Log("shieldbreak is current weapon");
+            textMissileChoice.text = "ShieldBreaker Selected";
         }
         else if (Wchoice == 3)
         {
             selectedMissile = chromatic;
-            textMissileChoice.text = "Chromatic Selected";// selectedMissile.ToString();
-            Debug.Log("chromatic is current weapon");
+            textMissileChoice.text = "Chromatic Selected";
         }
 
     }
@@ -141,19 +137,19 @@ public class MissileSystem : ShipDevice
         {
             case MissileType.EMP:
                 selectedMissile = emp;
-                textMissileChoice.text = "EMP Selected";// selectedMissile.ToString();
+                textMissileChoice.text = "EMP Selected";
                 break;
             case MissileType.BASIC:
                 selectedMissile = basic;
-                textMissileChoice.text = "Basic Selected"; //selectedMissile.ToString();
+                textMissileChoice.text = "Basic Selected";
                 break;
             case MissileType.CHROMATIC:
                 selectedMissile = chromatic;
-                textMissileChoice.text = "Chromatic Selected";// selectedMissile.ToString();
+                textMissileChoice.text = "Chromatic Selected";
                 break;
             case MissileType.SHIELDBREAKER:
                 selectedMissile = shieldbreak;
-                textMissileChoice.text = "ShieldBreaker";// selectedMissile.ToString();
+                textMissileChoice.text = "ShieldBreaker";
                 break;
         }
     }

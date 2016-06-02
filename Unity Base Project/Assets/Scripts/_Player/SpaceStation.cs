@@ -16,11 +16,10 @@ public class SpaceStation : MonoBehaviour
     {
         sound = GetComponent<AudioSource>();
 
-        stationMissions = new MissionSystem.Mission[4];
-        m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
-
+        //stationMissions = new MissionSystem.Mission[4];
+        //m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
+        //m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        //m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
     }
 
     // Update is called once per frame
@@ -35,9 +34,9 @@ public class SpaceStation : MonoBehaviour
         if (col.transform.tag == "Player")
         {
             sound.Play();
-            m_missionLog.SendMessage("Docked", true);
-            if (SceneManager.GetActiveScene().name == "Tutorial")
-                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
+            //m_missionLog.SendMessage("Docked", true);
+            //if (SceneManager.GetActiveScene().name == "Tutorial")
+            //    GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
 
         }
     }
@@ -46,10 +45,9 @@ public class SpaceStation : MonoBehaviour
     {
         if (col.transform.tag == "Player")
         {
-            m_missionLog.SendMessage("Docked", false);
-            if (SceneManager.GetActiveScene().name == "Tutorial")
-                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("ExitStation");
+            //m_missionLog.SendMessage("Docked", false);
+            //if (SceneManager.GetActiveScene().name == "Tutorial")
+            //    GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("ExitStation");
         }
-
     }
 }

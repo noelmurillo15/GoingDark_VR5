@@ -23,14 +23,15 @@ public class PlayerStats : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 50;
+        ShieldData.ShieldActive = true;
+
         station = GameObject.Find("Station").transform;
         playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
+        ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
         m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
         Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
         camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
-        ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
     }
 
     #region Accessors
