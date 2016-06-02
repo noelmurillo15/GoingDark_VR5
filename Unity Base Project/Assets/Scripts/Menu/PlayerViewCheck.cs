@@ -32,8 +32,6 @@ public class PlayerViewCheck : MonoBehaviour {
         if (isSwitching)
         {
             transform.LookAt(curStar.transform.position);
-            //Vector3.Lerp(transform.position, curStar.transform.position, Time.deltaTime * 10);
-            //transform.Rotate()
             canvas.enabled = false;
             hyperDrive.HyperDriveInitialize();
             if (hyperDrive.IsOver())
@@ -41,10 +39,6 @@ public class PlayerViewCheck : MonoBehaviour {
                 Debug.Log("Loading : " + curStar.name.ToString());
                 SceneManager.LoadScene(curStar.name.ToString());
             }
-            //if (delayTimer <= 0.0f)
-            //    SceneManager.LoadScene("level1");
-            //else
-            //    delayTimer -= Time.deltaTime;
         }
     }
 
@@ -82,5 +76,4 @@ public class PlayerViewCheck : MonoBehaviour {
                 texts[i].enabled = false;
         }
     }
-    
 }
