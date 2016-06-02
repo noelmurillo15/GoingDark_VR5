@@ -7,7 +7,7 @@ public class LaserProjectile : MonoBehaviour {
     public GameObject explosion;
 
     //HitMarker
-    GameObject HitMarker;// = GameObject.Find("PlaceHolderCircle");
+    GameObject HitMarker;
 
     // Use this for initialization
     void Start () {
