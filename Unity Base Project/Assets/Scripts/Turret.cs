@@ -23,7 +23,7 @@ public class Turret : MonoBehaviour
 
         MyTransform = transform;
 
-        InvokeRepeating("DestroyPlayer", 10f, randomShot);
+        //InvokeRepeating("DestroyPlayer", 10f, randomShot);
     }
 
     private void LockOn()
@@ -50,4 +50,10 @@ public class Turret : MonoBehaviour
         if (Laser != null)
             Instantiate(Laser, new Vector3(MyTransform.position.x, MyTransform.position.y, MyTransform.position.z), MyTransform.rotation);
     }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
+    }
+
 }

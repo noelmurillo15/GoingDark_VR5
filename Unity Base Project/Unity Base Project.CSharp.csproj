@@ -112,7 +112,6 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\HandModel.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\HandTransitionBehavior.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\IHandModel.cs" />
-    <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\MinimalHand.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\RiggedFinger.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\RiggedHand.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\Hands\RigidFinger.cs" />
@@ -144,6 +143,8 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
     <Compile Include="Assets\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\Hitmarker.cs" />
+    <Compile Include="Assets\LeapMotionModules\Hands\Examples\Scripts\CenterTransformOnCam.cs" />
+    <Compile Include="Assets\LeapMotionModules\Hands\Scripts\PolyFinger.cs" />
     <Compile Include="Assets\Particles\Particle Ribbon\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\SimpleParticlePack\Scripts\ParticleTester.cs" />
     <Compile Include="Assets\Particles\Standard\Scripts\AfterburnerPhysicsForce.cs" />

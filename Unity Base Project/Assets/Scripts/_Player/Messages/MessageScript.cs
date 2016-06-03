@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class MessageScript : MonoBehaviour
 {
-    [SerializeField]
-    GameObject winMessage;
 
     [SerializeField]
     Text reorientMsg;
@@ -17,8 +15,6 @@ public class MessageScript : MonoBehaviour
     Text enemyClose;
     [SerializeField]
     Text missileInc;
-    [SerializeField]
-    Text collectedLoot;
     [SerializeField]
     Text poisonMsg;
     [SerializeField]
@@ -47,7 +43,6 @@ public class MessageScript : MonoBehaviour
         autopilotMsg.enabled = false;
         enemyClose.enabled = false;
         missileInc.enabled = false;
-        collectedLoot.enabled = false;
         poisonMsg.enabled = false;
         systemCollect.enabled = false;
         systemName.enabled = false;
@@ -129,21 +124,21 @@ public class MessageScript : MonoBehaviour
     }
     #endregion
 
-    void Win()
-    {
-        winMessage.SetActive(true);
-        Debug.Log("Won");
-        StartCoroutine(WinMessage());
-    }
+    //void Win()
+    //{
+    //    winMessage.SetActive(true);
+    //    Debug.Log("Won");
+    //    StartCoroutine(WinMessage());
+    //}
 
-    IEnumerator WinMessage()
-    {
-        winTexts[2].text = "Returning to Main Menu .";
-        yield return new WaitForSeconds(1.0f);
-        winTexts[2].text = "Returning to Main Menu . .";
-        yield return new WaitForSeconds(1.0f);
-        winTexts[2].text = "Returning to Main Menu . . .";
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("MainMenu");
-    }
+    //IEnumerator WinMessage()
+    //{
+    //    winTexts[2].text = "Returning to Main Menu .";
+    //    yield return new WaitForSeconds(1.0f);
+    //    winTexts[2].text = "Returning to Main Menu . .";
+    //    yield return new WaitForSeconds(1.0f);
+    //    winTexts[2].text = "Returning to Main Menu . . .";
+    //    yield return new WaitForSeconds(1.0f);
+    //    SceneManager.LoadScene("MainMenu");
+    //}
 }

@@ -1,110 +1,96 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
+using UnityEngine.UI;
+using System.Collections;
 
 public class QuickSlot : MonoBehaviour
 {
 
-    public bool Active { get; set; }
-    public int MaxButtons;
-    public int currButtons;
-    private float xOffset;
+    #region Properties
+    public SystemType Type;
 
-    //public float[] timers;
-    public Vector3[] positions;
-    public GameObject[] buttons;
-    public GameObject[] activeButtons;
-
-    public GameObject background;    
+    private float transition;
+    private Image m_button;
+    private Color original;
+    private SystemManager manager;
+    #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        currButtons = 0;
-        xOffset = 0.3f;
-        Active = true;
-        MaxButtons = 5;
-        background = transform.GetChild(5).gameObject;
-        //timers = new float[MaxButtons];
-        positions = new Vector3[MaxButtons];
-        buttons = new GameObject[MaxButtons];
-        activeButtons = new GameObject[MaxButtons];
-        for (int x = 0; x < MaxButtons; x++)
+        transition = 0f;
+        m_button = GetComponent<Image>();
+        original = m_button.color;
+
+        manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+
+        StartCoroutine(UpdateCooldowns());
+    }
+
+    private void ActivateButton()
+    {
+        m_button.color = original;
+        if (Type != SystemType.NONE)
         {
-            buttons[x] = transform.GetChild(x).gameObject;
-            positions[x] = buttons[x].transform.localPosition;            
-        }
-        ActivateOption(SystemType.MISSILES);
-        ActivateOption(SystemType.HYPERDRIVE);
-        ActivateOption(SystemType.DECOY);
-        ActivateOption(SystemType.CLOAK);
-        ActivateOption(SystemType.EMP);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //for (int x = 0; x < MaxButtons; x++)
-        //{
-        //    if (timers[x] > 0f)
-        //        timers[x] -= Time.deltaTime;
-        //    else
-        //    {
-        //        if(timers[x] < 0f)
-        //        {
-        //            currButtons--;
-        //            activeButtons[currButtons].SetActive(false);
-        //        }
-        //        timers[x] = 0f;
-        //    }
-        //}
-    }
-
-    public void ActivateOption(SystemType type)
-    {
-        if (currButtons > MaxButtons)
+            manager.ActivateSystem(Type);
             return;
-
-        switch (type)
+        }
+        if (Type == SystemType.RADAR || Type == SystemType.SHIELD)
         {
-            case SystemType.EMP:
-                activeButtons[currButtons] = buttons[4];
-                activeButtons[currButtons].transform.localPosition = positions[currButtons];
-                //activeButtons[currButtons].SetActive(true);
-                //timers[currButtons] = 10f;
-                break;
-            case SystemType.CLOAK:
-                activeButtons[currButtons] = buttons[0];
-                activeButtons[currButtons].transform.localPosition = positions[currButtons];
-                //activeButtons[currButtons].SetActive(true);
-                //timers[currButtons] = 10f;
-                break;
-            case SystemType.DECOY:
-                activeButtons[currButtons] = buttons[3];
-                activeButtons[currButtons].transform.localPosition = positions[currButtons];
-                //activeButtons[currButtons].SetActive(true);
-                //timers[currButtons] = 10f;
-                break;
-            case SystemType.MISSILES:
-                activeButtons[currButtons] = buttons[2];
-                activeButtons[currButtons].transform.localPosition = positions[currButtons];
-                //activeButtons[currButtons].SetActive(true);
-                //timers[currButtons] = 10f;
-                break;
-            case SystemType.HYPERDRIVE:
-                activeButtons[currButtons] = buttons[1];
-                activeButtons[currButtons].transform.localPosition = positions[currButtons];
-                //activeButtons[currButtons].SetActive(true);
-                //timers[currButtons] = 10f;
-                break;
-            default:
-                break;
-        }        
-        currButtons++;
+            manager.ToggleSystem(Type);
+            return;
+        }
+        if (Type == SystemType.NONE)
+            Debug.LogError("Quickslot button " + transform.name + " has type of None");    
     }
 
-    public void CloseSettings()
+    #region Coroutine
+    private IEnumerator UpdateCooldowns()
     {
-        Active = false;
+        while (true)
+        {
+            CooldownCheck();
+            yield return new WaitForSeconds(1);
+        }
     }
+    private void CooldownCheck()
+    {
+        if (manager.GetSystemCooldown(Type))
+            m_button.color = Color.red;
+        else
+            m_button.color = original;
+    }
+    #endregion
+
+    #region Collision
+    public void OnTriggerEnter(Collider col)
+    {
+        if (col.name == "bone3" && m_button.color == original)
+        {
+            Debug.Log("Triggering button");
+            transition = 1.5f;
+            m_button.color = Color.green;
+        }
+    }
+    public void OnTriggerStay(Collider col)
+    {
+        if (col.name == "bone3")
+        {
+            Debug.Log("Stay Triggering button");
+            transition -= Time.deltaTime;
+            if (transition <= 0.0f)
+                m_button.color = Color.red;
+        }
+    }
+    public void OnTriggerExit(Collider col)
+    {
+        if (col.name == "bone3" && m_button.color != Color.red)
+        {
+            Debug.Log("Exit Triggering button");
+            ActivateButton();
+            m_button.color = original;
+        }
+    }
+    #endregion 
 }

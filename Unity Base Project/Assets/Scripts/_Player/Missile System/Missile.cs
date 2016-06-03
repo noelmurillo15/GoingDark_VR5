@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class Missile : MonoBehaviour {
+public class Missile : MonoBehaviour
+{
 
     #region Properties
     public MissileType Type = MissileType.NONE;
@@ -18,7 +19,8 @@ public class Missile : MonoBehaviour {
     #endregion
 
 
-    void Start() {
+    void Start()
+    {
         MyTransform = transform;
         target = null;
         tracking = false;
@@ -31,22 +33,24 @@ public class Missile : MonoBehaviour {
 
         Invoke("Kill", 5f);
 
-       HitMarker = GameObject.Find("PlaceHolderCircle");
+        HitMarker = GameObject.Find("PlaceHolderCircle");
 
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         if (moveData.Speed < moveData.MaxSpeed)
             moveData.Speed += Time.deltaTime * moveData.Acceleration;
 
-        if (tracking)        
-            LookAt();        
+        if (tracking)
+            LookAt();
 
         MyTransform.position += MyTransform.forward * moveData.Speed * Time.deltaTime;
     }
 
-    private void Kill() {
-        if(Explosion != null)
+    private void Kill()
+    {
+        if (Explosion != null)
             Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         Destroy(gameObject);
     }
@@ -61,19 +65,33 @@ public class Missile : MonoBehaviour {
     }
 
     #region Collisions
-    void OnTriggerEnter(Collider col) {
-        if (!tracking && col.GetType() == typeof(CharacterController)) {
-            if (col.CompareTag("Enemy")) {
+    void OnTriggerEnter(Collider col)
+    {
+        if (!tracking && col.GetType() == typeof(SphereCollider))
+        {
+            if (col.CompareTag("Turret"))
+            {
                 Debug.Log("Player Missile Tracking " + col.transform.tag);
                 target = col.transform;
                 tracking = true;
             }
-        }        
+            return;
+        }
+        if (!tracking && col.GetType() == typeof(CharacterController))
+        {
+            if (col.CompareTag("Enemy"))
+            {
+                Debug.Log("Player Missile Tracking " + col.transform.tag);
+                target = col.transform;
+                tracking = true;
+            }
+        }
+
     }
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.transform.CompareTag("Enemy"))
+        if (col.transform.CompareTag("Enemy"))
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             switch (Type)
@@ -90,10 +108,16 @@ public class Missile : MonoBehaviour {
                 case MissileType.SHIELDBREAKER:
                     col.transform.SendMessage("ShieldHit");
                     break;
-            }            
+            }
             Kill();
         }
         else if (col.transform.CompareTag("Asteroid"))
+        {
+            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
+            col.transform.SendMessage("Kill");
+            Kill();
+        }
+        else if (col.transform.CompareTag("Turret"))
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             col.transform.SendMessage("Kill");

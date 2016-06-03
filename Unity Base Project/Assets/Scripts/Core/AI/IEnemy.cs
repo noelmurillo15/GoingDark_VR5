@@ -98,8 +98,8 @@ public class IEnemy : MonoBehaviour
     }
     private bool RandomChance()
     {
-        float wDrop = Random.Range(1, 3);
-        if (wDrop == 3)
+        float wDrop = Random.Range(1, 100);
+        if (wDrop > 0)
             return true;
 
         return false;
