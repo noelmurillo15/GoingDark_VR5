@@ -28,9 +28,8 @@ public class QuickSlot : MonoBehaviour
         StartCoroutine(UpdateCooldowns());
     }
 
-    private void ActivateButton()
-    {
-        m_button.color = original;
+    void ActivateButton()
+    {        
         if (Type != SystemType.NONE)
         {
             manager.ActivateSystem(Type);
@@ -66,20 +65,18 @@ public class QuickSlot : MonoBehaviour
     #region Collision
     public void OnTriggerEnter(Collider col)
     {
-        if (col.GetType() == typeof(CapsuleCollider) && m_button.color == original)
+        if (col.name == "bone3" && m_button.color == original)
         {
-            Debug.Log("Triggering button");
             if (transition == 0f)
-                transition = 1.5f;
+                transition = 1f;
 
             m_button.color = Color.green;
         }
     }
     public void OnTriggerStay(Collider col)
     {
-        if (col.GetType() == typeof(CapsuleCollider))
+        if (col.name == "bone3")
         {
-            Debug.Log("Stay Triggering button");
             transition -= Time.deltaTime;
             if (transition <= 0.0f)
                 m_button.color = Color.red;
@@ -87,11 +84,8 @@ public class QuickSlot : MonoBehaviour
     }
     public void OnTriggerExit(Collider col)
     {
-        if (col.GetType() == typeof(CapsuleCollider) && m_button.color != Color.red)
-        {
-            Debug.Log("Exit Triggering button");
+        if (col.name == "bone3" && m_button.color != Color.red)
             ActivateButton();
-        }
 
         transition = 0f;
         m_button.color = original;

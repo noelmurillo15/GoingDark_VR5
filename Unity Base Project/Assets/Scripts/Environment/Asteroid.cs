@@ -6,6 +6,7 @@ public class Asteroid : MonoBehaviour
     public bool skipStart;
     private Vector3 m_velocity;
     private Vector3 m_rotation;
+    private Rigidbody MyRigidbody;
     private Transform MyTransform;
     #endregion
 
@@ -13,6 +14,7 @@ public class Asteroid : MonoBehaviour
     void Start()
     {
         MyTransform = transform;
+        MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
         {
             m_velocity.x = Random.Range(-2.0f, 2.0f);
@@ -36,7 +38,7 @@ public class Asteroid : MonoBehaviour
         }
         else
         {
-            Invoke("SelfDestruct", 10f);
+            Invoke("SelfDestruct", 30f);
             m_velocity.x = Random.Range(-35.0f, 35.0f);
             m_velocity.y = Random.Range(-35.0f, 35.0f);
             m_velocity.z = Random.Range(-35.0f, 35.0f);
@@ -44,16 +46,16 @@ public class Asteroid : MonoBehaviour
             m_rotation.x = Random.Range(1.0f, 360.0f);
             m_rotation.y = Random.Range(1.0f, 360.0f);
             m_rotation.z = Random.Range(1.0f, 360.0f);
-            MyTransform.localEulerAngles = m_rotation;
             m_rotation = Vector3.zero;
         }
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
-        MyTransform.Rotate(m_rotation * Time.deltaTime);
-        MyTransform.Translate(m_velocity * Time.deltaTime);
+        Quaternion deltaRotation = Quaternion.Euler(m_rotation * Time.deltaTime);
+        MyRigidbody.MoveRotation(MyRigidbody.rotation * deltaRotation);
+        MyRigidbody.MovePosition(MyRigidbody.position + (m_velocity * Time.deltaTime));
     }
     private bool RandomChance()
     {

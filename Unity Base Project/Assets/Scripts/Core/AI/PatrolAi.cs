@@ -16,9 +16,10 @@ public class PatrolAi : MonoBehaviour
     private float headingX, headingY;
     private Vector3 targetRotation;
 
-    //  Enemy Data   
-    private EnemyBehavior behavior;     
-    private CharacterController controller;
+    //  Enemy Data 
+    private Transform MyTransform;  
+    private EnemyBehavior behavior;
+    private Rigidbody MyRigidbody;    
     #endregion
 
 
@@ -36,72 +37,71 @@ public class PatrolAi : MonoBehaviour
         interval = 5f;
 
         // Enemy Data
-        controller = GetComponent<CharacterController>();
+        MyRigidbody = GetComponent<Rigidbody>();
         behavior = GetComponent<EnemyBehavior>();
         behavior.ChangeState(EnemyStates.PATROL);
         behavior.AutoPilot = false;
 
         // Set random rotation
-        behavior.MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
+        MyTransform = transform;
+        MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
 
         //  Start Coroutine
         StartCoroutine(NewHeading());
     }
 
-    void Update() {
+    void FixedUpdate() {
         if (!behavior.AutoPilot)  
         {
             if (!blocked)
             {
                 if (behavior.Target == null)
-                    behavior.MyTransform.rotation = Quaternion.Slerp(behavior.MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
+                {
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
+                }
                 else
                 {
-                    Vector3 playerDir = behavior.Target.position - behavior.MyTransform.position;
-                    Vector3 direction = Vector3.RotateTowards(behavior.MyTransform.forward, playerDir, Time.deltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
-                    behavior.MyTransform.rotation = Quaternion.LookRotation(direction);
-                    headingX = behavior.MyTransform.eulerAngles.x;
-                    headingY = behavior.MyTransform.eulerAngles.y;
+                    Vector3 playerDir = behavior.Target.position - MyTransform.position;
+                    Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
+                    MyTransform.rotation = Quaternion.LookRotation(direction);
+                    headingX = MyTransform.eulerAngles.x;
+                    headingY = MyTransform.eulerAngles.y;
                 }
             }
 
             behavior.IncreaseSpeed();
 
-            CheckRayCasts();
+            //CheckRayCasts();
 
-            if (blocked)
-            {
-                if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), behavior.MyTransform.right, out hit, (range / 2.0f)) ||
-                Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), -behavior.MyTransform.right, out hit, (range / 2.0f)))
-                {
-                    if (hit.collider.gameObject.CompareTag("Asteroid"))
-                        blocked = false;
-                }
-            }            
+            //if (blocked)
+            //{
+            //    if (Physics.Raycast(MyTransform.position - (MyTransform.forward * 4), MyTransform.right, out hit, (range / 2.0f)) ||
+            //    Physics.Raycast(MyTransform.position - (MyTransform.forward * 4), -MyTransform.right, out hit, (range / 2.0f)))
+            //    {
+            //        if (hit.collider.gameObject.CompareTag("Asteroid"))
+            //            blocked = false;
+            //    }
+            //}            
         }
         else
         {
             // Auto-pilot back into playable area
             Vector3 direction = Vector3.zero;
+            direction = direction - MyTransform.position;
 
-            //if (SecondaryTarget != null)
-            //    direction = SecondaryTarget.position - MyTransform.position;
-            //else
-                direction = direction - behavior.MyTransform.position;
-
-            Vector3 rotation = Vector3.RotateTowards(behavior.MyTransform.forward, direction, Time.deltaTime, 0.0f);
-            behavior.MyTransform.rotation = Quaternion.LookRotation(rotation);
-            headingX = behavior.MyTransform.eulerAngles.x;
-            headingY = behavior.MyTransform.eulerAngles.y;
+            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, direction, Time.deltaTime, 0.0f);
+            MyTransform.rotation = Quaternion.LookRotation(rotation);
+            headingX = MyTransform.eulerAngles.x;
+            headingY = MyTransform.eulerAngles.y;
         }
 
-        controller.Move(behavior. MyTransform.forward * Time.deltaTime * behavior.GetMoveData().Speed);
+        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * behavior.GetMoveData().Speed);
 
         // Use to debug the Physics.RayCast.
-        Debug.DrawRay(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward * range, Color.red);
-        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward * range, Color.red);
-        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), -behavior.MyTransform.right * (range / 2.0f), Color.yellow);
-        Debug.DrawRay(behavior.MyTransform.position - (behavior.MyTransform.forward * 4), behavior.MyTransform.right * (range / 2.0f), Color.yellow);
+        //Debug.DrawRay(MyTransform.position + (MyTransform.right * 12), MyTransform.forward * range, Color.red);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.right * 12), MyTransform.forward * range, Color.red);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.forward * 4), -MyTransform.right * (range / 2.0f), Color.yellow);
+        //Debug.DrawRay(MyTransform.position - (MyTransform.forward * 4), MyTransform.right * (range / 2.0f), Color.yellow);
     }
     #region Asteroid Avoidance
     private void CheckRayCasts() {
@@ -124,6 +124,7 @@ public class PatrolAi : MonoBehaviour
     private IEnumerator NewHeading() {
         while (true) {
             NewHeadingRoutine();
+            interval = Random.Range(2f, 10f);
             yield return new WaitForSeconds(interval);
         }
     }
