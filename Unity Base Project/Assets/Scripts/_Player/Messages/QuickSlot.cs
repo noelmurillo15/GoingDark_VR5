@@ -42,7 +42,7 @@ public class QuickSlot : MonoBehaviour
             return;
         }
         if (Type == SystemType.NONE)
-            Debug.LogError("Quickslot button " + transform.name + " has type of None");    
+            Debug.LogError("Quickslot button " + transform.name + " has type of None");
     }
 
     #region Coroutine
@@ -66,16 +66,18 @@ public class QuickSlot : MonoBehaviour
     #region Collision
     public void OnTriggerEnter(Collider col)
     {
-        if (col.name == "bone3" && m_button.color == original)
+        if (col.GetType() == typeof(CapsuleCollider) && m_button.color == original)
         {
             Debug.Log("Triggering button");
-            transition = 1.5f;
+            if (transition == 0f)
+                transition = 1.5f;
+
             m_button.color = Color.green;
         }
     }
     public void OnTriggerStay(Collider col)
     {
-        if (col.name == "bone3")
+        if (col.GetType() == typeof(CapsuleCollider))
         {
             Debug.Log("Stay Triggering button");
             transition -= Time.deltaTime;
@@ -85,12 +87,14 @@ public class QuickSlot : MonoBehaviour
     }
     public void OnTriggerExit(Collider col)
     {
-        if (col.name == "bone3" && m_button.color != Color.red)
+        if (col.GetType() == typeof(CapsuleCollider) && m_button.color != Color.red)
         {
             Debug.Log("Exit Triggering button");
             ActivateButton();
-            m_button.color = original;
         }
+
+        transition = 0f;
+        m_button.color = original;
     }
     #endregion 
 }

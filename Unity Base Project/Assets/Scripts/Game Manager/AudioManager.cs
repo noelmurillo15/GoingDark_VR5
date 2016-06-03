@@ -192,6 +192,12 @@ public class AudioManager : MonoBehaviour
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
+    public void PlayAmmoPickUp()
+    {
+        _Gadget.clip = sounds["Upgrading"];
+        _Gadget.volume = SoundVolume * MasterVolume;
+        _Gadget.Play();
+    }
 
     public void PlayMenuBad()
     {

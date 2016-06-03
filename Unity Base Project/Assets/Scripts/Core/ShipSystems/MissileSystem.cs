@@ -59,7 +59,7 @@ public class MissileSystem : ShipDevice
         if (Input.GetKey(KeyCode.F))
             Activate();
 
-        if (Input.GetAxisRaw("LBumper") > 0f)
+        if (Input.GetAxisRaw("RBumper") > 0f)
             Activate();
 
         if (Input.GetButtonDown("Y"))

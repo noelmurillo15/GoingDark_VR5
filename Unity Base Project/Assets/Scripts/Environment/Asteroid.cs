@@ -93,7 +93,7 @@ public class Asteroid : MonoBehaviour
         {
             skipStart = true;
             float range = Random.Range(2, 16);
-
+            AudioManager.instance.PlayHit();
             for (int i = 0; i < range; i++)
             {
                 SendMessage("AutoScale", MyTransform.localScale);

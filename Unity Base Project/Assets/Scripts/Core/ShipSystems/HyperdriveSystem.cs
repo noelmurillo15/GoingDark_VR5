@@ -49,7 +49,7 @@ public class HyperdriveSystem : ShipDevice
         if (Input.GetKey(KeyCode.H))
             Activate();
 
-        if (Input.GetAxisRaw("RBumper") > 0f)
+        if (Input.GetAxisRaw("LBumper") > 0f)
             Activate();
 
         if (Activated)

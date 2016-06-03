@@ -23,7 +23,7 @@ public class Turret : MonoBehaviour
 
         MyTransform = transform;
 
-        //InvokeRepeating("DestroyPlayer", 10f, randomShot);
+        InvokeRepeating("DestroyPlayer", 10f, randomShot);
     }
 
     private void LockOn()
