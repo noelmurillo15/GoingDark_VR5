@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 using UnityEngine.UI;
+using System.Linq;
+
 
 public class MissileSystem : ShipDevice
 {
@@ -8,50 +10,54 @@ public class MissileSystem : ShipDevice
     #region Properties
     public int Count { get; private set; }
 
-    //  Missile Types
-    private GameObject basic;
-    private GameObject emp;
-    private GameObject chromatic;
-    private GameObject shieldbreak;
-    private GameObject selectedMissile;
-
     private Transform MyTransform;
     private Transform leapcam;
 
-    private bool missSwitch;
-    private float missTimer;
-    private int Wchoice;
+    private float buffer;
+
     //  Missile Display
     private Text textCount;
     private Text textMissileChoice;
 
+    //  Missile Data
+    public MissileType currentType;
+
+    private GameObject basic;
+    private GameObject emp;
+    private GameObject chrome;
+    private GameObject shieldbreak;
+
+    private GameObject selectedMissile;
     #endregion
 
 
     void Start()
     {
-        missSwitch = false;
-        missTimer = 0.5f;
+        buffer = 0f;
         Count = 15;
         maxCooldown = 1f;
-        Wchoice = 0;
 
-        basic = Resources.Load<GameObject>("Missiles/BasicMissile");
-        emp = Resources.Load<GameObject>("Missiles/EmpMissile");
-        chromatic = Resources.Load<GameObject>("Missiles/ChromaticMissile");
-        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
-
+        //  Leap Aim
         MyTransform = transform;
         leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
-        textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
+        // Show selected missile text
         textMissileChoice = GameObject.Find("MissileChoice").GetComponent<Text>();
-
         textMissileChoice.text = "Chromatic Missile";
+
+        // Show missile count
+        textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
         textCount.text = Count.ToString();
 
-        Wchoice = 3;
-        selectedMissile = chromatic;
+        // Missile Data
+        basic = Resources.Load<GameObject>("Missiles/BasicMissile");
+        emp = Resources.Load<GameObject>("Missiles/EmpMissile");
+        chrome = Resources.Load<GameObject>("Missiles/ChromaticMissile");
+        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
+
+
+        selectedMissile = chrome;
+        currentType = MissileType.CHROMATIC;       
     }
 
     void Update()
@@ -63,62 +69,24 @@ public class MissileSystem : ShipDevice
             Activate();
 
         if (Input.GetButtonDown("Y"))
-            missSwitch = true;
-
-        if (missSwitch)
-        {
-            Wchoice++;
-            SwitchWeapon();
-            missSwitch = false;
-        }
-
+            WeaponSwap();
+    
         if (Activated)
             LaunchMissile();
+
+        if (buffer > 0f)
+            buffer -= Time.deltaTime;
 
         MyTransform.rotation = leapcam.rotation;
     }
 
-    public void SwitchWeapon()
-    {
-        if (Wchoice >= 4)
-            Wchoice = 0;
-
-        if (Wchoice == 0)
-        {
-            selectedMissile = basic;
-            textMissileChoice.text = "Basic Selected";
-        }
-        else if (Wchoice == 1)
-        {
-            selectedMissile = emp;
-            textMissileChoice.text = "EMP Selected";
-        }
-        else if (Wchoice == 2)
-        {
-            selectedMissile = shieldbreak;
-            textMissileChoice.text = "ShieldBreaker Selected";
-        }
-        else if (Wchoice == 3)
-        {
-            selectedMissile = chromatic;
-            textMissileChoice.text = "Chromatic Selected";
-        }
-
-    }
-
     public void LaunchMissile()
     {
-        if (selectedMissile == null)
-        {
-            selectedMissile = chromatic;
-            Count = 15;
-        }
-
         if (Count > 0)
         {
             Count--;
-            textCount.text = Count.ToString();
             DeActivate();
+            textCount.text = Count.ToString();
             GameObject go = Instantiate(selectedMissile, new Vector3(transform.position.x, transform.position.y, transform.position.z + .5f), transform.rotation) as GameObject;
             AudioManager.instance.PlayMissileLaunch();
         }
@@ -126,31 +94,64 @@ public class MissileSystem : ShipDevice
 
     public void AddMissile()
     {
-        int rand = Random.Range(3, 6);
+        int rand = Random.Range(1, 3);
         Count += rand;
         textCount.text = Count.ToString();
     }
 
     public void WeaponSelect(MissileType type)
     {
-        switch (type)
+        currentType = type;
+        switch (currentType)
         {
-            case MissileType.EMP:
-                selectedMissile = emp;
-                textMissileChoice.text = "EMP Selected";
-                break;
             case MissileType.BASIC:
                 selectedMissile = basic;
                 textMissileChoice.text = "Basic Selected";
                 break;
-            case MissileType.CHROMATIC:
-                selectedMissile = chromatic;
-                textMissileChoice.text = "Chromatic Selected";
+            case MissileType.EMP:
+                selectedMissile = emp;
+                textMissileChoice.text = "EMP Selected";
                 break;
             case MissileType.SHIELDBREAKER:
                 selectedMissile = shieldbreak;
                 textMissileChoice.text = "ShieldBreaker";
                 break;
+            case MissileType.CHROMATIC:
+                selectedMissile = chrome;
+                textMissileChoice.text = "Chromatic Selected";
+                break;
+        }
+    }
+
+    public void WeaponSwap()
+    {
+        if (buffer <= 0f)
+        {
+            buffer = .5f;
+            int curr = (int)(currentType + 1);
+            if (System.Enum.GetValues(typeof(MissileType)).Length == curr)
+                curr = 0;
+
+            currentType = (MissileType)curr;
+            switch (currentType)
+            {
+                case MissileType.BASIC:
+                    selectedMissile = basic;
+                    textMissileChoice.text = "Basic Selected";
+                    break;
+                case MissileType.EMP:
+                    selectedMissile = emp;
+                    textMissileChoice.text = "EMP Selected";
+                    break;
+                case MissileType.SHIELDBREAKER:
+                    selectedMissile = shieldbreak;
+                    textMissileChoice.text = "ShieldBreaker";
+                    break;
+                case MissileType.CHROMATIC:
+                    selectedMissile = chrome;
+                    textMissileChoice.text = "Chromatic Selected";
+                    break;
+            }
         }
     }
 }

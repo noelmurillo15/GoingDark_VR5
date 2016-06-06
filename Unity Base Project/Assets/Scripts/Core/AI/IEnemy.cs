@@ -11,7 +11,11 @@ public class IEnemy : MonoBehaviour
 
     public int Health;
     public int MissileCount;
+
     public MovementProperties MoveData;
+    public ShieldProperties ShieldData;
+
+    Rigidbody rb;
 
     private GameObject explosion;
     private GameObject ammoDrop;
@@ -31,16 +35,22 @@ public class IEnemy : MonoBehaviour
         LoadEnemyData();
         explosion = Resources.Load<GameObject>("EnemyExplosion");
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
-        stunned = transform.GetChild(0).gameObject;
+        stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);
         SCollider = GetComponent<SphereCollider>();
         colRadius = SCollider.radius;
+        rb = GetComponent<Rigidbody>();
     }
 
     #region Accessors
     public MovementProperties GetMoveData()
     {
         return MoveData;
+    }
+
+    public ShieldProperties GetShieldData()
+    {
+        return ShieldData;
     }
     #endregion
 
@@ -54,52 +64,60 @@ public class IEnemy : MonoBehaviour
     #region Msg Functions
     void EMPHit()
     {
-        Debug.Log("Enemy has been stunned by Emp");
-        Debuff = Impairments.STUNNED;
-        stunned.SetActive(true);
-
-        if(Type == EnemyTypes.BOSS)
-            Invoke("ResetDebuff", 1f);
-        else
-            Invoke("ResetDebuff", 5f);
-
-        SCollider.radius = colRadius * 2;
-        if (IsInvoking("ResetDetectionRadius"))
-            CancelInvoke("ResetDetectionRadius");
-
-        Invoke("ResetDetectionRadius", 10f);
-
+        stunned.SetActive(true);        
+        rb.useGravity = true;
+        rb.isKinematic = false;
         if (Type == EnemyTypes.KAMIKAZE)
-            Hit();
+        {
+            Invoke("Kill", 5f);
+            rb.useGravity = true;
+            rb.isKinematic = false;
+        }
+        else
+        {
+            Debuff = Impairments.STUNNED;
+            Invoke("ResetDebuff", 5f);            
+
+            SCollider.radius = colRadius * 2;
+            if (IsInvoking("ResetDetectionRadius"))
+                CancelInvoke("ResetDetectionRadius");
+            Invoke("ResetDetectionRadius", 10f);
+        }     
     }
 
     void ShieldHit()
     {
-        Debug.Log("Enemy Shield Hit");
+        ShieldData.TakeDamage();
     }
 
     void Hit()
     {
-        Debug.Log("Enemy was Hit");
-        Health--;
+        if (ShieldData.GetShieldActive())
+        {
+            Debug.Log("Enemy shield blocked your attack");
+            return;
+        }
 
-        SCollider.radius = colRadius * 2;
+        Debug.Log("Enemy was Hit");
+
+        SCollider.radius = colRadius * 2f;
         if (IsInvoking("ResetDetectionRadius"))
             CancelInvoke("ResetDetectionRadius");
-
         Invoke("ResetDetectionRadius", 10f);
+
+        Health--;
         if (Health <= 0)
             Kill();
     }
 
     void ResetDetectionRadius()
-    {
+    {        
         SCollider.radius = colRadius;
     }
     private bool RandomChance()
     {
-        float wDrop = Random.Range(1, 100);
-        if (wDrop > 0)
+        float wDrop = Random.Range(1, 3);
+        if (wDrop == 1)
             return true;
 
         return false;
@@ -117,7 +135,9 @@ public class IEnemy : MonoBehaviour
     #region Public Methods
     public void ResetDebuff()
     {
-        SetSpeedBoost(.5f);
+        rb.useGravity = false;
+        rb.isKinematic = true;
+        SetSpeedBoost(1f);
         Debuff = Impairments.NONE;
         stunned.SetActive(false);
     }
@@ -218,6 +238,7 @@ public class IEnemy : MonoBehaviour
             case "BasicEnemy":
                 SetEnemyType(EnemyTypes.BASIC);
                 MissileCount = 20;
+                ShieldData.Initialize(transform.GetChild(0).gameObject);
                 switch (Level)
                 {
                     case EnemyDifficulty.EASY:

@@ -179,10 +179,8 @@ public class SystemManager : MonoBehaviour {
     public void MissileSelect(MissileType type)
     {
         if (MainDevices.ContainsKey(SystemType.MISSILES))
-        {
-            if (type != MissileType.NONE)
-                MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);
-        }
+            MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);
+                
         ToggleWeaponSelect();
     }
 

@@ -39,7 +39,7 @@ public class EmpSystem : ShipDevice
     #region Modifiers
     public void ElectricMagneticPulse()
     {
-        empTimer = 4.5f;
+        empTimer = 1f;
         DeActivate();
         shockwave.SetActive(true);
     }

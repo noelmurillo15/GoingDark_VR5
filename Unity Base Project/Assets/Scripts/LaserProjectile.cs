@@ -30,7 +30,6 @@ public class LaserProjectile : MonoBehaviour {
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             col.gameObject.SendMessage("ShieldHit"); 
-            col.gameObject.SendMessage("Hit");
             Kill();
         }
 

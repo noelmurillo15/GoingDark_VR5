@@ -5,7 +5,7 @@ public class Missile : MonoBehaviour
 {
 
     #region Properties
-    public MissileType Type = MissileType.NONE;
+    public MissileType Type;
     public MovementProperties moveData;
     private bool tracking;
 
@@ -28,13 +28,12 @@ public class Missile : MonoBehaviour
         moveData.Boost = 1f;
         moveData.MaxSpeed = 500f;
         moveData.RotateSpeed = 10f;
-        moveData.Acceleration = 100f;
-        moveData.Speed = 100f;
+        moveData.Acceleration = 250f;
+        moveData.Speed = 50f;
 
-        Invoke("Kill", 5f);
+        Invoke("Kill", 2f);
 
         HitMarker = GameObject.Find("PlaceHolderCircle");
-
     }
 
     void FixedUpdate()
@@ -46,6 +45,14 @@ public class Missile : MonoBehaviour
             LookAt();
 
         MyTransform.position += MyTransform.forward * moveData.Speed * Time.deltaTime;
+    }
+
+    public void SetMissileType(MissileType _type, GameObject _particle)
+    {
+        Type = _type;
+
+        GameObject go = Instantiate(_particle);
+        go.transform.parent = transform;
     }
 
     private void Kill()

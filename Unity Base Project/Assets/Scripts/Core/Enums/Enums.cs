@@ -2,11 +2,10 @@
 {
     public enum MissileType
     {
-        NONE,
-        EMP,
         BASIC,
-        CHROMATIC,
-        SHIELDBREAKER
+        EMP,
+        SHIELDBREAKER,
+        CHROMATIC
     }
     public enum Impairments
     {
