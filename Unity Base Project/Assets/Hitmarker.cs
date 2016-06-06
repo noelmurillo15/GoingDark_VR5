@@ -8,6 +8,11 @@ public class Hitmarker : MonoBehaviour
     [SerializeField]
     private Sprite hitMarker;
 
+    private Transform MyTransform;
+    private SpriteRenderer srend;
+    private RaycastHit hit;
+    private int range;
+
     private float HitDisplayDuration = 0.8f;
     private float HitTime;
     private bool ShowHitMarker;
@@ -15,27 +20,30 @@ public class Hitmarker : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        range = 500;
+        MyTransform = transform;
+        srend = GetComponent<SpriteRenderer>();
         ShowHitMarker = false;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (GetComponent<SpriteRenderer>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
+        if (Physics.Raycast(MyTransform.position, MyTransform.forward * range, out hit, range))
         {
-          //  Debug.Log("Switched to static");
-            GetComponent<SpriteRenderer>().sprite = StaticMarker;
+            if (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Asteroid"))
+                srend.color = Color.red;
         }
+        else
+            srend.color = Color.white;
 
+        if (srend.sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
+            srend.sprite = StaticMarker;        
     }
 
     public void HitMarkerShow(float TimeWhenShot)
     {
-            //Debug.Log("Switched to Hitmarker");
         HitTime = TimeWhenShot;
-        GetComponent<SpriteRenderer>().sprite = hitMarker;
+        srend.sprite = hitMarker;
     }
-
-
 }

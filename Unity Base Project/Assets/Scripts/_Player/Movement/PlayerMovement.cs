@@ -93,10 +93,7 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void DecreaseSpeed()
     {
-        if (MoveData.Speed > 0.0f)
-            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 2.5f;
-        else
-            MoveData.Speed = 0.0f;
+        MoveData.Speed = Mathf.Lerp(MoveData.Speed, 0f, Time.deltaTime * .5f);
     }
     public void TurnLeft()
     {
