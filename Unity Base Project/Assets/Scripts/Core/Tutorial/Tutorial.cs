@@ -69,7 +69,6 @@ public class Tutorial : MonoBehaviour
         hyperDriveButtonParticle.SetActive(false);
         for (int i = 0; i < loots.Length; i++)
         {
-            //loots[i].GetComponent<BoxCollider>().enabled = false;
             loots[i].SetActive(false);
         }
     }
@@ -301,9 +300,9 @@ public class Tutorial : MonoBehaviour
                 {
                     buffer = true;
                     Vector3 temp = player.transform.position + player.transform.forward * 100;
-                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp,new Quaternion()) as GameObject;
+                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, new Quaternion()) as GameObject;
                     enemy1.transform.parent = GameObject.Find("Enemy").transform;
-                    
+
                     ClearText();
                     s1 = "Cloak can make you invisible to the enemies and slows down time.s";
                     s2 = "It is very useful when you need to avoid battle.";
@@ -336,11 +335,21 @@ public class Tutorial : MonoBehaviour
                     s2 = "You can pick up the radar by scooping it up with your right hand";
                     s3 = "Relocate radar to where you prefer by closing your hand";
                     StartCoroutine(Delay(0.0f, s1, s2, s3));
+
+                    s1 = "Enemy missiles will also be displayed on the radar.";
+                    s2 = "Your ship will be damaged upon collision.";
+                    s3 = "Hint: Emp can disable them, shield can block them.";
+                    StartCoroutine(Delay(10.0f, s1, s2, s3));
+
                     player.StopMovement();
-                    Invoke("DestroyEnemy", 15.0f);
-                    StartCoroutine(ShowDeviceEnd(15.0f));
+                    Invoke("DestroyEnemy", 22.0f);
+                    StartCoroutine(ShowDeviceEnd(22.0f));
                 }
-                
+                if (enemy1)
+                {
+                    enemy1.transform.LookAt(player.transform.position);
+                    enemy1.GetComponent<TutorialEnemy>().Fire(6.0f);
+                }
                 break;
             case SystemType.DECOY:
                 if (!buffer)

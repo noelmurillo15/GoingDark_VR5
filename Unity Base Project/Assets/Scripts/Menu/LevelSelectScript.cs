@@ -19,11 +19,7 @@ public class LevelSelectScript : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        if (Input.GetKey(KeyCode.X))
-        {
-            GetComponentInParent<Canvas>().enabled = false;
-            player.isSwitching = true;
-        }
+        
     }
 
     public void OnTriggerEnter(Collider col)
@@ -61,7 +57,6 @@ public class LevelSelectScript : MonoBehaviour {
         {
             if (m_button.color == Color.green)
             {
-                GetComponentInParent<Canvas>().enabled = false;
                 player.isSwitching = true;
 
             }

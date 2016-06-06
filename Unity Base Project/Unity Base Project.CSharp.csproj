@@ -231,6 +231,7 @@
     <Compile Include="Assets\Scripts\Menu\IntroScript.cs" />
     <Compile Include="Assets\Scripts\Menu\LeftArmCollision.cs" />
     <Compile Include="Assets\Scripts\Menu\LevelSelectScript.cs" />
+    <Compile Include="Assets\Scripts\Menu\MapConnection.cs" />
     <Compile Include="Assets\Scripts\Menu\PlayerViewCheck.cs" />
     <Compile Include="Assets\Scripts\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\Menu\SplashScript.cs" />

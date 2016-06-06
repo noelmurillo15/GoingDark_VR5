@@ -10,9 +10,11 @@ public class PlayerViewCheck : MonoBehaviour {
     private GameObject curStar;
     private Canvas canvas;
     private Text[] texts;
+    private Text acceptButton;
     public float delayTimer;
     public bool isSwitching;
     private TransitionHyperDrive hyperDrive;
+    private MapConnection[] isUnlocked;
     
     // Use this for initialization
     void Start () {
@@ -22,8 +24,17 @@ public class PlayerViewCheck : MonoBehaviour {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         stars = GameObject.FindGameObjectsWithTag("Star");
         texts = canvas.GetComponentsInChildren<Text>();
+        acceptButton = GameObject.Find("Accept").GetComponentInChildren<Text>();
         isSwitching = false;
         hyperDrive = GameObject.Find("TransitionHyperDrive").GetComponent<TransitionHyperDrive>();
+
+        isUnlocked = new MapConnection[GameObject.FindGameObjectsWithTag("Star").Length];
+        isUnlocked[0] = GameObject.Find("SupplyHud").transform.FindChild("OpenWorld").GetComponent<MapConnection>();
+        isUnlocked[1] = GameObject.Find("SupplyHud").transform.FindChild("Level2").GetComponent<MapConnection>();
+        isUnlocked[2] = GameObject.Find("SupplyHud").transform.FindChild("Level3").GetComponent<MapConnection>();
+        isUnlocked[3] = GameObject.Find("SupplyHud").transform.FindChild("Level4").GetComponent<MapConnection>();
+        isUnlocked[4] = GameObject.Find("SupplyHud").transform.FindChild("Level5").GetComponent<MapConnection>();
+        isUnlocked[5] = GameObject.Find("SupplyHud").transform.FindChild("Level6").GetComponent<MapConnection>();
     }
 
     // Update is called once per frame
@@ -32,7 +43,7 @@ public class PlayerViewCheck : MonoBehaviour {
         if (isSwitching)
         {
             transform.LookAt(curStar.transform.position);
-            canvas.enabled = false;
+            canvas.enabled =false;
             hyperDrive.HyperDriveInitialize();
             if (hyperDrive.IsOver())
             {
@@ -56,12 +67,26 @@ public class PlayerViewCheck : MonoBehaviour {
                     curStar = stars[i];
                     canvas.enabled = true;
                     MissionText(stars[i].name);
-                    return;
+                    if (curStar.GetComponent<MapConnection>().isUnlocked == 1)
+                    {
+                        acceptButton.text = "Accept";
+                        if (Input.GetKeyDown(KeyCode.X))
+                            isSwitching = true;
+                        return;
+                    }
+                    else
+                    {
+                        acceptButton.text = "Locked";
+                        isSwitching = false;
+                        return;
+                    }
+                    //return;
                 }
             }
-            else
-                canvas.enabled = false;
+            
         }
+                canvas.enabled = false;
+                isSwitching = false;
     }
 
     private void MissionText(string missionName)
@@ -75,5 +100,16 @@ public class PlayerViewCheck : MonoBehaviour {
             else
                 texts[i].enabled = false;
         }
+        //for (int j = 0; j < isUnlocked.Length; j++)
+        //{
+        //    if (missionName == isUnlocked[j].name)
+        //    {
+        //        acceptButton.SetActive(true);
+        //    }
+        //    else
+        //    {
+        //        acceptButton.SetActive(false);
+        //    }
+        //}
     }
 }
