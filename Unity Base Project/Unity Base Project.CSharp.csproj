@@ -202,6 +202,7 @@
     <Compile Include="Assets\Scripts\Environment\AsteroidGenerator.cs" />
     <Compile Include="Assets\Scripts\Environment\BlackHole.cs" />
     <Compile Include="Assets\Scripts\Environment\BlackHoleRenderer.cs" />
+    <Compile Include="Assets\Scripts\Environment\BossAlert.cs" />
     <Compile Include="Assets\Scripts\Environment\Death.cs" />
     <Compile Include="Assets\Scripts\Environment\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\Environment\JunkYardGenerator.cs" />

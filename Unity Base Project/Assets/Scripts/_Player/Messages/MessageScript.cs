@@ -25,7 +25,8 @@ public class MessageScript : MonoBehaviour
     Text offlineDevices;
     [SerializeField]
     Text systemReport;
-
+    [SerializeField]
+    Text bossAlert;
     private Text[] winTexts;
 
 
@@ -121,6 +122,12 @@ public class MessageScript : MonoBehaviour
     {
         AudioManager.instance.StopNebulaAlarm();
         poisonMsg.enabled = false;
+    }
+    public IEnumerator BossAlert()
+    {
+        bossAlert.enabled = true;
+        yield return new WaitForSeconds(5.0f);
+        bossAlert.enabled = false;
     }
     #endregion
 
