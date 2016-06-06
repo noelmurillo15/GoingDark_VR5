@@ -62,6 +62,11 @@ public class PlayerMovement : MonoBehaviour {
             else if (Input.GetAxis("Vertical") < 0f)
                 GoDown();
 
+            if (Input.GetAxis("RVertical") > 0f)
+                RollRight();
+            else if (Input.GetAxis("RVertical") < 0f)
+                RollLeft();
+
             Flight();
         }
         else if (autoPilot)
@@ -108,7 +113,15 @@ public class PlayerMovement : MonoBehaviour {
     public void GoDown()
     {
         MyTransform.Rotate(Vector3.right * Time.deltaTime * -MoveData.RotateSpeed);
-    }    
+    }  
+    public void RollLeft()
+    {
+        MyTransform.Rotate(Vector3.back * Time.deltaTime * -MoveData.RotateSpeed);
+    }
+    public void RollRight()
+    {
+        MyTransform.Rotate(Vector3.back * Time.deltaTime * MoveData.RotateSpeed);
+    }
     void Flight()
     {
         if (MoveData.Speed <= 0f)
