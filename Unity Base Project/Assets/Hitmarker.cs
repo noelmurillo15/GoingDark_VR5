@@ -20,7 +20,7 @@ public class Hitmarker : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        range = 500;
+        range = 1600;
         MyTransform = transform;
         srend = GetComponent<SpriteRenderer>();
         ShowHitMarker = false;
@@ -31,14 +31,24 @@ public class Hitmarker : MonoBehaviour
     {
         if (Physics.Raycast(MyTransform.position, MyTransform.forward * range, out hit, range))
         {
-            if (hit.collider.gameObject.CompareTag("Enemy") || hit.collider.gameObject.CompareTag("Asteroid"))
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                if(hit.collider.GetType() == typeof(BoxCollider))
+                    srend.color = Color.red;
+
+                return;
+            }
+
+            if (hit.collider.gameObject.CompareTag("Asteroid"))
                 srend.color = Color.red;
         }
         else
             srend.color = Color.white;
 
         if (srend.sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
-            srend.sprite = StaticMarker;        
+            srend.sprite = StaticMarker;
+
+        Debug.DrawRay(MyTransform.position, MyTransform.forward * range, Color.red);    
     }
 
     public void HitMarkerShow(float TimeWhenShot)

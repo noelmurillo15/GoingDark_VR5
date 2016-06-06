@@ -31,7 +31,7 @@ public class Missile : MonoBehaviour
         moveData.Acceleration = 250f;
         moveData.Speed = 50f;
 
-        Invoke("Kill", 2f);
+        Invoke("Kill", 4f);
 
         HitMarker = GameObject.Find("PlaceHolderCircle");
     }
@@ -84,16 +84,6 @@ public class Missile : MonoBehaviour
             }
             return;
         }
-        if (!tracking && col.GetType() == typeof(CharacterController))
-        {
-            if (col.CompareTag("Enemy"))
-            {
-                Debug.Log("Player Missile Tracking " + col.transform.tag);
-                target = col.transform;
-                tracking = true;
-            }
-        }
-
     }
 
     void OnCollisionEnter(Collision col)
