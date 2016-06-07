@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 
-public class Missile : MonoBehaviour
+public class Missile : ShipDevice
 {
 
     #region Properties
@@ -38,7 +38,7 @@ public class Missile : MonoBehaviour
         moveData.Speed = 50f;
 
         dir = MyTransform.forward;
-        
+
         Invoke("Kill", 4f);
     }
 
@@ -67,7 +67,7 @@ public class Missile : MonoBehaviour
 
     public void Deflect()
     {
-        Debug.Log("Missile was deflected by enemy shield");
+        //Debug.Log("Missile was deflected by enemy shield");
         dir = -dir;
     }
 
@@ -75,11 +75,11 @@ public class Missile : MonoBehaviour
     {
         if (!tracking)
         {
-            if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, LayerMask.GetMask("Enemies")))
+            if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
             {
-                if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
+                if (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Asteroid"))
                 {
-                    Debug.Log("Missile tracking enemy : " + hit.distance);
+                    //Debug.Log("Missile tracking "+ hit.collider.tag + " : " + hit.distance);
                     target = hit.collider.transform;
                     tracking = true;
                 }
@@ -91,10 +91,12 @@ public class Missile : MonoBehaviour
     {
         if (Explosion != null)
             Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
-
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
-
+    private void SelfDestruct()
+    {
+        Invoke("Kill", 2);
+    }
     #region Collisions
     void OnCollisionEnter(Collision col)
     {

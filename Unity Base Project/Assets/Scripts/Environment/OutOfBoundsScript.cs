@@ -25,7 +25,7 @@ public class OutOfBoundsScript : MonoBehaviour
         }
 
         if (col.CompareTag("Enemy"))
-            if (col.GetType() == typeof(CharacterController))
+            if (col.GetType() == typeof(BoxCollider))
                 col.SendMessage("InBounds");
     }
 
@@ -39,7 +39,7 @@ public class OutOfBoundsScript : MonoBehaviour
         }
 
         if (col.CompareTag("Enemy"))
-            if (col.GetType() == typeof(CharacterController))
+            if (col.GetType() == typeof(BoxCollider))
                 col.SendMessage("OutOfBounds");
     }
     void SendWarning()

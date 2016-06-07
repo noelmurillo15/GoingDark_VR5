@@ -86,10 +86,14 @@ public class IEnemy : MonoBehaviour
     }
 
     void ShieldHit()
-    {
-        Debug.Log("Enemy shield was Hit");
-        if(ShieldData.GetShieldActive())
+    {    
+        if (ShieldData.GetShieldActive())
+        {
+            Debug.Log("Enemy shield was Hit");
             ShieldData.TakeDamage();
+        }
+        else
+            Hit();        
     }
 
     void Hit(Missile missile)

@@ -242,6 +242,7 @@
     <Compile Include="Assets\Scripts\Menu\WeaponSelectButton.cs" />
     <Compile Include="Assets\Scripts\MenuButtons.cs" />
     <Compile Include="Assets\Scripts\NeighboringScenes.cs" />
+    <Compile Include="Assets\Scripts\ObjectPooling.cs" />
     <Compile Include="Assets\Scripts\ObjectResetter.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemDestroyer.cs" />
     <Compile Include="Assets\Scripts\PlatformSpecificContent.cs" />
