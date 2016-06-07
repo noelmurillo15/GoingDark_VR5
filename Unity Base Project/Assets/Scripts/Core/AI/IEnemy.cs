@@ -87,7 +87,30 @@ public class IEnemy : MonoBehaviour
 
     void ShieldHit()
     {
-        ShieldData.TakeDamage();
+        Debug.Log("Enemy shield was Hit");
+        if(ShieldData.GetShieldActive())
+            ShieldData.TakeDamage();
+    }
+
+    void Hit(Missile missile)
+    {
+        if (ShieldData.GetShieldActive())
+        {
+            missile.Deflect();
+            return;
+        }
+
+        Debug.Log("Enemy was Hit");
+        missile.SendMessage("Kill");
+
+        SCollider.radius = colRadius * 2f;
+        if (IsInvoking("ResetDetectionRadius"))
+            CancelInvoke("ResetDetectionRadius");
+        Invoke("ResetDetectionRadius", 10f);
+
+        Health--;
+        if (Health <= 0)
+            Kill();
     }
 
     void Hit()
@@ -108,7 +131,7 @@ public class IEnemy : MonoBehaviour
         Health--;
         if (Health <= 0)
             Kill();
-    }
+    }    
 
     void ResetDetectionRadius()
     {        

@@ -26,7 +26,7 @@ public class ShieldProperties
         if (ShieldActive)
         {
             AudioManager.instance.PlayShieldHit();
-            ShieldHealth -= 5.0f;
+            ShieldHealth -= 10.0f;
 
             if (ShieldHealth <= 0.0f)
             {

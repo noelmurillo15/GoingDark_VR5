@@ -5,35 +5,41 @@ public class Missile : MonoBehaviour
 {
 
     #region Properties
-    public MissileType Type;
-    public MovementProperties moveData;
     private bool tracking;
-
+    public MissileType Type;
     public GameObject Explosion;
     private Transform MyTransform;
+    public MovementProperties moveData;
+
+    //  Raycast
+    private int range;
+    private RaycastHit hit;
 
     //  Target Data
+    private Vector3 dir;
     private Transform target;
+
     //HitMarker
-    GameObject HitMarker;// = GameObject.Find("PlaceHolderCircle");
+    Hitmarker hitMarker;
     #endregion
 
 
     void Start()
     {
-        MyTransform = transform;
+        range = 1600;
         target = null;
         tracking = false;
+        MyTransform = transform;
+        hitMarker = GameObject.Find("PlaceHolderCircle").GetComponent<Hitmarker>();
 
-        moveData.Boost = 1f;
         moveData.MaxSpeed = 500f;
         moveData.RotateSpeed = 10f;
         moveData.Acceleration = 250f;
         moveData.Speed = 50f;
 
+        dir = MyTransform.forward;
+        
         Invoke("Kill", 4f);
-
-        HitMarker = GameObject.Find("PlaceHolderCircle");
     }
 
     void FixedUpdate()
@@ -44,79 +50,82 @@ public class Missile : MonoBehaviour
         if (tracking)
             LookAt();
 
-        MyTransform.position += MyTransform.forward * moveData.Speed * Time.deltaTime;
-    }
+        RaycastCheck();
 
-    public void SetMissileType(MissileType _type, GameObject _particle)
-    {
-        Type = _type;
-
-        GameObject go = Instantiate(_particle);
-        go.transform.parent = transform;
-    }
-
-    private void Kill()
-    {
-        if (Explosion != null)
-            Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
-        Destroy(gameObject);
+        MyTransform.position += dir * moveData.Speed * Time.deltaTime;
     }
 
     private void LookAt()
     {
         if (target != null)
         {
+            dir = MyTransform.forward;
             Quaternion targetRotation = Quaternion.LookRotation(target.position - MyTransform.position);
             MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, targetRotation, Time.deltaTime * moveData.RotateSpeed);
         }
     }
 
-    #region Collisions
-    void OnTriggerEnter(Collider col)
+    public void Deflect()
     {
-        if (!tracking && col.GetType() == typeof(SphereCollider))
+        Debug.Log("Missile was deflected by enemy shield");
+        dir = -dir;
+    }
+
+    private void RaycastCheck()
+    {
+        if (!tracking)
         {
-            if (col.CompareTag("Turret"))
+            if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, LayerMask.GetMask("Enemies")))
             {
-                Debug.Log("Player Missile Tracking " + col.transform.tag);
-                target = col.transform;
-                tracking = true;
+                if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
+                {
+                    Debug.Log("Missile tracking enemy : " + hit.distance);
+                    target = hit.collider.transform;
+                    tracking = true;
+                }
             }
-            return;
         }
     }
 
+    private void Kill()
+    {
+        if (Explosion != null)
+            Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
+
+        Destroy(gameObject);
+    }
+
+    #region Collisions
     void OnCollisionEnter(Collision col)
     {
         if (col.transform.CompareTag("Enemy"))
         {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             switch (Type)
             {
                 case MissileType.EMP:
                     col.transform.SendMessage("EMPHit");
                     break;
                 case MissileType.BASIC:
-                    col.transform.SendMessage("Hit");
+                    col.transform.SendMessage("Hit", this);
                     break;
                 case MissileType.CHROMATIC:
-                    col.transform.SendMessage("Hit");
+                    col.transform.SendMessage("Hit", this);
                     break;
                 case MissileType.SHIELDBREAKER:
                     col.transform.SendMessage("ShieldHit");
                     break;
             }
-            Kill();
+            hitMarker.HitMarkerShow(Time.time);
         }
         else if (col.transform.CompareTag("Asteroid"))
         {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
+            hitMarker.HitMarkerShow(Time.time);
             col.transform.SendMessage("Kill");
             Kill();
         }
         else if (col.transform.CompareTag("Turret"))
         {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
+            hitMarker.HitMarkerShow(Time.time);
             col.transform.SendMessage("Kill");
             Kill();
         }

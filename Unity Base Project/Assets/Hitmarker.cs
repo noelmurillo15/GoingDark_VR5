@@ -13,7 +13,7 @@ public class Hitmarker : MonoBehaviour
     private RaycastHit hit;
     private int range;
 
-    private float HitDisplayDuration = 0.8f;
+    private float HitDisplayDuration = 0.5f;
     private float HitTime;
     private bool ShowHitMarker;
 
@@ -27,28 +27,25 @@ public class Hitmarker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (Physics.Raycast(MyTransform.position, MyTransform.forward * range, out hit, range))
-        {
-            if (hit.collider.gameObject.CompareTag("Enemy"))
-            {
-                if(hit.collider.GetType() == typeof(BoxCollider))
-                    srend.color = Color.red;
-
-                return;
-            }
-
-            if (hit.collider.gameObject.CompareTag("Asteroid"))
-                srend.color = Color.red;
-        }
-        else
-            srend.color = Color.white;
-
         if (srend.sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
             srend.sprite = StaticMarker;
-
-        Debug.DrawRay(MyTransform.position, MyTransform.forward * range, Color.red);    
+        
+        if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
+        {
+            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
+            {
+                srend.color = Color.red;
+                return;
+            }
+            if (hit.collider.CompareTag("Asteroid"))
+            {
+                srend.color = Color.red;
+                return;
+            }            
+        }
+        srend.color = Color.white;
     }
 
     public void HitMarkerShow(float TimeWhenShot)
