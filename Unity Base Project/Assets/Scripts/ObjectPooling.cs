@@ -17,7 +17,6 @@ public class ObjectPooling : MonoBehaviour
         pooledObj = _poolobj;
         pooledAmnt = _poolamount;
         poolList = new List<GameObject>();
-        Debug.Log("Creating Pool of : " + _poolamount);
         for (int i = 0; i < pooledAmnt; i++)
         {
             GameObject obj = Instantiate(pooledObj, Vector3.zero, Quaternion.identity) as GameObject;

@@ -72,7 +72,6 @@ public class PlayerStats : MonoBehaviour
         {
             fadeTimer -= Time.deltaTime * 0.15f;
             GUI.color = new Color(1, 1, 1, fadeTimer);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), screenBreak, ScaleMode.StretchToFill);
             if (GUI.color.a <= 0)
             {
                 GUI.color = new Color(1, 1, 1, 1);
