@@ -21,11 +21,11 @@ public class EnemyLaserProjectile : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("Player"))
-        {
-            col.gameObject.SendMessage("ShieldHit");
-            col.gameObject.SendMessage("Hit");
-        }
+       //if (col.transform.CompareTag("Player"))
+       //{
+       //    col.gameObject.SendMessage("ShieldHit");
+       //    col.gameObject.SendMessage("Hit");
+       //}
 
         if (col.transform.CompareTag("Asteroid"))
         {

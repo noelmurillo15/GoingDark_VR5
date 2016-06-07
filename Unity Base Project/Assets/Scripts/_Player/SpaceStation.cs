@@ -9,13 +9,13 @@ public class SpaceStation : MonoBehaviour
     private MissionSystem m_missionSystem;
     private MissionLog m_missionLog;
     private MissionLoader m_missionLoader;
-    private AudioSource sound;
+    private SystemManager SystemData;
+
 
     // Use this for initialization
     void Start()
     {
-        sound = GetComponent<AudioSource>();
-
+        SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
         stationMissions = new MissionSystem.Mission[4];
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
@@ -33,12 +33,12 @@ public class SpaceStation : MonoBehaviour
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")
         {
-            m_missionLog.SendMessage("Docked", true);
-            if (SceneManager.GetActiveScene().name == "Tutorial")
-                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
-            else
-                sound.Play();
+            //m_missionLog.SendMessage("Docked", true);
+            //if (SceneManager.GetActiveScene().name == "Tutorial")
+            //    GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("EnterStation");
 
+            AudioManager.instance.PlayShipRepair();
+            SystemData.FullSystemRepair();
         }
     }
 
@@ -46,9 +46,9 @@ public class SpaceStation : MonoBehaviour
     {
         if (col.transform.tag == "Player")
         {
-            m_missionLog.SendMessage("Docked", false);
-            if (SceneManager.GetActiveScene().name == "Tutorial")
-                GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("ExitStation");
+            //m_missionLog.SendMessage("Docked", false);
+            //if (SceneManager.GetActiveScene().name == "Tutorial")
+            //    GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("ExitStation");
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
 using UnityEngine.UI;
-using System.Linq;
-
 
 public class MissileSystem : ShipDevice
 {
@@ -27,12 +25,12 @@ public class MissileSystem : ShipDevice
     public ObjectPooling pool3;
     public ObjectPooling pool4;
 
+    
+
     private GameObject basic;
     private GameObject emp;
     private GameObject chrome;
     private GameObject shieldbreak;
-
-    private int choice;
     #endregion
 
 
@@ -58,22 +56,19 @@ public class MissileSystem : ShipDevice
         basic = Resources.Load<GameObject>("Missiles/BasicMissile");
         emp = Resources.Load<GameObject>("Missiles/EmpMissile");
         chrome = Resources.Load<GameObject>("Missiles/ChromaticMissile");
-        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");
+        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");        
 
         pool = new ObjectPooling();
-        pool.Initialize(basic, 3);
+        pool.Initialize(basic, 4);
 
         pool2 = new ObjectPooling();
-        pool2.Initialize(emp, 3);
+        pool2.Initialize(emp, 4);
 
         pool3 = new ObjectPooling();
-        pool3.Initialize(shieldbreak, 3);
+        pool3.Initialize(shieldbreak, 4);
 
         pool4 = new ObjectPooling();
-        pool4.Initialize(chrome, 3);
-
-        choice = 1;
-
+        pool4.Initialize(chrome, 4);
     }
 
     void Update()
@@ -103,7 +98,7 @@ public class MissileSystem : ShipDevice
             Count--;
             DeActivate();
             textCount.text = Count.ToString();
-            if (choice == 1)
+            if (currentType == MissileType.BASIC)
             {
                 GameObject obj = pool.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -111,7 +106,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (choice == 2)
+            if (currentType == MissileType.EMP)
             {
                 GameObject obj = pool2.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -119,7 +114,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (choice == 3)
+            if (currentType == MissileType.SHIELDBREAKER)
             {
                 GameObject obj = pool3.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -127,7 +122,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (choice == 4)
+            if (currentType == MissileType.CHROMATIC)
             {
                 GameObject obj = pool4.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -137,6 +132,8 @@ public class MissileSystem : ShipDevice
             }
             AudioManager.instance.PlayMissileLaunch();
         }
+        else
+            Count = 15;
     }
 
     public void AddMissile()
@@ -180,19 +177,15 @@ public class MissileSystem : ShipDevice
             {
                 case MissileType.BASIC:
                     textMissileChoice.text = "Basic Selected";
-                    choice = 1;
                     break;
                 case MissileType.EMP:
                     textMissileChoice.text = "EMP Selected";
-                    choice = 2;
                     break;
                 case MissileType.SHIELDBREAKER:
                     textMissileChoice.text = "ShieldBreaker";
-                    choice = 3;
                     break;
                 case MissileType.CHROMATIC:
                     textMissileChoice.text = "Chromatic Selected";
-                    choice = 4;
                     break;
             }
         }

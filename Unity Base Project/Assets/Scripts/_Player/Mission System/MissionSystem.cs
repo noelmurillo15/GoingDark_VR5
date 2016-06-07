@@ -101,6 +101,6 @@ public class MissionSystem : MonoBehaviour
     {
         int credits = m_ActiveMissions[key].credits;
         Debug.Log("Gave player mission credits");
-        m_playerStats.AddCredits(credits);
+        //m_playerStats.AddCredits(credits);
     }
 }

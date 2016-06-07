@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerHealth : MonoBehaviour
+public class HealthProperties : MonoBehaviour
 {
 
-
-
-    //**    Attach to Player Health Gameobject  **//
     [SerializeField]
     private GameObject[] health;
     [SerializeField]
@@ -16,27 +13,28 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField]
     private int ArmorStage;
     GameObject PlayerShip;
+    public CameraShake camShake;
+
 
     // Use this for initialization
     void Start()
     {
         hitCount = 0;
-        if (hitCount == 0)
+        camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
+        stats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        PlayerShip = GameObject.FindGameObjectWithTag("PlayerShip");
+        health = new GameObject[6];
+        ArmorStage = 5;
+        //setting active or inactive
+        //grabs all the health bars
+        for (int x = 0; x < transform.childCount; x++)
         {
-            stats = GameObject.Find("Player").GetComponent<PlayerStats>();
-            PlayerShip = GameObject.FindGameObjectWithTag("PlayerShip");
-            health = new GameObject[6];
-            ArmorStage = 5;
-            //setting active or inactive
-            //grabs all the health bars
-            for (int x = 0; x < transform.childCount; x++)
-            {
-                health[x] = transform.GetChild(x).gameObject;
-            }
-            UpdateHealthBars();
-            //update
-            UpdatePlayerHealth();
+            health[x] = transform.GetChild(x).gameObject;
         }
+        UpdateHealthBars();
+        //update
+        UpdatePlayerHealth();
+
     }
 
     // Update is called once per frame
@@ -113,9 +111,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void Hit()
     {
-        hitCount++;
-        UpdatePlayerHealth();
         AudioManager.instance.PlayHit();
+        hitCount++;
+        camShake.PlayShake();
+        UpdatePlayerHealth();
         if (hitCount >= ArmorStage)
             Kill();
     }

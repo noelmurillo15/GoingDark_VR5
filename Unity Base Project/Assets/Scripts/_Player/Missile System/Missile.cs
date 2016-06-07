@@ -16,6 +16,7 @@ public class Missile : ShipDevice
     private RaycastHit hit;
 
     //  Target Data
+    private bool deflected;
     private Vector3 dir;
     private Transform target;
 
@@ -24,22 +25,22 @@ public class Missile : ShipDevice
     #endregion
 
 
-    void Start()
+    public void InitializeStats()
     {
         range = 1600;
         target = null;
         tracking = false;
-        MyTransform = transform;
-        hitMarker = GameObject.Find("PlaceHolderCircle").GetComponent<Hitmarker>();
+        deflected = false;
 
+        moveData.Boost = 1f;
         moveData.MaxSpeed = 500f;
-        moveData.RotateSpeed = 10f;
+        moveData.RotateSpeed = 25f;
         moveData.Acceleration = 250f;
         moveData.Speed = 50f;
 
+        MyTransform = transform;
         dir = MyTransform.forward;
-
-        Invoke("Kill", 4f);
+        hitMarker = GameObject.Find("PlaceHolderCircle").GetComponent<Hitmarker>();
     }
 
     void FixedUpdate()
@@ -67,19 +68,24 @@ public class Missile : ShipDevice
 
     public void Deflect()
     {
-        //Debug.Log("Missile was deflected by enemy shield");
+        Debug.Log("Missile was deflected by enemy shield");
+        CancelInvoke();
+        Invoke("Kill", 2f);
+        deflected = true;
+        tracking = false;
+        target = null;
         dir = -dir;
     }
 
     private void RaycastCheck()
     {
-        if (!tracking)
+        if (!tracking && !deflected)
         {
             if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
             {
-                if (hit.collider.CompareTag("Enemy") || hit.collider.CompareTag("Asteroid"))
+                if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
                 {
-                    //Debug.Log("Missile tracking "+ hit.collider.tag + " : " + hit.distance);
+                    Debug.Log("Missile tracking "+ hit.collider.tag + " : " + hit.distance);
                     target = hit.collider.transform;
                     tracking = true;
                 }
@@ -89,14 +95,26 @@ public class Missile : ShipDevice
 
     private void Kill()
     {
+        CancelInvoke();
         if (Explosion != null)
             Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
+
+        deflected = false;
         gameObject.SetActive(false);
     }
     private void SelfDestruct()
     {
-        Invoke("Kill", 2);
+        MyTransform = transform;
+        dir = MyTransform.forward;
+
+        moveData.Speed = 50f;
+
+        target = null;
+        tracking = false;
+
+        Invoke("Kill", 4f);
     }
+
     #region Collisions
     void OnCollisionEnter(Collision col)
     {

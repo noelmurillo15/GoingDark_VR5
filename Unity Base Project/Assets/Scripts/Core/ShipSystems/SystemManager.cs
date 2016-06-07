@@ -174,7 +174,9 @@ public class SystemManager : MonoBehaviour {
     {
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
         for (int i = 0; i < keylist.Count; i++)        
-            MainDevices[keylist[i]].SetStatus(SystemStatus.ONLINE);        
+            MainDevices[keylist[i]].SetStatus(SystemStatus.ONLINE);     
+        
+           
     }
     public void MissileSelect(MissileType type)
     {

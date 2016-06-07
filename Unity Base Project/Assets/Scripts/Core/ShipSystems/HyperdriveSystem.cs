@@ -50,7 +50,21 @@ public class HyperdriveSystem : ShipDevice
             Activate();
 
         if (Input.GetAxisRaw("LBumper") > 0f)
-            Activate();
+        {
+            if (!hypeJump)
+            {
+                Activate();
+                return;
+            }
+
+            Debug.Log("Hyperdrive sequence de-activated");
+            hypeJump = false;
+            boostTimer = 0f;
+            beginningTimer = 0f;
+            initializeTimer = 0f;
+            particles.transform.localPosition = particleOriginPos;
+            particles.SetActive(false);
+        }
 
         if (Activated)
             InitializeHyperdriveSequence();
@@ -84,6 +98,7 @@ public class HyperdriveSystem : ShipDevice
     }
 
     public void InitializeHyperdriveSequence() {
+        Debug.Log("Hyperdrive Sequence initialized");
         hypeJump = true;
         DeActivate();
         initializeTimer = 10.0f;

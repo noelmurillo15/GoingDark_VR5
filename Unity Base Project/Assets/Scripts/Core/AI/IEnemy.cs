@@ -318,11 +318,12 @@ public class IEnemy : MonoBehaviour
                 break;
             case "Boss":
                 SetEnemyType(EnemyTypes.BOSS);
+                ShieldData.Initialize(transform.GetChild(0).gameObject);
                 MissileCount = 1000;
                 MoveData.Acceleration = 15f;
                 MoveData.RotateSpeed = 5f;
-                MoveData.MaxSpeed = 80f;
-                Health = 20;
+                MoveData.MaxSpeed = 60f;
+                Health = 10;
                 break;
 
 

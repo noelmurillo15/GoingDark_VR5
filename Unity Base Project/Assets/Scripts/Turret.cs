@@ -4,12 +4,16 @@ public class Turret : MonoBehaviour
 {
     //  Enemy Data
     private EnemyBehavior behavior;
-
+    private IEnemy stats;
     private GameObject Laser;
     private bool lockedOn;
+    private SpinScript spin;
     private float angle;
     private float randomShot;
 
+    public float x = 0f;
+    public float y = 100f;
+    public float z = 0f;
     Transform MyTransform;
 
     bool playerdetected = false;
@@ -37,12 +41,23 @@ public class Turret : MonoBehaviour
     void LateUpdate()
     {
         if (behavior.Target != null)
-            LockOn();
+            if (lockedOn)
+                LockOn();
+
     }
     void DestroyPlayer()
     {
-        if (behavior.Target != null)
+        if (behavior.Target != null && behavior.Health % 5 == 0 && behavior.Health != 10 )
+        {
+            lockedOn = false;
             Shoot();
+            gameObject.transform.Rotate(new Vector3(x, y, z), y * Time.deltaTime);
+        }
+        else
+        {
+            lockedOn = true;
+            Shoot();
+        }
     }
 
     public void Shoot()

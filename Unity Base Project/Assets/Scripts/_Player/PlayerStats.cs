@@ -1,128 +1,90 @@
 ﻿using UnityEngine;
 using GD.Core.Enums;
-using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
 
     #region Properties
     public Impairments Debuff { get; private set; }
-    private SystemManager Systems;
-    private MissileSystem missiles;
-    private Transform station;
+
+    //  Player Data
     public ShieldProperties ShieldData;
-    public PlayerSaveData playerSaveData;
+    public HealthProperties HealthData;
+    public PlayerSaveData SaveData;
+    public SystemManager SystemData;
 
-    public CameraShake camShake;
-    private Texture2D screenBreak;
-    private Texture2D shatter;
-    float fadeTimer;
-
-    private PlayerHealth m_Health;
+    // Respawn
+    private Vector3 station;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        ShieldData.ShieldHealth = 50;
-        ShieldData.ShieldActive = true;
+        station = GameObject.Find("Station").transform.position;
+        HealthData = GameObject.Find("Health").GetComponent<HealthProperties>();
+        SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
-        station = GameObject.Find("Station").transform;
-        playerSaveData.Credits = PlayerPrefs.GetInt("Credits");
+        ShieldData.ShieldHealth = 100;
+        ShieldData.ShieldActive = true;
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
-        m_Health = GameObject.Find("Health").GetComponent<PlayerHealth>();
-        Systems = GameObject.Find("Devices").GetComponent<SystemManager>();
-        camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
-        screenBreak = null;
-        shatter = Resources.Load<Texture2D>("broken-glass");
-        fadeTimer = 1.0f;
     }
 
     #region Accessors
-    public SystemManager GetSystems()
+    public SystemManager GetSystemData()
     {
-        return Systems;
+        return SystemData;
     }
-    
-    public void AddCredits(int _credits)
+    public ShieldProperties GetShieldData()
     {
-        playerSaveData.Credits += _credits;
+        return ShieldData;
+    }
+    public HealthProperties GetHealthData()
+    {
+        return HealthData;
+    }
+    public PlayerSaveData GetSaveData()
+    {
+        return SaveData;
     }
     #endregion
 
-    #region Modifiers
-    
-    #endregion
-
-    #region Private Methods
-    void UpdateSector(string _name)
-    {
-        playerSaveData.SectorName = _name;
-    }    
-    void RemoveDebuff()
-    {
-        Debuff = Impairments.NONE;
-        //MoveData.Boost = 1f;
-    }
-
-    void OnGUI()
-    {
-        if (screenBreak)
-        {
-            fadeTimer -= Time.deltaTime * 0.15f;
-            GUI.color = new Color(1, 1, 1, fadeTimer);
-            if (GUI.color.a <= 0)
-            {
-                GUI.color = new Color(1, 1, 1, 1);
-                screenBreak = null;
-                fadeTimer = 1.0f;
-            }
-        }
-
-    }
-    void ScreenBreak()
-    {
-        screenBreak = shatter;
-        GUI.color = new Color(1, 1, 1, 1);
-        fadeTimer = 1.0f;
-    }
-
+    #region Message Calls
     void Hit()
     {
+        Debug.Log("Player Stats : Hit");
         if (ShieldData.ShieldActive)
         {
             ShieldHit();
             return;
         }
 
-        camShake.PlayShake();
-        ScreenBreak();
-
-        m_Health.Hit();
-        Systems.SystemDamaged();        
         AudioManager.instance.PlayHit();
-        Debug.Log("Player Has Been Hit");
+        SystemData.SystemDamaged();
+        HealthData.Hit();
     }
     void EMPHit()
     {
-        Debug.Log("EMP has affected Player's Systems");
+        Debug.Log("Player Stats : EmpHit");
         Debuff = Impairments.STUNNED;
-        //MoveData.Boost = 0f;
-        if(!IsInvoking("RemoveDebuff"))
-            Invoke("RemoveDebuff", 10f);
+        //if (!IsInvoking("RemoveDebuff"))
+        //    Invoke("RemoveDebuff", 10f);
     }
     void ShieldHit()
     {
-        ShieldData.ShieldHealth -= 25;
-        if (ShieldData.ShieldHealth <= 0)
+        if (ShieldData.ShieldActive)
         {
-            ShieldData.ShieldHealth = 0;
-            ShieldData.ShieldActive = false;
-            ShieldData.Shield.SetActive(false);
+            Debug.Log("Player Stats : ShieldHit");
+            AudioManager.instance.PlayShieldHit();
+            ShieldData.ShieldHealth -= 25;
+
+            if(ShieldData.ShieldHealth <= 0f)
+            {
+                ShieldData.ShieldHealth = 0f;
+                ShieldData.ShieldActive = false;
+                ShieldData.Shield.SetActive(false);
+            }
         }
-        camShake.PlayShake();
-        AudioManager.instance.PlayShieldHit();
     }
     public void EnvironmentalDMG()
     {
@@ -131,25 +93,25 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
-        m_Health.Hit();
-        Systems.SystemDamaged();
+        SystemData.SystemDamaged();
+        HealthData.Hit();
     }
     void Kill()
     {
-        Debug.Log("Player Stats : Destroyed Player Ship");
-        Invoke("Respawn", 2);
-        //SceneManager.LoadScene("GameOver");
+        Debug.Log("Player Stats : Player Death");
+        Invoke("Respawn", 2f);
     }
+    #endregion
+
     void Respawn()
     {
-        m_Health.GetComponent<PlayerHealth>().hitCount = 0;
-        m_Health.SendMessage("UpdatePlayerHealth");
+        HealthData.hitCount = 0;
+        HealthData.SendMessage("UpdatePlayerHealth");
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 100;
         ShieldData.Shield.SetActive(true);
-        Systems.FullSystemRepair();
+        SystemData.FullSystemRepair();
         
-        transform.position = new Vector3(station.position.x, station.position.y + 30, station.position.z);
-    }
-    #endregion    
+        transform.position = new Vector3(station.x, station.y + 30, station.z);
+    }    
 }
