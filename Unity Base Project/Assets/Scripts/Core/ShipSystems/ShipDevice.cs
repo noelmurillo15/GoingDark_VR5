@@ -40,6 +40,11 @@ public class ShipDevice : MonoBehaviour {
         Invoke("ResetCooldown", maxCooldown);
     }
 
+    public float GetCooldown()
+    {
+        return maxCooldown;
+    }
+
     void ResetCooldown()
     {
         Cooldown = false;

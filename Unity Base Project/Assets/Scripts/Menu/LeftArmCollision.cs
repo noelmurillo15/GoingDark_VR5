@@ -8,20 +8,21 @@ public class LeftArmCollision : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        settings = GameObject.Find("SettingsBG");
+        settings = transform.GetChild(0).gameObject;
+        settings.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (settings.activeSelf)
-            if (transform.localEulerAngles.z < 100.0f)
+            if (transform.eulerAngles.z > 270.0f)
                 settings.SetActive(false);
     }
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.name == "bone3" || col.name == "rightPalm")
+        if (col.name == "rightPalm" || col.name == "bone3")
         {
             settings.SetActive(true);
         }
