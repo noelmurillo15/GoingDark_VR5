@@ -9,6 +9,7 @@ public class ChargeLaser : MonoBehaviour
     private ObjectPooling pool;
     private ObjectPooling explosionpool;
     private GameObject explosion;
+    private Transform MyTransform;
 
 
     // Use this for initialization
@@ -25,6 +26,8 @@ public class ChargeLaser : MonoBehaviour
         explosionpool = new ObjectPooling();
         explosionpool.Initialize(explosion, 1);
 
+        MyTransform = transform;
+
         gameObject.SetActive(false);
     }
 
@@ -40,12 +43,14 @@ public class ChargeLaser : MonoBehaviour
         if (delay <= 0.0f)
         {
             GameObject obj = pool.GetPooledObject();
-            obj.transform.position = transform.position;
-            obj.transform.rotation = transform.rotation;
+            obj.transform.position = MyTransform.position;
+            obj.transform.rotation = MyTransform.rotation;
             obj.SetActive(true);
             obj.SendMessage("SelfDestruct", this);
             gameObject.SetActive(false);
         }
+
+        MyTransform.rotation = leapcam.rotation;
     }
 
     public void SpawnExplosion(Vector3 pos)

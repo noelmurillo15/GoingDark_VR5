@@ -9,7 +9,6 @@ public class PlayerStats : MonoBehaviour
 
     //  Player Data
     public ShieldProperties ShieldData;
-    public HealthProperties HealthData;
     public PlayerSaveData SaveData;
     public SystemManager SystemData;
 
@@ -22,7 +21,6 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         station = GameObject.Find("Station").transform.position;
-        HealthData = GameObject.Find("Health").GetComponent<HealthProperties>();
         SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
         ShieldData.ShieldHealth = 100;
@@ -38,10 +36,6 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties GetShieldData()
     {
         return ShieldData;
-    }
-    public HealthProperties GetHealthData()
-    {
-        return HealthData;
     }
     public PlayerSaveData GetSaveData()
     {
@@ -61,7 +55,6 @@ public class PlayerStats : MonoBehaviour
 
         AudioManager.instance.PlayHit();
         SystemData.SystemDamaged();
-        HealthData.Hit();
     }
     void EMPHit()
     {
@@ -94,7 +87,6 @@ public class PlayerStats : MonoBehaviour
             return;
         }
         SystemData.SystemDamaged();
-        HealthData.Hit();
     }
     void Kill()
     {
@@ -105,8 +97,6 @@ public class PlayerStats : MonoBehaviour
 
     void Respawn()
     {
-        HealthData.hitCount = 0;
-        HealthData.SendMessage("UpdatePlayerHealth");
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 100;
         ShieldData.Shield.SetActive(true);

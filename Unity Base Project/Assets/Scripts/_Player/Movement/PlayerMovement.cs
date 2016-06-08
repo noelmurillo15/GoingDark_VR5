@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour {
     public MovementProperties MoveData;
     private Transform MyTransform;
     private x360Controller m_GamePad;
+    CharacterController controller;
 
     //  Auto-Movement
     private bool autoPilot;
@@ -21,7 +22,6 @@ public class PlayerMovement : MonoBehaviour {
     void Start() {
         moveDir = Vector3.zero;
         MyTransform = transform;
-        m_GamePad = GamePadManager.Instance.GetController(0);
 
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 100f;
@@ -32,6 +32,9 @@ public class PlayerMovement : MonoBehaviour {
         resetRotation = false;
         orientationTimer = 0.0f;
 
+        controller = GetComponent<CharacterController>();
+
+        m_GamePad = GamePadManager.Instance.GetController(0);
         MoveData.Speed = MoveData.MaxSpeed;
         OutOfBounds();
     }
@@ -112,12 +115,9 @@ public class PlayerMovement : MonoBehaviour {
         if (MoveData.Speed <= 0f)
             return;
 
-        //moveDir = MyTransform.TransformDirection(Vector3.forward);
-        //moveDir *= MoveData.Speed * Time.deltaTime;
-        //transform.position += moveDir;
-        //m_controller.Move(moveDir);
-
-        gameObject.transform.position += new Vector3(0f, 0f, MoveData.Speed * Time.deltaTime);
+        moveDir = MyTransform.TransformDirection(Vector3.forward);
+        moveDir *= MoveData.Speed * Time.deltaTime;
+        controller.Move(moveDir);
     }
     #endregion
 
@@ -162,8 +162,7 @@ public class PlayerMovement : MonoBehaviour {
         moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
         moveDir *= (MoveData.Speed * Time.deltaTime);
-        gameObject.transform.position += new Vector3(0f, 0f, MoveData.Speed * Time.deltaTime);
-        //m_controller.Move(moveDir);        
-    }                  
+        controller.Move(moveDir);
+    }
     #endregion
 }

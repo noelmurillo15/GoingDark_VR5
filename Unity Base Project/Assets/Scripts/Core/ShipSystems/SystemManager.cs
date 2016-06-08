@@ -178,13 +178,6 @@ public class SystemManager : MonoBehaviour {
         
            
     }
-    public void MissileSelect(MissileType type)
-    {
-        if (MainDevices.ContainsKey(SystemType.MISSILES))
-            MainDevices[SystemType.MISSILES].gameObject.SendMessage("WeaponSelect", type);
-                
-        ToggleWeaponSelect();
-    }
 
     public void ToggleSystem(SystemType key)
     {
@@ -204,10 +197,6 @@ public class SystemManager : MonoBehaviour {
     public void ToggleMissionLog()
     {
         MissionLog.SendMessage("TogglePanel");
-    }
-    public void ToggleWeaponSelect()
-    {
-        WeaponSelect.SetActiveRecursively(!WeaponSelect.activeSelf);
     }
     #endregion
 }

@@ -23,10 +23,6 @@ public class OutOfBoundsScript : MonoBehaviour
             if (IsInvoking("EnableAutoPilot"))
                 CancelInvoke("EnableAutoPilot");
         }
-
-        if (col.CompareTag("Enemy"))
-            if (col.GetType() == typeof(BoxCollider))
-                col.SendMessage("InBounds");
     }
 
     void OnTriggerExit(Collider col)
@@ -37,10 +33,6 @@ public class OutOfBoundsScript : MonoBehaviour
             SendWarning();
             Invoke("EnableAutoPilot", DisplayDuration);
         }
-
-        if (col.CompareTag("Enemy"))
-            if (col.GetType() == typeof(BoxCollider))
-                col.SendMessage("OutOfBounds");
     }
     void SendWarning()
     {

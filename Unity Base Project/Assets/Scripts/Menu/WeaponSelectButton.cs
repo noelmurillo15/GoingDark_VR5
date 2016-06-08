@@ -45,11 +45,6 @@ public class WeaponSelectButton : MonoBehaviour
         }
     }
 
-    void ActivateButton()
-    {
-        manager.MissileSelect(Type);
-    }
-
 
     #region Collision
     public void OnTriggerEnter(Collider col)
@@ -69,7 +64,6 @@ public class WeaponSelectButton : MonoBehaviour
             transition -= Time.deltaTime;
             if (transition <= 0.0f && m_button.color == Color.green)
             {
-                ActivateButton();
                 wFlip = false;
             }
         }

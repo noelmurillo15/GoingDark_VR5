@@ -83,8 +83,6 @@ public class ArmButtons : MonoBehaviour
 
         if (transform.name == "MissionLogButton")
             manager.ToggleMissionLog();
-        else if (transform.name == "WeaponSelectButton")
-            manager.ToggleWeaponSelect();
         else
         {
             Debug.Log("Loading Scene : " + transform.name);
