@@ -1,5 +1,7 @@
 ﻿namespace GD.Core.Enums
 {
+
+
     public enum MissileType
     {
         BASIC,
@@ -22,7 +24,8 @@
         KAMIKAZE,
         TRANSPORT,
         TRIDENT,
-        BOSS
+        BOSS,
+        ANY
     };
     public enum EnemyDifficulty
     {
@@ -62,4 +65,30 @@
         ONLINE
     }
     #endregion
+
+    public enum MissionType
+    {
+        SCAVENGE,
+        COMBAT,
+        STEALTH
+    }
+
+    public struct Mission
+    {
+        public string missionName;
+        public string missionInfo;
+
+        public bool completed;
+        public bool isOptional;
+        public bool spotted;
+        public bool isActive;
+
+        public float missionTimer;
+
+        public int credits;
+        public int objectives;
+
+        public MissionType type;
+        public EnemyTypes enemy;
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
@@ -8,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 moveDir;
     public MovementProperties MoveData;
     private Transform MyTransform;
-    private CharacterController m_controller;
+    private x360Controller m_GamePad;
 
     //  Auto-Movement
     private bool autoPilot;
@@ -22,9 +21,8 @@ public class PlayerMovement : MonoBehaviour {
     void Start() {
         moveDir = Vector3.zero;
         MyTransform = transform;
-        m_controller = GetComponent<CharacterController>();
+        m_GamePad = GamePadManager.Instance.GetController(0);
 
-        MoveData.Speed = 0f;
         MoveData.Boost = 1f;
         MoveData.MaxSpeed = 100f;
         MoveData.RotateSpeed = 40f;
@@ -33,38 +31,39 @@ public class PlayerMovement : MonoBehaviour {
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;
+
+        MoveData.Speed = MoveData.MaxSpeed;
         OutOfBounds();
     }
 
     // Update is called once per frame
-    void FixedUpdate(){
+    void Update(){
         if (!autoPilot && !resetRotation)
         {
             moveDir = Vector3.zero;
 
             //  Speed
-            if (Input.GetAxis("LTrigger") > 0f)
-            {
-                IncreaseSpeed();
-               // AudioManager.instance.PlayThrusterSound();
-            }
+            if (m_GamePad.GetLeftTrigger() > 0f)
+                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
             else
-                DecreaseSpeed();
+                MoveData.DecreaseSpeed();
 
             //  Rotation
-            if (Input.GetAxis("Horizontal") > 0f)
-                TurnLeft();
-            else if (Input.GetAxis("Horizontal") < 0f)
+            // left jstick
+            if (m_GamePad.GetLeftStick().X > 0f)
                 TurnRight();
+            else if (m_GamePad.GetLeftStick().X < 0f)
+                TurnLeft();
 
-            if (Input.GetAxis("Vertical") > 0f)
+            if (m_GamePad.GetLeftStick().Y > 0f)
                 GoUp();
-            else if (Input.GetAxis("Vertical") < 0f)
+            else if (m_GamePad.GetLeftStick().Y < 0f)
                 GoDown();
 
-            if (Input.GetAxis("RVertical") > 0f)
+            // right jstick
+            if (m_GamePad.GetRightStick().X > 0f)
                 RollRight();
-            else if (Input.GetAxis("RVertical") < 0f)
+            else if (m_GamePad.GetRightStick().X < 0f)
                 RollLeft();
 
             Flight();
@@ -83,17 +82,6 @@ public class PlayerMovement : MonoBehaviour {
     public void StopMovement()
     {
         MoveData.Speed = 0f;
-    }
-    public void IncreaseSpeed()
-    {
-        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
-            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
-        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
-            DecreaseSpeed();
-    }
-    public void DecreaseSpeed()
-    {
-        MoveData.Speed = Mathf.Lerp(MoveData.Speed, 0f, Time.deltaTime * .5f);
     }
     public void TurnLeft()
     {
@@ -124,9 +112,12 @@ public class PlayerMovement : MonoBehaviour {
         if (MoveData.Speed <= 0f)
             return;
 
-        moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= MoveData.Speed * Time.deltaTime;
-        m_controller.Move(moveDir);
+        //moveDir = MyTransform.TransformDirection(Vector3.forward);
+        //moveDir *= MoveData.Speed * Time.deltaTime;
+        //transform.position += moveDir;
+        //m_controller.Move(moveDir);
+
+        gameObject.transform.position += new Vector3(0f, 0f, MoveData.Speed * Time.deltaTime);
     }
     #endregion
 
@@ -167,11 +158,12 @@ public class PlayerMovement : MonoBehaviour {
         MyTransform.rotation = Quaternion.LookRotation(destination);
 
         //  Move Towards
-        IncreaseSpeed();
+        MoveData.IncreaseSpeed();
         moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
         moveDir *= (MoveData.Speed * Time.deltaTime);
-        m_controller.Move(moveDir);        
+        gameObject.transform.position += new Vector3(0f, 0f, MoveData.Speed * Time.deltaTime);
+        //m_controller.Move(moveDir);        
     }                  
     #endregion
 }

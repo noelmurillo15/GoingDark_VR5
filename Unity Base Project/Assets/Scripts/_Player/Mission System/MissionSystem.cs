@@ -3,58 +3,36 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GD.Core.Enums;
 
 public class MissionSystem : MonoBehaviour
 {
-    public enum MissionType { COMBAT, SCAVENGE, STEALTH };
-    public enum EnemyType { BASIC_ENEMY, KAMIKAZE, TRANSPORT, ANY, NONE };
-
+    public List<Mission> m_ActiveMissions;
+    public List<Mission> m_stationMissions;
     public string filename;
 
-    public struct Mission
-    {
-        public string missionName;
-        public string missionInfo;
-
-        public bool completed;
-        public bool isOptional;
-        public bool spotted;
-        public bool isActive;
-
-        public float missionTimer;
-
-        public int credits;
-        public int objectives;
-
-        public MissionType type;
-        public EnemyType enemy;
-    }
-
-    //public Mission[,] m_LevelMissions;
-
-    //public List<Mission> m_ActiveMissions;
-
     private PlayerStats m_playerStats;
-    public Dictionary<int, Mission> m_ActiveMissions;
-
     private MissionLoader m_missionLoader;
     private MissionLog m_missionLog;
-    public Mission[] m_stationMissions;
-
+    private Tutorial m_tutorial;
     private int maxMissions;
+
     // Use this for initialization
     void Start()
     {
-        // m_ActiveMissions = new List<Mission>();
-        m_ActiveMissions = new Dictionary<int, Mission>();
+        m_ActiveMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
 
+        if (SceneManager.GetActiveScene().name == "Tutorial")
+            m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
+
         maxMissions = 4;
         m_stationMissions = m_missionLoader.LoadMissions(filename);
 
-        // m_ActiveMissions.Add(m_stationMissions[0]);
+        // for testing
+        AddActiveMission(m_stationMissions[0]);
     }
 
     // Update is called once per frame
@@ -63,11 +41,10 @@ public class MissionSystem : MonoBehaviour
 
     }
 
-    public void AddActiveMission(int key, Mission mission)
+    public void AddActiveMission(Mission mission)
     {
         mission.isActive = true;
-        m_ActiveMissions.Add(key, mission);
-        //m_ActiveMissions.Add(mission);
+        m_ActiveMissions.Add(mission);
     }
 
     /// <summary>
@@ -77,7 +54,7 @@ public class MissionSystem : MonoBehaviour
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
         {
-            if (m_ActiveMissions[i].type == MissionType.SCAVENGE && m_ActiveMissions[i].isActive)
+            if ((m_ActiveMissions[i].type == MissionType.SCAVENGE || m_ActiveMissions[i].type == MissionType.STEALTH) && m_ActiveMissions[i].isActive)
             {
                 // cannot directly modify properties of the list
                 Mission mission = m_ActiveMissions[i];
@@ -86,10 +63,10 @@ public class MissionSystem : MonoBehaviour
                 if (mission.objectives == 0)
                 {
                     mission.completed = true;
+                    m_missionLog.SendMessage("Completed", mission);
+
                     if (SceneManager.GetActiveScene().name == "Tutorial")
-                    {
-                        GameObject.Find("TutorialPref").GetComponent<Tutorial>().SendMessage("MissionCompleted");
-                    }
+                        m_tutorial.SendMessage("MissionCompleted");
                 }
                 m_ActiveMissions[i] = mission;
                 m_missionLog.SendMessage("UpdateInfo", m_ActiveMissions[i]);
@@ -97,10 +74,58 @@ public class MissionSystem : MonoBehaviour
         }
     }
 
-    public void TurnInMission(int key)
+    void KilledEnemy(EnemyTypes type)
     {
-        int credits = m_ActiveMissions[key].credits;
-        Debug.Log("Gave player mission credits");
-        //m_playerStats.AddCredits(credits);
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            Mission mission;
+            mission = m_ActiveMissions[i];
+
+            if (mission.enemy == EnemyTypes.ANY ||
+                mission.enemy == type)
+                mission.objectives--;
+
+            m_ActiveMissions[i] = mission;
+        }
     }
+
+    void PlayerSeen()
+    {
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            Mission mission;
+            mission = m_ActiveMissions[i];
+            if (mission.type == MissionType.STEALTH)
+                MissionFailed(mission);
+        }
+    }
+
+    public void TurnInMission(string missionName)
+    {
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            if (m_ActiveMissions[i].missionName == missionName)
+            {
+                int credits = m_ActiveMissions[i].credits;
+                //m_playerStats.AddCredits(credits);
+
+                // remove turned in missions from active list and station list
+                Mission temp = m_ActiveMissions[i];
+                m_ActiveMissions.Remove(temp);
+                m_stationMissions.Remove(temp);
+                break;
+            }
+        }
+
+
+    }
+
+    void MissionFailed(Mission mission)
+    {
+        m_ActiveMissions.Remove(mission);
+        m_stationMissions.Remove(mission);
+        m_missionLog.SendMessage("Failed", mission);
+        //m_missionMessages.SendMessage("Failed", mission.missionName);
+    }
+
 }

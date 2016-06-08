@@ -94,6 +94,12 @@
     <Reference Include="AssetStoreToolsExtra">
       <HintPath>Assets\AssetStoreTools\Editor\AssetStoreToolsExtra.dll</HintPath>
     </Reference>
+    <Reference Include="LeapCSharp.NET3.5">
+      <HintPath>Assets\3rd Party Assets\Plugins\LeapCSharp.NET3.5.dll</HintPath>
+    </Reference>
+    <Reference Include="XInputDotNetPure">
+      <HintPath>Assets\Plugins\x86_64\XInputDotNetPure.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity Base Project.CSharp.csproj">
@@ -102,20 +108,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapHandControllerEditor.cs" />
-    <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
-    <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\Editor\EyeTypeEditor.cs" />
-    <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\Editor\LeapTemporalWarpingEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\CustomEditorBase.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapHandControllerEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\LeapServiceProviderEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\FrameValidator.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\HandFactoryTest.cs" />
+    <Compile Include="Assets\LeapMotion\Editor\Tests\TransformCopyTest.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\VR\Editor\EyeTypeEditor.cs" />
+    <Compile Include="Assets\LeapMotion\Scripts\VR\Editor\LeapTemporalWarpingEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\3rd Party Assets\LeapMotion\Dependencies.txt" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\README_BEFORE_UPDATING.txt" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\Resources\PassthroughBackground.shader" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\Resources\PassthroughForeground.shader" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\Version.txt" />
-    <None Include="Assets\3rd Party Assets\LeapMotion\readme.txt" />
     <None Include="Assets\3rd Party Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\3rd Party Assets\Shaders\Outlined_Diffuse.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Mobile\SFS_M_D.shader" />
@@ -194,6 +197,14 @@
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_Nt.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_S.shader" />
     <None Include="Assets\3rd Party Assets\Shaders\SFS\Shaders\Terrain\SFS_Te_St.shader" />
+    <None Include="Assets\LeapMotion\Dependencies.txt" />
+    <None Include="Assets\LeapMotion\README_BEFORE_UPDATING.txt" />
+    <None Include="Assets\LeapMotion\Resources\LeapCG.cginc" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughBackground.shader" />
+    <None Include="Assets\LeapMotion\Resources\PassthroughForeground.shader" />
+    <None Include="Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
+    <None Include="Assets\LeapMotion\Version.txt" />
+    <None Include="Assets\LeapMotion\readme.txt" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
@@ -201,6 +212,7 @@
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
+    <None Include="Assets\XInputDotNet\MITLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -79,7 +79,7 @@ public class HyperdriveSystem : ShipDevice
             particles.SetActive(true);
             initializeTimer -= Time.deltaTime;
             boostTimer = 0.5f;
-            stats.DecreaseSpeed();
+            stats.GetMoveData().DecreaseSpeed();
             particles.transform.Translate(Vector3.forward * 25.0f * Time.deltaTime);
         }
         else {

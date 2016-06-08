@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
 public class PlayerCollisions : MonoBehaviour {
 
     private float padding;
@@ -18,18 +17,18 @@ public class PlayerCollisions : MonoBehaviour {
             padding -= Time.deltaTime;
     }
         
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (padding <= 0f)
-        {
-            if (hit.transform.CompareTag("Asteroid"))
-            {
-                if(stats.GetMoveData().Speed > (stats.GetMoveData().MaxSpeed / 2f))
-                    stats.SendMessage("Hit");
+    //void OnControllerColliderHit(ControllerColliderHit hit)
+    //{
+    //    if (padding <= 0f)
+    //    {
+    //        if (hit.transform.CompareTag("Asteroid"))
+    //        {
+    //            if(stats.GetMoveData().Speed > (stats.GetMoveData().MaxSpeed / 2f))
+    //                stats.SendMessage("Hit");
 
-                stats.SendMessage("StopMovement");
-            }
-            padding = 5f;
-        }
-    }
+    //            stats.SendMessage("StopMovement");
+    //        }
+    //        padding = 5f;
+    //    }
+    //}
 }
