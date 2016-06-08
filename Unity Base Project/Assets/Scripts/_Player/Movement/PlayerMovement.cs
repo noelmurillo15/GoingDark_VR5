@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour {
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;
-        //OutOfBounds();
+        OutOfBounds();
     }
 
     // Update is called once per frame
