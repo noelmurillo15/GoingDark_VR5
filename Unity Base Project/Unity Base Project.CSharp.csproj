@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -144,6 +142,7 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\LeapVRTemporalWarping.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Scripts\VR\TemporalWarpingStatus.cs" />
     <Compile Include="Assets\EnemyLaserProjectile.cs" />
+    <Compile Include="Assets\ExplosionRecycle.cs" />
     <Compile Include="Assets\Hitmarker.cs" />
     <Compile Include="Assets\LeapMotionModules\Hands\Examples\Scripts\CenterTransformOnCam.cs" />
     <Compile Include="Assets\LeapMotionModules\Hands\Scripts\PolyFinger.cs" />
@@ -182,6 +181,7 @@
     <Compile Include="Assets\Scripts\Core\AI\TransportShipAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\Core\Enums\Enums.cs" />
+    <Compile Include="Assets\Scripts\Core\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\Core\Properties\MovementProperties.cs" />
     <Compile Include="Assets\Scripts\Core\Properties\PlayerSaveData.cs" />
     <Compile Include="Assets\Scripts\Core\Properties\ShieldProperties.cs" />
@@ -293,7 +293,6 @@
     <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
-    <Compile Include="Assets\Scripts\Core\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
   </ItemGroup>
   <ItemGroup>

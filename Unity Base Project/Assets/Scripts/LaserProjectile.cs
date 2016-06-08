@@ -2,26 +2,27 @@
 
 public class LaserProjectile : MonoBehaviour {
 
-    public float speed = 1.0f;
-    public float lifetime = 2.0f;
-    public GameObject explosion;
+    public float speed;
+    
+    private Transform MyTransform;
+
+    private ChargeLaser MyParent;
 
     //HitMarker
     GameObject HitMarker;
 
     // Use this for initialization
-    void Start () {
-       HitMarker = GameObject.Find("PlaceHolderCircle");
-
+    void InitializeStats()
+    {
+        speed = 500f;
+        MyTransform = transform;
+        HitMarker = GameObject.Find("PlaceHolderCircle");
     }
 
     // Update is called once per frame
-    void Update () 
+    void FixedUpdate () 
     {
-        transform.Translate(0f, 0f, speed * Time.deltaTime);
-        lifetime -= Time.deltaTime;
-        if (lifetime < 0.0f)
-            Kill();
+        MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
     }
 
     void OnCollisionEnter(Collision col)
@@ -47,9 +48,15 @@ public class LaserProjectile : MonoBehaviour {
         }
     }
 
-    void Kill()
+    private void Kill()
     {
-        Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        CancelInvoke();
+        MyParent.SpawnExplosion(MyTransform.position);
+        gameObject.SetActive(false);
+    }
+    private void SelfDestruct(ChargeLaser _parent)
+    {
+        MyParent = _parent;
+        Invoke("Kill", 3f);
     }
 }

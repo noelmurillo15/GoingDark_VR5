@@ -5,7 +5,8 @@ public class LaserSystem : ShipDevice
     #region Properties
     private GameObject gun1;
     private GameObject gun2;
-    private GameObject Laser;
+    private GameObject burst1;
+    private GameObject burst2;
     #endregion
 
 
@@ -15,7 +16,8 @@ public class LaserSystem : ShipDevice
         maxCooldown = 1f;
         gun1 = GameObject.Find("Gun1");
         gun2 = GameObject.Find("Gun2");
-        Laser = Resources.Load<GameObject>("ChargeBurst");
+        burst1 = gun1.transform.GetChild(0).gameObject;
+        burst2 = gun2.transform.GetChild(0).gameObject;        
     }
 
     // Update is called once per frame
@@ -33,10 +35,8 @@ public class LaserSystem : ShipDevice
 
     public void ShootGun()
     {
-        GameObject go = Instantiate(Laser, gun1.transform.position, Quaternion.identity) as GameObject;
-        go.transform.parent = transform;
-        go = Instantiate(Laser, gun2.transform.position, Quaternion.identity) as GameObject;
-        go.transform.parent = transform;
+        burst1.SetActive(true);
+        burst2.SetActive(true);
         DeActivate();
     }
 }

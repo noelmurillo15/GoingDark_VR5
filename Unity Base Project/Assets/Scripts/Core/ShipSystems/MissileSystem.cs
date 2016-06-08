@@ -23,9 +23,7 @@ public class MissileSystem : ShipDevice
     public ObjectPooling pool;
     public ObjectPooling pool2;
     public ObjectPooling pool3;
-    public ObjectPooling pool4;
-
-    
+    public ObjectPooling pool4;    
 
     private GameObject basic;
     private GameObject emp;

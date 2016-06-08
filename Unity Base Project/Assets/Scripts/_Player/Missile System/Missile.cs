@@ -104,7 +104,6 @@ public class Missile : ShipDevice
     }
     private void SelfDestruct()
     {
-        MyTransform = transform;
         dir = MyTransform.forward;
 
         moveData.Speed = 50f;
