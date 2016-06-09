@@ -173,10 +173,10 @@ public class SystemManager : MonoBehaviour {
     public void FullSystemRepair()
     {
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
-        for (int i = 0; i < keylist.Count; i++)        
-            MainDevices[keylist[i]].SetStatus(SystemStatus.ONLINE);     
-        
-           
+        for (int i = 0; i < keylist.Count; i++)
+        {
+            MainDevices[keylist[i]].Repair();
+        }                    
     }
 
     public void ToggleSystem(SystemType key)
@@ -185,21 +185,21 @@ public class SystemManager : MonoBehaviour {
             SecondaryDevices[key].SetActive(!SecondaryDevices[key].activeSelf);
     }
 
-    public bool GetSystemCooldown(SystemType key)
+    public bool GetSystemStatus(SystemType key)
     {
         if (MainDevices.ContainsKey(key))
             if (MainDevices[key].Status == SystemStatus.ONLINE)
-                return MainDevices[key].Cooldown;
-        
-        return true;
-    }
-    public float GetSystemCooldownF(SystemType key)
-    {
-        if (MainDevices.ContainsKey(key))
-            if (MainDevices[key].Status == SystemStatus.ONLINE)
-                return MainDevices[key].GetCooldown();
+                return true;        
 
-        return 0f;
+        return false;
+    }
+
+    public int GetSystemCooldown(SystemType key)
+    {
+        if (MainDevices.ContainsKey(key))
+            return (int)MainDevices[key].GetCooldown();
+
+        return 0;
     }
     public void ToggleMissionLog()
     {

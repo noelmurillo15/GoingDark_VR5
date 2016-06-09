@@ -9,7 +9,6 @@ public class ShipDevice : MonoBehaviour {
     public bool Activated { get; protected set; }
     public bool Cooldown { get; protected set; }
 
-    // How Long Does the Cooldown Last
     protected float maxCooldown;
     protected float cooldown;
     #endregion
@@ -26,8 +25,13 @@ public class ShipDevice : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if(cooldown > 0f)
-            cooldown -= Time.fixedDeltaTime;
+        if (Cooldown)
+        {
+            if (cooldown > 0f)
+                cooldown -= Time.fixedDeltaTime;
+            else
+                ResetCooldown();
+        }
     }
 
     public void SetStatus(SystemStatus stat)
@@ -35,29 +39,36 @@ public class ShipDevice : MonoBehaviour {
         Status = stat;
     }
 
-    public void Activate()
+    public void Repair()
     {
-        if (Status == SystemStatus.ONLINE && Cooldown == false)
-            Activated = true;        
-    }
-
-    protected void DeActivate()
-    {
-        Cooldown = true;
-        cooldown = maxCooldown;
+        CancelInvoke();
+        Cooldown = false;
         Activated = false;
-        Invoke("ResetCooldown", maxCooldown);
+        cooldown = maxCooldown;
+        Status = SystemStatus.ONLINE;
     }
 
     public float GetCooldown()
     {
         return cooldown;
     }
-
     void ResetCooldown()
     {
-        cooldown = maxCooldown;
+        cooldown = 0f;
         Cooldown = false;
-    }    
-}
+    }
    
+    public void Activate()
+    {
+        if (Status == SystemStatus.ONLINE && Cooldown == false)
+        {
+            cooldown = maxCooldown;
+            Activated = true;
+        }
+    }
+    public void DeActivate()
+    {
+        Cooldown = true;
+        Activated = false;        
+    }
+}

@@ -1,29 +1,38 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 using GoingDark.Core.Enums;
 
 public class DisplayCooldown : MonoBehaviour {
-    private SystemManager system;
+
     private Text text;
-    public SystemType type;
-	// Use this for initialization
+    private SystemType type;
+    private SystemManager system;
+
+
 	void Start () {
-        system = GameObject.Find("Devices").GetComponent<SystemManager>();
+        type = GetComponentInParent<QuickSlot>().Type;
         text = GetComponent<Text>();
+        system = GameObject.Find("Devices").GetComponent<SystemManager>();
+
+        StartCoroutine("UpdateCooldowns");
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        if (system.GetActive(type))
+
+    #region Coroutine
+    private IEnumerator UpdateCooldowns()
+    {
+        while (true)
         {
-            text.text = "ERROR";
+            CooldownCheck();
+            yield return new WaitForSeconds(1);
         }
+    }
+    private void CooldownCheck()
+    {
+        if (system.GetSystemStatus(type))
+            text.text = "Cooldown : " + system.GetSystemCooldown(type);        
         else
-        {
-            if (system.GetSystemCooldown(type))
-                text.text = ((int)system.GetSystemCooldownF(type)).ToString();
-            else
-                text.text = "0";
-        }
-	}
+            text.text = "System Offline";
+    }
+    #endregion
 }

@@ -55,7 +55,7 @@ public class QuickSlot : MonoBehaviour
     }
     private void CooldownCheck()
     {
-        if (manager.GetSystemCooldown(Type))
+        if (manager.GetSystemCooldown(Type) > 0)
             m_button.color = Color.red;
         else
             m_button.color = original;

@@ -33,7 +33,7 @@ public class IEnemy : MonoBehaviour
         MissileCount = 0;
         MyTransform = transform;
         LoadEnemyData();
-        explosion = Resources.Load<GameObject>("EnemyExplosion");
+        explosion = Resources.Load<GameObject>("Explosions/EnemyExplosion");
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);
