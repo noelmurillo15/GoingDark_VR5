@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
@@ -6,7 +7,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource _Music;
     public AudioSource _Alarms;
     public AudioSource _Hit;
-    public AudioSource _Sonar;
+    public AudioSource _BattleMusic;
     public AudioSource _Gadget;
     public AudioSource _Messages;
     public AudioSource _Button;
@@ -15,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance = null;
     private bool Raise;
     private bool Lower;
+    private bool Fighting;
 
     [Range(0.0f, 1.0f)]
     public float MasterVolume = 1.0f;
@@ -32,7 +34,7 @@ public class AudioManager : MonoBehaviour
 
         Raise = false;
         Lower = false;
-
+        Fighting = false;
         sounds = new Dictionary<string, AudioClip>();
         music = new Dictionary<string, AudioClip>();
         //AudioClip[] clips = new AudioClip[];
@@ -48,6 +50,7 @@ public class AudioManager : MonoBehaviour
         }
         //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
         //DontDestroyOnLoad(gameObject);
+        _BattleMusic.clip = music["BattleTheme"];
     }
 
     // Update is called once per frame
@@ -77,48 +80,10 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-
-        _Music.volume = MusicVolume * MasterVolume;
-    }
-
-    public void PlaySound(AudioClip _clip, int source)
-    {
-        switch (source)
-        {
-            case 0:
-                _Alarms.clip = _clip;
-                _Alarms.volume *= SoundVolume * MasterVolume;
-                _Alarms.Play();
-                break;
-            case 1:
-                _Hit.clip = _clip;
-                _Hit.volume *= SoundVolume * MasterVolume;
-                _Hit.Play();
-                break;
-            case 2:
-                _Sonar.clip = _clip;
-                _Sonar.volume *= SoundVolume * MasterVolume;
-                _Sonar.Play();
-                break;
-            case 3:
-                _Gadget.clip = _clip;
-                _Gadget.volume *= SoundVolume * MasterVolume;
-                _Gadget.Play();
-                break;
-            case 4:
-                _Messages.clip = _clip;
-                _Messages.volume *= SoundVolume * MasterVolume;
-                _Messages.Play();
-                break;
-            case 5:
-                _Button.clip = _clip;
-                _Button.volume *= SoundVolume * MasterVolume;
-                _Button.Play();
-                break;
-            default:
-                Debug.Log("Invalid audio source chosen!");
-                break;
-        }
+        if (!_BattleMusic.isPlaying)
+            _Music.volume = MusicVolume * MasterVolume;
+        else if(!_Music.isPlaying)
+            _BattleMusic.volume = MusicVolume * MasterVolume;
     }
 
     public void PlayMissileLaunch()
@@ -127,17 +92,98 @@ public class AudioManager : MonoBehaviour
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
-    //public void PlayThrusterSound()
+
+    //public void PlayThruster()
     //{
-    //    _Gadget.clip = sounds["MainThruster"];
     //    _Gadget.volume = SoundVolume * MasterVolume;
-    //    _Gadget.Play();
+    //    if(!_Gadget.isPlaying)
+    //    {
+    //        if (_Gadget.clip == sounds["Thruster"])
+    //            _Gadget.Play();
+    //        else
+    //        {
+    //            _Gadget.clip = sounds["Thruster"];
+    //            _Gadget.Play();
+    //        }
+    //    }
+    //    else if(_Gadget.clip != sounds["Thruster"])
+    //    {
+    //        _Gadget.clip = sounds["Thruster"];
+    //        _Gadget.Play();
+    //    }
     //}
-    public void PlayShipRepair()
+
+    //public void ThrusterVolume( float amount )
+    //{
+    //    _Gadget.volume = amount * SoundVolume * MasterVolume;
+    //}
+
+    public IEnumerator LowerBattleMusic()
     {
-        _Gadget.clip = sounds["RepairSound"];
-        _Gadget.volume = SoundVolume * MasterVolume;
-        _Gadget.Play();
+        if (_BattleMusic.isPlaying && Fighting)
+        {
+            Fighting = false;
+            _Music.volume = 0.0f;
+            _Music.Play();
+            _Music.volume += 0.18f;
+            _BattleMusic.volume -= 0.18f;
+            yield return new WaitForSeconds(1f);
+            if (_Music.volume < 1.0f)
+                _Music.volume += 0.26f;
+            if (_BattleMusic.volume > 0.0f)
+                _BattleMusic.volume -= 0.26f;
+            yield return new WaitForSeconds(1f);
+            if (_Music.volume < 1.0f)
+                _Music.volume += 0.33f;
+            if (_BattleMusic.volume > 0.0f)
+                _BattleMusic.volume -= 0.33f;
+            yield return new WaitForSeconds(1f);
+            if (_Music.volume < 1.0f)
+                _Music.volume += 0.38f;
+            if (_BattleMusic.volume > 0.0f)
+                _BattleMusic.volume -= 0.38f;
+            yield return new WaitForSeconds(1f);
+            if (_BattleMusic.volume > 0.0f)
+                _BattleMusic.volume = 0.1f;
+            yield return new WaitForSeconds(1f);
+            _BattleMusic.Stop();
+        }
+    }
+
+    public IEnumerator RaiseBattleMusic()
+    {
+        if (_Music.isPlaying && !Fighting)
+        {
+            Fighting = true;
+            _BattleMusic.volume = 0.0f;
+            _BattleMusic.Play();
+            _BattleMusic.volume += 0.12f;
+            _Music.volume -= 0.12f;
+            yield return new WaitForSeconds(1f);
+
+            if (_BattleMusic.volume < 1.0f)
+                _BattleMusic.volume += 0.18f;
+            if (_Music.volume > 0.0f)
+                _Music.volume -= 0.18f;
+            yield return new WaitForSeconds(1f);
+
+            if (_BattleMusic.volume < 1.0f)
+                _BattleMusic.volume += 0.22f;
+            if (_Music.volume > 0.0f)
+                _Music.volume -= 0.22f;
+            yield return new WaitForSeconds(1f);
+
+            if (_BattleMusic.volume < 1.0f)
+                _BattleMusic.volume += 0.38f;
+            if (_Music.volume > 0.0f)
+                _Music.volume -= 0.38f;
+
+            yield return new WaitForSeconds(1f);
+            if (_Music.volume > 0.0f)
+                _Music.volume = 0.1f;
+            yield return new WaitForSeconds(1f);
+            _Music.Stop();
+        }
     }
 
     public void PlayNebulaAlarm()
@@ -150,11 +196,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlayHyperDrive()
     {
-        if (!_Sonar.isPlaying || _Sonar.clip != sounds["HyperDrive"])
+        if (!_Hit.isPlaying || _Hit.clip != sounds["HyperDrive"])
         {
-            _Sonar.clip = sounds["HyperDrive"];
-            _Sonar.volume = SoundVolume * MasterVolume;
-            _Sonar.Play();
+            _Hit.clip = sounds["HyperDrive"];
+            _Hit.volume = SoundVolume * MasterVolume;
+            _Hit.Play();
         }
     }
 
@@ -176,7 +222,7 @@ public class AudioManager : MonoBehaviour
         _Gadget.clip = sounds["Cloak"];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
-        _Music.pitch = Time.timeScale;    
+        _Music.pitch = Time.timeScale;
     }
 
     public void PlayShieldOff()
@@ -252,7 +298,7 @@ public class AudioManager : MonoBehaviour
     {
         _Music.Stop();
         _Music.clip = music["Level1theme"];
-        _Music.Play();        
+        _Music.Play();
     }
 
     public void PlayLevel2()

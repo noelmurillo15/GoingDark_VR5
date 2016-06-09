@@ -27,6 +27,7 @@ public class EnemyBehavior : IEnemy
     {
         base.Initialize();
         manager = transform.parent.GetComponent<EnemyManager>();
+        manager.AddEnemy(this.gameObject);
         State = EnemyStates.IDLE;
         losingsightTimer = 0f;
         lostSight = false;

@@ -35,12 +35,12 @@ public class Missile : ShipDevice
         moveData.Boost = 1f;
         moveData.MaxSpeed = 500f;
         moveData.RotateSpeed = 25f;
-        moveData.Acceleration = 250f;
-        moveData.Speed = 50f;
+        moveData.Acceleration = 200f;
+        moveData.Speed = 100f;
 
         MyTransform = transform;
         dir = MyTransform.forward;
-        hitMarker = GameObject.Find("PlaceHolderCircle").GetComponent<Hitmarker>();
+        hitMarker = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
     }
 
     void FixedUpdate()

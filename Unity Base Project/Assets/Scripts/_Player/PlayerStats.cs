@@ -11,7 +11,8 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties ShieldData;
     public PlayerSaveData SaveData;
     public SystemManager SystemData;
-
+    public HealthBar HealthData;
+    public Shieldbar ShieldBar;
     // Respawn
     private Vector3 station;
     #endregion
@@ -22,6 +23,9 @@ public class PlayerStats : MonoBehaviour
     {
         station = GameObject.Find("Station").transform.position;
         SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+        HealthData = GameObject.Find("PlayerHealth").GetComponent<HealthBar>();
+        ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
+
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -52,7 +56,7 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
-
+        HealthData.Hit();
         AudioManager.instance.PlayHit();
         SystemData.SystemDamaged();
     }
@@ -70,8 +74,9 @@ public class PlayerStats : MonoBehaviour
             Debug.Log("Player Stats : ShieldHit");
             AudioManager.instance.PlayShieldHit();
             ShieldData.ShieldHealth -= 25;
+            ShieldBar.DecreaseShield(25.0f); // 4 hits to kill
 
-            if(ShieldData.ShieldHealth <= 0f)
+            if (ShieldData.ShieldHealth <= 0f)
             {
                 ShieldData.ShieldHealth = 0f;
                 ShieldData.ShieldActive = false;
@@ -97,6 +102,9 @@ public class PlayerStats : MonoBehaviour
 
     void Respawn()
     {
+        HealthData.HitCount = 0;
+        HealthData.SendMessage("Reset");
+        ShieldBar.Reset();
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 100;
         ShieldData.Shield.SetActive(true);

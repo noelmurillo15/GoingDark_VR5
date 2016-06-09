@@ -16,7 +16,7 @@ public class LaserProjectile : MonoBehaviour {
     {
         speed = 500f;
         MyTransform = transform;
-        HitMarker = GameObject.Find("PlaceHolderCircle");
+        HitMarker = GameObject.Find("PlayerReticle");
     }
 
     // Update is called once per frame

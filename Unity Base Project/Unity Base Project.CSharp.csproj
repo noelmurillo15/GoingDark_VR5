@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="Assets\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\ExplosionRecycle.cs" />
-    <Compile Include="Assets\Hitmarker.cs" />
     <Compile Include="Assets\LeapMotion\Scripts\DetectionUtilities\Detector.cs" />
     <Compile Include="Assets\LeapMotion\Scripts\DetectionUtilities\DetectorLogicGate.cs" />
     <Compile Include="Assets\LeapMotion\Scripts\DetectionUtilities\ExtendedFingerDetector.cs" />
@@ -281,7 +280,10 @@
     <Compile Include="Assets\Scripts\_Player\Systems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\EmpCollision.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\FireMissile.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\Hitmarker.cs" />
     <Compile Include="Assets\Scripts\_Player\Systems\RadarDisplay.cs" />
+    <Compile Include="Assets\Scripts\_Player\Systems\Shieldbar.cs" />
     <Compile Include="Assets\TempMove.cs" />
     <Compile Include="Assets\XInputDotNet\Examples\XInputTestCS.cs" />
   </ItemGroup>

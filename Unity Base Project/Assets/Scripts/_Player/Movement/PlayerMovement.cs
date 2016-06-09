@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour {
 
         m_GamePad = GamePadManager.Instance.GetController(0);
         MoveData.Speed = MoveData.MaxSpeed;
-        OutOfBounds();
+        //OutOfBounds();
     }
 
     // Update is called once per frame
@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour {
                 MoveData.DecreaseSpeed();
 
             //  Rotation
-            // left jstick
             if (m_GamePad.GetLeftStick().X > 0f)
                 TurnRight();
             else if (m_GamePad.GetLeftStick().X < 0f)
