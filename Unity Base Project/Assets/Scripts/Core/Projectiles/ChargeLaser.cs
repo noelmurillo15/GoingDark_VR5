@@ -2,7 +2,7 @@
 
 public class ChargeLaser : MonoBehaviour
 {
-    public float delay = 1.25f;
+    public float delay = .25f;
     private GameObject laser;
     private Transform leapcam;
     private ObjectPooling pool;
@@ -19,10 +19,10 @@ public class ChargeLaser : MonoBehaviour
         laser = Resources.Load<GameObject>("ChargedShot");
 
         pool = new ObjectPooling();
-        pool.Initialize(laser, 3);
+        pool.Initialize(laser, 12);
 
         explosionpool = new ObjectPooling();
-        explosionpool.Initialize(explosion, 2);
+        explosionpool.Initialize(explosion, 6);
 
         MyTransform = transform;
 
@@ -31,7 +31,7 @@ public class ChargeLaser : MonoBehaviour
 
     void OnEnable()
     {
-        delay = 1f;
+        delay = .25f;
     }
 
     // Update is called once per frame

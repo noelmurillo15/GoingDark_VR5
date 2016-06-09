@@ -41,7 +41,6 @@ public class ShipDevice : MonoBehaviour {
 
     public void Repair()
     {
-        CancelInvoke();
         Cooldown = false;
         Activated = false;
         cooldown = maxCooldown;

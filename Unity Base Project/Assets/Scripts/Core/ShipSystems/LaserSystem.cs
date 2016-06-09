@@ -18,7 +18,7 @@ public class LaserSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        maxCooldown = 1f;
+        maxCooldown = .25f;
         gun1 = GameObject.Find("Gun1");
         gun2 = GameObject.Find("Gun2");
         burst1 = gun1.transform.GetChild(0).gameObject;
@@ -30,7 +30,7 @@ public class LaserSystem : ShipDevice
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!overheat)
         {
@@ -56,7 +56,7 @@ public class LaserSystem : ShipDevice
                 OverheatTimer -= Time.fixedDeltaTime;
             else
             {
-                BarAmount += Time.fixedDeltaTime*10.0f;
+                BarAmount += Time.fixedDeltaTime*20.0f;
                 UpdateEnergyGauge(0.0f);
                 if(BarAmount>=100.0f)
                 {
@@ -69,8 +69,7 @@ public class LaserSystem : ShipDevice
 
     public void ShootGun()
     {
-        UpdateEnergyGauge(18.0f);
-
+        UpdateEnergyGauge(8f);
         burst1.SetActive(true);
         burst2.SetActive(true);
         DeActivate();
@@ -93,6 +92,5 @@ public class LaserSystem : ShipDevice
         float offset = ((BarAmount * 0.01f) * 0.00456f) - 0.00456f;
         newPos.x = offset;
         EnergyBar.transform.localPosition = newPos;
-    }
-    
+    }    
 }

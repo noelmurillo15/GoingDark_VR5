@@ -88,9 +88,6 @@ public class Asteroid : MonoBehaviour
 
     public void Kill()
     {
-        ObjectGenerator m_generator = GameObject.Find("Environment").GetComponent<ObjectGenerator>();
-        m_generator.DestroyObject();
-
         if (RandomChance())
         {
             skipStart = true;
