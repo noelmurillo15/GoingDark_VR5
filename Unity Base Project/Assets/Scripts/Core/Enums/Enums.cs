@@ -1,6 +1,5 @@
-﻿namespace GD.Core.Enums
+﻿namespace GoingDark.Core.Enums
 {
-
 
     public enum MissileType
     {

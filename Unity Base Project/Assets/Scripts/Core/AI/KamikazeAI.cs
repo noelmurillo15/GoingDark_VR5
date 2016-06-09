@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
 
-public class KamikazeAI : MonoBehaviour
+public class KamikazeAi : MonoBehaviour
 {
     #region Properties
     //  Kami Data

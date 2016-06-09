@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
+using GoingDark.Core.Enums;
 using System.Collections;
 
 public class PatrolAi : MonoBehaviour

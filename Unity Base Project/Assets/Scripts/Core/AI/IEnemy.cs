@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
+using GoingDark.Core.Enums;
 
 public class IEnemy : MonoBehaviour
 {

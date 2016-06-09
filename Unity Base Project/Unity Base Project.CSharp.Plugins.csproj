@@ -195,13 +195,13 @@
     <None Include="Assets\LeapMotion\Resources\ThresholdOverlay.shader" />
     <None Include="Assets\LeapMotion\Version.txt" />
     <None Include="Assets\LeapMotion\readme.txt" />
+    <None Include="Assets\Models\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Particles\Standard\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Resources\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
-    <None Include="Assets\Scripts\VolumetricLines\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />

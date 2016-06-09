@@ -58,6 +58,7 @@ public class HyperdriveSystem : ShipDevice
             }
 
             Debug.Log("Hyperdrive sequence de-activated");
+            cooldown = 10f;
             hypeJump = false;
             boostTimer = 0f;
             beginningTimer = 0f;

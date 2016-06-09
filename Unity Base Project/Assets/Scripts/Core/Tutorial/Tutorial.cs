@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using GD.Core.Enums;
+using GoingDark.Core.Enums;
 
 public class Tutorial : MonoBehaviour
 {

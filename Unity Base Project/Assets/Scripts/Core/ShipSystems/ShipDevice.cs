@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using GD.Core.Enums;
+using GoingDark.Core.Enums;
 
 //  Parent class of all Ship Systems
 public class ShipDevice : MonoBehaviour {
