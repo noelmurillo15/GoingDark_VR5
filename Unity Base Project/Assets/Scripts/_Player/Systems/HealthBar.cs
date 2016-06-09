@@ -14,6 +14,7 @@ public class HealthBar : MonoBehaviour {
     public CameraShake camShake;
 
     public int HitCount;
+    private ScreenBreak screenBreak;
 
 
     // Use this for initialization
@@ -21,7 +22,8 @@ public class HealthBar : MonoBehaviour {
         CurrentHealth = Max_Health;
         camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
         stats = GameObject.Find("Player").GetComponent<PlayerStats>();
-       // Debug.Log("HealthBar Script Start()");
+        screenBreak = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<ScreenBreak>();
+        // Debug.Log("HealthBar Script Start()");
 
     }
 
@@ -56,6 +58,8 @@ public class HealthBar : MonoBehaviour {
         HitCount += 20;
         camShake.PlayShake();
         DecreaseHealth(HitCount);
+        screenBreak.Shatter();
+
     }
 
     public void EnvironmentalDMG()

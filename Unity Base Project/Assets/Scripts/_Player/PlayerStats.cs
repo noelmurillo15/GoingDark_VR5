@@ -15,6 +15,7 @@ public class PlayerStats : MonoBehaviour
     public Shieldbar ShieldBar;
     // Respawn
     private Vector3 station;
+    private DeathTransition deathTransition;
     #endregion
 
 
@@ -25,7 +26,7 @@ public class PlayerStats : MonoBehaviour
         SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
         HealthData = GameObject.Find("PlayerHealth").GetComponent<HealthBar>();
         ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
-
+        deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -96,6 +97,7 @@ public class PlayerStats : MonoBehaviour
     void Kill()
     {
         Debug.Log("Player Stats : Player Death");
+        deathTransition.SendMessage("Death");
         Invoke("Respawn", 2f);
     }
     #endregion
@@ -109,7 +111,8 @@ public class PlayerStats : MonoBehaviour
         ShieldData.ShieldHealth = 100;
         ShieldData.Shield.SetActive(true);
         SystemData.FullSystemRepair();
-        
+        deathTransition.SendMessage("Respawn");
+
         transform.position = new Vector3(station.x, station.y + 30, station.z);
     }    
 }

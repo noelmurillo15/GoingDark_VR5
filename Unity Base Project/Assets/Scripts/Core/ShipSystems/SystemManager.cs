@@ -193,7 +193,14 @@ public class SystemManager : MonoBehaviour {
         
         return true;
     }
+    public float GetSystemCooldownF(SystemType key)
+    {
+        if (MainDevices.ContainsKey(key))
+            if (MainDevices[key].Status == SystemStatus.ONLINE)
+                return MainDevices[key].GetCooldown();
 
+        return 0f;
+    }
     public void ToggleMissionLog()
     {
         MissionLog.SendMessage("TogglePanel");

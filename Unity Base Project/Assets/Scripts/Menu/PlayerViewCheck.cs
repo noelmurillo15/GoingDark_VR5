@@ -29,10 +29,10 @@ public class PlayerViewCheck : MonoBehaviour {
         hyperDrive = GameObject.Find("TransitionHyperDrive").GetComponent<TransitionHyperDrive>();
 
         isUnlocked = new MapConnection[GameObject.FindGameObjectsWithTag("Star").Length];
-        isUnlocked[0] = GameObject.Find("SupplyHud").transform.FindChild("OpenWorld").GetComponent<MapConnection>();
-        isUnlocked[1] = GameObject.Find("SupplyHud").transform.FindChild("Level2").GetComponent<MapConnection>();
-        isUnlocked[2] = GameObject.Find("SupplyHud").transform.FindChild("Level3").GetComponent<MapConnection>();
-        isUnlocked[3] = GameObject.Find("SupplyHud").transform.FindChild("Level4").GetComponent<MapConnection>();
+        isUnlocked[0] = GameObject.Find("SupplyHud").transform.FindChild("Tutorial").GetComponent<MapConnection>();
+        isUnlocked[1] = GameObject.Find("SupplyHud").transform.FindChild("Tutorial2").GetComponent<MapConnection>();
+        isUnlocked[2] = GameObject.Find("SupplyHud").transform.FindChild("Tutorial3").GetComponent<MapConnection>();
+        isUnlocked[3] = GameObject.Find("SupplyHud").transform.FindChild("OpenWorld").GetComponent<MapConnection>();
         isUnlocked[4] = GameObject.Find("SupplyHud").transform.FindChild("Level5").GetComponent<MapConnection>();
         isUnlocked[5] = GameObject.Find("SupplyHud").transform.FindChild("Level6").GetComponent<MapConnection>();
     }

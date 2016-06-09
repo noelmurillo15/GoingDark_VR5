@@ -51,16 +51,16 @@ public class MapConnection : MonoBehaviour
     {
         switch (transform.name)
         {
-            case "OpenWorld":
+            case "Tutorial":
                 isUnlocked = PlayerPrefs.GetInt("Level1Unlocked");
                 break;
-            case "Level2":
+            case "Tutorial2":
                 isUnlocked = PlayerPrefs.GetInt("Level2Unlocked");
                 break;
-            case "Level3":
+            case "Tutorial3":
                 isUnlocked = PlayerPrefs.GetInt("Level3Unlocked");
                 break;
-            case "Level4":
+            case "OpenWorld":
                 isUnlocked = PlayerPrefs.GetInt("Level4Unlocked");
                 break;
             case "Level5":
