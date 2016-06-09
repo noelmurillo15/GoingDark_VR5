@@ -152,6 +152,7 @@ public class IEnemy : MonoBehaviour
     void Kill()
     {
         Debug.Log("Enemy has been Destroyed");
+        GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().KilledEnemy(Type);
         Instantiate(explosion, transform.position, Quaternion.identity);
         if (RandomChance())
             Instantiate(ammoDrop, transform.position, Quaternion.identity);

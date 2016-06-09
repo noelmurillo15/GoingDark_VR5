@@ -11,6 +11,7 @@ public class StationLog : MonoBehaviour
     private string SceneName;
     private Tutorial mTutorial;
     private MissionSystem m_missionSystem;
+    private MissionLog m_missionLog;
     private Button mAccept;
     private Button mTurnIn;
     private Button[] mButtons;
@@ -38,10 +39,8 @@ public class StationLog : MonoBehaviour
             mTutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
 
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        m_missionLog = GetComponent<MissionLog>();
         mPlayer = GameObject.Find("Player");
-        //mStationPanel = GameObject.Find("StationLog");
-        //mMissionPanel = GameObject.Find("StationMissionPanel");
-        //mMission = GameObject.Find("Mission");
 
         mButtons = m_pMissions.GetComponentsInChildren<Button>();
 
@@ -56,7 +55,7 @@ public class StationLog : MonoBehaviour
 
     }
 
-    void Docked(bool isDocked)
+    public void Docked(bool isDocked)
     {
         if (isDocked)
         {
@@ -65,8 +64,19 @@ public class StationLog : MonoBehaviour
         }
         else
         {
-            m_pStationPanel.SetActive(false);
+            // close all station panels
+            CloseStationPanels();
         }
+    }
+
+    void CloseStationPanels()
+    {
+        if (m_pMissionInfo.activeSelf)
+            m_pMissionInfo.SetActive(false);
+        else if (m_pMissions.activeSelf)
+            m_pMissions.SetActive(false);
+        else if (m_pStationPanel.activeSelf)
+            m_pStationPanel.SetActive(false);
     }
 
 
@@ -102,6 +112,7 @@ public class StationLog : MonoBehaviour
         {
             if (missionName == m_missionSystem.m_stationMissions[i].missionName)
             {
+                Debug.Log("AddMissions" + missionName);
                 m_missionSystem.AddActiveMission(m_missionSystem.m_stationMissions[i]);
             }
         }
@@ -145,6 +156,13 @@ public class StationLog : MonoBehaviour
 
     }
 
+    void OpenStationPanel()
+    {
+        m_pMissionInfo.SetActive(false);
+        m_pMissions.SetActive(false);
+        m_pStationPanel.SetActive(true);
+    }
+
     public void StationButtonPressed(string buttonName)
     {
 
@@ -158,31 +176,30 @@ public class StationLog : MonoBehaviour
         {
             if (mLastButton.name == "Back" || mLastButton.name == "AcceptMission" || mLastButton.name == "Missions" || mLastButton.name == "TurnIn")
             {
-                m_pMissions.SetActive(false);
-                m_pStationPanel.SetActive(true);
+                OpenStationPanel();
             }
-            else if (mLastButton.name != "Back")
+            else/* if (mLastButton.name != "Back")*/
             {
                 OpenStationMissions();
             }
         }
         else if (buttonName == "AcceptMission")
         {
-            mLastButton = mAccept;
             if (SceneName == "Tutorial")
                 mTutorial.SendMessage("MissionAccepted");
 
             mAccept.gameObject.SetActive(false);
-            AddMissions(buttonName);
+            AddMissions(mLastButton.name);
+            mLastButton = mAccept;
             OpenStationMissions();
         }
         else if (buttonName == "TurnIn")
         {
-            mLastButton = mTurnIn;
             if (SceneName == "Tutorial")
                 mTutorial.SendMessage("MissionTurnedIn");
 
-            TurnInMission(buttonName);
+            TurnInMission(mLastButton.name);
+            mLastButton = mTurnIn;
             OpenStationMissions();
         }
     }

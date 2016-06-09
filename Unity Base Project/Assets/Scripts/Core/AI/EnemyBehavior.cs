@@ -59,6 +59,7 @@ public class EnemyBehavior : IEnemy
         Target = _target;
         if (Target != null)
         {
+            GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().PlayerSeen();
             manager.FoundTarget(_target, MyTransform.position);
             ChangeState(EnemyStates.ATTACKING);
         }

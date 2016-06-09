@@ -8,14 +8,14 @@ public class MissionLogButtons : MonoBehaviour
     private Image m_button;
     private float transition;
     private float cancelTimer;
-    private GameObject missionLog;
+    private MissionLog missionLog;
     private GameObject buttonObject;
     // Use this for initialization
 
     void Start()
     {
         m_button = GetComponent<Image>();
-        missionLog = GameObject.Find("MissionLog");
+        missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         buttonObject = GameObject.Find("MissionPanel");
 
         transition = 0.0f;
@@ -33,8 +33,9 @@ public class MissionLogButtons : MonoBehaviour
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
+                Debug.Log("Missionlog enter");
                 transition = 0.25f;
                 cancelTimer = 1.25f;
                 m_button.CrossFadeColor(Color.blue, 0.1f, false, false);
@@ -46,7 +47,7 @@ public class MissionLogButtons : MonoBehaviour
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
                 transition -= Time.deltaTime;
                 cancelTimer -= Time.deltaTime;
@@ -69,7 +70,7 @@ public class MissionLogButtons : MonoBehaviour
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
                 if (m_button.color == Color.blue || m_button.color == Color.green)
                 {
@@ -87,8 +88,9 @@ public class MissionLogButtons : MonoBehaviour
     #endregion
 
 
-    private void ClickButton()
+    public void ClickButton()
     {
-        missionLog.SendMessage("ButtonPressed", transform.name);
+        Debug.Log("Mission button pressed");
+        missionLog.ButtonPressed(transform);
     }
 }

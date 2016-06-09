@@ -33,6 +33,8 @@ public class MissionLog : MonoBehaviour
         m_tMissionInfo = text[0];
         m_tObjectives = text[1];
 
+        //TogglePanel();
+        AssignButtonName();
         ActiveMissions();
     }
 
@@ -63,6 +65,14 @@ public class MissionLog : MonoBehaviour
         AssignButtonName();
         ActiveMissions();
         m_pMissionButtonPanel.SetActive(!m_pMissionButtonPanel.activeSelf);
+    }
+
+    void TurnOffPanels()
+    {
+        if (m_pMissionButtonPanel.activeSelf)
+            m_pMissionButtonPanel.SetActive(false);
+        else if (m_pMissionInfo.activeSelf)
+            m_pMissionButtonPanel.SetActive(false);
     }
 
     void ActiveMissions()
@@ -107,23 +117,23 @@ public class MissionLog : MonoBehaviour
 
     #region Public Methods
 
-    public void ButtonPressed(string buttonName)
+    public void ButtonPressed(Transform button)
     {
-        if (m_missionSystem.m_ActiveMissions.Exists(s => s.missionName == buttonName))
+        if (m_missionSystem.m_ActiveMissions.Exists(s => s.missionName == button.name))
         {
-            Mission mission = m_missionSystem.m_ActiveMissions.Find(s => s.missionName == buttonName);
+            Mission mission = m_missionSystem.m_ActiveMissions.Find(s => s.missionName == button.name);
             Debug.Log("Missionlog Mission Info Open");
 
             AssignInfo(mission);
             m_pMissionButtonPanel.SetActive(false);
             m_pMissionInfo.SetActive(true);
         }
-        else if (buttonName == "CloseLog")
+        else if (button.name == "CloseLog")
         {
             m_pMissionButtonPanel.SetActive(false);
             m_tObjectives.gameObject.SetActive(false);
         }
-        else if (buttonName == "Back")
+        else if (button.name == "Back")
         {
             m_pMissionInfo.SetActive(false);
             m_pMissionButtonPanel.SetActive(true);

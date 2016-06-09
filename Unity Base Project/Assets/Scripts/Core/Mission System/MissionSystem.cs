@@ -9,6 +9,7 @@ public class MissionSystem : MonoBehaviour
 {
     public List<Mission> m_ActiveMissions;
     public List<Mission> m_stationMissions;
+    public List<Mission> m_CompletedMissions;
     public string filename;
 
     private PlayerStats m_playerStats;
@@ -21,6 +22,7 @@ public class MissionSystem : MonoBehaviour
     void Start()
     {
         m_ActiveMissions = new List<Mission>();
+        m_CompletedMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
@@ -32,7 +34,7 @@ public class MissionSystem : MonoBehaviour
         m_stationMissions = m_missionLoader.LoadMissions(filename);
 
         // for testing
-        AddActiveMission(m_stationMissions[0]);
+        //AddActiveMission(m_stationMissions[0]);
     }
 
     // Update is called once per frame
@@ -44,6 +46,7 @@ public class MissionSystem : MonoBehaviour
     public void AddActiveMission(Mission mission)
     {
         mission.isActive = true;
+        Debug.Log("AddActiveMission " + mission.missionName);
         m_ActiveMissions.Add(mission);
     }
 
@@ -74,7 +77,7 @@ public class MissionSystem : MonoBehaviour
         }
     }
 
-    void KilledEnemy(EnemyTypes type)
+    public void KilledEnemy(EnemyTypes type)
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
         {
@@ -89,7 +92,7 @@ public class MissionSystem : MonoBehaviour
         }
     }
 
-    void PlayerSeen()
+    public void PlayerSeen()
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
         {
@@ -107,12 +110,14 @@ public class MissionSystem : MonoBehaviour
             if (m_ActiveMissions[i].missionName == missionName)
             {
                 int credits = m_ActiveMissions[i].credits;
-                //m_playerStats.AddCredits(credits);
-
+                Debug.Log("Credits before mission : " + m_playerStats.SaveData.Credits);
+                m_playerStats.SaveData.Credits += credits;
+                Debug.Log("Added " + credits + "credits. Player has : " + m_playerStats.SaveData.Credits);
                 // remove turned in missions from active list and station list
                 Mission temp = m_ActiveMissions[i];
                 m_ActiveMissions.Remove(temp);
                 m_stationMissions.Remove(temp);
+                m_CompletedMissions.Add(temp);
                 break;
             }
         }

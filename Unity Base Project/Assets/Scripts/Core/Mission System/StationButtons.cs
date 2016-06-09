@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class StationButtons : MonoBehaviour {
+public class StationButtons : MonoBehaviour
+{
 
     private Image m_button;
     private float transition;
@@ -12,7 +13,7 @@ public class StationButtons : MonoBehaviour {
     void Start()
     {
         m_button = GetComponent<Image>();
-        stationLog = GameObject.Find("StationLog").GetComponent<StationLog>();
+        stationLog = GameObject.Find("MissionLog").GetComponent<StationLog>();
 
         transition = 0.0f;
         cancelTimer = 0.0f;
@@ -23,7 +24,7 @@ public class StationButtons : MonoBehaviour {
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
                 transition = 0.25f;
                 cancelTimer = 1.25f;
@@ -36,7 +37,7 @@ public class StationButtons : MonoBehaviour {
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
                 transition -= Time.deltaTime;
                 cancelTimer -= Time.deltaTime;
@@ -59,7 +60,7 @@ public class StationButtons : MonoBehaviour {
     {
         if (col.name == "bone3")
         {
-            if (col.transform.parent.name == "leftIndex" || col.transform.parent.name == "rightIndex")
+            if (col.transform.parent.name == "index")
             {
                 if (m_button.color == Color.blue || m_button.color == Color.green)
                 {
@@ -78,18 +79,22 @@ public class StationButtons : MonoBehaviour {
 
     private void ClickButton()
     {
-           
+
         if (transform.name == "Missions")
         {
-            stationLog.SendMessage("OpenStationMissions");
+            //stationLog.SendMessage("OpenStationMissions");
+            stationLog.OpenStationMissions();
         }
         else if (transform.name == "Repair")
         {
 
         }
         else
-            stationLog.SendMessage("ButtonPressed", transform.name);
+        {
+            //stationLog.SendMessage("ButtonPressed", transform.name);
+            stationLog.StationButtonPressed(transform.name);
+        }
 
-        stationLog.mLastButton = this.gameObject.GetComponent<Button>();
+        stationLog.mLastButton = gameObject.GetComponent<Button>();
     }
 }

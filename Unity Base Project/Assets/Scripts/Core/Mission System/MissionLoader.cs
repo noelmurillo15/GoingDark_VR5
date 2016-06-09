@@ -62,7 +62,7 @@ public class MissionLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Converts string loaded from XML to valid MissionSystem.MissionType
+    /// Converts string loaded from XML to valid MissionType
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
@@ -79,7 +79,7 @@ public class MissionLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Converts enemy string from XML Doc to valid MissionSystem.EnemyType
+    /// Converts enemy string from XML Doc to valid EnemyType
     /// </summary>
     /// <param name="enemy"></param>
     /// <returns></returns>
@@ -93,6 +93,10 @@ public class MissionLoader : MonoBehaviour
             ret = EnemyTypes.KAMIKAZE;
         else if (enemy == "Transport")
             ret = EnemyTypes.TRANSPORT;
+        else if (enemy == "Trident")
+            ret = EnemyTypes.TRIDENT;
+        else if (enemy == "Boss")
+            ret = EnemyTypes.BOSS;
         else if (enemy == "Any")
             ret = EnemyTypes.ANY;
 
