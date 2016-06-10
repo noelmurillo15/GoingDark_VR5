@@ -64,38 +64,12 @@ public class KamikazeAi : MonoBehaviour
     #endregion
 
     #region Collision Detection
-    //void OnTriggerEnter(Collider col)
-    //{
-    //    if (col.transform.name != transform.name/* && patrol.SecondaryTarget == null*/)
-    //    {
-    //        if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
-    //        {                
-    //            Debug.Log("Kamikaze patrolling with : " + col.name);
-    //            behavior.ChangeState(EnemyStates.FOLLOW);
-    //            //patrol.SecondaryTarget = col.transform;
-    //        }
-    //    }     
-    //}
-    //void OnTriggerExit(Collider col)
-    //{
-    //    if (col.CompareTag("Enemy") && col.GetType() == typeof(SphereCollider))
-    //    {
-    //        //if (stats.Target == null) {
-    //        //    Debug.Log("Heading Back to Enemy");
-    //        //    patrol.AutoPilot = true;
-    //        //    autoTimer = 5f;
-    //        //}
-    //    }
-    //}
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnCollisionEnter(Collision hit)
     {
         if (hit.transform.CompareTag("Player") && detectionTimer <= 0f)
         {
             detectionTimer = 1f;
-            if(explodeBot)
-                hit.transform.SendMessage("Hit");
-            else
-                hit.transform.SendMessage("EMPHit");
+            hit.transform.SendMessage("EMPHit");
             Explosion();
         }
     }

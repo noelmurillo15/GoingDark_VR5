@@ -5,7 +5,6 @@ public class EnemyManager : MonoBehaviour
 {
     
     #region Properties
-    public Transform Target { get; set; }
     private  List<GameObject> enemies = new List<GameObject>();
     #endregion
 
@@ -20,12 +19,11 @@ public class EnemyManager : MonoBehaviour
     }
 
 
-    public void FoundTarget(Transform _target, Vector3 enemypos)
+    public void FoundTarget(Vector3 _target, Vector3 enemypos)
     {
         AudioManager.instance.StartCoroutine("RaiseBattleMusic");
-        Target = _target;
         object[] tempStorage = new object[2];
-        tempStorage[0] = Target;
+        tempStorage[0] = _target;
         tempStorage[1] = enemypos;
         BroadcastMessage("BroadcastAlert", tempStorage);
     }

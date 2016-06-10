@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
     public SystemManager SystemData;
     public HealthBar HealthData;
     public Shieldbar ShieldBar;
+    private DebuffManager debuffManager;
     // Respawn
     private Vector3 station;
     private DeathTransition deathTransition;
@@ -27,6 +28,7 @@ public class PlayerStats : MonoBehaviour
         HealthData = GameObject.Find("PlayerHealth").GetComponent<HealthBar>();
         ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
+        debuffManager = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -65,9 +67,16 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player Stats : EmpHit");
         Debuff = Impairments.STUNNED;
-        //if (!IsInvoking("RemoveDebuff"))
-        //    Invoke("RemoveDebuff", 10f);
+        debuffManager.Stunned(5f); 
+        if (!IsInvoking("RemoveDebuff"))
+            Invoke("RemoveDebuff", 5f);
     }
+
+    void RemoveDebuff()
+    {
+        Debuff = Impairments.NONE;
+    }
+
     void ShieldHit()
     {
         if (ShieldData.ShieldActive)

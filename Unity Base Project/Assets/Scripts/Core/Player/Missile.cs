@@ -83,7 +83,7 @@ public class Missile : MonoBehaviour {
             {
                 if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
                 {
-                    Debug.Log("Missile tracking "+ hit.collider.tag + " : " + hit.distance);
+                    Debug.Log("Missile tracking " + hit.collider.tag + " : " + hit.distance);
                     target = hit.collider.transform;
                     tracking = true;
                 }

@@ -6,13 +6,15 @@ public class EnemyBehavior : IEnemy
 
     #region Properties    
     public Transform Target { get; protected set; }
+    public Vector3 LastKnownPos { get; set; }
 
-    public bool AutoPilot;
     public EnemyStates State;
-    public MonoBehaviour uniqueAi;
+    public MonoBehaviour alertAi;
     public MonoBehaviour patrolAi;
+    public MonoBehaviour uniqueAi;
 
     public bool lostSight;
+    public bool AutoPilot;
     public float losingsightTimer;
 
     private EnemyManager manager;
@@ -27,7 +29,8 @@ public class EnemyBehavior : IEnemy
     {
         base.Initialize();
         manager = transform.parent.GetComponent<EnemyManager>();
-        manager.AddEnemy(this.gameObject);
+        manager.AddEnemy(gameObject);
+        LastKnownPos = Vector3.zero;
         State = EnemyStates.IDLE;
         losingsightTimer = 0f;
         lostSight = false;
@@ -35,6 +38,7 @@ public class EnemyBehavior : IEnemy
         Target = null;
 
         patrolAi = GetComponent<PatrolAi>();
+        alertAi = GetComponent<AlertAi>();
     }
 
     private void Update()
@@ -60,11 +64,23 @@ public class EnemyBehavior : IEnemy
         if (Target != null)
         {
             GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().PlayerSeen();
-            manager.FoundTarget(_target, MyTransform.position);
+            manager.FoundTarget(_target.position, MyTransform.position);
             ChangeState(EnemyStates.ATTACKING);
         }
         else
             ChangeState(EnemyStates.PATROL);        
+    }    
+
+    public void BroadcastAlert(object[] storage)
+    {
+        if (LastKnownPos == Vector3.zero && Target == null)
+        {
+            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 5000f)
+            {
+                LastKnownPos = (Vector3)storage[0];
+                ChangeState(EnemyStates.ALERT);
+            }
+        }
     }
     public void BroadcastWin()
     {
@@ -72,18 +88,6 @@ public class EnemyBehavior : IEnemy
         ChangeState(EnemyStates.PATROL);
     }
 
-    public void BroadcastAlert(object[] storage)
-    {
-        if (Target == null)
-        {
-            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 2000f)
-            {
-                Target = (Transform)storage[0];
-                if (Target != null && Target.CompareTag("Player"))
-                    ChangeState(EnemyStates.ALERT);
-            }
-        }
-    }
 
     public void SetUniqueAi(MonoBehaviour _script)
     {
@@ -102,30 +106,43 @@ public class EnemyBehavior : IEnemy
         switch (State)
         {
             case EnemyStates.IDLE:
+                alertAi.enabled = false;
+                patrolAi.enabled = false;
                 SetSpeedBoost(0f);
+                lostSight = false;
+                losingsightTimer = 0f;
                 break;
             case EnemyStates.PATROL:
-                uniqueAi.enabled = false;
+                alertAi.enabled = false;
                 patrolAi.enabled = true;
+                uniqueAi.enabled = false;
+                LastKnownPos = Vector3.zero;
+                lostSight = false;
+                losingsightTimer = 0f;
                 SetSpeedBoost(.5f);
                 break;
             case EnemyStates.RUNNING:
+                alertAi.enabled = false;
                 break;
             case EnemyStates.ATTACKING:
+                alertAi.enabled = false;
                 uniqueAi.enabled = true;
                 SetSpeedBoost(1f);
                 lostSight = false;
                 losingsightTimer = 0f;
-                //patrolAi.enabled = false; // un-comment if you have your own movement ai for attacking player
                 break;
-            case EnemyStates.ALERT:
+            case EnemyStates.ALERT:                
+                alertAi.enabled = true;
                 uniqueAi.enabled = false;
-                SetSpeedBoost(.8f);                
+                patrolAi.enabled = false;
+                SetSpeedBoost(1f);                
                 lostSight = true;
                 if(losingsightTimer <= 0f)
-                    losingsightTimer = 2.5f;
+                    losingsightTimer = 20f;
                 break;
             case EnemyStates.FOLLOW:
+                patrolAi.enabled = false;
+                alertAi.enabled = false;
                 uniqueAi.enabled = false;
                 SetSpeedBoost(.6f);
                 break;

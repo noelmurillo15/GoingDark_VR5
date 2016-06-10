@@ -4,13 +4,13 @@ public class PlayerMovement : MonoBehaviour {
     //**    Attach to Player    **//
 
     #region Properties
-    private Vector3 moveDir;
     public MovementProperties MoveData;
     private Transform MyTransform;
     private x360Controller m_GamePad;
-    CharacterController controller;
+    private Rigidbody MyRigidbody;
 
     //  Auto-Movement
+    private bool stunned;
     private bool autoPilot;
     private bool resetRotation;
     private float orientationTimer;
@@ -20,20 +20,19 @@ public class PlayerMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        moveDir = Vector3.zero;
         MyTransform = transform;
 
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 100f;
+        MoveData.MaxSpeed = 5f;
         MoveData.RotateSpeed = 40f;
-        MoveData.Acceleration = 25f;
+        MoveData.Acceleration = 1f;
 
+        stunned = false;
         autoPilot = false;
         resetRotation = false;
         orientationTimer = 0.0f;
 
-        controller = GetComponent<CharacterController>();
-
+        MyRigidbody = GetComponent<Rigidbody>();
         m_GamePad = GamePadManager.Instance.GetController(0);
         MoveData.Speed = MoveData.MaxSpeed;
         //OutOfBounds();
@@ -41,13 +40,11 @@ public class PlayerMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update(){
-        if (!autoPilot && !resetRotation)
+        if (!autoPilot && !resetRotation && !stunned)
         {
-            moveDir = Vector3.zero;
-
             //  Speed
             if (m_GamePad.GetLeftTrigger() > 0f)
-                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());            
+                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
             else
                 MoveData.DecreaseSpeed();
 
@@ -73,7 +70,20 @@ public class PlayerMovement : MonoBehaviour {
         else if (autoPilot)
             Autopilot();
         else if (resetRotation)
-            Reorient();        
+            Reorient();
+        else if (stunned)
+            MoveData.DecreaseSpeed();     
+    }
+
+     public void PlayerStunned()
+    {
+        stunned = true;
+        Invoke("Healed", 5f);
+    }
+
+    void Healed()
+    {
+        stunned = false;
     }
 
     #region Movement
@@ -114,9 +124,7 @@ public class PlayerMovement : MonoBehaviour {
         if (MoveData.Speed <= 0f)
             return;
 
-        moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= MoveData.Speed * Time.deltaTime;
-        controller.Move(moveDir);
+        MyRigidbody.MovePosition(MyTransform.position + (MyTransform.forward * MoveData.Speed));
     }
     #endregion
 
@@ -158,10 +166,7 @@ public class PlayerMovement : MonoBehaviour {
 
         //  Move Towards
         MoveData.IncreaseSpeed();
-        moveDir = Vector3.zero;
-        moveDir = MyTransform.TransformDirection(Vector3.forward);
-        moveDir *= (MoveData.Speed * Time.deltaTime);
-        controller.Move(moveDir);
+        MyRigidbody.MovePosition(MyTransform.position + (MyTransform.forward * MoveData.Speed));
     }
     #endregion
 }

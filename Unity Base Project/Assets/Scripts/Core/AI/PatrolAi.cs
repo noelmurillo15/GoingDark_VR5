@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 using System.Collections;
+using GoingDark.Core.Enums;
 
 public class PatrolAi : MonoBehaviour
 {

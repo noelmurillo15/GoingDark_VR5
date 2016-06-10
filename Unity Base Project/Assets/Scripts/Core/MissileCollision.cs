@@ -25,16 +25,17 @@ public class MissileCollision : MonoBehaviour {
                     col.transform.SendMessage("EMPHit");
                     break;
                 case MissileType.BASIC:
-                    col.transform.SendMessage("Hit", this);
+                    col.transform.SendMessage("Hit", missile);
                     break;
                 case MissileType.CHROMATIC:
-                    col.transform.SendMessage("Hit", this);
+                    col.transform.SendMessage("Hit", missile);
                     break;
                 case MissileType.SHIELDBREAKER:
                     col.transform.SendMessage("ShieldHit");
                     break;
             }
             hitMarker.HitMarkerShow(Time.time);
+            missile.Kill();
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

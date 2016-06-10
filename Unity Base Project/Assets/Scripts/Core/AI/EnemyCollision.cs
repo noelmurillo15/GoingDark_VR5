@@ -46,12 +46,16 @@ public class EnemyCollision : MonoBehaviour
     {
         if (detectionTimer <= 0.0f && col.CompareTag("Player"))
         {
-            if (pCloak != null && pCloak.GetPlayerCloaked())
-                behavior.ChangeState(EnemyStates.ALERT);           
-            else            
+            detectionTimer = Random.Range(.5f, 5f);
+            if (pCloak != null && pCloak.GetCloaked())
+            {
+                behavior.LastKnownPos = col.transform.position;
+                behavior.ChangeState(EnemyStates.ALERT);
+                detectionTimer += pCloak.GetCloakTimer();
+            }
+            else
                 behavior.SetEnemyTarget(col.transform);
             
-            detectionTimer = Random.Range(.5f, 5f);
             return;
         }
         if (detectionTimer <= 0.0f && col.CompareTag("Decoy"))

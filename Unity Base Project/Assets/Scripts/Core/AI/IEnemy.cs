@@ -68,11 +68,7 @@ public class IEnemy : MonoBehaviour
         rb.useGravity = true;
         rb.isKinematic = false;
         if (Type == EnemyTypes.KAMIKAZE)
-        {
-            Invoke("Kill", 5f);
-            rb.useGravity = true;
-            rb.isKinematic = false;
-        }
+            Invoke("Kill", 5f);        
         else
         {
             Debuff = Impairments.STUNNED;

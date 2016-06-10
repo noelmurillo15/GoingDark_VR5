@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class PlayerCollisions : MonoBehaviour {
+public class PlayerCollisions : MonoBehaviour
+{
 
     private float padding;
     private PlayerMovement stats;
@@ -17,7 +18,7 @@ public class PlayerCollisions : MonoBehaviour {
             padding -= Time.deltaTime;
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnCollisionEnter(Collision hit)
     {
         if (padding <= 0f)
         {

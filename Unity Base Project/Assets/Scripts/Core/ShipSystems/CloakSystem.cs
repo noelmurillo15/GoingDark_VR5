@@ -14,7 +14,7 @@ public class CloakSystem : ShipDevice
     void Start()
     {
         maxCooldown = 60f;
-        cloakTimer = 10;
+        cloakTimer = 30;
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
         for (int x = 0; x < parentLight.transform.childCount; x++)
@@ -35,15 +35,21 @@ public class CloakSystem : ShipDevice
             CloakShip();
     }
 
-    public bool GetPlayerCloaked()
+    public bool GetCloaked()
     {
         return isCloaked;
+    }
+
+    public float GetCloakTimer()
+    {
+        return cloakTimer;
     }
 
     #region Private Methods
     void CloakShip()
     {
         AudioManager.instance.PlayCloak();
+        isCloaked = true;
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = Color.black;
 
@@ -53,6 +59,7 @@ public class CloakSystem : ShipDevice
 
     void UnCloakShip()
     {
+        isCloaked = false;
         AudioManager.instance.PlayCloak();
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = originalColor;
