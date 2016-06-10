@@ -321,6 +321,7 @@
     <Compile Include="Assets\Scripts\Core\Utilities\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\XInputTestCS.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\x360Controller.cs" />
+    <Compile Include="Assets\SpaceStationTurret.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />

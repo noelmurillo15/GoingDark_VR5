@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-public class LaserProjectile : MonoBehaviour {
+public class LaserProjectile : MonoBehaviour
+{
 
-    public float speed;    
+    public float speed;
     private Transform MyTransform;
     private ChargeLaser MyParent;
 
@@ -18,7 +19,7 @@ public class LaserProjectile : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () 
+    void FixedUpdate()
     {
         MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
     }
@@ -28,7 +29,7 @@ public class LaserProjectile : MonoBehaviour {
         if (col.transform.CompareTag("Enemy"))
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
-            col.gameObject.SendMessage("ShieldHit"); 
+            col.gameObject.SendMessage("ShieldHit");
             Kill();
         }
 
@@ -49,8 +50,14 @@ public class LaserProjectile : MonoBehaviour {
     private void Kill()
     {
         CancelInvoke();
-        MyParent.SpawnExplosion(MyTransform.position);
+        if (MyParent != null)
+            MyParent.SpawnExplosion(MyTransform.position);
+
         gameObject.SetActive(false);
+    }
+    private void SelfDestruct()
+    {
+        Invoke("Kill", 3f);
     }
     private void SelfDestruct(ChargeLaser _parent)
     {
