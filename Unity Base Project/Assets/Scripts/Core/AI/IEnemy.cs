@@ -65,8 +65,6 @@ public class IEnemy : MonoBehaviour
     void EMPHit()
     {
         stunned.SetActive(true);        
-        rb.useGravity = true;
-        rb.isKinematic = false;
         if (Type == EnemyTypes.KAMIKAZE)
             Invoke("Kill", 5f);        
         else
@@ -101,7 +99,7 @@ public class IEnemy : MonoBehaviour
         }
 
         Debug.Log("Enemy was Hit");
-        missile.SendMessage("Kill");
+        missile.Kill();
 
         SCollider.radius = colRadius * 2f;
         if (IsInvoking("ResetDetectionRadius"))
@@ -159,8 +157,6 @@ public class IEnemy : MonoBehaviour
     #region Public Methods
     public void ResetDebuff()
     {
-        rb.useGravity = false;
-        rb.isKinematic = true;
         SetSpeedBoost(1f);
         Debuff = Impairments.NONE;
         stunned.SetActive(false);

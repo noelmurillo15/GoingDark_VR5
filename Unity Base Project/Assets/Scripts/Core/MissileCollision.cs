@@ -35,7 +35,6 @@ public class MissileCollision : MonoBehaviour {
                     break;
             }
             hitMarker.HitMarkerShow(Time.time);
-            missile.Kill();
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

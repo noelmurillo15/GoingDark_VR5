@@ -69,7 +69,10 @@ public class PatrolAi : MonoBehaviour
                 }
             }
 
-            behavior.IncreaseSpeed();
+            if(behavior.Debuff != Impairments.STUNNED)
+                behavior.IncreaseSpeed();
+            else
+                behavior.DecreaseSpeed();
 
             //CheckRayCasts();
 
