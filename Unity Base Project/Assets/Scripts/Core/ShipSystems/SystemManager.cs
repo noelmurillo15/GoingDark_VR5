@@ -8,11 +8,8 @@ public class SystemManager : MonoBehaviour {
     public Dictionary<SystemType, ShipDevice> MainDevices;
     public Dictionary<SystemType, GameObject> SecondaryDevices;
 
+    private GameObject MissionLog;
     private MessageScript messages;
-
-    // Constant Devices
-    public GameObject MissionLog { get; private set; }
-    public GameObject WeaponSelect { get; private set; }
     #endregion
 
 
@@ -22,25 +19,18 @@ public class SystemManager : MonoBehaviour {
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
         // Main Systems        
+        InitializeDevice(SystemType.EMP);
+        InitializeDevice(SystemType.CLOAK);
+        InitializeDevice(SystemType.DECOY);
+        InitializeDevice(SystemType.LASERS);
+        InitializeDevice(SystemType.MISSILES);
         InitializeDevice(SystemType.HYPERDRIVE);
 
         // Secondary Systems        
         InitializeDevice(SystemType.SHIELD);
 
-        string level = transform.parent.parent.name;
-        if (level != "Tutorial")
-        {
-            InitializeDevice(SystemType.MISSILES);
-            InitializeDevice(SystemType.EMP);
-            InitializeDevice(SystemType.CLOAK);
-            InitializeDevice(SystemType.DECOY);
-            InitializeDevice(SystemType.LASERS);
-            InitializeDevice(SystemType.RADAR);
-        }
-
-        // Constant Systems
+        // References
         MissionLog = GameObject.Find("MissionLog");
-        WeaponSelect = GameObject.Find("WeaponButtonObj");
         messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
     }
 
@@ -61,9 +51,6 @@ public class SystemManager : MonoBehaviour {
                 break;
             case SystemType.CLOAK:
                 system = Resources.Load<GameObject>("Devices/Cloak");
-                break;
-            case SystemType.RADAR:
-                system = Resources.Load<GameObject>("Devices/Radar");
                 break;
             case SystemType.DECOY:
                 system = Resources.Load<GameObject>("Devices/Decoy");
@@ -125,9 +112,6 @@ public class SystemManager : MonoBehaviour {
             #endregion
 
             #region Secondary Devices
-            case SystemType.RADAR:
-                SecondaryDevices.Add(key, dev);
-                break;
             case SystemType.SHIELD:
                 SecondaryDevices.Add(key, dev);
                 break;            

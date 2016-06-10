@@ -25,9 +25,6 @@ public class EmpSystem : ShipDevice
         else
             shockwave.SetActive(false);
 
-        if (Input.GetKey(KeyCode.E))
-            Activate();
-
         if (Input.GetButtonDown("A"))
             Activate();
 

@@ -322,35 +322,6 @@ public class Tutorial : MonoBehaviour
                     cloakButtonParticle.SetActive(false);
                 }
                 break;
-            case SystemType.RADAR:
-                if (!buffer)
-                {
-                    buffer = true;
-                    Vector3 temp = player.transform.position + player.transform.forward * 500;
-                    enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
-                    enemy1.transform.parent = GameObject.Find("Enemy").transform;
-
-                    ClearText();
-                    s1 = "Nearby enemies and loot will appear on the radar.";
-                    s2 = "You can pick up the radar by scooping it up with your right hand";
-                    s3 = "Relocate radar to where you prefer by closing your hand";
-                    StartCoroutine(Delay(0.0f, s1, s2, s3));
-
-                    s1 = "Enemy missiles will also be displayed on the radar.";
-                    s2 = "Your ship will be damaged upon collision.";
-                    s3 = "Hint: Emp can disable them, shield can block them.";
-                    StartCoroutine(Delay(10.0f, s1, s2, s3));
-
-                    player.StopMovement();
-                    Invoke("DestroyEnemy", 22.0f);
-                    StartCoroutine(ShowDeviceEnd(22.0f));
-                }
-                if (enemy1)
-                {
-                    enemy1.transform.LookAt(player.transform.position);
-                    enemy1.GetComponent<TutorialEnemy>().Fire(6.0f);
-                }
-                break;
             case SystemType.DECOY:
                 if (!buffer)
                 {
@@ -425,8 +396,7 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator ShowDeviceEnd(float length)
     {
-        if (type != SystemType.RADAR)
-            type = SystemType.NONE;
+        type = SystemType.NONE;
         
         yield return new WaitForSeconds(length);
         type = SystemType.NONE;

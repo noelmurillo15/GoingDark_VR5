@@ -35,11 +35,7 @@ public class QuickSlot : MonoBehaviour
             manager.ActivateSystem(Type);
             return;
         }
-        if (Type == SystemType.RADAR || Type == SystemType.SHIELD)
-        {
-            manager.ToggleSystem(Type);
-            return;
-        }
+
         if (Type == SystemType.NONE)
             Debug.LogError("Quickslot button " + transform.name + " has type of None");
     }

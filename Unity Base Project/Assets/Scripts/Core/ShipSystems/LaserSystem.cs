@@ -35,12 +35,7 @@ public class LaserSystem : ShipDevice
         if (!overheat)
         {
             if(BarAmount < 100.0f)
-                BarAmount += Time.fixedDeltaTime*5.0f;
-            
-
-
-            if (Input.GetKey(KeyCode.L))
-                Activate();
+                BarAmount += Time.fixedDeltaTime*5.0f;           
 
             if (Input.GetAxisRaw("RTrigger") > 0f)
                 Activate();

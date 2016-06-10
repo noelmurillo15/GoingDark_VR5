@@ -14,7 +14,7 @@ public class CloakSystem : ShipDevice
     void Start()
     {
         maxCooldown = 60f;
-        cloakTimer = 30;
+        cloakTimer = 20;
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
         for (int x = 0; x < parentLight.transform.childCount; x++)
@@ -25,9 +25,6 @@ public class CloakSystem : ShipDevice
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.C))
-            Activate();
-
         if (Input.GetButtonDown("X"))
             Activate();
 

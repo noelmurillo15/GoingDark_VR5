@@ -5,17 +5,21 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
-    private float detectionTimer;
+    public float detectionTimer;
     private EnemyBehavior behavior;
 
     //  Player
     private GameObject messages;
     private CloakSystem pCloak;
     private SystemManager systemManager;
+    private EnemyManager manager;
     #endregion
 
     void Start()
     {
+        manager = transform.parent.GetComponent<EnemyManager>();
+        manager.AddEnemy(gameObject);
+
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
         messages = GameObject.Find("WarningMessages");
@@ -25,7 +29,7 @@ public class EnemyCollision : MonoBehaviour
     void Update()
     {
         if (detectionTimer > 0.0f)
-            detectionTimer -= Time.deltaTime;        
+            detectionTimer -= Time.deltaTime;
     }
 
     #region Collision
@@ -33,42 +37,55 @@ public class EnemyCollision : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            detectionTimer = 0f;
+            if (pCloak == null)
+                pCloak = systemManager.GetSystem(SystemType.CLOAK).GetComponent<CloakSystem>();
+
+            if (pCloak.GetCloaked())
+                detectionTimer = pCloak.GetCloakTimer();
+            else
+            {
+                if (col.CompareTag("Player"))
+                    manager.SendAlert(transform.position);
+
+                detectionTimer = 0f;
+            }
             messages.SendMessage("EnemyClose");
-            pCloak = systemManager.GetSystem(SystemType.CLOAK).GetComponent<CloakSystem>();
         }
 
         if (col.CompareTag("Decoy"))
-            detectionTimer = 0f;        
+            detectionTimer = 0f;
     }
 
     void OnTriggerStay(Collider col)
     {
-        if (detectionTimer <= 0.0f && col.CompareTag("Player"))
+        if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            detectionTimer = Random.Range(.5f, 5f);
-            if (pCloak != null && pCloak.GetCloaked())
+            if (pCloak.GetCloaked())
             {
-                behavior.LastKnownPos = col.transform.position;
-                behavior.ChangeState(EnemyStates.ALERT);
-                detectionTimer += pCloak.GetCloakTimer();
+                detectionTimer = pCloak.GetCloakTimer();
+                behavior.SetLastKnown(col.transform.position);
+                return;
             }
-            else
-                behavior.SetEnemyTarget(col.transform);
-            
-            return;
-        }
-        if (detectionTimer <= 0.0f && col.CompareTag("Decoy"))
-        {
+
+            detectionTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
-            detectionTimer = Random.Range(.5f, 5f);
+            return;
+
+        }
+        if (col.CompareTag("Decoy") && detectionTimer <= 0.0f)
+        {
+            detectionTimer = 5f;
+            behavior.SetEnemyTarget(col.transform);
         }
     }
 
     void OnTriggerExit(Collider col)
     {
-        if (col.CompareTag("Player") || col.CompareTag("Decoy"))
-            behavior.ChangeState(EnemyStates.ALERT);        
+        if (col.CompareTag("Player"))
+        {
+            if(behavior.State != EnemyStates.PATROL)
+                behavior.SetLastKnown(col.transform.position);
+        }
     }
     #endregion
 }

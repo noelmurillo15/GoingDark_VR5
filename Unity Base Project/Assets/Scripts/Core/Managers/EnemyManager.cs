@@ -6,11 +6,21 @@ public class EnemyManager : MonoBehaviour
     
     #region Properties
     private  List<GameObject> enemies = new List<GameObject>();
+
+    public Transform PlayerPosition { get; private set; }
+
+    private MissionSystem missionSystem;
     #endregion
 
     void Awake()
     {
-       InvokeRepeating("CheckEnemies", 5f, 5f);    
+        InvokeRepeating("CheckEnemies", 5f, 5f);          
+        missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+    }
+
+    void Start()
+    {
+        PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
     }
     
     public void AddEnemy(GameObject enemy)
@@ -18,12 +28,12 @@ public class EnemyManager : MonoBehaviour
         enemies.Add(enemy);
     }
 
-
-    public void FoundTarget(Vector3 _target, Vector3 enemypos)
+    public void SendAlert(Vector3 enemypos)
     {
+        Debug.Log("Alert has been sent");
         AudioManager.instance.StartCoroutine("RaiseBattleMusic");
         object[] tempStorage = new object[2];
-        tempStorage[0] = _target;
+        tempStorage[0] = PlayerPosition.position;
         tempStorage[1] = enemypos;
         BroadcastMessage("BroadcastAlert", tempStorage);
     }

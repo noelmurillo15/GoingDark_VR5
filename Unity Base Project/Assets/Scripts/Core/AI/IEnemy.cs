@@ -21,8 +21,6 @@ public class IEnemy : MonoBehaviour
     private GameObject ammoDrop;
     private GameObject stunned;
 
-    private SphereCollider SCollider;
-    private float colRadius;
     public Transform MyTransform { get; private set; }
     #endregion
 
@@ -37,8 +35,6 @@ public class IEnemy : MonoBehaviour
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);
-        SCollider = GetComponent<SphereCollider>();
-        colRadius = SCollider.radius;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -71,11 +67,6 @@ public class IEnemy : MonoBehaviour
         {
             Debuff = Impairments.STUNNED;
             Invoke("ResetDebuff", 5f);            
-
-            SCollider.radius = colRadius * 2;
-            if (IsInvoking("ResetDetectionRadius"))
-                CancelInvoke("ResetDetectionRadius");
-            Invoke("ResetDetectionRadius", 10f);
         }     
     }
 
@@ -98,13 +89,8 @@ public class IEnemy : MonoBehaviour
             return;
         }
 
-        Debug.Log("Enemy was Hit");
+        Debug.Log("Enemy was Hit(Missile)");
         missile.Kill();
-
-        SCollider.radius = colRadius * 2f;
-        if (IsInvoking("ResetDetectionRadius"))
-            CancelInvoke("ResetDetectionRadius");
-        Invoke("ResetDetectionRadius", 10f);
 
         Health--;
         if (Health <= 0)
@@ -113,28 +99,13 @@ public class IEnemy : MonoBehaviour
 
     void Hit()
     {
-        if (ShieldData.GetShieldActive())
-        {
-            Debug.Log("Enemy shield blocked your attack");
-            return;
-        }
-
-        Debug.Log("Enemy was Hit");
-
-        SCollider.radius = colRadius * 2f;
-        if (IsInvoking("ResetDetectionRadius"))
-            CancelInvoke("ResetDetectionRadius");
-        Invoke("ResetDetectionRadius", 10f);
+        Debug.Log("Enemy was Hit()");
 
         Health--;
         if (Health <= 0)
             Kill();
     }    
 
-    void ResetDetectionRadius()
-    {        
-        SCollider.radius = colRadius;
-    }
     private bool RandomChance()
     {
         float wDrop = Random.Range(1, 3);

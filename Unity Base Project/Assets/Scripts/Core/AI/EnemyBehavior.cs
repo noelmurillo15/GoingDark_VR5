@@ -17,7 +17,7 @@ public class EnemyBehavior : IEnemy
     public bool AutoPilot;
     public float losingsightTimer;
 
-    private EnemyManager manager;
+    
     #endregion
 
     void Awake()
@@ -27,9 +27,7 @@ public class EnemyBehavior : IEnemy
 
     public override void Initialize()
     {
-        base.Initialize();
-        manager = transform.parent.GetComponent<EnemyManager>();
-        manager.AddEnemy(gameObject);
+        base.Initialize();        
         LastKnownPos = Vector3.zero;
         State = EnemyStates.IDLE;
         losingsightTimer = 0f;
@@ -61,27 +59,34 @@ public class EnemyBehavior : IEnemy
     public void SetEnemyTarget(Transform _target)
     {
         Target = _target;
-        if (Target != null)
-        {
-            GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().PlayerSeen();
-            manager.FoundTarget(_target.position, MyTransform.position);
-            ChangeState(EnemyStates.ATTACKING);
-        }
+        if (Target != null)     
+            ChangeState(EnemyStates.ATTACKING);        
         else
             ChangeState(EnemyStates.PATROL);        
     }    
 
     public void BroadcastAlert(object[] storage)
     {
-        if (LastKnownPos == Vector3.zero && Target == null)
+        if (Target == null)
         {
-            if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 5000f)
+            if (LastKnownPos == Vector3.zero)
             {
-                LastKnownPos = (Vector3)storage[0];
-                ChangeState(EnemyStates.ALERT);
+                if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 5000f)
+                {
+                    Debug.Log("Enemy responding to broadcast");
+                    SetLastKnown((Vector3)storage[0]);
+                }
             }
         }
     }
+
+    public void SetLastKnown(Vector3 pos)
+    {
+        Target = null;
+        LastKnownPos = pos;
+        ChangeState(EnemyStates.ALERT);
+    }
+
     public void BroadcastWin()
     {
         Target = null;
@@ -121,16 +126,6 @@ public class EnemyBehavior : IEnemy
                 losingsightTimer = 0f;
                 SetSpeedBoost(.5f);
                 break;
-            case EnemyStates.RUNNING:
-                alertAi.enabled = false;
-                break;
-            case EnemyStates.ATTACKING:
-                alertAi.enabled = false;
-                uniqueAi.enabled = true;
-                SetSpeedBoost(1f);
-                lostSight = false;
-                losingsightTimer = 0f;
-                break;
             case EnemyStates.ALERT:                
                 alertAi.enabled = true;
                 uniqueAi.enabled = false;
@@ -140,11 +135,18 @@ public class EnemyBehavior : IEnemy
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 20f;
                 break;
-            case EnemyStates.FOLLOW:
-                patrolAi.enabled = false;
+            case EnemyStates.ATTACKING:
+                LastKnownPos = Vector3.zero;
                 alertAi.enabled = false;
-                uniqueAi.enabled = false;
-                SetSpeedBoost(.6f);
+                uniqueAi.enabled = true;
+                patrolAi.enabled = true;
+                losingsightTimer = 0f;
+                lostSight = false;
+                SetSpeedBoost(1f);
+                break;
+            case EnemyStates.RUNNING:
+                break;
+            case EnemyStates.FOLLOW:
                 break;
 
 

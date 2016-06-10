@@ -54,9 +54,6 @@ public class ArmButtons : MonoBehaviour
             case "DecoyButton":
                 Type = SystemType.DECOY;
                 break;
-            case "RadarButton":
-                Type = SystemType.RADAR;
-                break;
 
 
             default:
@@ -70,11 +67,6 @@ public class ArmButtons : MonoBehaviour
     {
         m_button.color = original;
         //AudioManager.instance.PlayMenuGood();
-        if (Type == SystemType.RADAR || Type == SystemType.SHIELD)
-        {
-            manager.ToggleSystem(Type);
-            return;
-        }
         if (Type != SystemType.NONE)
         {
             manager.ActivateSystem(Type);

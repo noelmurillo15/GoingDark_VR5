@@ -41,7 +41,8 @@
         RUNNING,
         ATTACKING,
         FOLLOW,
-        ALERT
+        ALERT,
+        LOST
     }
     #endregion
 
@@ -51,7 +52,6 @@
         NONE,
         EMP,
         CLOAK,
-        RADAR,
         DECOY,
         LASERS,
         SHIELD,

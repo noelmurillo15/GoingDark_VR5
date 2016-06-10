@@ -46,9 +46,6 @@ public class HyperdriveSystem : ShipDevice
             }
         }        
 
-        if (Input.GetKey(KeyCode.H))
-            Activate();
-
         if (Input.GetAxisRaw("LBumper") > 0f)
         {
             if (!hypeJump)
@@ -57,8 +54,7 @@ public class HyperdriveSystem : ShipDevice
                 return;
             }
 
-            Debug.Log("Hyperdrive sequence de-activated");
-            cooldown = 10f;
+            cooldown = 5f;
             hypeJump = false;
             boostTimer = 0f;
             beginningTimer = 0f;
@@ -99,10 +95,9 @@ public class HyperdriveSystem : ShipDevice
     }
 
     public void InitializeHyperdriveSequence() {
-        Debug.Log("Hyperdrive Sequence initialized");
         hypeJump = true;
         DeActivate();
-        initializeTimer = 10.0f;
+        initializeTimer = 5.0f;
     }
     #endregion
 }

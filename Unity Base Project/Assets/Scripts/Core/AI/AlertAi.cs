@@ -1,38 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GoingDark.Core.Enums;
 
 public class AlertAi : MonoBehaviour
 {
 
-    #region Properties
-    //  Raycast Data
-    private int range;
-    private bool blocked;
-    private RaycastHit hit;
+    #region Properties  
+    public float Distance;
+    public Vector3 targetLocation;
 
-    //  Movement    
-    private Vector3 targetLocation;
-
-    //  Enemy Data 
-    private Transform MyTransform;
     private Rigidbody MyRigidbody;
+    private Transform MyTransform;
     private EnemyBehavior behavior;
     #endregion
 
 
     void Awake()
     {
-        Debug.Log("Enemy Alert Start Called");
-        // Patrol Data
         targetLocation = Vector3.zero;
-        blocked = false;
-        range = 100;
-
-        // Enemy Data
         MyRigidbody = GetComponent<Rigidbody>();
         behavior = GetComponent<EnemyBehavior>();
         MyTransform = transform;
+        Distance = 0f;
     }
 
     void OnEnable()
@@ -47,16 +35,20 @@ public class AlertAi : MonoBehaviour
         if (targetLocation != Vector3.zero)
         {
             Vector3 playerDir = targetLocation - MyTransform.position;
-            if(Vector3.Distance(MyTransform.position, targetLocation) < 20f)
+            Distance = Vector3.Distance(MyTransform.position, targetLocation);
+            if (Distance < 25f)
             {
-                Debug.Log("Enemy has not founds player, going back on patrol");
+                Debug.Log("Enemy has not found player, going back on patrol");
+                Distance = 0;
                 behavior.losingsightTimer = 0f;
+                return;
             }
 
             if (behavior.Debuff != Impairments.STUNNED)
                 behavior.IncreaseSpeed();
             else
                 behavior.DecreaseSpeed();
+
             Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
             MyTransform.rotation = Quaternion.LookRotation(direction);
             MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * behavior.GetMoveData().Speed);

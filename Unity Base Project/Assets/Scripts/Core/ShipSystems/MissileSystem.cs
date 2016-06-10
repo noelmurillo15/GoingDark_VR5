@@ -71,9 +71,6 @@ public class MissileSystem : ShipDevice
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.F))
-            Activate();
-
         if (Input.GetAxisRaw("RBumper") > 0f)
             Activate();
 
