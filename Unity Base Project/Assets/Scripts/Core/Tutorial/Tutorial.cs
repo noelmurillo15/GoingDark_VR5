@@ -444,18 +444,21 @@ public class Tutorial : MonoBehaviour
         type = _type;
     }
 
-    public void MissionCompleted()
+    public void MissionCompleted(string name)
     {
-        missionCompleted = true;
+        if (name == "Scavenger")
+            missionCompleted = true;
     }
-    public void MissionAccepted()
+    public void MissionAccepted(string name)
     {
-        missionAccepted = true;
+        if (name == "Scavenger")
+            missionAccepted = true;
     }
 
-    public void MissionTurnedIn()
+    public void MissionTurnedIn(string name)
     {
-        missionTurnedIn = true;
+        if (name == "Scavenger")
+            missionTurnedIn = true;
     }
 
     public void EnterStation()

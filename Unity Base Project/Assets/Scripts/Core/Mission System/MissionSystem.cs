@@ -16,6 +16,7 @@ public class MissionSystem : MonoBehaviour
     private MissionLoader m_missionLoader;
     private MissionLog m_missionLog;
     private Tutorial m_tutorial;
+    private TutorialFlight m_tutorial2;
     private int maxMissions;
 
     // Use this for initialization
@@ -25,11 +26,12 @@ public class MissionSystem : MonoBehaviour
         m_CompletedMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
 
         if (SceneManager.GetActiveScene().name == "Tutorial")
             m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
-
+        if (SceneManager.GetActiveScene().name == "Tutorial2")
+            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
         maxMissions = 4;
         m_stationMissions = m_missionLoader.LoadMissions(filename);
 
@@ -69,7 +71,9 @@ public class MissionSystem : MonoBehaviour
                     m_missionLog.SendMessage("Completed", mission);
 
                     if (SceneManager.GetActiveScene().name == "Tutorial")
-                        m_tutorial.SendMessage("MissionCompleted");
+                        m_tutorial.SendMessage("MissionCompleted", mission.missionName);
+                    if (SceneManager.GetActiveScene().name == "Tutorial2")
+                        m_tutorial2.SendMessage("MissionCompleted", mission.missionName);
                 }
                 m_ActiveMissions[i] = mission;
                 m_missionLog.SendMessage("UpdateInfo", m_ActiveMissions[i]);

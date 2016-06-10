@@ -21,7 +21,7 @@ public class HealthBar : MonoBehaviour {
     void Start () {
         CurrentHealth = Max_Health;
         camShake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
-        stats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         screenBreak = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<ScreenBreak>();
         // Debug.Log("HealthBar Script Start()");
 

@@ -17,7 +17,6 @@ public class MissionLog : MonoBehaviour
     private Text m_tMissionInfo;
     private Text m_tObjectives;
 
-
     private int buttonNum;
 
     void OnAwake()
@@ -36,6 +35,8 @@ public class MissionLog : MonoBehaviour
         //TogglePanel();
         AssignButtonName();
         ActiveMissions();
+
+
     }
 
     void UpdateInfo(Mission mission)
@@ -127,6 +128,7 @@ public class MissionLog : MonoBehaviour
             AssignInfo(mission);
             m_pMissionButtonPanel.SetActive(false);
             m_pMissionInfo.SetActive(true);
+           
         }
         else if (button.name == "CloseLog")
         {

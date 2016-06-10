@@ -9,7 +9,8 @@ public class StationLog : MonoBehaviour
 {
 
     private string SceneName;
-    private Tutorial mTutorial;
+    private Tutorial m_tutorial;
+    private TutorialFlight m_tutorial2;
     private MissionSystem m_missionSystem;
     private MissionLog m_missionLog;
     private Button mAccept;
@@ -35,8 +36,10 @@ public class StationLog : MonoBehaviour
         mDocked = false;
         SceneName = SceneManager.GetActiveScene().name;
 
-        if (SceneName == "Tutorial")
-            mTutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
+        if (SceneManager.GetActiveScene().name == "Tutorial")
+            m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
+        if (SceneManager.GetActiveScene().name == "Tutorial2")
+            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
 
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         m_missionLog = GetComponent<MissionLog>();
@@ -186,7 +189,9 @@ public class StationLog : MonoBehaviour
         else if (buttonName == "AcceptMission")
         {
             if (SceneName == "Tutorial")
-                mTutorial.SendMessage("MissionAccepted");
+                m_tutorial.SendMessage("MissionAccepted", mLastButton.name);
+            else if (SceneName == "Tutorial2")
+                m_tutorial2.SendMessage("MissionAccepted", mLastButton.name);
 
             mAccept.gameObject.SetActive(false);
             AddMissions(mLastButton.name);
@@ -196,7 +201,9 @@ public class StationLog : MonoBehaviour
         else if (buttonName == "TurnIn")
         {
             if (SceneName == "Tutorial")
-                mTutorial.SendMessage("MissionTurnedIn");
+                m_tutorial.SendMessage("MissionTurnedIn", mLastButton.name);
+            else if (SceneName == "Tutorial2")
+                m_tutorial2.SendMessage("MissionTurnedIn", mLastButton.name);
 
             TurnInMission(mLastButton.name);
             mLastButton = mTurnIn;

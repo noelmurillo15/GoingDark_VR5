@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Level1>
+<Tutorial2>
   <mission name ="Scavenger"
-    info = "Collect 6 ship systems"
+    info = "Hit 10 fire rings"
     credits = "100"
-    objectives = "6"
+    objectives = "10"
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
     optional = "false"
   />
   
-</Level1>
+</Tutorial2>

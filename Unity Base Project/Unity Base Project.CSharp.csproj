@@ -282,6 +282,9 @@
     <Compile Include="Assets\Scripts\Core\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\Scripts\Core\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\Scripts\Core\Tutorial\TutorialEnemy.cs" />
+    <Compile Include="Assets\Scripts\Core\Tutorial\TutorialFireRing.cs" />
+    <Compile Include="Assets\Scripts\Core\Tutorial\TutorialFlight.cs" />
+    <Compile Include="Assets\Scripts\Core\Tutorial\TutorialStation.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\ActivateTrigger.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\AssetBundleLoadOperation.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\AssetBundleManager.cs" />
@@ -486,6 +489,7 @@
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
+    <None Include="Assets\Resources\XML\Tutorial2.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
