@@ -3,20 +3,19 @@ using GoingDark.Core.Enums;
 
 public class PlayerStats : MonoBehaviour
 {
-
     #region Properties
     public Impairments Debuff { get; private set; }
 
-    //  Player Data
-    public ShieldProperties ShieldData;
     public PlayerSaveData SaveData;
-    public SystemManager SystemData;
-    public HealthBar HealthData;
-    public Shieldbar ShieldBar;
-    private DebuffManager debuffManager;
-    // Respawn
-    private Vector3 station;
+    public ShieldProperties ShieldData;
+
+    private Shieldbar ShieldBar;
+    private HealthBar HealthData;
+    private SystemManager SystemData;
+    private DebuffManager DebuffData;
     private DeathTransition deathTransition;
+
+    private Vector3 station;
     #endregion
 
 
@@ -28,7 +27,7 @@ public class PlayerStats : MonoBehaviour
         HealthData = GameObject.Find("PlayerHealth").GetComponent<HealthBar>();
         ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
-        debuffManager = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
+        DebuffData = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -51,6 +50,10 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Message Calls
+    void RemoveDebuff()
+    {
+        Debuff = Impairments.NONE;
+    }
     void Hit()
     {
         Debug.Log("Player Stats : Hit");
@@ -67,15 +70,10 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player Stats : EmpHit");
         Debuff = Impairments.STUNNED;
-        debuffManager.Stunned(5f); 
+        DebuffData.Stunned(5f); 
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);
-    }
-
-    void RemoveDebuff()
-    {
-        Debuff = Impairments.NONE;
-    }
+    }    
 
     void ShieldHit()
     {
@@ -103,14 +101,6 @@ public class PlayerStats : MonoBehaviour
         }
         SystemData.SystemDamaged();
     }
-    void Kill()
-    {
-        Debug.Log("Player Stats : Player Death");
-        deathTransition.SendMessage("Death");
-        Invoke("Respawn", 2f);
-    }
-    #endregion
-
     void Respawn()
     {
         HealthData.HitCount = 0;
@@ -124,4 +114,12 @@ public class PlayerStats : MonoBehaviour
 
         transform.position = new Vector3(station.x, station.y + 30, station.z);
     }    
+    void Kill()
+    {
+        Debug.Log("Player Stats : Player Death");
+        deathTransition.SendMessage("Death");
+        Invoke("Respawn", 2f);
+    }
+    #endregion
+
 }

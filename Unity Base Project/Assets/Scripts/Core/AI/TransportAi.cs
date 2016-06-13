@@ -24,8 +24,8 @@ public class TransportAi : MonoBehaviour
         behavior = GetComponent<EnemyBehavior>();
         behavior.SetUniqueAi(this);
 
-        mesh1 = transform.GetChild(0).GetChild(0).GetComponent<Renderer>();
-        mesh2 = transform.GetChild(0).GetChild(1).GetComponent<Renderer>();
+        mesh1 = transform.GetChild(3).GetChild(0).GetComponent<Renderer>();
+        mesh2 = transform.GetChild(3).GetChild(1).GetComponent<Renderer>();
     }
 	
 	// Update is called once per frame
