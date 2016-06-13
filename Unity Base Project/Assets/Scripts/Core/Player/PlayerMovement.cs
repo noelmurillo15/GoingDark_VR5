@@ -48,9 +48,7 @@ public class PlayerMovement : MonoBehaviour {
                 MoveData.DecreaseSpeed();
 
             //  Rotation
-            if (m_GamePad.GetLeftStick().X > 0f)
                 TurnRight();
-            else if (m_GamePad.GetLeftStick().X < 0f)
                 TurnLeft();
 
             if (m_GamePad.GetLeftStick().Y > 0f)
@@ -95,11 +93,13 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void TurnLeft()
     {
-        MyTransform.Rotate(Vector3.up * Time.deltaTime * -MoveData.RotateSpeed);
+        if(m_GamePad.GetLeftStick().X < 0f)
+            MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed * m_GamePad.GetLeftStick().X);
     }
     public void TurnRight()
     {
-        MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed);     
+        if(m_GamePad.GetLeftStick().X > 0f)
+            MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed * m_GamePad.GetLeftStick().X);     
     }
     public void GoUp()
     {

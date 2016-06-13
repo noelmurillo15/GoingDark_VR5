@@ -24,7 +24,7 @@ public class TutorialFlight: MonoBehaviour
     void Start()
     {
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        playerMovement = GameObject.Find("TutorialPlayerF").GetComponent<PlayerMovement>();
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         station = GameObject.Find("Station");
        // hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
         loots = GameObject.FindGameObjectsWithTag("Loot");

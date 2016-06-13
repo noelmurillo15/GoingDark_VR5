@@ -9,7 +9,6 @@ public class LootPickup : MonoBehaviour {
     private GameObject mission;
     private SystemManager manager;
     private MessageScript messages;
-    private Tutorial tutorial;
     // Use this for initialization
     void Start () {
         Initialize();
@@ -17,7 +16,6 @@ public class LootPickup : MonoBehaviour {
         mission = GameObject.Find("PersistentGameObject");
         messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
-        tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
     }
 	
 	// Update is called once per frame
@@ -59,10 +57,6 @@ public class LootPickup : MonoBehaviour {
             mission.SendMessage("LootPickedUp");
             collected = true;
             AudioManager.instance.PlayCollect();
-            if (tutorial)
-            {
-                tutorial.IncreamentDevice(Type);
-            }
         }
     }
 }

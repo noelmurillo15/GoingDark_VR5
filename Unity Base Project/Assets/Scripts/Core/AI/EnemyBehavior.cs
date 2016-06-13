@@ -15,9 +15,7 @@ public class EnemyBehavior : IEnemy
 
     public bool lostSight;
     public bool AutoPilot;
-    public float losingsightTimer;
-
-    
+    public float losingsightTimer;    
     #endregion
 
     void Awake()
@@ -92,7 +90,6 @@ public class EnemyBehavior : IEnemy
         Target = null;
         ChangeState(EnemyStates.PATROL);
     }
-
 
     public void SetUniqueAi(MonoBehaviour _script)
     {
