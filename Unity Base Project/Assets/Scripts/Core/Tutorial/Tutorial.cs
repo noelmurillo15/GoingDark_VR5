@@ -61,7 +61,7 @@ public class Tutorial : MonoBehaviour
         missionCompleted = false;
         missionTurnedIn = false;
         Arrow.SetActive(false);
-        type = SystemType.NONE;
+        type = SystemType.Hyperdrive;
         isNearStation = false;
         decoyButtonParticle.SetActive(false);
         empButtonParticle.SetActive(false);
@@ -141,7 +141,7 @@ public class Tutorial : MonoBehaviour
                 break;
             
             case 2:
-                if (type != SystemType.NONE)
+                if (type != SystemType.None)
                 {
                     playerMovement.enabled = false;
                     ShowDevice();
@@ -198,7 +198,7 @@ public class Tutorial : MonoBehaviour
                 }
                 TutorialRemind();
 
-                if (systemManager.GetActive(SystemType.HYPERDRIVE))
+                if (systemManager.GetActive(SystemType.Hyperdrive))
                 {
                     ClearText();
                     buffer = false;
@@ -263,7 +263,7 @@ public class Tutorial : MonoBehaviour
         string s1, s2, s3;
         switch (type)
         {
-            case SystemType.EMP:
+            case SystemType.Emp:
                 if (!buffer)
                 {
                     Vector3 temp = player.transform.position + player.transform.forward * 50;
@@ -285,7 +285,7 @@ public class Tutorial : MonoBehaviour
                     droidBot = Instantiate(Resources.Load("Tutorial/Droid"), temp, Quaternion.identity) as GameObject;
                     droidBot.transform.parent = GameObject.Find("Enemy").transform;
                 }
-                if (systemManager.GetActive(SystemType.EMP) && droidBot)
+                if (systemManager.GetActive(SystemType.Emp) && droidBot)
                 {
                     //Invoke("DestroyEnemy", 1f);
                     //Destroy(droidBot);
@@ -295,7 +295,7 @@ public class Tutorial : MonoBehaviour
                 }
 
                 break;
-            case SystemType.CLOAK:
+            case SystemType.Cloak:
                 if (!buffer)
                 {
                     buffer = true;
@@ -315,14 +315,14 @@ public class Tutorial : MonoBehaviour
                 //{
                 //    enemy1.transform.position = player.transform.position + player.transform.forward * 100;
                 //}
-                if (systemManager.GetActive(SystemType.CLOAK))
+                if (systemManager.GetActive(SystemType.Cloak))
                 {
                     StartCoroutine(ShowDeviceEnd(2.0f));
                     Invoke("DestroyEnemy", 2f);
                     cloakButtonParticle.SetActive(false);
                 }
                 break;
-            case SystemType.DECOY:
+            case SystemType.Decoy:
                 if (!buffer)
                 {
                     ClearText();
@@ -334,14 +334,14 @@ public class Tutorial : MonoBehaviour
                     player.StopMovement();
                     decoyButtonParticle.SetActive(true);
                 }
-                if (systemManager.GetActive(SystemType.DECOY))
+                if (systemManager.GetActive(SystemType.Decoy))
                 {
                     StartCoroutine(ShowDeviceEnd(1.0f));
                     decoyButtonParticle.SetActive(false);
                 }
 
                 break;
-            case SystemType.LASERS:
+            case SystemType.Laser:
                 if (!buffer)
                 {
                     Vector3 temp = player.transform.position + player.transform.forward * 150;
@@ -365,7 +365,7 @@ public class Tutorial : MonoBehaviour
                 }
                 break;
 
-            case SystemType.MISSILES:
+            case SystemType.Missile:
                 if (!buffer)
                 {
                     Vector3 temp = player.transform.position + player.transform.forward * 150;
@@ -396,10 +396,10 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator ShowDeviceEnd(float length)
     {
-        type = SystemType.NONE;
+        type = SystemType.None;
         
         yield return new WaitForSeconds(length);
-        type = SystemType.NONE;
+        type = SystemType.None;
         playerMovement.enabled = true;
         //ClearText();
         buffer = false;

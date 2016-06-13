@@ -5,16 +5,15 @@ public class EnemyManager : MonoBehaviour
 {
     
     #region Properties
-    private  List<GameObject> enemies = new List<GameObject>();
-
     public Transform PlayerPosition { get; private set; }
 
     private MissionSystem missionSystem;
+    private  List<GameObject> enemies = new List<GameObject>();
     #endregion
 
     void Awake()
     {
-        InvokeRepeating("CheckEnemies", 5f, 5f);          
+        InvokeRepeating("CheckEnemies", 10f, 5f);          
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
     }
 

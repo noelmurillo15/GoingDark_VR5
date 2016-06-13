@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour {
     private bool resetRotation;
     private float orientationTimer;
     private Vector3 autoPilotDestination;
+
+    ParticleSystem particles;
     #endregion
 
 
@@ -36,6 +38,7 @@ public class PlayerMovement : MonoBehaviour {
         controller = GetComponent<CharacterController>();
         m_GamePad = GamePadManager.Instance.GetController(0);
         //OutOfBounds();
+        particles = GetComponent<ParticleSystem>();
     }
 
     void Update(){
@@ -47,20 +50,9 @@ public class PlayerMovement : MonoBehaviour {
             else
                 MoveData.DecreaseSpeed();
 
-            //  Rotation
-                TurnRight();
-                TurnLeft();
-
-            if (m_GamePad.GetLeftStick().Y > 0f)
-                GoUp();
-            else if (m_GamePad.GetLeftStick().Y < 0f)
-                GoDown();
-            
-            if (m_GamePad.GetRightStick().X > 0f)
-                RollRight();
-            else if (m_GamePad.GetRightStick().X < 0f)
-                RollLeft();
-
+            Yaw();
+            Roll();
+            Pitch();
             Flight();
         }
         else if (autoPilot)
@@ -68,7 +60,12 @@ public class PlayerMovement : MonoBehaviour {
         else if (resetRotation)
             Reorient();
         else if (stunned)
-            MoveData.DecreaseSpeed();     
+            MoveData.DecreaseSpeed();
+
+        if (MoveData.Speed > 0.0f)
+            particles.startSpeed = -(MoveData.Speed / MoveData.MaxSpeed);
+        else
+            particles.startSpeed = 0;   
     }
 
      public void PlayerStunned()
@@ -91,32 +88,21 @@ public class PlayerMovement : MonoBehaviour {
     {
         MoveData.Speed = 0f;
     }
-    public void TurnLeft()
+    public void Yaw()
     {
-        if(m_GamePad.GetLeftStick().X < 0f)
-            MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed * m_GamePad.GetLeftStick().X);
+        if(m_GamePad.GetLeftStick().X != 0)
+            MyTransform.Rotate(Vector3.up * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().X));
     }
-    public void TurnRight()
+    public void Pitch()
     {
-        if(m_GamePad.GetLeftStick().X > 0f)
-            MyTransform.Rotate(Vector3.up * Time.deltaTime * MoveData.RotateSpeed * m_GamePad.GetLeftStick().X);     
+        if (m_GamePad.GetLeftStick().Y != 0)
+            MyTransform.Rotate(Vector3.right * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().Y));        
     }
-    public void GoUp()
+    public void Roll()
     {
-        MyTransform.Rotate(Vector3.right * Time.deltaTime * MoveData.RotateSpeed);
-    }
-    public void GoDown()
-    {
-        MyTransform.Rotate(Vector3.right * Time.deltaTime * -MoveData.RotateSpeed);
+        if(m_GamePad.GetRightStick().X != 0)
+            MyTransform.Rotate(Vector3.back * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetRightStick().X));
     }  
-    public void RollLeft()
-    {
-        MyTransform.Rotate(Vector3.back * Time.deltaTime * -MoveData.RotateSpeed);
-    }
-    public void RollRight()
-    {
-        MyTransform.Rotate(Vector3.back * Time.deltaTime * MoveData.RotateSpeed);
-    }
     void Flight()
     {
         if (MoveData.Speed <= 0f)

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityStandardAssets.Utility
+namespace GoingDark.Core.Utility
 {
 
     public class FPSCounter : MonoBehaviour
@@ -14,16 +14,14 @@ namespace UnityStandardAssets.Utility
         private Text m_GuiText;
 
 
-        private void Start()
+        void Start()
         {
             m_FpsNextPeriod = Time.realtimeSinceStartup + fpsMeasurePeriod;
             m_GuiText = GameObject.Find("FpsCount").GetComponent<Text>();
         }
 
-
-        private void Update()
+        void LateUpdate()
         {
-            // measure average frames per second
             m_FpsAccumulator++;
             if (Time.realtimeSinceStartup > m_FpsNextPeriod)
             {

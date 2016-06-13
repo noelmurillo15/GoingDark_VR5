@@ -95,16 +95,16 @@ public class Missile : MonoBehaviour {
     {
         switch (Type)
         {
-            case MissileType.BASIC:
+            case MissileType.Basic:
                 Explosion = Resources.Load<GameObject>("Explosions/BasicExplosion");
                 break;
-            case MissileType.EMP:
+            case MissileType.Emp:
                 Explosion = Resources.Load<GameObject>("Explosions/EmpExplosion");
                 break;
-            case MissileType.SHIELDBREAKER:
+            case MissileType.ShieldBreak:
                 Explosion = Resources.Load<GameObject>("Explosions/ShieldBreakExplosion");
                 break;
-            case MissileType.CHROMATIC:
+            case MissileType.Chromatic:
                 Explosion = Resources.Load<GameObject>("Explosions/ChromaticExplosion");
                 break;
         }

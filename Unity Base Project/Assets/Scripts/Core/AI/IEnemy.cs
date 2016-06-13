@@ -5,9 +5,9 @@ public class IEnemy : MonoBehaviour
 {
 
     #region Properties
-    public EnemyTypes Type = EnemyTypes.NONE;
+    public EnemyTypes Type = EnemyTypes.None;
     public EnemyDifficulty Level = EnemyDifficulty.NONE;
-    public Impairments Debuff = Impairments.NONE;
+    public Impairments Debuff = Impairments.None;
 
     public int Health;
     public int MissileCount;
@@ -43,7 +43,6 @@ public class IEnemy : MonoBehaviour
     {
         return MoveData;
     }
-
     public ShieldProperties GetShieldData()
     {
         return ShieldData;
@@ -61,11 +60,11 @@ public class IEnemy : MonoBehaviour
     void EMPHit()
     {
         stunned.SetActive(true);        
-        if (Type == EnemyTypes.KAMIKAZE)
+        if (Type == EnemyTypes.Droid)
             Invoke("Kill", 5f);        
         else
         {
-            Debuff = Impairments.STUNNED;
+            Debuff = Impairments.Stunned;
             Invoke("ResetDebuff", 5f);            
         }     
     }
@@ -129,7 +128,7 @@ public class IEnemy : MonoBehaviour
     public void ResetDebuff()
     {
         SetSpeedBoost(1f);
-        Debuff = Impairments.NONE;
+        Debuff = Impairments.None;
         stunned.SetActive(false);
     }
     public void StopMovement()
@@ -174,7 +173,7 @@ public class IEnemy : MonoBehaviour
         switch (transform.name)
         {
             case "Droid":
-                SetEnemyType(EnemyTypes.KAMIKAZE);
+                SetEnemyType(EnemyTypes.Droid);
                 switch (Level)
                 {
                     case EnemyDifficulty.EASY:
@@ -200,7 +199,7 @@ public class IEnemy : MonoBehaviour
                 }
                 break;
             case "Trident":
-                SetEnemyType(EnemyTypes.TRIDENT);
+                SetEnemyType(EnemyTypes.Trident);
                 MissileCount = 20;
                 switch (Level)
                 {
@@ -227,7 +226,7 @@ public class IEnemy : MonoBehaviour
                 }
                 break;
             case "BasicEnemy":
-                SetEnemyType(EnemyTypes.BASIC);
+                SetEnemyType(EnemyTypes.Basic);
                 MissileCount = 20;
                 ShieldData.Initialize(transform.GetChild(0).gameObject);
                 switch (Level)
@@ -255,7 +254,7 @@ public class IEnemy : MonoBehaviour
                 }
                 break;
             case "Transport":
-                SetEnemyType(EnemyTypes.TRANSPORT);
+                SetEnemyType(EnemyTypes.Transport);
                 switch (Level)
                 {
                     case EnemyDifficulty.EASY:
@@ -281,7 +280,7 @@ public class IEnemy : MonoBehaviour
                 }
                 break;
             case "Boss":
-                SetEnemyType(EnemyTypes.BOSS);
+                SetEnemyType(EnemyTypes.Boss);
                 ShieldData.Initialize(transform.GetChild(0).gameObject);
                 MissileCount = 1000;
                 MoveData.Acceleration = 15f;

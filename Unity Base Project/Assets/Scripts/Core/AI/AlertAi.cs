@@ -44,7 +44,7 @@ public class AlertAi : MonoBehaviour
                 return;
             }
 
-            if (behavior.Debuff != Impairments.STUNNED)
+            if (behavior.Debuff != Impairments.Stunned)
                 behavior.IncreaseSpeed();
             else
                 behavior.DecreaseSpeed();

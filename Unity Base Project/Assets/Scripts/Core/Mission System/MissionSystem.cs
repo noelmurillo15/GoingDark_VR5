@@ -59,7 +59,7 @@ public class MissionSystem : MonoBehaviour
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
         {
-            if ((m_ActiveMissions[i].type == MissionType.SCAVENGE || m_ActiveMissions[i].type == MissionType.STEALTH) && m_ActiveMissions[i].isActive)
+            if ((m_ActiveMissions[i].type == MissionType.Scavenge || m_ActiveMissions[i].type == MissionType.Stealth) && m_ActiveMissions[i].isActive)
             {
                 // cannot directly modify properties of the list
                 Mission mission = m_ActiveMissions[i];
@@ -88,7 +88,7 @@ public class MissionSystem : MonoBehaviour
             Mission mission;
             mission = m_ActiveMissions[i];
 
-            if (mission.enemy == EnemyTypes.ANY ||
+            if (mission.enemy == EnemyTypes.Any ||
                 mission.enemy == type)
                 mission.objectives--;
 
@@ -102,7 +102,7 @@ public class MissionSystem : MonoBehaviour
         {
             Mission mission;
             mission = m_ActiveMissions[i];
-            if (mission.type == MissionType.STEALTH)
+            if (mission.type == MissionType.Stealth)
                 MissionFailed(mission);
         }
     }

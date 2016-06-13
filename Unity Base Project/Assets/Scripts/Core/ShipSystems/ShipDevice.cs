@@ -20,7 +20,7 @@ public class ShipDevice : MonoBehaviour {
         cooldown = 0f;
         Cooldown = false;
         Activated = false;
-        Status = SystemStatus.OFFLINE;
+        Status = SystemStatus.Offline;
     }
 
     void FixedUpdate()
@@ -44,7 +44,7 @@ public class ShipDevice : MonoBehaviour {
         Cooldown = false;
         Activated = false;
         cooldown = maxCooldown;
-        Status = SystemStatus.ONLINE;
+        Status = SystemStatus.Online;
     }
 
     public float GetCooldown()
@@ -59,7 +59,7 @@ public class ShipDevice : MonoBehaviour {
    
     public void Activate()
     {
-        if (Status == SystemStatus.ONLINE && Cooldown == false)
+        if (Status == SystemStatus.Online && Cooldown == false)
         {
             cooldown = maxCooldown;
             Activated = true;

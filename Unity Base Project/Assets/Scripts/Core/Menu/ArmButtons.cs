@@ -37,27 +37,22 @@ public class ArmButtons : MonoBehaviour
         switch (transform.name)
         {
             case "EmpButton":
-                Type = SystemType.EMP;
+                Type = SystemType.Emp;
                 break;
             case "CloakButton":
-                Type = SystemType.CLOAK;
+                Type = SystemType.Cloak;
                 break;
             case "HyperdriveButton":
-                Type = SystemType.HYPERDRIVE;
+                Type = SystemType.Hyperdrive;
                 break;
             case "MissileButton":
-                Type = SystemType.MISSILES;
+                Type = SystemType.Missile;
                 break;
             case "WSButton":
-                Type = SystemType.LASERS;
+                Type = SystemType.Laser;
                 break;
             case "DecoyButton":
-                Type = SystemType.DECOY;
-                break;
-
-
-            default:
-                Type = SystemType.NONE;
+                Type = SystemType.Decoy;
                 break;
         }
         original = m_button.color;
@@ -66,20 +61,20 @@ public class ArmButtons : MonoBehaviour
     private void ActivateButton()
     {
         m_button.color = original;
-        //AudioManager.instance.PlayMenuGood();
-        if (Type != SystemType.NONE)
-        {
-            manager.ActivateSystem(Type);
-            return;
-        }
 
         if (transform.name == "MissionLogButton")
+        {
             manager.ToggleMissionLog();
+            return;
+        }
         else
         {
             Debug.Log("Loading Scene : " + transform.name);
             SceneManager.LoadScene(transform.name);
+            return;
         }
+
+        manager.ActivateSystem(Type);
     }
     #endregion
 

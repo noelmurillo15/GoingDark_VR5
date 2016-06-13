@@ -21,6 +21,6 @@ public class FireMissile : MonoBehaviour {
     void OnTriggerEnter(Collider col)
     {
         if (col.name == "rightPalm")
-            manager.ActivateSystem(SystemType.MISSILES);
+            manager.ActivateSystem(SystemType.Missile);
     }
 }

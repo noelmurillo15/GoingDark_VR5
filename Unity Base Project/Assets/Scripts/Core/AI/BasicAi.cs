@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-[RequireComponent(typeof(EnemyBehavior))]
 public class BasicAi : MonoBehaviour
 {
     #region Properties
@@ -29,7 +28,7 @@ public class BasicAi : MonoBehaviour
 
         LockOn();
 
-        if (behavior.Debuff != Impairments.STUNNED)
+        if (behavior.Debuff != Impairments.Stunned)
             Fire();
     }
 

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(EnemyBehavior))]
 public class TransportAi : MonoBehaviour
 {
     #region Properties

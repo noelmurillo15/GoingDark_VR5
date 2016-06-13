@@ -52,7 +52,7 @@ public class PlayerStats : MonoBehaviour
     #region Message Calls
     void RemoveDebuff()
     {
-        Debuff = Impairments.NONE;
+        Debuff = Impairments.None;
     }
     void Hit()
     {
@@ -69,7 +69,7 @@ public class PlayerStats : MonoBehaviour
     void EMPHit()
     {
         Debug.Log("Player Stats : EmpHit");
-        Debuff = Impairments.STUNNED;
+        Debuff = Impairments.Stunned;
         DebuffData.Stunned(5f); 
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);

@@ -93,7 +93,7 @@ public class MissileSystem : ShipDevice
             Count--;
             DeActivate();
             textCount.text = Count.ToString();
-            if (currentType == MissileType.BASIC)
+            if (currentType == MissileType.Basic)
             {
                 GameObject obj = pool.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -101,7 +101,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.EMP)
+            if (currentType == MissileType.Emp)
             {
                 GameObject obj = pool2.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -109,7 +109,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.SHIELDBREAKER)
+            if (currentType == MissileType.ShieldBreak)
             {
                 GameObject obj = pool3.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -117,7 +117,7 @@ public class MissileSystem : ShipDevice
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.CHROMATIC)
+            if (currentType == MissileType.Chromatic)
             {
                 GameObject obj = pool4.GetPooledObject();
                 obj.transform.position = transform.position;
@@ -143,16 +143,16 @@ public class MissileSystem : ShipDevice
         currentType = type;
         switch (currentType)
         {
-            case MissileType.BASIC:
+            case MissileType.Basic:
                 textMissileChoice.text = "Basic Selected";
                 break;
-            case MissileType.EMP:
+            case MissileType.Emp:
                 textMissileChoice.text = "EMP Selected";
                 break;
-            case MissileType.SHIELDBREAKER:
+            case MissileType.ShieldBreak:
                 textMissileChoice.text = "ShieldBreaker";
                 break;
-            case MissileType.CHROMATIC:
+            case MissileType.Chromatic:
                 textMissileChoice.text = "Chromatic Selected";
                 break;
         }
@@ -170,16 +170,16 @@ public class MissileSystem : ShipDevice
             currentType = (MissileType)curr;
             switch (currentType)
             {
-                case MissileType.BASIC:
+                case MissileType.Basic:
                     textMissileChoice.text = "Basic Selected";
                     break;
-                case MissileType.EMP:
+                case MissileType.Emp:
                     textMissileChoice.text = "EMP Selected";
                     break;
-                case MissileType.SHIELDBREAKER:
+                case MissileType.ShieldBreak:
                     textMissileChoice.text = "ShieldBreaker";
                     break;
-                case MissileType.CHROMATIC:
+                case MissileType.Chromatic:
                     textMissileChoice.text = "Chromatic Selected";
                     break;
             }

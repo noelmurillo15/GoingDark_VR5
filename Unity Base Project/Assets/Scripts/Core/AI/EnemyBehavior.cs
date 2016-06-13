@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
+[RequireComponent(typeof(PatrolAi))]
+[RequireComponent(typeof(AlertAi))]
+[RequireComponent(typeof(EnemyCollision))]
 public class EnemyBehavior : IEnemy
 {
-
     #region Properties    
     public Transform Target { get; protected set; }
     public Vector3 LastKnownPos { get; set; }
@@ -27,7 +29,7 @@ public class EnemyBehavior : IEnemy
     {
         base.Initialize();        
         LastKnownPos = Vector3.zero;
-        State = EnemyStates.IDLE;
+        State = EnemyStates.Idle;
         losingsightTimer = 0f;
         lostSight = false;
         uniqueAi = null;
@@ -49,7 +51,7 @@ public class EnemyBehavior : IEnemy
             SetEnemyTarget(null);
         }
 
-        if (Debuff == Impairments.STUNNED)
+        if (Debuff == Impairments.Stunned)
             SetSpeedBoost(0f);
     }
 
@@ -58,9 +60,9 @@ public class EnemyBehavior : IEnemy
     {
         Target = _target;
         if (Target != null)     
-            ChangeState(EnemyStates.ATTACKING);        
+            ChangeState(EnemyStates.Attack);        
         else
-            ChangeState(EnemyStates.PATROL);        
+            ChangeState(EnemyStates.Patrol);        
     }    
 
     public void BroadcastAlert(object[] storage)
@@ -82,13 +84,13 @@ public class EnemyBehavior : IEnemy
     {
         Target = null;
         LastKnownPos = pos;
-        ChangeState(EnemyStates.ALERT);
+        ChangeState(EnemyStates.Alert);
     }
 
     public void BroadcastWin()
     {
         Target = null;
-        ChangeState(EnemyStates.PATROL);
+        ChangeState(EnemyStates.Patrol);
     }
 
     public void SetUniqueAi(MonoBehaviour _script)
@@ -107,14 +109,14 @@ public class EnemyBehavior : IEnemy
     public void ChangeBehavior() {
         switch (State)
         {
-            case EnemyStates.IDLE:
+            case EnemyStates.Idle:
                 alertAi.enabled = false;
                 patrolAi.enabled = false;
                 SetSpeedBoost(0f);
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
-            case EnemyStates.PATROL:
+            case EnemyStates.Patrol:
                 alertAi.enabled = false;
                 patrolAi.enabled = true;
                 uniqueAi.enabled = false;
@@ -123,7 +125,7 @@ public class EnemyBehavior : IEnemy
                 losingsightTimer = 0f;
                 SetSpeedBoost(.5f);
                 break;
-            case EnemyStates.ALERT:                
+            case EnemyStates.Alert:                
                 alertAi.enabled = true;
                 uniqueAi.enabled = false;
                 patrolAi.enabled = false;
@@ -132,7 +134,7 @@ public class EnemyBehavior : IEnemy
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 20f;
                 break;
-            case EnemyStates.ATTACKING:
+            case EnemyStates.Attack:
                 LastKnownPos = Vector3.zero;
                 alertAi.enabled = false;
                 uniqueAi.enabled = true;
@@ -141,9 +143,9 @@ public class EnemyBehavior : IEnemy
                 lostSight = false;
                 SetSpeedBoost(1f);
                 break;
-            case EnemyStates.RUNNING:
+            case EnemyStates.Flee:
                 break;
-            case EnemyStates.FOLLOW:
+            case EnemyStates.Follow:
                 break;
 
 

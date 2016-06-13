@@ -21,16 +21,16 @@ public class MissileCollision : MonoBehaviour {
         {
             switch (missile.Type)
             {
-                case MissileType.EMP:
+                case MissileType.Emp:
                     col.transform.SendMessage("EMPHit");
                     break;
-                case MissileType.BASIC:
+                case MissileType.Basic:
                     col.transform.SendMessage("Hit", missile);
                     break;
-                case MissileType.CHROMATIC:
+                case MissileType.Chromatic:
                     col.transform.SendMessage("Hit", missile);
                     break;
-                case MissileType.SHIELDBREAKER:
+                case MissileType.ShieldBreak:
                     col.transform.SendMessage("ShieldHit");
                     break;
             }

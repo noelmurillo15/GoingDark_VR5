@@ -75,6 +75,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity Base Project.CSharp.Plugins.csproj">
+      <Project>{E8D98538-493B-D56B-62B4-6C6C0D36D125}</Project>
+      <Name>Unity Base Project.CSharp.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
@@ -125,6 +131,9 @@
     <Compile Include="Assets\Particles\Scripts\ReverseNormals.cs" />
     <Compile Include="Assets\Particles\Scripts\SmokeParticles.cs" />
     <Compile Include="Assets\Particles\Scripts\WaterHoseParticles.cs" />
+    <Compile Include="Assets\Pause Menu Assets\Scripts\Pausemenu\PauseManager.cs" />
+    <Compile Include="Assets\Pause Menu Assets\Scripts\Utlities\CoroutineUtlities.cs" />
+    <Compile Include="Assets\Pause Menu Assets\Scripts\Utlities\Rotate.cs" />
     <Compile Include="Assets\Scripts\Core\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\BasicAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyBehavior.cs" />
@@ -492,6 +501,8 @@
     <None Include="Assets\Particles\Shaders\Terrain\SFS_Te_S.shader" />
     <None Include="Assets\Particles\Shaders\Terrain\SFS_Te_St.shader" />
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
+    <None Include="Assets\Pause Menu Assets\Fonts\exo\SIL Open Font License.txt" />
+    <None Include="Assets\Pause Menu Assets\Fonts\open-sans\Apache License.txt" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\OpenWorld.xml" />

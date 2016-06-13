@@ -68,12 +68,12 @@ public class MissionLoader : MonoBehaviour
     /// <returns></returns>
     MissionType ConvertType(string type)
     {
-        MissionType ret = MissionType.SCAVENGE;
+        MissionType ret = MissionType.Scavenge;
 
         if (type == "Combat")
-            ret = MissionType.COMBAT;
+            ret = MissionType.Combat;
         else if (type == "Stealth")
-            ret = MissionType.STEALTH;
+            ret = MissionType.Stealth;
 
         return ret;
     }
@@ -85,20 +85,20 @@ public class MissionLoader : MonoBehaviour
     /// <returns></returns>
     EnemyTypes ConvertEnemy(string enemy)
     {
-        EnemyTypes ret = EnemyTypes.NONE;
+        EnemyTypes ret = EnemyTypes.None;
 
         if (enemy == "BasicEnemy")
-            ret = EnemyTypes.BASIC;
+            ret = EnemyTypes.Basic;
         else if (enemy == "Kamikaze")
-            ret = EnemyTypes.KAMIKAZE;
+            ret = EnemyTypes.Droid;
         else if (enemy == "Transport")
-            ret = EnemyTypes.TRANSPORT;
+            ret = EnemyTypes.Transport;
         else if (enemy == "Trident")
-            ret = EnemyTypes.TRIDENT;
+            ret = EnemyTypes.Trident;
         else if (enemy == "Boss")
-            ret = EnemyTypes.BOSS;
+            ret = EnemyTypes.Boss;
         else if (enemy == "Any")
-            ret = EnemyTypes.ANY;
+            ret = EnemyTypes.Any;
 
         return ret;
     }

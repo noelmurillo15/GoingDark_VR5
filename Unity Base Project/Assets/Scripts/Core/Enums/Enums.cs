@@ -1,30 +1,37 @@
 ﻿namespace GoingDark.Core.Enums
 {
+    public enum GameDifficulty
+    {
+        Easy,
+        Normal,
+        Hard,
+        Nightmare
+    }
 
     public enum MissileType
     {
-        BASIC,
-        EMP,
-        SHIELDBREAKER,
-        CHROMATIC
+        Basic,
+        Emp,
+        ShieldBreak,
+        Chromatic
     }
     public enum Impairments
     {
-        NONE,
-        SLOWED,
-        STUNNED,
+        None,
+        Slowed,
+        Stunned,
     }
 
     #region EnemyAI
     public enum EnemyTypes
     {
-        NONE,
-        BASIC,
-        KAMIKAZE,
-        TRANSPORT,
-        TRIDENT,
-        BOSS,
-        ANY
+        None,
+        Basic,
+        Droid,
+        Transport,
+        Trident,
+        Boss,   
+        Any     
     };
     public enum EnemyDifficulty
     {
@@ -36,40 +43,40 @@
     }
     public enum EnemyStates
     {
-        IDLE,
-        PATROL,
-        RUNNING,
-        ATTACKING,
-        FOLLOW,
-        ALERT,
-        LOST
+        Idle,
+        Patrol,
+        Alert,
+        Follow,
+        Flee,
+        Puzzled,
+        Attack,
     }
     #endregion
 
     #region Ship Systems
     public enum SystemType
     {
-        NONE,
-        EMP,
-        CLOAK,
-        DECOY,
-        LASERS,
-        SHIELD,
-        MISSILES,
-        HYPERDRIVE
+        None,
+        Emp,
+        Cloak,
+        Decoy,
+        Laser,
+        Shield,
+        Missile,
+        Hyperdrive
     }   
     public enum SystemStatus
     {
-        OFFLINE,
-        ONLINE
+        Offline,
+        Online
     }
     #endregion
 
     public enum MissionType
     {
-        SCAVENGE,
-        COMBAT,
-        STEALTH
+        Scavenge,
+        Combat,
+        Stealth
     }
 
     public struct Mission

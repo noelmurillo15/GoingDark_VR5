@@ -29,15 +29,8 @@ public class QuickSlot : MonoBehaviour
     }
 
     void ActivateButton()
-    {        
-        if (Type != SystemType.NONE)
-        {
-            manager.ActivateSystem(Type);
-            return;
-        }
-
-        if (Type == SystemType.NONE)
-            Debug.LogError("Quickslot button " + transform.name + " has type of None");
+    {
+        manager.ActivateSystem(Type);
     }
 
     #region Coroutine

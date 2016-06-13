@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(EnemyBehavior))]
 public class KamikazeAI : MonoBehaviour
 {
     #region Properties

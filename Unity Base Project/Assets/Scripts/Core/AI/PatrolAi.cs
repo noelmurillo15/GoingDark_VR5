@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using MovementEffects;
 using System.Collections;
 using GoingDark.Core.Enums;
+using System.Collections.Generic;
 
 public class PatrolAi : MonoBehaviour
 {
@@ -39,7 +41,7 @@ public class PatrolAi : MonoBehaviour
         // Enemy Data
         MyRigidbody = GetComponent<Rigidbody>();
         behavior = GetComponent<EnemyBehavior>();
-        behavior.ChangeState(EnemyStates.PATROL);
+        behavior.ChangeState(EnemyStates.Patrol);
         behavior.AutoPilot = false;
 
         // Set random rotation
@@ -47,7 +49,7 @@ public class PatrolAi : MonoBehaviour
         MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
 
         //  Start Coroutine
-        StartCoroutine(NewHeading());
+        Timing.RunCoroutine(NewHeading());
     }
 
     void FixedUpdate() {
@@ -69,7 +71,7 @@ public class PatrolAi : MonoBehaviour
                 }
             }
 
-            if(behavior.Debuff != Impairments.STUNNED)
+            if(behavior.Debuff != Impairments.Stunned)
                 behavior.IncreaseSpeed();
             else
                 behavior.DecreaseSpeed();
@@ -124,11 +126,11 @@ public class PatrolAi : MonoBehaviour
     #endregion
 
     #region Coroutine
-    private IEnumerator NewHeading() {
+    private IEnumerator<float> NewHeading() {
         while (true) {
             NewHeadingRoutine();
             interval = Random.Range(2f, 10f);
-            yield return new WaitForSeconds(interval);
+            yield return Timing.WaitForSeconds(interval);
         }
     }
     private void NewHeadingRoutine() {

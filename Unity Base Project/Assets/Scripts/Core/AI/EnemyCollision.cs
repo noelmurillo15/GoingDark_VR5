@@ -38,7 +38,7 @@ public class EnemyCollision : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             if (pCloak == null)
-                pCloak = systemManager.GetSystem(SystemType.CLOAK).GetComponent<CloakSystem>();
+                pCloak = systemManager.GetSystem(SystemType.Cloak).GetComponent<CloakSystem>();
 
             if (pCloak.GetCloaked())
                 detectionTimer = pCloak.GetCloakTimer();
@@ -83,7 +83,7 @@ public class EnemyCollision : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            if(behavior.State != EnemyStates.PATROL)
+            if(behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
         }
     }

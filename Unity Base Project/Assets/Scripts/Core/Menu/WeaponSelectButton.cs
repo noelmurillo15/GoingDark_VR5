@@ -31,16 +31,16 @@ public class WeaponSelectButton : MonoBehaviour
         switch (transform.name)
         {
             case "BasicMissile":
-                Type = MissileType.BASIC;
+                Type = MissileType.Basic;
                 break;
             case "EmpMissile":
-                Type = MissileType.EMP;
+                Type = MissileType.Emp;
                 break;
             case "ChromaticMissile":
-                Type = MissileType.CHROMATIC;
+                Type = MissileType.Chromatic;
                 break;
             case "ShieldBreakerMissile":
-                Type = MissileType.SHIELDBREAKER;
+                Type = MissileType.ShieldBreak;
                 break;
         }
     }

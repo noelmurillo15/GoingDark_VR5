@@ -29,23 +29,19 @@ public class LootPickup : MonoBehaviour {
         switch (transform.name)
         {
             case "ShipPart1":
-                Type = SystemType.CLOAK;
+                Type = SystemType.Cloak;
                 break;
             case "ShipPart2":
-                Type = SystemType.MISSILES;
+                Type = SystemType.Missile;
                 break;
             case "ShipPart3":
-                Type = SystemType.EMP;
+                Type = SystemType.Emp;
                 break;
             case "ShipPart4":
-                Type = SystemType.DECOY;
+                Type = SystemType.Decoy;
                 break;
             case "ShipPart5":
-                Type = SystemType.LASERS;
-                break;
-
-            default:
-                Type = SystemType.NONE;
+                Type = SystemType.Laser;
                 break;
         }
     }
