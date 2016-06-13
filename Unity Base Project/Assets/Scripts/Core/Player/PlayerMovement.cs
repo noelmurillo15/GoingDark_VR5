@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-    //**    Attach to Player    **//
 
     #region Properties
-    public MovementProperties MoveData;
+    private Vector3 movedir;
     private Transform MyTransform;
     private x360Controller m_GamePad;
-    private Rigidbody MyRigidbody;
+    public MovementProperties MoveData;
+    private CharacterController controller;
 
     //  Auto-Movement
     private bool stunned;
@@ -18,30 +18,29 @@ public class PlayerMovement : MonoBehaviour {
     #endregion
 
 
-    // Use this for initialization
     void Start() {
         MyTransform = transform;
 
         MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 5f;
-        MoveData.RotateSpeed = 40f;
-        MoveData.Acceleration = 1f;
+        MoveData.MaxSpeed = 80f;
+        MoveData.RotateSpeed = 50f;
+        MoveData.Acceleration = 25f;
+        MoveData.Speed = MoveData.MaxSpeed;
 
         stunned = false;
         autoPilot = false;
         resetRotation = false;
+        movedir = Vector3.zero;
         orientationTimer = 0.0f;
 
-        MyRigidbody = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
         m_GamePad = GamePadManager.Instance.GetController(0);
-        MoveData.Speed = MoveData.MaxSpeed;
         //OutOfBounds();
     }
 
-    // Update is called once per frame
     void Update(){
         if (!autoPilot && !resetRotation && !stunned)
-        {
+        {            
             //  Speed
             if (m_GamePad.GetLeftTrigger() > 0f)
                 MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
@@ -58,8 +57,7 @@ public class PlayerMovement : MonoBehaviour {
                 GoUp();
             else if (m_GamePad.GetLeftStick().Y < 0f)
                 GoDown();
-
-            // right jstick
+            
             if (m_GamePad.GetRightStick().X > 0f)
                 RollRight();
             else if (m_GamePad.GetRightStick().X < 0f)
@@ -124,7 +122,10 @@ public class PlayerMovement : MonoBehaviour {
         if (MoveData.Speed <= 0f)
             return;
 
-        MyRigidbody.MovePosition(MyTransform.position + (MyTransform.forward * MoveData.Speed));
+        movedir = Vector3.zero;
+        movedir = MyTransform.forward;
+        movedir *= MoveData.Speed * Time.deltaTime;
+        controller.Move(movedir);
     }
     #endregion
 
@@ -166,7 +167,10 @@ public class PlayerMovement : MonoBehaviour {
 
         //  Move Towards
         MoveData.IncreaseSpeed();
-        MyRigidbody.MovePosition(MyTransform.position + (MyTransform.forward * MoveData.Speed));
+        movedir = Vector3.zero;
+        movedir = MyTransform.forward;
+        movedir *= MoveData.Speed * Time.deltaTime;
+        controller.Move(movedir);
     }
     #endregion
 }

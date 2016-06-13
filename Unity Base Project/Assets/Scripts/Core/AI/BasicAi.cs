@@ -5,24 +5,20 @@ using GoingDark.Core.Enums;
 public class BasicAi : MonoBehaviour
 {
     #region Properties
-    //  Missile Data
+    private bool lockon;
     private float angle;
-    private bool lockedOn;
     private float missileCooldown;
-    public GameObject missilePrefab;
-
-    //  Enemy Data
     private EnemyBehavior behavior;
+    public GameObject missilePrefab;
     #endregion
 
 
-    // Use this for initialization
     void Start()
     {
         behavior = GetComponent<EnemyBehavior>();
         behavior.SetUniqueAi(this);
         missileCooldown = 0f;
-        lockedOn = false;
+        lockon = false;
     }
 
     // Update is called once per frame
@@ -33,7 +29,7 @@ public class BasicAi : MonoBehaviour
 
         LockOn();
 
-        if (lockedOn && behavior.Debuff != Impairments.STUNNED)
+        if (behavior.Debuff != Impairments.STUNNED)
             Fire();
     }
 
@@ -45,20 +41,18 @@ public class BasicAi : MonoBehaviour
             angle = Vector3.Dot(playerDir, behavior.MyTransform.forward);
 
             if (angle > .985f)
-                lockedOn = true;
+                lockon = true;
             else
-                lockedOn = false;
+                lockon = false;
         }
     }
 
     private void Fire()
     {
-        if(missilePrefab == null)
-        {
+        if (missilePrefab == null)
             missilePrefab = Resources.Load<GameObject>("Missiles/EnemyMissile");
-        }
 
-        if (behavior.MissileCount > 0)
+        if (lockon && behavior.MissileCount > 0)
         {
             if (missileCooldown <= 0.0f)
             {

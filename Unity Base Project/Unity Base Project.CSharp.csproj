@@ -58,6 +58,12 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -127,7 +133,7 @@
     <Compile Include="Assets\Scripts\Core\AI\EnemyMaterialChange.cs" />
     <Compile Include="Assets\Scripts\Core\AI\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\Core\AI\IEnemy.cs" />
-    <Compile Include="Assets\Scripts\Core\AI\KamikazeAi.cs" />
+    <Compile Include="Assets\Scripts\Core\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\PatrolAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TransportAi.cs" />
