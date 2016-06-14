@@ -93,30 +93,30 @@ public class AudioManager : MonoBehaviour
         _Gadget.Play();
     }
 
-    //public void PlayThruster()
-    //{
-    //    _Gadget.volume = SoundVolume * MasterVolume;
-    //    if(!_Gadget.isPlaying)
-    //    {
-    //        if (_Gadget.clip == sounds["Thruster"])
-    //            _Gadget.Play();
-    //        else
-    //        {
-    //            _Gadget.clip = sounds["Thruster"];
-    //            _Gadget.Play();
-    //        }
-    //    }
-    //    else if(_Gadget.clip != sounds["Thruster"])
-    //    {
-    //        _Gadget.clip = sounds["Thruster"];
-    //        _Gadget.Play();
-    //    }
-    //}
+    public void PlayThruster()
+    {
+        _Gadget.volume = SoundVolume * MasterVolume;
+        if (!_Gadget.isPlaying)
+        {
+            if (_Gadget.clip == sounds["Thrusters"])
+                _Gadget.Play();
+            else
+            {
+                _Gadget.clip = sounds["Thrusters"];
+                _Gadget.Play();
+            }
+        }
+        else if (_Gadget.clip != sounds["Thrusters"])
+        {
+            _Gadget.clip = sounds["Thrusters"];
+            _Gadget.Play();
+        }
+    }
 
-    //public void ThrusterVolume( float amount )
-    //{
-    //    _Gadget.volume = amount * SoundVolume * MasterVolume;
-    //}
+    public void ThrusterVolume(float amount)
+    {
+        _Gadget.volume = amount * SoundVolume * MasterVolume;
+    }
 
     public IEnumerator LowerBattleMusic()
     {

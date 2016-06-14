@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool stunned;
     private bool autoPilot;
     private bool resetRotation;
+    private float speedAmt;
     private float orientationTimer;
     private Vector3 autoPilotDestination;
 
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour {
         MoveData.RotateSpeed = 50f;
         MoveData.Acceleration = 25f;
         MoveData.Speed = MoveData.MaxSpeed;
+        speedAmt = 0f;
 
         cruise = false;
         stunned = false;
@@ -48,8 +50,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (m_GamePad.GetLeftTrigger() > 0f)
             {
-                cruise = false;
-                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
+                cruise = false;                
+                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());                
             }
             else if (!cruise)
                 MoveData.DecreaseSpeed();
@@ -69,8 +71,10 @@ public class PlayerMovement : MonoBehaviour {
         else if (stunned)
             MoveData.DecreaseSpeed();
 
+        speedAmt = MoveData.Speed / MoveData.MaxSpeed;
+
         if (MoveData.Speed > 0.0f)
-            particles.startSpeed = -(MoveData.Speed / MoveData.MaxSpeed);
+            particles.startSpeed = -speedAmt;
         else
             particles.startSpeed = 0;   
     }
@@ -114,6 +118,9 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (MoveData.Speed <= 0f)
             return;
+
+        AudioManager.instance.PlayThruster();
+        AudioManager.instance.ThrusterVolume(speedAmt);
 
         movedir = Vector3.zero;
         movedir = MyTransform.forward;
