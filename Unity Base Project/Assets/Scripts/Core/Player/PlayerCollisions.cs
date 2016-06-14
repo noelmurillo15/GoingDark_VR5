@@ -5,11 +5,13 @@ public class PlayerCollisions : MonoBehaviour
 
     private float padding;
     private PlayerMovement stats;
+    private x360Controller controller;
 
     void Start()
     {
         padding = 0f;
         stats = GetComponent<PlayerMovement>();
+        controller = GamePadManager.Instance.GetController(0);
     }
 
     void Update()
@@ -26,7 +28,7 @@ public class PlayerCollisions : MonoBehaviour
             {
                 if (stats.GetMoveData().Speed > (stats.GetMoveData().MaxSpeed / 2f))
                     stats.SendMessage("Hit");
-
+               
                 stats.SendMessage("StopMovement");
             }
             padding = 5f;

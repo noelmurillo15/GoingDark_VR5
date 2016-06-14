@@ -16,6 +16,7 @@ public class PlayerStats : MonoBehaviour
     private DeathTransition deathTransition;
 
     private Vector3 station;
+    private x360Controller controller;
     #endregion
 
 
@@ -32,6 +33,8 @@ public class PlayerStats : MonoBehaviour
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
+
+        controller = GamePadManager.Instance.GetController(0);
     }
 
     #region Accessors
@@ -62,6 +65,8 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
+
+        controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
         HealthData.Hit();
         AudioManager.instance.PlayHit();
         SystemData.SystemDamaged();
@@ -69,6 +74,7 @@ public class PlayerStats : MonoBehaviour
     void EMPHit()
     {
         Debug.Log("Player Stats : EmpHit");
+        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
         Debuff = Impairments.Stunned;
         DebuffData.Stunned(5f); 
         if (!IsInvoking("RemoveDebuff"))
@@ -80,6 +86,7 @@ public class PlayerStats : MonoBehaviour
         if (ShieldData.ShieldActive)
         {
             Debug.Log("Player Stats : ShieldHit");
+            controller.AddRumble(.5f, new Vector2(.25f, .25f), .4f);
             AudioManager.instance.PlayShieldHit();
             ShieldData.ShieldHealth -= 25;
             ShieldBar.DecreaseShield(25.0f); // 4 hits to kill
