@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     private CharacterController controller;
 
     //  Auto-Movement
+    private bool cruise;
     private bool stunned;
     private bool autoPilot;
     private bool resetRotation;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour {
         MoveData.Acceleration = 25f;
         MoveData.Speed = MoveData.MaxSpeed;
 
+        cruise = false;
         stunned = false;
         autoPilot = false;
         resetRotation = false;
@@ -43,12 +45,17 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update(){
         if (!autoPilot && !resetRotation && !stunned)
-        {            
-            //  Speed
+        {
             if (m_GamePad.GetLeftTrigger() > 0f)
+            {
+                cruise = false;
                 MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
-            else
+            }
+            else if (!cruise)
                 MoveData.DecreaseSpeed();
+
+            if (m_GamePad.GetButtonDown("LeftThumbstick"))
+                cruise = !cruise;            
 
             Yaw();
             Roll();
@@ -93,16 +100,16 @@ public class PlayerMovement : MonoBehaviour {
         if(m_GamePad.GetLeftStick().X != 0)
             MyTransform.Rotate(Vector3.up * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().X));
     }
+    public void Roll()
+    {
+        if (m_GamePad.GetRightStick().X != 0)
+            MyTransform.Rotate(Vector3.back * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetRightStick().X));
+    }
     public void Pitch()
     {
         if (m_GamePad.GetLeftStick().Y != 0)
             MyTransform.Rotate(Vector3.right * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().Y));        
-    }
-    public void Roll()
-    {
-        if(m_GamePad.GetRightStick().X != 0)
-            MyTransform.Rotate(Vector3.back * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetRightStick().X));
-    }  
+    }     
     void Flight()
     {
         if (MoveData.Speed <= 0f)
