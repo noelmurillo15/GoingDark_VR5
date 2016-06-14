@@ -11,6 +11,15 @@ public class MovementProperties
     public float RotateSpeed;
     public float Acceleration;
 
+    public void Set(float _speed, float _boost, float _maxspeed, float _rotatespeed, float _accel)
+    {
+        Speed = _speed;
+        Boost = _boost;
+        MaxSpeed = _maxspeed;
+        Acceleration = _accel;
+        RotateSpeed = _rotatespeed;
+    }
+
     public void Reset()
     {
         Speed = 0f;

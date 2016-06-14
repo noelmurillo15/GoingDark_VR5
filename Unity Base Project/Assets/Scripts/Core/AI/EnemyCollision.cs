@@ -22,7 +22,7 @@ public class EnemyCollision : MonoBehaviour
 
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
-        messages = GameObject.Find("WarningMessages");
+        messages = GameObject.Find("PlayerCanvas");
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
     }
 

@@ -27,7 +27,7 @@ public class EnemyMissile : MonoBehaviour {
         moveData.Acceleration = 100f;
         moveData.Speed = 100f;
 
-        messages = GameObject.Find("WarningMessages");
+        messages = GameObject.Find("PlayerCanvas");
         messages.SendMessage("MissileIncoming");
 
         Invoke("Kill", 5f);

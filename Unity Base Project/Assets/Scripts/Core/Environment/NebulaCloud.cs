@@ -37,7 +37,7 @@ public class NebulaCloud : MonoBehaviour
         {
             if(player == null || message == null)
             {
-                message = GameObject.Find("WarningMessages");
+                message = GameObject.Find("PlayerCanvas");
                 player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
             }
             message.SendMessage("Poison");

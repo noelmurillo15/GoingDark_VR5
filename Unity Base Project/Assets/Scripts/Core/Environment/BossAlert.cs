@@ -8,7 +8,7 @@ public class BossAlert : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        message = GameObject.Find("WarningMessages");
+        message = GameObject.Find("PlayerCanvas");
     }
 
     // Update is called once per frame

@@ -13,7 +13,7 @@ public class AmmoPickUp : MonoBehaviour
         myTransform = transform;
         collected = false;
         missile = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -25,7 +25,7 @@ public class AmmoPickUp : MonoBehaviour
         if(!collected)
         {
             myTransform.LookAt(player);
-            myTransform.position += myTransform.forward * 100 * Time.deltaTime;
+            myTransform.position += myTransform.forward * 200 * Time.deltaTime;
         }
     }
    

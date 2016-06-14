@@ -31,7 +31,7 @@ public class SystemManager : MonoBehaviour {
 
         // References
         MissionLog = GameObject.Find("MissionLog");
-        messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
     }
 
     #region Private Methods

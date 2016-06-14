@@ -10,7 +10,7 @@ public class OutOfBoundsScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        messages = GameObject.Find("WarningMessages");
+        messages = GameObject.Find("PlayerCanvas");
         DisplayDuration = 10.0f;
     }
 

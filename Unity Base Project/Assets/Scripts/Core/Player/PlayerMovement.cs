@@ -3,46 +3,40 @@
 public class PlayerMovement : MonoBehaviour {
 
     #region Properties
-    private Vector3 movedir;
-    private Transform MyTransform;
-    private x360Controller m_GamePad;
     public MovementProperties MoveData;
-    private CharacterController controller;
 
-    //  Auto-Movement
     private bool cruise;
     private bool stunned;
     private bool autoPilot;
     private bool resetRotation;
+
     private float speedAmt;
     private float orientationTimer;
-    private Vector3 autoPilotDestination;
 
-    ParticleSystem particles;
+    private Transform MyTransform;
+    private x360Controller m_GamePad;
+    private ParticleSystem particles;
+    private Vector3 autoPilotDestination;
+    private CharacterController controller;
     #endregion
 
 
     void Start() {
         MyTransform = transform;
+        MoveData.Set(80f, 1f, 80f, 50f, 20f);
 
-        MoveData.Boost = 1f;
-        MoveData.MaxSpeed = 80f;
-        MoveData.RotateSpeed = 50f;
-        MoveData.Acceleration = 25f;
-        MoveData.Speed = MoveData.MaxSpeed;
         speedAmt = 0f;
+        orientationTimer = 0.0f;
 
         cruise = false;
         stunned = false;
         autoPilot = false;
         resetRotation = false;
-        movedir = Vector3.zero;
-        orientationTimer = 0.0f;
 
+        particles = GetComponent<ParticleSystem>();
         controller = GetComponent<CharacterController>();
         m_GamePad = GamePadManager.Instance.GetController(0);
         //OutOfBounds();
-        particles = GetComponent<ParticleSystem>();
     }
 
     void Update(){
@@ -71,12 +65,7 @@ public class PlayerMovement : MonoBehaviour {
         else if (stunned)
             MoveData.DecreaseSpeed();
 
-        speedAmt = MoveData.Speed / MoveData.MaxSpeed;
-
-        if (MoveData.Speed > 0.0f)
-            particles.startSpeed = -speedAmt;
-        else
-            particles.startSpeed = 0;   
+        speedAmt = MoveData.Speed / MoveData.MaxSpeed;              
     }
 
      public void PlayerStunned()
@@ -101,17 +90,14 @@ public class PlayerMovement : MonoBehaviour {
     }
     public void Yaw()
     {
-        if(m_GamePad.GetLeftStick().X != 0)
             MyTransform.Rotate(Vector3.up * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().X));
     }
     public void Roll()
     {
-        if (m_GamePad.GetRightStick().X != 0)
             MyTransform.Rotate(Vector3.back * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetRightStick().X));
     }
     public void Pitch()
     {
-        if (m_GamePad.GetLeftStick().Y != 0)
             MyTransform.Rotate(Vector3.right * Time.deltaTime * (MoveData.RotateSpeed * m_GamePad.GetLeftStick().Y));        
     }     
     void Flight()
@@ -119,11 +105,11 @@ public class PlayerMovement : MonoBehaviour {
         if (MoveData.Speed <= 0f)
             return;
 
+        particles.startSpeed = -speedAmt;
         AudioManager.instance.PlayThruster();
         AudioManager.instance.ThrusterVolume(speedAmt);
 
-        movedir = Vector3.zero;
-        movedir = MyTransform.forward;
+        Vector3 movedir = MyTransform.forward;
         movedir *= MoveData.Speed * Time.deltaTime;
         controller.Move(movedir);
     }
@@ -165,12 +151,8 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 destination = Vector3.RotateTowards(MyTransform.forward, playerDir, (MoveData.RotateSpeed * 0.05f) * Time.deltaTime, 0.0f);
         MyTransform.rotation = Quaternion.LookRotation(destination);
 
-        //  Move Towards
         MoveData.IncreaseSpeed();
-        movedir = Vector3.zero;
-        movedir = MyTransform.forward;
-        movedir *= MoveData.Speed * Time.deltaTime;
-        controller.Move(movedir);
+        Flight();
     }
     #endregion
 }

@@ -14,7 +14,7 @@ public class LootPickup : MonoBehaviour {
         Initialize();
         collected = false;
         mission = GameObject.Find("PersistentGameObject");
-        messages = GameObject.Find("WarningMessages").GetComponent<MessageScript>();
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         manager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 	
