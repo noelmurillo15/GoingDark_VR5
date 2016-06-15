@@ -65,7 +65,7 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
-
+        Debug.Log("Player Hit");
         controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
         HealthData.Hit();
         AudioManager.instance.PlayHit();

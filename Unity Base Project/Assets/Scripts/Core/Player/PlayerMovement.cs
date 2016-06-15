@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Start() {
         MyTransform = transform;
-        MoveData.Set(80f, 1f, 80f, 50f, 20f);
+        MoveData.Set(80f, 1f, 120f, 50f, 20f);
 
         speedAmt = 0f;
         orientationTimer = 0.0f;
