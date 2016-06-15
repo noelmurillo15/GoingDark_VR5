@@ -89,7 +89,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayBossTheme()
     {
-        if (_Music.clip != music["BossThene"])
+        if (_Music.clip != music["BossTheme"])
         {
             Boss = true;
             _Music.Stop();
@@ -128,7 +128,7 @@ public class AudioManager : MonoBehaviour
 
     public void ThrusterVolume(float amount)
     {
-        _Gadget.volume = amount * SoundVolume * MasterVolume;
+        _Gadget.volume = 0.1f * amount * SoundVolume * MasterVolume;
     }
 
     public IEnumerator LowerBattleMusic()

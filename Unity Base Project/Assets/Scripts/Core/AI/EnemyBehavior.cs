@@ -59,8 +59,11 @@ public class EnemyBehavior : IEnemy
     public void SetEnemyTarget(Transform _target)
     {
         Target = _target;
-        if (Target != null)     
+        if (Target != null)
+        {
+            GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().PlayerSeen();
             ChangeState(EnemyStates.Attack);        
+        }
         else
             ChangeState(EnemyStates.Patrol);        
     }    

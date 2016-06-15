@@ -11,7 +11,7 @@ public class BossAi : MonoBehaviour
     private bool droidSpawned;
     private int droidcount;
     private int Maxcount;
-
+    private bool foundP;
     #endregion
 
     void Start()
@@ -26,12 +26,17 @@ public class BossAi : MonoBehaviour
         InvokeRepeating("SpawnDroids", 1f, 4);
         droidcount = 1;
         Maxcount = -100;
-
+        foundP = false;
     }
     
 
     private void SpawnDroids()
     {
+        if(!foundP)
+        {
+            foundP = true;
+            AudioManager.instance.PlayBossTheme();
+        }
         GameObject[] go = new GameObject[droidcount];
         if (behavior.Target != null && Maxcount < 50)
             for (int i = 0; i < droidcount; i++)

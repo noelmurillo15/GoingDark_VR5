@@ -39,8 +39,7 @@ public class IEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
 
-        manager = transform.parent.GetComponent<EnemyManager>();
-        manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
+        Invoke("AddToManager", 1f);
     }
 
     #region Accessors
@@ -62,6 +61,12 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Msg Functions
+
+    void AddToManager()
+    {
+        manager = transform.parent.GetComponent<EnemyManager>();
+        manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
+    }
     void EMPHit()
     {
         stunned.SetActive(true);
@@ -295,9 +300,9 @@ public class IEnemy : MonoBehaviour
                 break;
 
 
-            default:
-                Debug.LogError("Invalid Enemy Name : " + transform.name);
-                break;
+            //default:
+            //    Debug.LogError("Invalid Enemy Name : " + transform.name);
+            //    break;
         }
     }
     #endregion 

@@ -213,8 +213,9 @@ public class TutorialFlight : MonoBehaviour
             line2.text = "Completion (" + mission.m_ActiveMissions[0].objectives + ")";
             line3.text = "You can use Missile or Laser to eliminate the enemies";
 
-            if (combatMissionCompleted)
+            if (combatMissionCompleted || mission.m_ActiveMissions[0].objectives <=0)
             {
+                combatMissionCompleted = true;
                 phase++;
                 buffer = false;
             }

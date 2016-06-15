@@ -39,12 +39,6 @@ public class MissionSystem : MonoBehaviour
         //AddActiveMission(m_stationMissions[0]);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void AddActiveMission(Mission mission)
     {
         mission.isActive = true;
@@ -90,7 +84,15 @@ public class MissionSystem : MonoBehaviour
 
             if (mission.enemy == EnemyTypes.Any ||
                 mission.enemy == type)
+            {
                 mission.objectives--;
+                if (mission.objectives <= 0)
+                {
+                    mission.completed = true;
+                    m_missionLog.Completed(mission);
+                    m_CompletedMissions.Add(mission);
+                }
+            }
 
             m_ActiveMissions[i] = mission;
         }
@@ -118,10 +120,13 @@ public class MissionSystem : MonoBehaviour
                 m_playerStats.SaveData.Credits += credits;
                 Debug.Log("Added " + credits + "credits. Player has : " + m_playerStats.SaveData.Credits);
                 // remove turned in missions from active list and station list
+
                 Mission temp = m_ActiveMissions[i];
-                m_ActiveMissions.Remove(temp);
-                m_stationMissions.Remove(temp);
-                m_CompletedMissions.Add(temp);
+                int station = m_stationMissions.FindIndex(x => x.missionName == temp.missionName);
+                m_stationMissions.RemoveAt(station);
+                m_ActiveMissions.RemoveAt(i);
+
+                //m_CompletedMissions.Add(temp);
                 break;
             }
         }
@@ -132,9 +137,7 @@ public class MissionSystem : MonoBehaviour
     void MissionFailed(Mission mission)
     {
         m_ActiveMissions.Remove(mission);
-        m_stationMissions.Remove(mission);
-        m_missionLog.SendMessage("Failed", mission);
-        //m_missionMessages.SendMessage("Failed", mission.missionName);
+        m_missionLog.Failed(mission);
     }
 
 }

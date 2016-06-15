@@ -150,11 +150,18 @@ public class StationLog : MonoBehaviour
         m_pStationPanel.SetActive(false);
         m_pMissions.SetActive(true);
 
-        for (int i = 0; i < m_missionSystem.m_stationMissions.Count; i++)
+        for (int i = 0; i < 4; i++)
         {
-            mButtons[i].gameObject.name = m_missionSystem.m_stationMissions[i].missionName;
-            mButtons[i].gameObject.SetActive(true);
-            mButtons[i].GetComponentInChildren<Text>().text = mButtons[i].gameObject.name;
+            if (i > m_missionSystem.m_stationMissions.Count - 1)
+            {
+                mButtons[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                mButtons[i].gameObject.name = m_missionSystem.m_stationMissions[i].missionName;
+                mButtons[i].gameObject.SetActive(true);
+                mButtons[i].GetComponentInChildren<Text>().text = mButtons[i].gameObject.name;
+            }
         }
 
     }
@@ -181,7 +188,7 @@ public class StationLog : MonoBehaviour
             {
                 OpenStationPanel();
             }
-            else/* if (mLastButton.name != "Back")*/
+            else
             {
                 OpenStationMissions();
             }

@@ -32,7 +32,6 @@ public class MissionLog : MonoBehaviour
         m_tMissionInfo = text[0];
         m_tObjectives = text[1];
 
-        //TogglePanel();
         AssignButtonName();
         ActiveMissions();
 
@@ -54,9 +53,12 @@ public class MissionLog : MonoBehaviour
 
     void ActiveButtons()
     {
-        for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
+        for (int i = 0; i < 4; i++)
         {
-            buttons[i].SetActive(true);
+            if (i > m_missionSystem.m_ActiveMissions.Count)
+                buttons[i].SetActive(false);
+            else
+                buttons[i].SetActive(true);
         }
     }
 
@@ -78,8 +80,13 @@ public class MissionLog : MonoBehaviour
 
     void ActiveMissions()
     {
-        for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
-            buttons[i].gameObject.SetActive(true);
+        for (int i = 0; i < 4; i++)
+        {
+            if (i > m_missionSystem.m_ActiveMissions.Count - 1)
+                buttons[i].gameObject.SetActive(false);
+            else
+                buttons[i].gameObject.SetActive(true);
+        }
     }
 
     void AssignButtonName()
@@ -92,14 +99,14 @@ public class MissionLog : MonoBehaviour
         }
     }
 
-    void Failed(Mission mission)
+    public void Failed(Mission mission)
     {
         ActiveMissions();
         m_pMissionMessage.SetActive(true);
         m_pMissionMessage.SendMessage("Failed", mission.missionName);
     }
 
-    void Completed(Mission mission)
+    public void Completed(Mission mission)
     {
         m_pMissionMessage.SetActive(true);
         m_pMissionMessage.SendMessage("Completed", mission.missionName);
@@ -128,7 +135,7 @@ public class MissionLog : MonoBehaviour
             AssignInfo(mission);
             m_pMissionButtonPanel.SetActive(false);
             m_pMissionInfo.SetActive(true);
-           
+
         }
         else if (button.name == "CloseLog")
         {
