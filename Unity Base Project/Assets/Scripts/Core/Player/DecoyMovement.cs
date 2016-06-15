@@ -5,6 +5,7 @@ public class DecoyMovement : MonoBehaviour
 {
 
     #region Properties
+    private float hp;
     private float speed;
     private float aliveTimer;
     private Vector3 moveDir;
@@ -15,8 +16,9 @@ public class DecoyMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        speed = 0f;
-        aliveTimer = 30f;
+        hp = 5;
+        speed = 80f;
+        aliveTimer = 15f;
         moveDir = Vector3.zero;
         MyTransform = transform;
         Invoke("Kill", aliveTimer);
@@ -24,12 +26,11 @@ public class DecoyMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (speed < 100f)
             speed += Time.deltaTime * 5f;
 
-        moveDir = Vector3.zero;
         moveDir = MyTransform.TransformDirection(Vector3.forward);
         moveDir *= (speed * Time.deltaTime);
         m_controller.Move(moveDir);
@@ -38,12 +39,9 @@ public class DecoyMovement : MonoBehaviour
     #region Msg Calls
     public void Kill()
     {
-        //GameObject.Find("Enemies").SendMessage("TargetDestroyed");
-        Destroy(gameObject);
-    }
-    public void SetSpeed(float _speed)
-    {
-        speed = _speed;
+        hp--;
+        if(hp <= 0)
+            Destroy(gameObject);
     }
     #endregion
 }

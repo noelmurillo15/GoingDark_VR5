@@ -5,7 +5,7 @@ public class DecoySystem : ShipDevice {
     #region Properties
     public int Count { get; private set; }
 
-    private GameObject player;
+    private Transform player;
     public GameObject decoy;
     #endregion
 
@@ -14,7 +14,7 @@ public class DecoySystem : ShipDevice {
     {
         Count = 5;
         maxCooldown = 10f;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         decoy = Resources.Load<GameObject>("Devices/DecoyShip");
     }
 
@@ -34,8 +34,7 @@ public class DecoySystem : ShipDevice {
         {
             Count--;
             DeActivate();
-            GameObject go = Instantiate(decoy, player.transform.position, player.transform.localRotation) as GameObject;
-            go.SendMessage("SetSpeed", player.GetComponent<PlayerMovement>().GetMoveData().Speed);
+            GameObject go = Instantiate(decoy, new Vector3(player.position.x, player.position.y - 10f, player.position.z), player.transform.localRotation) as GameObject;
             go.transform.parent = player.transform.parent;
         }
     }

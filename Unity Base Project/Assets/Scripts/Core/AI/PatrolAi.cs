@@ -59,7 +59,7 @@ public class PatrolAi : MonoBehaviour
             {
                 if (behavior.Target == null)
                 {
-                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);                    
                 }
                 else
                 {

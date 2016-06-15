@@ -18,10 +18,6 @@ public class MessageScript : MonoBehaviour
     [SerializeField]
     Text poisonMsg;
     [SerializeField]
-    Text systemName;
-    [SerializeField]
-    Text systemCollect;
-    [SerializeField]
     Text offlineDevices;
     [SerializeField]
     Text systemReport;
@@ -34,7 +30,6 @@ public class MessageScript : MonoBehaviour
     void Start()
     {
         NoWarning();
-        autopilotMsg.enabled = true;
     }
 
     #region Msg Functions
@@ -45,23 +40,8 @@ public class MessageScript : MonoBehaviour
         enemyClose.enabled = false;
         missileInc.enabled = false;
         poisonMsg.enabled = false;
-        systemCollect.enabled = false;
-        systemName.enabled = false;
         systemReport.enabled = false;
         offlineDevices.enabled = false;
-    }
-    public void SystemCollection(SystemType type)
-    {
-        systemName.enabled = true;
-        systemCollect.enabled = true;
-        systemName.text = type.ToString();
-        if(!IsInvoking("SystemInstalled"))
-            Invoke("SystemInstalled", 5f);
-    }
-    public void SystemInstalled()
-    {
-        systemName.enabled = false;
-        systemCollect.enabled = false;
     }
     public void SystemReport(string systemsdown)
     {
