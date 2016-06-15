@@ -331,6 +331,7 @@
     <Compile Include="Assets\Scripts\Core\Utilities\WaypointProgressTracker.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\XInputTestCS.cs" />
     <Compile Include="Assets\Scripts\Core\Utilities\x360Controller.cs" />
+    <Compile Include="Assets\SensorRadar_2D.cs" />
     <Compile Include="Assets\SpaceStationTurret.cs" />
   </ItemGroup>
   <ItemGroup>
