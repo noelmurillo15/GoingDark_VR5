@@ -54,12 +54,15 @@ public class KamikazeAI : MonoBehaviour
     {
         Invoke("Explosion", selfdestructTimer);
     }
-
+    void SelfDestructBoss()
+    {
+        Invoke("Explosion", 20);
+    }
     private void Explosion()
     {
         GameObject go = Instantiate(Resources.Load("Particles/Boom"), behavior.MyTransform.position, Quaternion.identity) as GameObject;
         go.transform.parent = behavior.MyTransform.parent;
-        DestroyObject(gameObject);
+        SendMessage("Kill");
     }
     #endregion
 

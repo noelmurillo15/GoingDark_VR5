@@ -1,28 +1,36 @@
 ﻿using UnityEngine;
+using GoingDark.Core.Enums;
 
 public class LaserSystem : ShipDevice
 {
     #region Properties
     private GameObject gun1;
     private GameObject gun2;
-    private GameObject burst1;
-    private GameObject burst2;
+    private GameObject[] Basicburst;
+    private GameObject[] Chargeburst;
     private GameObject EnergyBar;
     private float size = 0.05f;
     private float BarAmount;
     private bool overheat;
     private float OverheatTimer;
+    public LaserType currentType;
+    private float buffer;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
+        buffer = 0f;
+        Basicburst = new GameObject[2];
+        Chargeburst = new GameObject[2];
         maxCooldown = .25f;
         gun1 = GameObject.Find("Gun1");
         gun2 = GameObject.Find("Gun2");
-        burst1 = gun1.transform.GetChild(0).gameObject;
-        burst2 = gun2.transform.GetChild(0).gameObject;
+        Basicburst[0] = gun1.transform.GetChild(0).gameObject;
+        Basicburst[1] = gun2.transform.GetChild(0).gameObject;
+        Chargeburst[0] = gun1.transform.GetChild(1).gameObject;
+        Chargeburst[1] = gun2.transform.GetChild(1).gameObject;
         overheat = false;
         BarAmount = 100.0f;
         EnergyBar = transform.GetChild(3).gameObject;
@@ -32,6 +40,9 @@ public class LaserSystem : ShipDevice
     // Update is called once per frame
     void Update()
     {
+        if (buffer > 0f)
+            buffer -= Time.deltaTime;
+
         if (!overheat)
         {
             if(BarAmount < 100.0f)
@@ -64,9 +75,25 @@ public class LaserSystem : ShipDevice
 
     public void ShootGun()
     {
-        UpdateEnergyGauge(8f);
-        burst1.SetActive(true);
-        burst2.SetActive(true);
+        //burst1.SetActive(true);
+        //burst2.SetActive(true);
+        switch (currentType)
+        {
+            case LaserType.Basic:
+                UpdateEnergyGauge(6f);
+                Basicburst[0].SetActive(true);
+                Basicburst[1].SetActive(true);
+                break;
+            case LaserType.Charged:
+                UpdateEnergyGauge(14f);
+                Chargeburst[0].SetActive(true);
+                Chargeburst[1].SetActive(true);
+                break;
+            case LaserType.Ball:
+                break;
+            case LaserType.Continuous:
+                break;
+        }
         DeActivate();
     }
 
@@ -87,5 +114,45 @@ public class LaserSystem : ShipDevice
         float offset = ((BarAmount * 0.01f) * 0.00456f) - 0.00456f;
         newPos.x = offset;
         EnergyBar.transform.localPosition = newPos;
-    }    
+    }
+
+    public void WeaponSelect(LaserType type)
+    {
+        currentType = type;
+        //switch (currentType)
+        //{
+        //    case LaserType.Basic:
+        //        break;
+        //    case LaserType.Charged:
+        //        break;
+        //    case LaserType.Ball:
+        //        break;
+        //    case LaserType.Continuous:
+        //        break;
+        //}
+    }
+
+    public void WeaponSwap()
+    {
+        if (buffer <= 0f)
+        {
+            buffer = .5f;
+            int curr = (int)(currentType + 1);
+            if (System.Enum.GetValues(typeof(LaserType)).Length == curr)
+                curr = 0;
+
+            currentType = (LaserType)curr;
+            //switch (currentType)
+            //{
+            //    case LaserType.Basic:
+            //        break;
+            //    case LaserType.Charged:
+            //        break;
+            //    case LaserType.Ball:
+            //        break;
+            //    case LaserType.Continuous:
+            //        break;
+            //}
+        }
+    }
 }

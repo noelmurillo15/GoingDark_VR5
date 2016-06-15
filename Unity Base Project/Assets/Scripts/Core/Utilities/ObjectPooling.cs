@@ -19,6 +19,12 @@ public class ObjectPooling
         if(projs == null)
             projs = GameObject.Find("Projectiles");
 
+        if (_poolobj == null)
+        {
+            Debug.LogError("Poolobj is set to null : " + _poolamount.ToString());
+            return;
+        }
+
         pooledObj = _poolobj;
         pooledAmnt = _poolamount;
         poolList = new List<GameObject>();

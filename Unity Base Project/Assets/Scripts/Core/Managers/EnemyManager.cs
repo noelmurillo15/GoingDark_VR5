@@ -8,7 +8,7 @@ public class EnemyManager : MonoBehaviour
     public Transform PlayerPosition { get; private set; }
 
     private MissionSystem missionSystem;
-    private  List<GameObject> enemies = new List<GameObject>();
+    private  List<EnemyBehavior> enemies = new List<EnemyBehavior>();
     #endregion
 
     void Awake()
@@ -22,14 +22,18 @@ public class EnemyManager : MonoBehaviour
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
     }
     
-    public void AddEnemy(GameObject enemy)
+    public void AddEnemy(EnemyBehavior enemy)
     {
         enemies.Add(enemy);
     }
 
+    public void RemoveEnemy(EnemyBehavior enemy)
+    {
+        enemies.Remove(enemy);
+    }
+
     public void SendAlert(Vector3 enemypos)
     {
-        Debug.Log("Alert has been sent");
         AudioManager.instance.StartCoroutine("RaiseBattleMusic");
         object[] tempStorage = new object[2];
         tempStorage[0] = PlayerPosition.position;
@@ -43,20 +47,14 @@ public class EnemyManager : MonoBehaviour
         {
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (enemies[i] != null)
-                {
-                    if (enemies[i].GetComponent<EnemyBehavior>().uniqueAi.enabled)
-                        return;
-                }
-                else
-                {
-                    enemies.Remove(enemies[i]);
-                    enemies.Sort();
-                    CheckEnemies();
-                    return;
-                }
+                    if (enemies[i].uniqueAi.enabled)
+                        return;                
             }
             AudioManager.instance.StartCoroutine("LowerBattleMusic");
+        }
+        else
+        {
+            Debug.Log("You WIN");
         }
     }
 

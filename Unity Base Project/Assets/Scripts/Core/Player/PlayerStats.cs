@@ -34,7 +34,7 @@ public class PlayerStats : MonoBehaviour
         ShieldData.ShieldActive = true;
         ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
 
-        controller = GamePadManager.Instance.GetController(0);
+        controller = GamePadManager.Instance.GetController(0);       
     }
 
     #region Accessors

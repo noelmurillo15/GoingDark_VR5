@@ -51,10 +51,10 @@ public class MissileSystem : ShipDevice
         textCount.text = Count.ToString();
 
         // Missile Data
-        basic = Resources.Load<GameObject>("Missiles/BasicMissile");
-        emp = Resources.Load<GameObject>("Missiles/EmpMissile");
-        chrome = Resources.Load<GameObject>("Missiles/ChromaticMissile");
-        shieldbreak = Resources.Load<GameObject>("Missiles/ShieldBreakMissile");        
+        basic = Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile");
+        emp = Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile");
+        chrome = Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile");
+        shieldbreak = Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile");        
 
         pool = new ObjectPooling();
         pool.Initialize(basic, 4);

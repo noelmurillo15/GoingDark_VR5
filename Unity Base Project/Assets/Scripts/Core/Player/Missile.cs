@@ -83,7 +83,6 @@ public class Missile : MonoBehaviour {
             {
                 if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
                 {
-                    Debug.Log("Missile tracking " + hit.collider.tag + " : " + hit.distance);
                     target = hit.collider.transform;
                     tracking = true;
                 }
@@ -96,16 +95,16 @@ public class Missile : MonoBehaviour {
         switch (Type)
         {
             case MissileType.Basic:
-                Explosion = Resources.Load<GameObject>("Explosions/BasicExplosion");
+                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion");
                 break;
             case MissileType.Emp:
-                Explosion = Resources.Load<GameObject>("Explosions/EmpExplosion");
+                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/EmpExplosion");
                 break;
             case MissileType.ShieldBreak:
-                Explosion = Resources.Load<GameObject>("Explosions/ShieldBreakExplosion");
+                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/ShieldBreakExplosion");
                 break;
             case MissileType.Chromatic:
-                Explosion = Resources.Load<GameObject>("Explosions/ChromaticExplosion");
+                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/ChromaticExplosion");
                 break;
         }
     }
@@ -116,6 +115,8 @@ public class Missile : MonoBehaviour {
         deflected = false;
         if (Explosion != null)
             Instantiate(Explosion, MyTransform.position, Quaternion.identity);
+        else
+            Debug.LogError("Missile Explosion == null");
 
         gameObject.SetActive(false);
     }

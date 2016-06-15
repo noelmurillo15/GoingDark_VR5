@@ -4,7 +4,7 @@ public class Despawn : MonoBehaviour
 {
     public float Duration;
 
-    void Start()
+    void Initialize()
     {
         Invoke("Kill", Duration);
     }

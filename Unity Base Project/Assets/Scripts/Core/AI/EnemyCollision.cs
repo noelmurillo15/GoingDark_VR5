@@ -18,7 +18,6 @@ public class EnemyCollision : MonoBehaviour
     void Start()
     {
         manager = transform.parent.GetComponent<EnemyManager>();
-        manager.AddEnemy(gameObject);
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
         messages = GameObject.Find("PlayerCanvas");
@@ -38,14 +37,12 @@ public class EnemyCollision : MonoBehaviour
         {
             if (col.CompareTag("Decoy"))
             {
-                Debug.Log("Picked Up Decoy");
                 detectionTimer = 0f;
                 return;
             }
 
             if (col.CompareTag("Player"))
             {
-                Debug.Log("Picked Up Player");
                 if (pCloak == null)
                     pCloak = systemManager.GetSystem(SystemType.Cloak).GetComponent<CloakSystem>();
 
@@ -68,7 +65,6 @@ public class EnemyCollision : MonoBehaviour
     {
         if (col.CompareTag("Decoy") && detectionTimer <= 0.0f)
         {
-            Debug.Log("Decoy Locked as Target");
             detectionTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
             return;
@@ -76,7 +72,6 @@ public class EnemyCollision : MonoBehaviour
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            Debug.Log("Player Locked as Target");
             if (pCloak.GetCloaked())
             {
                 detectionTimer = pCloak.GetCloakTimer();
@@ -94,13 +89,11 @@ public class EnemyCollision : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            Debug.Log("Lost Lock on Target");
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
         }
         if (col.CompareTag("Decoy"))
         {
-            Debug.Log("Lost Lock on Target");
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
         }

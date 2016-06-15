@@ -15,6 +15,14 @@
         ShieldBreak,
         Chromatic
     }
+
+    public enum LaserType
+    {
+        Basic,
+        Charged,
+        Ball,
+        Continuous
+    }
     public enum Impairments
     {
         None,

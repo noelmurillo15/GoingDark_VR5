@@ -18,7 +18,7 @@ public class OutOfBoundsScript : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            messages.SendMessage("ManualPilot");
+            DisableWarning();
             col.SendMessage("InBounds");
             if (IsInvoking("EnableAutoPilot"))
                 CancelInvoke("EnableAutoPilot");
@@ -37,6 +37,10 @@ public class OutOfBoundsScript : MonoBehaviour
     void SendWarning()
     {
         messages.SendMessage("AutoPilot");
+    }
+    void DisableWarning()
+    {
+        messages.SendMessage("ManualPilot");
     }
 
     void EnableAutoPilot()

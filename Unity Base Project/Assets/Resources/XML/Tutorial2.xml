@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
-  <mission name ="Scavenger"
+  <mission name ="Flight Tutorial"
     info = "Hit 10 fire rings"
     credits = "100"
     objectives = "10"
@@ -8,6 +8,26 @@
     enemy = "None"
     time = "0.0"
     optional = "false"
+  />
+  
+  <mission name ="Stealth Tutorial"
+  info = "Locate 1 objectives without getting seen by the enemy fleet"
+  credits = "200"
+  objectives = "1"
+  type = "Stealth"
+  enemy = "None"
+  time = "0.0"
+  optional = "true"
+  />
+
+  <mission name ="Combat Tutorial"
+ info = "Kill 5 enemies"
+ credits = "200"
+ objectives = "5"
+ type = "Combat"
+ enemy = "Any"
+ time = "0.0"
+ optional = "true"
   />
   
 </Tutorial2>

@@ -48,8 +48,6 @@ public class LootPickup : MonoBehaviour {
 
     void OnTriggerEnter(Collider col) {
         if (col.transform.tag == "Player") {
-            manager.SendMessage("InitializeDevice", Type);
-            messages.SendMessage("SystemCollection", Type);
             mission.SendMessage("LootPickedUp");
             collected = true;
             AudioManager.instance.PlayCollect();

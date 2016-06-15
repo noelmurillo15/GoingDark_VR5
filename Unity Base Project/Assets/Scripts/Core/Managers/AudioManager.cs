@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     private bool Raise;
     private bool Lower;
     private bool Fighting;
+    private bool Boss;
 
     [Range(0.0f, 1.0f)]
     public float MasterVolume = 1.0f;
@@ -34,6 +35,7 @@ public class AudioManager : MonoBehaviour
 
         Raise = false;
         Lower = false;
+        Boss = false;
         Fighting = false;
         sounds = new Dictionary<string, AudioClip>();
         music = new Dictionary<string, AudioClip>();
@@ -52,8 +54,7 @@ public class AudioManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         _BattleMusic.clip = music["BattleTheme"];
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (Raise || Lower)
@@ -80,10 +81,22 @@ public class AudioManager : MonoBehaviour
             }
         }
 
-        if (!_BattleMusic.isPlaying)
+        if (!_BattleMusic.isPlaying || Boss)
             _Music.volume = MusicVolume * MasterVolume;
         else if(!_Music.isPlaying)
             _BattleMusic.volume = MusicVolume * MasterVolume;
+    }
+
+    public void PlayBossTheme()
+    {
+        if (_Music.clip != music["BossThene"])
+        {
+            Boss = true;
+            _Music.Stop();
+            _BattleMusic.Stop();
+            _Music.clip = music["BossTheme"];
+            _Music.Play();
+        }
     }
 
     public void PlayMissileLaunch()
@@ -120,7 +133,7 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator LowerBattleMusic()
     {
-        if (_BattleMusic.isPlaying && Fighting)
+        if (_BattleMusic.isPlaying && Fighting && !Boss)
         {
             Fighting = false;
             _Music.volume = 0.0f;
@@ -152,7 +165,7 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator RaiseBattleMusic()
     {
-        if (_Music.isPlaying && !Fighting)
+        if (_Music.isPlaying && !Fighting && !Boss)
         {
             Fighting = true;
             _BattleMusic.volume = 0.0f;

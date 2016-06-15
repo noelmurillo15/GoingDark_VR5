@@ -73,7 +73,6 @@ public class EnemyBehavior : IEnemy
             {
                 if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 5000f)
                 {
-                    Debug.Log("Enemy responding to broadcast");
                     SetLastKnown((Vector3)storage[0]);
                 }
             }

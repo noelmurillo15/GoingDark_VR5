@@ -21,6 +21,7 @@ public class IEnemy : MonoBehaviour
     private GameObject ammoDrop;
     private GameObject stunned;
 
+    private EnemyManager manager;
     public Transform MyTransform { get; private set; }
     #endregion
 
@@ -31,11 +32,15 @@ public class IEnemy : MonoBehaviour
         MissileCount = 0;
         MyTransform = transform;
         LoadEnemyData();
-        explosion = Resources.Load<GameObject>("Explosions/EnemyExplosion");
+        explosion = Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion");
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);
         rb = GetComponent<Rigidbody>();
+
+
+        manager = transform.parent.GetComponent<EnemyManager>();
+        manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
     }
 
     #region Accessors
@@ -59,14 +64,13 @@ public class IEnemy : MonoBehaviour
     #region Msg Functions
     void EMPHit()
     {
-        stunned.SetActive(true);        
+        stunned.SetActive(true);
+
+        Debuff = Impairments.Stunned;
+        Invoke("ResetDebuff", 5f);
+
         if (Type == EnemyTypes.Droid)
-            Invoke("Kill", 5f);        
-        else
-        {
-            Debuff = Impairments.Stunned;
-            Invoke("ResetDebuff", 5f);            
-        }     
+            Invoke("Kill", 5f);
     }
 
     void ShieldHit()
@@ -120,6 +124,7 @@ public class IEnemy : MonoBehaviour
         Instantiate(explosion, transform.position, Quaternion.identity);
         if (RandomChance())
             Instantiate(ammoDrop, transform.position, Quaternion.identity);
+        manager.RemoveEnemy(MyTransform.GetComponent<EnemyBehavior>());
         Destroy(gameObject);
     }
     #endregion
@@ -291,7 +296,7 @@ public class IEnemy : MonoBehaviour
 
 
             default:
-                Debug.Log("Invalid Enemy Name : " + transform.name);
+                Debug.LogError("Invalid Enemy Name : " + transform.name);
                 break;
         }
     }

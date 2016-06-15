@@ -25,31 +25,37 @@ public class TutorialStation : MonoBehaviour {
 
     public void OnTriggerEnter(Collider col)
     {
-        switch (m_sceneName)
+        if (col.transform.tag == "Player")
         {
-            case "Tutorial":
-                m_tutorial.SendMessage("EnterStation");
-                break;
-            case "Tutorial2":
-                m_tutorial2.SendMessage("EnterStation");
-                break;
-            default:
-                break;
+            switch (m_sceneName)
+            {
+                case "Tutorial":
+                    m_tutorial.SendMessage("EnterStation");
+                    break;
+                case "Tutorial2":
+                    m_tutorial2.SendMessage("EnterStation");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void OnTriggerExit(Collider col)
     {
-        switch (m_sceneName)
+        if (col.transform.tag == "Player")
         {
-            case "Tutorial":
-                m_tutorial.SendMessage("ExitStation");
-                break;
-            case "Tutorial2":
-                m_tutorial2.SendMessage("ExitStation");
-                break;
-            default:
-                break;
+            switch (m_sceneName)
+            {
+                case "Tutorial":
+                    m_tutorial.SendMessage("ExitStation");
+                    break;
+                case "Tutorial2":
+                    m_tutorial2.SendMessage("ExitStation");
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
