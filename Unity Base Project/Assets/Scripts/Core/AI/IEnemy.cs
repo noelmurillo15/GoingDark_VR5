@@ -293,10 +293,10 @@ public class IEnemy : MonoBehaviour
                 SetEnemyType(EnemyTypes.Boss);
                 ShieldData.Initialize(transform.GetChild(0).gameObject);
                 MissileCount = 1000;
-                MoveData.Acceleration = 15f;
+                MoveData.Acceleration = 10f;
                 MoveData.RotateSpeed = 5f;
-                MoveData.MaxSpeed = 60f;
-                Health = 10;
+                MoveData.MaxSpeed = 50f;
+                Health = 50;
                 break;
 
 

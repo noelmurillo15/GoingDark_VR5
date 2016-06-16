@@ -32,7 +32,7 @@ public class SensorRadar_2D : MonoBehaviour
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
     {
-        if (ColliderObject.CompareTag("Enemy"))
+        if (ColliderObject.CompareTag("Enemy") && ColliderObject.gameObject.activeSelf == true)
         {
             TotalObjectCount++;//how many objects to keep track of.
             System.Array.Resize(ref TheObject, TotalObjectCount); // make space for the new object
