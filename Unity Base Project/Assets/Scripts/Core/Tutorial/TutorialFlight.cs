@@ -6,7 +6,6 @@ using GoingDark.Core.Enums;
 
 public class TutorialFlight : MonoBehaviour
 {
-
     private int phase;
     private PlayerMovement playerMovement;
     private MissionSystem mission;
@@ -15,6 +14,7 @@ public class TutorialFlight : MonoBehaviour
     private bool flightMissionCompleted, flightMissionAccepted, flightMissionTurnedIn;
     private bool stealthMissionCompleted, stealthMissionAccepted, stealthMissionTurnedIn;
     private bool combatMissionCompleted, combatMissionAccepted, combatMissionTurnedIn;
+    private bool stealthMissionFailed;
     private GameObject station;
     //  private BoxCollider hyperDriveButton;
     private GameObject[] loots;
@@ -24,11 +24,13 @@ public class TutorialFlight : MonoBehaviour
     public GameObject arrow;
     private int numMissionComplete;
     private GameObject supplyBox;
-    private GameObject steathEnemy, combatEnemy;
+    private GameObject stealthEnemy, combatEnemy;
     private GameObject stationLog;
     private AudioSource wellDone;
     private AudioSource fantastic;
     private AudioSource goodJob;
+    private AudioSource congratulation;
+    private EnemyBehavior[] stealthEnemies;
 
     // Use this for initialization
     void Start()
@@ -40,13 +42,14 @@ public class TutorialFlight : MonoBehaviour
         loots = GameObject.FindGameObjectsWithTag("Loot");
         tutorialRemind = GetComponent<AudioSource>();
         supplyBox = GameObject.Find("SupplyBox");
-        steathEnemy = GameObject.Find("SteathEnemy");
+        stealthEnemy = GameObject.Find("SteathEnemy");
+        stealthEnemies = stealthEnemy.transform.GetComponentsInChildren<EnemyBehavior>();
         combatEnemy = GameObject.Find("CombatEnemy");
         stationLog = GameObject.Find("MissionLog");
         fantastic = transform.FindChild("Fantastic").GetComponent<AudioSource>();
         wellDone = transform.FindChild("WellDone").GetComponent<AudioSource>();
         goodJob = transform.FindChild("GoodJob").GetComponent<AudioSource>();
-
+        congratulation = transform.FindChild("Congratulation").GetComponent<AudioSource>();
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
         line3 = GameObject.Find("Line3").GetComponent<Text>();
@@ -66,6 +69,7 @@ public class TutorialFlight : MonoBehaviour
         combatMissionCompleted = false;
         combatMissionAccepted = false;
         combatMissionTurnedIn = false;
+        stealthMissionFailed = false;
         isNearStation = false;
         numMissionComplete = 0;
         //   hyperDriveButton.enabled = false;
@@ -74,7 +78,7 @@ public class TutorialFlight : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {      
         DisableStationLog();
 
         Progress();
@@ -90,7 +94,7 @@ public class TutorialFlight : MonoBehaviour
                 {
                     for (int i = 0; i < loots.Length; i++)
                         loots[i].SetActive(false);
-                    steathEnemy.SetActive(false);
+                    stealthEnemy.SetActive(false);
                     combatEnemy.SetActive(false);
 
                     string1 = "Push the left trigger to accelerate the ship";
@@ -109,11 +113,16 @@ public class TutorialFlight : MonoBehaviour
                     playerMovement.enabled = false;
                     playerMovement.StopMovement();
                     buffer = false;
-                    phase++;
+                    phase = 1;
                     StopTutorialRemind();
                 }
                 break;
             case 1:
+                if (numMissionComplete == 3)
+                {
+                    phase = 4;
+                    break;
+                }
                 if (!buffer)
                 {
                     string1 = "Clap your hands to open the Arm Menu";
@@ -127,17 +136,15 @@ public class TutorialFlight : MonoBehaviour
                 {
                     playerMovement.enabled = true;
                     ClearText();
-                    phase++;
+                    phase = 2;
                     buffer = false;
 
                     StopTutorialRemind();
                 }
+                Debug.Log("completed:" + numMissionComplete);
                 break;
 
             case 2:
-                if (numMissionComplete == 3)
-                    phase = 4;
-                else
                     OnMissionAccept();
 
                 break;
@@ -147,7 +154,43 @@ public class TutorialFlight : MonoBehaviour
                 break;
 
             case 4:
-                StartCoroutine(Transition());
+                if (!buffer)
+                {
+                    StartCoroutine(Transition());
+                }
+                break;
+            case 5:
+                if (!buffer)
+                {
+                    ClearText();
+                    supplyBox.SetActive(false);
+                    stealthEnemy.SetActive(false);
+                    stealthMissionAccepted = false;
+                    stealthMissionFailed = false;
+                    for (int i = 0; i < stealthEnemies.Length; i++)
+                    {
+                        stealthEnemies[i].SetEnemyTarget(null);
+                    }
+
+                    string1 = "You Have failed the mission";
+                    string2 = "Head back to the station (Hint: Follow the arrow)";
+                    string3 = "You may try again or take on a different mission!";
+                    StartCoroutine(Delay(0.5f, string1, string2, string3));
+                    buffer = true;
+                }
+                TutorialRemind();
+                arrow.transform.LookAt(station.transform);
+
+                if (isNearStation)
+                {
+                    arrow.SetActive(false);
+                    ClearText();
+                    playerMovement.enabled = false;
+                    playerMovement.StopMovement();
+                    buffer = false;
+                    phase = 1;
+                    StopTutorialRemind();
+                }
                 break;
             default:
                 break;
@@ -163,6 +206,8 @@ public class TutorialFlight : MonoBehaviour
             {
                 for (int i = 0; i < loots.Length; i++)
                 {
+                    if (loots[i] == null)
+                        continue;
                     if(loots[i].name != "SupplyBox")
                         loots[i].SetActive(true);
                 }
@@ -191,10 +236,16 @@ public class TutorialFlight : MonoBehaviour
                 StartCoroutine(Delay(0.0f, string1, string2, string3));
                 buffer = true;
                 arrow.SetActive(true);
-                steathEnemy.SetActive(true);
+                stealthEnemy.SetActive(true);
             }
-
             arrow.transform.LookAt(supplyBox.transform);
+
+            if (stealthMissionFailed)
+            {
+                phase = 5;
+                buffer = false;
+                return;
+            }
 
             if (stealthMissionCompleted)
             {
@@ -267,7 +318,7 @@ public class TutorialFlight : MonoBehaviour
                 buffer = true;
                 arrow.SetActive(true);
                 stealthMissionAccepted = false;
-                steathEnemy.SetActive(false);
+                stealthEnemy.SetActive(false);
             }
             TutorialRemind();
             arrow.transform.LookAt(station.transform);
@@ -341,10 +392,35 @@ public class TutorialFlight : MonoBehaviour
 
     private void DisableStationLog()
     {
-        if (combatMissionAccepted || stealthMissionAccepted ||flightMissionAccepted)
+        if ((combatMissionAccepted|| stealthMissionAccepted ||flightMissionAccepted) &&!stealthMissionFailed)
         {
-            stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
-            stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
+            // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
+            for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
+            {
+                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
+                {
+                    if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
+                    {
+                        stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
+                    }
+                }
+            }
+            //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
+        }
+        else if (((combatMissionCompleted && !combatMissionTurnedIn) || (stealthMissionCompleted && !stealthMissionTurnedIn) || (flightMissionCompleted && !flightMissionTurnedIn)))
+        {
+            // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
+            for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
+            {
+                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
+                {
+                    if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
+                    {
+                        stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
+                    }
+                }
+            }
+            //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
         }
     }
 
@@ -363,7 +439,8 @@ public class TutorialFlight : MonoBehaviour
 
     IEnumerator Transition()
     {
-        line1.text = "You have completed your training!";
+        congratulation.Play();
+        line1.text = "Congratulations! You have completed your training!";
         yield return new WaitForSeconds(0.5f);
         line2.text = "Returning..";
         yield return new WaitForSeconds(0.5f);
@@ -431,6 +508,12 @@ public class TutorialFlight : MonoBehaviour
             stealthMissionTurnedIn = true;
         else if (name == "Combat Tutorial")
             combatMissionTurnedIn = true;
+    }
+
+    public void MissionFailed(string name)
+    {
+        if (name == "Stealth Tutorial")
+            stealthMissionFailed = true;
     }
 
     public void EnterStation()

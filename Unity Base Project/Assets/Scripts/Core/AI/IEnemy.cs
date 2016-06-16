@@ -5,6 +5,8 @@ public class IEnemy : MonoBehaviour
 {
 
     #region Properties
+    public Transform Target { get; protected set; }
+
     public EnemyTypes Type = EnemyTypes.None;
     public EnemyDifficulty Level = EnemyDifficulty.NONE;
     public Impairments Debuff = Impairments.None;

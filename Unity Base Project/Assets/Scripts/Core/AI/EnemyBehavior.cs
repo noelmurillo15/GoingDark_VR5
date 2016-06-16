@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
+using GoingDark.Core.Events;
 
 [RequireComponent(typeof(PatrolAi))]
 [RequireComponent(typeof(AlertAi))]
@@ -7,10 +8,12 @@ using GoingDark.Core.Enums;
 public class EnemyBehavior : IEnemy
 {
     #region Properties    
-    public Transform Target { get; protected set; }
+    
     public Vector3 LastKnownPos { get; set; }
 
-    public EnemyStates State;
+    public EnemyStates State { get; protected set; }
+
+
     public MonoBehaviour alertAi;
     public MonoBehaviour patrolAi;
     public MonoBehaviour uniqueAi;
@@ -21,7 +24,7 @@ public class EnemyBehavior : IEnemy
     #endregion
 
     void Awake()
-    {
+    {        
         Initialize();        
     }
 

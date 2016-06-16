@@ -5,33 +5,26 @@ using System.Collections.Generic;
 public class SystemManager : MonoBehaviour {
 
     #region Properties
-    public Dictionary<SystemType, ShipDevice> MainDevices;
-    public Dictionary<SystemType, GameObject> SecondaryDevices;
-
-    private GameObject MissionLog;
     private MessageScript messages;
+    private Dictionary<SystemType, ShipDevice> MainDevices;
+    private Dictionary<SystemType, GameObject> SecondaryDevices;
     #endregion
 
 
     void Awake()
     {
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+
         MainDevices = new Dictionary<SystemType, ShipDevice>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
-        // Main Systems        
-        InitializeDevice(SystemType.Emp);
+        //InitializeDevice(SystemType.Emp);
         InitializeDevice(SystemType.Cloak);
         InitializeDevice(SystemType.Decoy);
         InitializeDevice(SystemType.Laser);
+        InitializeDevice(SystemType.Shield);
         InitializeDevice(SystemType.Missile);
         InitializeDevice(SystemType.Hyperdrive);
-
-        // Secondary Systems        
-        InitializeDevice(SystemType.Shield);
-
-        // References
-        MissionLog = GameObject.Find("MissionLog");
-        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
     }
 
     #region Private Methods
@@ -85,37 +78,37 @@ public class SystemManager : MonoBehaviour {
         switch (key)
         {
             #region Main Devices
-            case SystemType.Decoy:
-                
+            case SystemType.Decoy:                
                 MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                break;
 
             case SystemType.Emp:
                 MainDevices.Add(key, dev.GetComponent<EmpSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                break;
 
             case SystemType.Hyperdrive:
                 MainDevices.Add(key, dev.GetComponent<HyperdriveSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                break;
 
             case SystemType.Missile:
                 MainDevices.Add(key, dev.GetComponent<MissileSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                break;
 
             case SystemType.Cloak:
                 MainDevices.Add(key, dev.GetComponent<CloakSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                MainDevices[SystemType.Cloak].SetStatus(SystemStatus.Offline);                
+                break;
 
             case SystemType.Laser:
                 MainDevices.Add(key, dev.GetComponent<LaserSystem>() as ShipDevice);
-                MainDevices[key].SetStatus(SystemStatus.Online); break;
+                break;
             #endregion
 
             #region Secondary Devices
             case SystemType.Shield:
                 SecondaryDevices.Add(key, dev);
                 break;            
-                #endregion
+            #endregion
         }        
     }
     #endregion
@@ -137,8 +130,9 @@ public class SystemManager : MonoBehaviour {
 
     public GameObject GetSystem(SystemType key)
     {
-        if (MainDevices.ContainsKey(key))
-            return MainDevices[key].gameObject;
+        ShipDevice sdev = null;
+        if (MainDevices.TryGetValue(key, out sdev))
+            return sdev.gameObject;
 
         return null;
     }
@@ -180,14 +174,20 @@ public class SystemManager : MonoBehaviour {
 
     public int GetSystemCooldown(SystemType key)
     {
-        if (MainDevices.ContainsKey(key))
-            return (int)MainDevices[key].GetCooldown();
-
-        return 0;
-    }
-    public void ToggleMissionLog()
-    {
-        MissionLog.SendMessage("TogglePanel");
+        ShipDevice dev = null;
+        if (MainDevices.TryGetValue(key, out dev))
+        {
+            if (dev.Status == SystemStatus.Online)
+                return (int)dev.GetCooldown();
+            else
+            {
+                return -10;
+            }
+        }
+        else
+        {
+            return -1;
+        }
     }
     #endregion
 }

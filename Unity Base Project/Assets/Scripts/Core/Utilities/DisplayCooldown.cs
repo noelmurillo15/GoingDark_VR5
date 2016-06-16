@@ -11,9 +11,9 @@ public class DisplayCooldown : MonoBehaviour {
 
 
 	void Start () {
+        system = GameObject.Find("Devices").GetComponent<SystemManager>();
         type = GetComponentInParent<QuickSlot>().Type;
         text = GetComponent<Text>();
-        system = GameObject.Find("Devices").GetComponent<SystemManager>();
 
         StartCoroutine("UpdateCooldowns");
 	}
@@ -29,10 +29,27 @@ public class DisplayCooldown : MonoBehaviour {
     }
     private void CooldownCheck()
     {
-        if (system.GetSystemStatus(type))
-            text.text = "Cooldown : " + system.GetSystemCooldown(type);        
-        else
+        int num = system.GetSystemCooldown(type);
+        if (num == -1)
+        {
+            text.color = Color.grey;
+            text.text = "System Unavailable";
+        }
+        else if (num == -10)
+        {
+            text.color = Color.grey;
             text.text = "System Offline";
+        }
+        else if (num == 0)
+        {
+            text.color = Color.green;
+            text.text = "System Ready";
+        }
+        else
+        {
+            text.color = Color.red;
+            text.text = num.ToString();
+        }
     }
     #endregion
 }

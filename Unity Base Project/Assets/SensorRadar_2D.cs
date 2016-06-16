@@ -16,8 +16,6 @@ public class SensorRadar_2D : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("SensorRadar Start()");
-
         Player = GameObject.FindGameObjectWithTag("Player");
         RadarImages = new GameObject[9];
         QuadCounter = new int[9];
@@ -27,7 +25,6 @@ public class SensorRadar_2D : MonoBehaviour
             RadarImages[i] = this.transform.GetChild(i).gameObject;
             RadarImages[i].SetActive(false);
         }
-
     }
 
     void OnTriggerEnter(Collider ColliderObject)//hey dummy what hit ya?
@@ -121,7 +118,7 @@ public class SensorRadar_2D : MonoBehaviour
         TurnOffRadarPanels();
         for (int i = 0; i < TheObject.Length; i++)
         {
-            if (TheObject[i])
+            if (TheObject[1] != null && TheObject[i].activeInHierarchy)
             {
                 Vector3 ColliderPosition = TheObject[i].transform.position; // Object's position either loot missile or enemy; 
                 Vector3 TargetDir = ColliderPosition - Player.transform.position;//target direction

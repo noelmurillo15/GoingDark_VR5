@@ -138,6 +138,8 @@ public class MissionSystem : MonoBehaviour
     {
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
+        if (SceneManager.GetActiveScene().name == "Tutorial2")
+            m_tutorial2.SendMessage("MissionFailed", mission.missionName);
     }
 
 }

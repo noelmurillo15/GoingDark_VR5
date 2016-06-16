@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -140,6 +142,7 @@
     <Compile Include="Assets\Scripts\Core\AI\IEnemy.cs" />
     <Compile Include="Assets\Scripts\Core\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\Core\AI\PatrolAi.cs" />
+    <Compile Include="Assets\Scripts\Core\AI\Spawner.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\Core\AI\TransportAi.cs" />
     <Compile Include="Assets\Scripts\Core\Enums\Enums.cs" />
@@ -158,6 +161,7 @@
     <Compile Include="Assets\Scripts\Core\Environment\Pickups\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\Core\Environment\Pickups\LootCratePickup.cs" />
     <Compile Include="Assets\Scripts\Core\Environment\WormHole.cs" />
+    <Compile Include="Assets\Scripts\Core\Events\EventProperty.cs" />
     <Compile Include="Assets\Scripts\Core\Leap\DetectionUtilities\Detector.cs" />
     <Compile Include="Assets\Scripts\Core\Leap\DetectionUtilities\DetectorLogicGate.cs" />
     <Compile Include="Assets\Scripts\Core\Leap\DetectionUtilities\ExtendedFingerDetector.cs" />
@@ -215,6 +219,7 @@
     <Compile Include="Assets\Scripts\Core\Leap\VR\VRHeightOffset.cs" />
     <Compile Include="Assets\Scripts\Core\Managers\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Core\Managers\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\Core\Managers\EventsManager.cs" />
     <Compile Include="Assets\Scripts\Core\Managers\GamePadManager.cs" />
     <Compile Include="Assets\Scripts\Core\Managers\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\Core\Managers\PersistentGameManager.cs" />

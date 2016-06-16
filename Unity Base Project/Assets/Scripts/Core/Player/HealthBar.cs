@@ -55,7 +55,7 @@ public class HealthBar : MonoBehaviour {
      //   Debug.Log("HealthBar Script Hit()");
 
         AudioManager.instance.PlayHit();
-        HitCount += 20;
+        HitCount += 10;
         camShake.PlayShake();
         DecreaseHealth(HitCount);
         screenBreak.Shatter();

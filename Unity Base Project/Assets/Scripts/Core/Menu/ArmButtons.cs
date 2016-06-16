@@ -61,19 +61,6 @@ public class ArmButtons : MonoBehaviour
     private void ActivateButton()
     {
         m_button.color = original;
-
-        if (transform.name == "MissionLogButton")
-        {
-            manager.ToggleMissionLog();
-            return;
-        }
-        else
-        {
-            Debug.Log("Loading Scene : " + transform.name);
-            SceneManager.LoadScene(transform.name);
-            return;
-        }
-
         manager.ActivateSystem(Type);
     }
     #endregion

@@ -13,12 +13,15 @@ public class LaserSystem : ShipDevice
     private float buffer;
 
     private LaserOverheat laser_overheat;
+
+    private x360Controller controller;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
+        controller = GamePadManager.Instance.GetController(0);
         buffer = 0f;
         Basicburst = new GameObject[2];
         Chargeburst = new GameObject[2];
@@ -47,6 +50,10 @@ public class LaserSystem : ShipDevice
             if (Activated)
                 ShootGun();
         }
+
+        if (controller.GetButtonDown("RightThumbstick"))
+            WeaponSwap();
+
     }
 
     public void ShootGun()
@@ -85,6 +92,7 @@ public class LaserSystem : ShipDevice
                 curr = 0;
 
             currentType = (LaserType)curr;
+            Debug.Log("Current Laser : " + curr.ToString());
         }
     }
 }

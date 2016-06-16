@@ -6,9 +6,10 @@ public class EnemyManager : MonoBehaviour
     
     #region Properties
     public Transform PlayerPosition { get; private set; }
-
     private MissionSystem missionSystem;
-    private  List<EnemyBehavior> enemies = new List<EnemyBehavior>();
+
+    private List<EnemyBehavior> enemies = new List<EnemyBehavior>();
+    private List<Transform> enemypositions = new List<Transform>();
     #endregion
 
     void Awake()
@@ -24,11 +25,13 @@ public class EnemyManager : MonoBehaviour
     
     public void AddEnemy(EnemyBehavior enemy)
     {
+        enemypositions.Add(enemy.MyTransform);
         enemies.Add(enemy);
     }
 
     public void RemoveEnemy(EnemyBehavior enemy)
     {
+        enemypositions.Remove(enemy.MyTransform);
         enemies.Remove(enemy);
     }
 
