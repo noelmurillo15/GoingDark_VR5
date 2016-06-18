@@ -23,12 +23,12 @@ public class ShipDevice : MonoBehaviour {
         Status = SystemStatus.Online;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (Cooldown)
         {
             if (cooldown > 0f)
-                cooldown -= Time.deltaTime;
+                cooldown -= Time.fixedDeltaTime;
             else
                 ResetCooldown();
         }
@@ -53,8 +53,8 @@ public class ShipDevice : MonoBehaviour {
     }
     void ResetCooldown()
     {
-        cooldown = 0f;
         Cooldown = false;
+        cooldown = maxCooldown;
     }
    
     public void Activate()

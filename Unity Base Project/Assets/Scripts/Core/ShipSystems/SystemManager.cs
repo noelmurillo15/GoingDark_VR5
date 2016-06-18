@@ -18,7 +18,7 @@ public class SystemManager : MonoBehaviour {
         MainDevices = new Dictionary<SystemType, ShipDevice>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
-        //InitializeDevice(SystemType.Emp);
+        InitializeDevice(SystemType.Emp);
         InitializeDevice(SystemType.Cloak);
         InitializeDevice(SystemType.Decoy);
         InitializeDevice(SystemType.Laser);
@@ -96,7 +96,6 @@ public class SystemManager : MonoBehaviour {
 
             case SystemType.Cloak:
                 MainDevices.Add(key, dev.GetComponent<CloakSystem>() as ShipDevice);
-                MainDevices[SystemType.Cloak].SetStatus(SystemStatus.Offline);                
                 break;
 
             case SystemType.Laser:
