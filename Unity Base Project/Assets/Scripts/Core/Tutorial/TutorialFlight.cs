@@ -104,7 +104,7 @@ public class TutorialFlight : MonoBehaviour
                     buffer = true;
                 }
                 TutorialRemind();
-                arrow.transform.LookAt(station.transform);
+                arrow.transform.LookAt(station.transform.position);
 
                 if (isNearStation)
                 {
@@ -141,12 +141,10 @@ public class TutorialFlight : MonoBehaviour
 
                     StopTutorialRemind();
                 }
-                Debug.Log("completed:" + numMissionComplete);
                 break;
 
             case 2:
-                    OnMissionAccept();
-
+                OnMissionAccept();
                 break;
 
             case 3:
@@ -157,6 +155,7 @@ public class TutorialFlight : MonoBehaviour
                 if (!buffer)
                 {
                     StartCoroutine(Transition());
+                    buffer = true;
                 }
                 break;
             case 5:
@@ -180,7 +179,6 @@ public class TutorialFlight : MonoBehaviour
                 }
                 TutorialRemind();
                 arrow.transform.LookAt(station.transform);
-
                 if (isNearStation)
                 {
                     arrow.SetActive(false);
