@@ -131,6 +131,7 @@
     <Compile Include="Assets\BossAi.cs" />
     <Compile Include="Assets\DebuffManager.cs" />
     <Compile Include="Assets\LaserOverheat.cs" />
+    <Compile Include="Assets\MenuTraverse.cs" />
     <Compile Include="Assets\Particles\Scripts\AfterburnerPhysicsForce.cs" />
     <Compile Include="Assets\Particles\Scripts\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Particles\Scripts\ExplosionPhysicsForce.cs" />

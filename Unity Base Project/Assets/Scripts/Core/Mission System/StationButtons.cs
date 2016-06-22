@@ -77,7 +77,7 @@ public class StationButtons : MonoBehaviour
     }
     #endregion
 
-    private void ClickButton()
+    public void ClickButton()
     {
 
         if (transform.name == "Missions")
