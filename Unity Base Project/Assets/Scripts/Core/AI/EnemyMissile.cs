@@ -5,6 +5,7 @@ public class EnemyMissile : MonoBehaviour {
     #region Properties
     public MovementProperties moveData;
     private bool tracking;
+    private bool init = false;
 
     private Transform MyTransform;
     public GameObject Explosion;
@@ -16,21 +17,32 @@ public class EnemyMissile : MonoBehaviour {
     private GameObject messages;
     #endregion
 
+    void OnEnable()
+    {
+        if (!init)
+        {
+            init = true;
+            tracking = false;
+            MyTransform = transform;
 
-    void Start() {
-        MyTransform = transform;
-        tracking = false;
+            moveData.Boost = 1f;
+            moveData.MaxSpeed = 750f;
+            moveData.RotateSpeed = 10f;
+            moveData.Acceleration = 100f;
+            moveData.Speed = 150f;
 
-        moveData.Boost = 1f;
-        moveData.MaxSpeed = 500f;
-        moveData.RotateSpeed = 10f;
-        moveData.Acceleration = 100f;
-        moveData.Speed = 100f;
+            messages = GameObject.Find("PlayerCanvas");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Enemy Missile was used");
+            tracking = false;
+            moveData.Speed = 150f;
 
-        messages = GameObject.Find("PlayerCanvas");
-        messages.SendMessage("MissileIncoming");
-
-        Invoke("Kill", 5f);
+            messages.SendMessage("MissileIncoming");
+            Invoke("Kill", 3f);
+        }
     }
 
     void FixedUpdate() {
@@ -44,9 +56,10 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
-        messages.SendMessage("MissileDestroyed");
+        Debug.Log("Enemy Missile Blewup");
+        CancelInvoke("Kill");
         Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     private void LookAt() {

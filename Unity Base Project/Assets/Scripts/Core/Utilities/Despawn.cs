@@ -2,16 +2,27 @@
 
 public class Despawn : MonoBehaviour
 {
-    public float Duration;
+    bool init = false;
+    public float Duration = 3f;
 
-    void Initialize()
+    void OnEnable()
     {
-        Invoke("Kill", Duration);
+        if (!init)
+        {
+            init = true;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log(transform.name + " was Used");
+            Invoke("Kill", Duration);
+        }
     }
 
     // Update is called once per frame
     void Kill()
     {
-        Destroy(this.gameObject);
+        CancelInvoke();
+        gameObject.SetActive(false);
     }
 }

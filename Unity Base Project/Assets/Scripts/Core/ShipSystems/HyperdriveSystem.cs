@@ -20,7 +20,7 @@ public class HyperdriveSystem : ShipDevice
     // Use this for initialization
     void Start () {
         hypeJump = false;
-        maxCooldown = 60f;
+        maxCooldown = 10f;
         beginningTimer = 2f;    
 
         m_playerMove = GameObject.FindGameObjectWithTag("Player");
@@ -54,7 +54,7 @@ public class HyperdriveSystem : ShipDevice
                 return;
             }
 
-            cooldown = 5f;
+            cooldown = 2f;
             hypeJump = false;
             boostTimer = 0f;
             beginningTimer = 0f;

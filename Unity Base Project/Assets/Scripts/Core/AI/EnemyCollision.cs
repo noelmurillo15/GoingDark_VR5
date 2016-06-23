@@ -7,27 +7,29 @@ public class EnemyCollision : MonoBehaviour
     #region Properties
     public float detectionTimer;
     private EnemyBehavior behavior;
+    private EnemyManager manager;
 
     //  Player
-    private GameObject messages;
-    private CloakSystem pCloak;
-    private SystemManager systemManager;
-    private EnemyManager manager;
+    private GameObject messages;    
     #endregion
 
-    void Start()
+    public void Initialize()
     {
-        manager = transform.parent.GetComponent<EnemyManager>();
         detectionTimer = 0f;
         behavior = GetComponent<EnemyBehavior>();
         messages = GameObject.Find("PlayerCanvas");
-        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        manager = GetComponentInParent<EnemyManager>();
     }
 
     void Update()
     {
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
+    }    
+
+    public void SetManagerRef(EnemyManager _manager)
+    {
+        manager = _manager;
     }
 
     #region Collision
@@ -43,11 +45,9 @@ public class EnemyCollision : MonoBehaviour
 
             if (col.CompareTag("Player"))
             {
-                if (pCloak == null)
-                    pCloak = systemManager.GetSystem(SystemType.Cloak).GetComponent<CloakSystem>();
 
-                if (pCloak.GetCloaked())
-                    detectionTimer = pCloak.GetCloakTimer();
+                if (manager.GetPlayerCloak().GetCloaked())
+                    detectionTimer = manager.GetPlayerCloak().GetCloakTimer();
                 else
                 {
                     if (col.CompareTag("Player"))
@@ -72,9 +72,9 @@ public class EnemyCollision : MonoBehaviour
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            if (pCloak.GetCloaked())
+            if (manager.GetPlayerCloak().GetCloaked())
             {
-                detectionTimer = pCloak.GetCloakTimer();
+                detectionTimer = manager.GetPlayerCloak().GetCloakTimer();
                 behavior.SetLastKnown(col.transform.position);
                 return;
             }

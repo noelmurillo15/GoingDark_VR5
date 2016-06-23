@@ -8,7 +8,7 @@ public class MissileCollision : MonoBehaviour {
     private Hitmarker hitMarker;
     #endregion
 
-    void Start()
+    void Awake()
     {
         missile = GetComponent<Missile>();
         hitMarker = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();

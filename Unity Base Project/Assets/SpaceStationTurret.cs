@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SpaceStationTurret : MonoBehaviour
 {
@@ -8,14 +7,15 @@ public class SpaceStationTurret : MonoBehaviour
     GameObject Laser;
     float randomShot;
     private ObjectPooling pool;
+    private GameObject projectiles;
     void Start()
     {
+        projectiles = GameObject.Find("Projectiles");
         randomShot = 0.3f;
         MyTransform = transform;
         enemy = null;
-        Laser = Resources.Load<GameObject>("LaserBeam");
         pool = new ObjectPooling();
-        pool.Initialize(Laser, 35);
+        pool.Initialize(Resources.Load<GameObject>("LaserBeam"), 35, projectiles);
         InvokeRepeating("Shoot", 1f, randomShot);
     }
 

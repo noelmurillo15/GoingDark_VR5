@@ -20,7 +20,7 @@ public class ObjectGenerator : MonoBehaviour {
             maxObjects = 50;
 
         BoxCollider boxcol = GetComponent<BoxCollider>();
-        bounds = new Vector3(boxcol.size.x * .5f, boxcol.size.y * .5f, boxcol.size.z * .5f);
+        bounds = new Vector3(boxcol.size.x * .5f, boxcol.size.y * .5f, (boxcol.size.z * .5f) - boxcol.center.z);
 
         if (objPrefab.Length == 0)
             Debug.LogError("Object Generator's prefab list is empty");

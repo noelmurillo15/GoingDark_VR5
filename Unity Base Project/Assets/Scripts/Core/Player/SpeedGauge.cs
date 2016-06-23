@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class SpeedGauge : MonoBehaviour
 {
-    //**    Attach to Thruster  **//
-    public float offset;
-    public PlayerMovement stats;
-    private GameObject speedGauge;
+    private Image Gauge;
+    private float amount;
+    private float percent;
+    private Text number;
+    private PlayerMovement stats;
+
 
 
     // Use this for initialization
     void Start()
     {
-        offset = 0.0044f;
-        speedGauge = GameObject.Find("SpeedColor");
+        amount = 0f;
+        percent = 0f;
+        Gauge = GetComponent<Image>();
+        number = transform.GetChild(0).GetComponent<Text>();
         stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
@@ -24,17 +29,18 @@ public class SpeedGauge : MonoBehaviour
 
     public void UpdateSpeedGauge()
     {
-        float percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
+        percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
 
-        Vector3 newScale;
-        newScale.x = speedGauge.transform.localScale.x;
-        newScale.y = percent * 0.001f;
-        newScale.z = speedGauge.transform.localScale.z;
-        speedGauge.transform.localScale = newScale;
+        int num = (int)(percent * 100f);
+        number.text = num.ToString();
 
-        Vector3 newPos = speedGauge.transform.localPosition;
-        float offset = (percent * 0.00456f) - 0.00456f;
-        newPos.z = offset;
-        speedGauge.transform.localPosition = newPos;
+        SetSpeed(percent * .5f);      
+        number.color = Color.Lerp(Color.red, Color.green, percent);
+        Gauge.color = Color.Lerp(Color.red, Color.green, percent);
+    }
+
+    void SetSpeed(float newSpeed)
+    {     
+        Gauge.fillAmount = newSpeed;
     }
 }

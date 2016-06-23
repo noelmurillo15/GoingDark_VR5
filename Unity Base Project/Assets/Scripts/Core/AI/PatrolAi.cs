@@ -8,7 +8,7 @@ public class PatrolAi : MonoBehaviour
 {
     #region Properties
     //  Raycast Data
-    private int range;    
+    private int range;
     private bool blocked;
     private RaycastHit hit;
 
@@ -19,9 +19,9 @@ public class PatrolAi : MonoBehaviour
     private Vector3 targetRotation;
 
     //  Enemy Data 
-    private Transform MyTransform;  
+    private Transform MyTransform;
     private EnemyBehavior behavior;
-    private Rigidbody MyRigidbody;    
+    private Rigidbody MyRigidbody;
     #endregion
 
 
@@ -52,14 +52,15 @@ public class PatrolAi : MonoBehaviour
         Timing.RunCoroutine(NewHeading());
     }
 
-    void FixedUpdate() {
-        if (!behavior.AutoPilot)  
+    void FixedUpdate()
+    {
+        if (!behavior.AutoPilot)
         {
             if (!blocked)
             {
                 if (behavior.Target == null)
                 {
-                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);                    
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
                 }
                 else
                 {
@@ -71,10 +72,10 @@ public class PatrolAi : MonoBehaviour
                 }
             }
 
-            if(behavior.Debuff != Impairments.Stunned)
-                behavior.IncreaseSpeed();
+            if (behavior.Debuff != Impairments.Stunned)
+                behavior.GetMoveData().IncreaseSpeed();
             else
-                behavior.DecreaseSpeed();
+                behavior.GetMoveData().DecreaseSpeed();
 
             //CheckRayCasts();
 
@@ -109,15 +110,20 @@ public class PatrolAi : MonoBehaviour
         //Debug.DrawRay(MyTransform.position - (MyTransform.forward * 4), MyTransform.right * (range / 2.0f), Color.yellow);
     }
     #region Asteroid Avoidance
-    private void CheckRayCasts() {
-        if (Physics.Raycast(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
-            if (hit.collider.gameObject.CompareTag("Asteroid")) {
+    private void CheckRayCasts()
+    {
+        if (Physics.Raycast(behavior.MyTransform.position + (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range))
+        {
+            if (hit.collider.gameObject.CompareTag("Asteroid"))
+            {
                 blocked = true;
                 behavior.MyTransform.Rotate(Vector3.down * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
         }
-        else if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range)) {
-            if (hit.collider.gameObject.CompareTag("Asteroid")) {
+        else if (Physics.Raycast(behavior.MyTransform.position - (behavior.MyTransform.right * 12), behavior.MyTransform.forward, out hit, range))
+        {
+            if (hit.collider.gameObject.CompareTag("Asteroid"))
+            {
                 blocked = true;
                 behavior.MyTransform.Rotate(Vector3.up * Time.deltaTime * behavior.GetMoveData().RotateSpeed);
             }
@@ -126,14 +132,17 @@ public class PatrolAi : MonoBehaviour
     #endregion
 
     #region Coroutine
-    private IEnumerator<float> NewHeading() {
-        while (true) {
+    private IEnumerator<float> NewHeading()
+    {
+        while (true)
+        {
             NewHeadingRoutine();
             interval = Random.Range(2f, 10f);
             yield return Timing.WaitForSeconds(interval);
         }
     }
-    private void NewHeadingRoutine() {
+    private void NewHeadingRoutine()
+    {
         var floor = Mathf.Clamp(headingX - headingChange, 0, 360);
         var ceil = Mathf.Clamp(headingX + headingChange, 0, 360);
         headingX = Random.Range(floor, ceil);
@@ -149,11 +158,24 @@ public class PatrolAi : MonoBehaviour
     #region Msgs
     void OutOfBounds()
     {
-        behavior.AutoPilot = true;
+        if (behavior == null)
+        {
+            GetComponent<EnemyBehavior>();
+            return;
+        }
+
+        if (behavior.State == EnemyStates.Patrol)
+            behavior.AutoPilot = true;
     }
 
     void InBounds()
     {
+        if (behavior == null)
+        {
+            GetComponent<EnemyBehavior>();
+            return;
+        }
+
         behavior.AutoPilot = false;
     }
     #endregion

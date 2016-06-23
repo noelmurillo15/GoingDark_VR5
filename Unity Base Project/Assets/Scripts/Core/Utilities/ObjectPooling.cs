@@ -11,14 +11,11 @@ public class ObjectPooling
     public int pooledAmnt = 20;
     public bool Growth = true;
     public List<GameObject> poolList;
-    private GameObject projs;
     #endregion
 
-    public void Initialize(GameObject _poolobj, int _poolamount)
-    {
-        if(projs == null)
-            projs = GameObject.Find("Projectiles");
 
+    public void Initialize(GameObject _poolobj, int _poolamount, GameObject myparent)
+    {
         if (_poolobj == null)
         {
             Debug.LogError("Poolobj is set to null : " + _poolamount.ToString());
@@ -31,9 +28,7 @@ public class ObjectPooling
         for (int i = 0; i < pooledAmnt; i++)
         {
             GameObject obj = Transform.Instantiate(pooledObj, Vector3.zero, Quaternion.identity) as GameObject;
-            obj.SendMessage("Initialize");
-            obj.transform.parent = projs.transform;
-            obj.SetActive(false);
+            obj.transform.parent = myparent.transform;
             poolList.Add(obj);
         }
     }

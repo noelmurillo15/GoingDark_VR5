@@ -40,7 +40,6 @@ public class SpaceStation : MonoBehaviour
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")
         {
-            Debug.Log("Collided with station");
             m_stationLog.Docked(true);
             //if (m_sceneName == "Tutorial")
             //    m_tutorial.SendMessage("EnterStation");

@@ -2,16 +2,26 @@
 
 public class EnemyLaserProjectile : MonoBehaviour
 {
-    public float Speed;
-    Transform MyTransform;
+    bool init;
+    float Speed;
     Turret MyParent;
+    Transform MyTransform;
 
-    // Use this for initialization
-    void Initialize()
+
+    void OnEnable()
     {
-        Speed = 1000f;
-        MyTransform = transform;
-        gameObject.SetActive(false);
+        if (!init)
+        {
+            init = true;
+            Speed = 1000f;
+            MyTransform = transform;
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Enemy Laser Used");
+            Invoke("Kill", 3f);
+        }
     }
 
     // Update is called once per frame
@@ -37,7 +47,7 @@ public class EnemyLaserProjectile : MonoBehaviour
 
     private void Kill()
     {
-        CancelInvoke();
+        CancelInvoke("Kill");
         MyParent.SpawnExplosion(MyTransform.position);
         gameObject.SetActive(false);
     }

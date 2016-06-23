@@ -45,9 +45,9 @@ public class AlertAi : MonoBehaviour
             }
 
             if (behavior.Debuff != Impairments.Stunned)
-                behavior.IncreaseSpeed();
+                behavior.GetMoveData().IncreaseSpeed();
             else
-                behavior.DecreaseSpeed();
+                behavior.GetMoveData().DecreaseSpeed();
 
             Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
             MyTransform.rotation = Quaternion.LookRotation(direction);

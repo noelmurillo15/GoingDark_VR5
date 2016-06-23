@@ -59,13 +59,11 @@ public class PlayerStats : MonoBehaviour
     }
     void Hit()
     {
-        Debug.Log("Player Stats : Hit");
         if (ShieldData.ShieldActive)
         {
             ShieldHit();
             return;
         }
-        Debug.Log("Player Hit");
         controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
         HealthData.Hit();
         AudioManager.instance.PlayHit();
@@ -73,7 +71,6 @@ public class PlayerStats : MonoBehaviour
     }
     void EMPHit()
     {
-        Debug.Log("Player Stats : EmpHit");
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
         Debuff = Impairments.Stunned;
         DebuffData.Stunned(5f); 
@@ -85,7 +82,6 @@ public class PlayerStats : MonoBehaviour
     {
         if (ShieldData.ShieldActive)
         {
-            Debug.Log("Player Stats : ShieldHit");
             controller.AddRumble(.5f, new Vector2(.25f, .25f), .4f);
             AudioManager.instance.PlayShieldHit();
             ShieldData.ShieldHealth -= 25;
@@ -123,7 +119,6 @@ public class PlayerStats : MonoBehaviour
     }    
     void Kill()
     {
-        Debug.Log("Player Stats : Player Death");
         deathTransition.SendMessage("Death");
         Invoke("Respawn", 2f);
     }

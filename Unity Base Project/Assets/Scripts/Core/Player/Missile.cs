@@ -7,6 +7,7 @@ public class Missile : MonoBehaviour {
     public MissileType Type;
     public MovementProperties moveData;
 
+    bool init = false;
     private bool tracking;
     private bool deflected;
     private GameObject Explosion;
@@ -22,23 +23,36 @@ public class Missile : MonoBehaviour {
     #endregion
 
 
-    public void Initialize()
+    public void OnEnable()
     {
-        range = 1600;
-        target = null;
-        tracking = false;
-        deflected = false;
+        if (!init)
+        {
+            range = 1600;
+            target = null;
+            tracking = false;
+            deflected = false;
 
-        moveData.Boost = 1f;
-        moveData.MaxSpeed = 500f;
-        moveData.RotateSpeed = 25f;
-        moveData.Acceleration = 200f;
-        moveData.Speed = 100f;
+            moveData.Boost = 1f;
+            moveData.MaxSpeed = 500f;
+            moveData.RotateSpeed = 25f;
+            moveData.Acceleration = 200f;
+            moveData.Speed = 100f;
 
-        MyTransform = transform;
-        direction = MyTransform.forward;
+            MyTransform = transform;
+            direction = MyTransform.forward;
 
-        FindExplosion();        
+            FindExplosion();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("Player Missile Used");
+            target = null;
+            tracking = false;
+            deflected = false;
+            moveData.Speed = 100f;
+            direction = MyTransform.forward;
+        }    
     }
 
     void FixedUpdate()
@@ -122,6 +136,7 @@ public class Missile : MonoBehaviour {
     }
     private void SelfDestruct()
     {
+        Debug.Log("Self Destruct Called");
         direction = MyTransform.forward;
 
         moveData.Speed = 50f;

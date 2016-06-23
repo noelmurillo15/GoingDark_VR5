@@ -8,7 +8,6 @@ public class BasicAi : MonoBehaviour
     private float angle;
     private float missileCooldown;
     private EnemyBehavior behavior;
-    public GameObject missilePrefab;
     #endregion
 
 
@@ -48,16 +47,16 @@ public class BasicAi : MonoBehaviour
 
     private void Fire()
     {
-        if (missilePrefab == null)
-            missilePrefab = Resources.Load<GameObject>("Missiles/EnemyMissile");
-
         if (lockon && behavior.MissileCount > 0)
         {
             if (missileCooldown <= 0.0f)
             {
                 missileCooldown = 5.0f;
                 behavior.DecreaseMissileCount();
-                Instantiate(missilePrefab, new Vector3(behavior.MyTransform.position.x, behavior.MyTransform.position.y, behavior.MyTransform.position.z), behavior.MyTransform.rotation);
+                GameObject miss = behavior.manager.GetEnemyMissile();
+                miss.transform.position = behavior.MyTransform.position;
+                miss.transform.rotation = behavior.MyTransform.rotation;
+                miss.SetActive(true);
             }
         }
     }

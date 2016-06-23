@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SensorRadar_2D : MonoBehaviour
 {
@@ -19,6 +18,8 @@ public class SensorRadar_2D : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         RadarImages = new GameObject[9];
         QuadCounter = new int[9];
+        TheObject = new GameObject[2];
+        Objectsquad = new int[1];
         for (int i = 0; i < 9; i++)
         {
             //            this.transform.GetChild(i).gameObject.SetActive(false);
@@ -118,7 +119,7 @@ public class SensorRadar_2D : MonoBehaviour
         TurnOffRadarPanels();
         for (int i = 0; i < TheObject.Length; i++)
         {
-            if (TheObject[1] != null && TheObject[i].activeInHierarchy)
+            if (TheObject[i] != null && TheObject[i].activeInHierarchy)
             {
                 Vector3 ColliderPosition = TheObject[i].transform.position; // Object's position either loot missile or enemy; 
                 Vector3 TargetDir = ColliderPosition - Player.transform.position;//target direction
@@ -143,7 +144,7 @@ public class SensorRadar_2D : MonoBehaviour
 
                 TurnOnRadarPanels(angle);
             }
-            ObjectLeftRadar(Objectsquad[i]);
+            //ObjectLeftRadar(Objectsquad[i]);
         }
 
     }

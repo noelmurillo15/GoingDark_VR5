@@ -8,7 +8,7 @@ public class IEnemy : MonoBehaviour
     public Transform Target { get; protected set; }
 
     public EnemyTypes Type = EnemyTypes.None;
-    public EnemyDifficulty Level = EnemyDifficulty.NONE;
+    public GameDifficulty Level = GameDifficulty.Easy;
     public Impairments Debuff = Impairments.None;
 
     public int Health;
@@ -17,28 +17,29 @@ public class IEnemy : MonoBehaviour
     public MovementProperties MoveData;
     public ShieldProperties ShieldData;
 
-    Rigidbody rb;
-
-    private GameObject explosion;
     private GameObject ammoDrop;
     private GameObject stunned;
 
-    private EnemyManager manager;
+    public EnemyManager manager;
     public Transform MyTransform { get; private set; }
     #endregion
 
 
     public virtual void Initialize()
     {
+        Target = null;
         Health = 0;
         MissileCount = 0;
         MyTransform = transform;
-        LoadEnemyData();
-        explosion = Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion");
+
+        if (transform.name.Contains("Droid"))
+            transform.name = "Droid";
+        else if (transform.name.Contains("BasicEnemy"))
+            transform.name = "BasicEnemy";
+        
         ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);
-        rb = GetComponent<Rigidbody>();
 
 
         Invoke("AddToManager", 1f);
@@ -68,6 +69,11 @@ public class IEnemy : MonoBehaviour
     {
         manager = transform.parent.GetComponent<EnemyManager>();
         manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
+        GetComponent<EnemyCollision>().SetManagerRef(manager);
+
+        Level = manager.Difficulty;
+
+        LoadEnemyData();
     }
     void EMPHit()
     {
@@ -84,7 +90,6 @@ public class IEnemy : MonoBehaviour
     {    
         if (ShieldData.GetShieldActive())
         {
-            Debug.Log("Enemy shield was Hit");
             ShieldData.TakeDamage();
         }
         else
@@ -128,7 +133,9 @@ public class IEnemy : MonoBehaviour
     {
         Debug.Log("Enemy has been Destroyed");
         GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().KilledEnemy(Type);
-        Instantiate(explosion, transform.position, Quaternion.identity);
+        GameObject explosive = manager.GetEnemyExplosion();
+        explosive.transform.position = transform.position;        
+        explosive.SetActive(true);
         if (RandomChance())
             Instantiate(ammoDrop, transform.position, Quaternion.identity);
         manager.RemoveEnemy(MyTransform.GetComponent<EnemyBehavior>());
@@ -155,58 +162,32 @@ public class IEnemy : MonoBehaviour
     {
         MoveData.Boost = newBoost;
     }
-    public void IncreaseSpeed()
-    {
-        if (MoveData.Speed < (MoveData.MaxSpeed * MoveData.Boost))
-            MoveData.Speed += Time.deltaTime * MoveData.Acceleration;
-        else if (MoveData.Speed > (MoveData.MaxSpeed * MoveData.Boost) + .5f)
-            DecreaseSpeed();
-    }
-    public void DecreaseSpeed()
-    {
-        if (MoveData.Speed > 0.0f)
-            MoveData.Speed -= Time.deltaTime * MoveData.Acceleration * 4f;
-        else
-            MoveData.Speed = 0.0f;
-    }
     #endregion
 
     #region Private Methods
     void LoadEnemyData()
     {
-        if (Level == EnemyDifficulty.NONE)
-        {
-            Debug.LogError("Enemy's does not have a difficulty");
-            return;
-        }
-
-        MoveData.Speed = 0f;
-        MoveData.Boost = 1f;
         switch (transform.name)
         {
             case "Droid":
                 SetEnemyType(EnemyTypes.Droid);
                 switch (Level)
                 {
-                    case EnemyDifficulty.EASY:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = .5f;
-                        MoveData.MaxSpeed = 100f;
+                    case GameDifficulty.Easy:
+                        MoveData.Set(0f, .5f, 110f, 1f, 10f);
                         Health = 1;
                         break;
-                    case EnemyDifficulty.MED:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 1f;
-                        MoveData.MaxSpeed = 120f;
+                    case GameDifficulty.Normal:
+                        MoveData.Set(0f, .5f, 120f, .8f, 20f);
                         Health = 2;
                         break;
-                    case EnemyDifficulty.HARD:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 1f;
-                        MoveData.MaxSpeed = 160f;
+                    case GameDifficulty.Hard:
+                        MoveData.Set(0f, .5f, 160f, .7f, 40f);
                         Health = 3;
                         break;
-                    case EnemyDifficulty.NIGHTMARE:
+                    case GameDifficulty.Nightmare:
+                        MoveData.Set(0f, .5f, 200f, .6f, 50f);
+                        Health = 5;
                         break;
                 }
                 break;
@@ -215,25 +196,21 @@ public class IEnemy : MonoBehaviour
                 MissileCount = 20;
                 switch (Level)
                 {
-                    case EnemyDifficulty.EASY:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 95f;
+                    case GameDifficulty.Easy:
+                        MoveData.Set(0f, .5f, 80f, 1.8f, 10f);    
+                        Health = 1;
+                        break;
+                    case GameDifficulty.Normal:
+                        MoveData.Set(0f, .5f, 95f, 1.5f, 18f);
                         Health = 2;
                         break;
-                    case EnemyDifficulty.MED:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 120f;
-                        Health = 3;
-                        break;
-                    case EnemyDifficulty.HARD:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 160f;
+                    case GameDifficulty.Hard:
+                        MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
                         Health = 4;
                         break;
-                    case EnemyDifficulty.NIGHTMARE:
+                    case GameDifficulty.Nightmare:
+                        MoveData.Set(0f, .5f, 160f, 1f, 45f);
+                        Health = 4;
                         break;
                 }
                 break;
@@ -243,25 +220,21 @@ public class IEnemy : MonoBehaviour
                 ShieldData.Initialize(transform.GetChild(0).gameObject);
                 switch (Level)
                 {
-                    case EnemyDifficulty.EASY:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 90f;
+                    case GameDifficulty.Easy:
+                        MoveData.Set(0f, .5f, 60f, 2f, 10f);
+                        Health = 2;
+                        break;
+                    case GameDifficulty.Normal:
+                        MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
                         Health = 3;
                         break;
-                    case EnemyDifficulty.MED:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 120f;
-                        Health = 4;
-                        break;
-                    case EnemyDifficulty.HARD:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 180f;
+                    case GameDifficulty.Hard:
+                        MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
                         Health = 5;
                         break;
-                    case EnemyDifficulty.NIGHTMARE:
+                    case GameDifficulty.Nightmare:
+                        MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
+                        Health = 8;
                         break;
                 }
                 break;
@@ -269,25 +242,20 @@ public class IEnemy : MonoBehaviour
                 SetEnemyType(EnemyTypes.Transport);
                 switch (Level)
                 {
-                    case EnemyDifficulty.EASY:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 120f;
+                    case GameDifficulty.Easy:
+                        MoveData.Set(0f, .5f, 120f, 3f, 10f);
                         Health = 3;
                         break;
-                    case EnemyDifficulty.MED:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 140f;
+                    case GameDifficulty.Normal:
+                        MoveData.Set(0f, .5f, 150f, 2.5f, 15f);
                         Health = 4;
                         break;
-                    case EnemyDifficulty.HARD:
-                        MoveData.Acceleration = 25f;
-                        MoveData.RotateSpeed = 2f;
-                        MoveData.MaxSpeed = 200f;
+                    case GameDifficulty.Hard:
+                        MoveData.Set(0f, .5f, 200f, 2f, 25f);
                         Health = 5;
                         break;
-                    case EnemyDifficulty.NIGHTMARE:
+                    case GameDifficulty.Nightmare:
+                        MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
                         break;
                 }
                 break;
@@ -295,16 +263,9 @@ public class IEnemy : MonoBehaviour
                 SetEnemyType(EnemyTypes.Boss);
                 ShieldData.Initialize(transform.GetChild(0).gameObject);
                 MissileCount = 1000;
-                MoveData.Acceleration = 10f;
-                MoveData.RotateSpeed = 5f;
-                MoveData.MaxSpeed = 50f;
+                MoveData.Set(0f, .5f, 50f, 5f, 10f);
                 Health = 50;
                 break;
-
-
-            //default:
-            //    Debug.LogError("Invalid Enemy Name : " + transform.name);
-            //    break;
         }
     }
     #endregion 

@@ -5,11 +5,16 @@ public class Turret : MonoBehaviour
     //  Enemy Data
     Transform MyTransform;
     private EnemyBehavior behavior;
-    private GameObject Laser;
     private bool lockedOn;
     private float randomShot;
-    private GameObject explosion;
-    private ObjectPooling pool, explosionPool;
+
+    private GameObject projectiles;
+    private GameObject explosions;
+
+    private ObjectPooling pool = new ObjectPooling();
+    private ObjectPooling explosionPool = new ObjectPooling();
+
+
     public float x, y, z;
     // Use this for initialization
     void Start()
@@ -18,15 +23,14 @@ public class Turret : MonoBehaviour
         MyTransform = transform;
         randomShot = .5f;
         lockedOn = false;
-        Laser = Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser");
-        explosion = Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion");
+
+        explosions = GameObject.Find("Explosions");
+        projectiles = GameObject.Find("Projectiles");
+
         behavior = transform.parent.GetComponentInParent<EnemyBehavior>();
 
-        explosionPool = new ObjectPooling();
-        explosionPool.Initialize(explosion, 3);
-
-        pool = new ObjectPooling();
-        pool.Initialize(Laser, 5);
+        explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3, explosions);
+        pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5, projectiles);
 
         InvokeRepeating("DestroyPlayer", 5f, randomShot);
     }
@@ -63,19 +67,18 @@ public class Turret : MonoBehaviour
     public void Shoot()
     {
         if (behavior.Target != null)
-            if (Laser != null)
+        {
+            GameObject obj = pool.GetPooledObject();
+            if (obj != null)
             {
-                GameObject obj = pool.GetPooledObject();
-                if (obj != null)
-                {
-                    obj.transform.position = transform.position;
-                    obj.transform.rotation = transform.rotation;
-                    obj.SetActive(true);
-                    obj.SendMessage("SelfDestruct", this);
-                }
-                else
-                    Debug.LogError("Obj Pool empty : " + obj.name);
+                obj.transform.position = transform.position;
+                obj.transform.rotation = transform.rotation;
+                obj.SetActive(true);
+                obj.SendMessage("SelfDestruct", this);
             }
+            else
+                Debug.LogError("Obj Pool empty : " + obj.name);
+        }
     }
 
     public void Kill()

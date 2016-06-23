@@ -2,7 +2,7 @@
 
 public class LaserProjectile : MonoBehaviour
 {
-
+    bool init = false;
     public float speed;
     private Transform MyTransform;
     private ChargeLaser MyParent;
@@ -10,12 +10,22 @@ public class LaserProjectile : MonoBehaviour
     //HitMarker
     GameObject HitMarker;
 
-    // Use this for initialization
-    void Initialize()
+
+
+    void OnEnable()
     {
-        speed = 500f;
-        MyTransform = transform;
-        HitMarker = GameObject.Find("PlayerReticle");
+        if (!init)
+        {
+            init = true;
+            speed = 1000f;
+            MyTransform = transform;
+            HitMarker = GameObject.Find("PlayerReticle");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Invoke("Kill", 3f);
+        }
     }
 
     // Update is called once per frame

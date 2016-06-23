@@ -3,38 +3,32 @@
 public class ChargeLaser : MonoBehaviour
 {
     public float delay = .25f;
-    private GameObject laser;
     private Transform leapcam;
-
-    private ObjectPooling Basicpool;
-    private ObjectPooling BasicExplosionPool;
-
-    private ObjectPooling Chargedpool;
-    private ObjectPooling chargeExplosionPool;
-
-    private GameObject explosion;
     private Transform MyTransform;
+
+    private GameObject explosions;
+    private GameObject projectiles;
+
+    private ObjectPooling BasicLasers = new ObjectPooling();
+    private ObjectPooling ChargedLasers = new ObjectPooling();
+    private ObjectPooling BasicExplosion = new ObjectPooling();
+    private ObjectPooling ChargedExplosion = new ObjectPooling();
+
 
 
     // Use this for initialization
     void Start()
     {
         MyTransform = transform;
+        explosions = GameObject.Find("Explosions");
+        projectiles = GameObject.Find("Projectiles");
         leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
-        laser = Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam");
-        explosion = Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion");
-        Basicpool = new ObjectPooling();
-        Basicpool.Initialize(laser, 12);
-        BasicExplosionPool = new ObjectPooling();
-        BasicExplosionPool.Initialize(explosion, 6);
+        BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 12, projectiles);
+        ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 12, projectiles);
 
-        laser = Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot");
-        explosion = Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion");
-        Chargedpool = new ObjectPooling();
-        Chargedpool.Initialize(laser, 12);
-        chargeExplosionPool = new ObjectPooling();
-        chargeExplosionPool.Initialize(explosion, 6);
+        BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), 6, explosions);
+        ChargedExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 6, explosions);
 
         gameObject.SetActive(false);
     }
@@ -50,7 +44,7 @@ public class ChargeLaser : MonoBehaviour
         delay -= Time.deltaTime;
         if (delay <= 0.0f)
         {
-            GameObject obj = Basicpool.GetPooledObject();
+            GameObject obj = BasicLasers.GetPooledObject();
             obj.transform.position = MyTransform.position;
             obj.transform.rotation = MyTransform.rotation;
             obj.SetActive(true);
@@ -63,7 +57,7 @@ public class ChargeLaser : MonoBehaviour
 
     public void SpawnExplosion(Vector3 pos)
     {
-        GameObject obj = BasicExplosionPool.GetPooledObject();
+        GameObject obj = BasicExplosion.GetPooledObject();
         if (obj != null)
         {
             obj.transform.position = pos;

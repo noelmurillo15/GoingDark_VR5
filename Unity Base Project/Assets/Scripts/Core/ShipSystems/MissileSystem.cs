@@ -1,72 +1,53 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 using UnityEngine.UI;
+using GoingDark.Core.Enums;
 
 public class MissileSystem : ShipDevice
 {
 
-    #region Properties
+    #region Missile Data
     public int Count { get; private set; }
+    public MissileType Type { get; private set; }
 
-    private Transform MyTransform;
-    private Transform leapcam;
-
-    private float buffer;
+    public ObjectPooling emp = new ObjectPooling();
+    public ObjectPooling basic = new ObjectPooling();
+    public ObjectPooling chromatic = new ObjectPooling();
+    public ObjectPooling shieldbreak = new ObjectPooling();
 
     //  Missile Display
-    private Text textCount;
-    private Text textMissileChoice;
+    private Text typeTxt;
+    private Text countTxt;
+    private Image missileSprite;
 
-    //  Missile Data
-    public MissileType currentType;
-
-    public ObjectPooling pool;
-    public ObjectPooling pool2;
-    public ObjectPooling pool3;
-    public ObjectPooling pool4;    
-
-    private GameObject basic;
-    private GameObject emp;
-    private GameObject chrome;
-    private GameObject shieldbreak;
+    private Transform leapcam;
+    private Transform MyTransform;
+    private GameObject projectiles;
+    private x360Controller controller;
     #endregion
-
 
     void Start()
     {
-        buffer = 0f;
         Count = 15;
         maxCooldown = 1f;
-
-        //  Leap Aim
-        MyTransform = transform;
-        leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
-
-        // Show selected missile text
-        textMissileChoice = GameObject.Find("MissileChoice").GetComponent<Text>();
-        textMissileChoice.text = "Basic Missile";
+        Type = MissileType.Basic;
 
         // Show missile count
-        textCount = GameObject.Find("MissileCounter").GetComponent<Text>();
-        textCount.text = Count.ToString();
+        projectiles = GameObject.Find("Projectiles");
+        countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
+        typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
+        missileSprite = GameObject.Find("MissileImage").GetComponent<Image>();
 
-        // Missile Data
-        basic = Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile");
-        emp = Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile");
-        chrome = Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile");
-        shieldbreak = Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile");        
+        //Missile Ammo Data    
+        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4, projectiles);
+        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4, projectiles);
+        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4, projectiles);
+        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4, projectiles);
 
-        pool = new ObjectPooling();
-        pool.Initialize(basic, 4);
+        MyTransform = transform;
+        controller = GamePadManager.Instance.GetController(0);
+        leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
-        pool2 = new ObjectPooling();
-        pool2.Initialize(emp, 4);
-
-        pool3 = new ObjectPooling();
-        pool3.Initialize(shieldbreak, 4);
-
-        pool4 = new ObjectPooling();
-        pool4.Initialize(chrome, 4);
+        CheckCount();
     }
 
     void Update()
@@ -74,16 +55,31 @@ public class MissileSystem : ShipDevice
         if (Input.GetAxisRaw("RBumper") > 0f)
             Activate();
 
-        if (Input.GetButtonDown("Y"))
+        if (controller.GetButtonDown("Y"))
             WeaponSwap();
-    
+
         if (Activated)
             LaunchMissile();
 
-        if (buffer > 0f)
-            buffer -= Time.deltaTime;
-
         MyTransform.rotation = leapcam.rotation;
+    }    
+
+    public void AddMissile()
+    {
+        int rand = Random.Range(1, 3);
+        Count += rand;
+        countTxt.text = "x: " + Count.ToString();
+        CheckCount();
+    }
+
+    public void WeaponSwap()
+    {
+        int curr = (int)(Type + 1);
+        if (System.Enum.GetValues(typeof(MissileType)).Length == curr)
+            curr = 0;
+
+        Type = (MissileType)curr;
+        CheckCount();
     }
 
     public void LaunchMissile()
@@ -92,97 +88,84 @@ public class MissileSystem : ShipDevice
         {
             Count--;
             DeActivate();
-            textCount.text = Count.ToString();
-            if (currentType == MissileType.Basic)
+            countTxt.text = "x: " + Count.ToString();
+
+            if (Type == MissileType.Basic)
             {
-                GameObject obj = pool.GetPooledObject();
+                GameObject obj = basic.GetPooledObject();
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.Emp)
+            else if (Type == MissileType.Emp)
             {
-                GameObject obj = pool2.GetPooledObject();
+                GameObject obj = emp.GetPooledObject();
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.ShieldBreak)
+            else if (Type == MissileType.ShieldBreak)
             {
-                GameObject obj = pool3.GetPooledObject();
+                GameObject obj = shieldbreak.GetPooledObject();
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
-            if (currentType == MissileType.Chromatic)
+            else if (Type == MissileType.Chromatic)
             {
-                GameObject obj = pool4.GetPooledObject();
+                GameObject obj = chromatic.GetPooledObject();
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
                 obj.SendMessage("SelfDestruct");
             }
+            CheckCount();
             AudioManager.instance.PlayMissileLaunch();
         }
-        else
-            Count = 15;
     }
 
-    public void AddMissile()
+    public void CheckCount()
     {
-        int rand = Random.Range(1, 3);
-        Count += rand;
-        textCount.text = Count.ToString();
-    }
+        if (Count == 0)
+        {
+            Type = MissileType.Basic;
+            countTxt.text = "";
+            typeTxt.text = "Basic";
+            typeTxt.color = Color.grey;
+            countTxt.color = Color.grey;
+            missileSprite.color = Color.grey;
+            return;
+        }
 
-    public void WeaponSelect(MissileType type)
-    {
-        currentType = type;
-        switch (currentType)
+        switch (Type)
         {
             case MissileType.Basic:
-                textMissileChoice.text = "Basic Selected";
+                typeTxt.text = "Basic";
+                countTxt.color = Color.yellow;
+                typeTxt.color = Color.yellow;
+                missileSprite.color = Color.yellow;
                 break;
             case MissileType.Emp:
-                textMissileChoice.text = "EMP Selected";
+                typeTxt.text = "Emp";
+                countTxt.color = Color.cyan;
+                typeTxt.color = Color.cyan;
+                missileSprite.color = Color.cyan;
                 break;
             case MissileType.ShieldBreak:
-                textMissileChoice.text = "ShieldBreaker";
+                typeTxt.text = "ShieldBreak";
+                countTxt.color = Color.magenta;
+                typeTxt.color = Color.magenta;
+                missileSprite.color = Color.magenta;
                 break;
             case MissileType.Chromatic:
-                textMissileChoice.text = "Chromatic Selected";
+                typeTxt.text = "Chromatic";
+                countTxt.color = Color.white;
+                typeTxt.color = Color.white;
+                missileSprite.color = Color.white;
                 break;
         }
-    }
-
-    public void WeaponSwap()
-    {
-        if (buffer <= 0f)
-        {
-            buffer = .5f;
-            int curr = (int)(currentType + 1);
-            if (System.Enum.GetValues(typeof(MissileType)).Length == curr)
-                curr = 0;
-
-            currentType = (MissileType)curr;
-            switch (currentType)
-            {
-                case MissileType.Basic:
-                    textMissileChoice.text = "Basic Selected";
-                    break;
-                case MissileType.Emp:
-                    textMissileChoice.text = "EMP Selected";
-                    break;
-                case MissileType.ShieldBreak:
-                    textMissileChoice.text = "ShieldBreaker";
-                    break;
-                case MissileType.Chromatic:
-                    textMissileChoice.text = "Chromatic Selected";
-                    break;
-            }
-        }
-    }
+    }    
 }

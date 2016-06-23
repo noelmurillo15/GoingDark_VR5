@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour {
         particles = GetComponent<ParticleSystem>();
         controller = GetComponent<CharacterController>();
         m_GamePad = GamePadManager.Instance.GetController(0);
+
+        OutOfBounds();
     }
 
     void Update(){

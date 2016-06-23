@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using GoingDark.Core.Enums;
 
 public class LaserOverheat : MonoBehaviour {
     
@@ -47,31 +46,25 @@ public class LaserOverheat : MonoBehaviour {
             CurrentAmount = 100f;
         else if(CurrentAmount < 0f)
         {
-            Debug.Log("Lasers Overheated");
             SetOverheat(true);
         }
 
         float C_Shield = CurrentAmount / MaxAmount;
+        if (!overheat)
+            LaserGauge.color = Color.Lerp(Color.red, Color.cyan, C_Shield);
+        else
+            LaserGauge.color = Color.red;
         C_Shield *= .5f;
         SetHealth(C_Shield);
     }
 
     void SetHealth(float NewShield)
     {
-        if (NewShield >= .4f)
-            LaserGauge.color = Color.cyan;
-        else
-            LaserGauge.color = Color.yellow;
-
-        if (overheat)
-            LaserGauge.color = Color.red;
-
         LaserGauge.fillAmount = NewShield;
     }
 
     public void Reset()
     {
-        Debug.Log("Laser Overheat Reset");
         SetOverheat(false);
         CurrentAmount = MaxAmount;
         SetHealth(((CurrentAmount / MaxAmount) * 0.5f));
