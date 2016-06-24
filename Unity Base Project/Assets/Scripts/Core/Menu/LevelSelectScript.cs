@@ -24,7 +24,7 @@ public class LevelSelectScript : MonoBehaviour {
 
     public void OnTriggerEnter(Collider col)
     {
-        if (col.name == "bone3" && (col.transform.parent.name == "rightIndex"|| col.transform.parent.name == "leftIndex"))
+        if (col.name == "leftPalm" || col.name == "rightPalm")
         {
             m_button.color = Color.red;
             transition = 0.1f;
@@ -35,7 +35,7 @@ public class LevelSelectScript : MonoBehaviour {
 
     public void OnTriggerStay(Collider col)
     {
-        if (col.name == "bone3" && (col.transform.parent.name == "rightIndex" || col.transform.parent.name == "leftIndex"))
+        if (col.name == "leftPalm" || col.name == "rightPalm")
         {
             transition -= Time.deltaTime;
             cancelTimer -= Time.deltaTime;
@@ -53,7 +53,7 @@ public class LevelSelectScript : MonoBehaviour {
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.name == "bone3" && (col.transform.parent.name == "rightIndex" || col.transform.parent.name == "leftIndex"))
+        if (col.name == "leftPalm" || col.name == "rightPalm")
         {
             if (m_button.color == Color.green)
             {

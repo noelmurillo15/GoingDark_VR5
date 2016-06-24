@@ -19,7 +19,6 @@ public class EnemyLaserProjectile : MonoBehaviour
         }
         else
         {
-            Debug.Log("Enemy Laser Used");
             Invoke("Kill", 3f);
         }
     }

@@ -83,7 +83,6 @@ public class PlayerStats : MonoBehaviour
     {
         if (ShieldData.ShieldActive)
         {
-            Debug.Log("Player Stats : ShieldHit");
             controller.AddRumble(.5f, new Vector2(.25f, .25f), .4f);
             AudioManager.instance.PlayShieldHit();
             ShieldData.ShieldHealth -= 25;

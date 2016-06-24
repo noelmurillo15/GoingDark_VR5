@@ -10,8 +10,6 @@ public class LaserProjectile : MonoBehaviour
     //HitMarker
     GameObject HitMarker;
 
-
-
     void OnEnable()
     {
         if (!init)
@@ -39,8 +37,7 @@ public class LaserProjectile : MonoBehaviour
         if (col.transform.CompareTag("Enemy"))
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
-            col.gameObject.SendMessage("ShieldHit");
-            Kill();
+            col.gameObject.GetComponent<EnemyBehavior>().Hit(this);
         }
 
         if (col.transform.CompareTag("Asteroid"))
@@ -57,7 +54,7 @@ public class LaserProjectile : MonoBehaviour
         }
     }
 
-    private void Kill()
+    public void Kill()
     {
         CancelInvoke();
         if (MyParent != null)

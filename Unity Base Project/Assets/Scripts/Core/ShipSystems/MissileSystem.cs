@@ -118,8 +118,8 @@ public class MissileSystem : ShipDevice
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
             }
-            CheckCount();
             AudioManager.instance.PlayMissileLaunch();
+            CheckCount();
         }
     }
 

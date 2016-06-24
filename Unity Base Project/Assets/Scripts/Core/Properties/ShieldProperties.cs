@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 [Serializable]
 public class ShieldProperties
@@ -8,11 +9,11 @@ public class ShieldProperties
     public bool ShieldActive;
     public float ShieldHealth;
 
-    public void Initialize(GameObject _shield)
+    public void Initialize(GameObject _shield, float shieldHP)
     {
         Shield = _shield;
         ShieldActive = true;
-        ShieldHealth = 100;
+        ShieldHealth = shieldHP;
     }
 
     public bool GetShieldActive()
@@ -20,26 +21,14 @@ public class ShieldProperties
         return ShieldActive;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(float _val)
     {
-        if (ShieldActive)
+        ShieldHealth -= _val;
+        if (ShieldHealth <= 0.0f)
         {
-            AudioManager.instance.PlayShieldHit();
-            ShieldHealth -= 10.0f;
-
-            if (ShieldHealth <= 0.0f)
-            {
-                ShieldActive = false;
-                Shield.SetActive(false);
-            }
-        }
-        else
-        {
-            if (!ShieldActive && ShieldHealth > 0)
-            {
-                ShieldActive = true;
-                Shield.SetActive(true);
-            }
+            ShieldHealth = 0f;            
+            ShieldActive = false;
+            Shield.SetActive(false);
         }
     }
 
@@ -49,7 +38,6 @@ public class ShieldProperties
         if (ShieldHealth < 100)
         {
             ShieldHealth += _val;
-
             if (ShieldHealth > 100)
                 ShieldHealth = 100;
         }

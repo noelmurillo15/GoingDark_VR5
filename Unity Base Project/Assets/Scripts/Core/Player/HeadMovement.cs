@@ -19,7 +19,6 @@ public class HeadMovement : MonoBehaviour {
 
     // Update is called once per frame
     private void LateUpdate() {
-        if(m_leapData.GetNumHands() == 0)
             m_Player.transform.rotation = Quaternion.Slerp(m_Player.transform.rotation, MyTransform.rotation, Time.deltaTime * 0.5f);
     }
 }

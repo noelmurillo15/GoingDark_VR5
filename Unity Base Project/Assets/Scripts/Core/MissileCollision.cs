@@ -22,7 +22,7 @@ public class MissileCollision : MonoBehaviour {
             switch (missile.Type)
             {
                 case MissileType.Emp:
-                    col.transform.SendMessage("EMPHit");
+                    col.transform.SendMessage("Hit", missile);
                     break;
                 case MissileType.Basic:
                     col.transform.SendMessage("Hit", missile);
@@ -31,7 +31,7 @@ public class MissileCollision : MonoBehaviour {
                     col.transform.SendMessage("Hit", missile);
                     break;
                 case MissileType.ShieldBreak:
-                    col.transform.SendMessage("ShieldHit");
+                    col.transform.SendMessage("Hit", missile);
                     break;
             }
             hitMarker.HitMarkerShow(Time.time);

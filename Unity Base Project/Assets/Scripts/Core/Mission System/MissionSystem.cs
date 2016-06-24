@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using GoingDark.Core.Enums;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MissionSystem : MonoBehaviour
 {

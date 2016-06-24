@@ -22,7 +22,7 @@ public class MapConnection : MonoBehaviour
         lr.SetColors(color, color);
         lr.SetWidth(1f, 1f);
         lr.SetPosition(0, start);
-        lr.SetPosition(1, nextPlanet.transform.position);
+        //lr.SetPosition(1, nextPlanet.transform.position);
         //GameObject.Destroy(myLine);
         if (isUnlocked == 0)
         {
@@ -39,37 +39,24 @@ public class MapConnection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isUnlocked == 0 || nextPlanet.GetComponent<MapConnection>().isUnlocked == 0)
-            color = Color.black;
-        else
-            color = Color.white;
 
-        lr.SetColors(color, color);
     }
 
     void CheckLevelUnlocked()
     {
         switch (transform.name)
         {
-            case "Tutorial":
+            case "Easy":
                 isUnlocked = PlayerPrefs.GetInt("Level1Unlocked");
                 break;
-            case "Tutorial2":
+            case "Medium":
                 isUnlocked = PlayerPrefs.GetInt("Level2Unlocked");
                 break;
-            case "Tutorial3":
+            case "Hard":
                 isUnlocked = PlayerPrefs.GetInt("Level3Unlocked");
                 break;
-            case "OpenWorld":
+            case "Nightmare":
                 isUnlocked = PlayerPrefs.GetInt("Level4Unlocked");
-                break;
-            case "Level5":
-                isUnlocked = PlayerPrefs.GetInt("Level5Unlocked");
-                break;
-            case "Level6":
-                isUnlocked = PlayerPrefs.GetInt("Level6Unlocked");
-                break;
-            default:
                 break;
         }
     }

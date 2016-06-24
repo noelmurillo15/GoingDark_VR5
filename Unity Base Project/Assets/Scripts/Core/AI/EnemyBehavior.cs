@@ -10,7 +10,6 @@ public class EnemyBehavior : IEnemy
     public EnemyStates State;
     public Vector3 LastKnownPos { get; set; }
 
-
     public MonoBehaviour alertAi;
     public MonoBehaviour patrolAi;
     public MonoBehaviour uniqueAi;

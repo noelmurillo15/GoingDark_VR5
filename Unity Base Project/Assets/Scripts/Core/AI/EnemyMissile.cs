@@ -36,7 +36,6 @@ public class EnemyMissile : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Enemy Missile was used");
             tracking = false;
             moveData.Speed = 150f;
 
@@ -56,7 +55,6 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
-        Debug.Log("Enemy Missile Blewup");
         CancelInvoke("Kill");
         Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         gameObject.SetActive(false);

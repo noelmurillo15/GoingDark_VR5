@@ -63,7 +63,6 @@ public class StationLog : MonoBehaviour
     {
         if (isDocked)
         {
-            Debug.Log("Opening Station Panel");
             m_pStationPanel.SetActive(true);
             m_stationID = stationID;
         }
