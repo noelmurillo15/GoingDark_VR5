@@ -117,7 +117,7 @@ public class Tutorial : MonoBehaviour
                 {
                     string1 = "Touch your left forearm with your right palm to open the Arm Menu";
                     string2 = "Click the mission log button";
-                    string3 = "Accept the first mission : " + mission.m_stationMissions[0].missionName;
+                    string3 = "Accept the first mission : " + mission.m_stationMissions[0][0].missionName;
                     StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
                 }

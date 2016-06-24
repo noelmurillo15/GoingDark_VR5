@@ -238,6 +238,9 @@
     <None Include="Assets\Pause Menu Assets\Fonts\open-sans\Apache License.txt" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
+    <None Include="Assets\Resources\XML\Level1_1.xml" />
+    <None Include="Assets\Resources\XML\Level1_2.xml" />
+    <None Include="Assets\Resources\XML\Level1_Boss.xml" />
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />

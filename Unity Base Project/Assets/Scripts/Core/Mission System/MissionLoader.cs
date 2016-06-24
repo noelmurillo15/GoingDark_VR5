@@ -25,7 +25,7 @@ public class MissionLoader : MonoBehaviour
 
         // get the list of elements in the file
         IEnumerable<XElement> missonList = mRoot.Elements();
-
+        List<Mission> tempList = new List<Mission>();
         // get each attribute separately
         foreach (XElement mission in missonList)
         {
@@ -56,9 +56,56 @@ public class MissionLoader : MonoBehaviour
             attribute = mission.Attribute("optional");
             tempMission.isOptional = bool.Parse(attribute.Value);
 
-            m_missions.Add(tempMission);
+            tempList.Add(tempMission);
         }
-        return m_missions;
+
+        return tempList;
+    }
+
+    public Mission LoadMission(string fileName)
+    {
+        Debug.Log("Loading Missions");
+        // load in the file into an element
+        XElement mRoot = XElement.Load(@"Assets\Resources\XML\" + fileName + ".xml");
+
+        // get the list of elements in the file
+        IEnumerable<XElement> missonList = mRoot.Elements();
+        Mission returnMission = new Mission();
+        // get each attribute separately
+
+        foreach (XElement mission in missonList)
+        {
+            Mission tempMission = new Mission();
+            // get name of mission
+            XAttribute attribute = mission.Attribute("name");
+            tempMission.missionName = attribute.Value;
+            // get mission info
+            attribute = mission.Attribute("info");
+            tempMission.missionInfo = attribute.Value;
+            // get number of credits
+            attribute = mission.Attribute("credits");
+            tempMission.credits = int.Parse(attribute.Value);
+            // get number of objectives
+            attribute = mission.Attribute("objectives");
+            tempMission.objectives = int.Parse(attribute.Value);
+            // get mission type (Scavenge, Combat, Stealth)
+            attribute = mission.Attribute("type");
+            // convert string into mission type
+            tempMission.type = ConvertType(attribute.Value);
+            // get enemy type for mission
+            attribute = mission.Attribute("enemy");
+            tempMission.enemy = ConvertEnemy(attribute.Value);
+            // get timer for mission
+            attribute = mission.Attribute("time");
+            tempMission.missionTimer = float.Parse(attribute.Value);
+            // get value for optional/non optional missions
+            attribute = mission.Attribute("optional");
+            tempMission.isOptional = bool.Parse(attribute.Value);
+
+            returnMission = tempMission;
+        }
+
+        return returnMission;
     }
 
     /// <summary>
@@ -102,4 +149,5 @@ public class MissionLoader : MonoBehaviour
 
         return ret;
     }
+
 }

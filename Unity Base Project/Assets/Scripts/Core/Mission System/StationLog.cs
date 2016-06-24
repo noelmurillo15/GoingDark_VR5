@@ -28,6 +28,7 @@ public class StationLog : MonoBehaviour
     private GameObject m_pMissionInfo;
 
     private GameObject mPlayer;
+    private int m_stationID;
 
     private bool mDocked;
     // Use this for initialization
@@ -58,11 +59,13 @@ public class StationLog : MonoBehaviour
 
     }
 
-    public void Docked(bool isDocked)
+    public void Docked(bool isDocked, int stationID)
     {
         if (isDocked)
         {
+            Debug.Log("Opening Station Panel");
             m_pStationPanel.SetActive(true);
+            m_stationID = stationID;
         }
         else
         {
@@ -110,23 +113,23 @@ public class StationLog : MonoBehaviour
 
     void AddMissions(string missionName)
     {
-        for (int i = 0; i < m_missionSystem.m_stationMissions.Count; i++)
+        for (int i = 0; i < m_missionSystem.m_stationMissions[m_stationID].Count; i++)
         {
-            if (missionName == m_missionSystem.m_stationMissions[i].missionName)
+            if (missionName == m_missionSystem.m_stationMissions[m_stationID][i].missionName)
             {
                 Debug.Log("AddMissions" + missionName);
-                m_missionSystem.AddActiveMission(m_missionSystem.m_stationMissions[i]);
+                m_missionSystem.AddActiveMission(m_missionSystem.m_stationMissions[m_stationID][i]);
             }
         }
     }
 
     void TurnInMission(string buttonName)
     {
-        for (int i = 0; i < m_missionSystem.m_stationMissions.Count; i++)
+        for (int i = 0; i < m_missionSystem.m_stationMissions[m_stationID].Count; i++)
         {
-            if (buttonName == m_missionSystem.m_stationMissions[i].missionName)
+            if (buttonName == m_missionSystem.m_stationMissions[m_stationID][i].missionName)
             {
-                m_missionSystem.TurnInMission(buttonName);
+                m_missionSystem.TurnInMission(buttonName, m_stationID);
                 break;
             }
         }
@@ -151,13 +154,13 @@ public class StationLog : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (i > m_missionSystem.m_stationMissions.Count - 1)
+            if (i > m_missionSystem.m_stationMissions[m_stationID].Count - 1)
             {
                 mButtons[i].gameObject.SetActive(false);
             }
             else
             {
-                mButtons[i].gameObject.name = m_missionSystem.m_stationMissions[i].missionName;
+                mButtons[i].gameObject.name = m_missionSystem.m_stationMissions[m_stationID][i].missionName;
                 mButtons[i].gameObject.SetActive(true);
                 mButtons[i].GetComponentInChildren<Text>().text = mButtons[i].gameObject.name;
             }
@@ -175,10 +178,10 @@ public class StationLog : MonoBehaviour
     public void StationButtonPressed(string buttonName)
     {
 
-        if (m_missionSystem.m_stationMissions.Exists(s => s.missionName == buttonName))
+        if (m_missionSystem.m_stationMissions[m_stationID].Exists(s => s.missionName == buttonName))
         {
             Debug.Log("Station Mission Info Open");
-            Mission mission = m_missionSystem.m_stationMissions.Find(s => s.missionName == buttonName);
+            Mission mission = m_missionSystem.m_stationMissions[m_stationID].Find(s => s.missionName == buttonName);
             ShowMissionInfo(mission, buttonName);
         }
         else if (buttonName == "Back")

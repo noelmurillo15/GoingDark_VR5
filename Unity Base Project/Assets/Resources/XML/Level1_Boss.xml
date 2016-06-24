@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Level1>
+
+  <mission name ="Regicide"
+   info = "Kill the baws"
+   credits = "1000"
+   objectives = "1"
+   type = "Combat"
+   enemy = "Boss"
+   time = "0.0"
+   optional = "true"
+  />
+
+</Level1>

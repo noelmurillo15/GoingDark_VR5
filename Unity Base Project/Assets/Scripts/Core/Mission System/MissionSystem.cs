@@ -8,9 +8,9 @@ using GoingDark.Core.Enums;
 public class MissionSystem : MonoBehaviour
 {
     public List<Mission> m_ActiveMissions;
-    public List<Mission> m_stationMissions;
+    public List<Mission>[] m_stationMissions;
     public List<Mission> m_CompletedMissions;
-    public string filename;
+    public string[] filename;
 
     private PlayerStats m_playerStats;
     private MissionLoader m_missionLoader;
@@ -18,30 +18,50 @@ public class MissionSystem : MonoBehaviour
     private Tutorial m_tutorial;
     private TutorialFlight m_tutorial2;
     private int maxMissions;
+    private int m_stationID;
+
+    private GameObject m_Boss;
 
     // Use this for initialization
     void Start()
     {
+        m_Boss = GameObject.Find("Boss");
+        m_Boss.SetActive(false);
+
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        m_stationMissions = new List<Mission>[2];
 
         if (SceneManager.GetActiveScene().name == "Tutorial")
             m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
-        if (SceneManager.GetActiveScene().name == "Tutorial2")
-            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
-        maxMissions = 4;
-        m_stationMissions = m_missionLoader.LoadMissions(filename);
 
-        // for testing
-        //AddActiveMission(m_stationMissions[0]);
+        if (SceneManager.GetActiveScene().name == "Tutorial2")
+        {
+            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+            m_stationMissions[0] = m_missionLoader.LoadMissions(filename[0]);
+        }
+        else
+        {
+            m_stationMissions[0] = m_missionLoader.LoadMissions("Level1_1");
+            m_stationMissions[1] = m_missionLoader.LoadMissions("Level1_2");
+
+        }
+
+        maxMissions = 4;
+
     }
 
     public void AddActiveMission(Mission mission)
     {
         mission.isActive = true;
+        if (mission.enemy == EnemyTypes.Boss)
+        {
+            m_Boss.SetActive(true);
+            Debug.Log("Boss Spawned");
+        }
         Debug.Log("AddActiveMission " + mission.missionName);
         m_ActiveMissions.Add(mission);
     }
@@ -59,7 +79,7 @@ public class MissionSystem : MonoBehaviour
                 Mission mission = m_ActiveMissions[i];
                 mission.objectives--;
 
-                if (mission.objectives == 0)
+                if (mission.objectives == 0 && !mission.completed)
                 {
                     mission.completed = true;
                     m_missionLog.SendMessage("Completed", mission);
@@ -68,6 +88,7 @@ public class MissionSystem : MonoBehaviour
                         m_tutorial.SendMessage("MissionCompleted", mission.missionName);
                     if (SceneManager.GetActiveScene().name == "Tutorial2")
                         m_tutorial2.SendMessage("MissionCompleted", mission.missionName);
+
                 }
                 m_ActiveMissions[i] = mission;
                 m_missionLog.SendMessage("UpdateInfo", m_ActiveMissions[i]);
@@ -90,7 +111,7 @@ public class MissionSystem : MonoBehaviour
                 {
                     mission.completed = true;
                     m_missionLog.Completed(mission);
-                    m_CompletedMissions.Add(mission);
+                    // m_CompletedMissions.Add(mission);
                 }
             }
 
@@ -109,7 +130,7 @@ public class MissionSystem : MonoBehaviour
         }
     }
 
-    public void TurnInMission(string missionName)
+    public void TurnInMission(string missionName, int stationID)
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
         {
@@ -122,13 +143,20 @@ public class MissionSystem : MonoBehaviour
                 // remove turned in missions from active list and station list
 
                 Mission temp = m_ActiveMissions[i];
-                int station = m_stationMissions.FindIndex(x => x.missionName == temp.missionName);
-                m_stationMissions.RemoveAt(station);
+                Mission[] container = new Mission[4];
+                m_ActiveMissions.CopyTo(container);
+                int index = m_stationMissions[stationID].FindIndex(x => x.missionName == temp.missionName);
+                m_stationMissions[stationID].RemoveAt(index);
                 m_ActiveMissions.RemoveAt(i);
 
-                //m_CompletedMissions.Add(temp);
+                m_CompletedMissions.Add(container[i]);
                 break;
             }
+        }
+
+        if (m_CompletedMissions.Count == 3)
+        {
+            m_stationMissions[stationID].Add(m_missionLoader.LoadMission("Level1_Boss"));
         }
 
 
