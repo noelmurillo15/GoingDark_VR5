@@ -8,7 +8,6 @@ public class ShieldProperties
     public bool ShieldActive;
     public float ShieldHealth;
 
-
     public void Initialize(GameObject _shield)
     {
         Shield = _shield;
@@ -34,5 +33,26 @@ public class ShieldProperties
                 Shield.SetActive(false);
             }
         }
-    }       
+        else
+        {
+            if (!ShieldActive && ShieldHealth > 0)
+            {
+                ShieldActive = true;
+                Shield.SetActive(true);
+            }
+        }
+    }
+
+    public void ShieldRecharge(float _val)
+    {
+        ShieldActive = true;
+        if (ShieldHealth < 100)
+        {
+            ShieldHealth += _val;
+
+            if (ShieldHealth > 100)
+                ShieldHealth = 100;
+        }
+    }
+
 }

@@ -61,7 +61,8 @@ public class PlayerStats : MonoBehaviour
     {
         if (ShieldData.ShieldActive)
         {
-            ShieldHit();
+            if (!ShieldHit())
+                Invoke("RechargeShield", 20);
             return;
         }
         controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
@@ -76,12 +77,13 @@ public class PlayerStats : MonoBehaviour
         DebuffData.Stunned(5f); 
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);
-    }    
+    }
 
-    void ShieldHit()
+    bool ShieldHit()
     {
         if (ShieldData.ShieldActive)
         {
+            Debug.Log("Player Stats : ShieldHit");
             controller.AddRumble(.5f, new Vector2(.25f, .25f), .4f);
             AudioManager.instance.PlayShieldHit();
             ShieldData.ShieldHealth -= 25;
@@ -92,9 +94,29 @@ public class PlayerStats : MonoBehaviour
                 ShieldData.ShieldHealth = 0f;
                 ShieldData.ShieldActive = false;
                 ShieldData.Shield.SetActive(false);
+                return false;
             }
         }
+       //else if (!ShieldData.ShieldActive)
+       //{
+       //    if (ShieldData.ShieldHealth > 0)
+       //    {
+       //        ShieldData.ShieldActive = true;
+       //        ShieldData.Shield.SetActive(true);
+       //    }
+       //    return false;
+       //}
+        return true;
     }
+    public void RechargeShield()
+    {
+        CancelInvoke();
+        ShieldData.ShieldRecharge(100f);
+        ShieldBar.Reset();
+        ShieldData.ShieldActive = true;
+        ShieldData.Shield.SetActive(true);
+    }
+
     public void EnvironmentalDMG()
     {
         if (ShieldData.ShieldActive)

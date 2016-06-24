@@ -29,6 +29,7 @@ public class Shieldbar : MonoBehaviour {
         SetHealth(C_Shield);
     }
 
+
     void SetHealth(float NewShield)
     {
         ShieldCircle.fillAmount = NewShield;
