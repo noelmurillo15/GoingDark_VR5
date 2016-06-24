@@ -37,7 +37,7 @@ public class EnemyManager : MonoBehaviour
     {
         laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30, projectiles);
         missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30, projectiles);
-        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 30, explosions);
+        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40, explosions);
 
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();

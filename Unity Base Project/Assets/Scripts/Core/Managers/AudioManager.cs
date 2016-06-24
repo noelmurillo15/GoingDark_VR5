@@ -63,20 +63,20 @@ public class AudioManager : MonoBehaviour
                 Raise = Lower = false;
             else if (Raise)
             {
-                MusicVolume += 0.01f;
-                if (MusicVolume > 1.0f)
+                MasterVolume += 0.01f;
+                if (MasterVolume > 1.0f)
                 {
-                    MusicVolume = 1.0f;
+                    MasterVolume = 1.0f;
                     Raise = false;
                 }
             }
             else if (Lower)
             {
-                MusicVolume -= 0.01f;
-                if (MusicVolume < 0.0f)
+                MasterVolume -= 0.01f;
+                if (MasterVolume < 0.0f)
                 {
                     Lower = false;
-                    MusicVolume = 0.0f;
+                    MasterVolume = 0.0f;
                 }
             }
         }
@@ -335,18 +335,18 @@ public class AudioManager : MonoBehaviour
         _Music.Play();
     }
 
-    public void LowerMusicVolume(float vol = 100.0f)
+    public void LowerVolume(float vol = 100.0f)
     {
         if (vol != 100.0f && vol >= 0.0f && vol <= 1.0f)
-            MusicVolume = vol;
+            MasterVolume = vol;
         else
             Lower = true;
     }
 
-    public void RaiseMusicVolume(float vol = 100.0f)
+    public void RaiseVolume(float vol = 100.0f)
     {
         if (vol != 100.0f && vol >= 0.0f && vol <= 1.0f)
-            MusicVolume = vol;
+            MasterVolume = vol;
         else
             Raise = true;
     }

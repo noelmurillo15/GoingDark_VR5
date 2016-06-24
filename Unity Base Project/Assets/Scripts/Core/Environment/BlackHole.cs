@@ -29,19 +29,18 @@ public class BlackHole : MonoBehaviour
     {
         if (col.gameObject.tag == "Player" || col.gameObject.tag == "Enemy" || col.gameObject.tag == "Asteroid")
         {
-            Debug.Log("Pulling " + col.tag);
             Vector3 pullDirection = new Vector3(transform.position.x, transform.position.y + 70, transform.position.z) - col.transform.position;
             pullDirection.Normalize();
             float distance = (transform.position - col.transform.position).magnitude;
             col.transform.position = col.transform.position + pullDirection * Time.deltaTime * 50.0f;
             if (col.gameObject.tag == "Player")
-                AudioManager.instance.LowerMusicVolume();
+                AudioManager.instance.LowerVolume();
         }
     }
 
     void OnTriggerExit(Collider col)
     {
         if (col.gameObject.tag == "Player")
-            AudioManager.instance.RaiseMusicVolume();
+            AudioManager.instance.RaiseVolume();
     }
 }

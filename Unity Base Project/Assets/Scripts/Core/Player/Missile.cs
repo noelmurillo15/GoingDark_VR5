@@ -11,6 +11,7 @@ public class Missile : MonoBehaviour {
     private bool tracking;
     private bool deflected;
     private GameObject Explosion;
+    private GameObject Explosions;
     private Transform MyTransform;
 
     //  Raycast
@@ -27,6 +28,7 @@ public class Missile : MonoBehaviour {
     {
         if (!init)
         {
+            init = true;
             range = 1600;
             target = null;
             tracking = false;
@@ -41,6 +43,7 @@ public class Missile : MonoBehaviour {
             MyTransform = transform;
             direction = MyTransform.forward;
 
+            Explosions = GameObject.Find("Explosions");
             FindExplosion();
             gameObject.SetActive(false);
         }
@@ -52,6 +55,7 @@ public class Missile : MonoBehaviour {
             deflected = false;
             moveData.Speed = 100f;
             direction = MyTransform.forward;
+            Invoke("Kill", 3f);
         }    
     }
 
@@ -106,20 +110,25 @@ public class Missile : MonoBehaviour {
 
     void FindExplosion()
     {
+        Explosion = null;
         switch (Type)
         {
             case MissileType.Basic:
-                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion");
-                break;
+                Explosion = Instantiate(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), transform.position, Quaternion.identity) as GameObject; break;                
             case MissileType.Emp:
-                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/EmpExplosion");
-                break;
+                Explosion = Instantiate(Resources.Load<GameObject>("Projectiles/Explosions/EmpExplosion"), transform.position, Quaternion.identity) as GameObject; break;
             case MissileType.ShieldBreak:
-                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/ShieldBreakExplosion");
-                break;
+                Explosion = Instantiate(Resources.Load<GameObject>("Projectiles/Explosions/ShieldBreakExplosion"), transform.position, Quaternion.identity) as GameObject; break;
             case MissileType.Chromatic:
-                Explosion = Resources.Load<GameObject>("Projectiles/Explosions/ChromaticExplosion");
-                break;
+                Explosion = Instantiate(Resources.Load<GameObject>("Projectiles/Explosions/ChromaticExplosion"), transform.position, Quaternion.identity) as GameObject; break;                
+        }
+        if(Explosion != null)
+        {
+            Explosion.transform.parent = Explosions.transform;
+        }
+        else
+        {
+            Debug.LogError("Missile Explosion == null");
         }
     }
 
@@ -127,11 +136,8 @@ public class Missile : MonoBehaviour {
     {
         CancelInvoke();
         deflected = false;
-        if (Explosion != null)
-            Instantiate(Explosion, MyTransform.position, Quaternion.identity);
-        else
-            Debug.LogError("Missile Explosion == null");
-
+        Explosion.transform.position = MyTransform.position;
+        Explosion.SetActive(true);
         gameObject.SetActive(false);
     }
     private void SelfDestruct()

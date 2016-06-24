@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using MovementEffects;
-using System.Collections;
 using GoingDark.Core.Enums;
 using System.Collections.Generic;
 
@@ -64,11 +63,23 @@ public class PatrolAi : MonoBehaviour
                 }
                 else
                 {
-                    Vector3 playerDir = behavior.Target.position - MyTransform.position;
-                    Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
-                    MyTransform.rotation = Quaternion.LookRotation(direction);
-                    headingX = MyTransform.eulerAngles.x;
-                    headingY = MyTransform.eulerAngles.y;
+                    if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 250f)
+                    {
+                        Vector3 playerDir = behavior.Target.position - MyTransform.position;
+                        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / behavior.GetMoveData().RotateSpeed, 0.0f);
+                        MyTransform.rotation = Quaternion.LookRotation(direction);
+                        headingX = MyTransform.eulerAngles.x;
+                        headingY = MyTransform.eulerAngles.y;
+                    }
+                    else
+                    {
+                        Vector3 playerDir = behavior.Target.position - MyTransform.position;
+                        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime * 5f, 0.0f);
+                        direction.x += 87.03f;
+                        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / behavior.GetMoveData().RotateSpeed);
+                        headingX = MyTransform.eulerAngles.x;
+                        headingY = MyTransform.eulerAngles.y;
+                    }
                 }
             }
 

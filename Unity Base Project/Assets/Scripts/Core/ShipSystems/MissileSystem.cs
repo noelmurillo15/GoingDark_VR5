@@ -96,7 +96,6 @@ public class MissileSystem : ShipDevice
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
-                obj.SendMessage("SelfDestruct");
             }
             else if (Type == MissileType.Emp)
             {
@@ -104,7 +103,6 @@ public class MissileSystem : ShipDevice
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
-                obj.SendMessage("SelfDestruct");
             }
             else if (Type == MissileType.ShieldBreak)
             {
@@ -112,7 +110,6 @@ public class MissileSystem : ShipDevice
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
-                obj.SendMessage("SelfDestruct");
             }
             else if (Type == MissileType.Chromatic)
             {
@@ -120,7 +117,6 @@ public class MissileSystem : ShipDevice
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
-                obj.SendMessage("SelfDestruct");
             }
             CheckCount();
             AudioManager.instance.PlayMissileLaunch();

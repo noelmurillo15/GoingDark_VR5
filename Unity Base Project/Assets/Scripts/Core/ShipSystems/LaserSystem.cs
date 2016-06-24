@@ -49,7 +49,7 @@ public class LaserSystem : ShipDevice
 
             if (Activated)
                 ShootGun();
-        }
+        }                   
 
         if (controller.GetButtonDown("RightThumbstick"))
             WeaponSwap();
