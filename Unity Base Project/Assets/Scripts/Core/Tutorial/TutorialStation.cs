@@ -9,35 +9,18 @@ public class TutorialStation : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        m_sceneName = SceneManager.GetActiveScene().name;
-        switch (m_sceneName)
-        {
-            case "Tutorial":
-                m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
-                break;
-            case "Tutorial2":
-                m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
-                break;
-            default:
-                break;
-        }
+        
+        m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+    
     }
 
     public void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")
         {
-            switch (m_sceneName)
-            {
-                case "Tutorial":
-                    m_tutorial.SendMessage("EnterStation");
-                    break;
-                case "Tutorial2":
-                    m_tutorial2.SendMessage("EnterStation");
-                    break;
-                default:
-                    break;
-            }
+
+            m_tutorial2.SendMessage("EnterStation");
+
         }
     }
 
@@ -45,17 +28,8 @@ public class TutorialStation : MonoBehaviour {
     {
         if (col.transform.tag == "Player")
         {
-            switch (m_sceneName)
-            {
-                case "Tutorial":
-                    m_tutorial.SendMessage("ExitStation");
-                    break;
-                case "Tutorial2":
-                    m_tutorial2.SendMessage("ExitStation");
-                    break;
-                default:
-                    break;
-            }
+            m_tutorial2.SendMessage("ExitStation");
+
         }
 
     }

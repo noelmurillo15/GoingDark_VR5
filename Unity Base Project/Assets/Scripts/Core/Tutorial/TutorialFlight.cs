@@ -9,7 +9,7 @@ public class TutorialFlight : MonoBehaviour
     private int phase;
     private PlayerMovement playerMovement;
     private MissionSystem mission;
-    private Text line1, line2, line3;
+    //private Text line1, line2, line3;
     private bool buffer, isNearStation;
     private bool flightMissionCompleted, flightMissionAccepted, flightMissionTurnedIn;
     private bool stealthMissionCompleted, stealthMissionAccepted, stealthMissionTurnedIn;
@@ -18,7 +18,6 @@ public class TutorialFlight : MonoBehaviour
     private GameObject station;
     //  private BoxCollider hyperDriveButton;
     private GameObject[] loots;
-    private AudioSource tutorialRemind;
     private float remindTimer;
     private int numRings;
     public GameObject arrow;
@@ -40,7 +39,6 @@ public class TutorialFlight : MonoBehaviour
         station = GameObject.Find("Station");
         // hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
         loots = GameObject.FindGameObjectsWithTag("Loot");
-        tutorialRemind = GetComponent<AudioSource>();
         supplyBox = GameObject.Find("SupplyBox");
         stealthEnemy = GameObject.Find("SteathEnemy");
         stealthEnemies = stealthEnemy.transform.GetComponentsInChildren<EnemyBehavior>();
@@ -50,12 +48,12 @@ public class TutorialFlight : MonoBehaviour
         wellDone = transform.FindChild("WellDone").GetComponent<AudioSource>();
         goodJob = transform.FindChild("GoodJob").GetComponent<AudioSource>();
         congratulation = transform.FindChild("Congratulation").GetComponent<AudioSource>();
-        line1 = GameObject.Find("Line1").GetComponent<Text>();
-        line2 = GameObject.Find("Line2").GetComponent<Text>();
-        line3 = GameObject.Find("Line3").GetComponent<Text>();
-        line1.text = "Welcome, Captain!";
-        line2.text = "";
-        line3.text = "";
+        //line1 = GameObject.Find("Line1").GetComponent<Text>();
+        //line2 = GameObject.Find("Line2").GetComponent<Text>();
+        //line3 = GameObject.Find("Line3").GetComponent<Text>();
+        //line1.text = "Welcome, Captain!";
+        //line2.text = "";
+        //line3.text = "";
         phase = 0;
         numRings = 0;
         remindTimer = 6.0f;
@@ -86,7 +84,7 @@ public class TutorialFlight : MonoBehaviour
 
     void Progress()
     {
-        string string1, string2, string3;
+        //string string1, string2, string3;
         switch (phase)
         {
             case 0:
@@ -97,24 +95,21 @@ public class TutorialFlight : MonoBehaviour
                     stealthEnemy.SetActive(false);
                     combatEnemy.SetActive(false);
 
-                    string1 = "Push the left trigger to accelerate the ship";
-                    string2 = "Use the left stick to rotate the ship";
-                    string3 = "Drive to the station (Hint: Follow the arrow)";
-                    StartCoroutine(Delay(2.0f, string1, string2, string3));
+                    //string1 = "Push the left trigger to accelerate the ship";
+                    //string2 = "Use the left stick to rotate the ship";
+                    //string3 = "Drive to the station (Hint: Follow the arrow)";
+                    //StartCoroutine(Delay(2.0f, string1, string2, string3));
                     buffer = true;
                 }
-                TutorialRemind();
                 arrow.transform.LookAt(station.transform.position);
-
                 if (isNearStation)
                 {
                     arrow.SetActive(false);
-                    ClearText();
+                  //  ClearText();
                     playerMovement.enabled = false;
                     playerMovement.StopMovement();
                     buffer = false;
                     phase = 1;
-                    StopTutorialRemind();
                 }
                 break;
             case 1:
@@ -125,21 +120,19 @@ public class TutorialFlight : MonoBehaviour
                 }
                 if (!buffer)
                 {
-                    string1 = "Clap your hands to open the Arm Menu";
-                    string2 = "Click the mission log button";
-                    string3 = "Accept one of the missions.You may only pick one at a time.";
-                    StartCoroutine(Delay(0.0f, string1, string2, string3));
+                    //string1 = "Clap your hands to open the Arm Menu";
+                    //string2 = "Click the mission log button";
+                    //string3 = "Accept one of the missions.You may only pick one at a time.";
+                    //StartCoroutine(Delay(0.0f, string1, string2, string3));
                     buffer = true;
                 }
-                TutorialRemind();
                 if (flightMissionAccepted || stealthMissionAccepted || combatMissionAccepted)
                 {
                     playerMovement.enabled = true;
-                    ClearText();
+                  //  ClearText();
                     phase = 2;
                     buffer = false;
 
-                    StopTutorialRemind();
                 }
                 break;
 
@@ -154,14 +147,14 @@ public class TutorialFlight : MonoBehaviour
             case 4:
                 if (!buffer)
                 {
-                    StartCoroutine(Transition());
+                   // StartCoroutine(Transition());
                     buffer = true;
                 }
                 break;
             case 5:
                 if (!buffer)
                 {
-                    ClearText();
+                   // ClearText();
                     supplyBox.SetActive(false);
                     stealthEnemy.SetActive(false);
                     stealthMissionAccepted = false;
@@ -171,23 +164,21 @@ public class TutorialFlight : MonoBehaviour
                         stealthEnemies[i].SetEnemyTarget(null);
                     }
 
-                    string1 = "You Have failed the mission";
-                    string2 = "Head back to the station (Hint: Follow the arrow)";
-                    string3 = "You may try again or take on a different mission!";
-                    StartCoroutine(Delay(0.5f, string1, string2, string3));
+                    //string1 = "You Have failed the mission";
+                    //string2 = "Head back to the station (Hint: Follow the arrow)";
+                    //string3 = "You may try again or take on a different mission!";
+                    //StartCoroutine(Delay(0.5f, string1, string2, string3));
                     buffer = true;
                 }
-                TutorialRemind();
                 arrow.transform.LookAt(station.transform);
                 if (isNearStation)
                 {
                     arrow.SetActive(false);
-                    ClearText();
+                  //  ClearText();
                     playerMovement.enabled = false;
                     playerMovement.StopMovement();
                     buffer = false;
                     phase = 1;
-                    StopTutorialRemind();
                 }
                 break;
             default:
@@ -197,7 +188,7 @@ public class TutorialFlight : MonoBehaviour
 
     private void OnMissionAccept()
     {
-        string string1, string2, string3;
+       // string string1, string2, string3;
         if (flightMissionAccepted)
         {
             if (!buffer)
@@ -212,9 +203,9 @@ public class TutorialFlight : MonoBehaviour
                 arrow.SetActive(true);
                 buffer = true;
             }
-            line1.text = "Hit all the fire rings to complete the mission";
-            line2.text = "Completion (" + numRings + " / 10)";
-            line3.text = "Hint: Follow the arrow";
+            //line1.text = "Hit all the fire rings to complete the mission";
+            //line2.text = "Completion (" + numRings + " / 10)";
+            //line3.text = "Hint: Follow the arrow";
             arrow.transform.LookAt(GetActiveRing());
 
             if (flightMissionCompleted)
@@ -228,10 +219,10 @@ public class TutorialFlight : MonoBehaviour
             if (!buffer)
             {
                 supplyBox.SetActive(true);
-                string1 = "Use the cloak to make yourself invisible to the enemies";
-                string2 = "Obatain the supply box without being seen, or you will fail the mission";
-                string3 = "Hint: Follow the arrow";
-                StartCoroutine(Delay(0.0f, string1, string2, string3));
+                //string1 = "Use the cloak to make yourself invisible to the enemies";
+                //string2 = "Obatain the supply box without being seen, or you will fail the mission";
+                //string3 = "Hint: Follow the arrow";
+               // StartCoroutine(Delay(0.0f, string1, string2, string3));
                 buffer = true;
                 arrow.SetActive(true);
                 stealthEnemy.SetActive(true);
@@ -258,9 +249,9 @@ public class TutorialFlight : MonoBehaviour
                 buffer = true;
                 combatEnemy.SetActive(true);
             }
-            line1.text = "Go slay some enemies!";
-            line2.text = "Completion (" + mission.m_ActiveMissions[0].objectives + ")";
-            line3.text = "You can use Missile or Laser to eliminate the enemies";
+            //line1.text = "Go slay some enemies!";
+            //line2.text = "Completion (" + mission.m_ActiveMissions[0].objectives + ")";
+            //line3.text = "You can use Missile or Laser to eliminate the enemies";
 
             if (combatMissionCompleted || mission.m_ActiveMissions[0].objectives <=0)
             {
@@ -272,20 +263,19 @@ public class TutorialFlight : MonoBehaviour
     }
     private void OnMissionComplete()
     {
-        string string1, string2, string3;
+        //string string1, string2, string3;
         if (flightMissionCompleted)
         {
             if (!buffer)
             {
-                string1 = "Good Job!";
-                string2 = "You may return to the Station and turn in the mission!";
-                string3 = "Hint: Follow the arrow";
-                StartCoroutine(Delay(1.0f, string1, string2, string3));
+                //string1 = "Good Job!";
+                //string2 = "You may return to the Station and turn in the mission!";
+                //string3 = "Hint: Follow the arrow";
+              //  StartCoroutine(Delay(1.0f, string1, string2, string3));
                 goodJob.Play();
                 buffer = true;
                 flightMissionAccepted = false;
             }
-            TutorialRemind();
             arrow.transform.LookAt(station.transform);
 
             if (isNearStation)
@@ -296,8 +286,7 @@ public class TutorialFlight : MonoBehaviour
             if (flightMissionTurnedIn)
             {
                 buffer = false;
-                ClearText();
-                StopTutorialRemind();
+              //  ClearText();
                 flightMissionCompleted = false;
                 phase = 1;
                 numMissionComplete++;
@@ -308,17 +297,16 @@ public class TutorialFlight : MonoBehaviour
         {
             if (!buffer)
             {
-                string1 = "Well done!";
-                string2 = "You may return to the Station and turn in the mission!";
-                string3 = "Hint: Follow the arrow";
-                StartCoroutine(Delay(1.0f, string1, string2, string3));
+                //string1 = "Well done!";
+                //string2 = "You may return to the Station and turn in the mission!";
+                //string3 = "Hint: Follow the arrow";
+               // StartCoroutine(Delay(1.0f, string1, string2, string3));
                 wellDone.Play();
                 buffer = true;
                 arrow.SetActive(true);
                 stealthMissionAccepted = false;
                 stealthEnemy.SetActive(false);
             }
-            TutorialRemind();
             arrow.transform.LookAt(station.transform);
 
             if (isNearStation)
@@ -329,8 +317,7 @@ public class TutorialFlight : MonoBehaviour
             if (stealthMissionTurnedIn)
             {
                 buffer = false;
-                ClearText();
-                StopTutorialRemind();
+               // ClearText();
                 stealthMissionCompleted = false;
                 phase = 1;
                 numMissionComplete++;
@@ -341,16 +328,15 @@ public class TutorialFlight : MonoBehaviour
         {
             if (!buffer)
             {
-                string1 = "Fantastic!";
-                string2 = "You may return to the Station and turn in the mission!";
-                string3 = "Hint: Follow the arrow";
-                StartCoroutine(Delay(1.0f, string1, string2, string3));
+                //string1 = "Fantastic!";
+                //string2 = "You may return to the Station and turn in the mission!";
+                //string3 = "Hint: Follow the arrow";
+                //StartCoroutine(Delay(1.0f, string1, string2, string3));
                 fantastic.Play();
                 buffer = true;
                 combatMissionAccepted = false;
                 combatEnemy.SetActive(false);
             }
-            TutorialRemind();
             arrow.transform.LookAt(station.transform);
 
             if (isNearStation)
@@ -361,8 +347,7 @@ public class TutorialFlight : MonoBehaviour
             if (combatMissionTurnedIn)
             {
                 buffer = false;
-                ClearText();
-                StopTutorialRemind();
+                //ClearText();
                 combatMissionCompleted = false;
                 phase = 1;
                 numMissionComplete++;
@@ -422,61 +407,46 @@ public class TutorialFlight : MonoBehaviour
         }
     }
 
-    IEnumerator Delay(float length, string s1, string s2, string s3)
-    {
-        yield return new WaitForSeconds(length);
-        line1.text = s1;
-        AudioManager.instance.PlayMessagePop();
-        yield return new WaitForSeconds(2f);
-        line2.text = s2;
-        AudioManager.instance.PlayMessagePop();
-        yield return new WaitForSeconds(2f);
-        line3.text = s3;
-        AudioManager.instance.PlayMessagePop();
-    }
+    //IEnumerator Delay(float length, string s1, string s2, string s3)
+    //{
+    //    yield return new WaitForSeconds(length);
+    //    line1.text = s1;
+    //    AudioManager.instance.PlayMessagePop();
+    //    yield return new WaitForSeconds(2f);
+    //    line2.text = s2;
+    //    AudioManager.instance.PlayMessagePop();
+    //    yield return new WaitForSeconds(2f);
+    //    line3.text = s3;
+    //    AudioManager.instance.PlayMessagePop();
+    //}
 
-    IEnumerator Transition()
-    {
-        congratulation.Play();
-        line1.text = "Congratulations! You have completed your training!";
-        yield return new WaitForSeconds(0.5f);
-        line2.text = "Returning..";
-        yield return new WaitForSeconds(0.5f);
-        line3.text = "3..";
-        yield return new WaitForSeconds(1f);
-        line3.text = "2..";
-        yield return new WaitForSeconds(1f);
-        line3.text = "1..";
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("MainMenu");
+    //IEnumerator Transition()
+    //{
+    //    congratulation.Play();
+    //    line1.text = "Congratulations! You have completed your training!";
+    //    yield return new WaitForSeconds(0.5f);
+    //    line2.text = "Returning..";
+    //    yield return new WaitForSeconds(0.5f);
+    //    line3.text = "3..";
+    //    yield return new WaitForSeconds(1f);
+    //    line3.text = "2..";
+    //    yield return new WaitForSeconds(1f);
+    //    line3.text = "1..";
+    //    yield return new WaitForSeconds(1f);
+    //    SceneManager.LoadScene("MainMenu");
 
-    }
+    //}
 
-    private void ClearText()
-    {
-        line1.text = "";
-        line2.text = "";
-        line3.text = "";
-    }
+    //private void ClearText()
+    //{
+    //    line1.text = "";
+    //    line2.text = "";
+    //    line3.text = "";
+    //}
 
     void AddRingCount()
     {
         numRings++;
-    }
-
-    private void TutorialRemind()
-    {
-        remindTimer += Time.deltaTime;
-        if (remindTimer >= 12f)
-        {
-            tutorialRemind.Play();
-            remindTimer = 0.0f;
-        }
-    }
-    private void StopTutorialRemind()
-    {
-        tutorialRemind.Stop();
-        remindTimer = 6f;
     }
 
     public void MissionCompleted(string name)

@@ -39,7 +39,7 @@ public class StationLog : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Tutorial")
             m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
-        if (SceneManager.GetActiveScene().name == "Tutorial2")
+        if (SceneManager.GetActiveScene().name == "Level1")
             m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
 
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
@@ -198,7 +198,7 @@ public class StationLog : MonoBehaviour
         {
             if (SceneName == "Tutorial")
                 m_tutorial.SendMessage("MissionAccepted", mLastButton.name);
-            else if (SceneName == "Tutorial2")
+            else if (SceneName == "Level1")
                 m_tutorial2.SendMessage("MissionAccepted", mLastButton.name);
 
             mAccept.gameObject.SetActive(false);
@@ -210,7 +210,7 @@ public class StationLog : MonoBehaviour
         {
             if (SceneName == "Tutorial")
                 m_tutorial.SendMessage("MissionTurnedIn", mLastButton.name);
-            else if (SceneName == "Tutorial2")
+            else if (SceneName == "Level1")
                 m_tutorial2.SendMessage("MissionTurnedIn", mLastButton.name);
 
             TurnInMission(mLastButton.name);
