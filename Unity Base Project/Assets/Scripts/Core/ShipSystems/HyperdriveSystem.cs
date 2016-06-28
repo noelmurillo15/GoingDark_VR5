@@ -1,14 +1,9 @@
 ﻿using UnityEngine;
 
-public class HyperdriveSystem : ShipDevice
+public class HyperdriveSystem : ShipSystem
 {
 
     #region Properties
-    private bool hypeJump;
-    private float beginningTimer;
-
-    private float boostTimer;
-    private float initializeTimer;
 
     private PlayerMovement stats;
     private GameObject m_playerMove;
@@ -19,9 +14,6 @@ public class HyperdriveSystem : ShipDevice
 
     // Use this for initialization
     void Start () {
-        hypeJump = false;
-        maxCooldown = 10f;
-        beginningTimer = 2f;    
 
         m_playerMove = GameObject.FindGameObjectWithTag("Player");
         particles = GameObject.Find("WarpDriveParticles");
@@ -29,75 +21,38 @@ public class HyperdriveSystem : ShipDevice
         stats = m_playerMove.GetComponent<PlayerMovement>();
 
         particleOriginPos = particles.transform.localPosition;
-        particles.SetActive(true);
+        particles.SetActive(false);
     }
 
     // Update is called once per frame
     void Update() {
 
-        if (beginningTimer > 0.0f)
-        {
-            beginningTimer -= Time.deltaTime;
-            particles.transform.Translate(Vector3.forward * 100.0f * Time.deltaTime);
-            if (beginningTimer <= 0.0f)
-            {
-                particles.SetActive(false);
-                particles.transform.localPosition = particleOriginPos;
-            }
-        }        
+        if (cooldown > 0f)
+            cooldown -= Time.deltaTime;
 
-        if (Input.GetAxisRaw("LBumper") > 0f)
-        {
-            if (!hypeJump)
-            {
-                Activate();
-                return;
-            }
 
-            cooldown = 2f;
-            hypeJump = false;
-            boostTimer = 0f;
-            beginningTimer = 0f;
-            initializeTimer = 0f;
-            particles.transform.localPosition = particleOriginPos;
-            particles.SetActive(false);
-        }
-
-        if (Activated)
+        if (Activated) 
             InitializeHyperdriveSequence();
 
-        if (hypeJump)
-            HyperDriveBoost();
     }
 
     #region Private Methods
-    public void HyperDriveBoost() {
-        if (initializeTimer > 0.0f) {
-            particles.SetActive(true);
-            initializeTimer -= Time.deltaTime;
-            boostTimer = 0.5f;
-            stats.GetMoveData().DecreaseSpeed();
-            particles.transform.Translate(Vector3.forward * 25.0f * Time.deltaTime);
-        }
-        else {
-            if (boostTimer > 0.0f) {
-                AudioManager.instance.PlayHyperDrive();
-                boostTimer -= Time.deltaTime;
-                particles.transform.Translate(Vector3.forward * 150.0f * Time.deltaTime);
-                m_playerMove.transform.Translate(Vector3.forward * 8000.0f * Time.deltaTime);
-            }
-            else {
-                particles.transform.localPosition = particleOriginPos;
-                particles.SetActive(false);
-                hypeJump = false;
-            }
-        }
-    }
 
     public void InitializeHyperdriveSequence() {
-        hypeJump = true;
         DeActivate();
-        initializeTimer = 5.0f;
+        stats.MoveData.Boost = 5.0f;
+        stats.MoveData.Acceleration = 100f;
+        stats.boostActive = true;
+        particles.SetActive(true);
+        Invoke("RevertBoost",10f);
+    }
+
+    public void RevertBoost()
+    {
+        stats.MoveData.Boost = 1.0f;
+        stats.MoveData.Acceleration = 20f;
+        stats.boostActive = false;
+        particles.SetActive(false);
     }
     #endregion
 }

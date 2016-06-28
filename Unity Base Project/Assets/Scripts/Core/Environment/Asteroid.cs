@@ -2,6 +2,7 @@
 
 public class Asteroid : MonoBehaviour
 {
+
     #region Properties
     public bool skipStart;
     private Vector3 m_velocity;
@@ -17,9 +18,9 @@ public class Asteroid : MonoBehaviour
         MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
         {
-            m_velocity.x = Random.Range(-50.0f, 50.0f);
-            m_velocity.y = Random.Range(-50.0f, 50.0f);
-            m_velocity.z = Random.Range(-50.0f, 50.0f);
+            m_velocity.x = Random.Range(-20.0f, 20.0f);
+            m_velocity.y = Random.Range(-20.0f, 20.0f);
+            m_velocity.z = Random.Range(-20.0f, 20.0f);
 
             m_rotation.x = Random.Range(-15.0f, 15.0f);
             m_rotation.y = Random.Range(-15.0f, 15.0f);

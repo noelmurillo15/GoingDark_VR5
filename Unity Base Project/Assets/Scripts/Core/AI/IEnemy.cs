@@ -149,7 +149,6 @@ public class IEnemy : MonoBehaviour
     }
     void Kill()
     {
-        Debug.Log("Enemy has been Destroyed");
         GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().KilledEnemy(Type);
         GameObject explosive = manager.GetEnemyExplosion();
         explosive.transform.position = transform.position;        

@@ -6,8 +6,10 @@ public class SystemManager : MonoBehaviour {
 
     #region Properties
     private MessageScript messages;
-    private Dictionary<SystemType, ShipDevice> MainDevices;
+    private Dictionary<SystemType, ShipSystem> MainDevices;
     private Dictionary<SystemType, GameObject> SecondaryDevices;
+
+    private CloakSystem cloaking;
     #endregion
 
 
@@ -15,7 +17,7 @@ public class SystemManager : MonoBehaviour {
     {
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
 
-        MainDevices = new Dictionary<SystemType, ShipDevice>();
+        MainDevices = new Dictionary<SystemType, ShipSystem>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
         InitializeDevice(SystemType.Emp);
@@ -26,6 +28,96 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.Missile);
         InitializeDevice(SystemType.Hyperdrive);
     }
+
+
+    void FixedUpdate()
+    {
+        if (Input.GetButtonDown("X"))
+            ActivateSystem(SystemType.Cloak);
+
+        if (Input.GetButtonDown("A"))
+            ActivateSystem(SystemType.Emp);
+
+        if (Input.GetButtonDown("B"))
+            ActivateSystem(SystemType.Decoy);
+
+        if (Input.GetAxisRaw("RBumper") > 0f)
+            ActivateSystem(SystemType.Missile);
+
+        if (Input.GetAxisRaw("RTrigger") > 0f)
+            ActivateSystem(SystemType.Laser);        
+
+        if (Input.GetAxisRaw("LBumper") > 0f)
+            ActivateSystem(SystemType.Hyperdrive);
+    }
+
+    #region Public Methods
+    public void ActivateSystem(SystemType key)
+    {
+        if (MainDevices.ContainsKey(key))   //  If System is installed
+        {           
+            if (MainDevices[key].GetSystemReady())  //  If system is online and not on cooldown
+            {
+                if (cloaking.GetCloaked())  //  If we are currently cloaked
+                    cloaking.UnCloakShip(); //  Fuck that
+                
+                MainDevices[key].Activate();    //  Activate System
+                return;
+            }
+
+            if (key == SystemType.Cloak && cloaking.GetCloaked())
+                cloaking.UnCloakShip();
+        }     
+    }
+
+
+    public GameObject GetSystem(SystemType key)
+    {
+        ShipSystem sdev = null;
+        if (MainDevices.TryGetValue(key, out sdev))
+            return sdev.gameObject;
+
+        return null;
+    }
+
+    public void SystemDamaged()
+    {
+        List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
+        int rand = Random.Range(0, keylist.Count);
+        SystemType type = keylist[rand];
+        if (MainDevices.ContainsKey(type))
+        {
+            MainDevices[type].SetStatus(SystemStatus.Offline);
+            messages.SendMessage("SystemReport", type.ToString());
+        }
+    }
+    public void FullSystemRepair()
+    {
+        List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
+        for (int i = 0; i < keylist.Count; i++)
+        {
+            MainDevices[keylist[i]].Repair();
+        }                    
+    }
+
+    public int GetSystemCooldown(SystemType key)
+    {
+        ShipSystem dev = null;
+        if (MainDevices.TryGetValue(key, out dev))
+        {
+            if (dev.Status == SystemStatus.Online)
+                return (int)dev.GetCooldown();
+            else
+            {
+                return -10;
+            }
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    #endregion
 
     #region Private Methods
     private void InitializeDevice(SystemType key)
@@ -78,114 +170,37 @@ public class SystemManager : MonoBehaviour {
         switch (key)
         {
             #region Main Devices
-            case SystemType.Decoy:                
-                MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipDevice);
+            case SystemType.Decoy:
+                MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipSystem);
                 break;
 
             case SystemType.Emp:
-                MainDevices.Add(key, dev.GetComponent<EmpSystem>() as ShipDevice);
+                MainDevices.Add(key, dev.GetComponent<EmpSystem>() as ShipSystem);
                 break;
 
             case SystemType.Hyperdrive:
-                MainDevices.Add(key, dev.GetComponent<HyperdriveSystem>() as ShipDevice);
+                MainDevices.Add(key, dev.GetComponent<HyperdriveSystem>() as ShipSystem);
                 break;
 
             case SystemType.Missile:
-                MainDevices.Add(key, dev.GetComponent<MissileSystem>() as ShipDevice);
+                MainDevices.Add(key, dev.GetComponent<MissileSystem>() as ShipSystem);
                 break;
 
             case SystemType.Cloak:
-                MainDevices.Add(key, dev.GetComponent<CloakSystem>() as ShipDevice);
+                cloaking = dev.GetComponent<CloakSystem>();
+                MainDevices.Add(key, cloaking as ShipSystem);
                 break;
 
             case SystemType.Laser:
-                MainDevices.Add(key, dev.GetComponent<LaserSystem>() as ShipDevice);
+                MainDevices.Add(key, dev.GetComponent<LaserSystem>() as ShipSystem);
                 break;
             #endregion
 
             #region Secondary Devices
             case SystemType.Shield:
                 SecondaryDevices.Add(key, dev);
-                break;            
-            #endregion
-        }        
-    }
-    #endregion
-
-    #region Public Methods
-    public void ActivateSystem(SystemType key)
-    {
-        if (MainDevices.ContainsKey(key))
-            MainDevices[key].Activate();
-    }
-
-    public bool GetActive(SystemType key)
-    {
-        if (MainDevices.ContainsKey(key))
-            return MainDevices[key].Activated;
-
-        return false;
-    }
-
-    public GameObject GetSystem(SystemType key)
-    {
-        ShipDevice sdev = null;
-        if (MainDevices.TryGetValue(key, out sdev))
-            return sdev.gameObject;
-
-        return null;
-    }
-
-    public void SystemDamaged()
-    {
-        List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
-        int rand = Random.Range(0, keylist.Count);
-        SystemType type = keylist[rand];
-        if (MainDevices.ContainsKey(type))
-        {
-            MainDevices[type].SetStatus(SystemStatus.Offline);
-            messages.SendMessage("SystemReport", type.ToString());
-        }
-    }
-    public void FullSystemRepair()
-    {
-        List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
-        for (int i = 0; i < keylist.Count; i++)
-        {
-            MainDevices[keylist[i]].Repair();
-        }                    
-    }
-
-    public void ToggleSystem(SystemType key)
-    {
-        if (SecondaryDevices.ContainsKey(key))
-            SecondaryDevices[key].SetActive(!SecondaryDevices[key].activeSelf);
-    }
-
-    public bool GetSystemStatus(SystemType key)
-    {
-        if (MainDevices.ContainsKey(key))
-            if (MainDevices[key].Status == SystemStatus.Online)
-                return true;        
-
-        return false;
-    }
-
-    public int GetSystemCooldown(SystemType key)
-    {
-        ShipDevice dev = null;
-        if (MainDevices.TryGetValue(key, out dev))
-        {
-            if (dev.Status == SystemStatus.Online)
-                return (int)dev.GetCooldown();
-            else
-            {
-                return -10;
-            }
-        }
-        else
-        {
-            return -1;
+                break;
+                #endregion
         }
     }
     #endregion

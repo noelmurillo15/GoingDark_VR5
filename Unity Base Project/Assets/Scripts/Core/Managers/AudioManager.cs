@@ -85,13 +85,6 @@ public class AudioManager : MonoBehaviour
             _Music.volume = MusicVolume * MasterVolume;
         else if(!_Music.isPlaying)
             _BattleMusic.volume = MusicVolume * MasterVolume;
-
-        if((_BattleMusic.isPlaying && _Music.isPlaying) || (!_BattleMusic.isPlaying && !_Music.isPlaying))
-        {
-            _Music.Stop();
-            _BattleMusic.Stop();
-            _Music.Play();
-        }
     }
 
     public void PlayBossTheme()

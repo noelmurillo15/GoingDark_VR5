@@ -14,7 +14,7 @@ public class MissionSystem : MonoBehaviour
     private MissionLoader m_missionLoader;
     private MissionLog m_missionLog;
     private Tutorial m_tutorial;
-    private TutorialFlight m_tutorial2;
+    private TutorialFlight m_Level1;
     private int maxMissions;
     private int m_stationID;
 
@@ -23,35 +23,31 @@ public class MissionSystem : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        if (SceneManager.GetActiveScene().name != "Tutorial2")
+        if (SceneManager.GetActiveScene().name != "Level1")
         {
             m_Boss = GameObject.Find("Boss");
             m_Boss.SetActive(false);
         }
+
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+
         m_stationMissions = new List<Mission>[2];
-
-        if (SceneManager.GetActiveScene().name == "Tutorial")
-            m_tutorial = GameObject.Find("TutorialPref").GetComponent<Tutorial>();
-
-        if (SceneManager.GetActiveScene().name == "Tutorial2")
+        if (SceneManager.GetActiveScene().name == "Level1")
         {
-            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+            m_Level1 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
             m_stationMissions[0] = m_missionLoader.LoadMissions(filename[0]);
         }
         else
         {
             m_stationMissions[0] = m_missionLoader.LoadMissions("Level1_1");
             m_stationMissions[1] = m_missionLoader.LoadMissions("Level1_2");
-
         }
 
         maxMissions = 4;
-
     }
 
     public void AddActiveMission(Mission mission)
@@ -59,7 +55,7 @@ public class MissionSystem : MonoBehaviour
         mission.isActive = true;
         if (mission.enemy == EnemyTypes.Boss)
         {
-        if (SceneManager.GetActiveScene().name != "Tutorial2")
+        if (SceneManager.GetActiveScene().name != "Level1")
                 m_Boss.SetActive(true);
             Debug.Log("Boss Spawned");
         }
@@ -87,8 +83,8 @@ public class MissionSystem : MonoBehaviour
 
                     if (SceneManager.GetActiveScene().name == "Tutorial")
                         m_tutorial.SendMessage("MissionCompleted", mission.missionName);
-                    if (SceneManager.GetActiveScene().name == "Tutorial2")
-                        m_tutorial2.SendMessage("MissionCompleted", mission.missionName);
+                    if (SceneManager.GetActiveScene().name == "Level1")
+                        m_Level1.SendMessage("MissionCompleted", mission.missionName);
 
                 }
                 m_ActiveMissions[i] = mission;
@@ -167,8 +163,7 @@ public class MissionSystem : MonoBehaviour
     {
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
-        if (SceneManager.GetActiveScene().name == "Tutorial2")
-            m_tutorial2.SendMessage("MissionFailed", mission.missionName);
+        if (SceneManager.GetActiveScene().name == "Level1")
+            m_Level1.SendMessage("MissionFailed", mission.missionName);
     }
-
 }

@@ -31,8 +31,10 @@ public class MovementProperties
 
     public void ChangeSpeed(float triggerVal)
     {
-        if(Speed < (MaxSpeed * Boost * triggerVal))
+        if (Speed < (MaxSpeed * Boost * triggerVal))
             Speed += Time.deltaTime * Acceleration;
+        else if (Speed > (MaxSpeed * Boost * triggerVal) + 1.0f)
+            DecreaseSpeed();
     }
     public void IncreaseSpeed()
     {

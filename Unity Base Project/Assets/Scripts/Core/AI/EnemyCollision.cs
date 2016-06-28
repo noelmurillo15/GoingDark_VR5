@@ -47,7 +47,7 @@ public class EnemyCollision : MonoBehaviour
             {
 
                 if (manager.GetPlayerCloak().GetCloaked())
-                    detectionTimer = manager.GetPlayerCloak().GetCloakTimer();
+                    detectionTimer = 5f;
                 else
                 {
                     if (col.CompareTag("Player"))
@@ -74,7 +74,7 @@ public class EnemyCollision : MonoBehaviour
         {
             if (manager.GetPlayerCloak().GetCloaked())
             {
-                detectionTimer = manager.GetPlayerCloak().GetCloakTimer();
+                detectionTimer = 5f;
                 behavior.SetLastKnown(col.transform.position);
                 return;
             }

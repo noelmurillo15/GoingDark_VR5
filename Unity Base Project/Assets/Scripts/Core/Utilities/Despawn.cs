@@ -14,7 +14,6 @@ public class Despawn : MonoBehaviour
         }
         else
         {
-            Debug.Log(transform.name + " was Used");
             Invoke("Kill", Duration);
         }
     }

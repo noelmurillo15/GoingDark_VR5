@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     private bool stunned;
     private bool autoPilot;
     private bool resetRotation;
+    public bool boostActive;
 
     private float speedAmt;
     private float orientationTimer;
@@ -32,27 +33,31 @@ public class PlayerMovement : MonoBehaviour {
         stunned = false;
         autoPilot = false;
         resetRotation = false;
+        boostActive = false;
 
         particles = GetComponent<ParticleSystem>();
         controller = GetComponent<CharacterController>();
         m_GamePad = GamePadManager.Instance.GetController(0);
-
-        OutOfBounds();
     }
 
     void Update(){
         if (!autoPilot && !resetRotation && !stunned)
         {
-            if (m_GamePad.GetLeftTrigger() > 0f)
+            if (!boostActive)
             {
-                cruise = false;                
-                MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());                
-            }
-            else if (!cruise)
-                MoveData.DecreaseSpeed();
+                if (m_GamePad.GetLeftTrigger() > 0f)
+                {
+                    cruise = false;
+                    MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
+                }
+                else if (!cruise)
+                    MoveData.DecreaseSpeed();
 
-            if (m_GamePad.GetButtonDown("LeftThumbstick"))
-                cruise = !cruise;            
+                if (m_GamePad.GetButtonDown("LeftThumbstick"))
+                    cruise = !cruise;
+            }
+            else
+                MoveData.ChangeSpeed(1f);
 
             Yaw();
             Roll();

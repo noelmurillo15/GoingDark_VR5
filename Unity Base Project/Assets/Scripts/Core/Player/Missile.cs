@@ -49,7 +49,6 @@ public class Missile : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Player Missile Used");
             target = null;
             tracking = false;
             deflected = false;

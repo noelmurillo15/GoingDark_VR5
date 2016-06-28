@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class EmpSystem : ShipDevice
+public class EmpSystem : ShipSystem
 {
     #region Properties
-    private float empTimer;
     private GameObject shockwave;
     #endregion
 
@@ -11,34 +10,34 @@ public class EmpSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        empTimer = 0f;
-        maxCooldown = 20f;
+        maxCooldown = 30f;
         shockwave = transform.GetChild(0).gameObject;
         shockwave.SetActive(Activated);
     }
 
     // Update is called once per frame
     void Update()
-    {
-        if (empTimer > 0f)
-            empTimer -= Time.deltaTime;
-        else
-            shockwave.SetActive(false);
-
-        if (Input.GetButtonDown("A"))
-            Activate();
+    {         
 
         if (Activated)
             ElectricMagneticPulse();
+
+        if (cooldown > 0f)
+            cooldown -= Time.deltaTime;
     }
 
 
     #region Modifiers
     public void ElectricMagneticPulse()
     {
-        empTimer = 1f;
         DeActivate();
         shockwave.SetActive(true);
+        Invoke("ResetEmp", 2.5f);
+    }
+
+    void ResetEmp()
+    {
+        shockwave.SetActive(false);
     }
     #endregion
 }

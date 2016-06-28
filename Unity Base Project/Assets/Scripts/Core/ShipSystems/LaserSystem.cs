@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class LaserSystem : ShipDevice
+public class LaserSystem : ShipSystem
 {
     #region Properties
     private GameObject gun1;
@@ -10,7 +10,6 @@ public class LaserSystem : ShipDevice
     private GameObject[] Chargeburst;
     private float size = 0.05f;
     public LaserType currentType;
-    private float buffer;
 
     private LaserOverheat laser_overheat;
 
@@ -22,7 +21,6 @@ public class LaserSystem : ShipDevice
     void Start()
     {
         controller = GamePadManager.Instance.GetController(0);
-        buffer = 0f;
         Basicburst = new GameObject[2];
         Chargeburst = new GameObject[2];
         maxCooldown = .25f;
@@ -39,14 +37,9 @@ public class LaserSystem : ShipDevice
     // Update is called once per frame
     void Update()
     {
-        if (buffer > 0f)
-            buffer -= Time.deltaTime;
 
         if (!laser_overheat.GetOverheat())
         {         
-            if (Input.GetAxisRaw("RTrigger") > 0f)
-                Activate();
-
             if (Activated)
                 ShootGun();
         }                   
@@ -84,15 +77,13 @@ public class LaserSystem : ShipDevice
 
     public void WeaponSwap()
     {
-        if (buffer <= 0f)
-        {
-            buffer = .5f;
-            int curr = (int)(currentType + 1);
-            if (System.Enum.GetValues(typeof(LaserType)).Length == curr)
-                curr = 0;
 
-            currentType = (LaserType)curr;
-            Debug.Log("Current Laser : " + curr.ToString());
-        }
+        int curr = (int)(currentType + 1);
+        if (System.Enum.GetValues(typeof(LaserType)).Length == curr)
+            curr = 0;
+
+        currentType = (LaserType)curr;
+        Debug.Log("Current Laser : " + curr.ToString());
+
     }
 }

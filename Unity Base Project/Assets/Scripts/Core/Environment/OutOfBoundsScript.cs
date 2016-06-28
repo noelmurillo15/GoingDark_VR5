@@ -16,13 +16,13 @@ public class OutOfBoundsScript : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Player"))
-        {
-            DisableWarning();
-            col.SendMessage("InBounds");
-            if (IsInvoking("EnableAutoPilot"))
-                CancelInvoke("EnableAutoPilot");
-        }
+        //if (col.CompareTag("Player"))
+        //{
+        //    DisableWarning();
+        //    col.SendMessage("InBounds");
+        //    if (IsInvoking("EnableAutoPilot"))
+        //        CancelInvoke("EnableAutoPilot");
+        //}
 
         if (col.CompareTag("Enemy"))
         {
@@ -32,12 +32,12 @@ public class OutOfBoundsScript : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        if (col.CompareTag("Player"))
-        {
-            Player = col.gameObject;
-            SendWarning();
-            Invoke("EnableAutoPilot", DisplayDuration);
-        }
+        //if (col.CompareTag("Player"))
+        //{
+        //    Player = col.gameObject;
+        //    SendWarning();
+        //    Invoke("EnableAutoPilot", DisplayDuration);
+        //}
 
         if (col.CompareTag("Enemy"))
         {

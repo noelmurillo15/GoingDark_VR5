@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DecoySystem : ShipDevice {
+public class DecoySystem : ShipSystem {
 
     #region Properties
     public int Count { get; private set; }
@@ -21,11 +21,11 @@ public class DecoySystem : ShipDevice {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("B"))
-            Activate();
-
         if (Activated)
             SendDecoy();
+
+        if (cooldown > 0f)
+            cooldown -= Time.deltaTime;
     }
 
     public void SendDecoy()

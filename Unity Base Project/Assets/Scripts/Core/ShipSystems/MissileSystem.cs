@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using GoingDark.Core.Enums;
 
-public class MissileSystem : ShipDevice
+public class MissileSystem : ShipSystem
 {
 
     #region Missile Data
@@ -52,8 +52,6 @@ public class MissileSystem : ShipDevice
 
     void Update()
     {
-        if (Input.GetAxisRaw("RBumper") > 0f)
-            Activate();
 
         if (controller.GetButtonDown("Y"))
             WeaponSwap();

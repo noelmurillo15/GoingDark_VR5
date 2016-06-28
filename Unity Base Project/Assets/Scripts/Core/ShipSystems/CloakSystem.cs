@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public class CloakSystem : ShipDevice
+public class CloakSystem : ShipSystem
 {
-
     #region Properties
     private bool isCloaked;
-    private float cloakTimer;
     private Color originalColor;
     private GameObject[] shipLights;
     #endregion
@@ -13,8 +11,8 @@ public class CloakSystem : ShipDevice
     // Use this for initialization
     void Start()
     {
-        maxCooldown = 60f;
-        cloakTimer = 20;
+        maxCooldown = 20f;
+
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");
         for (int x = 0; x < parentLight.transform.childCount; x++)
@@ -22,11 +20,10 @@ public class CloakSystem : ShipDevice
         originalColor = shipLights[0].GetComponent<Light>().color;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("X"))
-            Activate();
+        if (cooldown > 0f)
+            cooldown -= Time.deltaTime;
 
         if (Activated)
             CloakShip();
@@ -37,12 +34,6 @@ public class CloakSystem : ShipDevice
         return isCloaked;
     }
 
-    public float GetCloakTimer()
-    {
-        return cloakTimer;
-    }
-
-    #region Private Methods
     void CloakShip()
     {
         AudioManager.instance.PlayCloak();
@@ -50,16 +41,16 @@ public class CloakSystem : ShipDevice
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = Color.black;
 
-        DeActivate();
-        Invoke("UnCloakShip", cloakTimer);
+        Activated = false;
     }
 
-    void UnCloakShip()
+    public void UnCloakShip()
     {
         isCloaked = false;
         AudioManager.instance.PlayCloak();
         for (int x = 0; x < shipLights.Length; x++)
             shipLights[x].GetComponent<Light>().color = originalColor;
+
+        DeActivate();
     }
-    #endregion
 }
