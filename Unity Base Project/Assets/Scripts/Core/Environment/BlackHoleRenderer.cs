@@ -26,7 +26,7 @@ public class BlackHoleRenderer : MonoBehaviour {
 
 	void Start()
 	{
-		shader = Resources.Load<Shader>("BlackHoleDistortion");
+		shader = Resources.Load<Shader>("Shaders/BlackHoleDistortion");
 		material.SetInt("_EinsteinR", EinsteinRadiusCompliance == true ? 1 : 0);
         if(BH == null)
         {

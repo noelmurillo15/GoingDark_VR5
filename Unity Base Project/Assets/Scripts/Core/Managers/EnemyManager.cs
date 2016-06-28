@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
 
     #region Properties
     public GameDifficulty Difficulty;
+
     public Transform PlayerPosition { get; private set; }
     private MissionSystem missionSystem;
 
@@ -98,6 +99,15 @@ public class EnemyManager : MonoBehaviour
         {
             Debug.Log("You WIN");
         }
+    }
+
+    public bool RandomChance()
+    {
+        float wDrop = Random.Range(1, 3);
+        if (wDrop == 1)
+            return true;
+
+        return false;
     }
 
     public void TargetDestroyed()

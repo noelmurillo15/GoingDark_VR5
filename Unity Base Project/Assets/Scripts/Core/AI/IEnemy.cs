@@ -8,7 +8,6 @@ public class IEnemy : MonoBehaviour
     public Transform Target { get; protected set; }
 
     public EnemyTypes Type = EnemyTypes.None;
-    public GameDifficulty Level = GameDifficulty.Easy;
     public Impairments Debuff = Impairments.None;
 
     public int Health;
@@ -69,19 +68,9 @@ public class IEnemy : MonoBehaviour
         manager = transform.parent.GetComponent<EnemyManager>();
         manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
         GetComponent<EnemyCollision>().SetManagerRef(manager);
-        Level = manager.Difficulty;
         LoadEnemyData();
     }
-    private bool RandomChance()
-    {
-        float wDrop = Random.Range(1, 3);
-        if (wDrop == 1)
-            return true;
-
-        return false;
-    }
-
-
+    
     void EMPHit()
     {
         Debug.Log("Enemy Was Emp'd");
@@ -165,8 +154,10 @@ public class IEnemy : MonoBehaviour
         GameObject explosive = manager.GetEnemyExplosion();
         explosive.transform.position = transform.position;        
         explosive.SetActive(true);
-        if (RandomChance())
+
+        if (manager.RandomChance())
             Instantiate(ammoDrop, transform.position, Quaternion.identity);
+
         manager.RemoveEnemy(MyTransform.GetComponent<EnemyBehavior>());
         Destroy(gameObject);
     }
@@ -196,124 +187,163 @@ public class IEnemy : MonoBehaviour
     #region Private Methods
     void LoadEnemyData()
     {
-        switch (Type)
+        switch (manager.Difficulty)
         {
-            case EnemyTypes.Basic:
-                ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                MissileCount = 20;
-                switch (Level)
+            #region Easy
+            case GameDifficulty.Easy:
+                switch (Type)
                 {
-                    case GameDifficulty.Easy:
+                    case EnemyTypes.Basic:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 60f, 2f, 10f);
+                        MissileCount = 10;
                         Health = 10;
                         break;
-                    case GameDifficulty.Normal:
-                        MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
-                        Health = 25;
-                        break;
-                    case GameDifficulty.Hard:
-                        MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
-                        Health = 50;
-                        break;
-                    case GameDifficulty.Nightmare:
-                        MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
-                        Health = 100;
-                        break;
-                }
-                break;
-            case EnemyTypes.Droid:
-                switch (Level)
-                {
-                    case GameDifficulty.Easy:
+                    case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 110f, 1f, 10f);
                         Health = 5;
                         break;
-                    case GameDifficulty.Normal:
-                        MoveData.Set(0f, .5f, 120f, .8f, 20f);
-                        Health = 10;
-                        break;
-                    case GameDifficulty.Hard:
-                        MoveData.Set(0f, .5f, 160f, .7f, 40f);
-                        Health = 15;
-                        break;
-                    case GameDifficulty.Nightmare:
-                        MoveData.Set(0f, .5f, 200f, .6f, 50f);
-                        Health = 30;
-                        break;
-                }
-                break;
-            case EnemyTypes.Transport:
-                ShieldData.Initialize(transform.GetChild(0).gameObject, 150f);
-                switch (Level)
-                {
-                    case GameDifficulty.Easy:
+                    case EnemyTypes.Transport:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 120f, 3f, 10f);
                         Health = 15;
                         break;
-                    case GameDifficulty.Normal:
+                    case EnemyTypes.Trident:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 80f, 1.8f, 10f);
+                        MissileCount = 10;
+                        Health = 10;
+                        break;
+                    case EnemyTypes.Boss:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
+                        MissileCount = 1000;
+                        Health = 25;
+                        break;
+                }
+                break;
+            #endregion
+            #region Normal
+            case GameDifficulty.Normal:
+                switch (Type)
+                {
+                    case EnemyTypes.Basic:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
+                        MissileCount = 10;
+                        Health = 25;
+                        break;
+                    case EnemyTypes.Droid:
+                        MoveData.Set(0f, .5f, 120f, .8f, 20f);
+                        Health = 10;
+                        break;
+                    case EnemyTypes.Transport:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 150f, 2.5f, 15f);
                         Health = 30;
                         break;
-                    case GameDifficulty.Hard:
-                        MoveData.Set(0f, .5f, 200f, 2f, 25f);
-                        Health = 75;
-                        break;
-                    case GameDifficulty.Nightmare:
-                        MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
-                        Health = 120;
-                        break;
-                }
-                break;
-            case EnemyTypes.Trident:
-                ShieldData.Initialize(transform.GetChild(0).gameObject, 125f);
-                MissileCount = 20;
-                switch (Level)
-                {
-                    case GameDifficulty.Easy:
-                        MoveData.Set(0f, .5f, 80f, 1.8f, 10f);
-                        Health = 10;
-                        break;
-                    case GameDifficulty.Normal:
+                    case EnemyTypes.Trident:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 95f, 1.5f, 18f);
                         Health = 20;
                         break;
-                    case GameDifficulty.Hard:
-                        MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
-                        Health = 40;
-                        break;
-                    case GameDifficulty.Nightmare:
-                        MoveData.Set(0f, .5f, 160f, 1f, 45f);
-                        Health = 80;
-                        break;
-                }                
-                break;
-            case EnemyTypes.Boss:
-                ShieldData.Initialize(transform.GetChild(0).gameObject, 200f);
-                MissileCount = 1000;
-                switch (Level)
-                {
-                    case GameDifficulty.Easy:
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        Health = 25;
-                        break;
-                    case GameDifficulty.Normal:
+                    case EnemyTypes.Boss:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 1000;
                         MoveData.Set(0f, .5f, 60f, 4f, 15f);
                         Health = 60;
                         break;
-                    case GameDifficulty.Hard:
-                        MoveData.Set(0f, .5f, 80f, 3f, 20f);
-                        Health = 125;
+                }
+                break;
+            #endregion
+            #region Hard
+            case GameDifficulty.Hard:
+                switch (Type)
+                {
+                    case EnemyTypes.Basic:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 10;
+                        MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
+                        Health = 50;
                         break;
-                    case GameDifficulty.Nightmare:
-                        MoveData.Set(0f, .5f, 120f, 2f, 30f);
-                        Health = 200;
+                    case EnemyTypes.Droid:
+                        MoveData.Set(0f, .5f, 160f, .7f, 40f);
+                        Health = 15;
+                        break;
+                    case EnemyTypes.Transport:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 200f, 2f, 25f);
+                        Health = 75;
+                        break;
+                    case EnemyTypes.Trident:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 10;
+                        MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
+                        Health = 40;
+                        break;
+                    case EnemyTypes.Boss:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
+                        MissileCount = 1000;
+                        Health = 25;
                         break;
                 }
                 break;
-            default:
-                Debug.LogError("Enemy's Tag doesn't match");
+            #endregion
+            #region Nightmare
+            case GameDifficulty.Nightmare:
+                switch (Type)
+                {
+                    case EnemyTypes.Basic:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 10;
+                        MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
+                        Health = 100;
+                        break;
+                    case EnemyTypes.Droid:
+                        MoveData.Set(0f, .5f, 200f, .6f, 50f);
+                        Health = 30;
+                        break;
+                    case EnemyTypes.Transport:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
+                        Health = 120;
+                        break;
+                    case EnemyTypes.Trident:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MissileCount = 10;
+                        MoveData.Set(0f, .5f, 160f, 1f, 45f);
+                        Health = 80;
+                        break;
+                    case EnemyTypes.Boss:
+                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
+                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
+                        MissileCount = 1000;
+                        Health = 25;
+                        break;
+                }
                 break;
-        }     
+            #endregion
+        }
+
+        //    case EnemyTypes.Boss:
+        //        switch (Level)
+        //        {
+        //            case GameDifficulty.Hard:
+        //                MoveData.Set(0f, .5f, 80f, 3f, 20f);
+        //                Health = 125;
+        //                break;
+        //            case GameDifficulty.Nightmare:
+        //                MoveData.Set(0f, .5f, 120f, 2f, 30f);
+        //                Health = 200;
+        //                break;
+        //        }
+        //        break;
+        //    default:
+        //        Debug.LogError("Enemy's Tag doesn't match");
+        //        break;
+        //}     
     }
     #endregion 
 }

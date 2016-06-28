@@ -23,9 +23,11 @@ public class MissionSystem : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        m_Boss = GameObject.Find("Boss");
-        m_Boss.SetActive(false);
-
+        if (SceneManager.GetActiveScene().name != "Tutorial2")
+        {
+            m_Boss = GameObject.Find("Boss");
+            m_Boss.SetActive(false);
+        }
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
@@ -57,7 +59,8 @@ public class MissionSystem : MonoBehaviour
         mission.isActive = true;
         if (mission.enemy == EnemyTypes.Boss)
         {
-            m_Boss.SetActive(true);
+        if (SceneManager.GetActiveScene().name != "Tutorial2")
+                m_Boss.SetActive(true);
             Debug.Log("Boss Spawned");
         }
         Debug.Log("AddActiveMission " + mission.missionName);
