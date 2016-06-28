@@ -10,8 +10,7 @@ public class Hitmarker : MonoBehaviour
     private Sprite hitMarker;
 
     private Image reticle;
-
-    private float HitDisplayDuration = 0.8f;
+    private float HitDisplayDuration;
     private float HitTime;
     private bool ShowHitMarker;
 
@@ -20,14 +19,20 @@ public class Hitmarker : MonoBehaviour
     private RaycastHit hit;
     private Transform MyTransform;
 
+    private GameObject TargetImg;
+    private GameObject LockOnMarker;
     // Use this for initialization
     void Start()
     {
         range = 1600;
-        rayhit = false;
+        rayhit = true;
         ShowHitMarker = false;
         reticle = GetComponent<Image>();
         MyTransform = transform;
+        HitDisplayDuration = 0.8f;
+        TargetImg = Resources.Load<GameObject>("LockObject");
+        LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
+        LockOnMarker.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,32 +40,55 @@ public class Hitmarker : MonoBehaviour
     {
         rayhit = false;
         if (GetComponent<Image>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
-        {
-            //  Debug.Log("Switched to static");
             GetComponent<Image>().sprite = StaticMarker;
-        }
+
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
         {
             if (hit.collider.CompareTag("Asteroid"))
+            {
                 rayhit = true;
+            }
             else if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
+            {
                 rayhit = true;
+                LockOnMarker.SetActive(true);
+                objUpdate();
+            }
             else if (hit.collider.CompareTag("Station"))
                 rayhit = true;
+            
         }
 
         if (rayhit)
             reticle.color = Color.red;
         else
+        {
+            Debug.Log("Not locked on");
+            LockOnMarker.SetActive(false);
             reticle.color = Color.white;
+        }
+            
     }
 
     public void HitMarkerShow(float TimeWhenShot)
     {
-            //Debug.Log("Switched to Hitmarker");
+        //Debug.Log("Switched to Hitmarker");
         HitTime = TimeWhenShot;
         GetComponent<Image>().sprite = hitMarker;
     }
+    void objUpdate()
+    {
+        if (LockOnMarker != null)
+        {
+            LockOnMarker.transform.parent = hit.transform;
+            LockOnMarker.transform.position = hit.transform.position;
+            LockOnMarker.transform.LookAt(MyTransform);
+        }
 
+        if(LockOnMarker == null)
+        {
+            LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
+        }
+    }
 
 }
