@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 
 [Serializable]
 public class ShieldProperties
@@ -8,6 +7,11 @@ public class ShieldProperties
     public GameObject Shield;
     public bool ShieldActive;
     public float ShieldHealth;
+
+    public ShieldProperties()
+    {
+
+    }
 
     public void Initialize(GameObject _shield, float shieldHP)
     {

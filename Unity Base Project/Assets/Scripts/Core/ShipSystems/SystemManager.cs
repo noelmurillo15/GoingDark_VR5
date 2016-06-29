@@ -29,7 +29,6 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.Hyperdrive);
     }
 
-
     void FixedUpdate()
     {
         if (Input.GetButtonDown("X"))
@@ -54,30 +53,32 @@ public class SystemManager : MonoBehaviour {
     #region Public Methods
     public void ActivateSystem(SystemType key)
     {
+        if (key == SystemType.Cloak && cloaking.GetCloaked())
+        {
+            cloaking.UnCloakShip();
+            return;
+        }
+
         if (MainDevices.ContainsKey(key))   //  If System is installed
-        {           
+        {
             if (MainDevices[key].GetSystemReady())  //  If system is online and not on cooldown
             {
                 if (cloaking.GetCloaked())  //  If we are currently cloaked
                     cloaking.UnCloakShip(); //  Fuck that
-                
-                MainDevices[key].Activate();    //  Activate System
-                return;
-            }
 
-            if (key == SystemType.Cloak && cloaking.GetCloaked())
-                cloaking.UnCloakShip();
-        }     
+                MainDevices[key].Activate();    //  Activate System                
+            }
+        }
     }
 
 
-    public GameObject GetSystem(SystemType key)
+    public MonoBehaviour GetSystemScript(SystemType key)
     {
         ShipSystem sdev = null;
         if (MainDevices.TryGetValue(key, out sdev))
-            return sdev.gameObject;
+            return sdev;
 
-        return null;
+        return null;        
     }
 
     public void SystemDamaged()

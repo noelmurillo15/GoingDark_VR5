@@ -13,13 +13,15 @@ public class EnemyManager : MonoBehaviour
 
     private CloakSystem pCloak;
     private SystemManager systemManager;
+    private MissionSystem missions;
 
     private List<EnemyBehavior> enemies = new List<EnemyBehavior>();
-    private List<Transform> enemypositions = new List<Transform>();
 
     private ObjectPooling laserpool = new ObjectPooling();
     private ObjectPooling missilepool = new ObjectPooling();
     private ObjectPooling explosionpool = new ObjectPooling();
+
+    private GameObject ammoDrop;
 
     private GameObject explosions;
     private GameObject projectiles;
@@ -29,6 +31,7 @@ public class EnemyManager : MonoBehaviour
     {
         explosions = GameObject.Find("Explosions");
         projectiles = GameObject.Find("Projectiles");
+        ammoDrop = Resources.Load<GameObject>("AmmoDrop");
 
         InvokeRepeating("CheckEnemies", 10f, 5f);          
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
@@ -42,7 +45,10 @@ public class EnemyManager : MonoBehaviour
 
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-        pCloak = systemManager.GetSystem(SystemType.Cloak).GetComponent<CloakSystem>();
+
+        missions = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+
+        pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
     }
 
     public GameObject GetEnemyLaser()
@@ -60,7 +66,6 @@ public class EnemyManager : MonoBehaviour
 
     public void AddEnemy(EnemyBehavior enemy)
     {
-        enemypositions.Add(enemy.MyTransform);
         enemies.Add(enemy);
     }
 
@@ -71,7 +76,8 @@ public class EnemyManager : MonoBehaviour
 
     public void RemoveEnemy(EnemyBehavior enemy)
     {
-        enemypositions.Remove(enemy.MyTransform);
+        RandomAmmoDrop(enemy.MyTransform.position);
+        missions.KilledEnemy(enemy.Type);
         enemies.Remove(enemy);
     }
 
@@ -101,13 +107,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public bool RandomChance()
+    public void RandomAmmoDrop(Vector3 _pos)
     {
-        float wDrop = Random.Range(1, 3);
-        if (wDrop == 1)
-            return true;
-
-        return false;
+        if (Random.Range(1, 3) == 1)
+            Instantiate(ammoDrop, _pos, Quaternion.identity);                
     }
 
     public void TargetDestroyed()

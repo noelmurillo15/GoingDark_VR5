@@ -6,40 +6,31 @@ public class IEnemy : MonoBehaviour
 
     #region Properties
     public Transform Target { get; protected set; }
+    public Transform MyTransform { get; private set; }
 
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
 
-    public int Health;
-    public int MissileCount;
+    private MovementProperties MoveData;
+    private ShieldProperties ShieldData;
+    private HealthProperties HealthData;
 
-    public MovementProperties MoveData;
-    public ShieldProperties ShieldData;
-
-    private GameObject ammoDrop;
     private GameObject stunned;
 
     public EnemyManager manager;
-    public Transform MyTransform { get; private set; }
     #endregion
 
 
     public virtual void Initialize()
     {
+        MoveData = new MovementProperties();
+        ShieldData = new ShieldProperties();
+        HealthData = new HealthProperties();
+
         Target = null;
-        Health = 0;
-        MissileCount = 0;
         MyTransform = transform;
-
-        if (transform.name.Contains("Droid"))
-            transform.name = "Droid";
-        else if (transform.name.Contains("BasicEnemy"))
-            transform.name = "BasicEnemy";
-        
-        ammoDrop = Resources.Load<GameObject>("AmmoDrop");
         stunned = transform.GetChild(1).gameObject;
-        stunned.SetActive(false);
-
+        stunned.SetActive(false);                
 
         Invoke("AddToManager", 1f);
     }
@@ -55,13 +46,6 @@ public class IEnemy : MonoBehaviour
     }
     #endregion
 
-    #region Modifiers
-    public void SetEnemyType(EnemyTypes _type)
-    {
-        Type = _type;
-    }
-    #endregion
-
     #region Msg Functions
     void AddToManager()
     {
@@ -73,7 +57,6 @@ public class IEnemy : MonoBehaviour
     
     void EMPHit()
     {
-        Debug.Log("Enemy Was Emp'd");
         stunned.SetActive(true);
         Debuff = Impairments.Stunned;
         Invoke("ResetDebuff", 3f);
@@ -82,10 +65,9 @@ public class IEnemy : MonoBehaviour
     }
     void ShieldHit(float _val)
     {
-        Debug.Log("Enemy Took Shield Dmg");
         ShieldData.TakeDamage(_val);        
     }
-    public void Hit(Missile missile)
+    public void MissileHit(Missile missile)
     {        
         if (ShieldData.GetShieldActive())
         {
@@ -113,23 +95,23 @@ public class IEnemy : MonoBehaviour
             switch (missile.Type)
             {
                 case MissileType.Basic:
-                    Damage(5);
+                    HealthData.Damage(5);
                     break;
                 case MissileType.Emp:
-                    Damage(1);
+                    HealthData.Damage(1);
                     EMPHit();
                     break;
                 case MissileType.ShieldBreak:
-                    Damage(1);
+                    HealthData.Damage(1);
                     break;
                 case MissileType.Chromatic:
-                    Damage(10);
+                    HealthData.Damage(10);
                     break;
             }
             missile.Kill();
         }
     }
-    public void Hit(LaserProjectile laser)
+    public void LaserHit(LaserProjectile laser)
     {
         if (ShieldData.GetShieldActive())
         {
@@ -137,27 +119,17 @@ public class IEnemy : MonoBehaviour
         }
         else
         {
-            Damage(1);
+            HealthData.Damage(1);
         }
         laser.Kill();
-    }    
-    void Damage(int _val)
-    {
-        Health -= _val;
-        if (Health <= 0)
-            Kill();
-    }
+    }     
     void Kill()
-    {
-        GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().KilledEnemy(Type);
+    {        
         GameObject explosive = manager.GetEnemyExplosion();
         explosive.transform.position = transform.position;        
-        explosive.SetActive(true);
+        explosive.SetActive(true);        
 
-        if (manager.RandomChance())
-            Instantiate(ammoDrop, transform.position, Quaternion.identity);
-
-        manager.RemoveEnemy(MyTransform.GetComponent<EnemyBehavior>());
+        manager.RemoveEnemy(GetComponent<EnemyBehavior>());
         Destroy(gameObject);
     }
     #endregion
@@ -168,14 +140,6 @@ public class IEnemy : MonoBehaviour
         SetSpeedBoost(1f);
         Debuff = Impairments.None;
         stunned.SetActive(false);
-    }
-    public void StopMovement()
-    {
-        MoveData.Speed = 0f;
-    }
-    public void DecreaseMissileCount()
-    {
-        MissileCount--;
     }
     public void SetSpeedBoost(float newBoost)
     {
@@ -195,33 +159,31 @@ public class IEnemy : MonoBehaviour
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 60f, 2f, 10f);
-                        MissileCount = 10;
-                        Health = 10;
+                        HealthData.Set(10, MyTransform);
                         break;
                     case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 110f, 1f, 10f);
-                        Health = 5;
+                        HealthData.Set(5, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 120f, 3f, 10f);
-                        Health = 15;
+                        HealthData.Set(15, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 80f, 1.8f, 10f);
-                        MissileCount = 10;
-                        Health = 10;
+                        HealthData.Set(10, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        MissileCount = 1000;
-                        Health = 25;
+                        HealthData.Set(50, MyTransform);
                         break;
                 }
                 break;
             #endregion
+
             #region Normal
             case GameDifficulty.Normal:
                 switch (Type)
@@ -229,120 +191,95 @@ public class IEnemy : MonoBehaviour
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
-                        MissileCount = 10;
-                        Health = 25;
+                        HealthData.Set(25, MyTransform);
                         break;
                     case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 120f, .8f, 20f);
-                        Health = 10;
+                        HealthData.Set(15, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 150f, 2.5f, 15f);
-                        Health = 30;
+                        HealthData.Set(30, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 95f, 1.5f, 18f);
-                        Health = 20;
+                        HealthData.Set(20, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 1000;
                         MoveData.Set(0f, .5f, 60f, 4f, 15f);
-                        Health = 60;
+                        HealthData.Set(100, MyTransform);
                         break;
                 }
                 break;
             #endregion
+
             #region Hard
             case GameDifficulty.Hard:
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
-                        Health = 50;
+                        HealthData.Set(40, MyTransform);
                         break;
                     case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 160f, .7f, 40f);
-                        Health = 15;
+                        HealthData.Set(25, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 200f, 2f, 25f);
-                        Health = 75;
+                        HealthData.Set(50, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
-                        Health = 40;
+                        HealthData.Set(35, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        MissileCount = 1000;
-                        Health = 25;
+                        HealthData.Set(150, MyTransform);
                         break;
                 }
                 break;
             #endregion
+
             #region Nightmare
             case GameDifficulty.Nightmare:
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
-                        Health = 100;
+                        HealthData.Set(80, MyTransform);
                         break;
                     case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 200f, .6f, 50f);
-                        Health = 30;
+                        HealthData.Set(50, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
-                        Health = 120;
+                        HealthData.Set(100, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MissileCount = 10;
                         MoveData.Set(0f, .5f, 160f, 1f, 45f);
-                        Health = 80;
+                        HealthData.Set(70, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
                         MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        MissileCount = 1000;
-                        Health = 25;
+                        HealthData.Set(300, MyTransform);
                         break;
                 }
                 break;
             #endregion
-        }
-
-        //    case EnemyTypes.Boss:
-        //        switch (Level)
-        //        {
-        //            case GameDifficulty.Hard:
-        //                MoveData.Set(0f, .5f, 80f, 3f, 20f);
-        //                Health = 125;
-        //                break;
-        //            case GameDifficulty.Nightmare:
-        //                MoveData.Set(0f, .5f, 120f, 2f, 30f);
-        //                Health = 200;
-        //                break;
-        //        }
-        //        break;
-        //    default:
-        //        Debug.LogError("Enemy's Tag doesn't match");
-        //        break;
-        //}     
+        }  
     }
     #endregion 
 }

@@ -37,7 +37,7 @@ public class LaserProjectile : MonoBehaviour
         if (col.transform.CompareTag("Enemy"))
         {
             HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
-            col.gameObject.GetComponent<EnemyBehavior>().Hit(this);
+            col.gameObject.GetComponent<EnemyBehavior>().LaserHit(this);
         }
 
         if (col.transform.CompareTag("Asteroid"))
