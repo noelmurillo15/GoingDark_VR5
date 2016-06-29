@@ -14,6 +14,7 @@ public class HyperdriveSystem : ShipSystem
 
     // Use this for initialization
     void Start () {
+        maxCooldown = 40f;
 
         m_playerMove = GameObject.FindGameObjectWithTag("Player");
         particles = GameObject.Find("WarpDriveParticles");
@@ -33,7 +34,6 @@ public class HyperdriveSystem : ShipSystem
 
         if (Activated) 
             InitializeHyperdriveSequence();
-
     }
 
     #region Private Methods

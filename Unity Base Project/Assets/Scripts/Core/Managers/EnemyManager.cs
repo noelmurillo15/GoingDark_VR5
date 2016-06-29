@@ -22,7 +22,6 @@ public class EnemyManager : MonoBehaviour
     private ObjectPooling explosionpool = new ObjectPooling();
 
     private GameObject ammoDrop;
-
     private GameObject explosions;
     private GameObject projectiles;
     #endregion

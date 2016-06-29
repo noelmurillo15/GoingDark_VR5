@@ -7,8 +7,7 @@ using GoingDark.Core.Enums;
 public class EnemyBehavior : IEnemy
 {
     #region Properties        
-    public EnemyStates State;
-    public Vector3 LastKnownPos { get; set; }
+    public EnemyStates State;    
 
     public MonoBehaviour alertAi;
     public MonoBehaviour patrolAi;

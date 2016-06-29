@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class IEnemy : MonoBehaviour
-{
+public class IEnemy : MonoBehaviour {
 
     #region Properties
     public Transform Target { get; protected set; }
     public Transform MyTransform { get; private set; }
+    public Vector3 LastKnownPos { get; protected set; }
 
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
@@ -43,6 +43,10 @@ public class IEnemy : MonoBehaviour
     public ShieldProperties GetShieldData()
     {
         return ShieldData;
+    }
+    public HealthProperties GetHealthData()
+    {
+        return HealthData;
     }
     #endregion
 

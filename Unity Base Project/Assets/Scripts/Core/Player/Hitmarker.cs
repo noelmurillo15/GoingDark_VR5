@@ -21,6 +21,7 @@ public class Hitmarker : MonoBehaviour
 
     private GameObject TargetImg;
     private GameObject LockOnMarker;
+    private bool flip;
     // Use this for initialization
     void Start()
     {
@@ -30,7 +31,6 @@ public class Hitmarker : MonoBehaviour
         reticle = GetComponent<Image>();
         MyTransform = transform;
         HitDisplayDuration = 0.8f;
-
         TargetImg = Resources.Load<GameObject>("LockObject");
         LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
         LockOnMarker.SetActive(false);
@@ -52,21 +52,46 @@ public class Hitmarker : MonoBehaviour
             else if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
             {
                 rayhit = true;
-                reticle.color = Color.red;
-                objUpdate();
+                Invoke("StartTimer", 1);
             }
+            else if (hit.collider.CompareTag("Station"))
+                rayhit = true;
+
         }
 
-        if (!rayhit)
+        if (rayhit && flip)
         {
+            LockOnMarker.SetActive(true);
+            objUpdate();
+            reticle.color = Color.red;
+        }
+        else if (rayhit)
+        {
+            reticle.color = Color.red;
+            flip = false;
+        }
+        else
+        {
+            CancelInvoke();
+            flip = false;
             reticle.color = Color.white;
             if(LockOnMarker != null)
                 LockOnMarker.SetActive(false);
-        }            
+        }
+
+    }
+    bool StartTimer()
+    {
+        if (rayhit)
+            flip = true;
+        if (!rayhit)
+            flip = false;
+        return false;
     }
 
     public void HitMarkerShow(float TimeWhenShot)
     {
+        //Debug.Log("Switched to Hitmarker");
         HitTime = TimeWhenShot;
         GetComponent<Image>().sprite = hitMarker;
     }
@@ -74,17 +99,15 @@ public class Hitmarker : MonoBehaviour
     {
         if (LockOnMarker != null)
         {
-            LockOnMarker.SetActive(true);
             LockOnMarker.transform.parent = hit.transform;
             LockOnMarker.transform.position = hit.transform.position;
             LockOnMarker.transform.LookAt(MyTransform);
         }
-        else
+
+        if (LockOnMarker == null)
         {
             LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
-            LockOnMarker.transform.parent = hit.transform;
-            LockOnMarker.transform.position = hit.transform.position;
-            LockOnMarker.transform.LookAt(MyTransform);
         }
     }
+
 }
