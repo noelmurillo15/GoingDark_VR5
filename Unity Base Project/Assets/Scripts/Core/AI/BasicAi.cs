@@ -52,7 +52,7 @@ public class BasicAi : MonoBehaviour
             if (missileCooldown <= 0.0f)
             {
                 missileCooldown = 5.0f;
-                GameObject miss = behavior.manager.GetEnemyMissile();
+                GameObject miss = behavior.GetManager().GetEnemyMissile();
                 miss.transform.position = behavior.MyTransform.position;
                 miss.transform.rotation = behavior.MyTransform.rotation;
                 miss.SetActive(true);

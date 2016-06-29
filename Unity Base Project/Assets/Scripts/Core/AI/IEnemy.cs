@@ -17,7 +17,7 @@ public class IEnemy : MonoBehaviour {
 
     private GameObject stunned;
 
-    public EnemyManager manager;
+    private EnemyManager manager;
     #endregion
 
 
@@ -47,6 +47,10 @@ public class IEnemy : MonoBehaviour {
     public HealthProperties GetHealthData()
     {
         return HealthData;
+    }
+    public EnemyManager GetManager()
+    {
+        return manager;
     }
     #endregion
 

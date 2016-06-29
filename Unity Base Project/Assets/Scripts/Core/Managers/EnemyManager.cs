@@ -50,6 +50,11 @@ public class EnemyManager : MonoBehaviour
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
     }
 
+    #region Accessors
+    public CloakSystem GetPlayerCloak()
+    {
+        return pCloak;
+    }
     public GameObject GetEnemyLaser()
     {
         return laserpool.GetPooledObject();
@@ -62,17 +67,14 @@ public class EnemyManager : MonoBehaviour
     {
         return explosionpool.GetPooledObject();
     }
+    #endregion
 
+    #region Modifiers
     public void AddEnemy(EnemyBehavior enemy)
     {
         enemies.Add(enemy);
     }
-
-    public CloakSystem GetPlayerCloak()
-    {
-        return pCloak;
-    }
-
+   
     public void RemoveEnemy(EnemyBehavior enemy)
     {
         RandomAmmoDrop(enemy.MyTransform.position);
@@ -116,4 +118,5 @@ public class EnemyManager : MonoBehaviour
     {
         BroadcastMessage("BroadcastWin");
     }
+    #endregion
 }
