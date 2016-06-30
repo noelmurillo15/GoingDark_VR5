@@ -19,7 +19,7 @@ public class Despawn : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Kill()
+    public void Kill()
     {
         CancelInvoke();
         gameObject.SetActive(false);

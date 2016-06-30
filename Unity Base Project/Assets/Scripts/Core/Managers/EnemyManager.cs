@@ -17,11 +17,11 @@ public class EnemyManager : MonoBehaviour
 
     private List<EnemyBehavior> enemies = new List<EnemyBehavior>();
 
+    private ObjectPooling ammopool = new ObjectPooling();
     private ObjectPooling laserpool = new ObjectPooling();
     private ObjectPooling missilepool = new ObjectPooling();
     private ObjectPooling explosionpool = new ObjectPooling();
 
-    private GameObject ammoDrop;
     private GameObject explosions;
     private GameObject projectiles;
     #endregion
@@ -30,7 +30,6 @@ public class EnemyManager : MonoBehaviour
     {
         explosions = GameObject.Find("Explosions");
         projectiles = GameObject.Find("Projectiles");
-        ammoDrop = Resources.Load<GameObject>("AmmoDrop");
 
         InvokeRepeating("CheckEnemies", 10f, 5f);          
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
@@ -38,6 +37,7 @@ public class EnemyManager : MonoBehaviour
 
     void Start()
     {
+        ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, projectiles);
         laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30, projectiles);
         missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30, projectiles);
         explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40, explosions);
@@ -55,6 +55,10 @@ public class EnemyManager : MonoBehaviour
     {
         return pCloak;
     }
+    public GameObject GetAmmoDrop()
+    {
+        return ammopool.GetPooledObject();
+    }
     public GameObject GetEnemyLaser()
     {
         return laserpool.GetPooledObject();
@@ -66,7 +70,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject GetEnemyExplosion()
     {
         return explosionpool.GetPooledObject();
-    }
+    }    
     #endregion
 
     #region Modifiers
@@ -110,8 +114,14 @@ public class EnemyManager : MonoBehaviour
 
     public void RandomAmmoDrop(Vector3 _pos)
     {
+        GameObject go = null;
         if (Random.Range(1, 3) == 1)
-            Instantiate(ammoDrop, _pos, Quaternion.identity);                
+        {
+            go = GetAmmoDrop();
+            go.transform.position = _pos;
+            go.transform.rotation = Quaternion.identity;
+            go.SetActive(true);
+        }                   
     }
 
     public void TargetDestroyed()

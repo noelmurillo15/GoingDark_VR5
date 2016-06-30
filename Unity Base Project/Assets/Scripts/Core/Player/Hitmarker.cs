@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class Hitmarker : MonoBehaviour
@@ -52,16 +51,16 @@ public class Hitmarker : MonoBehaviour
             else if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
             {
                 rayhit = true;
-                Invoke("StartTimer", 1);
+                Invoke("StartTimer", .5f);
             }
             else if (hit.collider.CompareTag("Station"))
                 rayhit = true;
-
         }
 
         if (rayhit && flip)
         {
-            LockOnMarker.SetActive(true);
+            if (LockOnMarker != null)
+                LockOnMarker.SetActive(true);
             objUpdate();
             reticle.color = Color.red;
         }
@@ -91,7 +90,6 @@ public class Hitmarker : MonoBehaviour
 
     public void HitMarkerShow(float TimeWhenShot)
     {
-        //Debug.Log("Switched to Hitmarker");
         HitTime = TimeWhenShot;
         GetComponent<Image>().sprite = hitMarker;
     }
@@ -109,5 +107,4 @@ public class Hitmarker : MonoBehaviour
             LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
         }
     }
-
 }

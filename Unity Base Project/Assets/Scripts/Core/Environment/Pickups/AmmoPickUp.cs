@@ -6,36 +6,27 @@ public class AmmoPickUp : MonoBehaviour
     private Transform player;
     private Transform myTransform;
 
-    bool collected;
     // Use this for initialization
     void Start()
     {
         myTransform = transform;
-        collected = false;
-        missile = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        missile = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (collected)
-            Destroy(gameObject);
-
-        if(!collected)
-        {
-            myTransform.LookAt(player);
-            myTransform.position += myTransform.forward * 200 * Time.deltaTime;
-        }
+        myTransform.LookAt(player);
+        myTransform.position += myTransform.forward * 200 * Time.deltaTime;
     }
-   
+
     void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")
         {
             missile.SendMessage("AddMissile");
             AudioManager.instance.PlayAmmoPickUp();
-            collected = true;
+            GetComponent<Despawn>().Kill();
         }
     }
 }
