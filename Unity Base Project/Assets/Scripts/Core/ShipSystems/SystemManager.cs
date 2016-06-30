@@ -29,7 +29,7 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.Hyperdrive);
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (Input.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
