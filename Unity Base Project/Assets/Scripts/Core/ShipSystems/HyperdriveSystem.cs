@@ -10,6 +10,7 @@ public class HyperdriveSystem : ShipSystem
 
     private GameObject particles;
     private Vector3 particleOriginPos;
+    private ParticleSystem particlesys;
     #endregion
 
     // Use this for initialization
@@ -23,6 +24,7 @@ public class HyperdriveSystem : ShipSystem
 
         particleOriginPos = particles.transform.localPosition;
         particles.SetActive(false);
+        particlesys = particles.GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,13 @@ public class HyperdriveSystem : ShipSystem
 
         if (Activated) 
             InitializeHyperdriveSequence();
+
+        if (stats.MoveData.Speed < 50)
+            particlesys.startSpeed = 0;
+        else if (stats.MoveData.Speed >= 50 && stats.MoveData.Speed < 100)
+            particlesys.startSpeed = stats.MoveData.Speed * 0.2f;
+        else
+            particlesys.startSpeed = ((stats.MoveData.Speed * 0.125f) - 12.5f) + 50.0f;
     }
 
     #region Private Methods
@@ -52,6 +61,13 @@ public class HyperdriveSystem : ShipSystem
         stats.MoveData.Boost = 1.0f;
         stats.MoveData.Acceleration = 20f;
         stats.boostActive = false;
+        particlesys.enableEmission = false;
+        Invoke("FinishParticles", 4f);
+    }
+
+    public void FinishParticles()
+    {
+        particlesys.enableEmission = true;
         particles.SetActive(false);
     }
     #endregion

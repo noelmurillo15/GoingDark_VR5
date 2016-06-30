@@ -17,7 +17,7 @@
   type = "Stealth"
   enemy = "None"
   time = "0.0"
-  optional = "true"
+  optional = "false"
   />
 
   <mission name ="Combat Tutorial"
@@ -27,7 +27,7 @@
  type = "Combat"
  enemy = "Any"
  time = "0.0"
- optional = "true"
+ optional = "false"
   />
   
 </Tutorial2>

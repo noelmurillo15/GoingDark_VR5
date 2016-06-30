@@ -80,21 +80,14 @@ public class StationButtons : MonoBehaviour
     public void ClickButton()
     {
 
-        if (transform.name == "Missions")
+        if (transform.name == "Repair")
         {
-            //stationLog.SendMessage("OpenStationMissions");
-            stationLog.OpenStationMissions();
-        }
-        else if (transform.name == "Repair")
-        {
-
+            // do repair stuff
         }
         else
         {
             //stationLog.SendMessage("ButtonPressed", transform.name);
-            stationLog.StationButtonPressed(transform.name);
+            //stationLog.StationButtonPressed(transform.name);
         }
-
-        stationLog.mLastButton = gameObject.GetComponent<Button>();
     }
 }

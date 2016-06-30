@@ -43,8 +43,8 @@ public class PlayerMovement : MonoBehaviour {
     void Update(){
         if (!autoPilot && !resetRotation && !stunned)
         {
-            if (!boostActive)
-            {
+            //if (!boostActive)
+            //{
                 if (m_GamePad.GetLeftTrigger() > 0f)
                 {
                     cruise = false;
@@ -55,9 +55,9 @@ public class PlayerMovement : MonoBehaviour {
 
                 if (m_GamePad.GetButtonDown("LeftThumbstick"))
                     cruise = !cruise;
-            }
-            else
-                MoveData.ChangeSpeed(1f);
+            //}
+            //else
+              //  MoveData.ChangeSpeed(1f);
 
             Yaw();
             Roll();

@@ -7,7 +7,6 @@ using GoingDark.Core.Enums;
 public class TutorialFlight : MonoBehaviour
 {
     private int phase;
-    private PlayerMovement playerMovement;
     private MissionSystem mission;
     //private Text line1, line2, line3;
     private bool buffer, isNearStation;
@@ -15,13 +14,12 @@ public class TutorialFlight : MonoBehaviour
     private bool stealthMissionCompleted, stealthMissionAccepted, stealthMissionTurnedIn;
     private bool combatMissionCompleted, combatMissionAccepted, combatMissionTurnedIn;
     private bool stealthMissionFailed;
+    private GameObject flightPortal, stealthPortal;
     private GameObject station;
     //  private BoxCollider hyperDriveButton;
     private GameObject[] loots;
-    private float remindTimer;
     private int numRings;
     public GameObject arrow;
-    private int numMissionComplete;
     private GameObject supplyBox;
     private GameObject stealthEnemy, combatEnemy;
     private GameObject stationLog;
@@ -35,7 +33,6 @@ public class TutorialFlight : MonoBehaviour
     void Start()
     {
         mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         station = GameObject.Find("Station");
         // hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
         loots = GameObject.FindGameObjectsWithTag("Loot");
@@ -48,6 +45,8 @@ public class TutorialFlight : MonoBehaviour
         wellDone = transform.FindChild("WellDone").GetComponent<AudioSource>();
         goodJob = transform.FindChild("GoodJob").GetComponent<AudioSource>();
         congratulation = transform.FindChild("Congratulation").GetComponent<AudioSource>();
+        flightPortal = GameObject.Find("Flight").transform.FindChild("PortalEnter").gameObject;
+        stealthPortal = GameObject.Find("Stealth").transform.FindChild("PortalEnter").gameObject;
         //line1 = GameObject.Find("Line1").GetComponent<Text>();
         //line2 = GameObject.Find("Line2").GetComponent<Text>();
         //line3 = GameObject.Find("Line3").GetComponent<Text>();
@@ -56,7 +55,6 @@ public class TutorialFlight : MonoBehaviour
         //line3.text = "";
         phase = 0;
         numRings = 0;
-        remindTimer = 6.0f;
         buffer = false;
         flightMissionCompleted = false;
         flightMissionAccepted = false;
@@ -69,7 +67,8 @@ public class TutorialFlight : MonoBehaviour
         combatMissionTurnedIn = false;
         stealthMissionFailed = false;
         isNearStation = false;
-        numMissionComplete = 0;
+        flightPortal.SetActive(false);
+        stealthPortal.SetActive(false);
         //   hyperDriveButton.enabled = false;
 
     }
@@ -77,7 +76,7 @@ public class TutorialFlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {      
-        DisableStationLog();
+       // DisableStationLog();
 
         Progress();
     }
@@ -106,18 +105,11 @@ public class TutorialFlight : MonoBehaviour
                 {
                     arrow.SetActive(false);
                   //  ClearText();
-                    playerMovement.enabled = false;
-                    playerMovement.StopMovement();
                     buffer = false;
                     phase = 1;
                 }
                 break;
             case 1:
-                if (numMissionComplete == 3)
-                {
-                    phase = 4;
-                    break;
-                }
                 if (!buffer)
                 {
                     //string1 = "Clap your hands to open the Arm Menu";
@@ -128,7 +120,6 @@ public class TutorialFlight : MonoBehaviour
                 }
                 if (flightMissionAccepted || stealthMissionAccepted || combatMissionAccepted)
                 {
-                    playerMovement.enabled = true;
                   //  ClearText();
                     phase = 2;
                     buffer = false;
@@ -145,13 +136,6 @@ public class TutorialFlight : MonoBehaviour
                 break;
 
             case 4:
-                if (!buffer)
-                {
-                   // StartCoroutine(Transition());
-                    buffer = true;
-                }
-                break;
-            case 5:
                 if (!buffer)
                 {
                    // ClearText();
@@ -175,8 +159,6 @@ public class TutorialFlight : MonoBehaviour
                 {
                     arrow.SetActive(false);
                   //  ClearText();
-                    playerMovement.enabled = false;
-                    playerMovement.StopMovement();
                     buffer = false;
                     phase = 1;
                 }
@@ -227,11 +209,12 @@ public class TutorialFlight : MonoBehaviour
                 arrow.SetActive(true);
                 stealthEnemy.SetActive(true);
             }
-            arrow.transform.LookAt(supplyBox.transform);
+            if(supplyBox)
+                arrow.transform.LookAt(supplyBox.transform);
 
             if (stealthMissionFailed)
             {
-                phase = 5;
+                phase = 4;
                 buffer = false;
                 return;
             }
@@ -275,21 +258,15 @@ public class TutorialFlight : MonoBehaviour
                 goodJob.Play();
                 buffer = true;
                 flightMissionAccepted = false;
+                flightPortal.SetActive(true);
             }
-            arrow.transform.LookAt(station.transform);
 
-            if (isNearStation)
-            {
-                playerMovement.enabled = false;
-                playerMovement.StopMovement();
-            }
             if (flightMissionTurnedIn)
             {
                 buffer = false;
               //  ClearText();
                 flightMissionCompleted = false;
                 phase = 1;
-                numMissionComplete++;
                 arrow.SetActive(false);
             }
         }
@@ -306,21 +283,15 @@ public class TutorialFlight : MonoBehaviour
                 arrow.SetActive(true);
                 stealthMissionAccepted = false;
                 stealthEnemy.SetActive(false);
+                stealthPortal.SetActive(true);
             }
-            arrow.transform.LookAt(station.transform);
 
-            if (isNearStation)
-            {
-                playerMovement.enabled = false;
-                playerMovement.StopMovement();
-            }
             if (stealthMissionTurnedIn)
             {
                 buffer = false;
                // ClearText();
                 stealthMissionCompleted = false;
                 phase = 1;
-                numMissionComplete++;
                 arrow.SetActive(false);
             }
         }
@@ -337,22 +308,21 @@ public class TutorialFlight : MonoBehaviour
                 combatMissionAccepted = false;
                 combatEnemy.SetActive(false);
             }
-            arrow.transform.LookAt(station.transform);
 
-            if (isNearStation)
-            {
-                playerMovement.enabled = false;
-                playerMovement.StopMovement();
-            }
             if (combatMissionTurnedIn)
             {
                 buffer = false;
                 //ClearText();
                 combatMissionCompleted = false;
                 phase = 1;
-                numMissionComplete++;
+                Invoke("LeaveScene", 2.0f);
             }
         }
+    }
+
+    void LeaveScene()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private Vector3 GetActiveRing()
@@ -373,39 +343,39 @@ public class TutorialFlight : MonoBehaviour
         return target;
     }
 
-    private void DisableStationLog()
-    {
-        if ((combatMissionAccepted|| stealthMissionAccepted ||flightMissionAccepted) &&!stealthMissionFailed)
-        {
-            // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
-            for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
-            {
-                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
-                {
-                    if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
-                    {
-                        stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
-                    }
-                }
-            }
-            //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
-        }
-        else if (((combatMissionCompleted && !combatMissionTurnedIn) || (stealthMissionCompleted && !stealthMissionTurnedIn) || (flightMissionCompleted && !flightMissionTurnedIn)))
-        {
-            // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
-            for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
-            {
-                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
-                {
-                    if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
-                    {
-                        stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
-                    }
-                }
-            }
-            //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
-        }
-    }
+    //private void DisableStationLog()
+    //{
+    //    if ((combatMissionAccepted|| stealthMissionAccepted ||flightMissionAccepted) &&!stealthMissionFailed)
+    //    {
+    //        // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
+    //        for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
+    //        {
+    //            if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
+    //            {
+    //                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
+    //                {
+    //                    stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
+    //                }
+    //            }
+    //        }
+    //        //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
+    //    }
+    //    else if (((combatMissionCompleted && !combatMissionTurnedIn) || (stealthMissionCompleted && !stealthMissionTurnedIn) || (flightMissionCompleted && !flightMissionTurnedIn)))
+    //    {
+    //        // stationLog.transform.FindChild("StationMissionPanel").gameObject.SetActive(false);
+    //        for (int i = 0; i < stationLog.transform.FindChild("StationMissionPanel").childCount; i++)
+    //        {
+    //            if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i))
+    //            {
+    //                if (stationLog.transform.FindChild("StationMissionPanel").GetChild(i).name != mission.m_ActiveMissions[0].missionName)
+    //                {
+    //                    stationLog.transform.FindChild("StationMissionPanel").GetChild(i).gameObject.SetActive(false);
+    //                }
+    //            }
+    //        }
+    //        //stationLog.transform.FindChild("StationPanel").gameObject.SetActive(false);
+    //    }
+    //}
 
     //IEnumerator Delay(float length, string s1, string s2, string s3)
     //{
@@ -449,32 +419,32 @@ public class TutorialFlight : MonoBehaviour
         numRings++;
     }
 
-    public void MissionCompleted(string name)
+    public void MissionCompleted(MissionType type)
     {
-        if (name == "Flight Tutorial")
+        if (type == MissionType.Scavenge)
             flightMissionCompleted = true;
-        else if (name == "Stealth Tutorial")
+        else if (type == MissionType.Stealth)
             stealthMissionCompleted = true;
-        else if (name == "Combat Tutorial")
+        else if (type == MissionType.Combat)
             combatMissionCompleted = true; 
         
     }
-    public void MissionAccepted(string name)
+    public void MissionAccepted(MissionType type)
     {
-        if (name == "Flight Tutorial")
+        if (type == MissionType.Scavenge)
             flightMissionAccepted = true;
-        else if (name == "Stealth Tutorial")
+        else if (type == MissionType.Stealth)
             stealthMissionAccepted = true;
-        else if (name == "Combat Tutorial")
+        else if (type == MissionType.Combat)
             combatMissionAccepted = true;
     }
-    public void MissionTurnedIn(string name)
+    public void MissionTurnedIn(MissionType type)
     {
-        if (name == "Flight Tutorial")
+        if (type == MissionType.Scavenge)
             flightMissionTurnedIn = true;
-        else if (name == "Stealth Tutorial")
+        else if (type == MissionType.Stealth)
             stealthMissionTurnedIn = true;
-        else if (name == "Combat Tutorial")
+        else if (type == MissionType.Combat)
             combatMissionTurnedIn = true;
     }
 

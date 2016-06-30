@@ -23,10 +23,6 @@ public class MissionLogButtons : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     #region Collision
     public void OnTriggerEnter(Collider col)
@@ -74,7 +70,6 @@ public class MissionLogButtons : MonoBehaviour
             {
                 if (m_button.color == Color.blue || m_button.color == Color.green)
                 {
-                    ClickButton();
                     m_button.color = Color.white;
                 }
                 else
@@ -88,9 +83,4 @@ public class MissionLogButtons : MonoBehaviour
     #endregion
 
 
-    public void ClickButton()
-    {
-        Debug.Log("Mission button pressed");
-        missionLog.ButtonPressed(transform);
-    }
 }

@@ -10,7 +10,6 @@ public class SpaceStation : MonoBehaviour
     private MissionSystem m_missionSystem;
     private MissionLoader m_missionLoader;
     private AudioSource sound;
-    private Tutorial m_tutorial;
     private StationLog m_stationLog;
 
     public int m_stationID;
