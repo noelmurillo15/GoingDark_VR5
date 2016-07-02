@@ -39,33 +39,15 @@ public class HealthBar : MonoBehaviour {
         SetHealth(C_Health);
         if (CurrentHealth <= 0.0f)
             stats.SendMessage("Kill");
-
-
     }
 
     void SetHealth(float NewHealth)
     {
-      //  Debug.Log("HealthBar Script SetHealth()");
-
         HealthCircle.fillAmount = NewHealth;
-    }
-
-    public void Hit()
-    {
-     //   Debug.Log("HealthBar Script Hit()");
-
-        AudioManager.instance.PlayHit();
-        HitCount += 10;
-        camShake.PlayShake();
-        DecreaseHealth(HitCount);
-        screenBreak.Shatter();
-
     }
 
     public void EnvironmentalDMG()
     {
-        //Debug.Log("HealthBar Script EnviromentalDmg()");
-
         HitCount += 20;
         DecreaseHealth(HitCount);
     }
@@ -76,5 +58,4 @@ public class HealthBar : MonoBehaviour {
         HitCount = 0;
         SetHealth(((CurrentHealth / Max_Health) * 0.5f));
     }
-
 }

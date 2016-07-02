@@ -67,7 +67,6 @@ public class MissionSystem : MonoBehaviour
                 Mission mission = m_ActiveMissions[i];
                 mission.objectives--;
                 m_ActiveMissions[i] = mission;
-                Debug.Log("Objectives left : " + mission.objectives);
                 if (mission.objectives == 0)
                 {
                     mission.completed = true;
@@ -103,6 +102,8 @@ public class MissionSystem : MonoBehaviour
                 if (mission.objectives <= 0)
                 {
                     mission.completed = true;
+                    m_ActiveMissions[i] = mission;
+
                     m_missionLog.Completed(mission);
 
                     if (mission.isOptional || (!mission.isOptional && m_PrimaryMissions.Count > 0))
@@ -160,7 +161,6 @@ public class MissionSystem : MonoBehaviour
         Debug.Log("Credits : " + m_playerStats.SaveData.Credits);
     }
 
-
     void StartNextMission()
     {
         if (m_PrimaryMissions.Count > 0)
@@ -181,6 +181,4 @@ public class MissionSystem : MonoBehaviour
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
     }
-
 }
-

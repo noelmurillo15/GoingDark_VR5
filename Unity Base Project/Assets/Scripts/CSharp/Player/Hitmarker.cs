@@ -14,6 +14,7 @@ public class Hitmarker : MonoBehaviour
     private bool ShowHitMarker;
 
     private int range;
+    private int layermask;
     private bool rayhit;
     private RaycastHit hit;
     private Transform MyTransform;
@@ -24,7 +25,8 @@ public class Hitmarker : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        range = 1600;
+        range = 1500;
+        layermask = 1 << 11;    //  enemies layer
         rayhit = true;
         ShowHitMarker = false;
         reticle = GetComponent<Image>();
@@ -42,20 +44,16 @@ public class Hitmarker : MonoBehaviour
         if (GetComponent<Image>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
             GetComponent<Image>().sprite = StaticMarker;
 
-        if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
-        {
-            if (hit.collider.CompareTag("Asteroid"))
-            {
-                rayhit = true;
-            }
-            else if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
-            {
+        if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
+        {          
+            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider)) { 
                 rayhit = true;
                 Invoke("StartTimer", .5f);
-            }
-            else if (hit.collider.CompareTag("Station"))
-                rayhit = true;
+            }        
         }
+
+        Color color = rayhit ? Color.green : Color.red;
+        Debug.DrawRay(MyTransform.position, MyTransform.forward * range, color);
 
         if (rayhit && flip)
         {

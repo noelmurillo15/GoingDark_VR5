@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class TutorialFireRing : MonoBehaviour {
     TutorialFlight tutorial;
@@ -12,10 +11,9 @@ public class TutorialFireRing : MonoBehaviour {
         tutorial = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
         box = GetComponent<BoxCollider>();
         buffer = false;
-        particle = transform.FindChild("Particles").gameObject;
+        particle = transform.FindChild("SpiralParticles").gameObject;
         particle.SetActive(false);
-        box.enabled = false;
-      
+        box.enabled = false;      
 	}
 	
 	// Update is called once per frame
@@ -48,5 +46,4 @@ public class TutorialFireRing : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-
 }

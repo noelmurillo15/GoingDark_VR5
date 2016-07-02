@@ -14,10 +14,6 @@ public class Missile : MonoBehaviour {
     private GameObject Explosions;
     private Transform MyTransform;
 
-    //  Raycast
-    private int range;
-    private RaycastHit hit;
-
     //  Target
     private Transform target;
     private Vector3 direction;
@@ -29,7 +25,6 @@ public class Missile : MonoBehaviour {
         if (!init)
         {
             init = true;
-            range = 1600;
             target = null;
             tracking = false;
             deflected = false;
@@ -37,8 +32,8 @@ public class Missile : MonoBehaviour {
             moveData.Boost = 1f;
             moveData.MaxSpeed = 500f;
             moveData.RotateSpeed = 25f;
-            moveData.Acceleration = 200f;
-            moveData.Speed = 100f;
+            moveData.Acceleration = 250f;
+            moveData.Speed = 200f;
 
             MyTransform = transform;
             direction = MyTransform.forward;
@@ -54,7 +49,7 @@ public class Missile : MonoBehaviour {
             deflected = false;
             moveData.Speed = 100f;
             direction = MyTransform.forward;
-            Invoke("Kill", 3f);
+            Invoke("Kill", 4f);
         }    
     }
 
@@ -65,8 +60,6 @@ public class Missile : MonoBehaviour {
 
         if (tracking)
             LookAt();
-
-        RaycastCheck();
 
         MyTransform.position += direction * moveData.Speed * Time.deltaTime;
     }
@@ -90,21 +83,6 @@ public class Missile : MonoBehaviour {
         tracking = false;
         target = null;
         direction = -direction;
-    }
-
-    private void RaycastCheck()
-    {
-        if (!tracking && !deflected)
-        {
-            if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range))
-            {
-                if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
-                {
-                    target = hit.collider.transform;
-                    tracking = true;
-                }
-            }
-        }
     }
 
     void FindExplosion()

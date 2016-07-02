@@ -52,6 +52,7 @@ public class AudioManager : MonoBehaviour
         }
         //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
         //DontDestroyOnLoad(gameObject);
+        if(_BattleMusic.clip != music["BattleTheme"])
         _BattleMusic.clip = music["BattleTheme"];
     }
     

@@ -15,17 +15,14 @@ public class ToolTips : MonoBehaviour
     Tip tip;
     string text;
     private Text line1, line2;
-    float timer;
-    private int index;
+    private bool buffer;
     // Use this for initialization
     void Start()
     {
         line1 = GameObject.Find("Line1").GetComponent<Text>();
         line2 = GameObject.Find("Line2").GetComponent<Text>();
 
-        timer = 10.0f;
-        index = 0;
-
+        buffer = true;
         Initialize();
     }
 
@@ -41,6 +38,10 @@ public class ToolTips : MonoBehaviour
 
         text = "Clap your hands to open the Arm Menu.";
         tip = new Tip("Arm Menu", text);
+        list.Add(tip);
+
+        text = "You can check the current actived missions in the mission log.";
+        tip = new Tip("Mission Log", text);
         list.Add(tip);
 
         text = "You may repair your ship, as well as accept/turn in the main mission in the station.";
@@ -75,7 +76,7 @@ public class ToolTips : MonoBehaviour
         tip = new Tip("Decoy", text);
         list.Add(tip);
 
-        text = "Your lasers and missiles can break asteroids into smaller pieces.";
+        text = "Your lasers and missiles can break asteroids into smaller pieces. Your ship will be damaged upon fast collision with asteroids.";
         tip = new Tip("Asteroids", text);
         list.Add(tip);
 
@@ -87,19 +88,21 @@ public class ToolTips : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= 10.0f)
+        if (buffer)
+          StartCoroutine(Show());
+    }
+
+    IEnumerator Show()
+    {
+        buffer = false;
+        for (int i = 0; i < list.Count-1; i++)
         {
-            line1.text = list[index].name;
-            line2.text = list[index].text;
+            line1.text = list[i].name;
+            line2.text = list[i].text;
             AudioManager.instance.PlayMessagePop();
-            index++;
-            timer = 0.0f;
-            if (index > list.Count -1)
-            {
-                index = 0;
-            }
+            yield return new WaitForSeconds(10f);
         }
+        buffer = true;
     }
 
     public void InsertTip(Tip t,int i)

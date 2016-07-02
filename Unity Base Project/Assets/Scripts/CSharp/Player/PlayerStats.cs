@@ -58,57 +58,63 @@ public class PlayerStats : MonoBehaviour
         Debuff = Impairments.None;
     }
     void Hit()
-    {
-        if (ShieldData.ShieldActive)
+    {        
+        controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
+        if (ShieldData.GetShieldActive())
         {
-            if (!ShieldHit())
-                Invoke("RechargeShield", 20);
+            ShieldHit();
             return;
         }
-        controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
-        HealthData.Hit();
+
+        CancelInvoke("RechargeShield");
+        Invoke("RechargeShield", 20f);  //  reset timer
+
+        HealthData.DecreaseHealth(20f);        
         AudioManager.instance.PlayHit();
-        SystemData.SystemDamaged();
+        Debug.Log("Player HIT");
     }
     void EMPHit()
     {
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
         Debuff = Impairments.Stunned;
-        DebuffData.Stunned(5f); 
+        DebuffData.Stunned(5f);
+        SystemData.SystemDamaged();
+
+        if (ShieldData.GetShieldActive())
+        {
+            ShieldData.TakeDamage(100);
+            Debug.Log("Player took Emp hit, broke shield");
+        }
+        else
+        {
+            Debug.Log("Player took Emp hit, lost health");
+            HealthData.DecreaseHealth(10);
+            CancelInvoke("RechargeShield");
+            Invoke("RechargeShield", 20f); //  reset timer
+        }
+                
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);
     }
 
-    bool ShieldHit()
+    void ShieldHit()
     {
-        if (ShieldData.ShieldActive)
+        ShieldData.TakeDamage(20f);
+        ShieldBar.DecreaseShield(20f);
+        Debug.Log("Player took Shield hit");
+        if (ShieldData.ShieldHealth <= 0f)
         {
-            controller.AddRumble(.5f, new Vector2(.25f, .25f), .4f);
-            AudioManager.instance.PlayShieldHit();
-            ShieldData.ShieldHealth -= 25;
-            ShieldBar.DecreaseShield(25.0f); // 4 hits to kill
-
-            if (ShieldData.ShieldHealth <= 0f)
-            {
-                ShieldData.ShieldHealth = 0f;
-                ShieldData.ShieldActive = false;
-                ShieldData.Shield.SetActive(false);
-                return false;
-            }
+            Debug.Log("Player took Shield hit, shield broke");
+            ShieldData.ShieldHealth = 0f;
+            ShieldData.ShieldActive = false;
+            ShieldData.Shield.SetActive(false);
+            Invoke("RechargeShield", 20f); 
         }
-       //else if (!ShieldData.ShieldActive)
-       //{
-       //    if (ShieldData.ShieldHealth > 0)
-       //    {
-       //        ShieldData.ShieldActive = true;
-       //        ShieldData.Shield.SetActive(true);
-       //    }
-       //    return false;
-       //}
-        return true;
+        AudioManager.instance.PlayShieldHit();
     }
     public void RechargeShield()
     {
+        Debug.Log("Player Shield Recharged");
         CancelInvoke();
         ShieldData.ShieldRecharge(100f);
         ShieldBar.Reset();
@@ -127,6 +133,7 @@ public class PlayerStats : MonoBehaviour
     }
     void Respawn()
     {
+        Debug.Log("Player Respawned");
         HealthData.HitCount = 0;
         HealthData.SendMessage("Reset");
         ShieldBar.Reset();
@@ -140,9 +147,9 @@ public class PlayerStats : MonoBehaviour
     }    
     void Kill()
     {
+        Debug.Log("PLAYER DEAD!");
         deathTransition.SendMessage("Death");
         Invoke("Respawn", 2f);
     }
     #endregion
-
 }

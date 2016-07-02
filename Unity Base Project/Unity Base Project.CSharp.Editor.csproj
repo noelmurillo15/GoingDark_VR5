@@ -116,8 +116,8 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\FrameValidator.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\HandFactoryTest.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\TransformCopyTest.cs" />
-    <Compile Include="Assets\Scripts\Core\Leap\VR\Editor\EyeTypeEditor.cs" />
-    <Compile Include="Assets\Scripts\Core\Leap\VR\Editor\LeapTemporalWarpingEditor.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\EyeTypeEditor.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\LeapTemporalWarpingEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />
