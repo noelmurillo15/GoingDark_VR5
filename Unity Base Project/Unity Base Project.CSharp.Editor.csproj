@@ -197,6 +197,8 @@
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
+    <None Include="Assets\FXAA\Shaders\Fxaa3.shader" />
+    <None Include="Assets\FXAA\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DS.shader" />
@@ -278,8 +280,6 @@
     <None Include="Assets\Particles\Shaders\Terrain\SFS_Te_S.shader" />
     <None Include="Assets\Particles\Shaders\Terrain\SFS_Te_St.shader" />
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
-    <None Include="Assets\Pause Menu Assets\Fonts\exo\SIL Open Font License.txt" />
-    <None Include="Assets\Pause Menu Assets\Fonts\open-sans\Apache License.txt" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\Level1_1.xml" />
