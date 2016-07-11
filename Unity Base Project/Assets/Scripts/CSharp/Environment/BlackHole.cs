@@ -31,7 +31,7 @@ public class BlackHole : MonoBehaviour
         {
             Vector3 pullDirection = new Vector3(transform.position.x, transform.position.y, transform.position.z) - col.transform.position;
             pullDirection.Normalize();
-            float distance = (transform.position - col.transform.position).magnitude;
+            //float distance = (transform.position - col.transform.position).magnitude;
             col.transform.position = col.transform.position + pullDirection * Time.deltaTime * 50.0f;
             if (col.gameObject.tag == "Player")
                 AudioManager.instance.LowerVolume();

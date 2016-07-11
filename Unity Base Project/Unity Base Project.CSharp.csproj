@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -125,6 +123,7 @@
     <Compile Include="Assets\Pause Menu Assets\Scripts\Utlities\Rotate.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BasicAi.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyBehavior.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyManuevering.cs" />
@@ -136,7 +135,6 @@
     <Compile Include="Assets\Scripts\CSharp\AI\Spawner.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TransportAi.cs" />
-    <Compile Include="Assets\Scripts\CSharp\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />
@@ -145,11 +143,13 @@
     <Compile Include="Assets\Scripts\CSharp\Environment\BossAlert.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\LootCratePickup.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\MenuEnvironment.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Environment\Meteor.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\NebulaCloud.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\PortalEnter.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Environment\SpaceStationTurret.cs" />
     <Compile Include="Assets\Scripts\CSharp\Events\EventProperty.cs" />
-    <Compile Include="Assets\Scripts\CSharp\LaserOverheat.cs" />
     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\Detector.cs" />
     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\DetectorLogicGate.cs" />
     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\ExtendedFingerDetector.cs" />
@@ -219,6 +219,7 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\LevelSelectScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MapConnection.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuButtons.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\PlayerViewCheck.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\SplashScript.cs" />
@@ -227,10 +228,6 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\TransitionHyperDrive.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\WeaponSelectButton.cs" />
-    <Compile Include="Assets\Scripts\CSharp\MenuTraverse.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Meteor.cs" />
-    <Compile Include="Assets\Scripts\CSharp\MeteorGenerator.cs" />
-    <Compile Include="Assets\Scripts\CSharp\MissileCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLoader.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLog.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLogButtons.cs" />
@@ -250,7 +247,6 @@
     <Compile Include="Assets\Scripts\CSharp\Player\LootCounter.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\LootPickup.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\MessageScript.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\Missile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\PlayerCollisions.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\PlayerStats.cs" />
@@ -275,22 +271,23 @@
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserProjectile.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\Missile.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Properties\PlayerSaveData.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Properties\SaveProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\ShieldProperties.cs" />
-    <Compile Include="Assets\Scripts\CSharp\SensorRadar_2D.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\EmpSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
+    <Compile Include="Assets\Scripts\CSharp\ShipSystems\RadarSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\SystemManager.cs" />
-    <Compile Include="Assets\Scripts\CSharp\SpaceStationTurret.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Timing.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />
@@ -298,40 +295,28 @@
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialStation.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ActivateTrigger.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\AssetBundleLoadOperation.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\AssetBundleManager.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\AutoMoveAndRotate.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\CameraShake.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTransition.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Despawn.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DisplayCooldown.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\DragRigidbody.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\DynamicShadowSettings.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Utilities\EnhancedCoroutine.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\FOVKick.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\FPSCounter.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\FPSDisplay.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\FollowTarget.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectPooling.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectResetter.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleDespawn.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleSystemDestroyer.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\PlatformSpecificContent.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\SimpleActivatorMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Singleton.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\SmoothFollow.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\SpinScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TestGamepad.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectActivator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\Utility.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\WaypointCircuit.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\WaypointProgressTracker.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\XInputTestCS.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
   </ItemGroup>
   <ItemGroup>
