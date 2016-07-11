@@ -25,7 +25,7 @@ public class Hitmarker : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        range = 1500;
+        range = 1600;
         layermask = 1 << 11;    //  enemies layer
         rayhit = true;
         ShowHitMarker = false;
@@ -52,8 +52,8 @@ public class Hitmarker : MonoBehaviour
             }        
         }
 
-        Color color = rayhit ? Color.green : Color.red;
-        Debug.DrawRay(MyTransform.position, MyTransform.forward * range, color);
+        //Color color = rayhit ? Color.green : Color.red;
+        //Debug.DrawRay(MyTransform.position, MyTransform.forward * range, color);
 
         if (rayhit && flip)
         {
@@ -83,6 +83,19 @@ public class Hitmarker : MonoBehaviour
             flip = true;
         if (!rayhit)
             flip = false;
+        return false;
+    }
+
+    public Transform GetRaycastHit()
+    {
+        return hit.transform;
+    }
+
+    public bool GetLockedOn()
+    {
+        if (rayhit && flip)
+            return true;
+
         return false;
     }
 

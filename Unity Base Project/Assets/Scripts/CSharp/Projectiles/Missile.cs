@@ -109,6 +109,15 @@ public class Missile : MonoBehaviour {
         }
     }
 
+    void LockedOn(Transform _target)
+    {
+        if (_target != null)
+        {
+            target = _target;
+            tracking = true;
+        }
+    }
+
     public void Kill()
     {
         CancelInvoke();

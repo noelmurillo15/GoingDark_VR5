@@ -9,6 +9,7 @@ public class MissileSystem : ShipSystem
     public int Count { get; private set; }
     public MissileType Type { get; private set; }
 
+    // Missile Pools
     public ObjectPooling emp = new ObjectPooling();
     public ObjectPooling basic = new ObjectPooling();
     public ObjectPooling chromatic = new ObjectPooling();
@@ -19,7 +20,8 @@ public class MissileSystem : ShipSystem
     private Text countTxt;
     private Image missileSprite;
 
-    private Transform leapcam;
+    // Misc
+    private Hitmarker lockon;
     private Transform MyTransform;
     private GameObject projectiles;
     private x360Controller controller;
@@ -33,8 +35,8 @@ public class MissileSystem : ShipSystem
 
         // Show missile count
         projectiles = GameObject.Find("Projectiles");
-        countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
         typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
+        countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
         missileSprite = GameObject.Find("MissileImage").GetComponent<Image>();
 
         //Missile Ammo Data    
@@ -45,21 +47,18 @@ public class MissileSystem : ShipSystem
 
         MyTransform = transform;
         controller = GamePadManager.Instance.GetController(0);
-        leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        lockon = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
 
         CheckCount();
     }
 
     void Update()
     {
-
         if (controller.GetButtonDown("Y"))
             WeaponSwap();
 
         if (Activated)
             LaunchMissile();
-
-        MyTransform.rotation = leapcam.rotation;
     }    
 
     public void AddMissile()
@@ -94,6 +93,9 @@ public class MissileSystem : ShipSystem
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
+
+                if(lockon.GetLockedOn())
+                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
             }
             else if (Type == MissileType.Emp)
             {
@@ -101,6 +103,9 @@ public class MissileSystem : ShipSystem
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
+
+                if (lockon.GetLockedOn())
+                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
             }
             else if (Type == MissileType.ShieldBreak)
             {
@@ -108,6 +113,9 @@ public class MissileSystem : ShipSystem
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
+
+                if (lockon.GetLockedOn())
+                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
             }
             else if (Type == MissileType.Chromatic)
             {
@@ -115,6 +123,9 @@ public class MissileSystem : ShipSystem
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
+
+                if (lockon.GetLockedOn())
+                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
             }
             AudioManager.instance.PlayMissileLaunch();
             CheckCount();
