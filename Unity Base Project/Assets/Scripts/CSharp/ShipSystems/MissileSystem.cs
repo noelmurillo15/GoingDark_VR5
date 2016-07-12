@@ -6,7 +6,7 @@ public class MissileSystem : ShipSystem
 {
 
     #region Missile Data
-    public int Count { get; private set; }
+    public int[] Count = new int[4];
     public MissileType Type { get; private set; }
 
     // Missile Pools
@@ -29,7 +29,11 @@ public class MissileSystem : ShipSystem
 
     void Start()
     {
-        Count = 15;
+        Count[0] = 15;
+        Count[1] = 10;
+        Count[2] = 10;
+        Count[3] = 5;
+
         maxCooldown = 1f;
         Type = MissileType.Basic;
 
@@ -63,9 +67,23 @@ public class MissileSystem : ShipSystem
 
     public void AddMissile()
     {
-        int rand = Random.Range(1, 3);
-        Count += rand;
-        countTxt.text = "x: " + Count.ToString();
+        int typemiss = Random.Range(0, 3);
+
+        switch ((MissileType)typemiss)
+        {
+            case MissileType.Basic:
+                Count[typemiss] += 5;
+                break;
+            case MissileType.Emp:
+                Count[typemiss] += 3;
+                break;
+            case MissileType.ShieldBreak:
+                Count[typemiss] += 3;
+                break;
+            case MissileType.Chromatic:
+                Count[typemiss] += 2;
+                break;
+        }        
         CheckCount();
     }
 
@@ -81,11 +99,10 @@ public class MissileSystem : ShipSystem
 
     public void LaunchMissile()
     {
-        if (Count > 0)
+        if (Count[(int)Type] > 0)
         {
-            Count--;
+            Count[(int)Type]--;
             DeActivate();
-            countTxt.text = "x: " + Count.ToString();
 
             if (Type == MissileType.Basic)
             {
@@ -134,11 +151,10 @@ public class MissileSystem : ShipSystem
 
     public void CheckCount()
     {
-        if (Count == 0)
+        if (Count[(int)Type] == 0)
         {
-            Type = MissileType.Basic;
             countTxt.text = "";
-            typeTxt.text = "Basic";
+            typeTxt.text = Type.ToString();
             typeTxt.color = Color.grey;
             countTxt.color = Color.grey;
             missileSprite.color = Color.grey;
@@ -172,5 +188,6 @@ public class MissileSystem : ShipSystem
                 missileSprite.color = Color.white;
                 break;
         }
+        countTxt.text = "x: " + Count[(int)Type].ToString();
     }    
 }
