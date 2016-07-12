@@ -13,7 +13,7 @@ public class PlayerViewCheck : MonoBehaviour {
     private Text acceptButton;
     public float delayTimer;
     public bool isSwitching;
-    private TransitionHyperDrive hyperDrive;
+
     private MapConnection[] isUnlocked;
     
     // Use this for initialization
@@ -26,7 +26,6 @@ public class PlayerViewCheck : MonoBehaviour {
         texts = canvas.GetComponentsInChildren<Text>();
         acceptButton = GameObject.Find("Accept").GetComponentInChildren<Text>();
         isSwitching = false;
-        hyperDrive = GameObject.Find("TransitionHyperDrive").GetComponent<TransitionHyperDrive>();
 
         isUnlocked = new MapConnection[GameObject.FindGameObjectsWithTag("Star").Length];
         isUnlocked[0] = GameObject.Find("SupplyHud").transform.FindChild("Easy").GetComponent<MapConnection>();
@@ -47,12 +46,12 @@ public class PlayerViewCheck : MonoBehaviour {
         {
             transform.LookAt(curStar.transform.position);
             canvas.enabled =false;
-            hyperDrive.HyperDriveInitialize();
-            if (hyperDrive.IsOver())
-            {
-                Debug.Log("Loading : " + curStar.name.ToString());
-                SceneManager.LoadScene(curStar.name.ToString());
-            }
+            //hyperDrive.HyperDriveInitialize();
+            //if (hyperDrive.IsOver())
+            //{
+            //    Debug.Log("Loading : " + curStar.name.ToString());
+            //    SceneManager.LoadScene(curStar.name.ToString());
+            //}
         }
     }
 

@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class GamePadManager : MonoBehaviour
 {
 
     public int m_numGamepads = 1;
-
     private List<x360Controller> m_GamepadList;
     private static GamePadManager m_pInstance;
+
 
     public static GamePadManager Instance
     {

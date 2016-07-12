@@ -3,7 +3,8 @@
 public class PersistentGameManager : MonoBehaviour {
 
     private static PersistentGameManager theGameManager = null;
-    // Use this for initialization
+
+
     void Start() {
         if (theGameManager == null)
         {
@@ -18,7 +19,7 @@ public class PersistentGameManager : MonoBehaviour {
 
         SetPlayerResources(100);
         SetPlayerCredits(100);
-        SetPlayerName("Captain");
+        SetPlayerName("Zelda");
         SetPlayerMissileCount(10);
         SetPlayerHealth(2);
         SetCurrentLevel(1);
@@ -30,10 +31,6 @@ public class PersistentGameManager : MonoBehaviour {
         SetLevel6Unlocked(0);
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
     #region Getters
 
     int GetPlayerResources() { return PlayerPrefs.GetInt("Resources", 0); }

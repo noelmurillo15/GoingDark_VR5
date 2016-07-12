@@ -37,7 +37,7 @@ public class EnemyMissile : MonoBehaviour {
         else
         {
             tracking = false;
-            moveData.Speed = 150f;
+            moveData.Speed = 350f;
 
             messages.SendMessage("MissileIncoming");
             Invoke("Kill", 3f);
@@ -55,7 +55,9 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     private void Kill() {
-        CancelInvoke("Kill");
+        if (IsInvoking("Kill"))
+            CancelInvoke("Kill");
+
         Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         gameObject.SetActive(false);
     }

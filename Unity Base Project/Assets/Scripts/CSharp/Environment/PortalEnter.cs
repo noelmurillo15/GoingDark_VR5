@@ -16,8 +16,7 @@ public class PortalEnter : MonoBehaviour {
     public void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")
-        {
-            
+        {            
             col.transform.position = new Vector3(PortalExit.transform.position.x, PortalExit.transform.position.y, PortalExit.transform.position.z + 10f);
             col.transform.rotation = Quaternion.identity;
             teleSound.Play();

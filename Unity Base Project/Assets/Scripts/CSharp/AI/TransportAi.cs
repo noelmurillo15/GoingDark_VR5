@@ -4,9 +4,6 @@ public class TransportAi : MonoBehaviour
 {
     #region Properties
     //  Transport Data
-    private float padding;
-    public float cloakTimer;
-
     public Material transMat;
     public Material opaqueMat;
 
@@ -29,25 +26,14 @@ public class TransportAi : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (padding > 0f)
-            padding -= Time.deltaTime;
 
-        if (cloakTimer > 0.0f)
-            cloakTimer -= Time.deltaTime;
-        else {
-            if(cloakTimer < 0.0f)
-                CloakOff();
-
-            cloakTimer = 0.0f;
-        }
     }
 
-    void CloakOn() {
-        if (cloakTimer <= 0.0f) {
-            cloakTimer = 30.0f;
-            mesh1.material = transMat;
-            mesh2.material = transMat;
-        }
+    void CloakOn()
+    {
+        mesh1.material = transMat;
+        mesh2.material = transMat;
+        Invoke("CloakOff", 30f);
     }
 
     void CloakOff() {
@@ -57,12 +43,7 @@ public class TransportAi : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider col) {
-        if (col.tag == "Player")
+        if (col.CompareTag("Player"))
             CloakOn();
-    }
-
-    public float GetCloakTimer()
-    {
-        return cloakTimer;
     }
 }

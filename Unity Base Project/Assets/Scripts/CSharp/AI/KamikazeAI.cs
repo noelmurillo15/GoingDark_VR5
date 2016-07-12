@@ -4,13 +4,11 @@ public class KamikazeAI : MonoBehaviour
 {
     #region Properties
     //  Kami Data
-    public float autoTimer;
+    private int typebot;
     private float detectionTimer;
     private float selfdestructTimer;
 
     //  Enemy Data
-    private bool empBot;
-    private bool explodeBot;
     private PatrolAi patrol;
     private EnemyBehavior behavior;
     #endregion
@@ -24,12 +22,8 @@ public class KamikazeAI : MonoBehaviour
         behavior.SetUniqueAi(this);
         selfdestructTimer = 20f;
         detectionTimer = 0f;
-        autoTimer = 0f;
 
-        if (GetComponent<Light>().color == Color.red)
-            explodeBot = true;
-        else
-            empBot = true;        
+        typebot = Random.Range(0, 1);  
     }
 
     // Update is called once per frame
@@ -37,16 +31,6 @@ public class KamikazeAI : MonoBehaviour
     {
         if (detectionTimer > 0f)
             detectionTimer -= Time.deltaTime;
-
-        if (autoTimer > 0f)
-            autoTimer -= Time.deltaTime;
-        else
-        {
-            //if (autoTimer < 0f)
-            //    patrol.AutoPilot = false;
-
-            autoTimer = 0f;
-        }
     }
 
     #region Self-Destruct
@@ -58,7 +42,7 @@ public class KamikazeAI : MonoBehaviour
     {
         Invoke("Explosion", 20);
     }
-    private void Explosion()
+    void Explosion()
     {
         GameObject go = Instantiate(Resources.Load("Particles/Boom"), behavior.MyTransform.position, Quaternion.identity) as GameObject;
         go.transform.parent = behavior.MyTransform.parent;
@@ -72,7 +56,10 @@ public class KamikazeAI : MonoBehaviour
         if (hit.transform.CompareTag("Player") && detectionTimer <= 0f)
         {
             detectionTimer = 1f;
-            hit.transform.SendMessage("EMPHit");
+            if (typebot == 0)
+                hit.transform.SendMessage("EMPHit");
+            else
+                hit.transform.SendMessage("ShieldHit");
             Explosion();
         }
     }

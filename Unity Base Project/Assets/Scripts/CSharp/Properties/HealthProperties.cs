@@ -12,7 +12,7 @@ public class HealthProperties
 
     public HealthProperties()
     {
-
+        
     }
 
     public void Set(int _hp, Transform _ref)

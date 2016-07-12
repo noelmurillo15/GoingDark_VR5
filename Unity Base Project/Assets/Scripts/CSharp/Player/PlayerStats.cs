@@ -10,7 +10,7 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties ShieldData;
 
     private Shieldbar ShieldBar;
-    private HealthBar HealthData;
+    private HealthProperties HealthData;
     private SystemManager SystemData;
     private DebuffManager DebuffData;
     private DeathTransition deathTransition;
@@ -25,10 +25,12 @@ public class PlayerStats : MonoBehaviour
     {
         station = GameObject.Find("Station").transform.position;
         SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
-        HealthData = GameObject.Find("PlayerHealth").GetComponent<HealthBar>();
         ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
         DebuffData = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
+
+        HealthData = new HealthProperties();
+        HealthData.Set(100, transform);
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -69,7 +71,7 @@ public class PlayerStats : MonoBehaviour
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 20f);  //  reset timer
 
-        HealthData.DecreaseHealth(20f);        
+        HealthData.Damage(20);        
         AudioManager.instance.PlayHit();
         Debug.Log("Player HIT");
     }
@@ -78,6 +80,7 @@ public class PlayerStats : MonoBehaviour
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
         Debuff = Impairments.Stunned;
         DebuffData.Stunned(5f);
+
         SystemData.SystemDamaged();
 
         if (ShieldData.GetShieldActive())
@@ -88,7 +91,7 @@ public class PlayerStats : MonoBehaviour
         else
         {
             Debug.Log("Player took Emp hit, lost health");
-            HealthData.DecreaseHealth(10);
+            HealthData.Damage(5);
             CancelInvoke("RechargeShield");
             Invoke("RechargeShield", 20f); //  reset timer
         }
@@ -108,7 +111,10 @@ public class PlayerStats : MonoBehaviour
             ShieldData.ShieldHealth = 0f;
             ShieldData.ShieldActive = false;
             ShieldData.Shield.SetActive(false);
-            Invoke("RechargeShield", 20f); 
+
+            if(IsInvoking("RechargeShield"))
+                CancelInvoke("RechargeShield");
+            Invoke("RechargeShield", 30f); 
         }
         AudioManager.instance.PlayShieldHit();
     }
@@ -129,13 +135,11 @@ public class PlayerStats : MonoBehaviour
             ShieldHit();
             return;
         }
-        SystemData.SystemDamaged();
     }
     void Respawn()
     {
         Debug.Log("Player Respawned");
-        HealthData.HitCount = 0;
-        HealthData.SendMessage("Reset");
+        HealthData.Set(100, transform);
         ShieldBar.Reset();
         ShieldData.ShieldActive = true;
         ShieldData.ShieldHealth = 100;

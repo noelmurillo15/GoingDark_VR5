@@ -2,16 +2,6 @@
 
 public class LootCratePickup : MonoBehaviour{
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     void OnTriggerEnter(Collider col)
     {
         if (col.transform.tag == "Player")
@@ -23,7 +13,7 @@ public class LootCratePickup : MonoBehaviour{
             PlayerPrefs.SetInt("Credits", Credits);
            // Debug.Log(Credits + "Credits at the end");
 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             AudioManager.instance.PlayCollect();
         }
     }

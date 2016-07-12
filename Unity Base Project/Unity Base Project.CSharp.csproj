@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -116,11 +118,10 @@
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMaterialChange.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\EnemyMissile.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\PatrolAi.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\Spawner.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TransportAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
@@ -128,9 +129,7 @@
     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHole.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHoleRenderer.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Environment\BossAlert.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\LootCratePickup.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Environment\MenuEnvironment.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Meteor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\NebulaCloud.cs" />
@@ -198,7 +197,6 @@
     <Compile Include="Assets\Scripts\CSharp\Managers\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\EventsManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\GamePadManager.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Managers\GameplayManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PauseManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PersistentGameManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmButtons.cs" />
@@ -211,12 +209,8 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\PlayerViewCheck.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\RotatingMenu.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\SplashScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\SwitchLevel.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\TallyScreen.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\TransitionHyperDrive.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\WeaponSelectButton.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLoader.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLog.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLogButtons.cs" />
@@ -229,19 +223,12 @@
     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionPhysicsForce.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\Explosive.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\FireLight.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Particles\Hose.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ParticleSystemMultiplier.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ParticleTester.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ReverseNormals.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\SmokeParticles.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Particles\WaterHoseParticles.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\CliffordsRadarBlip.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\CliffordsRadarPlane.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\EmpCollision.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\FireMissile.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\HeadMovement.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\HealthBar.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Hitmarker.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Improved_Tracer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\LootCounter.cs" />
@@ -251,7 +238,6 @@
     <Compile Include="Assets\Scripts\CSharp\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\QuickSlot.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\RadarDisplay.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\RefreshGamePads.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\ReorientPlayer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\ScreenBreak.cs" />
@@ -496,5 +482,6 @@
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
     <None Include="Assets\Sprites\ZtestShader.shader" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
