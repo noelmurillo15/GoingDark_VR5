@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -118,7 +116,6 @@
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyManuevering.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMaterialChange.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\KamikazeAI.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\PatrolAi.cs" />
@@ -255,6 +252,7 @@
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserGrowth.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />
@@ -480,8 +478,8 @@
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
+    <None Include="Assets\Sprites\ZText.shader" />
     <None Include="Assets\Sprites\ZtestShader.shader" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
