@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DeathTransition : MonoBehaviour {
     private UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration blackOut;

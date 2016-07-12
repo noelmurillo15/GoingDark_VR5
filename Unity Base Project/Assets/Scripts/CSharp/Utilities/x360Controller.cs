@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Collections;
-using System.Resources;
 using XInputDotNetPure;
+using System.Collections.Generic;
 
 public struct xButton
 {
@@ -30,7 +28,6 @@ class xRumble
 
 public class x360Controller
 {
-
     // states
     private GamePadState m_prevState;
     private GamePadState m_currState;
@@ -119,10 +116,7 @@ public class x360Controller
     }
     #endregion
 
-    /// <summary>
     /// x360Controller constructor
-    /// </summary>
-    /// <param name="index"></param>
     public x360Controller(int index)
     {
         m_index = index;
@@ -132,9 +126,7 @@ public class x360Controller
         map = new Dictionary<string, xButton>();
     }
 
-    /// <summary>
     /// Sets current state of all buttons
-    /// </summary>
     public void Update()
     {
         m_currState = GamePad.GetState(m_playerIndex);
@@ -167,9 +159,7 @@ public class x360Controller
         }
     }
 
-    /// <summary>
     /// Sets previous state of buttons and updates map
-    /// </summary>
     public void Refresh()
     {
         m_prevState = m_currState;
@@ -202,9 +192,7 @@ public class x360Controller
         }
     }
 
-    /// <summary>
     /// Updates values for all buttons stored in the list
-    /// </summary>
     void UpdateMap()
     {
         map["A"] = A;
@@ -229,10 +217,7 @@ public class x360Controller
 
     }
 
-
-    /// <summary>
     /// Handles all added rumble events (vibrations)
-    /// </summary>
     void HandleRumble()
     {
         Vector2 power = new Vector2(0, 0);
@@ -260,13 +245,7 @@ public class x360Controller
         }
     }
 
-
-    /// <summary>
     /// Adds a vibration on the controller
-    /// </summary>
-    /// <param name="timer"></param>
-    /// <param name="intensity"></param>
-    /// <param name="duration"></param>
     public void AddRumble(float timer, Vector2 intensity, float duration)
     {
         xRumble mRumble = new xRumble();
@@ -276,9 +255,4 @@ public class x360Controller
         mRumble.duration = duration;
         m_rumbleEvents.Add(mRumble);
     }
-
-
-
 }
-
-

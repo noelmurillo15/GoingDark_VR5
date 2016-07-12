@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -239,13 +241,11 @@
     <Compile Include="Assets\Scripts\CSharp\Player\ReorientPlayer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\ScreenBreak.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Shieldbar.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\ShipArmor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\ShootImprovedTracer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\ShootTracer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\SpaceSector.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\SpeedGauge.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\Thrusters.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Tracer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Turret.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ChargeLaser.cs" />
@@ -278,9 +278,7 @@
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFireRing.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialStation.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\ActivateTrigger.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\CameraShake.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\CoroutineUtlities.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTransition.cs" />
@@ -288,18 +286,13 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\DisplayCooldown.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\EnhancedCoroutine.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ExposePropertyAttribute.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\FOVKick.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\FPSCounter.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\FollowTarget.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectPooling.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectResetter.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleDespawn.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleSystemDestroyer.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\Rotate.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Singleton.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\SpinScript.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\TestGamepad.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectActivator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using MovementEffects;
 using GoingDark.Core.Enums;
+using System.Collections.Generic;
 
 public class DisplayCooldown : MonoBehaviour {
 
@@ -15,16 +16,17 @@ public class DisplayCooldown : MonoBehaviour {
         type = GetComponentInParent<QuickSlot>().Type;
         text = GetComponent<Text>();
 
-        StartCoroutine("UpdateCooldowns");
+        //   Start Coroutine
+        Timing.RunCoroutine(UpdateCooldowns());
 	}
 
     #region Coroutine
-    private IEnumerator UpdateCooldowns()
+    private IEnumerator<float> UpdateCooldowns()
     {
         while (true)
         {
             CooldownCheck();
-            yield return new WaitForSeconds(1);
+            yield return Timing.WaitForSeconds(1);
         }
     }
     private void CooldownCheck()
