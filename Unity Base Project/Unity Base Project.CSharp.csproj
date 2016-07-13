@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -109,8 +107,6 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-    <Compile Include="Assets\FXAA\Scripts\FXAA.cs" />
-    <Compile Include="Assets\FXAA\Scripts\FXAAPostEffectsBase.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BasicAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
@@ -287,6 +283,8 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\EnhancedCoroutine.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ExposePropertyAttribute.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\FPSCounter.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Utilities\FXAA.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Utilities\FXAAPostEffectsBase.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectPooling.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleDespawn.cs" />
@@ -380,8 +378,6 @@
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
-    <None Include="Assets\FXAA\Shaders\Fxaa3.shader" />
-    <None Include="Assets\FXAA\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DS.shader" />
@@ -471,8 +467,10 @@
     <None Include="Assets\Resources\XML\OpenWorld.xml" />
     <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
-    <None Include="Assets\Sprites\ZText.shader" />
-    <None Include="Assets\Sprites\ZtestShader.shader" />
+    <None Include="Assets\Shaders\Fxaa3.shader" />
+    <None Include="Assets\Shaders\Fxaa3_9.cginc" />
+    <None Include="Assets\Shaders\ZText.shader" />
+    <None Include="Assets\Shaders\ZtestShader.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
