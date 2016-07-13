@@ -10,7 +10,6 @@ public class SpeedGauge : MonoBehaviour
     private PlayerMovement stats;
 
 
-
     // Use this for initialization
     void Start()
     {
