@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SensorRadar_2D : MonoBehaviour
+public class Radar2DScript : MonoBehaviour
 {
 
     GameObject Player;
@@ -15,7 +15,7 @@ public class SensorRadar_2D : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        Player = GameObject.Find("Player");
         RadarImages = new GameObject[9];
         QuadCounter = new int[9];
         TheObject = new GameObject[2];

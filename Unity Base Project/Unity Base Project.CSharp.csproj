@@ -127,6 +127,7 @@
     <Compile Include="Assets\Scripts\CSharp\Environment\LootCratePickup.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Meteor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Environment\Mine.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\NebulaCloud.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\PortalEnter.cs" />
@@ -265,7 +266,7 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
-    <Compile Include="Assets\Scripts\CSharp\ShipSystems\RadarSystem.cs" />
+    <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\SystemManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
@@ -295,7 +296,6 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
-    <Compile Include="Assets\Scripts\Mine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />

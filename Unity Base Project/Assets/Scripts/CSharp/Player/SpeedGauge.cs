@@ -39,7 +39,10 @@ public class SpeedGauge : MonoBehaviour
     }
 
     void SetSpeed(float newSpeed)
-    {     
-        Gauge.fillAmount = newSpeed;
+    {
+        if (newSpeed > .5f)
+            Gauge.fillAmount = .5f;
+        else
+            Gauge.fillAmount = newSpeed;
     }
 }
