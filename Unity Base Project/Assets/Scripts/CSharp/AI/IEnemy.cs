@@ -127,7 +127,7 @@ public class IEnemy : MonoBehaviour {
         }
         else
         {
-            HealthData.Damage(1);
+            HealthData.Damage(.5f);
         }
         laser.Kill();
     }     

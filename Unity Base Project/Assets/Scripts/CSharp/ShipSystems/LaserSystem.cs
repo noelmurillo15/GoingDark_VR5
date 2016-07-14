@@ -77,13 +77,10 @@ public class LaserSystem : ShipSystem
 
     public void WeaponSwap()
     {
-
         int curr = (int)(currentType + 1);
         if (System.Enum.GetValues(typeof(LaserType)).Length == curr)
             curr = 0;
 
         currentType = (LaserType)curr;
-        Debug.Log("Current Laser : " + curr.ToString());
-
     }
 }

@@ -9,6 +9,7 @@ public class SystemManager : MonoBehaviour {
     private Dictionary<SystemType, ShipSystem> MainDevices;
     private Dictionary<SystemType, GameObject> SecondaryDevices;
 
+    private x360Controller controller;
     private CloakSystem cloaking;
     #endregion
 
@@ -27,27 +28,29 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.Shield);
         InitializeDevice(SystemType.Missile);
         InitializeDevice(SystemType.Hyperdrive);
+
+        controller = GamePadManager.Instance.GetController(0);
     }
 
-    void LateUpdate()
+    void Update()
     {
-        if (Input.GetButtonDown("X"))
+        if (controller.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
 
-        if (Input.GetButtonDown("A"))
+        if (controller.GetButtonDown("A"))
             ActivateSystem(SystemType.Emp);
 
-        if (Input.GetButtonDown("B"))
+        if (controller.GetButtonDown("B"))
             ActivateSystem(SystemType.Decoy);
 
-        if (Input.GetAxisRaw("RBumper") > 0f)
+        if (controller.GetButtonDown("RightBumper"))
             ActivateSystem(SystemType.Missile);
 
-        if (Input.GetAxisRaw("RTrigger") > 0f)
-            ActivateSystem(SystemType.Laser);        
-
-        if (Input.GetAxisRaw("LBumper") > 0f)
+        if (controller.GetButtonDown("LeftBumper"))
             ActivateSystem(SystemType.Hyperdrive);
+
+        if (controller.GetRightTrigger() > 0f)
+            ActivateSystem(SystemType.Laser);        
     }
 
     #region Public Methods
