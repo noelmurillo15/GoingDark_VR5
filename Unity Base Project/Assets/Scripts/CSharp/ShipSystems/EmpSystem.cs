@@ -18,7 +18,6 @@ public class EmpSystem : ShipSystem
     // Update is called once per frame
     void Update()
     {         
-
         if (Activated)
             ElectricMagneticPulse();
 
@@ -26,13 +25,12 @@ public class EmpSystem : ShipSystem
             cooldown -= Time.deltaTime;
     }
 
-
     #region Modifiers
     public void ElectricMagneticPulse()
     {
         DeActivate();
         shockwave.SetActive(true);
-        Invoke("ResetEmp", 2.5f);
+        Invoke("ResetEmp", 1.5f);
     }
 
     void ResetEmp()

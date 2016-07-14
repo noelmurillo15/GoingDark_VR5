@@ -11,7 +11,7 @@ public class CloakSystem : ShipSystem
     // Use this for initialization
     void Start()
     {
-        maxCooldown = 20f;
+        maxCooldown = 30f;
 
         shipLights = new GameObject[5];
         GameObject parentLight = GameObject.Find("ShipLights");

@@ -33,7 +33,7 @@ public class MissionSystem : MonoBehaviour
 
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
 
         if (SceneName == "Level1")
         {

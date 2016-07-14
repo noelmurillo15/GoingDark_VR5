@@ -21,7 +21,7 @@ public class Mine : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Player") && MineArmed)
+        if (col.CompareTag("Player") || col.CompareTag("Decoy") && MineArmed)
         {
             col.transform.SendMessage("Hit");
             Trigger();

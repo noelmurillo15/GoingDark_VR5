@@ -16,7 +16,7 @@ public class DecoyMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        hp = 5;
+        hp = 10;
         speed = 80f;
         aliveTimer = 15f;
         moveDir = Vector3.zero;
@@ -37,11 +37,15 @@ public class DecoyMovement : MonoBehaviour
     }
 
     #region Msg Calls
-    public void Kill()
+    public void Hit()
     {
         hp--;
-        if(hp <= 0)
-            Destroy(gameObject);
+        if (hp <= 0)
+            Kill();
+    }
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
     #endregion
 }

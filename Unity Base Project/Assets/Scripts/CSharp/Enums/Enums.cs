@@ -7,7 +7,14 @@
         Hard,
         Nightmare
     }
+    public enum Impairments
+    {
+        None,
+        Slowed,
+        Stunned,
+    }
 
+    #region Projectiles
     public enum MissileType
     {
         Basic,
@@ -23,12 +30,7 @@
         Ball,
         Continuous
     }
-    public enum Impairments
-    {
-        None,
-        Slowed,
-        Stunned,
-    }
+    #endregion
 
     #region EnemyAI
     public enum EnemyTypes
@@ -80,6 +82,7 @@
     }
     #endregion
 
+    #region Missions
     public enum MissionType
     {
         Scavenge,
@@ -105,4 +108,5 @@
         public MissionType type;
         public EnemyTypes enemy;
     }
+    #endregion
 }

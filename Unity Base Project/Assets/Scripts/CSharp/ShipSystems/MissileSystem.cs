@@ -4,16 +4,15 @@ using GoingDark.Core.Enums;
 
 public class MissileSystem : ShipSystem
 {
-
     #region Missile Data
-    public int[] Count = new int[4];
+    private int[] Count = new int[4];
     public MissileType Type { get; private set; }
 
     // Missile Pools
-    public ObjectPooling emp = new ObjectPooling();
-    public ObjectPooling basic = new ObjectPooling();
-    public ObjectPooling chromatic = new ObjectPooling();
-    public ObjectPooling shieldbreak = new ObjectPooling();
+    private ObjectPooling emp = new ObjectPooling();
+    private ObjectPooling basic = new ObjectPooling();
+    private ObjectPooling chromatic = new ObjectPooling();
+    private ObjectPooling shieldbreak = new ObjectPooling();
 
     //  Missile Display
     private Text typeTxt;
@@ -25,6 +24,7 @@ public class MissileSystem : ShipSystem
     private Transform MyTransform;
     private GameObject projectiles;
     private x360Controller controller;
+    private Transform leap;
     #endregion
 
     void Start()
@@ -42,6 +42,8 @@ public class MissileSystem : ShipSystem
         typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
         countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
         missileSprite = GameObject.Find("MissileImage").GetComponent<Image>();
+
+        leap = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
         //Missile Ammo Data    
         emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4, projectiles);
@@ -63,6 +65,8 @@ public class MissileSystem : ShipSystem
 
         if (Activated)
             LaunchMissile();
+
+        MyTransform.rotation = leap.rotation;
     }    
 
     public void AddMissile()
@@ -100,52 +104,39 @@ public class MissileSystem : ShipSystem
     public void LaunchMissile()
     {
         if (Count[(int)Type] > 0)
-        {
-            Count[(int)Type]--;
+        {            
             DeActivate();
 
-            if (Type == MissileType.Basic)
+            GameObject obj = null;
+            switch (Type)
             {
-                GameObject obj = basic.GetPooledObject();
-                obj.transform.position = transform.position;
-                obj.transform.rotation = transform.rotation;
-                obj.SetActive(true);
-
-                if(lockon.GetLockedOn())
-                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
+                case MissileType.Basic:
+                    obj = basic.GetPooledObject();
+                    break;
+                case MissileType.Emp:
+                    obj = emp.GetPooledObject();
+                    break;
+                case MissileType.ShieldBreak:
+                    obj = shieldbreak.GetPooledObject();
+                    break;
+                case MissileType.Chromatic:
+                    obj = chromatic.GetPooledObject();
+                    break;
             }
-            else if (Type == MissileType.Emp)
-            {
-                GameObject obj = emp.GetPooledObject();
-                obj.transform.position = transform.position;
-                obj.transform.rotation = transform.rotation;
-                obj.SetActive(true);
 
-                if (lockon.GetLockedOn())
-                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
-            }
-            else if (Type == MissileType.ShieldBreak)
+            if (obj != null)
             {
-                GameObject obj = shieldbreak.GetPooledObject();
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.SetActive(true);
+                Count[(int)Type]--;
 
                 if (lockon.GetLockedOn())
                     obj.SendMessage("LockedOn", lockon.GetRaycastHit());
-            }
-            else if (Type == MissileType.Chromatic)
-            {
-                GameObject obj = chromatic.GetPooledObject();
-                obj.transform.position = transform.position;
-                obj.transform.rotation = transform.rotation;
-                obj.SetActive(true);
 
-                if (lockon.GetLockedOn())
-                    obj.SendMessage("LockedOn", lockon.GetRaycastHit());
+                AudioManager.instance.PlayMissileLaunch();
+                CheckCount();
             }
-            AudioManager.instance.PlayMissileLaunch();
-            CheckCount();
         }
     }
 

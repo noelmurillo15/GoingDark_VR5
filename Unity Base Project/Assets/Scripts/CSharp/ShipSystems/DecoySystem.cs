@@ -7,15 +7,17 @@ public class DecoySystem : ShipSystem {
 
     private Transform player;
     public GameObject decoy;
+    private GameObject projs;
     #endregion
 
     // Use this for initialization
     void Start()
     {
         Count = 5;
-        maxCooldown = 10f;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        maxCooldown = 15f;
+        player = GameObject.FindGameObjectWithTag("MainCamera").transform;
         decoy = Resources.Load<GameObject>("Devices/DecoyShip");
+        projs = GameObject.Find("Projectiles");
     }
 
     // Update is called once per frame
@@ -34,8 +36,8 @@ public class DecoySystem : ShipSystem {
         {
             Count--;
             DeActivate();
-            GameObject go = Instantiate(decoy, new Vector3(player.position.x, player.position.y - 10f, player.position.z), player.transform.localRotation) as GameObject;
-            go.transform.parent = player.transform.parent;
+            GameObject go = Instantiate(decoy, new Vector3(player.position.x, player.position.y - 10f, player.position.z), player.transform.rotation) as GameObject;
+            go.transform.parent = projs.transform;
         }
     }
 }
