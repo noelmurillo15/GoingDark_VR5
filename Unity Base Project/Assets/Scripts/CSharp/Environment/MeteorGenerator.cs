@@ -9,17 +9,15 @@ public class MeteorGenerator : MonoBehaviour
     private Vector3 bound;
     public GameObject meteorPref;
     public GameObject pt;
-    public float spawnTimer;
+    private float spawnTimer;
     void Start()
     {
         box = GetComponent<BoxCollider>();
-        spawnTimer = Random.Range(15f, 45f);
-        spawnTimer = 5f;
+        spawnTimer = 10;
         bound.x = box.size.x * 0.5f;
         bound.y = box.size.y * 0.5f;
         bound.z = box.size.z * 0.5f - box.center.z * 0.5f;
         spawnPoint.y = bound.y;
-        Debug.Log(spawnPoint.y);
     }
 
     // Update is called once per frame
@@ -38,9 +36,7 @@ public class MeteorGenerator : MonoBehaviour
 
         go.transform.parent = pt.transform;
         go.transform.localPosition = spawnPoint;
-        spawnTimer = Random.Range(15f, 45f);
-        spawnTimer = 5f;
-
+        spawnTimer = 10;
     }
 
     private void RandomizeSpawnPoint()

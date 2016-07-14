@@ -3,22 +3,19 @@
 public class Meteor : MonoBehaviour {
 
     // Use this for initialization
-    private float lifeTime;
     private Vector3 velocity;
     private Transform myTransform;
     
 	void Start () {
         myTransform = GetComponent<Transform>();
         velocity = new Vector3(Random.Range(-359, 359), Random.Range(-359, -1), Random.Range(-359, 359));
-       // velocity = new Vector3(0, 0, -50);
-        lifeTime = Random.Range(25, 35);
+        // velocity = new Vector3(0, 0, -50);
+        Invoke("Kill", Random.Range(15,20));
 	}
 	
 	// Update is called once per frame
 	void Update() {
-        lifeTime -= Time.deltaTime;
-        if (lifeTime<=0.0f)
-            Kill();
+                
         myTransform.Translate(velocity * Time.deltaTime);
 
 	}
