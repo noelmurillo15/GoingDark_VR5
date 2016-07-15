@@ -296,6 +296,7 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
+    <Compile Include="Assets\Scripts\Core\Particles\EnemyTrail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />

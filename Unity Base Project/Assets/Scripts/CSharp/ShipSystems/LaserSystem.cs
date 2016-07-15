@@ -46,7 +46,6 @@ public class LaserSystem : ShipSystem
 
         if (controller.GetButtonDown("RightThumbstick"))
             WeaponSwap();
-
     }
 
     public void ShootGun()

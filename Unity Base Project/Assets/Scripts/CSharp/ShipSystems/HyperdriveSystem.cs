@@ -6,14 +6,17 @@ public class HyperdriveSystem : ShipSystem
     #region Properties
     private PlayerMovement stats;
     private GameObject m_playerMove;
-    #endregion
+    private GameObject particles;
+        #endregion
 
     // Use this for initialization
     void Start () {
         maxCooldown = 40f;
 
         m_playerMove = GameObject.Find("Player");
+        particles = transform.GetChild(0).gameObject;
         stats = m_playerMove.GetComponent<PlayerMovement>();
+        particles.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,6 +35,7 @@ public class HyperdriveSystem : ShipSystem
         stats.MoveData.Boost = 5.0f;
         stats.MoveData.Acceleration = 100f;
         stats.boostActive = true;
+        particles.SetActive(true);
         Invoke("RevertBoost", 10f);
     }
 
@@ -40,6 +44,7 @@ public class HyperdriveSystem : ShipSystem
         stats.MoveData.Boost = 1.0f;
         stats.MoveData.Acceleration = 20f;
         stats.boostActive = false;
+        particles.SetActive(false);
     }
     #endregion
 }
