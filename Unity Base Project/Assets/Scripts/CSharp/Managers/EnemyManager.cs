@@ -9,11 +9,6 @@ public class EnemyManager : MonoBehaviour
     public GameDifficulty Difficulty;
 
     public Transform PlayerPosition { get; private set; }
-    private MissionSystem missionSystem;
-
-    private CloakSystem pCloak;
-    private SystemManager systemManager;
-    private MissionSystem missions;
 
     private List<EnemyBehavior> enemies = new List<EnemyBehavior>();
 
@@ -21,6 +16,10 @@ public class EnemyManager : MonoBehaviour
     private ObjectPooling laserpool = new ObjectPooling();
     private ObjectPooling missilepool = new ObjectPooling();
     private ObjectPooling explosionpool = new ObjectPooling();
+
+    private CloakSystem pCloak;
+    private MissionSystem missionSystem;
+    private SystemManager systemManager;
 
     private GameObject explosions;
     private GameObject projectiles;
@@ -30,8 +29,8 @@ public class EnemyManager : MonoBehaviour
     {
         explosions = GameObject.Find("Explosions");
         projectiles = GameObject.Find("Projectiles");
-
-        InvokeRepeating("CheckEnemies", 10f, 5f);          
+        PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
     }
 
@@ -42,12 +41,8 @@ public class EnemyManager : MonoBehaviour
         missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30, projectiles);
         explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40, explosions);
 
-        PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
-        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-
-        missions = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+        InvokeRepeating("CheckEnemies", 20f, 5f);          
     }
 
     #region Accessors
@@ -82,7 +77,7 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(EnemyBehavior enemy)
     {
         RandomAmmoDrop(enemy.MyTransform.position);
-        missions.KilledEnemy(enemy.Type);
+        missionSystem.KilledEnemy(enemy.Type);
         enemies.Remove(enemy);
     }
 
