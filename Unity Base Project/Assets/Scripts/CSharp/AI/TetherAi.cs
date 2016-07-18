@@ -4,14 +4,14 @@ public class TetherAi : MonoBehaviour
 {
     #region Properties
     //  Enemy Data
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        behavior = GetComponent<EnemyBehavior>();
+        behavior = GetComponent<EnemyStateManager>();
         behavior.SetUniqueAi(this);
     }
 

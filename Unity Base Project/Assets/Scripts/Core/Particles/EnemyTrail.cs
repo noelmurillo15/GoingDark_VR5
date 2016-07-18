@@ -35,6 +35,6 @@ public class EnemyTrail : MonoBehaviour
 
     void CheckHealth()
     {
-        Health = GetComponent<EnemyBehavior>().GetHealthData().Health;
+        Health = GetComponent<EnemyStateManager>().GetHealthData().Health;
     }
 }

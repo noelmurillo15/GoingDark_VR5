@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-[RequireComponent(typeof(EnemyBehavior))]
+[RequireComponent(typeof(EnemyStateManager))]
 public class BossAi : MonoBehaviour
 {
     #region Properties
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     private GameObject droids;
     private ObjectPooling pool;
     private bool droidSpawned;
@@ -17,7 +17,7 @@ public class BossAi : MonoBehaviour
     void Start()
     {
         droidSpawned = false;
-        behavior = GetComponent<EnemyBehavior>();
+        behavior = GetComponent<EnemyStateManager>();
         behavior.SetUniqueAi(this);
         droids = Resources.Load<GameObject>("Droid");
         //pool = new ObjectPooling();

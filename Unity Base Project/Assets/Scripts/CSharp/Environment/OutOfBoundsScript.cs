@@ -26,6 +26,7 @@ public class OutOfBoundsScript : MonoBehaviour
 
         if (col.CompareTag("Enemy"))
         {
+            Debug.Log("Enemy In Bounds");
             col.SendMessage("InBounds");
         }
     }
@@ -41,6 +42,7 @@ public class OutOfBoundsScript : MonoBehaviour
 
         if (col.CompareTag("Enemy"))
         {
+            Debug.Log("Enemy Out Bounds");
             col.SendMessage("OutOfBounds");
         }
     }

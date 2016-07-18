@@ -39,7 +39,6 @@ public class Shieldbar : MonoBehaviour {
     {
       //  Debug.Log("ShieldBar : Reset()");
         CurrentShield = Max_Shield_Health;
-
         SetHealth(((CurrentShield / Max_Shield_Health) * 0.5f));
     }
 }

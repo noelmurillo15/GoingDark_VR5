@@ -24,7 +24,7 @@ public class TutorialFlight : MonoBehaviour
     private AudioSource fantastic;
     private AudioSource goodJob;
     private AudioSource congratulation;
-    private EnemyBehavior[] stealthEnemies;
+    private EnemyStateManager[] stealthEnemies;
 
     // Use this for initialization
     void Start()
@@ -35,7 +35,7 @@ public class TutorialFlight : MonoBehaviour
         loots = GameObject.FindGameObjectsWithTag("Loot");
         supplyBox = GameObject.Find("SupplyBox");
         stealthEnemy = GameObject.Find("SteathEnemy");
-        stealthEnemies = stealthEnemy.transform.GetComponentsInChildren<EnemyBehavior>();
+        stealthEnemies = stealthEnemy.transform.GetComponentsInChildren<EnemyStateManager>();
         combatEnemy = GameObject.Find("CombatEnemy");
         stationLog = GameObject.Find("MissionLog");
         fantastic = transform.FindChild("Fantastic").GetComponent<AudioSource>();

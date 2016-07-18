@@ -11,7 +11,7 @@ public class IEnemy : MonoBehaviour {
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
 
-    private MovementProperties MoveData;
+    
     private ShieldProperties ShieldData;
     private HealthProperties HealthData;
 
@@ -23,7 +23,7 @@ public class IEnemy : MonoBehaviour {
 
     public virtual void Initialize()
     {
-        MoveData = new MovementProperties();
+        
         ShieldData = new ShieldProperties();
         HealthData = new HealthProperties();
 
@@ -36,10 +36,7 @@ public class IEnemy : MonoBehaviour {
     }
 
     #region Accessors
-    public MovementProperties GetMoveData()
-    {
-        return MoveData;
-    }
+    
     public ShieldProperties GetShieldData()
     {
         return ShieldData;
@@ -57,8 +54,8 @@ public class IEnemy : MonoBehaviour {
     #region Msg Functions
     void AddToManager()
     {
-        manager = transform.parent.GetComponent<EnemyManager>();
-        manager.AddEnemy(MyTransform.GetComponent<EnemyBehavior>());
+        manager = transform.root.GetComponent<EnemyManager>();
+        manager.AddEnemy(MyTransform.GetComponent<EnemyStateManager>());
         GetComponent<EnemyCollision>().SetManagerRef(manager);
         LoadEnemyData();
     }
@@ -137,7 +134,7 @@ public class IEnemy : MonoBehaviour {
         explosive.transform.position = transform.position;        
         explosive.SetActive(true);        
 
-        manager.RemoveEnemy(GetComponent<EnemyBehavior>());
+        manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }
     #endregion
@@ -145,19 +142,16 @@ public class IEnemy : MonoBehaviour {
     #region Public Methods
     public void ResetDebuff()
     {
-        SetSpeedBoost(1f);
+        //SetSpeedBoost(1f);
         Debuff = Impairments.None;
         stunned.SetActive(false);
-    }
-    public void SetSpeedBoost(float newBoost)
-    {
-        MoveData.Boost = newBoost;
-    }
+    }    
     #endregion
 
     #region Private Methods
     void LoadEnemyData()
     {
+        GetComponent<EnemyMovement>().LoadEnemyData();
         switch (manager.Difficulty)
         {
             #region Easy
@@ -166,26 +160,21 @@ public class IEnemy : MonoBehaviour {
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 60f, 2f, 10f);
                         HealthData.Set(10, MyTransform);
                         break;
                     case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 110f, 1f, 10f);
                         HealthData.Set(5, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 120f, 3f, 10f);
                         HealthData.Set(15, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 80f, 1.8f, 10f);
                         HealthData.Set(10, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
                         HealthData.Set(50, MyTransform);
                         break;
                 }
@@ -198,26 +187,21 @@ public class IEnemy : MonoBehaviour {
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
                         HealthData.Set(25, MyTransform);
                         break;
                     case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 120f, .8f, 20f);
                         HealthData.Set(15, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 150f, 2.5f, 15f);
                         HealthData.Set(30, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 95f, 1.5f, 18f);
                         HealthData.Set(20, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 60f, 4f, 15f);
                         HealthData.Set(100, MyTransform);
                         break;
                 }
@@ -230,26 +214,21 @@ public class IEnemy : MonoBehaviour {
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
                         HealthData.Set(40, MyTransform);
                         break;
                     case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 160f, .7f, 40f);
                         HealthData.Set(25, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 200f, 2f, 25f);
                         HealthData.Set(50, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
                         HealthData.Set(35, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
                         HealthData.Set(150, MyTransform);
                         break;
                 }
@@ -262,26 +241,21 @@ public class IEnemy : MonoBehaviour {
                 {
                     case EnemyTypes.Basic:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
                         HealthData.Set(80, MyTransform);
                         break;
                     case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 200f, .6f, 50f);
                         HealthData.Set(50, MyTransform);
                         break;
                     case EnemyTypes.Transport:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
                         HealthData.Set(100, MyTransform);
                         break;
                     case EnemyTypes.Trident:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 160f, 1f, 45f);
                         HealthData.Set(70, MyTransform);
                         break;
                     case EnemyTypes.Boss:
                         ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
                         HealthData.Set(300, MyTransform);
                         break;
                 }

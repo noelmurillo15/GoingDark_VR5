@@ -11,13 +11,13 @@ public class TransportAi : MonoBehaviour
     private Renderer mesh2;
 
     // Enemy Data
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     #endregion
 
 
     // Use this for initialization
     void Start () {
-        behavior = GetComponent<EnemyBehavior>();
+        behavior = GetComponent<EnemyStateManager>();
         behavior.SetUniqueAi(this);
 
         mesh1 = transform.GetChild(3).GetChild(0).GetComponent<Renderer>();

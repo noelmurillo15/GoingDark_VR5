@@ -2,15 +2,14 @@
 using GoingDark.Core.Enums;
 using System.Collections.Generic;
 
-public class EnemyManager : MonoBehaviour
-{
+public class EnemyManager : MonoBehaviour {
 
     #region Properties
     public GameDifficulty Difficulty;
 
     public Transform PlayerPosition { get; private set; }
 
-    private List<EnemyBehavior> enemies = new List<EnemyBehavior>();
+    private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
 
     private ObjectPooling ammopool = new ObjectPooling();
     private ObjectPooling laserpool = new ObjectPooling();
@@ -42,7 +41,7 @@ public class EnemyManager : MonoBehaviour
         explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40, explosions);
 
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
-        InvokeRepeating("CheckEnemies", 20f, 5f);          
+        InvokeRepeating("CheckEnemies", 20f, 5f);
     }
 
     #region Accessors
@@ -65,16 +64,16 @@ public class EnemyManager : MonoBehaviour
     public GameObject GetEnemyExplosion()
     {
         return explosionpool.GetPooledObject();
-    }    
+    }
     #endregion
 
     #region Modifiers
-    public void AddEnemy(EnemyBehavior enemy)
+    public void AddEnemy(EnemyStateManager enemy)
     {
         enemies.Add(enemy);
     }
-   
-    public void RemoveEnemy(EnemyBehavior enemy)
+
+    public void RemoveEnemy(EnemyStateManager enemy)
     {
         RandomAmmoDrop(enemy.MyTransform.position);
         missionSystem.KilledEnemy(enemy.Type);
@@ -92,19 +91,19 @@ public class EnemyManager : MonoBehaviour
 
     private void CheckEnemies()
     {
-        if (enemies.Count > 0)
-        {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                    if (enemies[i].uniqueAi.enabled)
-                        return;                
-            }
-            AudioManager.instance.StartCoroutine("LowerBattleMusic");
-        }
-        else
-        {
-            Debug.Log("You WIN");
-        }
+        //if (enemies.Count > 0)
+        //{
+        //    for (int i = 0; i < enemies.Count; i++)
+        //    {
+        //        if (enemies[i].uniqueAi.enabled)
+        //            return;
+        //    }
+        //    AudioManager.instance.StartCoroutine("LowerBattleMusic");
+        //}
+        //else
+        //{
+        //    Debug.Log("You WIN");
+        //}
     }
 
     public void RandomAmmoDrop(Vector3 _pos)
@@ -116,7 +115,7 @@ public class EnemyManager : MonoBehaviour
             go.transform.position = _pos;
             go.transform.rotation = Quaternion.identity;
             go.SetActive(true);
-        }                   
+        }
     }
 
     public void TargetDestroyed()

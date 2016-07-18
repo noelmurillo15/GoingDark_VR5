@@ -4,7 +4,7 @@ public class Turret : MonoBehaviour
 {
     //  Enemy Data
     Transform MyTransform;
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     private bool lockedOn;
     private float randomShot;
 
@@ -27,7 +27,7 @@ public class Turret : MonoBehaviour
         explosions = GameObject.Find("Explosions");
         projectiles = GameObject.Find("Projectiles");
 
-        behavior = transform.parent.GetComponentInParent<EnemyBehavior>();
+        behavior = transform.parent.GetComponentInParent<EnemyStateManager>();
 
         explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3, explosions);
         pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5, projectiles);

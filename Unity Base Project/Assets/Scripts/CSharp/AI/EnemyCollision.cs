@@ -6,7 +6,7 @@ public class EnemyCollision : MonoBehaviour
 
     #region Properties
     public float detectionTimer;
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     private EnemyManager manager;
 
     //  Player
@@ -16,7 +16,7 @@ public class EnemyCollision : MonoBehaviour
     public void Initialize()
     {
         detectionTimer = 0f;
-        behavior = GetComponent<EnemyBehavior>();
+        behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
         manager = GetComponentInParent<EnemyManager>();
     }
@@ -67,7 +67,6 @@ public class EnemyCollision : MonoBehaviour
         {
             detectionTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
-            return;
         }
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
@@ -75,13 +74,13 @@ public class EnemyCollision : MonoBehaviour
             if (manager.GetPlayerCloak().GetCloaked())
             {
                 detectionTimer = 5f;
-                behavior.SetLastKnown(col.transform.position);
+                if(behavior.State != EnemyStates.Patrol)
+                    behavior.SetLastKnown(col.transform.position);
                 return;
             }
 
             detectionTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
-            return;
         }
     }
 

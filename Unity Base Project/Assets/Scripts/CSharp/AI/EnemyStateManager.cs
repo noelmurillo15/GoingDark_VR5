@@ -1,20 +1,13 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-[RequireComponent(typeof(PatrolAi))]
-[RequireComponent(typeof(AlertAi))]
 [RequireComponent(typeof(EnemyCollision))]
-public class EnemyBehavior : IEnemy
+public class EnemyStateManager : IEnemy
 {
     #region Properties        
     public EnemyStates State;    
 
-    public MonoBehaviour alertAi;
-    public MonoBehaviour patrolAi;
-    public MonoBehaviour uniqueAi;
-
     public bool lostSight;
-    public bool AutoPilot;
     public float losingsightTimer;    
     #endregion
 
@@ -30,11 +23,8 @@ public class EnemyBehavior : IEnemy
         State = EnemyStates.Idle;
         losingsightTimer = 0f;
         lostSight = false;
-        uniqueAi = null;
         Target = null;
 
-        patrolAi = GetComponent<PatrolAi>();
-        alertAi = GetComponent<AlertAi>();
         GetComponent<EnemyCollision>().Initialize();
     }
 
@@ -48,9 +38,6 @@ public class EnemyBehavior : IEnemy
             lostSight = false;
             SetEnemyTarget(null);
         }
-
-        if (Debuff == Impairments.Stunned)
-            SetSpeedBoost(0f);
     }
 
     #region Public Methods
@@ -95,8 +82,8 @@ public class EnemyBehavior : IEnemy
 
     public void SetUniqueAi(MonoBehaviour _script)
     {
-        if(uniqueAi == null)
-            uniqueAi = _script;
+        //if(uniqueAi == null)
+        //    uniqueAi = _script;
     }
 
     public void ChangeState(EnemyStates newState)
@@ -109,47 +96,31 @@ public class EnemyBehavior : IEnemy
         switch (State)
         {
             case EnemyStates.Idle:
-                SetSpeedBoost(0f);
-                alertAi.enabled = false;
-                patrolAi.enabled = false;
+                //SetSpeedBoost(0f);
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Patrol:
-                SetSpeedBoost(.5f);
-                alertAi.enabled = false;
-                patrolAi.enabled = true;
-                uniqueAi.enabled = false;
+                //SetSpeedBoost(.5f);
                 LastKnownPos = Vector3.zero;
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Alert:                
-                SetSpeedBoost(.8f);                
-                alertAi.enabled = true;
-                uniqueAi.enabled = false;
-                patrolAi.enabled = false;
+                //SetSpeedBoost(.8f);                
                 lostSight = true;
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 10f;
                 break;
             case EnemyStates.Attack:
-                SetSpeedBoost(1f);
+                //SetSpeedBoost(1f);
                 LastKnownPos = Vector3.zero;
-                alertAi.enabled = false;
-                uniqueAi.enabled = true;
-                patrolAi.enabled = true;
                 losingsightTimer = 0f;
                 lostSight = false;
                 break;
             case EnemyStates.Flee:
                 break;
             case EnemyStates.Follow:
-                break;
-
-
-            default:
-                Debug.Log("Invalid Enemy State!");
                 break;
         }
     }             

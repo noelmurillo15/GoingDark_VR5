@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using GoingDark.Core.Enums;
 
 public class PlayerStats : MonoBehaviour
@@ -14,6 +15,7 @@ public class PlayerStats : MonoBehaviour
     private SystemManager SystemData;
     private DebuffManager DebuffData;
     private DeathTransition deathTransition;
+    private Image HealthCircle;
 
     private Vector3 station;
     private x360Controller controller;
@@ -31,6 +33,8 @@ public class PlayerStats : MonoBehaviour
 
         HealthData = new HealthProperties();
         HealthData.Set(100, transform);
+
+        HealthCircle = GameObject.Find("PlayerHealth").GetComponent<Image>();
 
         ShieldData.ShieldHealth = 100;
         ShieldData.ShieldActive = true;
@@ -71,7 +75,12 @@ public class PlayerStats : MonoBehaviour
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 20f);  //  reset timer
 
-        HealthData.Damage(20);        
+        HealthData.Damage(10);
+
+        float hp = HealthData.Health / 100f;
+        hp *= .5f;
+        HealthCircle.fillAmount = hp;       
+
         AudioManager.instance.PlayHit();
         Debug.Log("Player HIT");
     }

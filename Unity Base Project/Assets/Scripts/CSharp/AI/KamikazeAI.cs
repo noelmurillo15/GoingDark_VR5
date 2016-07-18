@@ -10,14 +10,14 @@ public class KamikazeAI : MonoBehaviour
 
     //  Enemy Data
     private PatrolAi patrol;
-    private EnemyBehavior behavior;
+    private EnemyStateManager behavior;
     #endregion
 
 
     // Use this for initialization
     void Start()
     {
-        behavior = GetComponent<EnemyBehavior>();
+        behavior = GetComponent<EnemyStateManager>();
         patrol = GetComponent<PatrolAi>();
         behavior.SetUniqueAi(this);
         selfdestructTimer = 20f;
