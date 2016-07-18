@@ -17,7 +17,7 @@ public class SpeedGauge : MonoBehaviour
         percent = 0f;
         Gauge = GetComponent<Image>();
         number = transform.GetChild(0).GetComponent<Text>();
-        stats = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        stats = GameObject.Find("PlayerTutorial").GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame

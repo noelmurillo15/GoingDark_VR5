@@ -12,7 +12,7 @@ public class Mine : MonoBehaviour
     {
         MyTransform = transform;
         MineArmed = true;
-        player = GameObject.Find("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         Explosion = transform.GetChild(1).gameObject;
         Explosion.SetActive(false);
     }

@@ -113,6 +113,7 @@ public class IEnemy : MonoBehaviour {
                     HealthData.Damage(10);
                     break;
             }
+            SendMessage("CheckHealth");
             missile.Kill();
         }
     }
@@ -125,6 +126,7 @@ public class IEnemy : MonoBehaviour {
         else
         {
             HealthData.Damage(.5f);
+            SendMessage("CheckHealth");
         }
         laser.Kill();
     }     

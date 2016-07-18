@@ -21,7 +21,7 @@ public class StationLog : MonoBehaviour
         SceneName = SceneManager.GetActiveScene().name;
 
         if (SceneName == "Level1")
-            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+            m_tutorial2 = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
 
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();

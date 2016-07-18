@@ -13,7 +13,7 @@ public class HyperdriveSystem : ShipSystem
     void Start () {
         maxCooldown = 40f;
 
-        m_playerMove = GameObject.Find("Player");
+        m_playerMove = GameObject.FindGameObjectWithTag("Player");
         particles = transform.GetChild(0).gameObject;
         stats = m_playerMove.GetComponent<PlayerMovement>();
         particles.SetActive(false);

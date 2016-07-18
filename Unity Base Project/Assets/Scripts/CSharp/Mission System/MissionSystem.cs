@@ -33,11 +33,11 @@ public class MissionSystem : MonoBehaviour
 
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
 
         if (SceneName == "Level1")
         {
-            m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+            m_tutorial2 = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
             m_PrimaryMissions = m_missionLoader.LoadMissions(filename[0]);
         }
         else

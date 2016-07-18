@@ -25,7 +25,6 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Enemy Movement Start");
         //  Patrol
         MoveData = new MovementProperties();
         headingY = Random.Range(0, 360);

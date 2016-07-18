@@ -10,7 +10,7 @@ public class TutorialStation : MonoBehaviour {
     // Use this for initialization
     void Start () {
         
-        m_tutorial2 = GameObject.Find("TutorialPrefF").GetComponent<TutorialFlight>();
+        m_tutorial2 = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
     
     }
 
