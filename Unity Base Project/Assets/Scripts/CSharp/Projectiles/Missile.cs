@@ -12,6 +12,7 @@ public class Missile : MonoBehaviour {
     private bool deflected;
     private GameObject Explosion;
     private Transform MyTransform;
+    private BoxCollider collide;
 
     //  Target
     private Transform target;
@@ -38,6 +39,7 @@ public class Missile : MonoBehaviour {
             direction = MyTransform.forward;
 
             FindExplosion();
+            collide = GetComponent<BoxCollider>();
             gameObject.SetActive(false);
         }
         else
@@ -46,7 +48,7 @@ public class Missile : MonoBehaviour {
             tracking = false;
             deflected = false;
             moveData.Speed = 100f;
-            direction = MyTransform.forward;
+            direction = MyTransform.forward;            
             Explosion.SetActive(false);
             Invoke("Kill", 4f);
         }    
@@ -124,10 +126,12 @@ public class Missile : MonoBehaviour {
         CancelInvoke();
         deflected = false;
         Explosion.SetActive(true);
+        collide.enabled = false;
         Invoke("SetInactive", 3f);
     }
     void SetInactive()
     {
+        collide.enabled = true;
         gameObject.SetActive(false);
     }
     private void SelfDestruct()

@@ -5,13 +5,15 @@ public class TutorialFireRing : MonoBehaviour {
     private BoxCollider box;
     private bool buffer;
     private GameObject particle;
+    private TutorialFlight tutorial;
 	// Use this for initialization
 	void Start () {
         box = GetComponent<BoxCollider>();
         buffer = false;
         particle = transform.FindChild("SpiralParticles").gameObject;
         particle.SetActive(false);
-        box.enabled = false;      
+        box.enabled = false;
+        tutorial = GameObject.Find("TutorialGuidance").GetComponent<TutorialFlight>();
 	}
 	
 	// Update is called once per frame
@@ -40,6 +42,7 @@ public class TutorialFireRing : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             AudioManager.instance.PlayCollect();
+            tutorial.SendMessage("AddRingCount");
             Destroy(gameObject);
         }
     }

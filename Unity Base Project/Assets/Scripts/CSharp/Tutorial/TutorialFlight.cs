@@ -14,7 +14,7 @@ public class TutorialFlight : MonoBehaviour
     //private GameObject station;
     //  private BoxCollider hyperDriveButton;
     private GameObject[] loots;
-   // private int numRings;
+    private int numRings;
     public GameObject arrow;
     private GameObject supplyBox;
     //private GameObject stealthEnemy, combatEnemy;
@@ -28,7 +28,7 @@ public class TutorialFlight : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mission = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
+        mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
        // station = GameObject.Find("Station");
         // hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
         loots = GameObject.FindGameObjectsWithTag("Loot");
@@ -45,7 +45,7 @@ public class TutorialFlight : MonoBehaviour
         //stealthPortal = GameObject.Find("Stealth").transform.FindChild("PortalEnter").gameObject;
 
         //phase = 0;
-        //numRings = 0;
+        numRings = 0;
         //buffer = false;
         //flightMissionCompleted = false;
         //flightMissionAccepted = false;
@@ -66,21 +66,21 @@ public class TutorialFlight : MonoBehaviour
     void Update()
     {
         //Progress();
-        if (loots.Length > 1)
+        if (numRings < 10)
         {
             arrow.transform.LookAt(GetActiveRing());
         }
-        else if (loots.Length == 1)
-        {
-            arrow.transform.LookAt(supplyBox.transform);
-        }
+        //else if (numRings == 10)
+        //{
+        //    arrow.transform.LookAt(supplyBox.transform);
+        //}
         else
             arrow.SetActive(false);
 
-        if (mission.m_PrimaryMissions.Count==0)
-        {
-            //LeaveScene();
-        }
+        //if (mission.m_PrimaryMissions.Count==0)
+        //{
+        //    //LeaveScene();
+        //}
     }
 
     //void Progress()
@@ -298,47 +298,47 @@ public class TutorialFlight : MonoBehaviour
         return target;
     }
 
-//    void AddRingCount()
-//    {
-//        numRings++;
-//    }
+    void AddRingCount()
+    {
+        numRings++;
+    }
 
-//    public void MissionCompleted(MissionType type)
-//    {
-//        if (type == MissionType.Scavenge)
-//            flightMissionCompleted = true;
-//        else if (type == MissionType.Stealth)
-//            stealthMissionCompleted = true;
-//        else if (type == MissionType.Combat)
-//            combatMissionCompleted = true; 
+    //    public void MissionCompleted(MissionType type)
+    //    {
+    //        if (type == MissionType.Scavenge)
+    //            flightMissionCompleted = true;
+    //        else if (type == MissionType.Stealth)
+    //            stealthMissionCompleted = true;
+    //        else if (type == MissionType.Combat)
+    //            combatMissionCompleted = true; 
 
-//    }
-//    public void MissionAccepted(MissionType type)
-//    {
-//        if (type == MissionType.Scavenge)
-//            flightMissionAccepted = true;
-//        else if (type == MissionType.Stealth)
-//            stealthMissionAccepted = true;
-//        else if (type == MissionType.Combat)
-//            combatMissionAccepted = true;
-//    }
-//    public void MissionTurnedIn(MissionType type)
-//    {
-//        if (type == MissionType.Scavenge)
-//            flightMissionTurnedIn = true;
-//        else if (type == MissionType.Stealth)
-//            stealthMissionTurnedIn = true;
-//        else if (type == MissionType.Combat)
-//            combatMissionTurnedIn = true;
-//    }
+    //    }
+    //    public void MissionAccepted(MissionType type)
+    //    {
+    //        if (type == MissionType.Scavenge)
+    //            flightMissionAccepted = true;
+    //        else if (type == MissionType.Stealth)
+    //            stealthMissionAccepted = true;
+    //        else if (type == MissionType.Combat)
+    //            combatMissionAccepted = true;
+    //    }
+    //    public void MissionTurnedIn(MissionType type)
+    //    {
+    //        if (type == MissionType.Scavenge)
+    //            flightMissionTurnedIn = true;
+    //        else if (type == MissionType.Stealth)
+    //            stealthMissionTurnedIn = true;
+    //        else if (type == MissionType.Combat)
+    //            combatMissionTurnedIn = true;
+    //    }
 
-//    public void EnterStation()
-//    {
-//        isNearStation = true;
-//    }
+    //    public void EnterStation()
+    //    {
+    //        isNearStation = true;
+    //    }
 
-//    public void ExitStation()
-//    {
-//        isNearStation = false;
-//    }
+    //    public void ExitStation()
+    //    {
+    //        isNearStation = false;
+    //    }
 }
