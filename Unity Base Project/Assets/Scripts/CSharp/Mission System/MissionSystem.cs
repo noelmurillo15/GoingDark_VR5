@@ -14,7 +14,6 @@ public class MissionSystem : MonoBehaviour
     private PlayerStats m_playerStats;
     private MissionLoader m_missionLoader;
     private MissionLog m_missionLog;
-    private TutorialFlight m_tutorial2;
     private int maxMissions;
     private int m_stationID;
 
@@ -33,16 +32,17 @@ public class MissionSystem : MonoBehaviour
 
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
 
         if (SceneName == "Level1")
         {
-            m_tutorial2 = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
             m_PrimaryMissions = m_missionLoader.LoadMissions(filename[0]);
+            m_playerStats = GameObject.Find("PlayerTutorial").GetComponent<PlayerStats>();
         }
         else
         {
             m_PrimaryMissions = m_missionLoader.LoadMissions(filename[0]);
+            m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+
             m_SecondaryMissions = m_missionLoader.LoadMissions(filename[1]);
         }
         maxMissions = 4;
@@ -72,9 +72,7 @@ public class MissionSystem : MonoBehaviour
                     mission.completed = true;
                     m_missionLog.Completed(mission);
                     m_ActiveMissions[i] = mission;
-
-                    if (SceneManager.GetActiveScene().name == "Level1")
-                        m_tutorial2.SendMessage("MissionCompleted", mission.type);
+                    
 
                     // automatic turn in
                     if (mission.isOptional || (!mission.isOptional && m_PrimaryMissions.Count > 0))
@@ -143,8 +141,6 @@ public class MissionSystem : MonoBehaviour
         if (!mission.isOptional) // primary mission
         {
             m_CompletedMissions.Add(tempMission);
-            if (SceneManager.GetActiveScene().name == "Level1")
-                m_tutorial2.SendMessage("MissionTurnedIn", tempMission.type);
             m_ActiveMissions.Remove(tempMission);
             Debug.Log("Turned in primary");
             StartNextMission();
@@ -168,10 +164,6 @@ public class MissionSystem : MonoBehaviour
             AddActiveMission(m_PrimaryMissions[0]);
             Debug.Log("Added primary : " + m_PrimaryMissions[0].missionName);
             m_missionLog.NewMission(m_PrimaryMissions[0]);
-            if (SceneManager.GetActiveScene().name == "Level1")
-            {
-                m_tutorial2.SendMessage("MissionAccepted", m_PrimaryMissions[0].type);
-            }
             m_PrimaryMissions.RemoveAt(0);
          }
     }

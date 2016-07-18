@@ -28,7 +28,7 @@ public class EnemyManager : MonoBehaviour {
     {
         explosions = GameObject.Find("Explosions");
         projectiles = GameObject.Find("Projectiles");
-        PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
+        PlayerPosition = GameObject.Find("PlayerTutorial").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
     }
@@ -91,15 +91,15 @@ public class EnemyManager : MonoBehaviour {
 
     private void CheckEnemies()
     {
-        //if (enemies.Count > 0)
-        //{
-        //    for (int i = 0; i < enemies.Count; i++)
-        //    {
-        //        if (enemies[i].uniqueAi.enabled)
-        //            return;
-        //    }
-        //    AudioManager.instance.StartCoroutine("LowerBattleMusic");
-        //}
+        if (enemies.Count > 0)
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].State == EnemyStates.Attack)
+                    return;
+            }
+            AudioManager.instance.StartCoroutine("LowerBattleMusic");
+        }
         //else
         //{
         //    Debug.Log("You WIN");

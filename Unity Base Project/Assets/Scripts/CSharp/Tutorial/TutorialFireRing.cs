@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
 public class TutorialFireRing : MonoBehaviour {
-    TutorialFlight tutorial;
     public GameObject prevRing;
     private BoxCollider box;
     private bool buffer;
     private GameObject particle;
 	// Use this for initialization
 	void Start () {
-        tutorial = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
         box = GetComponent<BoxCollider>();
         buffer = false;
         particle = transform.FindChild("SpiralParticles").gameObject;
@@ -42,7 +40,6 @@ public class TutorialFireRing : MonoBehaviour {
         if (col.CompareTag("Player"))
         {
             AudioManager.instance.PlayCollect();
-            tutorial.SendMessage("AddRingCount");
             Destroy(gameObject);
         }
     }

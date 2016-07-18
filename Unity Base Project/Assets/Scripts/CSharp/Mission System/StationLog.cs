@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using GoingDark.Core.Enums;
 
 public class StationLog : MonoBehaviour
 {
 
     private string SceneName;
-    private TutorialFlight m_tutorial2;
     private MissionSystem m_missionSystem;
     private MissionLog m_missionLog;
     private int m_stationID;
@@ -19,10 +14,6 @@ public class StationLog : MonoBehaviour
     void Start()
     {
         SceneName = SceneManager.GetActiveScene().name;
-
-        if (SceneName == "Level1")
-            m_tutorial2 = GameObject.Find("TutorialPref").GetComponent<TutorialFlight>();
-
         m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
     }
@@ -45,7 +36,6 @@ public class StationLog : MonoBehaviour
                     m_missionLog.NewMission(m_missionSystem.m_ActiveMissions[0]);
                     if (SceneManager.GetActiveScene().name == "Level1")
                     {
-                        m_tutorial2.SendMessage("MissionAccepted", m_missionSystem.m_PrimaryMissions[0].type);
                         Debug.Log(m_missionSystem.m_PrimaryMissions[0].type);
                     }
                     m_missionSystem.m_PrimaryMissions.RemoveAt(0);

@@ -15,7 +15,7 @@ public class Radar2DScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Player = GameObject.Find("Player");
+        Player = GameObject.Find("PlayerTutorial");// find player tutorial eventually
         RadarImages = new GameObject[9];
         QuadCounter = new int[9];
         TheObject = new GameObject[2];
