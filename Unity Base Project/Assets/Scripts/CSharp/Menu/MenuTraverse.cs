@@ -43,16 +43,28 @@ public class MenuTraverse : MonoBehaviour
         {
             tempButton = m_Button.FindSelectableOnDown();
         }
+        if (m_Controller.GetButtonDown("Left"))
+        {
+            tempButton = m_Button.FindSelectableOnLeft();
+        }
 
+        if (m_Controller.GetButtonDown("Right"))
+        {
+            tempButton = m_Button.FindSelectableOnRight();
+        }
         if (m_Controller.GetButtonDown("A"))
         {
             m_Button.GetComponent<Button>().onClick.Invoke();
         }
 
-        if (tempButton.gameObject.activeSelf)
+        if (tempButton)
         {
-            m_Button = tempButton;
+            if (tempButton.gameObject.activeSelf)
+            {
+                m_Button = tempButton;
+            }
         }
+
 
         m_Button.Select();
     }

@@ -13,7 +13,11 @@
         Slowed,
         Stunned,
     }
-
+    public enum ItemType
+    {
+        Consumable,
+        Upgrade
+    }
     #region Projectiles
     public enum MissileType
     {
