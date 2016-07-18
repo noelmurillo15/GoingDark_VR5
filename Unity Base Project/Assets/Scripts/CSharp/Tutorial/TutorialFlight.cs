@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 using UnityEngine.SceneManagement;
 
 public class TutorialFlight : MonoBehaviour
@@ -67,7 +66,6 @@ public class TutorialFlight : MonoBehaviour
     void Update()
     {
         //Progress();
-        Debug.Log(loots.Length);
         if (loots.Length > 1)
         {
             arrow.transform.LookAt(GetActiveRing());
