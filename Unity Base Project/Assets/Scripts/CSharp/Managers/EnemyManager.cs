@@ -19,26 +19,21 @@ public class EnemyManager : MonoBehaviour {
     private CloakSystem pCloak;
     private MissionSystem missionSystem;
     private SystemManager systemManager;
-
-    private GameObject explosions;
-    private GameObject projectiles;
     #endregion
 
     void Awake()
     {
-        explosions = GameObject.Find("Explosions");
-        projectiles = GameObject.Find("Projectiles");
         PlayerPosition = GameObject.Find("PlayerTutorial").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-        missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
     }
 
     void Start()
     {
-        ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, projectiles);
-        laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30, projectiles);
-        missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30, projectiles);
-        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40, explosions);
+        ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10);
+        laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30);
+        missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30);
+        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40);
 
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         InvokeRepeating("CheckEnemies", 20f, 5f);

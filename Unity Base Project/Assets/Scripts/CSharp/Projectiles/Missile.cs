@@ -11,7 +11,6 @@ public class Missile : MonoBehaviour {
     private bool tracking;
     private bool deflected;
     private GameObject Explosion;
-    private GameObject Explosions;
     private Transform MyTransform;
 
     //  Target
@@ -38,7 +37,6 @@ public class Missile : MonoBehaviour {
             MyTransform = transform;
             direction = MyTransform.forward;
 
-            Explosions = GameObject.Find("Explosions");
             FindExplosion();
             gameObject.SetActive(false);
         }
@@ -49,6 +47,7 @@ public class Missile : MonoBehaviour {
             deflected = false;
             moveData.Speed = 100f;
             direction = MyTransform.forward;
+            Explosion.SetActive(false);
             Invoke("Kill", 4f);
         }    
     }
@@ -99,13 +98,15 @@ public class Missile : MonoBehaviour {
             case MissileType.Chromatic:
                 Explosion = Instantiate(Resources.Load<GameObject>("Projectiles/Explosions/ChromaticExplosion"), transform.position, Quaternion.identity) as GameObject; break;                
         }
-        if(Explosion != null)
+        if(Explosion == null)
         {
-            Explosion.transform.parent = Explosions.transform;
+            Debug.LogError("Missile Explosion == null");
         }
         else
         {
-            Debug.LogError("Missile Explosion == null");
+            Explosion.transform.position = MyTransform.position;
+            Explosion.transform.parent = MyTransform;
+            Explosion.SetActive(false);
         }
     }
 
@@ -122,8 +123,11 @@ public class Missile : MonoBehaviour {
     {
         CancelInvoke();
         deflected = false;
-        Explosion.transform.position = MyTransform.position;
         Explosion.SetActive(true);
+        Invoke("SetInactive", 3f);
+    }
+    void SetInactive()
+    {
         gameObject.SetActive(false);
     }
     private void SelfDestruct()

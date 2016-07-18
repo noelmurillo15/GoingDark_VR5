@@ -1,20 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-[Serializable]
-public class ObjectPooling
-{
+
+public class ObjectPooling {
+
     #region Properties
-    public ObjectPooling current;
-    public GameObject pooledObj;
-    public int pooledAmnt = 20;
-    public bool Growth = true;
-    public List<GameObject> poolList;
+    private GameObject GM;
+    private List<GameObject> poolList;
     #endregion
 
 
-    public void Initialize(GameObject _poolobj, int _poolamount, GameObject myparent)
+    public void Initialize(GameObject _poolobj, int _poolamount)
     {
         if (_poolobj == null)
         {
@@ -22,13 +18,14 @@ public class ObjectPooling
             return;
         }
 
-        pooledObj = _poolobj;
-        pooledAmnt = _poolamount;
         poolList = new List<GameObject>();
-        for (int i = 0; i < pooledAmnt; i++)
+        GM = GameObject.FindGameObjectWithTag("GameManager");
+
+        for (int i = 0; i < _poolamount; i++)
         {
-            GameObject obj = Transform.Instantiate(pooledObj, Vector3.zero, Quaternion.identity) as GameObject;
-            obj.transform.parent = myparent.transform;
+            GameObject obj = Transform.Instantiate(_poolobj, Vector3.zero, Quaternion.identity) as GameObject;
+            obj.transform.parent = GM.transform;
+            obj.SetActive(false);
             poolList.Add(obj);
         }
     }

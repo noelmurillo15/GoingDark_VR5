@@ -28,7 +28,7 @@ public class TutorialFlight : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        mission = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
        // station = GameObject.Find("Station");
         // hyperDriveButton = GameObject.Find("HyperdriveButton").GetComponent<BoxCollider>();
         loots = GameObject.FindGameObjectsWithTag("Loot");

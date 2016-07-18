@@ -8,9 +8,6 @@ public class Turret : MonoBehaviour
     private bool lockedOn;
     private float randomShot;
 
-    private GameObject projectiles;
-    private GameObject explosions;
-
     private ObjectPooling pool = new ObjectPooling();
     private ObjectPooling explosionPool = new ObjectPooling();
 
@@ -24,13 +21,10 @@ public class Turret : MonoBehaviour
         randomShot = .5f;
         lockedOn = false;
 
-        explosions = GameObject.Find("Explosions");
-        projectiles = GameObject.Find("Projectiles");
-
         behavior = transform.parent.GetComponentInParent<EnemyStateManager>();
 
-        explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3, explosions);
-        pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5, projectiles);
+        explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3);
+        pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5);
 
         InvokeRepeating("DestroyPlayer", 5f, randomShot);
     }

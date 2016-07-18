@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class Hitmarker : MonoBehaviour
 {
-    [SerializeField]
-    private Sprite StaticMarker;
-    [SerializeField]
-    private Sprite hitMarker;
+    //[SerializeField]
+    //private Sprite StaticMarker;
+    //[SerializeField]
+    //private Sprite hitMarker;
 
     private Image reticle;
     private float HitDisplayDuration;
@@ -34,6 +34,7 @@ public class Hitmarker : MonoBehaviour
         HitDisplayDuration = 0.8f;
         TargetImg = Resources.Load<GameObject>("LockObject");
         LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
+        LockOnMarker.transform.parent = transform.root;
         LockOnMarker.SetActive(false);
     }
 
@@ -41,8 +42,8 @@ public class Hitmarker : MonoBehaviour
     void LateUpdate()
     {
         rayhit = false;
-        if (GetComponent<Image>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
-            GetComponent<Image>().sprite = StaticMarker;
+        //if (GetComponent<Image>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
+        //    GetComponent<Image>().sprite = StaticMarker;
 
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
         {          
@@ -51,9 +52,6 @@ public class Hitmarker : MonoBehaviour
                 Invoke("StartTimer", .5f);
             }        
         }
-
-        //Color color = rayhit ? Color.green : Color.red;
-        //Debug.DrawRay(MyTransform.position, MyTransform.forward * range, color);
 
         if (rayhit && flip)
         {
@@ -102,7 +100,7 @@ public class Hitmarker : MonoBehaviour
     public void HitMarkerShow(float TimeWhenShot)
     {
         HitTime = TimeWhenShot;
-        GetComponent<Image>().sprite = hitMarker;
+        //GetComponent<Image>().sprite = hitMarker;
     }
     void objUpdate()
     {

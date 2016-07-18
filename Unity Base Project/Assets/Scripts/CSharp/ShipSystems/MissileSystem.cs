@@ -22,7 +22,6 @@ public class MissileSystem : ShipSystem
     // Misc
     private Hitmarker lockon;
     private Transform MyTransform;
-    private GameObject projectiles;
     private x360Controller controller;
     private Transform leap;
     #endregion
@@ -38,7 +37,6 @@ public class MissileSystem : ShipSystem
         Type = MissileType.Basic;
 
         // Show missile count
-        projectiles = GameObject.Find("Projectiles");
         typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
         countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
         missileSprite = GameObject.Find("MissileImage").GetComponent<Image>();
@@ -46,10 +44,10 @@ public class MissileSystem : ShipSystem
         leap = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
         //Missile Ammo Data    
-        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4, projectiles);
-        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4, projectiles);
-        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4, projectiles);
-        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4, projectiles);
+        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4);
+        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4);
+        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4);
+        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4);
 
         MyTransform = transform;
         controller = GamePadManager.Instance.GetController(0);

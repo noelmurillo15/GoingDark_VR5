@@ -46,7 +46,7 @@ public class EnemyStateManager : IEnemy
         Target = _target;
         if (Target != null)
         {
-            GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>().PlayerSeen();
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>().PlayerSeen();
             ChangeState(EnemyStates.Attack);        
         }
         else

@@ -30,7 +30,7 @@ public class MissionSystem : MonoBehaviour
         m_SecondaryMissions = new List<Mission>();
         m_PrimaryMissions = new List<Mission>();
 
-        m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
+        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
 
         if (SceneName == "Level1")

@@ -21,8 +21,8 @@ public class SpaceStation : MonoBehaviour
 
         stationMissions = new Mission[4];
         m_stationLog = GameObject.Find("MissionLog").GetComponent<StationLog>();
-        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
-        m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
+        m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
+        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
     }
 
     // Update is called once per frame

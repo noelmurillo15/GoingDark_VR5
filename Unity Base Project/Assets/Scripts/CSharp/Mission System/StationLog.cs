@@ -14,7 +14,7 @@ public class StationLog : MonoBehaviour
     void Start()
     {
         SceneName = SceneManager.GetActiveScene().name;
-        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
     }
 

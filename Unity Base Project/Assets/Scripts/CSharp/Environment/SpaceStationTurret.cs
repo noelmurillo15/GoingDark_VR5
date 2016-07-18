@@ -7,17 +7,15 @@ public class SpaceStationTurret : MonoBehaviour
     GameObject Laser;
     float randomShot;
     private ObjectPooling pool;
-    private GameObject projectiles;
 
 
     void Start()
     {
-        projectiles = GameObject.Find("Projectiles");
         randomShot = 0.3f;
         MyTransform = transform;
         enemy = null;
         pool = new ObjectPooling();
-        pool.Initialize(Resources.Load<GameObject>("LaserBeam"), 35, projectiles);
+        pool.Initialize(Resources.Load<GameObject>("LaserBeam"), 35);
         InvokeRepeating("Shoot", 1f, randomShot);
     }
 

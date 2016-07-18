@@ -6,9 +6,6 @@ public class ChargeLaser : MonoBehaviour
     private Transform leapcam;
     private Transform MyTransform;
 
-    private GameObject explosions;
-    private GameObject projectiles;
-
     private ObjectPooling BasicLasers = new ObjectPooling();
     private ObjectPooling ChargedLasers = new ObjectPooling();
     private ObjectPooling BasicExplosion = new ObjectPooling();
@@ -20,15 +17,13 @@ public class ChargeLaser : MonoBehaviour
     void Start()
     {
         MyTransform = transform;
-        explosions = GameObject.Find("Explosions");
-        projectiles = GameObject.Find("Projectiles");
         leapcam = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
-        BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 12, projectiles);
-        ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 12, projectiles);
+        BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 12);
+        ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 12);
 
-        BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), 6, explosions);
-        ChargedExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 6, explosions);
+        BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), 6);
+        ChargedExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 6);
 
         gameObject.SetActive(false);
     }

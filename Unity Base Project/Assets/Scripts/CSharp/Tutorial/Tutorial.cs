@@ -31,7 +31,7 @@ public class Tutorial : MonoBehaviour
     //// Use this for initialization
     //void Start()
     //{
-    //    mission = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+    //    mission = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
     //    player = GameObject.Find("Player").GetComponent<PlayerMovement>();
     //    shipParts = GameObject.FindGameObjectsWithTag("Loot");
     //    playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
@@ -139,7 +139,7 @@ public class Tutorial : MonoBehaviour
 
     //            }
     //            break;
-            
+
     //        case 2:
     //            if (type != SystemType.None)
     //            {
@@ -347,7 +347,7 @@ public class Tutorial : MonoBehaviour
     //                Vector3 temp = player.transform.position + player.transform.forward * 150;
     //                enemy1 = Instantiate(Resources.Load("Tutorial/BasicEnemy"), temp, Quaternion.identity) as GameObject;
     //                enemy1.transform.parent = GameObject.Find("Enemy").transform;
-                    
+
     //                ClearText();
     //                s1 = "Laser is a fast pace weapon.";
     //                s2 = "Try to use the laser to eliminate the enemy.";
@@ -397,7 +397,7 @@ public class Tutorial : MonoBehaviour
     //private IEnumerator ShowDeviceEnd(float length)
     //{
     //    type = SystemType.None;
-        
+
     //    yield return new WaitForSeconds(length);
     //    type = SystemType.None;
     //    playerMovement.enabled = true;

@@ -1,8 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using System.Collections;
-using System.Collections.Generic;
 using GoingDark.Core.Enums;
 
 public class MissionLog : MonoBehaviour
@@ -15,7 +11,7 @@ public class MissionLog : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        m_missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
     }
 
 
