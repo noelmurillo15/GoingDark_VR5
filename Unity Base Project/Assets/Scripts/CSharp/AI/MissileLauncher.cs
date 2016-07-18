@@ -45,9 +45,14 @@ public class MissileLauncher : MonoBehaviour
     private void Fire()
     {
         Cooldown = MaxCooldown;
-        GameObject miss = behavior.GetManager().GetEnemyMissile();
-        miss.transform.position = MyTransform.position;
-        miss.transform.rotation = MyTransform.rotation;
-        miss.SetActive(true);
+        GameObject miss = behavior.GetPoolManager().GetEnemyMissile();
+        if (miss != null)
+        {
+            miss.transform.position = MyTransform.position;
+            miss.transform.rotation = MyTransform.rotation;
+            miss.SetActive(true);
+        }
+        else
+            Debug.LogError("Enemy Missile was not found");
     }
 }

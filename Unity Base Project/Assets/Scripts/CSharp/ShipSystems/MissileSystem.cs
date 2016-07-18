@@ -9,10 +9,7 @@ public class MissileSystem : ShipSystem
     public MissileType Type { get; private set; }
 
     // Missile Pools
-    private ObjectPooling emp = new ObjectPooling();
-    private ObjectPooling basic = new ObjectPooling();
-    private ObjectPooling chromatic = new ObjectPooling();
-    private ObjectPooling shieldbreak = new ObjectPooling();
+    private ObjectPoolManager poolmanager;
 
     //  Missile Display
     private Text typeTxt;
@@ -44,10 +41,7 @@ public class MissileSystem : ShipSystem
         leap = GameObject.FindGameObjectWithTag("MainCamera").transform;
 
         //Missile Ammo Data    
-        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4);
-        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4);
-        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4);
-        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4);
+        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
 
         MyTransform = transform;
         controller = GamePadManager.Instance.GetController(0);
@@ -109,16 +103,16 @@ public class MissileSystem : ShipSystem
             switch (Type)
             {
                 case MissileType.Basic:
-                    obj = basic.GetPooledObject();
+                    obj = poolmanager.GetBaseMissile();
                     break;
                 case MissileType.Emp:
-                    obj = emp.GetPooledObject();
+                    obj = poolmanager.GetEmpMissile();
                     break;
                 case MissileType.ShieldBreak:
-                    obj = shieldbreak.GetPooledObject();
+                    obj = poolmanager.GetSBMissile();
                     break;
                 case MissileType.Chromatic:
-                    obj = chromatic.GetPooledObject();
+                    obj = poolmanager.GetChromeMissile();
                     break;
             }
 

@@ -6,7 +6,7 @@ public class SpaceStationTurret : MonoBehaviour
     Transform MyTransform;
     GameObject Laser;
     float randomShot;
-    private ObjectPooling pool;
+    //private ObjectPooling pool;
 
 
     void Start()
@@ -14,8 +14,8 @@ public class SpaceStationTurret : MonoBehaviour
         randomShot = 0.3f;
         MyTransform = transform;
         enemy = null;
-        pool = new ObjectPooling();
-        pool.Initialize(Resources.Load<GameObject>("LaserBeam"), 35);
+        //pool = new ObjectPooling();
+        //pool.Initialize(Resources.Load<GameObject>("LaserBeam"), 35);
         InvokeRepeating("Shoot", 1f, randomShot);
     }
 
@@ -36,14 +36,14 @@ public class SpaceStationTurret : MonoBehaviour
         if (enemy != null)
             if (Laser != null)
             {
-                GameObject obj = pool.GetPooledObject();
-                if (obj != null)
-                {
-                    obj.transform.position = transform.position;
-                    obj.transform.rotation = transform.rotation;
-                    obj.SetActive(true);
-                    obj.SendMessage("SelfDestruct");
-                }
+                //GameObject obj = pool.GetPooledObject();
+                //if (obj != null)
+                //{
+                //    obj.transform.position = transform.position;
+                //    obj.transform.rotation = transform.rotation;
+                //    obj.SetActive(true);
+                //    obj.SendMessage("SelfDestruct");
+                //}
             }
     }
 

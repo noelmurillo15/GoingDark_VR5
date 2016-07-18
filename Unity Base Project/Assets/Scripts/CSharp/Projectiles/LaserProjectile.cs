@@ -46,12 +46,6 @@ public class LaserProjectile : MonoBehaviour
             col.transform.SendMessage("Kill");
             Kill();
         }
-        else if (col.transform.CompareTag("Turret"))
-        {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
     }
 
     public void Kill()

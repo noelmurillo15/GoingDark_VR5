@@ -11,10 +11,7 @@ public class EnemyManager : MonoBehaviour {
 
     private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
 
-    private ObjectPooling ammopool = new ObjectPooling();
-    private ObjectPooling laserpool = new ObjectPooling();
-    private ObjectPooling missilepool = new ObjectPooling();
-    private ObjectPooling explosionpool = new ObjectPooling();
+    private ObjectPoolManager poolmanager;
 
     private CloakSystem pCloak;
     private MissionSystem missionSystem;
@@ -26,14 +23,12 @@ public class EnemyManager : MonoBehaviour {
         PlayerPosition = GameObject.Find("PlayerTutorial").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
+        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
 
     void Start()
     {
-        ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10);
-        laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30);
-        missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 30);
-        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 40);
+        
 
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         InvokeRepeating("CheckEnemies", 20f, 5f);
@@ -44,22 +39,7 @@ public class EnemyManager : MonoBehaviour {
     {
         return pCloak;
     }
-    public GameObject GetAmmoDrop()
-    {
-        return ammopool.GetPooledObject();
-    }
-    public GameObject GetEnemyLaser()
-    {
-        return laserpool.GetPooledObject();
-    }
-    public GameObject GetEnemyMissile()
-    {
-        return missilepool.GetPooledObject();
-    }
-    public GameObject GetEnemyExplosion()
-    {
-        return explosionpool.GetPooledObject();
-    }
+    
     #endregion
 
     #region Modifiers
@@ -106,7 +86,7 @@ public class EnemyManager : MonoBehaviour {
         GameObject go = null;
         if (Random.Range(1, 3) == 1)
         {
-            go = GetAmmoDrop();
+            go = poolmanager.GetAmmoDrop();
             go.transform.position = _pos;
             go.transform.rotation = Quaternion.identity;
             go.SetActive(true);

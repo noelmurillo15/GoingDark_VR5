@@ -8,8 +8,8 @@ public class Turret : MonoBehaviour
     private bool lockedOn;
     private float randomShot;
 
-    private ObjectPooling pool = new ObjectPooling();
-    private ObjectPooling explosionPool = new ObjectPooling();
+    //private ObjectPooling pool = new ObjectPooling();
+    //private ObjectPooling explosionPool = new ObjectPooling();
 
 
     public float x, y, z;
@@ -23,8 +23,8 @@ public class Turret : MonoBehaviour
 
         behavior = transform.parent.GetComponentInParent<EnemyStateManager>();
 
-        explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3);
-        pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5);
+        //explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3);
+        //pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5);
 
         InvokeRepeating("DestroyPlayer", 5f, randomShot);
     }
@@ -62,16 +62,16 @@ public class Turret : MonoBehaviour
     {
         if (behavior.Target != null)
         {
-            GameObject obj = pool.GetPooledObject();
-            if (obj != null)
-            {
-                obj.transform.position = transform.position;
-                obj.transform.rotation = transform.rotation;
-                obj.SetActive(true);
-                obj.SendMessage("SelfDestruct", this);
-            }
-            else
-                Debug.LogError("Obj Pool empty : " + obj.name);
+            //GameObject obj = pool.GetPooledObject();
+            //if (obj != null)
+            //{
+            //    obj.transform.position = transform.position;
+            //    obj.transform.rotation = transform.rotation;
+            //    obj.SetActive(true);
+            //    obj.SendMessage("SelfDestruct", this);
+            //}
+            //else
+            //    Debug.LogError("Obj Pool empty : " + obj.name);
         }
     }
 
@@ -82,11 +82,11 @@ public class Turret : MonoBehaviour
 
     public void SpawnExplosion(Vector3 pos)
     {
-        GameObject obj = explosionPool.GetPooledObject();
-        if (obj != null)
-        {
-            obj.transform.position = pos;
-            obj.SetActive(true);
-        }
+        //GameObject obj = explosionPool.GetPooledObject();
+        //if (obj != null)
+        //{
+        //    obj.transform.position = pos;
+        //    obj.SetActive(true);
+        //}
     }
 }

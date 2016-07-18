@@ -18,12 +18,13 @@ public class IEnemy : MonoBehaviour {
     private GameObject stunned;
 
     private EnemyManager manager;
+    private ObjectPoolManager poolmanager;
     #endregion
 
 
     public virtual void Initialize()
     {
-        
+        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         ShieldData = new ShieldProperties();
         HealthData = new HealthProperties();
 
@@ -48,6 +49,10 @@ public class IEnemy : MonoBehaviour {
     public EnemyManager GetManager()
     {
         return manager;
+    }
+    public ObjectPoolManager GetPoolManager()
+    {
+        return poolmanager;
     }
     #endregion
 
@@ -132,7 +137,7 @@ public class IEnemy : MonoBehaviour {
     }     
     void Kill()
     {        
-        GameObject explosive = manager.GetEnemyExplosion();
+        GameObject explosive = poolmanager.GetEnemyExplosion();
         explosive.transform.position = transform.position;        
         explosive.SetActive(true);        
 
