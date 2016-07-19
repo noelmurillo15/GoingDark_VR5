@@ -99,6 +99,7 @@ public class EnemyMovement : MonoBehaviour
     }
     void Alert()
     {
+        MoveData.IncreaseSpeed();
         Vector3 lastplayerdir = behavior.LastKnownPos - MyTransform.position;
         if (Vector3.Distance(MyTransform.position, behavior.LastKnownPos) < 25f)
         {
@@ -113,6 +114,7 @@ public class EnemyMovement : MonoBehaviour
     }
     void Attack()
     {
+        MoveData.IncreaseSpeed();
         Vector3 playerDir = behavior.Target.position - MyTransform.position;
         Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
         if (behavior.Type == EnemyTypes.Droid)

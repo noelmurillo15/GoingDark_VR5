@@ -10,13 +10,11 @@ public class IEnemy : MonoBehaviour {
 
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
-
     
     private ShieldProperties ShieldData;
     private HealthProperties HealthData;
 
     private GameObject stunned;
-
     private EnemyManager manager;
     private ObjectPoolManager poolmanager;
     #endregion
@@ -24,12 +22,14 @@ public class IEnemy : MonoBehaviour {
 
     public virtual void Initialize()
     {
-        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
-        ShieldData = new ShieldProperties();
-        HealthData = new HealthProperties();
-
         Target = null;
         MyTransform = transform;
+
+        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
+        ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
+
+        manager = transform.root.GetComponent<EnemyManager>();
+
         stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);                
 
@@ -69,13 +69,14 @@ public class IEnemy : MonoBehaviour {
     {
         stunned.SetActive(true);
         Debuff = Impairments.Stunned;
-        Invoke("ResetDebuff", 3f);
         if (Type == EnemyTypes.Droid)
             Invoke("Kill", 3f);
+        else
+            Invoke("ResetDebuff", 5f);
     }
     void ShieldHit(float _val)
     {
-        ShieldData.TakeDamage(_val);        
+        ShieldData.Damage(_val);        
     }
     public void MissileHit(Missile missile)
     {        
@@ -125,9 +126,7 @@ public class IEnemy : MonoBehaviour {
     public void LaserHit(LaserProjectile laser)
     {
         if (ShieldData.GetShieldActive())
-        {
-            ShieldHit(5f);
-        }
+            ShieldHit(5f);        
         else
         {
             HealthData.Damage(.5f);
@@ -149,7 +148,6 @@ public class IEnemy : MonoBehaviour {
     #region Public Methods
     public void ResetDebuff()
     {
-        //SetSpeedBoost(1f);
         Debuff = Impairments.None;
         stunned.SetActive(false);
     }    
@@ -166,24 +164,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(10, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(10, MyTransform); break;
                     case EnemyTypes.Droid:
-                        HealthData.Set(5, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(5, MyTransform); break;
                     case EnemyTypes.Transport:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(15, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(15, MyTransform); break;
                     case EnemyTypes.Trident:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(10, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(10, MyTransform); break;
                     case EnemyTypes.Boss:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(50, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(50, MyTransform); break;
                 }
                 break;
             #endregion
@@ -193,24 +182,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(25, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(25, MyTransform); break;
                     case EnemyTypes.Droid:
-                        HealthData.Set(15, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(15, MyTransform); break;
                     case EnemyTypes.Transport:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(30, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(30, MyTransform); break;
                     case EnemyTypes.Trident:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(20, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(20, MyTransform); break;
                     case EnemyTypes.Boss:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(100, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(100, MyTransform); break;
                 }
                 break;
             #endregion
@@ -220,24 +200,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(40, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(40, MyTransform); break;
                     case EnemyTypes.Droid:
-                        HealthData.Set(25, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(25, MyTransform); break;
                     case EnemyTypes.Transport:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(50, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(50, MyTransform); break;
                     case EnemyTypes.Trident:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(35, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(35, MyTransform); break;
                     case EnemyTypes.Boss:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(150, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(200, MyTransform); break;
                 }
                 break;
             #endregion
@@ -247,24 +218,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(80, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(80, MyTransform); break;
                     case EnemyTypes.Droid:
-                        HealthData.Set(50, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(50, MyTransform); break;
                     case EnemyTypes.Transport:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(100, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(100, MyTransform); break;
                     case EnemyTypes.Trident:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(70, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(70, MyTransform); break;
                     case EnemyTypes.Boss:
-                        ShieldData.Initialize(transform.GetChild(0).gameObject, 100f);
-                        HealthData.Set(300, MyTransform);
-                        break;
+                        HealthData = new HealthProperties(300, MyTransform); break;
                 }
                 break;
             #endregion

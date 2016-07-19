@@ -77,7 +77,6 @@ public class Missile : MonoBehaviour {
 
     public void Deflect()
     {
-        Debug.Log("Missile was deflected by enemy shield");
         CancelInvoke();
         Invoke("Kill", 2f);
         deflected = true;

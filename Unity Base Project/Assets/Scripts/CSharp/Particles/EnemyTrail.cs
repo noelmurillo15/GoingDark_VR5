@@ -1,37 +1,35 @@
 ﻿using UnityEngine;
-using System.Collections;
+using GoingDark.Core.Enums;
 
 
 public class EnemyTrail : MonoBehaviour
 {
-    public float Health;
-    private int difficulty;
+    public EnemyStateManager HealthInfo;
+    private GameDifficulty difficulty;
     private TrailRenderer[] trails = new TrailRenderer[3];
     // Use this for initialization
     void Start()
     {
-        //Health = GetComponent<EnemyBehavior>().GetHealthData().Health;
-        Health = 0;
+        HealthInfo = GetComponent<EnemyStateManager>();
         trails = GetComponentsInChildren<TrailRenderer>();
-        difficulty = (int)GetComponentInParent<Transform>().GetComponentInParent<EnemyManager>().Difficulty;
+        difficulty = transform.root.GetComponent<EnemyManager>().Difficulty;
         Invoke("CheckHealth", 2f);
     }
 
-    // Update is called once per frame
-    void Update()
+    void CheckHealth()
     {
-        // 5 -> 100(300)
+        float _hp = HealthInfo.GetHealthData().Health;
         switch (difficulty)
         {
-            case 0:
-                trails[0].time = trails[1].time = trails[2].time = ((Health / 15f) * 20f);
-                if (Health > 4f && Health < 9f)
+            case GameDifficulty.Easy:
+                trails[0].time = trails[1].time = trails[2].time = ((_hp / 15f) * 20f);
+                if (_hp > 4f && _hp < 9f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.yellow);
                     trails[1].material.SetColor("_TintColor", Color.yellow);
                     trails[2].material.SetColor("_TintColor", Color.yellow);
                 }
-                else if (Health < 4f)
+                else if (_hp < 4f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.red);
                     trails[1].material.SetColor("_TintColor", Color.red);
@@ -44,15 +42,15 @@ public class EnemyTrail : MonoBehaviour
                     trails[2].material.SetColor("_TintColor", Color.green);
                 }
                 break;
-            case 1:
-                trails[0].time = trails[1].time = trails[2].time = ((Health / 30f) * 20f);
-                if (Health > 12f && Health < 20f)
+            case GameDifficulty.Normal:
+                trails[0].time = trails[1].time = trails[2].time = ((_hp / 30f) * 20f);
+                if (_hp > 12f && _hp < 20f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.yellow);
                     trails[1].material.SetColor("_TintColor", Color.yellow);
                     trails[2].material.SetColor("_TintColor", Color.yellow);
                 }
-                else if (Health < 12f)
+                else if (_hp < 12f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.red);
                     trails[1].material.SetColor("_TintColor", Color.red);
@@ -65,15 +63,15 @@ public class EnemyTrail : MonoBehaviour
                     trails[2].material.SetColor("_TintColor", Color.green);
                 }
                 break;
-            case 2:
-                trails[0].time = trails[1].time = trails[2].time = ((Health / 50f) * 20f);
-                if (Health > 15 && Health < 30f)
+            case GameDifficulty.Hard:
+                trails[0].time = trails[1].time = trails[2].time = ((_hp / 50f) * 20f);
+                if (_hp > 15 && _hp < 30f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.yellow);
                     trails[1].material.SetColor("_TintColor", Color.yellow);
                     trails[2].material.SetColor("_TintColor", Color.yellow);
                 }
-                else if (Health < 15f)
+                else if (_hp < 15f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.red);
                     trails[1].material.SetColor("_TintColor", Color.red);
@@ -86,15 +84,15 @@ public class EnemyTrail : MonoBehaviour
                     trails[2].material.SetColor("_TintColor", Color.green);
                 }
                 break;
-            case 3:
-                trails[0].time = trails[1].time = trails[2].time = ((Health / 100f) * 20f);
-                if (Health > 35 && Health < 70f)
+            case GameDifficulty.Nightmare:
+                trails[0].time = trails[1].time = trails[2].time = ((_hp / 100f) * 20f);
+                if (_hp > 35 && _hp < 70f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.yellow);
                     trails[1].material.SetColor("_TintColor", Color.yellow);
                     trails[2].material.SetColor("_TintColor", Color.yellow);
                 }
-                else if (Health < 35f)
+                else if (_hp < 35f)
                 {
                     trails[0].material.SetColor("_TintColor", Color.red);
                     trails[1].material.SetColor("_TintColor", Color.red);
@@ -109,10 +107,5 @@ public class EnemyTrail : MonoBehaviour
                 break;
 
         }
-    }
-
-    void CheckHealth()
-    {
-        Health = GetComponent<EnemyStateManager>().GetHealthData().Health;
     }
 }

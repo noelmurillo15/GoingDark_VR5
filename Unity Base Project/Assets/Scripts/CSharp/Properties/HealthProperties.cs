@@ -1,30 +1,76 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class HealthProperties
 {
-
-    [SerializeField]
+    #region Properties
     public float Health { get; private set; }
+    private float MaxHealth;
 
-    private Transform enemyRef;
+    //  Enemy Data
+    private Transform baseRef;
 
-    public HealthProperties()
+    //  Player Data
+    public bool isPlayer;
+    private CameraShake shake;
+    private Image HealthBar;
+    #endregion
+
+    public HealthProperties(float _hp, Transform _ref)
     {
-        
+        MaxHealth = _hp;
+        Health = MaxHealth;
+
+        shake = null;
+        baseRef = _ref;
+        isPlayer = false;
+    }
+    public HealthProperties(float _hp, Transform _ref, bool _player)
+    {
+        MaxHealth = _hp;
+        Health = MaxHealth;
+
+        baseRef = _ref;
+        isPlayer = _player;
+        HealthBar = GameObject.Find("PlayerHealth").GetComponent<Image>();
+        shake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
     }
 
-    public void Set(float _hp, Transform _ref)
+    #region Modifiers
+    public void Heal(float _val)
     {
-        Health = _hp;
-        enemyRef = _ref;
+        Health += _val;
+        if (Health > MaxHealth)
+            Health = MaxHealth;
+
+        UpdateHPBar();
     }
+
+    public void FullRestore()
+    {
+        Health = MaxHealth;
+        UpdateHPBar();
+    }  
+    
+    public void UpdateHPBar()
+    {
+        HealthBar.fillAmount = (Health / MaxHealth) * .5f;
+    }  
 
     public void Damage(float _dmg)
     {
         Health -= _dmg;
-        if (Health <= 0)
-            enemyRef.SendMessage("Kill");
+        if (isPlayer)
+        {
+            AudioManager.instance.PlayHit();
+            shake.PlayShake();
+            UpdateHPBar();
+        }      
+
+        if (Health <= 0f)        
+            baseRef.SendMessage("Kill");                
     }
+    #endregion
 }

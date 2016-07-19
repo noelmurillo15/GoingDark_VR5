@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using GoingDark.Core.Enums;
 
 public class PlayerStats : MonoBehaviour
@@ -7,162 +6,118 @@ public class PlayerStats : MonoBehaviour
     #region Properties
     public Impairments Debuff { get; private set; }
 
+    private SystemManager systemManager;
+    private DebuffManager debuffManager;
+
     public PlayerSaveData SaveData;
     public ShieldProperties ShieldData;
+    private HealthProperties HealthData;       
 
-    private Shieldbar ShieldBar;
-    private HealthProperties HealthData;
-    private SystemManager SystemData;
-    private DebuffManager DebuffData;
-    private DeathTransition deathTransition;
-    private Image HealthCircle;
-
-    private Vector3 station;
+    private Transform station;
     private x360Controller controller;
+    private DeathTransition deathTransition;
     #endregion
 
 
-    // Use this for initialization
-    void Start()
+    private void Start()
     {
-        station = GameObject.Find("Station").transform.position;
-        SystemData = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
-        ShieldBar = GameObject.Find("PlayerShields").GetComponent<Shieldbar>();
-        deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
-        DebuffData = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
+        Debuff = Impairments.None;
 
-        HealthData = new HealthProperties();
-        HealthData.Set(100, transform);
+        debuffManager = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
+        systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
-        HealthCircle = GameObject.Find("PlayerHealth").GetComponent<Image>();
+        SaveData = new PlayerSaveData();
+        HealthData = new HealthProperties(100f, transform, true);
+        ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
 
-        ShieldData.ShieldHealth = 100;
-        ShieldData.ShieldActive = true;
-        ShieldData.Shield = GameObject.FindGameObjectWithTag("Shield");
-
+        station = GameObject.Find("Station").transform;
         controller = GamePadManager.Instance.GetController(0);       
+        deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
     }
 
     #region Accessors
+    public PlayerSaveData GetSaveData()
+    {
+        return SaveData;
+    }
     public SystemManager GetSystemData()
     {
-        return SystemData;
+        return systemManager;
     }
     public ShieldProperties GetShieldData()
     {
         return ShieldData;
     }
-    public PlayerSaveData GetSaveData()
-    {
-        return SaveData;
-    }
     #endregion
 
-    #region Message Calls
-    void RemoveDebuff()
-    {
-        Debuff = Impairments.None;
-    }
-    void Hit()
-    {        
-        controller.AddRumble(.5f, new Vector2(1f, 1f), .4f);
-        if (ShieldData.GetShieldActive())
-        {
-            ShieldHit();
-            return;
-        }
-
-        CancelInvoke("RechargeShield");
-        Invoke("RechargeShield", 20f);  //  reset timer
-
-        HealthData.Damage(10);
-
-        float hp = HealthData.Health / 100f;
-        hp *= .5f;
-        HealthCircle.fillAmount = hp;       
-
-        AudioManager.instance.PlayHit();
-        Debug.Log("Player HIT");
-    }
-    void EMPHit()
-    {
-        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
-        Debuff = Impairments.Stunned;
-        DebuffData.Stunned(5f);
-
-        SystemData.SystemDamaged();
-
-        if (ShieldData.GetShieldActive())
-        {
-            ShieldData.TakeDamage(100);
-            Debug.Log("Player took Emp hit, broke shield");
-        }
-        else
-        {
-            Debug.Log("Player took Emp hit, lost health");
-            HealthData.Damage(5);
-            CancelInvoke("RechargeShield");
-            Invoke("RechargeShield", 20f); //  reset timer
-        }
-                
-        if (!IsInvoking("RemoveDebuff"))
-            Invoke("RemoveDebuff", 5f);
-    }
-
-    void ShieldHit()
-    {
-        ShieldData.TakeDamage(20f);
-        ShieldBar.DecreaseShield(20f);
-        Debug.Log("Player took Shield hit");
-        if (ShieldData.ShieldHealth <= 0f)
-        {
-            Debug.Log("Player took Shield hit, shield broke");
-            ShieldData.ShieldHealth = 0f;
-            ShieldData.ShieldActive = false;
-            ShieldData.Shield.SetActive(false);
-
-            if(IsInvoking("RechargeShield"))
-                CancelInvoke("RechargeShield");
-            Invoke("RechargeShield", 30f); 
-        }
-        AudioManager.instance.PlayShieldHit();
-    }
+    #region Modifiers
     public void RechargeShield()
     {
         Debug.Log("Player Shield Recharged");
         CancelInvoke();
-        ShieldData.ShieldRecharge(100f);
-        ShieldBar.Reset();
-        ShieldData.ShieldActive = true;
+        ShieldData.FullRestore();
         ShieldData.Shield.SetActive(true);
     }
+    #endregion
 
-    public void EnvironmentalDMG()
+    #region Message Calls
+    private void RemoveDebuff()
     {
-        if (ShieldData.ShieldActive)
+        Debuff = Impairments.None;
+    }
+    private void ShieldHit()
+    {
+        ShieldData.Damage(20f);
+        if (!ShieldData.Active)
+        {
+            Debug.Log("Recharging Player shield in 30");
+            Invoke("RechargeShield", 30f);
+        }            
+    }
+    private void EMPHit()
+    {
+        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
+
+        Debuff = Impairments.Stunned;
+        debuffManager.Stunned(5f);
+        if (!IsInvoking("RemoveDebuff"))
+            Invoke("RemoveDebuff", 5f);
+
+        if (ShieldData.GetShieldActive())
+            ShieldData.Damage(50f);        
+        else
+        {
+            systemManager.SystemDamaged();
+            CancelInvoke("RechargeShield");
+            Invoke("RechargeShield", 30f); //  reset timer
+        }        
+    }
+    private void Hit()
+    {        
+        controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
+        if (ShieldData.GetShieldActive())
         {
             ShieldHit();
             return;
         }
-    }
-    void Respawn()
-    {
-        Debug.Log("Player Respawned");
-        HealthData.Set(100, transform);
-        ShieldBar.Reset();
-        ShieldData.ShieldActive = true;
-        ShieldData.ShieldHealth = 100;
-        ShieldData.Shield.SetActive(true);
-        SystemData.FullSystemRepair();
-        deathTransition.SendMessage("Respawn");
 
-        transform.position = new Vector3(station.x, station.y + 30, station.z);
-    }    
-    void Kill()
+        HealthData.Damage(10);                         
+        CancelInvoke("RechargeShield");
+        Invoke("RechargeShield", 30f);  //  reset timer
+    }     
+    private void Respawn()
     {
-        Debug.Log("PLAYER DEAD!");
+        HealthData.FullRestore();
+        ShieldData.FullRestore();
+        systemManager.FullSystemRepair();
+        deathTransition.SendMessage("Respawn");
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
+    }    
+    private void Kill()
+    {
         deathTransition.SendMessage("Death");
-        Invoke("Respawn", 2f);
+        Invoke("Respawn", 2.5f);
     }
     #endregion
 }

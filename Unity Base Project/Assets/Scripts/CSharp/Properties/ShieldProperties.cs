@@ -1,50 +1,81 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class ShieldProperties
 {
+    #region Properties
     public GameObject Shield;
-    public bool ShieldActive;
-    public float ShieldHealth;
+    public bool Active { get; private set; }
+    public float Health { get; private set; }
 
-    public ShieldProperties()
+    //  Player Data
+    public bool isPlayer;
+    private Image ShieldBar;
+    #endregion
+
+    public ShieldProperties(GameObject _shield, float shieldHP)
     {
-
-    }
-
-    public void Initialize(GameObject _shield, float shieldHP)
-    {
+        isPlayer = false;
         Shield = _shield;
-        ShieldActive = true;
-        ShieldHealth = shieldHP;
+        Active = true;
+        Health = shieldHP;
+        ShieldBar = null;    
+    }
+    public ShieldProperties(GameObject _shield, float shieldHP, bool _player)
+    {
+        isPlayer = _player;
+        Shield = _shield;
+        Active = true;
+        Health = shieldHP;
+        ShieldBar = GameObject.Find("PlayerShield").GetComponent<Image>();
     }
 
+    #region Accessors
     public bool GetShieldActive()
     {
-        return ShieldActive;
+        return Active;
+    }
+    #endregion
+
+    #region Modifiers
+    public void Heal(float _val)
+    {
+        Health += _val;
+        if (Health > 100f)
+            Health = 100f;
+
+        UpdateShieldBar();
     }
 
-    public void TakeDamage(float _val)
+    public void FullRestore()
     {
-        ShieldHealth -= _val;
-        if (ShieldHealth <= 0.0f)
+        Health = 100f;
+        Active = true;
+        Shield.SetActive(true);
+        UpdateShieldBar();
+    }
+
+    public void UpdateShieldBar()
+    {
+        ShieldBar.fillAmount = (Health / 100f) * .5f;
+    }
+
+    public void Damage(float _val)
+    {
+        Health -= _val;
+        if (Health <= 0f)
         {
-            ShieldHealth = 0f;            
-            ShieldActive = false;
+            Health = 0f;            
+            Active = false;
             Shield.SetActive(false);
         }
-    }
-
-    public void ShieldRecharge(float _val)
-    {
-        ShieldActive = true;
-        if (ShieldHealth < 100)
+        if (isPlayer)
         {
-            ShieldHealth += _val;
-            if (ShieldHealth > 100)
-                ShieldHealth = 100;
+            AudioManager.instance.PlayShieldHit();
+            UpdateShieldBar();
         }
     }
-
+    #endregion
 }
