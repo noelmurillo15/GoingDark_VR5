@@ -89,6 +89,8 @@ public class MissionSystem : MonoBehaviour
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
         Debug.Log("Failed mission, return to portals");
+        Timing.RunCoroutine(Wait(3.0f));
+
     }
 
     MissionType Convert(string name)

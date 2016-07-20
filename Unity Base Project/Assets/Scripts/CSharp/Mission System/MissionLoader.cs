@@ -63,7 +63,6 @@ public class MissionLoader : MonoBehaviour
 
     public Mission LoadMission(string fileName)
     {
-        Debug.Log("Loading Missions");
         // load in the file into an element
         XElement mRoot = XElement.Load(@"Assets\Resources\XML\" + fileName + ".xml");
 

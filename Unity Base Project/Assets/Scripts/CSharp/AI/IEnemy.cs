@@ -78,6 +78,15 @@ public class IEnemy : MonoBehaviour {
     {
         ShieldData.Damage(_val);        
     }
+    void SplashDmg()
+    {
+        if (!ShieldData.GetShieldActive())
+        {
+            Debug.Log("Enemy affected by splash dmg");
+            HealthData.Damage(2);
+            SendMessage("CheckHealth");
+        }
+    }
     public void MissileHit(Missile missile)
     {        
         if (ShieldData.GetShieldActive())

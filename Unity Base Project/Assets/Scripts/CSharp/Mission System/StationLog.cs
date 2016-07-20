@@ -32,7 +32,7 @@ public class StationLog : MonoBehaviour
                 if (m_missionSystem.m_ActiveMissions.Count == 0)
                 {
                     m_missionSystem.AddActiveMission(m_missionSystem.m_PrimaryMissions[0]);
-                    Debug.Log("Added primary mission " + m_missionSystem.m_PrimaryMissions[0].missionName);
+                    //Debug.Log("Added primary mission " + m_missionSystem.m_PrimaryMissions[0].missionName);
                     m_missionLog.NewMission(m_missionSystem.m_ActiveMissions[0]);
                     if (SceneManager.GetActiveScene().name == "Level1")
                     {

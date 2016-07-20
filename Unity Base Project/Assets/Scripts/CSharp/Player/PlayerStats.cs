@@ -69,10 +69,7 @@ public class PlayerStats : MonoBehaviour
     {
         ShieldData.Damage(20f);
         if (!ShieldData.Active)
-        {
-            Debug.Log("Recharging Player shield in 30");
-            Invoke("RechargeShield", 30f);
-        }            
+            Invoke("RechargeShield", 30f);                  
     }
     private void EMPHit()
     {
@@ -91,6 +88,17 @@ public class PlayerStats : MonoBehaviour
             CancelInvoke("RechargeShield");
             Invoke("RechargeShield", 30f); //  reset timer
         }        
+    }
+    void SplashDmg()
+    {
+        if (!ShieldData.GetShieldActive())
+        {
+            Debug.Log("Player affected by splash dmg");
+            HealthData.Damage(2);
+
+            CancelInvoke("RechargeShield");
+            Invoke("RechargeShield", 30f);  //  reset timer
+        }
     }
     private void Hit()
     {        

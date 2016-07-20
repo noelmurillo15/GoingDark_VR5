@@ -65,7 +65,7 @@ public class HealthProperties
         if (isPlayer)
         {
             AudioManager.instance.PlayHit();
-            shake.PlayShake();
+            //shake.PlayShake();
             UpdateHPBar();
         }      
 
