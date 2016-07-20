@@ -17,7 +17,38 @@
     {
         Consumable,
         Upgrade
+        public enum ItemType
+    {
+        Consumable,
+        Upgrade
     }
+
+    public enum ShopType
+    {
+        ConsumableList,
+        WeaponList,
+        DeviceList
+    }
+
+    public enum Items
+    {
+        BasicMissile,
+        ShieldBreakMissile,
+        ChromaticMissile,
+        EMPMissile,
+        BasicMissileUpgrade,
+        ShieldBreakMissileUpgrade,
+        ChromaticMissileUpgrade,
+        EMPMissileUpgrade,
+        LaserPowerUpgrade,
+        LaserCooldownUpgrade,
+        HealthUpgrade,
+        ShieldUpgrade,
+        HyperdriveUpgrade,
+        CloakUpgrade,
+        EMPUpgrade
+    }
+
     #region Projectiles
     public enum MissileType
     {

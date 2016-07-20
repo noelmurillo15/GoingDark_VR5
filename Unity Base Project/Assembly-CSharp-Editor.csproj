@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A188166C-B141-0D6C-EBDD-9CEBE2C98CCC}</ProjectGuid>
+    <ProjectGuid>{CFCB94A0-8687-9C02-3E7B-FB7AA347354F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -45,235 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\BloomOptimized.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Blur.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\BlurOptimized.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\CameraMotionBlur.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionCurves.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionLookup.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionRamp.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ContrastEnhance.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ContrastStretch.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\CreaseShading.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\DepthOfField.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\DepthOfFieldDeprecated.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\EdgeDetection.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Fisheye.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\GlobalFog.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Grayscale.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ImageEffectBase.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ImageEffects.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\MotionBlur.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndGrain.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndScratches.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsBase.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsHelper.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Quads.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ScreenOverlay.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ScreenSpaceAmbientObscurance.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\ScreenSpaceAmbientOcclusion.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\SepiaTone.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\SunShafts.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\TiltShift.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Tonemapping.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Triangles.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
-     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMaterialChange.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\KamikazeAI.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\MissileLauncher.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\PatrolAi.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
-     <Compile Include="Assets\Scripts\CSharp\AI\TransportAi.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\AmmoPickUp.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHole.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHoleRenderer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\LootCratePickup.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\Meteor.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\Mine.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\NebulaCloud.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\OutOfBoundsScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\PortalEnter.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Environment\SpaceStationTurret.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Events\EventProperty.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\Detector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\DetectorLogicGate.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\ExtendedFingerDetector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\FingerDirectionDetector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\PalmDirectionDetector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\PinchDetector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\DetectionUtilities\ProximityDetector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\HandFactory.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\HandPool.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\HandProxy.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\HandRepresentation.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\CapsuleHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\DebugHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\FingerModel.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\HandDrop.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\HandEnableDisable.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\HandFader.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\HandModel.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\HandTransitionBehavior.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\IHandModel.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\RigidFinger.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\RigidHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\SkeletalFinger.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\SkeletalHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Hands\TestHandFactory.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapData.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapDeviceInfo.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapHandController.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapImageRetriever.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapProvider.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\LeapServiceProvider.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\MinimalHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\PolyFinger.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\PolyHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\RiggedFinger.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\RiggedHand.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\DisconnectionNotice.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\EnableDepthBuffer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\ExecutionOrder.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\FitHeightToScreen.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\FrameRateControls.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\KeyEnableBehaviors.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\KeyEnableGameObjects.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\LeapUnityExtensions.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\SceneSettings.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\SmoothedFloat.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\SmoothedQuaternion.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\SmoothedVector3.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\StretchToScreen.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\Utils\Utils.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\VR\EyeType.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\VR\LeapVRCameraControl.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\VR\LeapVRTemporalWarping.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\VR\TemporalWarpingStatus.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Leap\VR\VRHeightOffset.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\AudioManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\DebuffManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\EnemyManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\EventsManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\GamePadManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\ObjectPoolManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\PauseManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Managers\PersistentGameManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\ArmButtons.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\ArmSettings.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\IntroScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\ItemInfo.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\LeftArmCollision.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\LevelSelectScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\MapConnection.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\MenuButtons.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\PlayerViewCheck.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\RotatingMenu.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\ShopMenu.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\StatBoard.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Menu\SwitchLevel.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLoader.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLog.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLogButtons.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionMessages.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\StationButtons.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Mission System\StationLog.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\AfterburnerPhysicsForce.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\EnemyTrail.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionFireAndDebris.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionPhysicsForce.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\Explosive.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\FireLight.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\ParticleSystemMultiplier.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\ParticleTester.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\ReverseNormals.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Particles\SmokeParticles.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\DecoyMovement.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\EmpCollision.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\Hitmarker.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\Improved_Tracer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\LootCounter.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\LootPickup.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\MessageScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\PlayerCollisions.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\PlayerMovement.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\PlayerStats.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\QuickSlot.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\RefreshGamePads.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\ReorientPlayer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\ScreenBreak.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\ShootImprovedTracer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\ShootTracer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\SpaceSector.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\SpaceStation.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\SpeedGauge.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\Tracer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Player\Turret.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\ChargeLaser.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserGrowth.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserProjectile.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissile.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserProjectile.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\Missile.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileCollision.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Properties\HealthProperties.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Properties\PlayerSaveData.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Properties\ShieldProperties.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\EmpSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
-     <Compile Include="Assets\Scripts\CSharp\ShipSystems\SystemManager.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFireRing.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\CameraShake.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTimer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTransition.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\Despawn.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\DisplayCooldown.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\EnhancedCoroutine.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\ExposePropertyAttribute.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\FPSCounter.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\FXAA.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\FXAAPostEffectsBase.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectGenerator.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\ObjectPooling.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleDespawn.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\ParticleSystemDestroyer.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\Singleton.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\SpinScript.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectActivator.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
-     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\CustomEditorBase.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapHandControllerEditor.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapImageRetrieverEditor.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\LeapServiceProviderEditor.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\FrameValidator.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\HandFactoryTest.cs" />
+     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\TransformCopyTest.cs" />
+     <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\EyeTypeEditor.cs" />
+     <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\LeapTemporalWarpingEditor.cs" />
      <None Include="Assets\Particles\Shaders\SFS_Pr_Dt.shader" />
      <None Include="Assets\3rd Party Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
@@ -448,17 +228,44 @@
      <None Include="Assets\Particles\Shaders\SFS_Pr_D_DS.shader" />
      <None Include="Assets\Particles\Shaders\SFS_Pr_D_T.shader" />
      <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
+ <Reference Include="Assembly-UnityScript">
+ <HintPath>D:/Repository/GoingDark_VR5/Unity Base Project/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.EditorTestsRunner">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/UnityEditor.EditorTestsRunner.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>D:/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
  <Reference Include="LeapCSharp.NET3.5">
  <HintPath>D:/Repository/GoingDark_VR5/Unity Base Project/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
  </Reference>
  <Reference Include="XInputDotNetPure">
  <HintPath>D:/Repository/GoingDark_VR5/Unity Base Project/Assets/Plugins/x86_64/XInputDotNetPure.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+ <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/2015/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
