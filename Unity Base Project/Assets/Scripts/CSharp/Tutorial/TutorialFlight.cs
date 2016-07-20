@@ -289,7 +289,7 @@ public class TutorialFlight : MonoBehaviour
             {
                 continue;
             }
-            else if (loots[i].GetComponent<BoxCollider>().enabled)
+            else if (loots[i].GetComponent<SphereCollider>().enabled)
             {
                 target = loots[i].transform.position;
                 return target;

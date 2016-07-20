@@ -14,6 +14,7 @@ public class EnemyMovement : MonoBehaviour
     private float headingChange;
     public float headingX, headingY;
     private Vector3 targetRotation;
+    private Vector3 autopilotlocation;
 
     //  Alert
     private float Distance;
@@ -27,6 +28,7 @@ public class EnemyMovement : MonoBehaviour
     {
         //  Patrol
         MoveData = new MovementProperties();
+        autopilotlocation = Vector3.zero;
         headingY = Random.Range(0, 360);
         targetRotation = Vector3.zero;
         headingChange = 45f;
@@ -59,14 +61,20 @@ public class EnemyMovement : MonoBehaviour
 
         if (autopilot)
         {
-            Debug.Log("Enemy Auto-pilot");
             MoveData.IncreaseSpeed();
-            Vector3 dir = Vector3.zero - MyTransform.position;
+            Vector3 dir = autopilotlocation - MyTransform.position;
             Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.deltaTime, 0.0f);
             MyTransform.rotation = Quaternion.LookRotation(rotation);
             headingX = MyTransform.eulerAngles.x;
             headingY = MyTransform.eulerAngles.y;
             MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
+
+            if (Vector3.Distance(autopilotlocation, MyTransform.position) < 20f)
+            {
+                Debug.Log("Enemy made it back to zone");
+                autopilot = false;
+                autopilotlocation = Vector3.zero;
+            }
             return;
         }
 
@@ -280,27 +288,13 @@ public class EnemyMovement : MonoBehaviour
     #endregion
 
     #region Msgs
-    void OutOfBounds()
+    void OutOfBounds(Vector3 _loc)
     {
-        if (behavior == null)
-        {
-            GetComponent<EnemyStateManager>();
-            return;
-        }
-
         if (behavior.State == EnemyStates.Patrol)
-            autopilot = true;
-    }
-
-    void InBounds()
-    {
-        if (behavior == null)
         {
-            GetComponent<EnemyStateManager>();
-            return;
+            autopilotlocation = _loc;
+            autopilot = true;
         }
-
-        autopilot = false;
     }
     #endregion
 }

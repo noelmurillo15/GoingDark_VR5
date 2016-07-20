@@ -3,9 +3,8 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour {
 
-    float duration = .25f;
-    float speed = 10.0f;
-    float magnitude = .1f;
+    float duration = .15f;
+    float speed = .01f;
     Transform MyTransform;
     Vector3 originalpos;
 
@@ -26,7 +25,7 @@ public class CameraShake : MonoBehaviour {
         float elapsed = 0.0f;
 
         Vector3 originalCamPos = originalpos;
-        float randomStart = Random.Range(-1000.0f, 1000.0f);
+        float randomStart = Random.Range(-.1f, .1f);
 
         while (elapsed < duration)
         {
@@ -34,14 +33,14 @@ public class CameraShake : MonoBehaviour {
 
             float percentComplete = elapsed / duration;
 
-            float damper = 1.0f - Mathf.Clamp(1.5f * percentComplete - 1.0f, 0.0f, 1.0f);
+            float damper = Mathf.Clamp(percentComplete, 0f, .1f);
             float alpha = randomStart + speed * percentComplete;
 
-            float x = Mathf.PerlinNoise(alpha, 0.0f) * 2.0f - 1.0f;
-            float y = Mathf.PerlinNoise(0.0f, alpha) * 2.0f - 1.0f;
+            float x = Mathf.PerlinNoise(alpha, 0.0f);
+            float y = Mathf.PerlinNoise(0.0f, alpha);
 
-            x *= magnitude * damper;
-            y *= magnitude * damper;
+            x *= damper * .000000001f;
+            y *= damper * .000000001f;
 
             MyTransform.localPosition = new Vector3(x, y, originalCamPos.z);
 

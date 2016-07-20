@@ -2,15 +2,15 @@
 
 public class TutorialFireRing : MonoBehaviour {
     public GameObject prevRing;
-    private BoxCollider box;
+    private SphereCollider box;
     private bool buffer;
     private GameObject particle;
     private TutorialFlight tutorial;
 	// Use this for initialization
 	void Start () {
-        box = GetComponent<BoxCollider>();
+        box = GetComponent<SphereCollider>();
         buffer = false;
-        particle = transform.FindChild("SpiralParticles").gameObject;
+        particle = transform.GetChild(0).gameObject;
         particle.SetActive(false);
         box.enabled = false;
         tutorial = GameObject.Find("TutorialGuidance").GetComponent<TutorialFlight>();

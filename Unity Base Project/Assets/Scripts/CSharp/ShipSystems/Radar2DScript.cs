@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Radar2DScript : MonoBehaviour
 {
@@ -7,9 +8,7 @@ public class Radar2DScript : MonoBehaviour
     GameObject[] RadarImages;
     private int[] QuadCounter;
     private int TotalObjectCount = 0;
-    private GameObject[] TheObject;
-    private int[] Objectsquad;
-
+    ArrayList EnemiesArray = new ArrayList();
 
 
     // Use this for initialization
@@ -18,8 +17,8 @@ public class Radar2DScript : MonoBehaviour
         Player = GameObject.Find("PlayerTutorial");// find player tutorial eventually
         RadarImages = new GameObject[9];
         QuadCounter = new int[9];
-        TheObject = new GameObject[2];
-        Objectsquad = new int[1];
+
+
         for (int i = 0; i < 9; i++)
         {
             //            this.transform.GetChild(i).gameObject.SetActive(false);
@@ -32,22 +31,18 @@ public class Radar2DScript : MonoBehaviour
     {
         if (ColliderObject.CompareTag("Enemy") && ColliderObject.gameObject.activeSelf == true)
         {
-            TotalObjectCount++;//how many objects to keep track of.
-            System.Array.Resize(ref TheObject, TotalObjectCount); // make space for the new object
-            TheObject[(TotalObjectCount - 1)] = ColliderObject.gameObject; // put it in at 0 to start;
+            //Add enemy to arraylist
+            EnemiesArray.Add(ColliderObject.gameObject);
+            //End of adding
 
-
-            System.Array.Resize(ref Objectsquad, TotalObjectCount); // make space for the new object (Quad numbering)
-
-
+            //Do math figure out where it is.
             Vector3 ColliderPosition = ColliderObject.transform.position; // Object's position either loot missile or enemy; 
             Vector3 TargetDir = ColliderPosition - Player.transform.position;//target direction
-
             TargetDir.Normalize();
             float angle = Vector3.Dot(TargetDir, Player.transform.forward); //angle between my heading and and the target direction;
-
             float HalfSpaceTest = Vector3.Dot(TargetDir, Player.transform.right);
 
+            //fix the angle
             angle += 1;
             angle *= 90;
             angle = 180 - angle;
@@ -56,23 +51,14 @@ public class Radar2DScript : MonoBehaviour
                 angle *= -1;
             }
 
-            //distance check.
-            //if(distance between enemy and me is less than EMP range)
-            //Light up quad 8;
-            //If closer than emp burst radius = 8 quad
-
             TurnOnRadarPanels(angle);
         }
     }
 
     void OnTriggerExit(Collider ColliderObject)
     {
-        for (int i = 0; i < TheObject.Length; i++)
-            if (ColliderObject.gameObject == TheObject[i]) // see if they match
-            {
-                TotalObjectCount--;
-            }
-
+        if (EnemiesArray.Contains(ColliderObject.gameObject))
+            EnemiesArray.Remove(ColliderObject.gameObject);
     }
 
 
@@ -104,7 +90,6 @@ public class Radar2DScript : MonoBehaviour
             QuadCounter[Quad]++;
             if (QuadCounter[Quad] > 0)
                 RadarImages[Quad].gameObject.SetActive(true);
-            Objectsquad[(TotalObjectCount - 1)] = Quad; //Tells me what quad they are in.
         }
 
     }
@@ -117,11 +102,12 @@ public class Radar2DScript : MonoBehaviour
     void Update()
     {
         TurnOffRadarPanels();
-        for (int i = 0; i < TheObject.Length; i++)
+        for (int i = 0; i < EnemiesArray.Count; i++)
         {
-            if (TheObject[i] != null && TheObject[i].activeInHierarchy)
+            GameObject temp = (GameObject)(EnemiesArray[i]);
+            if (temp != null && temp.activeInHierarchy)
             {
-                Vector3 ColliderPosition = TheObject[i].transform.position; // Object's position either loot missile or enemy; 
+                Vector3 ColliderPosition = temp.transform.position; // Object's position either loot missile or enemy; 
                 Vector3 TargetDir = ColliderPosition - Player.transform.position;//target direction
 
                 TargetDir.Normalize();
@@ -144,20 +130,7 @@ public class Radar2DScript : MonoBehaviour
 
                 TurnOnRadarPanels(angle);
             }
-            //ObjectLeftRadar(Objectsquad[i]);
         }
 
     }
-
-    void ObjectLeftRadar(int quad)
-    {
-        if (QuadCounter[quad] > 1)
-            QuadCounter[quad]--;
-        else
-        {
-            QuadCounter[quad]--;
-            RadarImages[quad].gameObject.SetActive(false);
-        }
-    }
-
 }
