@@ -17,10 +17,6 @@
     {
         Consumable,
         Upgrade
-        public enum ItemType
-    {
-        Consumable,
-        Upgrade
     }
 
     public enum ShopType
