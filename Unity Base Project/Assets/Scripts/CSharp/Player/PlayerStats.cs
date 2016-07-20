@@ -113,7 +113,13 @@ public class PlayerStats : MonoBehaviour
         deathTransition.SendMessage("Respawn");
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
-    }    
+    } 
+    public void GoToStation()
+    {
+        deathTransition.SendMessage("Respawn");
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
+    }   
     private void Kill()
     {
         deathTransition.SendMessage("Death");

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tutorial2>
+  <mission name ="Defender"
+ info = "Kill all the drones enemies"
+ credits = "800"
+ objectives = "10"
+ type = "Combat"
+ enemy = "Droid"
+ time = "0.0"
+ optional = "false"
+  />
+
+</Tutorial2>

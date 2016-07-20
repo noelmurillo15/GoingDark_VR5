@@ -11,6 +11,7 @@ public class SystemManager : MonoBehaviour {
 
     private x360Controller controller;
     private CloakSystem cloaking;
+    private bool messageUp = false;
     #endregion
 
 
@@ -37,7 +38,7 @@ public class SystemManager : MonoBehaviour {
         if (controller.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
 
-        if (controller.GetButtonDown("A"))
+        if (controller.GetButtonDown("A") && !messageUp)
             ActivateSystem(SystemType.Emp);
 
         if (controller.GetButtonDown("B"))
@@ -206,6 +207,10 @@ public class SystemManager : MonoBehaviour {
                 break;
                 #endregion
         }
+    }
+    private void MessageUp(bool up)
+    {
+        messageUp = up;
     }
     #endregion
 }

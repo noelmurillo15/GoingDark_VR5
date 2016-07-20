@@ -91,8 +91,14 @@ public class x360Controller
     // use this for menus, returns true ONCE
     public bool GetButtonDown(string button)
     {
-        if (map[button].prevState == ButtonState.Released && map[button].currState == ButtonState.Pressed)
-            return true;
+        m_currState = GamePad.GetState(m_playerIndex);
+        if (m_currState.IsConnected)
+        {
+            if (map[button].prevState == ButtonState.Released && map[button].currState == ButtonState.Pressed)
+                return true;
+            else
+                return false;
+        }
         else
             return false;
     }

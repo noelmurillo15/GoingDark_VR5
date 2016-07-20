@@ -7,9 +7,9 @@
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
-    optional = "false"
+    optional = "true"
   />
-  
+
   <mission name ="Stealth Tutorial"
   info = "Locate 1 objectives without getting seen by the enemy fleet"
   credits = "200"
@@ -17,7 +17,7 @@
   type = "Stealth"
   enemy = "None"
   time = "0.0"
-  optional = "false"
+  optional = "true"
   />
 
   <mission name ="Combat Tutorial"
@@ -27,7 +27,7 @@
  type = "Combat"
  enemy = "Any"
  time = "0.0"
- optional = "false"
+ optional = "true"
   />
-  
+
 </Tutorial2>

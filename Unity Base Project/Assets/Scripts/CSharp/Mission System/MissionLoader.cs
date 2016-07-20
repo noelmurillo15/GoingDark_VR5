@@ -135,7 +135,7 @@ public class MissionLoader : MonoBehaviour
 
         if (enemy == "BasicEnemy")
             ret = EnemyTypes.Basic;
-        else if (enemy == "Kamikaze")
+        else if (enemy == "Droid")
             ret = EnemyTypes.Droid;
         else if (enemy == "Transport")
             ret = EnemyTypes.Transport;

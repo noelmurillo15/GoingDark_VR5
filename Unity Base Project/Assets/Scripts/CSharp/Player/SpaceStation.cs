@@ -36,7 +36,7 @@ public class SpaceStation : MonoBehaviour
         // if player entered the space station, let them turn in missions
         if (col.transform.tag == "Player")
         {
-            m_stationLog.Docked(true, m_stationID);
+            //m_stationLog.Docked(true, m_stationID);
         }
     }
 
@@ -44,7 +44,7 @@ public class SpaceStation : MonoBehaviour
     {
         if (col.transform.tag == "Player")
         {
-            m_stationLog.Docked(false, m_stationID);
+            //m_stationLog.Docked(false, m_stationID);
         }
 
     }

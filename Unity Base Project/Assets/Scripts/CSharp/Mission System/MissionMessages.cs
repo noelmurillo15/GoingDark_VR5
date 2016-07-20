@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using GoingDark.Core.Enums;
+using MovementEffects;
 
-public class MissionMessages : MonoBehaviour {
+public class MissionMessages : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
+
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
     void Completed(string missionName)
     {
         GetComponentInChildren<Text>().text = "Mission '" + missionName + "' is completed";
