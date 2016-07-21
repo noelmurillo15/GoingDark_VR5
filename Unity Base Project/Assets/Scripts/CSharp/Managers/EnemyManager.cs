@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour {
 
     void Awake()
     {
-        PlayerPosition = GameObject.Find("PlayerTutorial").transform;
+        PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
@@ -29,14 +29,15 @@ public class EnemyManager : MonoBehaviour {
     void Start()
     {
         
-
-        pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         InvokeRepeating("CheckEnemies", 20f, 5f);
     }
 
     #region Accessors
     public CloakSystem GetPlayerCloak()
     {
+        if(pCloak == null)
+            pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+
         return pCloak;
     }
     

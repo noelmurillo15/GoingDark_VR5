@@ -5,33 +5,32 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
+    //  Enemy Data 
     public float detectionTimer;
-    private EnemyStateManager behavior;
     private EnemyManager manager;
-    private GameObject TargetImg;
+    private EnemyStateManager behavior;
     private ObjectPoolManager poolmanager;
 
-    public GameObject container;
-    private Hitmarker LockOn;
-    private bool targetActive;
     //  Player
     private GameObject messages;
-    private GameObject LockImg;
-    private Collider Col;
+
+    //  Lock On
+    //private Collider Col;
+    //private GameObject LockImg;
+    //private GameObject container;
+    //private GameObject TargetImg;
     #endregion
 
     public void Initialize()
     {
-        targetActive = false;
         detectionTimer = 0f;
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
-        manager = GetComponentInParent<EnemyManager>();
-        container = GameObject.FindGameObjectWithTag("GameManager");
-        TargetImg = Resources.Load<GameObject>("LockObject");
+        manager = transform.root.GetComponent<EnemyManager>();
+        //container = GameObject.FindGameObjectWithTag("GameManager");
+        //TargetImg = Resources.Load<GameObject>("LockObject");
 
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
-        //pool.Initialize(TargetImg, 3, container.transform);
     }
 
     void Update()
@@ -39,12 +38,10 @@ public class EnemyCollision : MonoBehaviour
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
 
-        if (LockImg != null)
-        {
-            LockImg.transform.LookAt(Col.transform);
-        }
-
-
+        //if (LockImg != null)
+        //{
+        //    LockImg.transform.LookAt(Col.transform);
+        //}
     }
 
     public void SetManagerRef(EnemyManager _manager)
@@ -66,15 +63,15 @@ public class EnemyCollision : MonoBehaviour
 
             if (col.CompareTag("Player"))
             {
-                Col = col;
-                LockImg = poolmanager.GetTrackedEnemy();
-                LockImg.SetActive(true);
+                //Col = col;
+                //LockImg = poolmanager.GetTrackedEnemy();
+                //LockImg.SetActive(true);
 
-                if (LockImg != null)
-                {
-                    LockImg.transform.parent = transform;
-                    LockImg.transform.position = transform.position;
-                }
+                //if (LockImg != null)
+                //{
+                //    LockImg.transform.parent = transform;
+                //    LockImg.transform.position = transform.position;
+                //}
 
                 if (manager.GetPlayerCloak().GetCloaked())
                     detectionTimer = 5f;
@@ -122,7 +119,7 @@ public class EnemyCollision : MonoBehaviour
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
 
-            LockImg.SetActive(false);
+            //LockImg.SetActive(false);
         }
         if (col.CompareTag("Decoy"))
         {

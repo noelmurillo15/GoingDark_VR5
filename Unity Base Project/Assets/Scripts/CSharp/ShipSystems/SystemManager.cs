@@ -57,7 +57,7 @@ public class SystemManager : MonoBehaviour {
     #region Public Methods
     public void ActivateSystem(SystemType key)
     {
-        if (key == SystemType.Cloak && cloaking.GetCloaked())
+        if (key == SystemType.Cloak && cloaking != null && cloaking.GetCloaked())
         {
             cloaking.UnCloakShip();
             return;
@@ -98,11 +98,10 @@ public class SystemManager : MonoBehaviour {
     }
     public void FullSystemRepair()
     {
+        Debug.Log("Player : Full system repair");
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
         for (int i = 0; i < keylist.Count; i++)
-        {
-            MainDevices[keylist[i]].Repair();
-        }                    
+            MainDevices[keylist[i]].Repair();                         
     }
 
     public int GetSystemCooldown(SystemType key)

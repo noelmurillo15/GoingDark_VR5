@@ -14,6 +14,9 @@ public class IEnemy : MonoBehaviour {
     private ShieldProperties ShieldData;
     private HealthProperties HealthData;
 
+    [SerializeField]
+    public bool hasShield;
+
     private GameObject stunned;
     private EnemyManager manager;
     private ObjectPoolManager poolmanager;
@@ -26,7 +29,9 @@ public class IEnemy : MonoBehaviour {
         MyTransform = transform;
 
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
-        ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
+
+        if(hasShield)
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
 
         manager = transform.root.GetComponent<EnemyManager>();
 
@@ -39,7 +44,7 @@ public class IEnemy : MonoBehaviour {
     #region Accessors
     
     public ShieldProperties GetShieldData()
-    {
+    {        
         return ShieldData;
     }
     public HealthProperties GetHealthData()
@@ -76,11 +81,12 @@ public class IEnemy : MonoBehaviour {
     }
     void ShieldHit(float _val)
     {
-        ShieldData.Damage(_val);        
+        if(hasShield)
+            ShieldData.Damage(_val);        
     }
     void SplashDmg()
     {
-        if (!ShieldData.GetShieldActive())
+        if (hasShield && !ShieldData.GetShieldActive())
         {
             Debug.Log("Enemy affected by splash dmg");
             HealthData.Damage(2);
@@ -89,7 +95,7 @@ public class IEnemy : MonoBehaviour {
     }
     public void MissileHit(Missile missile)
     {        
-        if (ShieldData.GetShieldActive())
+        if (hasShield && ShieldData.GetShieldActive())
         {
             switch (missile.Type)
             {
@@ -134,7 +140,7 @@ public class IEnemy : MonoBehaviour {
     }
     public void LaserHit(LaserProjectile laser)
     {
-        if (ShieldData.GetShieldActive())
+        if (hasShield && ShieldData.GetShieldActive())
             ShieldHit(5f);        
         else
         {

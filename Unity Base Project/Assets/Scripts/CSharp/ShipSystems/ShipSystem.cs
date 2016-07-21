@@ -44,7 +44,6 @@ public class ShipSystem : MonoBehaviour {
 
     public void Repair()
     {
-        Debug.Log("System was repaired");
         cooldown = 0;
         Activated = false;
         SystemReady = true;

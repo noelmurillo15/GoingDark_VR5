@@ -36,9 +36,12 @@ public class MissionSystem : MonoBehaviour
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_missionTracker = GameObject.Find("PersistentGameObject").GetComponent<MissionTracker>();
-        spawner = GameObject.Find("SpawnDroids");
 
-        spawner.SetActive(false);
+        if (SceneName == "Level1")
+        {
+            spawner = GameObject.Find("SpawnDroids");
+            spawner.SetActive(false);
+        }
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
@@ -79,10 +82,7 @@ public class MissionSystem : MonoBehaviour
                     m_ActiveMissions[i] = mission;
 
                     // automatic turn in
-                    if (mission.isOptional || (!mission.isOptional && m_PrimaryMissions.Count > 0))
-                        TurnInMission(mission);
-                    else
-                        m_missionLog.TurnInLastMission();
+                    TurnInMission(mission);
                 }
                 m_missionTracker.UpdateInfo(mission);
             }
@@ -120,7 +120,8 @@ public class MissionSystem : MonoBehaviour
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
 
         yield return Timing.WaitForSeconds(1.0f);
-        spawner.SetActive(true);
+        if (SceneName == "Level1")
+            spawner.SetActive(true);
     }
 
     #region Public Methods
@@ -186,11 +187,7 @@ public class MissionSystem : MonoBehaviour
 
                     m_missionLog.Completed(mission);
 
-                    if (mission.isOptional || (!mission.isOptional && m_PrimaryMissions.Count > 0))
-                        TurnInMission(mission);
-                    else
-                        m_missionLog.TurnInLastMission();
-
+                    TurnInMission(mission);
                 }
             }
             m_missionTracker.UpdateInfo(mission);

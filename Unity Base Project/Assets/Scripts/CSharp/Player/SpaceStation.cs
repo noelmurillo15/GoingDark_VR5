@@ -1,51 +1,35 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using GoingDark.Core.Enums;
 
 public class SpaceStation : MonoBehaviour
 {
-
-    public Mission[] stationMissions;
-
-    private MissionSystem m_missionSystem;
-    private MissionLoader m_missionLoader;
+    #region Properties
+    private float repairTimer;
     private AudioSource sound;
-    private StationLog m_stationLog;
+    private SystemManager systemManager;
+    #endregion
 
-    public int m_stationID;
 
     // Use this for initialization
     void Start()
     {
+        repairTimer = 0f;
         sound = GetComponent<AudioSource>();
-
-        stationMissions = new Mission[4];
-        m_stationLog = GameObject.Find("MissionLog").GetComponent<StationLog>();
-        m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
-        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
+        systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public void OnTriggerEnter(Collider col)
-    {
-        // if player entered the space station, let them turn in missions
-        if (col.transform.tag == "Player")
-        {
-            //m_stationLog.Docked(true, m_stationID);
-        }
+        if (repairTimer > 0)
+            repairTimer -= Time.deltaTime;
     }
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.transform.tag == "Player")
+        if (col.transform.tag == "Player" && repairTimer <= 0f)
         {
-            //m_stationLog.Docked(false, m_stationID);
+            sound.Play();
+            repairTimer = 60f;
+            systemManager.FullSystemRepair();
         }
-
     }
 }

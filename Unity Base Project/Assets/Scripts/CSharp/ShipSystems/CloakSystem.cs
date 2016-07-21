@@ -13,7 +13,7 @@ public class CloakSystem : ShipSystem
     {
         maxCooldown = 30f;
 
-        shipLights = new GameObject[5];
+        shipLights = new GameObject[4];
         GameObject parentLight = GameObject.Find("ShipLights");
         for (int x = 0; x < parentLight.transform.childCount; x++)
             shipLights[x] = parentLight.transform.GetChild(x).gameObject;

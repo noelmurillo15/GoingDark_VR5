@@ -31,7 +31,7 @@ public class MissileSystem : ShipSystem
         Count[3] = 5;
 
         maxCooldown = 1f;
-        Type = MissileType.Basic;
+        Type = MissileType.ShieldBreak;
 
         // Show missile count
         typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
@@ -52,8 +52,8 @@ public class MissileSystem : ShipSystem
 
     void Update()
     {
-        if (controller.GetButtonDown("Y"))
-            WeaponSwap();
+        //if (controller.GetButtonDown("Y"))
+        //    WeaponSwap();
 
         if (Activated)
             LaunchMissile();
