@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
   <mission name ="Defender"
- info = "Kill all the drones enemies"
+ info = "Kill all the droids"
  credits = "800"
- objectives = "10"
+ objectives = "5"
  type = "Combat"
  enemy = "Droid"
  time = "0.0"

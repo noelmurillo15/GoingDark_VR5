@@ -21,9 +21,9 @@
   />
 
   <mission name ="Combat Tutorial"
- info = "Kill 5 enemies"
+ info = "Kill 3 enemies"
  credits = "200"
- objectives = "5"
+ objectives = "3"
  type = "Combat"
  enemy = "Any"
  time = "0.0"

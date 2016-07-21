@@ -21,6 +21,8 @@ public class MissionSystem : MonoBehaviour
     private int m_stationID;
     private string SceneName;
 
+    GameObject spawner;
+
     // Use this for initialization
     void Start()
     {
@@ -34,6 +36,9 @@ public class MissionSystem : MonoBehaviour
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_missionTracker = GameObject.Find("PersistentGameObject").GetComponent<MissionTracker>();
+        spawner = GameObject.Find("SpawnDroids");
+
+        spawner.SetActive(false);
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
@@ -113,6 +118,9 @@ public class MissionSystem : MonoBehaviour
         AddActiveMission(m_MainMission);
         m_missionTracker.missionTracker.SetActive(true);
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
+
+        yield return Timing.WaitForSeconds(1.0f);
+        spawner.SetActive(true);
     }
 
     #region Public Methods

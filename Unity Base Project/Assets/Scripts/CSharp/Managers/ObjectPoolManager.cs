@@ -19,6 +19,7 @@ public class ObjectPoolManager : MonoBehaviour {
     private ObjectPooling ChargedLasers = new ObjectPooling();
     private ObjectPooling BasicExplosion = new ObjectPooling();
     private ObjectPooling ChargedExplosion = new ObjectPooling();
+    private ObjectPooling TrackEnemy = new ObjectPooling();
     #endregion
 
     // Use this for initialization
@@ -42,6 +43,9 @@ public class ObjectPoolManager : MonoBehaviour {
         ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 15, MyTransform);
         BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), 8, MyTransform);
         ChargedExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 8, MyTransform);
+
+        //track enemy
+        TrackEnemy.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
     }
 
     #region Accessors
@@ -90,5 +94,10 @@ public class ObjectPoolManager : MonoBehaviour {
     {
         return BasicExplosion.GetPooledObject();
     }
+    public GameObject GetTrackedEnemy()
+    {
+        return TrackEnemy.GetPooledObject();
+    }
+
     #endregion
 }

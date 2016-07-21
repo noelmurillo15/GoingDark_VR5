@@ -63,16 +63,18 @@ public class MissionTracker : MonoBehaviour {
                 missionBox.SetActive(false);
                 systemManager.SendMessage("MessageUp", false);
 
-                missionSystem.KilledEnemy(EnemyTypes.Any);
+               // missionSystem.KilledEnemy(EnemyTypes.Any);
+               // missionSystem.KilledEnemy(EnemyTypes.Droid);
+
                 yield return 0f;
             }
             else
                 yield return 0f;
 
-            if (controller.GetButtonDown("Start"))
-            {
-                missionSystem.LootPickedUp();
-            }
+           // if (controller.GetButtonDown("Start"))
+           // {
+           //     missionSystem.LootPickedUp();
+           // }
 
         }
     }
