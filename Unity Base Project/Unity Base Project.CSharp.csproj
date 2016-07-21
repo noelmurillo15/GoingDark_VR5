@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Web v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WebPlayer:6</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -62,11 +64,11 @@
     <Reference Include="LeapCSharp.NET3.5">
       <HintPath>Assets\Plugins\LeapCSharp.NET3.5.dll</HintPath>
     </Reference>
-    <Reference Include="XInputDotNetPure">
-      <HintPath>Assets\Plugins\x86_64\XInputDotNetPure.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <HintPath>Assets\Plugins\System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="XInputDotNetPure">
+      <HintPath>Assets\Plugins\x86_64\XInputDotNetPure.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -468,13 +470,10 @@
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
-    <None Include="Assets\Resources\XML\Level1_1.xml" />
-    <None Include="Assets\Resources\XML\Level1_2.xml" />
-    <None Include="Assets\Resources\XML\Level1_Boss.xml" />
-    <None Include="Assets\Resources\XML\OpenWorld.xml" />
-    <None Include="Assets\Resources\XML\Tutorial.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
-    <None Include="Assets\Resources\XML\Tutorial_Main.xml" />
+    <None Include="Assets\Resources\XML\Tutorial_Main.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assets\Shaders\Fxaa3.shader" />
     <None Include="Assets\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Shaders\ZText.shader" />

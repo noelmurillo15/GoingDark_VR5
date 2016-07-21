@@ -104,7 +104,6 @@ public class MissionTracker : MonoBehaviour {
         trackerName.text = mission.missionName;
         trackerInfo.text = mission.missionInfo;
         trackerObjectives.text = "Objectives Left : " + mission.objectives;
-        Debug.Log(mission.objectives);
     }
 
     private string MissionInfo(string level)

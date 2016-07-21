@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource _Gadget;
     public AudioSource _Messages;
     public AudioSource _Button;
+    public AudioSource _Thruster;
+
     Dictionary<string, AudioClip> sounds;
     Dictionary<string, AudioClip> music;
     public static AudioManager instance = null;
@@ -109,27 +111,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayThruster()
     {
-        _Gadget.volume = SoundVolume * MasterVolume;
-        if (!_Gadget.isPlaying)
+        _Thruster.volume = SoundVolume * MasterVolume;
+        if (!_Thruster.isPlaying)
         {
-            if (_Gadget.clip == sounds["Thrusters"])
-                _Gadget.Play();
+            if (_Thruster.clip == sounds["Thrusters"])
+                _Thruster.Play();
             else
             {
-                _Gadget.clip = sounds["Thrusters"];
-                _Gadget.Play();
+                _Thruster.clip = sounds["Thrusters"];
+                _Thruster.Play();
             }
         }
-        else if (_Gadget.clip != sounds["Thrusters"])
+        else if (_Thruster.clip != sounds["Thrusters"])
         {
-            _Gadget.clip = sounds["Thrusters"];
-            _Gadget.Play();
+            _Thruster.clip = sounds["Thrusters"];
+            _Thruster.Play();
         }
     }
 
     public void ThrusterVolume(float amount)
     {
-        _Gadget.volume = 0.1f * amount * SoundVolume * MasterVolume;
+        _Thruster.volume = 0.1f * amount * SoundVolume * MasterVolume;
     }
 
     public IEnumerator LowerBattleMusic()
@@ -255,22 +257,22 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMenuGood()
     {
-        _Gadget.clip = sounds["MenuGood"];
-        _Gadget.volume = SoundVolume * MasterVolume;
-        _Gadget.Play();
+        _Messages.clip = sounds["MenuGood"];
+        _Messages.volume = SoundVolume * MasterVolume;
+        _Messages.Play();
     }
     public void PlayAmmoPickUp()
     {
-        _Gadget.clip = sounds["Upgrading"];
-        _Gadget.volume = SoundVolume * MasterVolume;
-        _Gadget.Play();
+        _Messages.clip = sounds["Upgrading"];
+        _Messages.volume = SoundVolume * MasterVolume;
+        _Messages.Play();
     }
 
     public void PlayMenuBad()
     {
-        _Gadget.clip = sounds["MenuBad"];
-        _Gadget.volume = SoundVolume * MasterVolume;
-        _Gadget.Play();
+        _Messages.clip = sounds["MenuBad"];
+        _Messages.volume = SoundVolume * MasterVolume;
+        _Messages.Play();
     }
 
     public void PlayCollect()
@@ -280,10 +282,17 @@ public class AudioManager : MonoBehaviour
         _Messages.Play();
     }
 
-    public void PlayHit()
+    public void PlayHit(float distance = 0)
     {
         _Hit.clip = sounds["Hit"];
-        _Hit.volume = SoundVolume * MasterVolume;
+        if(distance > 0)
+        {
+            _Hit.volume = distance * 0.002f;
+            _Hit.volume = _Hit.volume * SoundVolume * MasterVolume;
+        }
+        else
+            _Hit.volume = SoundVolume * MasterVolume;
+
         _Hit.Play();
     }
 
