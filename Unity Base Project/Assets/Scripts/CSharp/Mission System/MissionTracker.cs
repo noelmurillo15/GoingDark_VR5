@@ -6,7 +6,8 @@ using GoingDark.Core.Enums;
 using MovementEffects;
 using UnityEngine.SceneManagement;
 
-public class MissionTracker : MonoBehaviour {
+public class MissionTracker : MonoBehaviour
+{
 
     // main mission
     private Text name;
@@ -28,7 +29,8 @@ public class MissionTracker : MonoBehaviour {
     public GameObject missionTracker;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         controller = GamePadManager.Instance.GetController(0);
 
@@ -46,7 +48,7 @@ public class MissionTracker : MonoBehaviour {
         AssignText();
         Timing.RunCoroutine(ShowMain());
     }
-	
+
 
     IEnumerator<float> ShowMain()
     {
@@ -63,18 +65,18 @@ public class MissionTracker : MonoBehaviour {
                 missionBox.SetActive(false);
                 systemManager.SendMessage("MessageUp", false);
 
-               // missionSystem.KilledEnemy(EnemyTypes.Any);
-               // missionSystem.KilledEnemy(EnemyTypes.Droid);
+                //missionSystem.KilledEnemy(EnemyTypes.Any);
+                //missionSystem.KilledEnemy(EnemyTypes.Droid);
 
                 yield return 0f;
             }
             else
                 yield return 0f;
 
-           // if (controller.GetButtonDown("Start"))
-           // {
-           //     missionSystem.LootPickedUp();
-           // }
+            //if (controller.GetButtonDown("Start"))
+            //{
+            //   missionSystem.LootPickedUp();
+            //}
 
         }
     }

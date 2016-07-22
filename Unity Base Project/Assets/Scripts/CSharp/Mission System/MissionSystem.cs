@@ -21,12 +21,22 @@ public class MissionSystem : MonoBehaviour
     private int m_stationID;
     private string SceneName;
 
-    //GameObject spawner;
+    GameObject spawner;
+    GameObject[] portals;
 
+    private int portalIndex = 0;
     // Use this for initialization
     void Start()
     {
         SceneName = SceneManager.GetActiveScene().name;
+
+        portals = new GameObject[3];
+        portals[0] = GameObject.Find("FlightPortal");
+        portals[1] = GameObject.Find("StealthPortal");
+        portals[2] = GameObject.Find("CombatPortal");
+
+        portals[1].SetActive(false);
+        portals[2].SetActive(false);
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
@@ -34,29 +44,22 @@ public class MissionSystem : MonoBehaviour
         m_PrimaryMissions = new List<Mission>();
 
         m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
-        m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         m_missionTracker = GameObject.Find("PersistentGameObject").GetComponent<MissionTracker>();
+        m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
 
-        if (SceneName == "Level1")
-        {
-            //spawner = GameObject.Find("SpawnDroids");
-            //spawner.SetActive(false);
-        }
+        //if (SceneName == "Level1")
+        //{
+        //    spawner = GameObject.Find("SpawnDroids");
+        //    spawner.SetActive(false);
+        //}
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
 
-        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
-    }
-
-    void StartNextMission()
-    {
-        if (m_PrimaryMissions.Count > 0)
-        {
-            AddActiveMission(m_PrimaryMissions[0]);
-            m_missionLog.NewMission(m_PrimaryMissions[0]);
-            m_PrimaryMissions.RemoveAt(0);
-        }
+        if (SceneName == "Level1")
+            m_playerStats = GameObject.Find("PlayerTutorial").GetComponent<PlayerStats>();
+        else
+            m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
     }
 
     /// <summary>
@@ -88,11 +91,11 @@ public class MissionSystem : MonoBehaviour
 
     void MissionFailed(Mission mission)
     {
+        m_missionTracker.missionTracker.SetActive(false);
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
         Debug.Log("Failed mission, return to portals");
         Timing.RunCoroutine(Wait(3.0f));
-
     }
 
     MissionType Convert(string name)
@@ -117,8 +120,8 @@ public class MissionSystem : MonoBehaviour
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
 
         yield return Timing.WaitForSeconds(1.0f);
-        //if (SceneName == "Level1")
-        //    spawner.SetActive(true);
+        if (SceneName == "Level1")
+            spawner.SetActive(true);
     }
 
     #region Public Methods
@@ -134,19 +137,21 @@ public class MissionSystem : MonoBehaviour
 
     public void EnteredPortal(string name)
     {
-        MissionType type = Convert(name);
-        if (m_PrimaryMissions.Count != 0)
+        if (m_ActiveMissions.Count == 0)
         {
-            Mission temp = m_PrimaryMissions.Find(x => x.type == type);
-            string mName = temp.missionName;
-            AddActiveMission(temp);
-            for (int i = 0; i < m_PrimaryMissions.Count; i++)
+            MissionType type = Convert(name);
+            if (m_PrimaryMissions.Count != 0)
             {
-                if (m_PrimaryMissions[i].type == temp.type)
-                    m_PrimaryMissions.RemoveAt(i);
+                Mission temp = m_PrimaryMissions.Find(x => x.type == type);
+                string mName = temp.missionName;
+                AddActiveMission(temp);
+                for (int i = 0; i < m_PrimaryMissions.Count; i++)
+                {
+                    if (m_PrimaryMissions[i].type == temp.type)
+                        m_PrimaryMissions.RemoveAt(i);
+                }
+                m_missionTracker.ShowTracker();
             }
-            //m_PrimaryMissions.RemoveAll(x => x.missionName == mName);
-            m_missionTracker.ShowTracker();
         }
     }
 
@@ -175,6 +180,7 @@ public class MissionSystem : MonoBehaviour
                 mission.enemy == type)
             {
                 mission.objectives--;
+                Debug.Log("Killed enemy");
                 m_ActiveMissions[i] = mission;
 
                 if (mission.objectives == 0)
@@ -199,13 +205,8 @@ public class MissionSystem : MonoBehaviour
             mission = m_ActiveMissions[i];
             if (mission.type == MissionType.Stealth)
             {
-                if (mission.isOptional)
-                    MissionFailed(mission);
-                else
-                {
-                    m_PrimaryMissions.Add(mission);
-                    MissionFailed(mission);
-                }
+                m_PrimaryMissions.Add(mission);
+                MissionFailed(mission);
             }
         }
     }
@@ -213,15 +214,26 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
+        portals[portalIndex].SetActive(false);
+        if ((portalIndex + 1) <= 2)
+        {
+            portals[portalIndex + 1].SetActive(true);
+        }
+        portalIndex++;
+
         m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
+
+        if (tempMission.missionName == m_MainMission.missionName)
+            m_MainMission.completed = true;
+
         string temp = TypeToString(tempMission.type);
 
-        if (tempMission.enemy != EnemyTypes.Droid)
-        {
-            GameObject obj = GameObject.Find(temp);
-            obj.SetActive(false);
-        }
+        //if (tempMission.enemy != EnemyTypes.Droid)
+        //{
+        //    GameObject obj = GameObject.Find(temp);
+        //    obj.SetActive(false);
+        //}
 
         m_CompletedMissions.Add(tempMission);
         m_ActiveMissions.Remove(tempMission);
@@ -229,13 +241,12 @@ public class MissionSystem : MonoBehaviour
         m_playerStats.SaveData.Credits += tempMission.credits;
         Debug.Log("Credits : " + m_playerStats.SaveData.Credits);
 
-
         Timing.RunCoroutine(Wait(3.0f));
 
-        if (m_PrimaryMissions.Count == 0 && m_ActiveMissions.Count == 0)
-        {
-            Timing.RunCoroutine(DelayMission(3.0f));
-        }
+        //if (m_PrimaryMissions.Count == 0 && m_ActiveMissions.Count == 0 && !m_MainMission.completed)
+        //{
+        //    Timing.RunCoroutine(DelayMission(3.0f));
+        //}
     }
 
     IEnumerator<float> Wait(float time)

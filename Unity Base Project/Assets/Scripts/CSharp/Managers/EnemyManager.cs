@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EnemyManager : MonoBehaviour {
 
     #region Properties
-    public GameDifficulty Difficulty { get; private set; }
+    public GameDifficulty Difficulty;
     public Transform PlayerPosition { get; private set; }
 
     private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
