@@ -13,14 +13,14 @@ public class Radar2DScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Player = GameObject.Find("PlayerTutorial");// find player tutorial eventually
+        Player = GameObject.FindGameObjectWithTag("Player");// find player tutorial eventually
         RadarImages = new GameObject[9];
 
 
         for (int i = 0; i < 9; i++)
         {
             //            this.transform.GetChild(i).gameObject.SetActive(false);
-            RadarImages[i] = this.transform.GetChild(i).gameObject;
+            RadarImages[i] = transform.GetChild(i).gameObject;
             RadarImages[i].SetActive(false);
         }
     }
@@ -142,7 +142,7 @@ public class Radar2DScript : MonoBehaviour
             RadarImages[i].SetActive(false);
     }
 
-    void Update()
+    void LateUpdate()
     {
         TurnOffRadarPanels(); // turn them all off.
         for (int i = 0; i < EnemiesArray.Count; i++) // loop threw the array and set enemies quads.
@@ -175,6 +175,5 @@ public class Radar2DScript : MonoBehaviour
                 TurnOnRadarPanels(angle);//turn on that quad.
             }
         }
-
     }
 }
