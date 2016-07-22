@@ -5,10 +5,15 @@ using GoingDark.Core.Enums;
 public class EnemyStateManager : IEnemy
 {
     #region Properties        
-    public EnemyStates State;    
+    public EnemyStates State;
+
+    public Transform Target { get; protected set; }
+    public Vector3 LastKnownPos { get; protected set; }
 
     public bool lostSight;
-    public float losingsightTimer;    
+    public float losingsightTimer;
+
+    private EnemyMovement movement;
     #endregion
 
     void Awake()
@@ -18,13 +23,15 @@ public class EnemyStateManager : IEnemy
 
     public override void Initialize()
     {
-        base.Initialize();        
-        LastKnownPos = Vector3.zero;
-        State = EnemyStates.Idle;
-        losingsightTimer = 0f;
-        lostSight = false;
         Target = null;
+        lostSight = false;
+        losingsightTimer = 0f;
+        State = EnemyStates.Idle;
+        LastKnownPos = Vector3.zero;
 
+        movement = GetComponent<EnemyMovement>();
+
+        base.Initialize();        
         GetComponent<EnemyCollision>().Initialize();
     }
 
@@ -46,7 +53,11 @@ public class EnemyStateManager : IEnemy
         Target = _target;
         if (Target != null)
         {
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>().PlayerSeen();
+            if (Target.CompareTag("Player"))
+                GetManager().PlayerSeen();
+            else
+                Debug.Log("Enemy is locked on but not to the Player");
+
             ChangeState(EnemyStates.Attack);        
         }
         else
@@ -59,7 +70,7 @@ public class EnemyStateManager : IEnemy
         {
             if (LastKnownPos == Vector3.zero)
             {
-                if (Vector3.Distance((Vector3)storage[1], MyTransform.position) <= 2000f)
+                if (Vector3.Distance((Vector3)storage[1], transform.position) <= 2000f)
                 {
                     SetLastKnown((Vector3)storage[0]);
                 }
@@ -74,18 +85,6 @@ public class EnemyStateManager : IEnemy
         ChangeState(EnemyStates.Alert);
     }
 
-    public void BroadcastWin()
-    {
-        Target = null;
-        ChangeState(EnemyStates.Patrol);
-    }
-
-    public void SetUniqueAi(MonoBehaviour _script)
-    {
-        //if(uniqueAi == null)
-        //    uniqueAi = _script;
-    }
-
     public void ChangeState(EnemyStates newState)
     {
         State = newState;
@@ -96,31 +95,35 @@ public class EnemyStateManager : IEnemy
         switch (State)
         {
             case EnemyStates.Idle:
-                //SetSpeedBoost(0f);
+                movement.SetSpeedBoost(0f);
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Patrol:
-                //SetSpeedBoost(.5f);
+                movement.SetSpeedBoost(.5f);
                 LastKnownPos = Vector3.zero;
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
-            case EnemyStates.Alert:                
-                //SetSpeedBoost(.8f);                
+            case EnemyStates.Alert:
+                movement.autopilot = false;
+                movement.SetSpeedBoost(.8f);                
                 lostSight = true;
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 10f;
                 break;
             case EnemyStates.Attack:
-                //SetSpeedBoost(1f);
+                movement.autopilot = false;
+                movement.SetSpeedBoost(1f);
                 LastKnownPos = Vector3.zero;
                 losingsightTimer = 0f;
                 lostSight = false;
                 break;
             case EnemyStates.Flee:
+                movement.SetSpeedBoost(1.25f);
                 break;
             case EnemyStates.Follow:
+                movement.SetSpeedBoost(.5f);
                 break;
         }
     }             

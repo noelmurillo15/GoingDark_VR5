@@ -18,7 +18,6 @@ public class BossAi : MonoBehaviour
     {
         droidSpawned = false;
         behavior = GetComponent<EnemyStateManager>();
-        behavior.SetUniqueAi(this);
         droids = Resources.Load<GameObject>("Droid");
         //pool = new ObjectPooling();
         //pool.Initialize(droids, 10);

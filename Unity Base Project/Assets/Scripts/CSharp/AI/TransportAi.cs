@@ -18,7 +18,6 @@ public class TransportAi : MonoBehaviour
     // Use this for initialization
     void Start () {
         behavior = GetComponent<EnemyStateManager>();
-        behavior.SetUniqueAi(this);
 
         mesh1 = transform.GetChild(3).GetChild(0).GetComponent<Renderer>();
         mesh2 = transform.GetChild(3).GetChild(1).GetComponent<Renderer>();

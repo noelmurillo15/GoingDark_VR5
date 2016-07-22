@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour {
     // Use this for initialization
     void Start() {
         count = 10;
-        InvokeRepeating("SpawnDroids", 15f, 2f);
+        InvokeRepeating("SpawnDroids", 5f, 3f);
         droids = Resources.Load<GameObject>("Droid");
     }
 

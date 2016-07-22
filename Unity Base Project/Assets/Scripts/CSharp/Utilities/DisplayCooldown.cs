@@ -6,14 +6,13 @@ using System.Collections.Generic;
 
 public class DisplayCooldown : MonoBehaviour {
 
+    public SystemType Type;
     private Text text;
-    private SystemType type;
     private SystemManager system;
 
 
 	void Start () {
         system = GameObject.Find("Devices").GetComponent<SystemManager>();
-        type = GetComponentInParent<QuickSlot>().Type;
         text = GetComponent<Text>();
 
         //   Start Coroutine
@@ -31,7 +30,7 @@ public class DisplayCooldown : MonoBehaviour {
     }
     private void CooldownCheck()
     {
-        int num = system.GetSystemCooldown(type);
+        int num = system.GetSystemCooldown(Type);
         if (num == -1)
         {
             text.color = Color.grey;

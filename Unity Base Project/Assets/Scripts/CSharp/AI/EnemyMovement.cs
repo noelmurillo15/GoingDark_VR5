@@ -69,7 +69,7 @@ public class EnemyMovement : MonoBehaviour
             headingY = MyTransform.eulerAngles.y;
             MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
 
-            if (Vector3.Distance(autopilotlocation, MyTransform.position) < 20f)
+            if (Vector3.Distance(autopilotlocation, MyTransform.position) < 50f)
             {
                 Debug.Log("Enemy made it back to zone");
                 autopilot = false;
@@ -109,7 +109,7 @@ public class EnemyMovement : MonoBehaviour
     {
         MoveData.IncreaseSpeed();
         Vector3 lastplayerdir = behavior.LastKnownPos - MyTransform.position;
-        if (Vector3.Distance(MyTransform.position, behavior.LastKnownPos) < 25f)
+        if (Vector3.Distance(MyTransform.position, behavior.LastKnownPos) < 50f)
         {
             Debug.Log("Enemy has not found player, going back on patrol");
             Distance = 0;

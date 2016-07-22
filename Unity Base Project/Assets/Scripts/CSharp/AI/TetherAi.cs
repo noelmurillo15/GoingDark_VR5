@@ -12,7 +12,6 @@ public class TetherAi : MonoBehaviour
     void Start()
     {
         behavior = GetComponent<EnemyStateManager>();
-        behavior.SetUniqueAi(this);
     }
 
     // Update is called once per frame

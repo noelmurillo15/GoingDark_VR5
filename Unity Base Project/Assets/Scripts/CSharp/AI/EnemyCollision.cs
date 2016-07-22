@@ -5,11 +5,8 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
-    //  Enemy Data 
     public float detectionTimer;
-    private EnemyManager manager;
     private EnemyStateManager behavior;
-    private ObjectPoolManager poolmanager;
 
     //  Player
     private GameObject messages;
@@ -26,11 +23,8 @@ public class EnemyCollision : MonoBehaviour
         detectionTimer = 0f;
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
-        manager = transform.root.GetComponent<EnemyManager>();
         //container = GameObject.FindGameObjectWithTag("GameManager");
         //TargetImg = Resources.Load<GameObject>("LockObject");
-
-        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
 
     void Update()
@@ -42,11 +36,6 @@ public class EnemyCollision : MonoBehaviour
         //{
         //    LockImg.transform.LookAt(Col.transform);
         //}
-    }
-
-    public void SetManagerRef(EnemyManager _manager)
-    {
-        manager = _manager;
     }
 
     #region Collision
@@ -73,12 +62,12 @@ public class EnemyCollision : MonoBehaviour
                 //    LockImg.transform.position = transform.position;
                 //}
 
-                if (manager.GetPlayerCloak().GetCloaked())
+                if (behavior.GetManager().GetPlayerCloak().GetCloaked())
                     detectionTimer = 5f;
                 else
                 {
                     if (col.CompareTag("Player"))
-                        manager.SendAlert(transform.position);
+                        behavior.GetManager().SendAlert(transform.position);
 
                     detectionTimer = 0f;
                 }
@@ -99,7 +88,7 @@ public class EnemyCollision : MonoBehaviour
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            if (manager.GetPlayerCloak().GetCloaked())
+            if (behavior.GetManager().GetPlayerCloak().GetCloaked())
             {
                 detectionTimer = 5f;
                 if (behavior.State != EnemyStates.Patrol)

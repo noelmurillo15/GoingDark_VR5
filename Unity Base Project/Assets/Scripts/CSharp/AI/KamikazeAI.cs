@@ -3,13 +3,8 @@
 public class KamikazeAI : MonoBehaviour
 {
     #region Properties
-    //  Kami Data
-    private int typebot;
     private float detectionTimer;
     private float selfdestructTimer;
-
-    //  Enemy Data
-    private PatrolAi patrol;
     private EnemyStateManager behavior;
     #endregion
 
@@ -17,13 +12,9 @@ public class KamikazeAI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        behavior = GetComponent<EnemyStateManager>();
-        patrol = GetComponent<PatrolAi>();
-        behavior.SetUniqueAi(this);
-        selfdestructTimer = 20f;
         detectionTimer = 0f;
-
-        typebot = Random.Range(0, 1);  
+        selfdestructTimer = 20f;
+        behavior = GetComponent<EnemyStateManager>();
     }
 
     // Update is called once per frame
@@ -33,34 +24,18 @@ public class KamikazeAI : MonoBehaviour
             detectionTimer -= Time.deltaTime;
     }
 
-    #region Self-Destruct
-    void SelfDestruct()
-    {
-        Invoke("Explosion", selfdestructTimer);
-    }
-    void SelfDestructBoss()
-    {
-        Invoke("Explosion", 20);
-    }
-    void Explosion()
-    {
-        GameObject go = Instantiate(Resources.Load("Particles/Boom"), behavior.MyTransform.position, Quaternion.identity) as GameObject;
-        go.transform.parent = behavior.MyTransform.parent;
-        SendMessage("Kill");
-    }
-    #endregion
-
     #region Collision Detection
     void OnCollisionEnter(Collision hit)
     {
         if (hit.transform.CompareTag("Player") && detectionTimer <= 0f)
         {
-            detectionTimer = 1f;
-            if (typebot == 0)
+            detectionTimer = 5f;
+            if(Random.Range(0, 10) == 5)
                 hit.transform.SendMessage("EMPHit");
             else
                 hit.transform.SendMessage("ShieldHit");
-            Explosion();
+
+            behavior.Kill();
         }
     }
     #endregion

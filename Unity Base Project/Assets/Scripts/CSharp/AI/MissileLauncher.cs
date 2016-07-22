@@ -45,7 +45,7 @@ public class MissileLauncher : MonoBehaviour
     private void Fire()
     {
         Cooldown = MaxCooldown;
-        GameObject miss = behavior.GetPoolManager().GetEnemyMissile();
+        GameObject miss = behavior.GetManager().GetObjectPoolManager().GetEnemyMissile();
         if (miss != null)
         {
             miss.transform.position = MyTransform.position;

@@ -82,6 +82,7 @@ public class SystemManager : MonoBehaviour {
         if (MainDevices.TryGetValue(key, out sdev))
             return sdev;
 
+        Debug.LogError("GetSystemScript did not find " + key.ToString());
         return null;        
     }
 

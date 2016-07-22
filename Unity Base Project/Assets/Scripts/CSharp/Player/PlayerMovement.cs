@@ -103,8 +103,8 @@ public class PlayerMovement : MonoBehaviour
             return;
 
         particles.startSpeed = -speedAmt;
-        AudioManager.instance.PlayThruster();
-        AudioManager.instance.ThrusterVolume(speedAmt);
+        //AudioManager.instance.PlayThruster();
+        //AudioManager.instance.ThrusterVolume(speedAmt);
 
         Vector3 movedir = MyTransform.forward;
         movedir *= MoveData.Speed * Time.deltaTime;

@@ -4,32 +4,23 @@ using GoingDark.Core.Enums;
 public class IEnemy : MonoBehaviour {
 
     #region Properties
-    public Transform Target { get; protected set; }
-    public Transform MyTransform { get; private set; }
-    public Vector3 LastKnownPos { get; protected set; }
-
-    public EnemyTypes Type = EnemyTypes.None;
-    public Impairments Debuff = Impairments.None;
-    
-    private ShieldProperties ShieldData;
-    private HealthProperties HealthData;
-
     [SerializeField]
     public bool hasShield;
 
+    private ShieldProperties ShieldData;
+    private HealthProperties HealthData;
+
+    public EnemyTypes Type = EnemyTypes.None;
+    public Impairments Debuff = Impairments.None;
+        
     private GameObject stunned;
     private EnemyManager manager;
-    private ObjectPoolManager poolmanager;
+    
     #endregion
 
 
     public virtual void Initialize()
     {
-        Target = null;
-        MyTransform = transform;
-
-        poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
-
         if(hasShield)
             ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
 
@@ -41,8 +32,7 @@ public class IEnemy : MonoBehaviour {
         Invoke("AddToManager", 1f);
     }
 
-    #region Accessors
-    
+    #region Accessors    
     public ShieldProperties GetShieldData()
     {        
         return ShieldData;
@@ -55,18 +45,12 @@ public class IEnemy : MonoBehaviour {
     {
         return manager;
     }
-    public ObjectPoolManager GetPoolManager()
-    {
-        return poolmanager;
-    }
     #endregion
 
     #region Msg Functions
     void AddToManager()
     {
-        manager = transform.root.GetComponent<EnemyManager>();
-        manager.AddEnemy(MyTransform.GetComponent<EnemyStateManager>());
-        GetComponent<EnemyCollision>().SetManagerRef(manager);
+        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
         LoadEnemyData();
     }
     
@@ -81,14 +65,13 @@ public class IEnemy : MonoBehaviour {
     }
     void ShieldHit(float _val)
     {
-        if(hasShield)
+        if (hasShield)
             ShieldData.Damage(_val);        
     }
     void SplashDmg()
     {
         if (hasShield && !ShieldData.GetShieldActive())
         {
-            Debug.Log("Enemy affected by splash dmg");
             HealthData.Damage(2);
             SendMessage("CheckHealth");
         }
@@ -149,12 +132,8 @@ public class IEnemy : MonoBehaviour {
         }
         laser.Kill();
     }     
-    void Kill()
-    {        
-        GameObject explosive = poolmanager.GetEnemyExplosion();
-        explosive.transform.position = transform.position;        
-        explosive.SetActive(true);        
-
+    public void Kill()
+    {                     
         manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }
@@ -179,15 +158,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(10, MyTransform); break;
+                        HealthData = new HealthProperties(10, transform); break;
                     case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(5, MyTransform); break;
+                        HealthData = new HealthProperties(5, transform); break;
                     case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(15, MyTransform); break;
+                        HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(10, MyTransform); break;
+                        HealthData = new HealthProperties(10, transform); break;
                     case EnemyTypes.Boss:
-                        HealthData = new HealthProperties(50, MyTransform); break;
+                        HealthData = new HealthProperties(50, transform); break;
                 }
                 break;
             #endregion
@@ -197,15 +176,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(25, MyTransform); break;
+                        HealthData = new HealthProperties(25, transform); break;
                     case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(15, MyTransform); break;
+                        HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(30, MyTransform); break;
+                        HealthData = new HealthProperties(30, transform); break;
                     case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(20, MyTransform); break;
+                        HealthData = new HealthProperties(20, transform); break;
                     case EnemyTypes.Boss:
-                        HealthData = new HealthProperties(100, MyTransform); break;
+                        HealthData = new HealthProperties(100, transform); break;
                 }
                 break;
             #endregion
@@ -215,15 +194,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(40, MyTransform); break;
+                        HealthData = new HealthProperties(40, transform); break;
                     case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(25, MyTransform); break;
+                        HealthData = new HealthProperties(25, transform); break;
                     case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(50, MyTransform); break;
+                        HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(35, MyTransform); break;
+                        HealthData = new HealthProperties(35, transform); break;
                     case EnemyTypes.Boss:
-                        HealthData = new HealthProperties(200, MyTransform); break;
+                        HealthData = new HealthProperties(200, transform); break;
                 }
                 break;
             #endregion
@@ -233,15 +212,15 @@ public class IEnemy : MonoBehaviour {
                 switch (Type)
                 {
                     case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(80, MyTransform); break;
+                        HealthData = new HealthProperties(80, transform); break;
                     case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(50, MyTransform); break;
+                        HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(100, MyTransform); break;
+                        HealthData = new HealthProperties(100, transform); break;
                     case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(70, MyTransform); break;
+                        HealthData = new HealthProperties(70, transform); break;
                     case EnemyTypes.Boss:
-                        HealthData = new HealthProperties(300, MyTransform); break;
+                        HealthData = new HealthProperties(300, transform); break;
                 }
                 break;
             #endregion
