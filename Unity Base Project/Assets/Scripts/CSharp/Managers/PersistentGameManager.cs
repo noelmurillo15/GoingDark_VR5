@@ -29,8 +29,8 @@ public class PersistentGameManager : MonoBehaviour {
         SetCurrentLevel(1);
         SetLevel1Unlocked(1);
         SetLevel2Unlocked(1);
-        SetLevel3Unlocked(1);
-        SetLevel4Unlocked(1);
+        SetLevel3Unlocked(0);
+        SetLevel4Unlocked(0);
         #endregion
 
         #region ShopInfo
@@ -80,14 +80,14 @@ public class PersistentGameManager : MonoBehaviour {
     int GetBasicMissileCount() { return PlayerPrefs.GetInt("BasicMissileCount"); }
     void SetBasicMissileCount(int num) { PlayerPrefs.SetInt("BasicMissileCount",num); }
 
+    int GetEMPMissileCount() { return PlayerPrefs.GetInt("EMPMissileCount"); }
+    void SetEMPMissileCount(int num) { PlayerPrefs.SetInt("EMPMissileCount", num); }
+
     int GetShieldbreakMissileCount() { return PlayerPrefs.GetInt("ShieldbreakMissileCount"); }
     void SetShieldbreakMissileCount(int num) { PlayerPrefs.SetInt("ShieldbreakMissileCount", num); }
 
     int GetChromaticMissileCount() { return PlayerPrefs.GetInt("ChromaticMissileCount"); }
     void SetChromaticMissileCount(int num) { PlayerPrefs.SetInt("ChromaticMissileCount", num); }
-
-    int GetEMPMissileCount() { return PlayerPrefs.GetInt("EMPMissileCount"); }
-    void SetEMPMissileCount(int num) { PlayerPrefs.SetInt("EMPMissileCount", num); }
     #endregion
 
     #region WeaponUpgrades
@@ -108,6 +108,15 @@ public class PersistentGameManager : MonoBehaviour {
 
     int GetLaserCooldownLevel() { return PlayerPrefs.GetInt("LaserCooldownLevel"); }
     void SetLaserCooldownLevel(int level) { PlayerPrefs.SetInt("LaserCooldownLevel", level); }
+
+    //int GetHasShieldbreakMissile() { return PlayerPrefs.GetInt("HasShieldbreakMissile"); }
+    //void SetHasShieldbreakMissile(int has) { PlayerPrefs.SetInt("HasShieldbreakMissile", has); }
+
+    //int GetHasChromaticMissile() { return PlayerPrefs.GetInt("HasChromaticMissile"); }
+    //void SetHasChromaticMissile(int has) { PlayerPrefs.SetInt("HasChromaticMissile", has); }
+
+    //int GetHasEMPMissile() { return PlayerPrefs.GetInt("HasEMPMissile"); }
+    //void SetHasEMPMissile(int level) { PlayerPrefs.SetInt("HasEMPMissile", level); }
     #endregion
 
     #region DeviceUpdrages

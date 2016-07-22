@@ -7,36 +7,30 @@ public class PlayerViewCheck : MonoBehaviour {
     private float fov;
     private Vector3 rayDirection;
     private GameObject[] stars;
-    private GameObject curStar;
-    private Canvas canvas;
+    private GameObject LevelMenu, shop, curStar;
     private Text[] texts;
     private Text acceptButton;
     public float delayTimer;
     public bool isSwitching;
-
-    private MapConnection[] isUnlocked;
+    private ShopMenu shopMenu;
     
     // Use this for initialization
     void Start () {
         delayTimer = 2.0f;
         fov = transform.GetComponent<Camera>().fieldOfView/5;
         rayDirection = Vector3.zero;
-        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        LevelMenu = GameObject.Find("LevelMenu");
         stars = GameObject.FindGameObjectsWithTag("Star");
-        texts = canvas.GetComponentsInChildren<Text>();
+        curStar = null;
+        shop = GameObject.Find("Shop");
+        shopMenu = shop.GetComponent<ShopMenu>();
+        texts = LevelMenu.GetComponentsInChildren<Text>();
         acceptButton = GameObject.Find("Accept").GetComponentInChildren<Text>();
         isSwitching = false;
 
-        isUnlocked = new MapConnection[GameObject.FindGameObjectsWithTag("Star").Length];
-        isUnlocked[0] = GameObject.Find("SupplyHud").transform.FindChild("Easy").GetComponent<MapConnection>();
-        isUnlocked[1] = GameObject.Find("SupplyHud").transform.FindChild("Medium").GetComponent<MapConnection>();
-        isUnlocked[2] = GameObject.Find("SupplyHud").transform.FindChild("Hard").GetComponent<MapConnection>();
-        isUnlocked[3] = GameObject.Find("SupplyHud").transform.FindChild("Nightmare").GetComponent<MapConnection>();
+        LevelMenu.SetActive(false);
+        shop.SetActive(false);
 
-        isUnlocked[0].isUnlocked = 1;
-        isUnlocked[1].isUnlocked = 1;
-        isUnlocked[2].isUnlocked = 1;
-        isUnlocked[3].isUnlocked = 1;
     }
 
     // Update is called once per frame
@@ -44,51 +38,71 @@ public class PlayerViewCheck : MonoBehaviour {
         IsInSight();
         if (isSwitching)
         {
-            transform.LookAt(curStar.transform.position);
-            canvas.enabled =false;
-            //hyperDrive.HyperDriveInitialize();
-            //if (hyperDrive.IsOver())
-            //{
-            //    Debug.Log("Loading : " + curStar.name.ToString());
-            //    SceneManager.LoadScene(curStar.name.ToString());
-            //}
+            LevelMenu.SetActive(false);
+            shop.SetActive(false);
+            switch (curStar.name)
+            {
+                case "Easy":
+                    SceneManager.LoadScene("Level1");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void IsInSight()
     {
+        RaycastHit hit;
         for (int i = 0; i < stars.Length; i++)
         {
             rayDirection = stars[i].transform.position - transform.position;
-            RaycastHit hit;
-
             if (Vector3.Angle(rayDirection, transform.forward) <= fov)
             {
                 if (Physics.Raycast(transform.position, rayDirection, out hit))
                 {
-                    curStar = stars[i];
-                    canvas.enabled = true;
-                    MissionText(stars[i].name);
-                    if (curStar.GetComponent<MapConnection>().isUnlocked == 1)
+                    if (hit.collider.name == "Earth")
                     {
-                        acceptButton.text = "Accept";
-                        if (Input.GetKeyDown(KeyCode.X))
-                            isSwitching = true;
+                        shop.SetActive(true);
+                        LevelMenu.SetActive(false);
                         return;
                     }
                     else
                     {
-                        acceptButton.text = "Locked";
-                        isSwitching = false;
-                        return;
+                        LevelMenu.SetActive(true);
+                        if (shop.activeSelf)
+                        {
+                            shopMenu.SendMessage("Back");
+                            shop.SetActive(false);
+                        }
+                        MissionText(stars[i].name);
+                        if (stars[i].GetComponent<MapConnection>().isUnlocked == 1)
+                        {
+                            curStar = stars[i];
+                            acceptButton.text = "Accept";
+                            if (Input.GetKeyDown(KeyCode.X))
+                                isSwitching = true;
+                            return;
+                        }
+                        else
+                        {
+                            acceptButton.text = "Locked";
+                            isSwitching = false;
+                            return;
+                        }
                     }
                     //return;
                 }
             }
             
         }
-                canvas.enabled = false;
-                isSwitching = false;
+        LevelMenu.SetActive(false);
+        if (shop.activeSelf)
+        {
+            shopMenu.SendMessage("Back");
+            shop.SetActive(false);
+        }
+        isSwitching = false;
     }
 
     private void MissionText(string missionName)
@@ -102,16 +116,6 @@ public class PlayerViewCheck : MonoBehaviour {
             else
                 texts[i].enabled = false;
         }
-        //for (int j = 0; j < isUnlocked.Length; j++)
-        //{
-        //    if (missionName == isUnlocked[j].name)
-        //    {
-        //        acceptButton.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        acceptButton.SetActive(false);
-        //    }
-        //}
+
     }
 }

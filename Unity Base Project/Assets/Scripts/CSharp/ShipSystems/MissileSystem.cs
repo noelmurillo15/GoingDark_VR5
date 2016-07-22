@@ -25,10 +25,15 @@ public class MissileSystem : ShipSystem
 
     void Start()
     {
-        Count[0] = 15;
-        Count[1] = 10;
-        Count[2] = 10;
-        Count[3] = 5;
+        //Count[0] = 15;
+        //Count[1] = 10;
+        //Count[2] = 10;
+        //Count[3] = 5;
+
+        Count[0] = PlayerPrefs.GetInt("BasicMissileCount");
+        Count[1] = PlayerPrefs.GetInt("EMPMissileCount");
+        Count[2] = PlayerPrefs.GetInt("ShieldbreakMissileCount");
+        Count[3] = PlayerPrefs.GetInt("ChromaticMissileCount");
 
         maxCooldown = 1f;
         Type = MissileType.ShieldBreak;

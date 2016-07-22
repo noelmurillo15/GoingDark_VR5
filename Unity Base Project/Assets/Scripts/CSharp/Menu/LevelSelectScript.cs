@@ -22,6 +22,11 @@ public class LevelSelectScript : MonoBehaviour {
         
     }
 
+    void Accept()
+    {
+        player.isSwitching = true;
+    }
+
     public void OnTriggerEnter(Collider col)
     {
         if (col.name == "leftPalm" || col.name == "rightPalm")

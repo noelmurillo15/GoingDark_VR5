@@ -20,6 +20,8 @@ public class Hitmarker : MonoBehaviour
     private Transform MyTransform;
 
     private GameObject TargetImg;
+    private GameObject TargetCpy;
+
     private GameObject LockOnMarker;
     private bool flip;
     // Use this for initialization
@@ -33,7 +35,8 @@ public class Hitmarker : MonoBehaviour
         MyTransform = transform;
         HitDisplayDuration = 0.8f;
         TargetImg = Resources.Load<GameObject>("LockObject");
-        LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
+        TargetCpy = TargetImg;
+        LockOnMarker = Instantiate(TargetCpy, Vector3.zero, Quaternion.identity) as GameObject;
         LockOnMarker.transform.parent = transform.root;
         LockOnMarker.SetActive(false);
     }
@@ -109,7 +112,7 @@ public class Hitmarker : MonoBehaviour
             LockOnMarker.transform.LookAt(MyTransform);
         }
 
-        if (LockOnMarker == null)
+        if (LockOnMarker == null && LockOnMarker.transform.parent != null)
         {
             LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
         }

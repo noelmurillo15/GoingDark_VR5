@@ -187,6 +187,7 @@ public class ShopMenu : MonoBehaviour {
 
     void Back()
     {
+        itemInfo.SetActive(false);
         consumableList.SetActive(false);
         weaponList.SetActive(false);
         deviceList.SetActive(false);

@@ -8,6 +8,7 @@ public class EnemyCollision : MonoBehaviour
     public float detectionTimer;
     private EnemyStateManager behavior;
 
+
     //  Player
     private GameObject messages;
 
