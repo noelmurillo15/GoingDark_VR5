@@ -51,7 +51,7 @@ public class MovementProperties
     public void DecreaseSpeed()
     {
         if (Speed > 1f)
-            Speed = Mathf.Lerp(Speed, 0f, Time.deltaTime * .5f);
+            Speed = Mathf.Lerp(Speed, 0f, Time.deltaTime * .1f);
         else
             Speed = 0f;
     }

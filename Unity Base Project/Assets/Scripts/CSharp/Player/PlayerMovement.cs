@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
                 MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
             else
                 MoveData.ChangeSpeed(.25f);
-
+            
             Yaw();
             Roll();
             Pitch();

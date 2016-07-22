@@ -21,7 +21,7 @@ public class MissionSystem : MonoBehaviour
     private int m_stationID;
     private string SceneName;
 
-    GameObject spawner;
+    //GameObject spawner;
 
     // Use this for initialization
     void Start()
@@ -39,17 +39,14 @@ public class MissionSystem : MonoBehaviour
 
         if (SceneName == "Level1")
         {
-            spawner = GameObject.Find("SpawnDroids");
-            spawner.SetActive(false);
+            //spawner = GameObject.Find("SpawnDroids");
+            //spawner.SetActive(false);
         }
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
 
-        if (SceneName == "Level1")
-            m_playerStats = GameObject.Find("PlayerTutorial").GetComponent<PlayerStats>();
-        else
-            m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     void StartNextMission()
@@ -120,8 +117,8 @@ public class MissionSystem : MonoBehaviour
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
 
         yield return Timing.WaitForSeconds(1.0f);
-        if (SceneName == "Level1")
-            spawner.SetActive(true);
+        //if (SceneName == "Level1")
+        //    spawner.SetActive(true);
     }
 
     #region Public Methods

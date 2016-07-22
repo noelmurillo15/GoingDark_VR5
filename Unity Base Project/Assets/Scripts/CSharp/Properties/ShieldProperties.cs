@@ -73,8 +73,8 @@ public class ShieldProperties
         }
         if (isPlayer)
         {
-            AudioManager.instance.PlayShieldHit();
             UpdateShieldBar();
+            AudioManager.instance.PlayShieldHit();
         }
     }
     #endregion

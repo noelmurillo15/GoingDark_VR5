@@ -20,7 +20,7 @@ public class PlayerStats : MonoBehaviour
 
 
     private void Start()
-    {
+    {        
         Debuff = Impairments.None;
 
         debuffManager = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
@@ -51,10 +51,17 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Modifiers
+    public void HealShield()
+    {
+        Debug.Log("Player Shield Healed + 10hp : Current " + ShieldData.Health);
+        ShieldData.Heal(10f);
+
+        if (ShieldData.Health >= 100)
+            CancelInvoke("HealShield");
+    }
     public void RechargeShield()
     {
         Debug.Log("Player Shield Recharged");
-        CancelInvoke();
         ShieldData.FullRestore();
         ShieldData.Shield.SetActive(true);
     }
@@ -63,13 +70,22 @@ public class PlayerStats : MonoBehaviour
     #region Message Calls
     private void RemoveDebuff()
     {
+        Debug.Log("Debuffs removed from Player");
         Debuff = Impairments.None;
     }
     private void ShieldHit()
     {
         ShieldData.Damage(20f);
+
+        if (IsInvoking("HealShield"))
+            CancelInvoke("HealShield");
+        if (IsInvoking("RechargeShield"))
+            CancelInvoke("RechargeShield");
+
         if (!ShieldData.Active)
-            Invoke("RechargeShield", 30f);                  
+            Invoke("RechargeShield", 30f);        
+        else
+            InvokeRepeating("HealShield", 10f, 2f);           
     }
     private void EMPHit()
     {
@@ -112,7 +128,13 @@ public class PlayerStats : MonoBehaviour
         HealthData.Damage(10);                         
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 30f);  //  reset timer
-    }     
+    }
+    public void GoToStation()
+    {
+        deathTransition.SendMessage("Respawn");
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
+    }
     private void Respawn()
     {
         HealthData.FullRestore();
@@ -121,13 +143,7 @@ public class PlayerStats : MonoBehaviour
         deathTransition.SendMessage("Respawn");
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
-    } 
-    public void GoToStation()
-    {
-        deathTransition.SendMessage("Respawn");
-        transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
-    }   
+    }       
     private void Kill()
     {
         deathTransition.SendMessage("Death");

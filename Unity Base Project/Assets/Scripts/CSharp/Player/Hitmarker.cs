@@ -42,8 +42,6 @@ public class Hitmarker : MonoBehaviour
     void LateUpdate()
     {
         rayhit = false;
-        //if (GetComponent<Image>().sprite != StaticMarker && Time.time - HitTime > HitDisplayDuration)
-        //    GetComponent<Image>().sprite = StaticMarker;
 
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
         {          
