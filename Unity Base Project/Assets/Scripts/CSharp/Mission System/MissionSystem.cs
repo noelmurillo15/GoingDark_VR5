@@ -19,42 +19,36 @@ public class MissionSystem : MonoBehaviour
     private MissionLog m_missionLog;
     private MissionTracker m_missionTracker;
     private int m_stationID;
+    private int portalIndex = 0;
     private string SceneName;
 
     GameObject spawner;
     GameObject[] portals;
 
-    private int portalIndex = 0;
+    private TallyScreen tallyscreen;
+
     // Use this for initialization
     void Start()
     {
         SceneName = SceneManager.GetActiveScene().name;
 
-        if (SceneName == "Level1")
-        {
-            portals = new GameObject[3];
-            portals[0] = GameObject.Find("FlightPortal");
-            portals[1] = GameObject.Find("StealthPortal");
-            portals[2] = GameObject.Find("CombatPortal");
+        portals = new GameObject[3];
+        portals[0] = GameObject.Find("FlightPortal");
+        portals[1] = GameObject.Find("StealthPortal");
+        portals[2] = GameObject.Find("CombatPortal");
 
-            portals[1].SetActive(false);
-            portals[2].SetActive(false); 
-        }
+        portals[1].SetActive(false);
+        portals[2].SetActive(false);
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
         m_SecondaryMissions = new List<Mission>();
         m_PrimaryMissions = new List<Mission>();
 
-        m_missionLoader = GameObject.Find("PersistentGameObject").GetComponent<MissionLoader>();
-        m_missionTracker = GameObject.Find("PersistentGameObject").GetComponent<MissionTracker>();
+        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
+        m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
-
-        //if (SceneName == "Level1")
-        //{
-        //    spawner = GameObject.Find("SpawnDroids");
-        //    spawner.SetActive(false);
-        //}
+        tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
@@ -127,6 +121,20 @@ public class MissionSystem : MonoBehaviour
             spawner.SetActive(true);
     }
 
+    string TypeToString(MissionType type)
+    {
+        string temp = "";
+
+        if (type == MissionType.Combat)
+            temp = "CombatPortal";
+        else if (type == MissionType.Scavenge)
+            temp = "FlightPortal";
+        else if (type == MissionType.Stealth)
+            temp = "StealthPortal";
+
+        return temp;
+    }
+
     #region Public Methods
 
     public void AddActiveMission(Mission mission)
@@ -156,20 +164,6 @@ public class MissionSystem : MonoBehaviour
                 m_missionTracker.ShowTracker();
             }
         }
-    }
-
-    string TypeToString(MissionType type)
-    {
-        string temp = "";
-
-        if (type == MissionType.Combat)
-            temp = "CombatPortal";
-        else if (type == MissionType.Scavenge)
-            temp = "FlightPortal";
-        else if (type == MissionType.Stealth)
-            temp = "StealthPortal";
-
-        return temp;
     }
 
     public void KilledEnemy(EnemyTypes type)
@@ -217,15 +211,10 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
-        if (SceneName == "Level1")
-        {
-            portals[portalIndex].SetActive(false);
-            if ((portalIndex + 1) <= 2)
-            {
-                portals[portalIndex + 1].SetActive(true);
-            }
-            portalIndex++;
-        }
+        portals[portalIndex].SetActive(false);
+        if ((portalIndex + 1) <= 2)
+            portals[portalIndex + 1].SetActive(true);
+        portalIndex++;
 
         m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
@@ -234,25 +223,17 @@ public class MissionSystem : MonoBehaviour
             m_MainMission.completed = true;
 
         string temp = TypeToString(tempMission.type);
-
-        //if (tempMission.enemy != EnemyTypes.Droid)
-        //{
-        //    GameObject obj = GameObject.Find(temp);
-        //    obj.SetActive(false);
-        //}
-
         m_CompletedMissions.Add(tempMission);
         m_ActiveMissions.Remove(tempMission);
 
         m_playerStats.SaveData.Credits += tempMission.credits;
-        Debug.Log("Credits : " + m_playerStats.SaveData.Credits);
-
         Timing.RunCoroutine(Wait(3.0f));
 
-        //if (m_PrimaryMissions.Count == 0 && m_ActiveMissions.Count == 0 && !m_MainMission.completed)
-        //{
-        //    Timing.RunCoroutine(DelayMission(3.0f));
-        //}
+        // done with all missions
+        if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
+        {
+            tallyscreen.ActivateTallyScreen();
+        }
     }
 
     IEnumerator<float> Wait(float time)

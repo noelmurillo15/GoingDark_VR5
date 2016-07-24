@@ -9,11 +9,13 @@ public class Asteroid : MonoBehaviour
     private Vector3 m_rotation;
     private Rigidbody MyRigidbody;
     private Transform MyTransform;
+    private TallyScreen tallyscreen;
     #endregion
 
 
     void Start()
     {
+        tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         MyTransform = transform;
         MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
@@ -97,6 +99,7 @@ public class Asteroid : MonoBehaviour
             go.transform.parent = MyTransform.parent;
             go.transform.localScale *= Random.Range(.1f, .45f);
         }
+        tallyscreen.AsteroidsDestroyed += 1;
         Destroy(gameObject);
     }    
 }

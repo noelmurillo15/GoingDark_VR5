@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -270,6 +264,7 @@
     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\PlayerSaveData.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\ShieldProperties.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Properties\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />

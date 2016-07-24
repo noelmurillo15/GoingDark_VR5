@@ -14,13 +14,15 @@ public class EnemyManager : MonoBehaviour {
     private MissionSystem missionSystem;
     private SystemManager systemManager;
     private ObjectPoolManager poolmanager;
+    private TallyScreen tallyscreen;
     #endregion
 
 
     void Start()
     {
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
-        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();        
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>(); 
+        tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
@@ -57,6 +59,7 @@ public class EnemyManager : MonoBehaviour {
 
         RandomAmmoDrop(enemy.transform.position);
         missionSystem.KilledEnemy(enemy.Type);
+        tallyscreen.EnemiesKilled += 1;
 
         enemies.Remove(enemy);
     }

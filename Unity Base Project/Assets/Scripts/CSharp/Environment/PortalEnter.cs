@@ -10,7 +10,7 @@ public class PortalEnter : MonoBehaviour {
     void Start () {
         if (PortalExit == null)
             Debug.LogError("Portal Does not have destination attached : Portal Exit == null");
-        missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         //teleSound = GetComponent<AudioSource>();
     }
 
