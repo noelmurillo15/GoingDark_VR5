@@ -33,7 +33,7 @@ public class EnemyCollision : MonoBehaviour
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
 
-        if (isActive)
+        if (isActive && behavior.Target != null)
             NewTarg.transform.LookAt(behavior.Target.position);
     }
 

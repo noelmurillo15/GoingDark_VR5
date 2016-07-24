@@ -7,11 +7,13 @@ public class EnemyStateManager : IEnemy
     #region Properties        
     public EnemyStates State;
 
-    public Transform Target { get; protected set; }
-    public Vector3 LastKnownPos { get; protected set; }
+    public Transform Target { get; private set; }
+    public Vector3 LastKnownPos { get; private set; }
 
     public bool lostSight;
     public float losingsightTimer;
+
+    private Hitmarker lockon;
 
     private EnemyMovement movement;
     #endregion
@@ -30,6 +32,7 @@ public class EnemyStateManager : IEnemy
         LastKnownPos = Vector3.zero;
 
         movement = GetComponent<EnemyMovement>();
+        lockon = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
 
         base.Initialize();        
         GetComponent<EnemyCollision>().Initialize();

@@ -30,13 +30,16 @@ public class MissionSystem : MonoBehaviour
     {
         SceneName = SceneManager.GetActiveScene().name;
 
-        portals = new GameObject[3];
-        portals[0] = GameObject.Find("FlightPortal");
-        portals[1] = GameObject.Find("StealthPortal");
-        portals[2] = GameObject.Find("CombatPortal");
+        if (SceneName == "Level1")
+        {
+            portals = new GameObject[3];
+            portals[0] = GameObject.Find("FlightPortal");
+            portals[1] = GameObject.Find("StealthPortal");
+            portals[2] = GameObject.Find("CombatPortal");
 
-        portals[1].SetActive(false);
-        portals[2].SetActive(false);
+            portals[1].SetActive(false);
+            portals[2].SetActive(false); 
+        }
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
@@ -214,12 +217,15 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
-        portals[portalIndex].SetActive(false);
-        if ((portalIndex + 1) <= 2)
+        if (SceneName == "Level1")
         {
-            portals[portalIndex + 1].SetActive(true);
+            portals[portalIndex].SetActive(false);
+            if ((portalIndex + 1) <= 2)
+            {
+                portals[portalIndex + 1].SetActive(true);
+            }
+            portalIndex++;
         }
-        portalIndex++;
 
         m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);

@@ -69,6 +69,7 @@
         None,
         Basic,
         Droid,
+        SquadLead,
         Transport,
         Trident,
         Boss,   

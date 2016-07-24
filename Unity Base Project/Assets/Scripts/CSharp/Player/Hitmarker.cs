@@ -1,43 +1,33 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class Hitmarker : MonoBehaviour
 {
-    //[SerializeField]
-    //private Sprite StaticMarker;
-    //[SerializeField]
-    //private Sprite hitMarker;
-
-    private Image reticle;
-    private float HitDisplayDuration;
-    private float HitTime;
-    private bool ShowHitMarker;
+    #region Properties
+    private bool rayhit;
 
     private int range;
     private int layermask;
-    private bool rayhit;
+
     private RaycastHit hit;
     private Transform MyTransform;
 
+    private Transform parent;
     private GameObject TargetImg;
-    private GameObject TargetCpy;
-
     private GameObject LockOnMarker;
-    private bool flip;
+    #endregion
+
+
     // Use this for initialization
     void Start()
     {
         range = 1600;
         layermask = 1 << 11;    //  enemies layer
         rayhit = true;
-        ShowHitMarker = false;
-        reticle = GetComponent<Image>();
         MyTransform = transform;
-        HitDisplayDuration = 0.8f;
         TargetImg = Resources.Load<GameObject>("LockObject");
-        TargetCpy = TargetImg;
-        LockOnMarker = Instantiate(TargetCpy, Vector3.zero, Quaternion.identity) as GameObject;
-        LockOnMarker.transform.parent = transform.root;
+        parent = GameObject.FindGameObjectWithTag("GameManager").transform;
+        LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
+        LockOnMarker.transform.parent = parent;
         LockOnMarker.SetActive(false);
     }
 
@@ -47,74 +37,30 @@ public class Hitmarker : MonoBehaviour
         rayhit = false;
 
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
-        {          
-            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider)) { 
-                rayhit = true;
-                Invoke("StartTimer", .5f);
-            }        
-        }
+            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
+                rayhit = true;        
 
-        if (rayhit && flip)
-        {
-            if (LockOnMarker != null)
-                LockOnMarker.SetActive(true);
-            objUpdate();
-            reticle.color = Color.red;
-        }
-        else if (rayhit)
-        {
-            reticle.color = Color.red;
-            flip = false;
-        }
-        else
-        {
-            CancelInvoke();
-            flip = false;
-            reticle.color = Color.white;
-            if(LockOnMarker != null)
-                LockOnMarker.SetActive(false);
-        }
+        LockOnMarker.SetActive(rayhit);
 
-    }
-    bool StartTimer()
-    {
         if (rayhit)
-            flip = true;
-        if (!rayhit)
-            flip = false;
-        return false;
-    }
-
-    public Transform GetRaycastHit()
-    {
-        return hit.transform;
+            LockOnUpdate();
     }
 
     public bool GetLockedOn()
     {
-        if (rayhit && flip)
-            return true;
-
-        return false;
+        return rayhit;
     }
-
-    public void HitMarkerShow(float TimeWhenShot)
+    public Transform GetRaycastHit()
     {
-        HitTime = TimeWhenShot;
-        //GetComponent<Image>().sprite = hitMarker;
+        return hit.transform;
     }
-    void objUpdate()
+    void LockOnUpdate()
     {
-        if (LockOnMarker != null)
-        {
-            LockOnMarker.transform.parent = hit.transform;
-            LockOnMarker.transform.position = hit.transform.position;
-            LockOnMarker.transform.LookAt(MyTransform);
-        }
-
-        if (LockOnMarker == null && LockOnMarker.transform.parent != null)
-        {
+        if (LockOnMarker == null)
             LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
-        }
+
+        LockOnMarker.transform.parent = GetRaycastHit();
+        LockOnMarker.transform.position = GetRaycastHit().position;
+        LockOnMarker.transform.LookAt(MyTransform);
     }
 }

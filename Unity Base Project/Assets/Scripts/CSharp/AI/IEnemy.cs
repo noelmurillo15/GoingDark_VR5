@@ -27,7 +27,7 @@ public class IEnemy : MonoBehaviour {
         manager = transform.root.GetComponent<EnemyManager>();
 
         stunned.SetActive(false);                
-        Invoke("AddToManager", 1f);
+        Invoke("AddToManager", 2f);
     }
 
     #region Accessors    
@@ -56,10 +56,7 @@ public class IEnemy : MonoBehaviour {
     {
         stunned.SetActive(true);
         Debuff = Impairments.Stunned;
-        if (Type == EnemyTypes.Droid)
-            Invoke("Kill", 3f);
-        else
-            Invoke("ResetDebuff", 5f);
+        Invoke("ResetDebuff", 5f);
     }
     void ShieldHit(float _val)
     {
@@ -128,20 +125,20 @@ public class IEnemy : MonoBehaviour {
             HealthData.Damage(.5f);
             SendMessage("CheckHealth");
         }
-    }     
+    }
+    public void ResetDebuff()
+    {
+        Debuff = Impairments.None;
+        stunned.SetActive(false);
+
+        if (Type == EnemyTypes.Droid)
+            Kill();
+    }
     public void Kill()
     {                     
         manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }
-    #endregion
-
-    #region Public Methods
-    public void ResetDebuff()
-    {
-        Debuff = Impairments.None;
-        stunned.SetActive(false);
-    }    
     #endregion
 
     #region Private Methods
@@ -158,6 +155,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(10, transform); break;
                     case EnemyTypes.Droid:
                         HealthData = new HealthProperties(5, transform); break;
+                    case EnemyTypes.SquadLead:
+                        HealthData = new HealthProperties(20, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Trident:
@@ -176,6 +175,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(25, transform); break;
                     case EnemyTypes.Droid:
                         HealthData = new HealthProperties(15, transform); break;
+                    case EnemyTypes.SquadLead:
+                        HealthData = new HealthProperties(40, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(30, transform); break;
                     case EnemyTypes.Trident:
@@ -194,6 +195,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(40, transform); break;
                     case EnemyTypes.Droid:
                         HealthData = new HealthProperties(25, transform); break;
+                    case EnemyTypes.SquadLead:
+                        HealthData = new HealthProperties(64, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Trident:
@@ -212,6 +215,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(80, transform); break;
                     case EnemyTypes.Droid:
                         HealthData = new HealthProperties(50, transform); break;
+                    case EnemyTypes.SquadLead:
+                        HealthData = new HealthProperties(120, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(100, transform); break;
                     case EnemyTypes.Trident:
