@@ -11,16 +11,15 @@ public class ObjectGenerator : MonoBehaviour {
     public GameObject[] objPrefab;
 
     private Vector3 bounds;
+    private BoxCollider boxcol;
     #endregion
 
 
     void Start () {
         numObjects = 0;
-        if (maxObjects == 0)
-            maxObjects = 50;
 
-        BoxCollider boxcol = GetComponent<BoxCollider>();
-        bounds = new Vector3(boxcol.size.x * .5f, boxcol.size.y * .5f, (boxcol.size.z * .5f) - boxcol.center.z);
+        boxcol = GetComponent<BoxCollider>();
+        bounds = new Vector3(boxcol.size.x * .5f, boxcol.size.y * .5f, boxcol.size.z * .5f);
 
         if (objPrefab.Length == 0)
             Debug.LogError("Object Generator's prefab list is empty");
@@ -34,9 +33,10 @@ public class ObjectGenerator : MonoBehaviour {
 
     void SpawnObject()
     {
-        float x = Random.Range(-bounds.x, bounds.x);
-        float y = Random.Range(-bounds.y, bounds.y);
-        float z = Random.Range(-bounds.z, bounds.z);
+        float x = Random.Range(-bounds.x + boxcol.center.x, bounds.x + boxcol.center.x);
+        float y = Random.Range(-bounds.y + boxcol.center.y, bounds.y + boxcol.center.y);
+        float z = Random.Range(-bounds.z + boxcol.center.z, bounds.z + boxcol.center.z);
+
         Vector3 randomPos = new Vector3(x, y, z);
 
         GameObject go = Instantiate(objPrefab[Random.Range(0, objPrefab.Length)],

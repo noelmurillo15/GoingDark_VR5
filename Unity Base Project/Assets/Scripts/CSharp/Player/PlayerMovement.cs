@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
             if (m_GamePad.GetLeftTrigger() > 0f)
                 MoveData.ChangeSpeed(m_GamePad.GetLeftTrigger());
             else
-                MoveData.ChangeSpeed(.25f);
+                MoveData.DecreaseSpeed();
             
             Yaw();
             Roll();

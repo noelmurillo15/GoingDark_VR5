@@ -5,25 +5,28 @@ public class ObjectPoolManager : MonoBehaviour {
     #region Properties
     private Transform MyTransform;
 
+    //  Missiles
     private ObjectPooling emp = new ObjectPooling();
     private ObjectPooling basic = new ObjectPooling();
     private ObjectPooling chromatic = new ObjectPooling();
     private ObjectPooling shieldbreak = new ObjectPooling();
+    private ObjectPooling enemyMissile = new ObjectPooling();
 
+    //  Enemy 
     private ObjectPooling ammopool = new ObjectPooling();
-    private ObjectPooling laserpool = new ObjectPooling();
-    private ObjectPooling missilepool = new ObjectPooling();
+    private ObjectPooling TrackEnemy = new ObjectPooling();
     private ObjectPooling explosionpool = new ObjectPooling();
 
+    //  Lasers
     private ObjectPooling BasicLasers = new ObjectPooling();
     private ObjectPooling ChargedLasers = new ObjectPooling();
+    private ObjectPooling ChargedBall = new ObjectPooling();
+
     private ObjectPooling BasicExplosion = new ObjectPooling();
-    private ObjectPooling ChargedExplosion = new ObjectPooling();
-    private ObjectPooling TrackEnemy = new ObjectPooling();
     #endregion
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         MyTransform = transform;
 
         //  Missiles
@@ -31,43 +34,34 @@ public class ObjectPoolManager : MonoBehaviour {
         basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4, MyTransform);
         chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4, MyTransform);
         shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4, MyTransform);
+        enemyMissile.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 10, MyTransform);
 
         //  Enemy
         ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, MyTransform);
-        //laserpool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 30, MyTransform);
-        missilepool.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 25, MyTransform);
+        TrackEnemy.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
         explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 10, MyTransform);        
 
         //  Lasers
-        BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 15, MyTransform);
-        ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 15, MyTransform);
-        BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/BasicExplosion"), 8, MyTransform);
-        ChargedExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 8, MyTransform);
-
-        //track enemy
-        TrackEnemy.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
+        BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 28, MyTransform);
+        BasicExplosion.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/LaserExplosion"), 24, MyTransform);
+        ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 14, MyTransform);
+        ChargedBall.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedBall"), 8, MyTransform);
     }
 
     #region Accessors
-    //  Enemy
     public GameObject GetAmmoDrop()
     {
         return ammopool.GetPooledObject();
-    }
-    public GameObject GetEnemyLaser()
-    {
-        return laserpool.GetPooledObject();
-    }
-    public GameObject GetEnemyMissile()
-    {
-        return missilepool.GetPooledObject();
     }
     public GameObject GetEnemyExplosion()
     {
         return explosionpool.GetPooledObject();
     }
 
-    //  Missiles
+    public GameObject GetEnemyMissile()
+    {
+        return enemyMissile.GetPooledObject();
+    }
     public GameObject GetBaseMissile()
     {
         return basic.GetPooledObject();
@@ -85,7 +79,6 @@ public class ObjectPoolManager : MonoBehaviour {
         return chromatic.GetPooledObject();
     }
 
-    //  Lasers
     public GameObject GetBaseLaser()
     {
         return BasicLasers.GetPooledObject();
@@ -94,10 +87,17 @@ public class ObjectPoolManager : MonoBehaviour {
     {
         return BasicExplosion.GetPooledObject();
     }
+    public GameObject GetChargedLaser()
+    {
+        return ChargedLasers.GetPooledObject();
+    }
+    public GameObject GetChargedBall()
+    {
+        return ChargedBall.GetPooledObject();
+    }
     public GameObject GetTrackedEnemy()
     {
         return TrackEnemy.GetPooledObject();
     }
-
     #endregion
 }

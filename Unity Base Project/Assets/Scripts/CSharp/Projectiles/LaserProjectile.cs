@@ -6,9 +6,7 @@ public class LaserProjectile : MonoBehaviour
     public float speed;
     private Transform MyTransform;
     private ChargeLaser MyParent;
-
-    //HitMarker
-    GameObject HitMarker;
+    private ObjectPoolManager poolManager;
 
     void OnEnable()
     {
@@ -17,8 +15,8 @@ public class LaserProjectile : MonoBehaviour
             init = true;
             speed = 1000f;
             MyTransform = transform;
-            HitMarker = GameObject.Find("PlayerReticle");
             gameObject.SetActive(false);
+            poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         }
         else
         {
@@ -36,13 +34,12 @@ public class LaserProjectile : MonoBehaviour
     {
         if (col.transform.CompareTag("Enemy"))
         {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             col.gameObject.GetComponent<EnemyStateManager>().LaserHit(this);
+            Kill();
         }
 
         if (col.transform.CompareTag("Asteroid"))
         {
-            HitMarker.GetComponent<Hitmarker>().HitMarkerShow(Time.time);
             col.transform.SendMessage("Kill");
             Kill();
         }
@@ -50,19 +47,13 @@ public class LaserProjectile : MonoBehaviour
 
     public void Kill()
     {
-        CancelInvoke();
-        if (MyParent != null)
-            MyParent.SpawnExplosion(MyTransform.position);
+        if(IsInvoking("Kill"))
+            CancelInvoke("Kill");
+
+        GameObject go = poolManager.GetBaseLaserExplosion();
+        go.transform.position = MyTransform.position;
+        go.SetActive(true);
 
         gameObject.SetActive(false);
-    }
-    private void SelfDestruct()
-    {
-        Invoke("Kill", 3f);
-    }
-    private void SelfDestruct(ChargeLaser _parent)
-    {
-        MyParent = _parent;
-        Invoke("Kill", 3f);
     }
 }

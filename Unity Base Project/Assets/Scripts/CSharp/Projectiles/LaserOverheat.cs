@@ -15,8 +15,8 @@ public class LaserOverheat : MonoBehaviour {
         overheat = false;
         CurrentAmount = MaxAmount;
         LaserGauge = GetComponent<Image>();
-        smoke = GameObject.Find("Overheat");
-        smoke.SetActive(false);
+        //smoke = GameObject.Find("Overheat");
+        //smoke.SetActive(false);
     }
 
     void Update()
@@ -40,14 +40,14 @@ public class LaserOverheat : MonoBehaviour {
     {
 
         overheat = _boolean;
-        if (overheat)
-        {
-            smoke.SetActive(true);
-        }
-        else
-            smoke.SetActive(false);
+        //if (overheat)
+        //{
+        //    smoke.SetActive(true);
+        //}
+        //else
+        //    smoke.SetActive(false);
     }
-	
+
     public void UpdateGauge(float DamageTaken)
     {
         CurrentAmount += DamageTaken;

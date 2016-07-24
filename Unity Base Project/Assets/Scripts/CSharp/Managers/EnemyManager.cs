@@ -6,11 +6,11 @@ public class EnemyManager : MonoBehaviour {
 
     #region Properties
     public GameDifficulty Difficulty;
-    public Transform PlayerPosition { get; private set; }
 
     private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
 
     private CloakSystem pCloak;
+    private Transform PlayerPosition;
     private MissionSystem missionSystem;
     private SystemManager systemManager;
     private ObjectPoolManager poolmanager;
@@ -19,14 +19,20 @@ public class EnemyManager : MonoBehaviour {
 
     void Start()
     {
-        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();        
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
-        InvokeRepeating("CheckEnemies", 20f, 5f);
+
+        InvokeRepeating("CheckEnemies", 30f, 5f);
     }
 
     #region Accessors
+    public CloakSystem GetPlayerCloak()
+    {
+        return pCloak;
+    }
     public Transform GetPlayerTransform()
     {
         return PlayerPosition;
@@ -35,22 +41,6 @@ public class EnemyManager : MonoBehaviour {
     {
         return poolmanager;
     }
-    public CloakSystem GetPlayerCloak()
-    {
-        if (systemManager == null)
-        {
-            Debug.LogError("System Manager was not found @ start... Finding it again");
-            systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-        }
-
-        if (pCloak == null)
-        {
-            Debug.LogError("Player Cloak was not found @ start... Finding it again");
-            pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
-        }
-
-        return pCloak;
-    }
     #endregion    
 
     #region Modifiers
@@ -58,7 +48,6 @@ public class EnemyManager : MonoBehaviour {
     {
         enemies.Add(enemy);
     }
-
     public void RemoveEnemy(EnemyStateManager enemy)
     {
         GameObject explosive = poolmanager.GetEnemyExplosion();
@@ -72,11 +61,11 @@ public class EnemyManager : MonoBehaviour {
         enemies.Remove(enemy);
     }
 
+
     public void PlayerSeen()
     {
         missionSystem.PlayerSeen();
     }
-
     public void SendAlert(Vector3 enemypos)
     {
         AudioManager.instance.StartCoroutine("RaiseBattleMusic");
@@ -85,7 +74,6 @@ public class EnemyManager : MonoBehaviour {
         tempStorage[1] = enemypos;
         BroadcastMessage("BroadcastAlert", tempStorage);
     }
-
     public void RandomAmmoDrop(Vector3 _pos)
     {
         GameObject go = null;
@@ -99,7 +87,7 @@ public class EnemyManager : MonoBehaviour {
     }
     #endregion
 
-    #region Msg Calls
+    #region Invoked Methods
     void CheckEnemies()
     {
         if (enemies.Count > 0)

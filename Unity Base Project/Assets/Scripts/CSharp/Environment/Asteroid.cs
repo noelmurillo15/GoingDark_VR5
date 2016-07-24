@@ -18,9 +18,9 @@ public class Asteroid : MonoBehaviour
         MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
         {
-            m_velocity.x = Random.Range(-20.0f, 20.0f);
-            m_velocity.y = Random.Range(-20.0f, 20.0f);
-            m_velocity.z = Random.Range(-20.0f, 20.0f);
+            m_velocity.x = Random.Range(-30.0f, 30.0f);
+            m_velocity.y = Random.Range(-30.0f, 30.0f);
+            m_velocity.z = Random.Range(-30.0f, 30.0f);
 
             m_rotation.x = Random.Range(-15.0f, 15.0f);
             m_rotation.y = Random.Range(-15.0f, 15.0f);
@@ -30,7 +30,7 @@ public class Asteroid : MonoBehaviour
             m_scale.x = Random.Range(5f, 50.0f);
             m_scale.y = m_scale.x;
             m_scale.z = m_scale.x;
-
+            
             Vector3 newScale = MyTransform.localScale;
             newScale.x *= m_scale.x;
             newScale.y *= m_scale.y;
@@ -39,15 +39,19 @@ public class Asteroid : MonoBehaviour
         }
         else
         {
-            Invoke("SelfDestruct", 30f);
-            m_velocity.x = Random.Range(-35.0f, 35.0f);
-            m_velocity.y = Random.Range(-35.0f, 35.0f);
-            m_velocity.z = Random.Range(-35.0f, 35.0f);
+            m_velocity.x = Random.Range(-150.0f, 150.0f);
+            m_velocity.y = Random.Range(-150.0f, 150.0f);
+            m_velocity.z = Random.Range(-150.0f, 150.0f);
 
-            m_rotation.x = Random.Range(1.0f, 360.0f);
-            m_rotation.y = Random.Range(1.0f, 360.0f);
-            m_rotation.z = Random.Range(1.0f, 360.0f);
-            m_rotation = Vector3.zero;
+            m_rotation.x = Random.Range(1.0f, 359.0f);
+            m_rotation.y = Random.Range(1.0f, 359.0f);
+            m_rotation.z = Random.Range(1.0f, 359.0f);
+            MyTransform.localEulerAngles = m_rotation;
+
+            m_rotation.x = Random.Range(-45.0f, 45.0f);
+            m_rotation.y = Random.Range(-45.0f, 45.0f);
+            m_rotation.z = Random.Range(-45.0f, 45.0f);
+            Invoke("SelfDestruct", 30f);
         }
     }
 
@@ -58,18 +62,9 @@ public class Asteroid : MonoBehaviour
         MyRigidbody.MoveRotation(MyRigidbody.rotation * deltaRotation);
         MyRigidbody.MovePosition(MyRigidbody.position + (m_velocity * Time.deltaTime));
     }
-    private bool RandomChance()
-    {
-        int randValue = Random.Range(0, 100);
-        if (randValue > 0)
-        {
-            return true;
-        }
-        return false;
-    }
 
     void OnBecameVisible()
-    {
+    {        
         enabled = true;
     }
 
@@ -87,30 +82,21 @@ public class Asteroid : MonoBehaviour
         }
     }
 
-    public void Kill()
-    {
-        if (RandomChance())
-        {
-            skipStart = true;
-            float range = Random.Range(2, 16);
-            AudioManager.instance.PlayHit();
-            for (int i = 0; i < range; i++)
-            {
-                SendMessage("AutoScale", MyTransform.localScale);
-                GameObject go = Instantiate(gameObject, new Vector3(MyTransform.position.x,
-                MyTransform.position.y, MyTransform.position.z), MyTransform.rotation) as GameObject;
-                go.transform.parent = MyTransform.parent;
-            }
-        }
-        Destroy(gameObject);
-    }
     public void SelfDestruct()
     {
         Destroy(gameObject);
     }
-    public void AutoScale(Vector3 _scale)
+    public void Kill()
     {
-        _scale *= 0.5f;
-        MyTransform.localScale = _scale;
-    }
+        skipStart = true;
+        AudioManager.instance.PlayHit();
+        float range = Random.Range(3, 6);
+        for (int i = 0; i < range; i++)
+        {
+            GameObject go = Instantiate(gameObject) as GameObject;
+            go.transform.parent = MyTransform.parent;
+            go.transform.localScale *= Random.Range(.1f, .45f);
+        }
+        Destroy(gameObject);
+    }    
 }

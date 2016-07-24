@@ -7,15 +7,15 @@ public class IEnemy : MonoBehaviour {
     [SerializeField]
     public bool hasShield;
 
+    private EnemyManager manager;    
     private ShieldProperties ShieldData;
     private HealthProperties HealthData;
 
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
         
-    private GameObject stunned;
-    private EnemyManager manager;
-    
+    [SerializeField]
+    public GameObject stunned;
     #endregion
 
 
@@ -26,9 +26,7 @@ public class IEnemy : MonoBehaviour {
 
         manager = transform.root.GetComponent<EnemyManager>();
 
-        stunned = transform.GetChild(1).gameObject;
         stunned.SetActive(false);                
-
         Invoke("AddToManager", 1f);
     }
 
@@ -130,7 +128,6 @@ public class IEnemy : MonoBehaviour {
             HealthData.Damage(.5f);
             SendMessage("CheckHealth");
         }
-        laser.Kill();
     }     
     public void Kill()
     {                     

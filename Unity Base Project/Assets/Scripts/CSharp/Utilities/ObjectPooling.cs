@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ObjectPooling {
 
     #region Properties
-    private List<GameObject> poolList;
+    private List<GameObject> poolList = new List<GameObject>();
     #endregion
 
 
@@ -16,8 +16,6 @@ public class ObjectPooling {
             Debug.LogError("Poolobj is set to null : " + _poolamount.ToString());
             return;
         }
-
-        poolList = new List<GameObject>();
 
         for (int i = 0; i < _poolamount; i++)
         {

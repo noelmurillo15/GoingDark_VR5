@@ -14,7 +14,6 @@ public class EnemyCollision : MonoBehaviour
 
     [SerializeField]
     public Transform NewTarg;
-    private Collider Col;
     private bool isActive;
     #endregion
 
@@ -35,7 +34,7 @@ public class EnemyCollision : MonoBehaviour
             detectionTimer -= Time.deltaTime;
 
         if (isActive)
-            NewTarg.transform.LookAt(Col.transform);
+            NewTarg.transform.LookAt(behavior.Target.position);
     }
 
 
@@ -43,17 +42,13 @@ public class EnemyCollision : MonoBehaviour
     {
         if (behavior.Target == null)
         {
-            Col = col;
-
             if (col.CompareTag("Decoy"))
             {
                 detectionTimer = 0f;
-                return;
             }
 
             if (col.CompareTag("Player"))
             {
-                NewTarg.gameObject.SetActive(true);
                 isActive = true;
                 if (behavior.GetManager().GetPlayerCloak().GetCloaked())
                     detectionTimer = 5f;
@@ -64,8 +59,8 @@ public class EnemyCollision : MonoBehaviour
 
                     detectionTimer = 0f;
                 }
+                NewTarg.gameObject.SetActive(true);
                 messages.SendMessage("EnemyClose");
-                return;
             }
         }
     }

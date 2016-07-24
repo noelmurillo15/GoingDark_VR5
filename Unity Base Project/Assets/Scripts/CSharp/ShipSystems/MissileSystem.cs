@@ -25,11 +25,6 @@ public class MissileSystem : ShipSystem
 
     void Start()
     {
-        //Count[0] = 15;
-        //Count[1] = 10;
-        //Count[2] = 10;
-        //Count[3] = 5;
-
         Count[0] = PlayerPrefs.GetInt("BasicMissileCount");
         Count[1] = PlayerPrefs.GetInt("EMPMissileCount");
         Count[2] = PlayerPrefs.GetInt("ShieldbreakMissileCount");
@@ -57,8 +52,8 @@ public class MissileSystem : ShipSystem
 
     void Update()
     {
-        //if (controller.GetButtonDown("Y"))
-        //    WeaponSwap();
+        if (controller.GetButtonDown("Y"))
+            WeaponSwap();
 
         if (Activated)
             LaunchMissile();
