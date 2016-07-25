@@ -35,7 +35,6 @@ public class Mine : MonoBehaviour
 
     void Kill()
     {
-        Debug.Log("Mine Destroyed");
         Destroy(gameObject);
     }
 }

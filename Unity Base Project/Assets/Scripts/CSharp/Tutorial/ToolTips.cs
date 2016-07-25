@@ -28,60 +28,48 @@ public class ToolTips : MonoBehaviour
 
     void Initialize()
     {
-        text = "Push the LEFT TRIGGER to accelerate the ship. Use the LEFT STICK to rotate the ship.";
+        text = "Hold the LEFT TRIGGER to accelerate the ship. Use the LEFT STICK to rotate the ship.";
         tip = new Tip("Movement", text);
         list.Add(tip);
 
-        text = "Touch the item you want to select with your hand.";
-        tip = new Tip("Select", text);
+        text = "Your Ship is equipped with Lasers, hold the RIGHT TRIGGER to use them. Change the laser type by clicking the RIGHT JOYSTICK.";
+        tip = new Tip("Laser", text);
         list.Add(tip);
 
-        text = "Clap your hands to open the Arm Menu.";
-        tip = new Tip("Arm Menu", text);
+        text = "You also have Missiles which can be launched by pressing the RIGHT BUMPER";
+        tip = new Tip("Missile", text);
         list.Add(tip);
 
-        text = "You can check the current actived missions in the mission log.";
-        tip = new Tip("Mission Log", text);
+        text = "You have access to four types of Missiles. Press Y to swap between them";
+        tip = new Tip("Missile", text);
         list.Add(tip);
 
-        text = "You may repair your ship, as well as accept/turn in the main mission in the station.";
-        tip = new Tip("Station", text);
+        text = "Cloak can make you invisible to enemies for an indefinite amount of time. Press X to activate cloak.";
+        tip = new Tip("Cloak", text);
+        list.Add(tip);
+
+        text = "Sending Out a decoy can distract most enemies away from you. Press B to deploy one";
+        tip = new Tip("Decoy", text);
+        list.Add(tip);
+
+        text = "Sending Out a decoy can distract most enemies away from you. Press B to deploy one";
+        tip = new Tip("Decoy", text);
+        list.Add(tip);
+
+        text = "Pressing the LEFT BUMPER will initialize the Hyper drive sequence giving you a increased speed for a limited time";
+        tip = new Tip("Hyperdrive", text);
+        list.Add(tip);
+
+        text = "Pressing A will send out an EMP shock wave stunning all nearby enemies for a short time. The EMP will also kill any Droids";
+        tip = new Tip("Electro-Magnetic Pulse", text);
         list.Add(tip);
 
         text = "You must complete the main missions in order to move on to the next level.";
         tip = new Tip("Main Mission", text);
         list.Add(tip);
 
-        text = "Complete Optional Missions is a good way to gain resource and sharp your skills!";
+        text = "Completing Optional Missions is a good way to gain resource and enhance your skills!";
         tip = new Tip("Optional Mission", text);
-        list.Add(tip);
-
-        text = "Laser is a fast-firing weapon, but it will overheat if used too repetitively. You can hold RIGHT TRIGGER to fire.";
-        tip = new Tip("Laser", text);
-        list.Add(tip);
-
-        text = "Missile is a strong consumable weapon, you can recharge it in many ways however. Press RIGHT BUMPER to fire a missile";
-        tip = new Tip("Missile1", text);
-        list.Add(tip);
-
-        text = "Missile also comes with different forms that you can purchase in the shop, each of them have different powers. You can swap the form with Y BUTTON.";
-        tip = new Tip("Missile2", text);
-        list.Add(tip);
-
-        text = "Cloak can make you invisible to enemies, but only for a short amount of time. Press X BUTTON to activate cloak.";
-        tip = new Tip("Cloak", text);
-        list.Add(tip);
-
-        text = "Decoy can lure the enemies away from you, Press B BUTTON to send out a decoy.";
-        tip = new Tip("Decoy", text);
-        list.Add(tip);
-
-        text = "Your lasers and missiles can break asteroids into smaller pieces. Your ship will be damaged upon fast collision with asteroids.";
-        tip = new Tip("Asteroids", text);
-        list.Add(tip);
-
-        text = "Enemies are the major threat to you, but they can also drop useful resource.";
-        tip = new Tip("Enemies", text);
         list.Add(tip);
     }
 
@@ -100,7 +88,7 @@ public class ToolTips : MonoBehaviour
             line1.text = list[i].name;
             line2.text = list[i].text;
             AudioManager.instance.PlayMessagePop();
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(12f);
         }
         buffer = true;
     }
