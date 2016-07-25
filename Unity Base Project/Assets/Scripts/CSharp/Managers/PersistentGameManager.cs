@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 
 public class PersistentGameManager : MonoBehaviour {
 
@@ -24,7 +23,7 @@ public class PersistentGameManager : MonoBehaviour {
     void Initialize()
     {
         #region GeneralInfo
-        SetPlayerName("Zelda");
+        SetPlayerName("Sheik");
         SetPlayerCredits(1000);
         SetCurrentLevel(1);
         SetLevel1Unlocked(1);
@@ -57,7 +56,7 @@ public class PersistentGameManager : MonoBehaviour {
 
     #region Getters
     int GetPlayerCredits() { return PlayerPrefs.GetInt("Credit"); }
-    string GetPlayerName() { return PlayerPrefs.GetString("PlayerName", "Captain Planet"); }
+    string GetPlayerName() { return PlayerPrefs.GetString("PlayerName", "Zelda"); }
     int GetCurrentLevel() { return PlayerPrefs.GetInt("CurrentLevel"); }
     int GetLevel1Unlocked() { return PlayerPrefs.GetInt("Level1Unlocked"); }
     int GetLevel2Unlocked() { return PlayerPrefs.GetInt("Level2Unlocked"); }
