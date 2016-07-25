@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -56,6 +57,11 @@ public class AudioManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         if(_BattleMusic.clip != music["BattleTheme"])
         _BattleMusic.clip = music["BattleTheme"];
+
+
+        if(SceneManager.GetActiveScene().name != "MainMenu")
+            PlayThruster();
+
     }
     
     void Update()
@@ -131,7 +137,7 @@ public class AudioManager : MonoBehaviour
 
     public void ThrusterVolume(float amount)
     {
-        _Thruster.volume = 0.1f * amount * SoundVolume * MasterVolume;
+        _Thruster.volume = 0.15f * amount * SoundVolume * MasterVolume;
     }
 
     public IEnumerator LowerBattleMusic()
