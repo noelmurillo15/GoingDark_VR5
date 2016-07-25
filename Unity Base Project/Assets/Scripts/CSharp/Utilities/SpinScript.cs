@@ -6,16 +6,17 @@ public class SpinScript : MonoBehaviour
     public float y = 0f;
     public float z = 0f;
     public float speed = 0f;
+    Vector3 spin;
     // Use this for initialization
     void Start()
     {
-
+        spin = new Vector3(x, y, z);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        gameObject.transform.Rotate(new Vector3(x, y, z), speed * Time.deltaTime);
+        gameObject.transform.Rotate(spin, speed * Time.fixedDeltaTime);
     }
 
     void OnBecameVisible()
