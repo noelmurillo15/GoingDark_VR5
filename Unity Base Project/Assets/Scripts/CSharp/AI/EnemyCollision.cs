@@ -11,6 +11,7 @@ public class EnemyCollision : MonoBehaviour
 
     //  Player
     private GameObject messages;
+    private CloakSystem player;
 
     [SerializeField]
     public Transform NewTarg;
@@ -20,12 +21,15 @@ public class EnemyCollision : MonoBehaviour
     public void Initialize()
     {
         detectionTimer = 0f;
+
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
         isActive = false;
 
         if (NewTarg != null)
             NewTarg.gameObject.SetActive(false);
+
+        Invoke("FindPlayer", 5f);
     }
 
     void Update()
@@ -35,6 +39,15 @@ public class EnemyCollision : MonoBehaviour
 
         if (isActive && behavior.Target != null)
             NewTarg.transform.LookAt(behavior.Target.position);
+    }
+
+    void FindPlayer()
+    {
+        Debug.Log("Finding Player");
+        player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
+
+        if(player == null)
+            Debug.Log("Did Not Find Player");
     }
 
 
@@ -49,8 +62,15 @@ public class EnemyCollision : MonoBehaviour
 
             if (col.CompareTag("Player"))
             {
+                if (player == null)
+                {
+                    Debug.LogError("Enemy Did Not Reference Player Cloak");
+                    player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
+                }
+
+
                 isActive = true;
-                if (behavior.GetManager().GetPlayerCloak().GetCloaked())
+                if (player.GetCloaked())
                     detectionTimer = 5f;
                 else
                 {
@@ -74,7 +94,13 @@ public class EnemyCollision : MonoBehaviour
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            if (behavior.GetManager().GetPlayerCloak().GetCloaked())
+            if (player == null)
+            {
+                Debug.LogError("Enemy Did Not Reference Player Cloak");
+                player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
+            }
+
+            if (player.GetCloaked())
             {
                 detectionTimer = 5f;
                 if (behavior.State != EnemyStates.Patrol)

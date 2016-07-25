@@ -62,6 +62,7 @@ public class AudioManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name != "MainMenu")
             PlayThruster();
 
+
     }
     
     void Update()

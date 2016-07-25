@@ -131,17 +131,23 @@ public class PlayerStats : MonoBehaviour
     }
     public void GoToStation()
     {
-        Respawn();
+        deathTransition.SpawnPlayer();
+        Invoke("Respawn", 0.5f);
     }
-    private void Respawn()
+
+    public void Repair()
     {
         HealthData.FullRestore();
         ShieldData.FullRestore();
         systemManager.FullSystemRepair();
-        deathTransition.SendMessage("Respawn");
+    }
+
+    private void Respawn()
+    {
+        Repair();
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
-    }       
+    }
     private void Kill()
     {
         deathTransition.SendMessage("Death");

@@ -12,7 +12,7 @@ public class SpaceStation : MonoBehaviour
 
     private float repairTimer;
     private AudioSource sound;
-    private SystemManager systemManager;
+    private PlayerStats stats;
     private MissionSystem missionSystem;
     #endregion
 
@@ -22,7 +22,6 @@ public class SpaceStation : MonoBehaviour
     {
         repairTimer = 0f;
         sound = GetComponent<AudioSource>();
-        systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
 
         if (enemyTakeOver)
@@ -41,6 +40,8 @@ public class SpaceStation : MonoBehaviour
             Vector3 loc = go.transform.position;
             go.transform.parent = transform;
             go.transform.localPosition = loc;
+
+            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         }
     }
 
@@ -71,11 +72,11 @@ public class SpaceStation : MonoBehaviour
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.transform.tag == "Player" && repairTimer <= 0f)
+        if (col.transform.tag == "Player" && repairTimer <= 0f && !enemyTakeOver)
         {
             sound.Play();
+            stats.Repair();
             repairTimer = 60f;
-            systemManager.FullSystemRepair();
         }
     }
 }

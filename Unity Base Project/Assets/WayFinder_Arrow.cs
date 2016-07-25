@@ -1,27 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class WayFinder_Arrow : MonoBehaviour {
 
     [SerializeField]
-    private GameObject[] WayPoints;
-
-    [SerializeField]
-    private WayPointsManager WayPointManager;
+    private GameObject WayPointManager;
     // Use this for initialization
     void Start () {
-        WayPoints =WayPointManager.GetWaypoints();        
+        WayPointManager = GameObject.FindGameObjectWithTag("WayPointManager");
     }
 
     // Update is called once per frame
     void Update () {
 
         int i = 0;
-        for (; i < WayPoints.Length; i++)
+        for (; i < WayPointManager.transform.childCount; i++)
         {
-            if (WayPoints[i] && WayPoints[i].activeInHierarchy)
+            GameObject Temp = WayPointManager.transform.GetChild(i).gameObject;
+            if (Temp && Temp.activeInHierarchy)
             {
-                transform.LookAt(WayPoints[i].transform);
+                transform.LookAt(Temp.transform);
                 break;
             }
         }

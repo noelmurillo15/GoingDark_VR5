@@ -160,15 +160,15 @@ public class MissileSystem : ShipSystem
                 break;
             case MissileType.ShieldBreak:
                 typeTxt.text = "ShieldBreak";
-                countTxt.color = Color.magenta;
-                typeTxt.color = Color.magenta;
-                missileSprite.color = Color.magenta;
+                countTxt.color = Color.red;
+                typeTxt.color = Color.red;
+                missileSprite.color = Color.red;
                 break;
             case MissileType.Chromatic:
                 typeTxt.text = "Chromatic";
-                countTxt.color = Color.white;
-                typeTxt.color = Color.white;
-                missileSprite.color = Color.white;
+                countTxt.color = Color.green;
+                typeTxt.color = Color.green;
+                missileSprite.color = Color.green;
                 break;
         }
         countTxt.text = "x: " + Count[(int)Type].ToString();

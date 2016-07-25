@@ -24,8 +24,6 @@ public class WayPointsManager : MonoBehaviour {
 	
 	}
 
-   public GameObject[] GetWaypoints() { return WayPoints; }
-
     void SetNextActive()
     {
         int i = 0;
