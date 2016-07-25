@@ -57,9 +57,7 @@
     public enum LaserType
     {
         Basic,
-        Charged,
-        Ball,
-        Continuous
+        Charged
     }
     #endregion
 
@@ -121,7 +119,6 @@
         Combat,
         Stealth,
         Elimination
-
     }
 
     public struct Mission

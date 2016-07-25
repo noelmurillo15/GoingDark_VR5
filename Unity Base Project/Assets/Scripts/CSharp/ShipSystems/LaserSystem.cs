@@ -72,22 +72,6 @@ public class LaserSystem : ShipSystem
 
                 //laser_overheat.UpdateGauge(-10f);
                 break;
-            case LaserType.Ball:
-                obj1 = PoolManager.GetChargedBall();
-                obj1.transform.position = Gun1.transform.position;
-                obj1.transform.rotation = Gun1.transform.rotation;
-                obj1.SetActive(true);
-
-                obj2 = PoolManager.GetChargedBall();
-                obj2.transform.position = Gun2.transform.position;
-                obj2.transform.rotation = Gun2.transform.rotation;
-                obj2.SetActive(true);
-
-                //laser_overheat.UpdateGauge(-20f);
-                break;
-            case LaserType.Continuous:
-                //laser_overheat.UpdateGauge(-25f);
-                break;
         }
     }
 
@@ -105,12 +89,6 @@ public class LaserSystem : ShipSystem
                 break;
             case LaserType.Charged:
                 maxCooldown = .5f;
-                break;
-            case LaserType.Ball:
-                maxCooldown = 1f;
-                break;
-            case LaserType.Continuous:
-                maxCooldown = 30f;
                 break;
         }
     }

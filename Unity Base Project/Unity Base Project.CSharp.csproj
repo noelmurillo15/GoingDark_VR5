@@ -273,7 +273,6 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
-    <Compile Include="Assets\Scripts\CSharp\ShipSystems\QuickSlot.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\SystemManager.cs" />

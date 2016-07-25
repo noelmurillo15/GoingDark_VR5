@@ -22,7 +22,8 @@ public class MessageScript : MonoBehaviour
     [SerializeField]
     Text systemReport;
     [SerializeField]
-    Text bossAlert;
+    Text stationTakeover;
+
     private Text[] winTexts;
 
 
@@ -42,6 +43,7 @@ public class MessageScript : MonoBehaviour
         poisonMsg.enabled = false;
         systemReport.enabled = false;
         offlineDevices.enabled = false;
+        stationTakeover.enabled = false;
     }
     public void SystemReport(string systemsdown)
     {
@@ -103,29 +105,14 @@ public class MessageScript : MonoBehaviour
         AudioManager.instance.StopNebulaAlarm();
         poisonMsg.enabled = false;
     }
-    public IEnumerator BossAlert()
+    void StationTakeOver()
     {
-        bossAlert.enabled = true;
-        yield return new WaitForSeconds(5.0f);
-        bossAlert.enabled = false;
+        stationTakeover.enabled = true;
+        Invoke("RemoveStationTakeOver", 5f);
+    }
+    void RemoveStationTakeOver()
+    {
+        stationTakeover.enabled = false;
     }
     #endregion
-
-    //void Win()
-    //{
-    //    winMessage.SetActive(true);
-    //    Debug.Log("Won");
-    //    StartCoroutine(WinMessage());
-    //}
-
-    //IEnumerator WinMessage()
-    //{
-    //    winTexts[2].text = "Returning to Main Menu .";
-    //    yield return new WaitForSeconds(1.0f);
-    //    winTexts[2].text = "Returning to Main Menu . .";
-    //    yield return new WaitForSeconds(1.0f);
-    //    winTexts[2].text = "Returning to Main Menu . . .";
-    //    yield return new WaitForSeconds(1.0f);
-    //    SceneManager.LoadScene("MainMenu");
-    //}
 }

@@ -40,7 +40,8 @@ public class Hitmarker : MonoBehaviour
             if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
                 rayhit = true;        
 
-        LockOnMarker.SetActive(rayhit);
+        if(LockOnMarker != null)
+            LockOnMarker.SetActive(rayhit);
 
         if (rayhit)
             LockOnUpdate();

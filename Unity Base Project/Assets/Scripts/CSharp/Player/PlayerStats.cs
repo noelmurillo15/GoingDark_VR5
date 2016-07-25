@@ -13,7 +13,8 @@ public class PlayerStats : MonoBehaviour
     public ShieldProperties ShieldData;
     private HealthProperties HealthData;       
 
-    private Transform station;
+    [SerializeField]
+    public Transform station;
     private x360Controller controller;
     private DeathTransition deathTransition;
     #endregion
@@ -30,7 +31,6 @@ public class PlayerStats : MonoBehaviour
         HealthData = new HealthProperties(100f, transform, true);
         ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
 
-        station = GameObject.Find("Station").transform;
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
     }

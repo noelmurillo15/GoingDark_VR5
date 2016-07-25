@@ -39,7 +39,7 @@ public class ObjectPoolManager : MonoBehaviour {
         //  Enemy
         ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, MyTransform);
         TrackEnemy.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
-        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 10, MyTransform);        
+        explosionpool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/EnemyExplosion"), 12, MyTransform);        
 
         //  Lasers
         BasicLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/LaserBeam"), 28, MyTransform);

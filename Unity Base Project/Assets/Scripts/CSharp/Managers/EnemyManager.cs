@@ -100,6 +100,7 @@ public class EnemyManager : MonoBehaviour {
                 if (enemies[i].State == EnemyStates.Attack)
                     return;
             }
+            Debug.Log("No enemies are attacking the player");
             AudioManager.instance.StartCoroutine("LowerBattleMusic");
         }
     }
