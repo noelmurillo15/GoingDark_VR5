@@ -119,7 +119,9 @@
     {
         Scavenge,
         Combat,
-        Stealth
+        Stealth,
+        Elimination
+
     }
 
     public struct Mission

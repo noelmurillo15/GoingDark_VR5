@@ -8,21 +8,24 @@ public class MissionLogButtons : MonoBehaviour
     private Image m_button;
     private float transition;
     private float cancelTimer;
+    [SerializeField]
     private MissionLog missionLog;
     private GameObject buttonObject;
+    private MissionTracker missionTracker;
+    private MissionSystem missionSystem;
     // Use this for initialization
 
     void Start()
     {
         m_button = GetComponent<Image>();
+        missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         buttonObject = GameObject.Find("MissionPanel");
 
         transition = 0.0f;
         cancelTimer = 0.0f;
     }
-
-    // Update is called once per frame
 
     #region Collision
     public void OnTriggerEnter(Collider col)
@@ -82,5 +85,12 @@ public class MissionLogButtons : MonoBehaviour
     }
     #endregion
 
-
+    public void OnClick()
+    {
+        string temp = gameObject.name;
+        if (temp != "Close")
+            missionTracker.UpdateInfo(missionSystem.m_ActiveMissions.Find(x => x.missionName == temp), true);
+        else
+            SendMessageUpwards("TurnOffPanel");
+    }
 }

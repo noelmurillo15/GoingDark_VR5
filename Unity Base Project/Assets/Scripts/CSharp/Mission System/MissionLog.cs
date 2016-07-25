@@ -1,21 +1,45 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using GoingDark.Core.Enums;
 
 public class MissionLog : MonoBehaviour
 {
     // message shit, fuck it
     public GameObject m_pMissionMessage;
-
     private MissionSystem m_missionSystem;
 
+    [SerializeField]
+    private GameObject missionLog;
+    private Button[] buttons;
     // Use this for initialization
     void Start()
     {
+        buttons = missionLog.GetComponentsInChildren<Button>();
         m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
     }
 
+    public void SetNames()
+    {
+        for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
+        {
+            string temp = m_missionSystem.m_ActiveMissions[i].missionName;
+            buttons[i].transform.name = temp;
+            buttons[i].GetComponentInChildren<Text>().text = temp;
+        }
+    }
 
-   
+    public void TurnOffPanel()
+    {
+        missionLog.SetActive(false);
+    }
+
+    public void TurnOnPanel()
+    {
+        missionLog.SetActive(true);
+    }
+
+    #region Messages
+
     public void Failed(Mission mission)
     {
         m_pMissionMessage.SetActive(true);
@@ -40,6 +64,7 @@ public class MissionLog : MonoBehaviour
         m_pMissionMessage.SendMessage("TurnInLastMission");
     }
 
+    #endregion
 
 
 }

@@ -471,6 +471,7 @@
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
+    <None Include="Assets\Resources\XML\Level2.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
     <None Include="Assets\Resources\XML\Tutorial_Main.xml" />
     <None Include="Assets\Shaders\Fxaa3.shader" />

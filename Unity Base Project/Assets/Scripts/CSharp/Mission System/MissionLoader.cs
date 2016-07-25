@@ -119,6 +119,8 @@ public class MissionLoader : MonoBehaviour
             ret = MissionType.Combat;
         else if (type == "Stealth")
             ret = MissionType.Stealth;
+        else if (type == "Elimination")
+            ret = MissionType.Elimination;
 
         return ret;
     }

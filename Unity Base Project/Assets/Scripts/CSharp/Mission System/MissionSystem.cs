@@ -20,7 +20,9 @@ public class MissionSystem : MonoBehaviour
     private MissionTracker m_missionTracker;
     private int m_stationID;
     private int portalIndex = 0;
+    private int numEnemies = 0;
     private string SceneName;
+    private bool addMissions = false;
 
     GameObject spawner;
     GameObject[] portals;
@@ -31,8 +33,13 @@ public class MissionSystem : MonoBehaviour
     void Start()
     {
         SceneName = SceneManager.GetActiveScene().name;
+        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
+        m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
 
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
+        numEnemies = temp.Length;
 
+        m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
         if (SceneName == "Level1")
         {
             portals = new GameObject[3];
@@ -43,29 +50,76 @@ public class MissionSystem : MonoBehaviour
             portals[1].SetActive(false);
             portals[2].SetActive(false);
         }
+        else
+        {
+            // add all missions at start of level -> choose which one tracks
+            addMissions = true;
+        }
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
         m_SecondaryMissions = new List<Mission>();
         m_PrimaryMissions = new List<Mission>();
 
-        m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
-        m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
-        m_missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
+        m_missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 
         m_MainMission = m_missionLoader.LoadMission(filename[0]);
         m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
 
-        if (SceneName == "Level1")
-            m_playerStats = GameObject.Find("PlayerTutorial").GetComponent<PlayerStats>();
-        else
-            m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
+        if (SceneName != "Level1")
+            Timing.RunCoroutine(AddMissions());
+
     }
 
-    /// <summary>
-    /// Decrements the loot count for active scavenge missions
-    /// </summary>
+    void MissionFailed(Mission mission)
+    {
+        m_missionTracker.missionTracker.SetActive(false);
+        m_ActiveMissions.Remove(mission);
+        m_missionLog.Failed(mission);
+        Debug.Log("Failed mission, return to portals");
+        Timing.RunCoroutine(Wait(3.0f));
+    }
+
+    IEnumerator<float> AddMissions()
+    {
+        Debug.Log("Coroutine");
+        yield return Timing.WaitForSeconds(3.0f);
+        AddAllMissions();
+        m_missionLog.SetNames();
+    }
+
+    #region Private Methods
+
+    IEnumerator<float> DelayMission(float duration)
+    {
+        m_missionTracker.missionTracker.SetActive(false);
+        yield return Timing.WaitForSeconds(duration);
+        AddActiveMission(m_MainMission);
+        m_missionTracker.missionTracker.SetActive(true);
+        m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
+
+        yield return Timing.WaitForSeconds(1.0f);
+        if (SceneName == "Level1")
+            spawner.SetActive(true);
+    }
+
+    void AddAllMissions()
+    {
+        for (int i = 0; i < m_PrimaryMissions.Count; i++)
+        {
+            Mission mission = m_PrimaryMissions[i];
+            if (mission.type == MissionType.Elimination)
+                mission.objectives = numEnemies;
+            AddActiveMission(mission);
+            Debug.Log("Added mission" + mission.missionName);
+        }
+        m_PrimaryMissions.Clear();
+    }
+    #endregion
+
+    #region Public Methods
+
     public void LootPickedUp()
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
@@ -89,58 +143,6 @@ public class MissionSystem : MonoBehaviour
             }
         }
     }
-
-    void MissionFailed(Mission mission)
-    {
-        m_missionTracker.missionTracker.SetActive(false);
-        m_ActiveMissions.Remove(mission);
-        m_missionLog.Failed(mission);
-        Debug.Log("Failed mission, return to portals");
-        Timing.RunCoroutine(Wait(2.0f));
-    }
-
-    MissionType Convert(string name)
-    {
-        MissionType type = MissionType.Scavenge;
-        if (name == "CombatPortal")
-            type = MissionType.Combat;
-        else if (name == "StealthPortal")
-            type = MissionType.Stealth;
-        else if (name == "FlightPortal")
-            type = MissionType.Scavenge;
-
-        return type;
-    }
-
-    IEnumerator<float> DelayMission(float duration)
-    {
-        m_missionTracker.missionTracker.SetActive(false);
-        yield return Timing.WaitForSeconds(duration);
-        AddActiveMission(m_MainMission);
-        m_missionTracker.missionTracker.SetActive(true);
-        m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
-
-        yield return Timing.WaitForSeconds(1.0f);
-        if (SceneName == "Level1")
-            spawner.SetActive(true);
-    }
-
-    string TypeToString(MissionType type)
-    {
-        string temp = "";
-
-        if (type == MissionType.Combat)
-            temp = "CombatPortal";
-        else if (type == MissionType.Scavenge)
-            temp = "FlightPortal";
-        else if (type == MissionType.Stealth)
-            temp = "StealthPortal";
-
-        return temp;
-    }
-
-    #region Public Methods
-
     public void AddActiveMission(Mission mission)
     {
         m_missionTracker.missionTracker.SetActive(true);
@@ -177,11 +179,26 @@ public class MissionSystem : MonoBehaviour
             Mission mission;
             mission = m_ActiveMissions[i];
 
-            if (mission.enemy == EnemyTypes.Any ||
-                mission.enemy == type)
+            // eliminate all threats
+            if (mission.type == MissionType.Elimination)
+            {
+                Debug.Log("Killed enemy");
+
+                mission.objectives--;
+                m_ActiveMissions[i] = mission;
+
+                if (mission.objectives == 0)
+                {
+                    mission.completed = true;
+                    m_missionLog.Completed(mission);
+                    TurnInMission(mission);
+                }
+                m_missionTracker.UpdateInfo(mission);
+            }
+            else if (mission.enemy == EnemyTypes.Any ||
+                mission.enemy == type && mission.type != MissionType.Elimination)
             {
                 mission.objectives--;
-                Debug.Log("Killed enemy");
                 m_ActiveMissions[i] = mission;
 
                 if (mission.objectives == 0)
@@ -193,8 +210,9 @@ public class MissionSystem : MonoBehaviour
 
                     TurnInMission(mission);
                 }
+                m_missionTracker.UpdateInfo(mission);
+
             }
-            m_missionTracker.UpdateInfo(mission);
         }
     }
 
@@ -215,14 +233,14 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
-
         if (SceneName == "Level1")
         {
             portals[portalIndex].SetActive(false);
             if ((portalIndex + 1) <= 2)
                 portals[portalIndex + 1].SetActive(true);
-            portalIndex++;
+            portalIndex++; 
         }
+
         m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
 
@@ -234,7 +252,7 @@ public class MissionSystem : MonoBehaviour
         m_ActiveMissions.Remove(tempMission);
 
         m_playerStats.SaveData.Credits += tempMission.credits;
-        Timing.RunCoroutine(Wait(2.0f));
+        Timing.RunCoroutine(Wait(3.0f));
 
         // done with all missions
         if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
@@ -251,5 +269,34 @@ public class MissionSystem : MonoBehaviour
 
     #endregion
 
+    #region Tutorial
+
+    MissionType Convert(string name)
+    {
+        MissionType type = MissionType.Scavenge;
+        if (name == "CombatPortal")
+            type = MissionType.Combat;
+        else if (name == "StealthPortal")
+            type = MissionType.Stealth;
+        else if (name == "FlightPortal")
+            type = MissionType.Scavenge;
+
+        return type;
+    }
+
+    string TypeToString(MissionType type)
+    {
+        string temp = "";
+
+        if (type == MissionType.Combat)
+            temp = "CombatPortal";
+        else if (type == MissionType.Scavenge)
+            temp = "FlightPortal";
+        else if (type == MissionType.Stealth)
+            temp = "StealthPortal";
+
+        return temp;
+    }
+    #endregion
 
 }

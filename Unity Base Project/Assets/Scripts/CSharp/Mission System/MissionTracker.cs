@@ -24,8 +24,8 @@ public class MissionTracker : MonoBehaviour
     private MissionSystem missionSystem;
     private x360Controller controller;
     private SystemManager systemManager;
+    private MissionLog missionLog;
 
-    [HideInInspector]
     public GameObject missionTracker;
 
     // Use this for initialization
@@ -34,12 +34,12 @@ public class MissionTracker : MonoBehaviour
 
         controller = GamePadManager.Instance.GetController(0);
 
-        missionTracker = GameObject.Find("MissionTracker");
+        //missionTracker = GameObject.Find("MissionTracker");
         missionBox = GameObject.Find("MissionBox");
         continueText = GameObject.Find("PressToContinue");
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-
+        missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
         // turn off after they are found
         missionTracker.SetActive(false);
         continueText.SetActive(false);
@@ -47,6 +47,17 @@ public class MissionTracker : MonoBehaviour
 
         AssignText();
         Timing.RunCoroutine(ShowMain());
+    }
+
+    void Update()
+    {
+        if (controller.GetButtonDown("Start"))
+        {
+            missionSystem.LootPickedUp();
+            missionSystem.KilledEnemy(EnemyTypes.Any);
+            if (missionSystem.m_ActiveMissions.Count > 0)
+                missionLog.TurnOnPanel();
+        }
     }
 
 
@@ -64,20 +75,13 @@ public class MissionTracker : MonoBehaviour
             {
                 missionBox.SetActive(false);
                 systemManager.SendMessage("MessageUp", false);
-
                 //missionSystem.KilledEnemy(EnemyTypes.Droid);
-
                 yield return 0f;
             }
             else
                 yield return 0f;
 
-            if (controller.GetButtonDown("Start"))
-            {
-                missionSystem.LootPickedUp();
-                missionSystem.KilledEnemy(EnemyTypes.Any);
-
-            }
+            
 
         }
     }
@@ -104,9 +108,22 @@ public class MissionTracker : MonoBehaviour
 
     public void UpdateInfo(Mission mission)
     {
-        trackerName.text = mission.missionName;
-        trackerInfo.text = mission.missionInfo;
-        trackerObjectives.text = "Objectives Left : " + mission.objectives;
+        if (trackerName.text == "MissionName" || trackerName.text == mission.missionName)
+        {
+            trackerInfo.text = mission.missionInfo;
+            trackerName.text = mission.missionName;
+            trackerObjectives.text = "Objectives Left : " + mission.objectives;
+        }
+    }
+
+    public void UpdateInfo(Mission mission, bool changed)
+    {
+        if (changed)
+        {
+            trackerInfo.text = mission.missionInfo;
+            trackerName.text = mission.missionName;
+            trackerObjectives.text = "Objectives Left : " + mission.objectives;
+        }
     }
 
     private string MissionInfo(string level)
@@ -115,6 +132,11 @@ public class MissionTracker : MonoBehaviour
         switch (level)
         {
             case "Level1":
+                {
+                    info = "We have found traces of alien activity on the outskirts of our sector. We are not sure who or what it is, and we need you to scout them out. Collect any valuables they left behind and destroy any remaining ships. Go through one of the portals when you are ready.";
+                    break;
+                }
+            case "Level2":
                 {
                     info = "We have found traces of alien activity on the outskirts of our sector. We are not sure who or what it is, and we need you to scout them out. Collect any valuables they left behind and destroy any remaining ships. Go through one of the portals when you are ready.";
                     break;

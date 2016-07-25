@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tutorial2>
+  <mission name ="Scavenger"
+    info = "Collect 9 lootcrates"
+    credits = "300"
+    objectives = "9"
+    type = "Scavenge"
+    enemy = "None"
+    time = "0.0"
+    optional = "true"
+  />
+
+  <mission name ="Kill 'em Dead"
+  info = "Annihilate the enemy fleet"
+  credits = "800"
+  objectives = "0"
+  type = "Elimination"
+  enemy = "Any"
+  time = "0.0"
+  optional = "true"
+  />
+
+  <mission name ="Quickie"
+ info = "Kill 10 enemies in 5 minutes"
+ credits = "600"
+ objectives = "10"
+ type = "Combat"
+ enemy = "Any"
+ time = "300.0"
+ optional = "true"
+  />
+
+</Tutorial2>
