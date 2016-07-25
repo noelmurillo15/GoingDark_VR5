@@ -67,9 +67,23 @@ public class MissionSystem : MonoBehaviour
 
     }
 
-    void ControlPointTaken()
+    public void ControlPointTaken()
     {
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            if (m_ActiveMissions[i].type == MissionType.ControlPoint)
+            {
+                Mission mission = m_ActiveMissions[i];
+                mission.objectives--;
+                m_ActiveMissions[i] = mission;
 
+                if (m_ActiveMissions[i].objectives == 0)
+                    TurnInMission(m_ActiveMissions[i]);
+
+                m_missionTracker.UpdateInfo(mission);
+
+            }
+        }
     }
 
     #region Private Methods
@@ -135,6 +149,7 @@ public class MissionSystem : MonoBehaviour
                 }
             }
         }
+
     }
 
     public void LootPickedUp()

@@ -42,6 +42,16 @@ public class MissionLog : MonoBehaviour
         }
     }
 
+    public void UpdateButtons()
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (i >= m_missionSystem.m_ActiveMissions.Count && buttons[i].name != "Close")
+                buttons[i].gameObject.SetActive(false);
+        }
+    }
+
+
     public void TurnOffPanel()
     {
         missionLog.SetActive(false);

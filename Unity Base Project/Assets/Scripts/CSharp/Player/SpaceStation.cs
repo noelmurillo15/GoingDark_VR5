@@ -13,6 +13,7 @@ public class SpaceStation : MonoBehaviour
     private float repairTimer;
     private AudioSource sound;
     private SystemManager systemManager;
+    private MissionSystem missionSystem;
     #endregion
 
 
@@ -22,6 +23,7 @@ public class SpaceStation : MonoBehaviour
         repairTimer = 0f;
         sound = GetComponent<AudioSource>();
         systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
 
         if (enemyTakeOver)
         {
@@ -62,6 +64,7 @@ public class SpaceStation : MonoBehaviour
 
                 msgs.SendMessage("StationTakeOver");
                 Debug.Log("You have taken over this Station!");
+                missionSystem.ControlPointTaken();
             }
         }
     }

@@ -57,6 +57,8 @@ public class MissionTracker : MonoBehaviour
             if (missionSystem.m_ActiveMissions.Count > 0 && SceneName != "Level1")
             {
                 missionLog.TurnOnPanel();
+                missionLog.UpdateButtons();
+
                 systemManager.SendMessage("MessageUp", true);
             }
         }
@@ -64,13 +66,18 @@ public class MissionTracker : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             missionSystem.LootPickedUp();
-            //missionSystem.KilledEnemy(EnemyTypes.Any);
         }
 
         if (Input.GetKeyDown(KeyCode.W))
         {
             missionSystem.KilledEnemy(EnemyTypes.Any);
         }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            missionSystem.ControlPointTaken();
+        }
+
     }
 
 
@@ -148,7 +155,12 @@ public class MissionTracker : MonoBehaviour
                 }
             case "Level2":
                 {
-                    info = "We have found traces of alien activity on the outskirts of our sector. We are not sure who or what it is, and we need you to scout them out. Collect any valuables they left behind and destroy any remaining ships. Go through one of the portals when you are ready.";
+                    info = "There is a lot of activity in this sector. The enemy fleet has been sighted not too far away form here, so this would be a perfect opportunity to wipe them out. Collect any supplies you can find from their wrecks.";
+                    break;
+                }
+            case "Level3":
+                {
+                    info = "Commander! Our stations have been taken over by a rivaling fleet. We need you to destroy their ships and take back the stations. Hurry!";
                     break;
                 }
             default:

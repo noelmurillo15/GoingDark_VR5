@@ -10,7 +10,7 @@ public class Meteor : MonoBehaviour {
         myTransform = GetComponent<Transform>();
         velocity = new Vector3(Random.Range(-359, 359), Random.Range(-359, -1), Random.Range(-359, 359));
         // velocity = new Vector3(0, 0, -50);
-        Invoke("Kill", Random.Range(15,20));
+        Invoke("Kill", Random.Range(15,25));
 	}
 	
 	// Update is called once per frame

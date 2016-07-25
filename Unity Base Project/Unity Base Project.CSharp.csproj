@@ -306,6 +306,9 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
     <Compile Include="Assets\Spawner.cs" />
+    <Compile Include="Assets\WayFinder_Arrow.cs" />
+    <Compile Include="Assets\WayPointScript.cs" />
+    <Compile Include="Assets\WayPointsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />
@@ -473,6 +476,9 @@
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
     <None Include="Assets\Resources\XML\Level2.xml" />
+    <None Include="Assets\Resources\XML\Level2_Main.xml" />
+    <None Include="Assets\Resources\XML\Level3.xml" />
+    <None Include="Assets\Resources\XML\Level3_Main.xml" />
     <None Include="Assets\Resources\XML\Tutorial2.xml" />
     <None Include="Assets\Resources\XML\Tutorial_Main.xml" />
     <None Include="Assets\Shaders\Fxaa3.shader" />
