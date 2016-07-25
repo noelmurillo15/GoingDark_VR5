@@ -118,7 +118,8 @@
         Scavenge,
         Combat,
         Stealth,
-        Elimination
+        Elimination,
+        ControlPoint
     }
 
     public struct Mission

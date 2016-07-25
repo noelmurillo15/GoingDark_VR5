@@ -121,6 +121,8 @@ public class MissionLoader : MonoBehaviour
             ret = MissionType.Stealth;
         else if (type == "Elimination")
             ret = MissionType.Elimination;
+        else if (type == "ControlPoint")
+            ret = MissionType.ControlPoint;
 
         return ret;
     }

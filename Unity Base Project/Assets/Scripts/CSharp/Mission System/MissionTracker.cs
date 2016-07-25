@@ -25,6 +25,7 @@ public class MissionTracker : MonoBehaviour
     private x360Controller controller;
     private SystemManager systemManager;
     private MissionLog missionLog;
+    private string SceneName;
 
     public GameObject missionTracker;
 
@@ -33,7 +34,7 @@ public class MissionTracker : MonoBehaviour
     {
 
         controller = GamePadManager.Instance.GetController(0);
-
+        SceneName = SceneManager.GetActiveScene().name;
         //missionTracker = GameObject.Find("MissionTracker");
         missionBox = GameObject.Find("MissionBox");
         continueText = GameObject.Find("PressToContinue");
@@ -53,10 +54,22 @@ public class MissionTracker : MonoBehaviour
     {
         if (controller.GetButtonDown("Start"))
         {
-            missionSystem.LootPickedUp();
-            missionSystem.KilledEnemy(EnemyTypes.Any);
-            if (missionSystem.m_ActiveMissions.Count > 0)
+            if (missionSystem.m_ActiveMissions.Count > 0 && SceneName != "Level1")
+            {
                 missionLog.TurnOnPanel();
+                systemManager.SendMessage("MessageUp", true);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            missionSystem.LootPickedUp();
+            //missionSystem.KilledEnemy(EnemyTypes.Any);
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            missionSystem.KilledEnemy(EnemyTypes.Any);
         }
     }
 
@@ -80,9 +93,6 @@ public class MissionTracker : MonoBehaviour
             }
             else
                 yield return 0f;
-
-            
-
         }
     }
 

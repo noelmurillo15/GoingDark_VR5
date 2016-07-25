@@ -18,13 +18,27 @@ public class MissionLog : MonoBehaviour
         m_missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
     }
 
+    #region Public Methods
     public void SetNames()
     {
+        int num = 0;
         for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
         {
             string temp = m_missionSystem.m_ActiveMissions[i].missionName;
             buttons[i].transform.name = temp;
             buttons[i].GetComponentInChildren<Text>().text = temp;
+            if (!buttons[i].gameObject.activeSelf)
+                buttons[i].gameObject.SetActive(true);
+            num = i;
+        }
+    }
+
+    public void UpdateButtons(string name)
+    {
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].name == name)
+                buttons[i].gameObject.SetActive(false);
         }
     }
 
@@ -37,6 +51,7 @@ public class MissionLog : MonoBehaviour
     {
         missionLog.SetActive(true);
     }
+    #endregion
 
     #region Messages
 

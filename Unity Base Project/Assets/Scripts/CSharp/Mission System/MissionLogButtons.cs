@@ -13,14 +13,16 @@ public class MissionLogButtons : MonoBehaviour
     private GameObject buttonObject;
     private MissionTracker missionTracker;
     private MissionSystem missionSystem;
+    private SystemManager systemManager;
     // Use this for initialization
 
     void Start()
     {
         m_button = GetComponent<Image>();
         missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
-        missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
+        missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
+        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         buttonObject = GameObject.Find("MissionPanel");
 
         transition = 0.0f;
@@ -91,6 +93,9 @@ public class MissionLogButtons : MonoBehaviour
         if (temp != "Close")
             missionTracker.UpdateInfo(missionSystem.m_ActiveMissions.Find(x => x.missionName == temp), true);
         else
+        {
             SendMessageUpwards("TurnOffPanel");
+            systemManager.SendMessage("MessageUp", true);
+        }
     }
 }

@@ -50,11 +50,6 @@ public class MissionSystem : MonoBehaviour
             portals[1].SetActive(false);
             portals[2].SetActive(false);
         }
-        else
-        {
-            // add all missions at start of level -> choose which one tracks
-            addMissions = true;
-        }
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
@@ -72,12 +67,23 @@ public class MissionSystem : MonoBehaviour
 
     }
 
+    void ControlPointTaken()
+    {
+
+    }
+
+    #region Private Methods
+
     void MissionFailed(Mission mission)
     {
-        m_missionTracker.missionTracker.SetActive(false);
+        if (m_ActiveMissions.Count != 0)
+            m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
+        else
+            m_missionTracker.missionTracker.SetActive(false);
+        m_missionLog.UpdateButtons(mission.missionName);
+
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
-        Debug.Log("Failed mission, return to portals");
         Timing.RunCoroutine(Wait(3.0f));
     }
 
@@ -88,9 +94,6 @@ public class MissionSystem : MonoBehaviour
         AddAllMissions();
         m_missionLog.SetNames();
     }
-
-    #region Private Methods
-
     IEnumerator<float> DelayMission(float duration)
     {
         m_missionTracker.missionTracker.SetActive(false);
@@ -100,8 +103,8 @@ public class MissionSystem : MonoBehaviour
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
 
         yield return Timing.WaitForSeconds(1.0f);
-        if (SceneName == "Level1")
-            spawner.SetActive(true);
+        //if (SceneName == "Level1")
+        //    spawner.SetActive(true);
     }
 
     void AddAllMissions()
@@ -119,6 +122,20 @@ public class MissionSystem : MonoBehaviour
     #endregion
 
     #region Public Methods
+
+    public void CheckTimedMissions(float time)
+    {
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            if (m_ActiveMissions[i].missionTimer > 0f)
+            {
+                if (m_ActiveMissions[i].missionTimer <= time) // time ran out, fail
+                {
+                    MissionFailed(m_ActiveMissions[i]);
+                }
+            }
+        }
+    }
 
     public void LootPickedUp()
     {
@@ -168,6 +185,7 @@ public class MissionSystem : MonoBehaviour
                         m_PrimaryMissions.RemoveAt(i);
                 }
                 m_missionTracker.ShowTracker();
+                m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
             }
         }
     }
@@ -238,25 +256,41 @@ public class MissionSystem : MonoBehaviour
             portals[portalIndex].SetActive(false);
             if ((portalIndex + 1) <= 2)
                 portals[portalIndex + 1].SetActive(true);
-            portalIndex++; 
+            portalIndex++;
         }
 
-        m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
+        int index = m_ActiveMissions.FindIndex(x => x.missionName == mission.missionName);
 
         if (tempMission.missionName == m_MainMission.missionName)
             m_MainMission.completed = true;
 
+        // update buttons in mission log
         string temp = TypeToString(tempMission.type);
+        m_missionLog.UpdateButtons(tempMission.missionName);
+
         m_CompletedMissions.Add(tempMission);
         m_ActiveMissions.Remove(tempMission);
 
+        // update tracker to next mission
+        if (m_ActiveMissions.Count != 0)
+            m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
+
         m_playerStats.SaveData.Credits += tempMission.credits;
-        Timing.RunCoroutine(Wait(3.0f));
+
+        // only go back to station in Level 1
+        if (SceneName == "Level1")
+        {
+            m_missionTracker.missionTracker.SetActive(false);
+
+            Timing.RunCoroutine(Wait(3.0f));
+        }
 
         // done with all missions
         if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
         {
+            m_missionTracker.missionTracker.SetActive(false);
+            m_missionLog.TurnOffPanel();
             tallyscreen.ActivateTallyScreen();
         }
     }
