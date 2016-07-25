@@ -131,9 +131,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void GoToStation()
     {
-        deathTransition.SendMessage("Respawn");
-        transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
+        Respawn();
     }
     private void Respawn()
     {
@@ -142,7 +140,7 @@ public class PlayerStats : MonoBehaviour
         systemManager.FullSystemRepair();
         deathTransition.SendMessage("Respawn");
         transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 100f);
+        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
     }       
     private void Kill()
     {

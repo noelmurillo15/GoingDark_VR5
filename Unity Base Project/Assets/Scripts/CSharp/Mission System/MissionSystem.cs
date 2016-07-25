@@ -32,13 +32,17 @@ public class MissionSystem : MonoBehaviour
     {
         SceneName = SceneManager.GetActiveScene().name;
 
-        portals = new GameObject[3];
-        portals[0] = GameObject.Find("FlightPortal");
-        portals[1] = GameObject.Find("StealthPortal");
-        portals[2] = GameObject.Find("CombatPortal");
 
-        portals[1].SetActive(false);
-        portals[2].SetActive(false);
+        if (SceneName == "Level1")
+        {
+            portals = new GameObject[3];
+            portals[0] = GameObject.Find("FlightPortal");
+            portals[1] = GameObject.Find("StealthPortal");
+            portals[2] = GameObject.Find("CombatPortal");
+
+            portals[1].SetActive(false);
+            portals[2].SetActive(false);
+        }
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
@@ -92,7 +96,7 @@ public class MissionSystem : MonoBehaviour
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
         Debug.Log("Failed mission, return to portals");
-        Timing.RunCoroutine(Wait(3.0f));
+        Timing.RunCoroutine(Wait(2.0f));
     }
 
     MissionType Convert(string name)
@@ -211,11 +215,14 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
-        portals[portalIndex].SetActive(false);
-        if ((portalIndex + 1) <= 2)
-            portals[portalIndex + 1].SetActive(true);
-        portalIndex++;
 
+        if (SceneName == "Level1")
+        {
+            portals[portalIndex].SetActive(false);
+            if ((portalIndex + 1) <= 2)
+                portals[portalIndex + 1].SetActive(true);
+            portalIndex++;
+        }
         m_missionTracker.missionTracker.SetActive(false);
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
 
@@ -227,7 +234,7 @@ public class MissionSystem : MonoBehaviour
         m_ActiveMissions.Remove(tempMission);
 
         m_playerStats.SaveData.Credits += tempMission.credits;
-        Timing.RunCoroutine(Wait(3.0f));
+        Timing.RunCoroutine(Wait(2.0f));
 
         // done with all missions
         if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
