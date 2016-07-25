@@ -288,16 +288,10 @@ public class AudioManager : MonoBehaviour
         _Messages.Play();
     }
 
-    public void PlayHit(float distance = 0)
+    public void PlayHit()
     {
         _Hit.clip = sounds["Hit"];
-        if(distance > 0)
-        {
-            _Hit.volume = distance * 0.002f;
-            _Hit.volume = _Hit.volume * SoundVolume * MasterVolume;
-        }
-        else
-            _Hit.volume = SoundVolume * MasterVolume;
+        _Hit.volume = SoundVolume * MasterVolume;
 
         _Hit.Play();
     }
