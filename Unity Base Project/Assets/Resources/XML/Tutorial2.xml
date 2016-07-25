@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
   <mission name ="Flight Tutorial"
-    info = "Hit 10 fire rings"
+    info = "Collect 10 Supply Crates; Avoid Mines"
     credits = "100"
     objectives = "10"
     type = "Scavenge"
@@ -11,9 +11,9 @@
   />
 
   <mission name ="Stealth Tutorial"
-  info = "Locate 1 objectives without getting seen by the enemy fleet"
+  info = "Locate 3 Supply Crates without being seen by the Enemy Droids"
   credits = "200"
-  objectives = "1"
+  objectives = "3"
   type = "Stealth"
   enemy = "None"
   time = "0.0"
@@ -21,7 +21,7 @@
   />
 
   <mission name ="Combat Tutorial"
- info = "Kill 5 enemies"
+ info = "Eliminate All Enemies"
  credits = "200"
  objectives = "5"
  type = "Combat"
