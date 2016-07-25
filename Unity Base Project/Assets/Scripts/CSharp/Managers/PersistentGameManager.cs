@@ -28,7 +28,7 @@ public class PersistentGameManager : MonoBehaviour {
         SetPlayerCredits(1000);
         SetCurrentLevel(1);
         SetLevel1Unlocked(1);
-        SetLevel2Unlocked(1);
+        SetLevel2Unlocked(0);
         SetLevel3Unlocked(0);
         SetLevel4Unlocked(0);
         #endregion

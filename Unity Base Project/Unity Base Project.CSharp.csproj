@@ -110,6 +110,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\ShopMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\SwitchLevel.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\TempShipRotation.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLoader.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLog.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionLogButtons.cs" />

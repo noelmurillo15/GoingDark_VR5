@@ -12,6 +12,7 @@ public class ShopMenu : MonoBehaviour {
     private GameObject itemInfo;
     private ItemInfo info;
     public List<Item> items;
+    private AudioSource buttonPressed,back;
     
     public struct Item
     {
@@ -36,8 +37,16 @@ public class ShopMenu : MonoBehaviour {
         deviceList.SetActive(false);
         itemInfo.SetActive(false);
 
+        buttonPressed = GameObject.Find("StoreSound").transform.FindChild("StoreButton").GetComponent<AudioSource>();
+        back = GameObject.Find("StoreSound").transform.FindChild("StoreBack").GetComponent<AudioSource>();
+
         Initialize();
 
+    }
+
+    public void PlayButtonSound()
+    {
+        buttonPressed.Play();
     }
 
     void Initialize()
@@ -77,18 +86,21 @@ public class ShopMenu : MonoBehaviour {
     {
         mainList.SetActive(false);
         consumableList.SetActive(true);
+        PlayButtonSound();
     }
 
     void OpenWeaponList()
     {
         mainList.SetActive(false);
         weaponList.SetActive(true);
+        PlayButtonSound();
     }
 
     void OpenDeviceList()
     {
         mainList.SetActive(false);
         deviceList.SetActive(true);
+        PlayButtonSound();
     }
 
     void BasicMissile()
@@ -96,6 +108,7 @@ public class ShopMenu : MonoBehaviour {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.ConsumableList, items[(int)Items.BasicMissile]);
+        PlayButtonSound();
     }
 
     void ShieldbreakMissile()
@@ -103,6 +116,7 @@ public class ShopMenu : MonoBehaviour {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.ConsumableList, items[(int)Items.ShieldBreakMissile]);
+        PlayButtonSound();
     }
 
     void ChromaticMissile()
@@ -110,6 +124,7 @@ public class ShopMenu : MonoBehaviour {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.ConsumableList, items[(int)Items.ChromaticMissile]);
+        PlayButtonSound();
     }
 
     void EMPMissile()
@@ -117,72 +132,84 @@ public class ShopMenu : MonoBehaviour {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.ConsumableList, items[(int)Items.EMPMissile]);
+        PlayButtonSound();
     }
     void BasicMissileUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.BasicMissileUpgrade]);
+        PlayButtonSound();
     }
     void ShieldbreakMissileUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.ShieldBreakMissileUpgrade]);
+        PlayButtonSound();
     }
     void ChromaticMissileUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.ChromaticMissileUpgrade]);
+        PlayButtonSound();
     }
     void EMPMissileUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.EMPMissileUpgrade]);
+        PlayButtonSound();
     }
     void LaserPowerUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.LaserPowerUpgrade]);
+        PlayButtonSound();
     }
     void LaserCooldownUP()
     {
         weaponList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.WeaponList, items[(int)Items.LaserCooldownUpgrade]);
+        PlayButtonSound();
     }
     void HealthUP()
     {
         deviceList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.DeviceList, items[(int)Items.HealthUpgrade]);
+        PlayButtonSound();
     }
     void ShiledUP()
     {
         deviceList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.DeviceList, items[(int)Items.ShieldUpgrade]);
+        PlayButtonSound();
     }
     void HyperdriveUP()
     {
         deviceList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.DeviceList, items[(int)Items.HyperdriveUpgrade]);
+        PlayButtonSound();
     }
     void CloakUP()
     {
         deviceList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.DeviceList, items[(int)Items.CloakUpgrade]);
+        PlayButtonSound();
     }
     void EMPUP()
     {
         deviceList.SetActive(false);
         itemInfo.SetActive(true);
         info.GetItem(ShopType.DeviceList, items[(int)Items.EMPUpgrade]);
+        PlayButtonSound();
     }
 
     void Back()
@@ -192,5 +219,6 @@ public class ShopMenu : MonoBehaviour {
         weaponList.SetActive(false);
         deviceList.SetActive(false);
         mainList.SetActive(true);
+        back.Play();
     }
 }

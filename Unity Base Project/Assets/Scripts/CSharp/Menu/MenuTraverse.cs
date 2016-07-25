@@ -13,7 +13,6 @@ public class MenuTraverse : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
         m_Controller = GamePadManager.Instance.GetController(0);
         m_arrButtons = gameObject.GetComponentsInChildren<Selectable>();
         m_Button = m_arrButtons[0];

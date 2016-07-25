@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerViewCheck : MonoBehaviour {
+public class PlayerViewCheck : MonoBehaviour
+{
 
     private float fov;
     private Vector3 rayDirection;
@@ -13,11 +14,12 @@ public class PlayerViewCheck : MonoBehaviour {
     public float delayTimer;
     public bool isSwitching;
     private ShopMenu shopMenu;
-    
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         delayTimer = 2.0f;
-        fov = transform.GetComponent<Camera>().fieldOfView/5;
+        fov = transform.GetComponent<Camera>().fieldOfView / 5;
         rayDirection = Vector3.zero;
         LevelMenu = GameObject.Find("LevelMenu");
         stars = GameObject.FindGameObjectsWithTag("Star");
@@ -34,20 +36,33 @@ public class PlayerViewCheck : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         IsInSight();
         if (isSwitching)
         {
             LevelMenu.SetActive(false);
             shop.SetActive(false);
-            switch (curStar.name)
-            {
-                case "Easy":
-                    SceneManager.LoadScene("Level1");
-                    break;
-                default:
-                    break;
-            }
+            SwitchScene();
+        }
+    }
+
+    void SwitchScene()
+    {
+        switch (curStar.name)
+        {
+            case "Level1":
+                SceneManager.LoadScene("Level1");
+                break;
+            case "Level2":
+                SceneManager.LoadScene("Level2");
+                break;
+            case "Level3":
+                SceneManager.LoadScene("Level3");
+                break;
+            case "Level4":
+                SceneManager.LoadScene("Level4");
+                break;
         }
     }
 
@@ -91,10 +106,9 @@ public class PlayerViewCheck : MonoBehaviour {
                             return;
                         }
                     }
-                    //return;
                 }
             }
-            
+
         }
         LevelMenu.SetActive(false);
         if (shop.activeSelf)

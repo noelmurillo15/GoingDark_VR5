@@ -14,6 +14,7 @@ public class ItemInfo : MonoBehaviour {
     GameObject consumableList;
     GameObject weaponList;
     GameObject deviceList;
+    private AudioSource buy, buttonPressed, buyFail, back;
 
     // Use this for initialization
     void Start () {
@@ -34,10 +35,14 @@ public class ItemInfo : MonoBehaviour {
         deviceList = GameObject.Find("Shop").transform.FindChild("DeviceList").gameObject;
         itemOwned = 0;
         itemLevel = 1;
+        buy = GameObject.Find("StoreSound").transform.FindChild("StoreBuy").GetComponent<AudioSource>();
+        buttonPressed = GameObject.Find("StoreSound").transform.FindChild("StoreButton").GetComponent<AudioSource>();
+        buyFail = GameObject.Find("StoreSound").transform.FindChild("StoreBuyFail").GetComponent<AudioSource>();
+        back = GameObject.Find("StoreSound").transform.FindChild("StoreBack").GetComponent<AudioSource>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if(buttonBuffer>0)
             buttonBuffer -= Time.deltaTime;
 	}
@@ -145,7 +150,7 @@ public class ItemInfo : MonoBehaviour {
             }
             UpdateItemNumberText();
         }
-        
+        buttonPressed.Play();
     }
 
     void IncrementItem()
@@ -165,6 +170,7 @@ public class ItemInfo : MonoBehaviour {
 
             UpdateItemNumberText();
         }
+        buttonPressed.Play();
     }
 
     void Buy()
@@ -180,8 +186,13 @@ public class ItemInfo : MonoBehaviour {
                 LevelUp();
 
                 GetItemInfo();
+
+                buy.Play();
             }
+            else
+                buyFail.Play();
         }
+
     }
 
     void Return()
@@ -204,6 +215,7 @@ public class ItemInfo : MonoBehaviour {
         itemLevel = 1;
         UpdateItemNumberText();
         gameObject.SetActive(false);
+        back.Play();
     }
 
     void LevelUp()
