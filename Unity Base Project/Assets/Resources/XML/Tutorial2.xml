@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
   <mission name ="Flight Tutorial"
-    info = "Collect 10 Supply Crates; Avoid Mines"
+    info = "Collect 10 Supply Crates; Avoid Mines and Meteors"
     credits = "100"
     objectives = "10"
     type = "Scavenge"
@@ -11,7 +11,7 @@
   />
 
   <mission name ="Stealth Tutorial"
-  info = "Locate 3 Supply Crates without being seen by the Enemy Droids"
+  info = "Locate 3 Supply Crates without being seen by the Enemy Droids. Press X to Cloak"
   credits = "200"
   objectives = "3"
   type = "Stealth"

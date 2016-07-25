@@ -6,11 +6,11 @@ public class WayFinder_Arrow : MonoBehaviour {
     [SerializeField]
     private GameObject[] WayPoints;
 
-    private GameObject WayPointManager;
+    [SerializeField]
+    private WayPointsManager WayPointManager;
     // Use this for initialization
     void Start () {
-        WayPointManager = GameObject.FindGameObjectWithTag("WayPointManager");
-        WayPoints = WayPointManager.GetComponent<WayPointsManager>().GetWaypoints();
+        WayPoints =WayPointManager.GetWaypoints();        
     }
 
     // Update is called once per frame
