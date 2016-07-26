@@ -63,20 +63,20 @@ public class MissionTracker : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            missionSystem.LootPickedUp();
-        }
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    missionSystem.LootPickedUp();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            missionSystem.KilledEnemy(EnemyTypes.Any);
-        }
+        //if (Input.GetKeyDown(KeyCode.W))
+        //{
+        //    missionSystem.KilledEnemy(EnemyTypes.Any);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            missionSystem.ControlPointTaken();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    missionSystem.ControlPointTaken();
+        //}
 
     }
 

@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
     #region Properties
     public Impairments Debuff { get; private set; }
 
+    private CloakSystem cloak;
     private SystemManager systemManager;
     private DebuffManager debuffManager;
 
@@ -15,6 +16,7 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField]
     public Transform station;
+    private MessageScript msgs;
     private x360Controller controller;
     private DeathTransition deathTransition;
     #endregion
@@ -33,6 +35,7 @@ public class PlayerStats : MonoBehaviour
 
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
+        msgs = transform.GetComponentInChildren<MessageScript>();
     }
 
     #region Accessors
@@ -72,6 +75,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Debuffs removed from Player");
         Debuff = Impairments.None;
+        msgs.NotStunned();
     }
     private void ShieldHit()
     {
@@ -92,6 +96,7 @@ public class PlayerStats : MonoBehaviour
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
 
         Debuff = Impairments.Stunned;
+        msgs.Stun();
         debuffManager.Stunned(5f);
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);
@@ -132,26 +137,38 @@ public class PlayerStats : MonoBehaviour
     public void GoToStation()
     {
         deathTransition.SpawnPlayer();
-        Invoke("Respawn", 0.5f);
+        Invoke("Respawn", 1.5f);
     }
 
+    public void UnCloak()
+    {
+        if (cloak == null)
+        {
+            Debug.LogError("Cloak == null; Accessing it again");
+            cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+        }
+
+        if(cloak.GetCloaked())
+            cloak.UnCloakShip();
+    }
     public void Repair()
     {
         HealthData.FullRestore();
         ShieldData.FullRestore();
         systemManager.FullSystemRepair();
     }
-
     private void Respawn()
     {
         Repair();
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
+        deathTransition.NotDead();
+        deathTransition.notSpawned();
     }
     private void Kill()
     {
-        deathTransition.SendMessage("Death");
-        Invoke("Respawn", 2.5f);
+        deathTransition.Death();
+        Invoke("Respawn", 1.5f);
     }
     #endregion
 }

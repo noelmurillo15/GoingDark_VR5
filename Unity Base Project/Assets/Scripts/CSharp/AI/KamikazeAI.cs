@@ -30,10 +30,10 @@ public class KamikazeAI : MonoBehaviour
         if (hit.transform.CompareTag("Player") && detectionTimer <= 0f)
         {
             detectionTimer = 5f;
-            if(Random.Range(0, 10) == 5)
+            if (Random.Range(0, 2) == 1)
                 hit.transform.SendMessage("EMPHit");
             else
-                hit.transform.SendMessage("ShieldHit");
+                hit.transform.SendMessage("Hit");
 
             behavior.Kill();
         }

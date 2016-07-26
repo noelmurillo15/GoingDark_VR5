@@ -5,7 +5,8 @@ public class DeathTransition : MonoBehaviour
     private UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration blackOut;
     private bool isDead;
     public bool spawn;
-    bool flip;
+    public bool flip;
+
     // Use this for initialization
     void Start()
     {
@@ -18,6 +19,7 @@ public class DeathTransition : MonoBehaviour
     {
         if (isDead || spawn)
         {
+            Debug.Log("Dead");
             blackOut.intensity += Time.deltaTime;
             if (blackOut.intensity > 1f)
                 blackOut.intensity = 1f;
@@ -26,55 +28,29 @@ public class DeathTransition : MonoBehaviour
         {
             blackOut.intensity -= Time.deltaTime;
             if (blackOut.intensity < 0f)
-            {
                 blackOut.intensity = 0f;
-            }
-        }
 
-        Blackout();
+        }
     }
 
-    void Death()
+    public void Death()
     {
         isDead = true;
     }
 
-    void Blackout()
-    {
-        if (spawn && !flip)
-        {
-            blackOut.intensity += Time.deltaTime;
-            if (blackOut.intensity > 1f)
-            {
-                blackOut.intensity = 1f;
-                flip = true;
-            }
-        }
-        else
-        {
-            blackOut.intensity -= Time.deltaTime;
-            if (blackOut.intensity < 0f)
-            {
-                blackOut.intensity = 0f;
-            }
-            spawn = false;
-            flip = false;
-            // Invoke("DespawnPLayer",2.5f)
-        }
-    }
-
     public void SpawnPlayer()
     {
-        spawn = !spawn;
+        spawn = true;
     }
 
-    public void DeSpawnPlayer()
+    public void NotDead()
+    {
+        isDead = false;
+    }
+
+    public void notSpawned()
     {
         spawn = false;
     }
 
-    void Respawn()
-    {
-        isDead = false;
-    }
 }

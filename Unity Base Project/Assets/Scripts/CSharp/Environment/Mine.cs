@@ -2,17 +2,13 @@
 
 public class Mine : MonoBehaviour
 {
-    private Transform MyTransform;
     public bool MineArmed;
     private GameObject Explosion;
-    private Transform player;
 
     // Use this for initialization
     void Start()
     {
-        MyTransform = transform;
         MineArmed = true;
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         Explosion = transform.GetChild(1).gameObject;
         Explosion.SetActive(false);
     }
@@ -21,6 +17,7 @@ public class Mine : MonoBehaviour
     {
         if (col.CompareTag("Player") || col.CompareTag("Decoy") || col.CompareTag("Enemy") && MineArmed)
         {
+            col.transform.SendMessage("UnCloak");
             col.transform.SendMessage("Hit");
             Trigger();
         }
@@ -29,8 +26,8 @@ public class Mine : MonoBehaviour
     void Trigger()
     {
         Explosion.SetActive(true);
-        Invoke("Kill", 1f);
         MineArmed = false;
+        Invoke("Kill", 1f);
     }
 
     void Kill()

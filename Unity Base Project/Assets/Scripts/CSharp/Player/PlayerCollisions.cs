@@ -4,13 +4,15 @@ public class PlayerCollisions : MonoBehaviour
 {
 
     private float padding;
-    private PlayerMovement stats;
+    private PlayerStats stats;
+    private PlayerMovement move;
     private x360Controller controller;
 
     void Start()
     {
         padding = 0f;
-        stats = GetComponent<PlayerMovement>();
+        stats = GetComponent<PlayerStats>();
+        move = GetComponent<PlayerMovement>();
         controller = GamePadManager.Instance.GetController(0);
     }
 
@@ -24,12 +26,13 @@ public class PlayerCollisions : MonoBehaviour
     {
         if (padding <= 0f)
         {
-            if (hit.transform.CompareTag("Asteroid"))
+            if (hit.transform.CompareTag("Asteroid") || hit.transform.CompareTag("Enemy"))
             {
-                if (stats.GetMoveData().Speed > (stats.GetMoveData().MaxSpeed / 2f))
-                    stats.SendMessage("Hit");
-               
-                stats.SendMessage("StopMovement");
+                if (move.GetMoveData().Speed > (move.GetMoveData().MaxSpeed / 2f))
+                    move.SendMessage("Hit");
+
+                stats.UnCloak();
+                move.SendMessage("StopMovement");
             }
             padding = 5f;
         }

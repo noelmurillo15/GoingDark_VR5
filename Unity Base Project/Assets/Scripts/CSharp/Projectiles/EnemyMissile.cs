@@ -14,7 +14,7 @@ public class EnemyMissile : MonoBehaviour {
     private Transform target;
 
     // Messages
-    private GameObject messages;
+    private MessageScript messages;
     #endregion
 
     void OnEnable()
@@ -31,7 +31,7 @@ public class EnemyMissile : MonoBehaviour {
             moveData.Acceleration = 100f;
             moveData.Speed = 150f;
 
-            messages = GameObject.Find("PlayerCanvas");
+            messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
             gameObject.SetActive(false);
         }
         else
@@ -39,7 +39,7 @@ public class EnemyMissile : MonoBehaviour {
             tracking = false;
             moveData.Speed = 350f;
 
-            messages.SendMessage("MissileIncoming");
+            messages.MissileIncoming();
             Invoke("Kill", 3f);
         }
     }
@@ -71,9 +71,19 @@ public class EnemyMissile : MonoBehaviour {
     }
 
     #region Collisions
-    void OnTriggerEnter(Collider col) {
-        if (!tracking) {
-            if (col.transform.tag == "Player" || col.transform.tag == "Asteroid" || col.transform.tag == "Decoy") {              
+    void OnTriggerEnter(Collider col)
+    {
+        if (!tracking)
+        {
+            if (col.transform.tag == "Player")
+            {
+                col.transform.SendMessage("UnCloak");
+                target = col.transform;
+                tracking = true;
+            }
+
+            if (col.transform.tag == "Asteroid" || col.transform.tag == "Decoy")
+            {
                 target = col.transform;
                 tracking = true;
             }

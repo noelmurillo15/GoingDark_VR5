@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 using UnityEngine.UI;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class MessageScript : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class MessageScript : MonoBehaviour
     [SerializeField]
     Text missileInc;
     [SerializeField]
-    Text poisonMsg;
+    Text stunMsg;
     [SerializeField]
     Text offlineDevices;
     [SerializeField]
@@ -40,7 +38,7 @@ public class MessageScript : MonoBehaviour
         autopilotMsg.enabled = false;
         enemyClose.enabled = false;
         missileInc.enabled = false;
-        poisonMsg.enabled = false;
+        stunMsg.enabled = false;
         systemReport.enabled = false;
         offlineDevices.enabled = false;
         stationTakeover.enabled = false;
@@ -68,11 +66,15 @@ public class MessageScript : MonoBehaviour
     {
         enemyClose.enabled = false;
     }
-    void MissileIncoming()
+    public void MissileIncoming()
     {
         missileInc.enabled = true;
+        if(IsInvoking("MissileDestroyed"))
+            CancelInvoke("MissileDestroyed");
+
+        Invoke("MissileDestroyed", 5f);
     }  
-    void MissileDestroyed()
+    public void MissileDestroyed()
     {
         missileInc.enabled = false;
     }
@@ -95,15 +97,13 @@ public class MessageScript : MonoBehaviour
         reorientMsg.enabled = false;
     }
 
-    void Poison()
+    public void Stun()
     {
-        AudioManager.instance.PlayNebulaAlarm();
-        poisonMsg.enabled = true;
+        stunMsg.enabled = true;
     }
-    void NoPoison()
+    public void NotStunned()
     {
-        AudioManager.instance.StopNebulaAlarm();
-        poisonMsg.enabled = false;
+        stunMsg.enabled = false;
     }
     void StationTakeOver()
     {

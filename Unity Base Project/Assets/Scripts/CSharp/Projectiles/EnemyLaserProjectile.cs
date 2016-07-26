@@ -33,7 +33,7 @@ public class EnemyLaserProjectile : MonoBehaviour
     {
         if (col.transform.CompareTag("Player"))
         {
-            col.gameObject.SendMessage("ShieldHit");
+            col.transform.SendMessage("UnCloak");
             col.gameObject.SendMessage("Hit");
         }
 

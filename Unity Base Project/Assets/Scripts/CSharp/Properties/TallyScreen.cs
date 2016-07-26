@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using MovementEffects;
 using System.Collections.Generic;
@@ -21,6 +20,9 @@ public class TallyScreen : MonoBehaviour
 
     public GameObject toContinue;
     public GameObject tallyscreen;
+
+    public Text timer;
+
 
     public int EnemiesKilled
     {
@@ -52,6 +54,8 @@ public class TallyScreen : MonoBehaviour
     {
         if (!tallyscreen.activeSelf)
             time += (decimal)Time.deltaTime;
+
+        timer.text = decimal.Round(time, 2).ToString();
 
         TimedMissions(time);
     }
