@@ -6,6 +6,7 @@ public class Radar2DScript : MonoBehaviour
 
     GameObject Player;
     GameObject[] RadarImages;
+    GameObject EnemyClose;
     ArrayList EnemiesArray = new ArrayList();
     private int EMP_Distance = 500;
 
@@ -15,6 +16,7 @@ public class Radar2DScript : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");// find player tutorial eventually
         RadarImages = new GameObject[9];
+        EnemyClose = GameObject.Find("EnemyClose");
 
 
         for (int i = 0; i < 9; i++)
@@ -30,7 +32,8 @@ public class Radar2DScript : MonoBehaviour
         if (ColliderObject.CompareTag("Enemy") && ColliderObject.gameObject.activeSelf == true)
         {
             //Add enemy to arraylist
-            EnemiesArray.Add(ColliderObject.gameObject);
+            if (!EnemiesArray.Contains(ColliderObject.gameObject))
+                  EnemiesArray.Add(ColliderObject.gameObject);
             //End of adding
 
             //Do math figure out where it is.
@@ -171,9 +174,10 @@ public class Radar2DScript : MonoBehaviour
                 if (dist < EMP_Distance) // checked against EMP distance for middle circle to light up.
                     RadarImages[8].SetActive(true);
 
-
+                EnemyClose.GetComponent<EnemyCloseScript>().SetEnemyCloseText(EnemiesArray.Count);
                 TurnOnRadarPanels(angle);//turn on that quad.
             }
+  
         }
     }
 }
