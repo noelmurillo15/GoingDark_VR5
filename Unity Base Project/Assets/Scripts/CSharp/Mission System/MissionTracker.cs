@@ -97,6 +97,8 @@ public class MissionTracker : MonoBehaviour
                 systemManager.SendMessage("MessageUp", false);
                 //missionSystem.KilledEnemy(EnemyTypes.Droid);
                 yield return 0f;
+
+                break;
             }
             else
                 yield return 0f;

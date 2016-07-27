@@ -95,7 +95,7 @@ public class MissionLogButtons : MonoBehaviour
         else
         {
             SendMessageUpwards("TurnOffPanel");
-            systemManager.SendMessage("MessageUp", true);
+            systemManager.SendMessage("MessageUp", false);
         }
     }
 }
