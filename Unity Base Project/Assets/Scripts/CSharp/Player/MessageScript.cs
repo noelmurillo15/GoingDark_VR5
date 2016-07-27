@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 using UnityEngine.UI;
 
 public class MessageScript : MonoBehaviour
 {
 
-    [SerializeField]
-    Text reorientMsg;
     [SerializeField]
     Text autopilotMsg;
     [SerializeField]
@@ -34,7 +31,6 @@ public class MessageScript : MonoBehaviour
     #region Msg Functions
     void NoWarning()
     {
-        reorientMsg.enabled = false;
         autopilotMsg.enabled = false;
         enemyClose.enabled = false;
         missileInc.enabled = false;
@@ -86,17 +82,6 @@ public class MessageScript : MonoBehaviour
     {
         autopilotMsg.enabled = false;
     }
-    void ReOrient()
-    {
-        reorientMsg.enabled = true;
-        if (!IsInvoking("NoOrient"))
-            Invoke("NoOrient", 4.5f);
-    }
-    void NoOrient()
-    {
-        reorientMsg.enabled = false;
-    }
-
     public void Stun()
     {
         stunMsg.enabled = true;
