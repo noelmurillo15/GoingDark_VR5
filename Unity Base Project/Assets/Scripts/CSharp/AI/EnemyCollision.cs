@@ -43,11 +43,10 @@ public class EnemyCollision : MonoBehaviour
 
     void FindPlayer()
     {
-        Debug.Log("Finding Player");
         player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
 
         if(player == null)
-            Debug.Log("Did Not Find Player");
+            Debug.LogError("Did Not Find Player Cloak");
     }
 
 

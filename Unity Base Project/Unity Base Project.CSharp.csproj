@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -194,7 +196,6 @@
     <Compile Include="Assets\Scripts\CSharp\Leap\VR\TemporalWarpingStatus.cs" />
     <Compile Include="Assets\Scripts\CSharp\Leap\VR\VRHeightOffset.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\AudioManager.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Managers\DebuffManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\EventsManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\GamePadManager.cs" />
@@ -262,11 +263,12 @@
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\Missile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Properties\DebuffProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\PlayerSaveData.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\ShieldProperties.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Properties\TallyScreen.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Mission System\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />

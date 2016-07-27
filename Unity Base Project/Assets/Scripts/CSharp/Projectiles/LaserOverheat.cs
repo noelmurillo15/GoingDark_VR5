@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class LaserOverheat : MonoBehaviour {
     
     private Image LaserGauge;
-    public GameObject smoke;
     public bool overheat;
     public float MaxAmount = 100.0f;
     public float CurrentAmount = 0.0f;
@@ -15,19 +14,18 @@ public class LaserOverheat : MonoBehaviour {
         overheat = false;
         CurrentAmount = MaxAmount;
         LaserGauge = GetComponent<Image>();
-        //smoke = GameObject.Find("Overheat");
-        //smoke.SetActive(false);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(!overheat)
-            UpdateGauge(Time.deltaTime * 20f);
+            UpdateGauge(Time.fixedDeltaTime * 20f);
         else
         {
-            if (CurrentAmount > 95f)
+            if (CurrentAmount > 99f)
                 Reset();
-            UpdateGauge(Time.deltaTime * 15f);
+
+            UpdateGauge(Time.fixedDeltaTime * 10f);
         }
     }
 
@@ -38,14 +36,7 @@ public class LaserOverheat : MonoBehaviour {
 
     void SetOverheat(bool _boolean)
     {
-
         overheat = _boolean;
-        //if (overheat)
-        //{
-        //    smoke.SetActive(true);
-        //}
-        //else
-        //    smoke.SetActive(false);
     }
 
     public void UpdateGauge(float DamageTaken)
@@ -59,10 +50,12 @@ public class LaserOverheat : MonoBehaviour {
         }
 
         float C_Shield = CurrentAmount / MaxAmount;
+
         if (!overheat)
             LaserGauge.color = Color.Lerp(Color.red, Color.cyan, C_Shield);
         else
             LaserGauge.color = Color.red;
+
         C_Shield *= .5f;
         SetHealth(C_Shield);
     }

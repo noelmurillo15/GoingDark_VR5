@@ -47,6 +47,7 @@ public class LaserSystem : ShipSystem
         switch (Type)
         {
             case LaserType.Basic:
+                laser_overheat.UpdateGauge(-10f);
                 obj1 = PoolManager.GetBaseLaser();
                 obj1.transform.position = Gun1.transform.position;
                 obj1.transform.rotation = Gun1.transform.rotation;
@@ -56,10 +57,10 @@ public class LaserSystem : ShipSystem
                 obj2.transform.position = Gun2.transform.position;
                 obj2.transform.rotation = Gun2.transform.rotation;
                 obj2.SetActive(true);
-
-                //laser_overheat.UpdateGauge(-5f);
                 break;
+
             case LaserType.Charged:
+                laser_overheat.UpdateGauge(-25f);
                 obj1 = PoolManager.GetChargedLaser();
                 obj1.transform.position = Gun1.transform.position;
                 obj1.transform.rotation = Gun1.transform.rotation;
@@ -69,8 +70,6 @@ public class LaserSystem : ShipSystem
                 obj2.transform.position = Gun2.transform.position;
                 obj2.transform.rotation = Gun2.transform.rotation;
                 obj2.SetActive(true);
-
-                //laser_overheat.UpdateGauge(-10f);
                 break;
         }
     }

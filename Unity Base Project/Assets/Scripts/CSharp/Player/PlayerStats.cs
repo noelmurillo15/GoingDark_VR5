@@ -8,14 +8,15 @@ public class PlayerStats : MonoBehaviour
 
     private CloakSystem cloak;
     private SystemManager systemManager;
-    private DebuffManager debuffManager;
 
     public PlayerSaveData SaveData;
     public ShieldProperties ShieldData;
-    private HealthProperties HealthData;       
+    public HealthProperties HealthData;
+    public DebuffProperties DebuffData;
 
     [SerializeField]
     public Transform station;
+
     private MessageScript msgs;
     private x360Controller controller;
     private DeathTransition deathTransition;
@@ -26,10 +27,10 @@ public class PlayerStats : MonoBehaviour
     {        
         Debuff = Impairments.None;
 
-        debuffManager = GameObject.Find("Debuffs").GetComponent<DebuffManager>();
         systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
         SaveData = new PlayerSaveData();
+        DebuffData = new DebuffProperties();
         HealthData = new HealthProperties(100f, transform, true);
         ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
 
@@ -51,9 +52,13 @@ public class PlayerStats : MonoBehaviour
     {
         return ShieldData;
     }
+    public DebuffProperties GetDebuffData()
+    {
+        return DebuffData;
+    }
     #endregion
 
-    #region Modifiers
+    #region Shield
     public void HealShield()
     {
         Debug.Log("Player Shield Healed + 10hp : Current " + ShieldData.Health);
@@ -70,13 +75,34 @@ public class PlayerStats : MonoBehaviour
     }
     #endregion
 
-    #region Message Calls
-    private void RemoveDebuff()
+    #region Debuffs
+    public void PlayerSlowed()
     {
-        Debug.Log("Debuffs removed from Player");
-        Debuff = Impairments.None;
-        msgs.NotStunned();
+        DebuffData.isSlowed = true;
+        Invoke("RemoveSlow", 10f);
     }
+    public void PlayerStunned()
+    {      
+        if (!DebuffData.isStunned)
+        {
+            DebuffData.isStunned = true;
+            Invoke("RemoveStun", 5f);
+            msgs.Stun();
+        }
+    }
+
+    void RemoveSlow()
+    {
+        DebuffData.isSlowed = false;
+    }
+    void RemoveStun()
+    {
+        msgs.NotStunned();
+        DebuffData.isStunned = false;
+    }
+    #endregion
+
+    #region Message Calls
     private void ShieldHit()
     {
         ShieldData.Damage(20f);
@@ -97,7 +123,6 @@ public class PlayerStats : MonoBehaviour
 
         Debuff = Impairments.Stunned;
         msgs.Stun();
-        debuffManager.Stunned(5f);
         if (!IsInvoking("RemoveDebuff"))
             Invoke("RemoveDebuff", 5f);
 

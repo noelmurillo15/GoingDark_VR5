@@ -5,8 +5,6 @@ public class MessageScript : MonoBehaviour
 {
 
     [SerializeField]
-    Text autopilotMsg;
-    [SerializeField]
     Text enemyClose;
     [SerializeField]
     Text missileInc;
@@ -31,7 +29,6 @@ public class MessageScript : MonoBehaviour
     #region Msg Functions
     void NoWarning()
     {
-        autopilotMsg.enabled = false;
         enemyClose.enabled = false;
         missileInc.enabled = false;
         stunMsg.enabled = false;
@@ -73,14 +70,6 @@ public class MessageScript : MonoBehaviour
     public void MissileDestroyed()
     {
         missileInc.enabled = false;
-    }
-    public void AutoPilot()
-    {
-        autopilotMsg.enabled = true;
-    }
-    public void ManualPilot()
-    {
-        autopilotMsg.enabled = false;
     }
     public void Stun()
     {
