@@ -148,7 +148,25 @@ public class EnemyMovement : MonoBehaviour
     }
     void Flee()
     {
-
+        MoveData.IncreaseSpeed();
+        Vector3 playerDir =  MyTransform.position- behavior.Target.position;
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
+        if (behavior.Type == EnemyTypes.Droid)
+        {
+            MyTransform.rotation = Quaternion.LookRotation(direction);
+        }
+        else
+        {
+            if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+                MyTransform.rotation = Quaternion.LookRotation(direction);
+            else
+            {
+                direction.x += 75f;
+                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+            }
+        }
+        headingX = MyTransform.eulerAngles.x;
+        headingY = MyTransform.eulerAngles.y;
     }
     #endregion
 

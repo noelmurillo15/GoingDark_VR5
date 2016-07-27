@@ -14,6 +14,10 @@ public class EnemyStateManager : IEnemy
     public float losingsightTimer;
 
     private Hitmarker lockon;
+    private EnemyStateManager HealthInfo;
+
+    [SerializeField]
+    public GameObject gasTrail;
 
     private EnemyMovement movement;
     #endregion
@@ -33,7 +37,8 @@ public class EnemyStateManager : IEnemy
 
         movement = GetComponent<EnemyMovement>();
         lockon = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
-
+        HealthInfo = GetComponent<EnemyStateManager>();
+        gasTrail.SetActive(false);
         base.Initialize();        
         GetComponent<EnemyCollision>().Initialize();
     }
@@ -61,7 +66,14 @@ public class EnemyStateManager : IEnemy
             else
                 Debug.Log("Enemy is locked on but not to the Player");
 
-            ChangeState(EnemyStates.Attack);        
+            if (!HealthInfo.GetHealthData().HealthWarning())
+                ChangeState(EnemyStates.Attack);
+            else
+            {
+                Debug.Log("Fleeing");
+                gasTrail.SetActive(true);
+                ChangeState(EnemyStates.Flee);
+            }
         }
         else
             ChangeState(EnemyStates.Patrol);        
@@ -124,6 +136,9 @@ public class EnemyStateManager : IEnemy
                 break;
             case EnemyStates.Flee:
                 movement.SetSpeedBoost(1.25f);
+                lostSight = false;
+                //in case
+                //losingsightTimer = 0f;
                 break;
             case EnemyStates.Follow:
                 movement.SetSpeedBoost(.5f);

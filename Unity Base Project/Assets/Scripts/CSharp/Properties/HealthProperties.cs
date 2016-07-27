@@ -16,12 +16,15 @@ public class HealthProperties
     public bool isPlayer;
     private CameraShake shake;
     private Image HealthBar;
+    private float DmgModifier;
+
     #endregion
 
     public HealthProperties(float _hp, Transform _ref)
     {
         MaxHealth = _hp;
         Health = MaxHealth;
+        DmgModifier = MaxHealth * 0.33f;
 
         shake = null;
         baseRef = _ref;
@@ -71,6 +74,13 @@ public class HealthProperties
 
         if (Health <= 0f)        
             baseRef.SendMessage("Kill");                
+    }
+    public bool HealthWarning()
+    {
+        if (Health > DmgModifier)
+            return false;
+        else
+            return true;
     }
     #endregion
 }
