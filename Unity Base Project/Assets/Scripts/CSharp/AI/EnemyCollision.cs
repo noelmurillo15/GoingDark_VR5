@@ -38,7 +38,8 @@ public class EnemyCollision : MonoBehaviour
             detectionTimer -= Time.deltaTime;
 
         if (isActive && behavior.Target != null)
-            NewTarg.transform.LookAt(behavior.Target.position);
+            if (NewTarg != null)
+                NewTarg.transform.LookAt(behavior.Target.position);
     }
 
     void FindPlayer()
@@ -78,7 +79,8 @@ public class EnemyCollision : MonoBehaviour
 
                     detectionTimer = 0f;
                 }
-                NewTarg.gameObject.SetActive(true);
+                if (NewTarg != null)
+                    NewTarg.gameObject.SetActive(true);
                 messages.SendMessage("EnemyClose");
             }
         }
@@ -118,7 +120,8 @@ public class EnemyCollision : MonoBehaviour
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
 
-            NewTarg.gameObject.SetActive(false);
+            if (NewTarg != null)
+                NewTarg.gameObject.SetActive(false);
             isActive = false;
         }
         if (col.CompareTag("Decoy"))

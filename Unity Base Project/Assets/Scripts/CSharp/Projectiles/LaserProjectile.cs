@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
+using GoingDark.Core.Enums;
 
 public class LaserProjectile : MonoBehaviour
 {
+    #region Properties
+    [SerializeField]
+    public LaserType Type;
+
     bool init = false;
     public float speed;
     private Transform MyTransform;
     private ChargeLaser MyParent;
     private ObjectPoolManager poolManager;
+    #endregion
 
     void OnEnable()
     {

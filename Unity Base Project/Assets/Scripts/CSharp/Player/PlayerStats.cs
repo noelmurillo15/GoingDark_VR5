@@ -4,8 +4,6 @@ using GoingDark.Core.Enums;
 public class PlayerStats : MonoBehaviour
 {
     #region Properties
-    public Impairments Debuff { get; private set; }
-
     private CloakSystem cloak;
     private SystemManager systemManager;
 
@@ -25,8 +23,6 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {        
-        Debuff = Impairments.None;
-
         systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
         SaveData = new PlayerSaveData();
@@ -37,6 +33,8 @@ public class PlayerStats : MonoBehaviour
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
         msgs = transform.GetComponentInChildren<MessageScript>();
+
+        Invoke("FindCloakSystem", 5f);
     }
 
     #region Accessors
@@ -85,10 +83,13 @@ public class PlayerStats : MonoBehaviour
     {      
         if (!DebuffData.isStunned)
         {
+            Debug.Log("Stunning the Player");
             DebuffData.isStunned = true;
             Invoke("RemoveStun", 5f);
             msgs.Stun();
         }
+        else
+            Debug.Log("Player hit by EMP but already stunned");        
     }
 
     void RemoveSlow()
@@ -103,6 +104,12 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Message Calls
+    void FindCloakSystem()
+    {
+        cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+        if (cloak == null)
+            Debug.LogError("Player's CloakSystem was not found");
+    }
     private void ShieldHit()
     {
         ShieldData.Damage(20f);
@@ -119,17 +126,13 @@ public class PlayerStats : MonoBehaviour
     }
     private void EMPHit()
     {
-        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f);
-
-        Debuff = Impairments.Stunned;
-        msgs.Stun();
-        if (!IsInvoking("RemoveDebuff"))
-            Invoke("RemoveDebuff", 5f);
+        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f); PlayerStunned();
 
         if (ShieldData.GetShieldActive())
             ShieldData.Damage(50f);        
         else
         {
+            PlayerStunned();
             systemManager.SystemDamaged();
             CancelInvoke("RechargeShield");
             Invoke("RechargeShield", 30f); //  reset timer
@@ -167,12 +170,6 @@ public class PlayerStats : MonoBehaviour
 
     public void UnCloak()
     {
-        if (cloak == null)
-        {
-            Debug.LogError("Cloak == null; Accessing it again");
-            cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
-        }
-
         if(cloak.GetCloaked())
             cloak.UnCloakShip();
     }

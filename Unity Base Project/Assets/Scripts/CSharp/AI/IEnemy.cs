@@ -60,8 +60,7 @@ public class IEnemy : MonoBehaviour {
     }
     void ShieldHit(float _val)
     {
-        if (hasShield)
-            ShieldData.Damage(_val);        
+        ShieldData.Damage(_val);        
     }
     void SplashDmg()
     {
@@ -81,9 +80,7 @@ public class IEnemy : MonoBehaviour {
                     missile.Deflect();
                     break;
                 case MissileType.Emp:
-                    EMPHit();
-                    ShieldHit(20f);
-                    missile.Kill();
+                    missile.Deflect();
                     break;
                 case MissileType.Chromatic:
                     missile.Deflect();
@@ -99,17 +96,13 @@ public class IEnemy : MonoBehaviour {
             switch (missile.Type)
             {
                 case MissileType.Basic:
-                    HealthData.Damage(5);
-                    break;
-                case MissileType.Emp:
-                    HealthData.Damage(1);
-                    EMPHit();
+                    HealthData.Damage(5);                    
                     break;
                 case MissileType.ShieldBreak:
                     HealthData.Damage(1);
                     break;
                 case MissileType.Chromatic:
-                    HealthData.Damage(10);
+                    HealthData.Damage(25);
                     break;
             }
             SendMessage("CheckHealth");
@@ -119,10 +112,28 @@ public class IEnemy : MonoBehaviour {
     public void LaserHit(LaserProjectile laser)
     {
         if (hasShield && ShieldData.GetShieldActive())
-            ShieldHit(5f);        
+        {
+            switch (laser.Type)
+            {
+                case LaserType.Basic:
+                    ShieldHit(5f);
+                    break;
+                case LaserType.Charged:
+                    ShieldHit(12.5f);
+                    break;
+            }
+        }
         else
         {
-            HealthData.Damage(.5f);
+            switch (laser.Type)
+            {
+                case LaserType.Basic:
+                    HealthData.Damage(.5f);
+                    break;
+                case LaserType.Charged:
+                    HealthData.Damage(1.25f);
+                    break;
+            }
             SendMessage("CheckHealth");
         }
     }
@@ -157,6 +168,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(5, transform); break;
                     case EnemyTypes.SquadLead:
                         HealthData = new HealthProperties(20, transform); break;
+                    case EnemyTypes.JetFighter:
+                        HealthData = new HealthProperties(5, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Trident:
@@ -177,6 +190,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.SquadLead:
                         HealthData = new HealthProperties(40, transform); break;
+                    case EnemyTypes.JetFighter:
+                        HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(30, transform); break;
                     case EnemyTypes.Trident:
@@ -197,6 +212,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(25, transform); break;
                     case EnemyTypes.SquadLead:
                         HealthData = new HealthProperties(64, transform); break;
+                    case EnemyTypes.JetFighter:
+                        HealthData = new HealthProperties(25, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Trident:
@@ -217,6 +234,8 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.SquadLead:
                         HealthData = new HealthProperties(120, transform); break;
+                    case EnemyTypes.JetFighter:
+                        HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(100, transform); break;
                     case EnemyTypes.Trident:

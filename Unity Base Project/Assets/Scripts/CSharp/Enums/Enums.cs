@@ -68,6 +68,7 @@
         Basic,
         Droid,
         SquadLead,
+        JetFighter,
         Transport,
         Trident,
         Boss,   
