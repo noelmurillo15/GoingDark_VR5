@@ -283,12 +283,9 @@
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
+    <None Include="Assets\Resources\XML\Level1.xml" />
     <None Include="Assets\Resources\XML\Level2.xml" />
-    <None Include="Assets\Resources\XML\Level2_Main.xml" />
     <None Include="Assets\Resources\XML\Level3.xml" />
-    <None Include="Assets\Resources\XML\Level3_Main.xml" />
-    <None Include="Assets\Resources\XML\Tutorial2.xml" />
-    <None Include="Assets\Resources\XML\Tutorial_Main.xml" />
     <None Include="Assets\Shaders\Fxaa3.shader" />
     <None Include="Assets\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Shaders\ZText.shader" />

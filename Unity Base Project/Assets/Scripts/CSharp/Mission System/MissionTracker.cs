@@ -10,9 +10,7 @@ public class MissionTracker : MonoBehaviour
 {
 
     // main mission
-    private Text name;
     private Text info;
-    private Text credits;
     // tracking current mission
     private Text trackerName;
     private Text trackerInfo;

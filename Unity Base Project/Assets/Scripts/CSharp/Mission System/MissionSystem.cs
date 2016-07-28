@@ -12,7 +12,7 @@ public class MissionSystem : MonoBehaviour
     public List<Mission> m_SecondaryMissions;
     public List<Mission> m_PrimaryMissions;
     public Mission m_MainMission;
-    public string[] filename;
+    public string filename;
 
     private PlayerStats m_playerStats;
     private MissionLoader m_missionLoader;
@@ -22,7 +22,6 @@ public class MissionSystem : MonoBehaviour
     private int portalIndex = 0;
     private int numEnemies = 0;
     private string SceneName;
-    private bool addMissions = false;
 
     GameObject spawner;
     GameObject[] portals;
@@ -59,8 +58,7 @@ public class MissionSystem : MonoBehaviour
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         m_missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 
-        m_MainMission = m_missionLoader.LoadMission(filename[0]);
-        m_PrimaryMissions = m_missionLoader.LoadMissions(filename[1]);
+        m_PrimaryMissions = m_missionLoader.LoadMissions(filename);
 
         if (SceneName != "Level1")
             Timing.RunCoroutine(AddMissions());
@@ -192,7 +190,6 @@ public class MissionSystem : MonoBehaviour
             if (m_PrimaryMissions.Count != 0)
             {
                 Mission temp = m_PrimaryMissions.Find(x => x.type == type);
-                string mName = temp.missionName;
                 AddActiveMission(temp);
                 for (int i = 0; i < m_PrimaryMissions.Count; i++)
                 {
@@ -275,13 +272,11 @@ public class MissionSystem : MonoBehaviour
         }
 
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
-        int index = m_ActiveMissions.FindIndex(x => x.missionName == mission.missionName);
 
         if (tempMission.missionName == m_MainMission.missionName)
             m_MainMission.completed = true;
 
         // update buttons in mission log
-        string temp = TypeToString(tempMission.type);
         m_missionLog.UpdateButtons(tempMission.missionName);
 
         m_CompletedMissions.Add(tempMission);

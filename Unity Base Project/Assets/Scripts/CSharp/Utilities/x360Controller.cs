@@ -230,7 +230,6 @@ public class x360Controller
 
         if (m_rumbleEvents.Count > 0)
         {
-            Vector2 intensity = new Vector2(0, 0);
             for (int x = 0; x < m_rumbleEvents.Count; x++)
             {
                 m_rumbleEvents[x].Update();

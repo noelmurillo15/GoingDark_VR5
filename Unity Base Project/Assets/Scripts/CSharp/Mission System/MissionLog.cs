@@ -21,7 +21,6 @@ public class MissionLog : MonoBehaviour
     #region Public Methods
     public void SetNames()
     {
-        int num = 0;
         for (int i = 0; i < m_missionSystem.m_ActiveMissions.Count; i++)
         {
             string temp = m_missionSystem.m_ActiveMissions[i].missionName;
@@ -29,7 +28,6 @@ public class MissionLog : MonoBehaviour
             buttons[i].GetComponentInChildren<Text>().text = temp;
             if (!buttons[i].gameObject.activeSelf)
                 buttons[i].gameObject.SetActive(true);
-            num = i;
         }
     }
 

@@ -8,9 +8,6 @@ public class MissionLogButtons : MonoBehaviour
     private Image m_button;
     private float transition;
     private float cancelTimer;
-    [SerializeField]
-    private MissionLog missionLog;
-    private GameObject buttonObject;
     private MissionTracker missionTracker;
     private MissionSystem missionSystem;
     private SystemManager systemManager;
@@ -21,9 +18,7 @@ public class MissionLogButtons : MonoBehaviour
         m_button = GetComponent<Image>();
         missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
-        missionLog = GameObject.Find("MissionLog").GetComponent<MissionLog>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-        buttonObject = GameObject.Find("MissionPanel");
 
         transition = 0.0f;
         cancelTimer = 0.0f;

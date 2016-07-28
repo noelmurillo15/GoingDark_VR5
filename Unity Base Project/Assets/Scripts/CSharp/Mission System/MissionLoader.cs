@@ -7,13 +7,10 @@ using GoingDark.Core.Enums;
 public class MissionLoader : MonoBehaviour
 {
 
-    // need to hold missions for each station
-    private List<Mission> m_missions;
 
     // Use this for initialization
     void Start()
     {
-        m_missions = new List<Mission>();
     }
 
 

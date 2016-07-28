@@ -7,20 +7,17 @@ public class MenuTraverse : MonoBehaviour
 {
     x360Controller m_Controller;
     Selectable m_Button;
-    Selectable[] m_arrButtons;
 
     // Use this for initialization
     void Start()
     {
         m_Controller = GamePadManager.Instance.GetController(0);
-        m_arrButtons = gameObject.GetComponentsInChildren<Selectable>();
         Buttons();
     }
 
     void OnEnable()
     {
         m_Controller = GamePadManager.Instance.GetController(0);
-        m_arrButtons = gameObject.GetComponentsInChildren<Selectable>();
         Buttons();
     }
 
