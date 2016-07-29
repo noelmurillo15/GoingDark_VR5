@@ -29,8 +29,7 @@ public class EnemyStateManager : IEnemy
         LastKnownPos = Vector3.zero;
         movement = GetComponent<EnemyMovement>();
 
-        base.Initialize();
-        movement.LoadEnemyData();
+        base.Initialize();        
         GetComponent<EnemyCollision>().Initialize();
     }
 

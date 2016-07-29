@@ -5,9 +5,11 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
-    public bool isLockedOn;
+    public bool inRange;
     [SerializeField]
     public Transform LockOnReticle;
+    
+    private Transform playerTrans;
 
     private float detectionTimer;
     private EnemyStateManager behavior;
@@ -23,11 +25,11 @@ public class EnemyCollision : MonoBehaviour
 
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
-        isLockedOn = false;
+        inRange = false;
 
         if (LockOnReticle != null)
             LockOnReticle.gameObject.SetActive(false);
-
+        
         Invoke("FindPlayer", 5f);
     }
 
@@ -36,16 +38,15 @@ public class EnemyCollision : MonoBehaviour
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
 
-        if (isLockedOn && behavior.Target != null)
-            if (LockOnReticle != null)
-                LockOnReticle.transform.LookAt(behavior.Target.position);
+        if (inRange)
+            LockOnReticle.LookAt(playerTrans);
     }
 
     void FindPlayer()
     {
         player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
-
-        if(player == null)
+        playerTrans = behavior.GetManager().GetPlayerTransform();
+        if (player == null)
             Debug.LogError("Did Not Find Player Cloak");
     }
 
@@ -61,14 +62,13 @@ public class EnemyCollision : MonoBehaviour
 
             if (col.CompareTag("Player"))
             {
+                inRange = true;
                 if (player == null)
                 {
                     Debug.LogError("Enemy Did Not Reference Player Cloak");
                     player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
                 }
-
-
-                isLockedOn = true;
+                
                 if (player.GetCloaked())
                     detectionTimer = 5f;
                 else
@@ -116,12 +116,13 @@ public class EnemyCollision : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            inRange = false;
+
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
 
             if (LockOnReticle != null)
-                LockOnReticle.gameObject.SetActive(false);
-            isLockedOn = false;
+                LockOnReticle.gameObject.SetActive(false);            
         }
         if (col.CompareTag("Decoy"))
         {

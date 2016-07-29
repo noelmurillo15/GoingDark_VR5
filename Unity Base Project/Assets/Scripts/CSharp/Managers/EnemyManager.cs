@@ -53,13 +53,19 @@ public class EnemyManager : MonoBehaviour {
     public void RemoveEnemy(EnemyStateManager enemy)
     {
         GameObject explosive = poolmanager.GetEnemyExplosion();
-        explosive.transform.parent = missionSystem.transform;
+
+        if(missionSystem != null)
+            explosive.transform.parent = missionSystem.transform;
         explosive.transform.position = enemy.transform.position;
         explosive.SetActive(true);
 
         RandomAmmoDrop(enemy.transform.position);
-        missionSystem.KilledEnemy(enemy.Type);
-        tallyscreen.EnemiesKilled += 1;
+
+        if(missionSystem != null)
+            missionSystem.KilledEnemy(enemy.Type);
+
+        if(tallyscreen != null)
+            tallyscreen.EnemiesKilled += 1;
 
         enemies.Remove(enemy);
     }
@@ -67,7 +73,8 @@ public class EnemyManager : MonoBehaviour {
 
     public void PlayerSeen()
     {
-        missionSystem.PlayerSeen();
+        if(missionSystem != null)
+            missionSystem.PlayerSeen();
     }
     public void SendAlert(Vector3 enemypos)
     {

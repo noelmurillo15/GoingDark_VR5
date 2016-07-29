@@ -99,7 +99,9 @@ public class Asteroid : MonoBehaviour
             go.transform.parent = MyTransform.parent;
             go.transform.localScale *= Random.Range(.1f, .45f);
         }
-        tallyscreen.AsteroidsDestroyed += 1;
+
+        if(tallyscreen != null)
+            tallyscreen.AsteroidsDestroyed += 1;
         Destroy(gameObject);
     }    
 }

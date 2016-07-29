@@ -48,8 +48,9 @@ public class IEnemy : MonoBehaviour {
     #region Msg Functions
     void AddToManager()
     {
-        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
         LoadEnemyData();
+        GetComponent<EnemyMovement>().LoadEnemyData();
+        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
     }
     
     void EMPHit()

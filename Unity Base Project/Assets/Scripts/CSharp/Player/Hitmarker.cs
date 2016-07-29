@@ -24,7 +24,7 @@ public class Hitmarker : MonoBehaviour
         layermask = 1 << 11;    //  enemies layer
         rayhit = true;
         MyTransform = transform;
-        TargetImg = Resources.Load<GameObject>("LockObject");
+        TargetImg = Resources.Load<GameObject>("LockOn");
         parent = GameObject.FindGameObjectWithTag("GameManager").transform;
         LockOnMarker = Instantiate(TargetImg, Vector3.zero, Quaternion.identity) as GameObject;
         LockOnMarker.transform.parent = parent;
