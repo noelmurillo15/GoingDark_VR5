@@ -5,17 +5,16 @@ public class EnemyCollision : MonoBehaviour
 {
 
     #region Properties
-    public float detectionTimer;
-    private EnemyStateManager behavior;
+    public bool isLockedOn;
+    [SerializeField]
+    public Transform LockOnReticle;
 
+    private float detectionTimer;
+    private EnemyStateManager behavior;
 
     //  Player
     private GameObject messages;
     private CloakSystem player;
-
-    [SerializeField]
-    public Transform NewTarg;
-    private bool isActive;
     #endregion
 
     public void Initialize()
@@ -24,10 +23,10 @@ public class EnemyCollision : MonoBehaviour
 
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
-        isActive = false;
+        isLockedOn = false;
 
-        if (NewTarg != null)
-            NewTarg.gameObject.SetActive(false);
+        if (LockOnReticle != null)
+            LockOnReticle.gameObject.SetActive(false);
 
         Invoke("FindPlayer", 5f);
     }
@@ -37,9 +36,9 @@ public class EnemyCollision : MonoBehaviour
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
 
-        if (isActive && behavior.Target != null)
-            if (NewTarg != null)
-                NewTarg.transform.LookAt(behavior.Target.position);
+        if (isLockedOn && behavior.Target != null)
+            if (LockOnReticle != null)
+                LockOnReticle.transform.LookAt(behavior.Target.position);
     }
 
     void FindPlayer()
@@ -69,7 +68,7 @@ public class EnemyCollision : MonoBehaviour
                 }
 
 
-                isActive = true;
+                isLockedOn = true;
                 if (player.GetCloaked())
                     detectionTimer = 5f;
                 else
@@ -79,8 +78,8 @@ public class EnemyCollision : MonoBehaviour
 
                     detectionTimer = 0f;
                 }
-                if (NewTarg != null)
-                    NewTarg.gameObject.SetActive(true);
+                if (LockOnReticle != null)
+                    LockOnReticle.gameObject.SetActive(true);
                 messages.SendMessage("EnemyClose");
             }
         }
@@ -120,9 +119,9 @@ public class EnemyCollision : MonoBehaviour
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
 
-            if (NewTarg != null)
-                NewTarg.gameObject.SetActive(false);
-            isActive = false;
+            if (LockOnReticle != null)
+                LockOnReticle.gameObject.SetActive(false);
+            isLockedOn = false;
         }
         if (col.CompareTag("Decoy"))
         {

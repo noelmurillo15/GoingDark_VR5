@@ -5,17 +5,17 @@ public class IEnemy : MonoBehaviour {
 
     #region Properties
     [SerializeField]
-    public bool hasShield;
+    private bool hasShield;
 
-    private EnemyManager manager;    
-    private ShieldProperties ShieldData;
-    private HealthProperties HealthData;
+    [SerializeField]
+    private GameObject stunned;
 
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
-        
-    [SerializeField]
-    public GameObject stunned;
+
+    private EnemyManager manager;    
+    private ShieldProperties ShieldData;
+    private HealthProperties HealthData;        
     #endregion
 
 
@@ -154,8 +154,7 @@ public class IEnemy : MonoBehaviour {
 
     #region Private Methods
     void LoadEnemyData()
-    {
-        GetComponent<EnemyMovement>().LoadEnemyData();
+    {        
         switch (manager.Difficulty)
         {
             #region Easy

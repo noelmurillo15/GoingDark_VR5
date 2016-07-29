@@ -10,15 +10,8 @@ public class EnemyStateManager : IEnemy
     public Transform Target { get; private set; }
     public Vector3 LastKnownPos { get; private set; }
 
-    public bool lostSight;
+    private bool lostSight;
     public float losingsightTimer;
-
-    private Hitmarker lockon;
-    private EnemyStateManager HealthInfo;
-
-    [SerializeField]
-    public GameObject gasTrail;
-
     private EnemyMovement movement;
     #endregion
 
@@ -34,12 +27,10 @@ public class EnemyStateManager : IEnemy
         losingsightTimer = 0f;
         State = EnemyStates.Idle;
         LastKnownPos = Vector3.zero;
-
         movement = GetComponent<EnemyMovement>();
-        lockon = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
-        HealthInfo = GetComponent<EnemyStateManager>();
-        gasTrail.SetActive(false);
-        base.Initialize();        
+
+        base.Initialize();
+        movement.LoadEnemyData();
         GetComponent<EnemyCollision>().Initialize();
     }
 
@@ -63,20 +54,11 @@ public class EnemyStateManager : IEnemy
         {
             if (Target.CompareTag("Player"))
                 GetManager().PlayerSeen();
-            else
-                Debug.Log("Enemy is locked on but not to the Player");
 
-            if (!HealthInfo.GetHealthData().HealthWarning())
-                ChangeState(EnemyStates.Attack);
-            else
-            {
-                Debug.Log("Fleeing");
-                gasTrail.SetActive(true);
-                ChangeState(EnemyStates.Flee);
-            }
+            ChangeState(EnemyStates.Attack);
+            return;
         }
-        else
-            ChangeState(EnemyStates.Patrol);        
+        ChangeState(EnemyStates.Patrol);        
     }    
 
     public void BroadcastAlert(object[] storage)
