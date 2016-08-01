@@ -47,7 +47,7 @@ public class EnemyTrail : MonoBehaviour
                 trails[2].material.SetColor("_TintColor", Color.red);
             }
 
-            yield return Timing.WaitForSeconds(1f);
+            yield return Timing.WaitForSeconds(.2f);
         }
     }
 }

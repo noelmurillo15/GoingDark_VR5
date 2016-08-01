@@ -10,6 +10,8 @@ public class Asteroid : MonoBehaviour
     private Rigidbody MyRigidbody;
     private Transform MyTransform;
     private TallyScreen tallyscreen;
+
+    private BoxCollider boxcol;
     #endregion
 
 
@@ -18,6 +20,7 @@ public class Asteroid : MonoBehaviour
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         MyTransform = transform;
         MyRigidbody = GetComponent<Rigidbody>();
+        boxcol = GetComponent<BoxCollider>();
         if (!skipStart)
         {
             m_velocity.x = Random.Range(-30.0f, 30.0f);
@@ -68,10 +71,12 @@ public class Asteroid : MonoBehaviour
     void OnBecameVisible()
     {        
         enabled = true;
+        boxcol.enabled = true;
     }
 
     void OnBecameInvisible()
     {
+        boxcol.enabled = false;
         enabled = false;
     }
 

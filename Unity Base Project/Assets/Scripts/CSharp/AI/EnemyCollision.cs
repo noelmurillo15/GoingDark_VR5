@@ -14,6 +14,9 @@ public class EnemyCollision : MonoBehaviour
     private float detectionTimer;
     private EnemyStateManager behavior;
 
+    private BoxCollider boxcol;
+    private SphereCollider shperecol;
+
     //  Player
     private GameObject messages;
     private CloakSystem player;
@@ -26,6 +29,9 @@ public class EnemyCollision : MonoBehaviour
         behavior = GetComponent<EnemyStateManager>();
         messages = GameObject.Find("PlayerCanvas");
         inRange = false;
+
+        boxcol = GetComponent<BoxCollider>();
+        shperecol = GetComponent<SphereCollider>();
 
         if (LockOnReticle != null)
             LockOnReticle.gameObject.SetActive(false);

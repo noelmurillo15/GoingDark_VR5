@@ -33,7 +33,7 @@ public class SystemManager : MonoBehaviour {
         controller = GamePadManager.Instance.GetController(0);
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (controller.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
