@@ -7,7 +7,7 @@ public class HealthProperties
 {
     #region Properties
     public float Health { get; private set; }
-    private float MaxHealth;
+    public float MaxHealth;
 
     //  Enemy Data
     private Transform baseRef;

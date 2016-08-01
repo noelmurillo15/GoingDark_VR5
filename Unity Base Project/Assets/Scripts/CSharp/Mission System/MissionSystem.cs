@@ -101,7 +101,6 @@ public class MissionSystem : MonoBehaviour
 
     IEnumerator<float> AddMissions()
     {
-        Debug.Log("Coroutine");
         yield return Timing.WaitForSeconds(3.0f);
         AddAllMissions();
         m_missionLog.SetNames();
