@@ -90,6 +90,34 @@ public class MissileSystem : ShipSystem
             curr = 0;
 
         Type = (MissileType)curr;
+        switch (Type)
+        {
+            case MissileType.Basic:
+                typeTxt.text = "Basic";
+                countTxt.color = Color.yellow;
+                typeTxt.color = Color.yellow;
+                missileSprite.color = Color.yellow;
+                break;
+            case MissileType.Emp:
+                typeTxt.text = "Emp";
+                countTxt.color = Color.cyan;
+                typeTxt.color = Color.cyan;
+                missileSprite.color = Color.cyan;
+                break;
+            case MissileType.ShieldBreak:
+                typeTxt.text = "ShieldBreak";
+                countTxt.color = Color.red;
+                typeTxt.color = Color.red;
+                missileSprite.color = Color.red;
+                break;
+            case MissileType.Chromatic:
+                typeTxt.text = "Chromatic";
+                countTxt.color = Color.green;
+                typeTxt.color = Color.green;
+                missileSprite.color = Color.green;
+                break;
+        }
+
         CheckCount();
     }
 
@@ -143,34 +171,7 @@ public class MissileSystem : ShipSystem
             missileSprite.color = Color.grey;
             return;
         }
-
-        switch (Type)
-        {
-            case MissileType.Basic:
-                typeTxt.text = "Basic";
-                countTxt.color = Color.yellow;
-                typeTxt.color = Color.yellow;
-                missileSprite.color = Color.yellow;
-                break;
-            case MissileType.Emp:
-                typeTxt.text = "Emp";
-                countTxt.color = Color.cyan;
-                typeTxt.color = Color.cyan;
-                missileSprite.color = Color.cyan;
-                break;
-            case MissileType.ShieldBreak:
-                typeTxt.text = "ShieldBreak";
-                countTxt.color = Color.red;
-                typeTxt.color = Color.red;
-                missileSprite.color = Color.red;
-                break;
-            case MissileType.Chromatic:
-                typeTxt.text = "Chromatic";
-                countTxt.color = Color.green;
-                typeTxt.color = Color.green;
-                missileSprite.color = Color.green;
-                break;
-        }
+        
         countTxt.text = "x: " + Count[(int)Type].ToString();
     }
 

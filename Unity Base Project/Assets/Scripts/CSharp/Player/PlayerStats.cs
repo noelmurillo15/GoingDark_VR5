@@ -5,6 +5,7 @@ public class PlayerStats : MonoBehaviour
 {
     #region Properties
     private CloakSystem cloak;
+    private HyperdriveSystem hype;
     private SystemManager systemManager;
 
     public PlayerSaveData SaveData;
@@ -13,7 +14,10 @@ public class PlayerStats : MonoBehaviour
     public DebuffProperties DebuffData;
 
     [SerializeField]
-    public Transform station;
+    private Transform station;
+
+    [SerializeField]
+    private GameObject stunned;
 
     private MessageScript msgs;
     private x360Controller controller;
@@ -34,7 +38,7 @@ public class PlayerStats : MonoBehaviour
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
         msgs = transform.GetComponentInChildren<MessageScript>();
 
-        Invoke("FindCloakSystem", 5f);
+        Invoke("FindSystems", 5f);
     }
 
     #region Accessors
@@ -82,6 +86,7 @@ public class PlayerStats : MonoBehaviour
         if (!DebuffData.isStunned)
         {
             DebuffData.isStunned = true;
+            stunned.SetActive(true);
             Invoke("RemoveStun", 5f);
             msgs.Stun();
         }      
@@ -94,14 +99,16 @@ public class PlayerStats : MonoBehaviour
     void RemoveStun()
     {
         msgs.NotStunned();
+        stunned.SetActive(false);
         DebuffData.isStunned = false;
     }
     #endregion
 
     #region Message Calls
-    void FindCloakSystem()
+    void FindSystems()
     {
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+        hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
     }
     private void ShieldHit()
     {
@@ -173,7 +180,8 @@ public class PlayerStats : MonoBehaviour
     }
     private void Respawn()
     {
-        Repair();
+        Repair();        
+        hype.StopHyperdrive();
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
         deathTransition.NotDead();
