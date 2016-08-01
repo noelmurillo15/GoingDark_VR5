@@ -10,8 +10,6 @@ public class Asteroid : MonoBehaviour
     private Rigidbody MyRigidbody;
     private Transform MyTransform;
     private TallyScreen tallyscreen;
-
-    private BoxCollider boxcol;
     #endregion
 
 
@@ -20,7 +18,6 @@ public class Asteroid : MonoBehaviour
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         MyTransform = transform;
         MyRigidbody = GetComponent<Rigidbody>();
-        boxcol = GetComponent<BoxCollider>();
         if (!skipStart)
         {
             m_velocity.x = Random.Range(-30.0f, 30.0f);
@@ -63,9 +60,9 @@ public class Asteroid : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Quaternion deltaRotation = Quaternion.Euler(m_rotation * Time.deltaTime);
+        Quaternion deltaRotation = Quaternion.Euler(m_rotation * Time.fixedDeltaTime);
         MyRigidbody.MoveRotation(MyRigidbody.rotation * deltaRotation);
-        MyRigidbody.MovePosition(MyRigidbody.position + (m_velocity * Time.deltaTime));
+        MyRigidbody.MovePosition(MyRigidbody.position + (m_velocity * Time.fixedDeltaTime));
     }
 
     void OnBecameVisible()
@@ -76,15 +73,6 @@ public class Asteroid : MonoBehaviour
     void OnBecameInvisible()
     {
         enabled = false;
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.GetType() == typeof(MeshCollider) && col.transform.CompareTag("Missile"))
-        {
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
     }
 
     public void SelfDestruct()

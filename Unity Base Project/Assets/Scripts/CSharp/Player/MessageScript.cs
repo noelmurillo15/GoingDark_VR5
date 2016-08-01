@@ -52,8 +52,10 @@ public class MessageScript : MonoBehaviour
     public void EnemyClose()
     {
         enemyClose.enabled = true;
-        if (!IsInvoking("EnemyAway"))
-            Invoke("EnemyAway", 5f);
+        if (IsInvoking("EnemyAway"))
+            CancelInvoke("EnemyAway");
+
+        Invoke("EnemyAway", 5f);
     }
     void EnemyAway()
     {

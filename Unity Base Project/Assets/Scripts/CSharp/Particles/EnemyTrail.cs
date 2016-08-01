@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class EnemyTrail : MonoBehaviour
 {
-    private Color col;
-    private int numTrails;
+    public Color col;
+    public int numTrails;
     public HealthProperties HealthInfo;
     private TrailRenderer[] trails = new TrailRenderer[3];
 
@@ -13,26 +13,19 @@ public class EnemyTrail : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Invoke("FindEnemyData", 5f);
+        Invoke("FindEnemyData", 3f);
     }
 
     void FindEnemyData()
     {               
         Timing.RunCoroutine(CheckHealth());
-    }
-
-    public void Kill()
-    {
-        Timing.KillAllCoroutines();
-    }
+    }    
 
     private IEnumerator<float> CheckHealth()
     {
-        Debug.Log("Getting Components");
         trails = GetComponentsInChildren<TrailRenderer>();
         HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
         numTrails = trails.Length;
-        col = Color.green;
 
         while (true)
         {
@@ -48,10 +41,15 @@ public class EnemyTrail : MonoBehaviour
             for (int x = 0; x < numTrails; x++)
             {
                 trails[x].time = _hp * 10f;
-                trails[x].material.SetColor("_Color", Color.green);
+                trails[x].material.SetColor("_TintColor", col);
             }
 
-            yield return Timing.WaitForSeconds(.5f);
+            yield return Timing.WaitForSeconds(.25f);
         }
+    }
+
+    public void Kill()
+    {
+        Timing.KillAllCoroutines();
     }
 }

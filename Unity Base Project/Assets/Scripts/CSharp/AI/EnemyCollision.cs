@@ -6,57 +6,45 @@ public class EnemyCollision : MonoBehaviour
 
     #region Properties
     public bool inRange;
-    [SerializeField]
-    public Transform LockOnReticle;
-    
-    private Transform playerTrans;
-
     private float detectionTimer;
     private EnemyStateManager behavior;
 
-    private BoxCollider boxcol;
-    private SphereCollider shperecol;
+    [SerializeField]
+    public Transform LockOnReticle;   
 
     //  Player
-    private GameObject messages;
     private CloakSystem player;
+    private Transform playerTrans;
+    private MessageScript messages;
     #endregion
 
     public void Initialize()
     {
-        detectionTimer = 0f;
-
-        behavior = GetComponent<EnemyStateManager>();
-        messages = GameObject.Find("PlayerCanvas");
         inRange = false;
-
-        boxcol = GetComponent<BoxCollider>();
-        shperecol = GetComponent<SphereCollider>();
-
-        if (LockOnReticle != null)
-            LockOnReticle.gameObject.SetActive(false);
+        detectionTimer = 0f;
+        LockOnReticle.gameObject.SetActive(false);
+        behavior = GetComponent<EnemyStateManager>();       
         
-        Invoke("FindPlayer", 5f);
+        Invoke("FindPlayer", 3f);
     }
 
-    void Update()
+    void FindPlayer()
+    {
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+        player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
+        playerTrans = behavior.GetManager().GetPlayerTransform();
+    }
+
+    void LateUpdate()
     {
         if (detectionTimer > 0.0f)
             detectionTimer -= Time.deltaTime;
 
         if (inRange)
             LockOnReticle.LookAt(playerTrans);
-    }
+    }    
 
-    void FindPlayer()
-    {
-        player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
-        playerTrans = behavior.GetManager().GetPlayerTransform();
-        if (player == null)
-            Debug.LogError("Did Not Find Player Cloak");
-    }
-
-
+    #region Collision
     void OnTriggerEnter(Collider col)
     {
         if (behavior.Target == null)
@@ -64,29 +52,19 @@ public class EnemyCollision : MonoBehaviour
             if (col.CompareTag("Decoy"))
             {
                 detectionTimer = 0f;
+                behavior.GetManager().SendAlert(col.transform.position);
             }
 
             if (col.CompareTag("Player"))
             {
                 inRange = true;
-                if (player == null)
-                {
-                    Debug.LogError("Enemy Did Not Reference Player Cloak");
-                    player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
-                }
+                detectionTimer = 0f;                
+                behavior.GetManager().SendAlert(transform.position);
                 
-                if (player.GetCloaked())
-                    detectionTimer = 5f;
-                else
-                {
-                    if (col.CompareTag("Player"))
-                        behavior.GetManager().SendAlert(transform.position);
-
-                    detectionTimer = 0f;
-                }
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
-                messages.SendMessage("EnemyClose");
+
+                messages.EnemyClose();
             }
         }
     }
@@ -100,21 +78,14 @@ public class EnemyCollision : MonoBehaviour
 
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
-            if (player == null)
-            {
-                Debug.LogError("Enemy Did Not Reference Player Cloak");
-                player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
-            }
-
+            detectionTimer = 5f;
             if (player.GetCloaked())
             {
-                detectionTimer = 5f;
                 if (behavior.State != EnemyStates.Patrol)
                     behavior.SetLastKnown(col.transform.position);
                 return;
             }
 
-            detectionTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
         }
     }
@@ -136,4 +107,5 @@ public class EnemyCollision : MonoBehaviour
                 behavior.SetLastKnown(col.transform.position);
         }
     }
+    #endregion
 }

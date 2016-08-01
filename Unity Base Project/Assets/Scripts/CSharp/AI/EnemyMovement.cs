@@ -63,11 +63,11 @@ public class EnemyMovement : MonoBehaviour
         {
             MoveData.IncreaseSpeed();
             Vector3 dir = autopilotlocation - MyTransform.position;
-            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.deltaTime, 0.0f);
+            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.fixedDeltaTime, 0.0f);
             MyTransform.rotation = Quaternion.LookRotation(rotation);
             headingX = MyTransform.eulerAngles.x;
             headingY = MyTransform.eulerAngles.y;
-            MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
+            MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
 
             if (Vector3.Distance(autopilotlocation, MyTransform.position) < 50f)
             {
@@ -96,14 +96,14 @@ public class EnemyMovement : MonoBehaviour
                 Attack();
                 break;
         }
-        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
+        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
     }
 
     #region States
     void Patrol()
     {
         MoveData.IncreaseSpeed();
-        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / MoveData.RotateSpeed);
+        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.fixedDeltaTime / MoveData.RotateSpeed);
     }
     void Alert()
     {
@@ -124,7 +124,7 @@ public class EnemyMovement : MonoBehaviour
     {
         MoveData.IncreaseSpeed();
         Vector3 playerDir = behavior.Target.position - MyTransform.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
         if (behavior.Type == EnemyTypes.Droid)
         {
             MyTransform.rotation = Quaternion.LookRotation(direction);
@@ -136,7 +136,7 @@ public class EnemyMovement : MonoBehaviour
             else
             {
                 direction.x += 75f;
-                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
             }
         }
         headingX = MyTransform.eulerAngles.x;
@@ -150,7 +150,7 @@ public class EnemyMovement : MonoBehaviour
     {
         MoveData.IncreaseSpeed();
         Vector3 playerDir =  MyTransform.position - behavior.Target.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
 
         MyTransform.rotation = Quaternion.LookRotation(direction);
 

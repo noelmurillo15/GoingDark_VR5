@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private ParticleSystem particles;
     private x360Controller controller;
     private AudioManager _audioInstance;
-    private CharacterController charControl;
+    private Rigidbody MyRigidbody;
     #endregion
 
 
@@ -27,8 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
         stats = GetComponent<PlayerStats>();
         _audioInstance = AudioManager.instance;
+        MyRigidbody = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();
-        charControl = GetComponent<CharacterController>();
         controller = GamePadManager.Instance.GetController(0);
     }
 
@@ -66,15 +66,18 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Yaw()
     {
-        MyTransform.Rotate(Vector3.up * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().X));
+        if (controller.GetLeftStick().X != 0f)
+            MyTransform.Rotate(Vector3.up * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().X));
     }
     public void Roll()
     {
-        MyTransform.Rotate(Vector3.back * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetRightStick().X));
+        if (controller.GetRightStick().X != 0f)
+            MyTransform.Rotate(Vector3.back * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetRightStick().X));
     }
     public void Pitch()
     {
-        MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));
+        if (controller.GetLeftStick().Y != 0f)
+            MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));
     }
     void Flight()
     {
@@ -86,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movedir = MyTransform.forward;
         movedir *= MoveData.Speed * Time.fixedDeltaTime;
-        charControl.Move(movedir);
+        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
     }
     #endregion    
 }

@@ -116,8 +116,6 @@ public class PlayerStats : MonoBehaviour
 
         if (IsInvoking("HealShield"))
             CancelInvoke("HealShield");
-        if (IsInvoking("RechargeShield"))
-            CancelInvoke("RechargeShield");
 
         if (!ShieldData.Active)
             Invoke("RechargeShield", 30f);        
@@ -126,6 +124,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void EMPHit()
     {
+        UnCloak();
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f); PlayerStunned();
 
         if (ShieldData.GetShieldActive())
@@ -142,6 +141,7 @@ public class PlayerStats : MonoBehaviour
     {
         if (!ShieldData.GetShieldActive())
         {
+            UnCloak();
             Debug.Log("Player affected by splash dmg");
             HealthData.Damage(2);
 
@@ -150,14 +150,15 @@ public class PlayerStats : MonoBehaviour
         }
     }
     private void Hit()
-    {        
+    {
+        UnCloak();
         controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
         if (ShieldData.GetShieldActive())
         {
             ShieldHit();
             return;
         }
-
+        
         HealthData.Damage(10);                         
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 30f);  //  reset timer

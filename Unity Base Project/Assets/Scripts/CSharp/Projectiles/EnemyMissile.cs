@@ -26,9 +26,9 @@ public class EnemyMissile : MonoBehaviour {
             MyTransform = transform;
 
             moveData.Boost = 1f;
-            moveData.MaxSpeed = 750f;
-            moveData.RotateSpeed = 10f;
-            moveData.Acceleration = 100f;
+            moveData.MaxSpeed = 500f;
+            moveData.RotateSpeed = 25f;
+            moveData.Acceleration = 200f;
             moveData.Speed = 150f;
 
             messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
@@ -37,7 +37,7 @@ public class EnemyMissile : MonoBehaviour {
         else
         {
             tracking = false;
-            moveData.Speed = 350f;
+            moveData.Speed = 200f;
 
             messages.MissileIncoming();
             Invoke("Kill", 3f);
@@ -76,8 +76,7 @@ public class EnemyMissile : MonoBehaviour {
         if (!tracking)
         {
             if (col.transform.tag == "Player")
-            {
-                col.transform.SendMessage("UnCloak");
+            {                
                 target = col.transform;
                 tracking = true;
             }

@@ -8,49 +8,29 @@ public class Meteor : MonoBehaviour {
     
 	void Start () {
         myTransform = GetComponent<Transform>();
+        Invoke("Kill", Random.Range(20,30));
         velocity = new Vector3(Random.Range(-359, 359), Random.Range(-359, -1), Random.Range(-359, 359));
-        // velocity = new Vector3(0, 0, -50);
-        Invoke("Kill", Random.Range(15,25));
 	}
 	
 	// Update is called once per frame
-	void Update() {
-                
-        myTransform.Translate(velocity * Time.deltaTime);
-
+	void FixedUpdate() {                
+        myTransform.Translate(velocity * Time.fixedDeltaTime);
 	}
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.GetType() == typeof(MeshCollider) && col.transform.CompareTag("Missile"))
-        {
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
-        else if (col.transform.CompareTag("Player"))
+        if (col.transform.CompareTag("Player"))
         {
             AudioManager.instance.PlayHit();
             col.transform.SendMessage("Kill");
-            Kill();
         }
         else if (col.transform.CompareTag("Enemy"))
         {
             col.transform.SendMessage("Kill");
-            Kill();
         }
     }
     public void Kill()
     {
         Destroy(gameObject);
-    }
-
-    void OnBecameVisible()
-    {
-        enabled = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        enabled = false;
     }
 }

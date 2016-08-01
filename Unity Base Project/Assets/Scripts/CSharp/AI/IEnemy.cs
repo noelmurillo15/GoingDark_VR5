@@ -71,7 +71,6 @@ public class IEnemy : MonoBehaviour {
         if (hasShield && !ShieldData.GetShieldActive())
         {
             HealthData.Damage(2);
-            SendMessage("CheckHealth");
         }
     }
     public void MissileHit(Missile missile)
@@ -109,7 +108,6 @@ public class IEnemy : MonoBehaviour {
                     HealthData.Damage(25);
                     break;
             }
-            SendMessage("CheckHealth");
             missile.Kill();
         }
     }
@@ -138,7 +136,6 @@ public class IEnemy : MonoBehaviour {
                     HealthData.Damage(1.25f);
                     break;
             }
-            SendMessage("CheckHealth");
         }
     }
     public void ResetDebuff()
