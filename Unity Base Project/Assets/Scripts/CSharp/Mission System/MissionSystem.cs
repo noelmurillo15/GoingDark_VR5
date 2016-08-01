@@ -211,8 +211,6 @@ public class MissionSystem : MonoBehaviour
             // eliminate all threats
             if (mission.type == MissionType.Elimination)
             {
-                Debug.Log("Killed enemy");
-
                 mission.objectives--;
                 m_ActiveMissions[i] = mission;
 

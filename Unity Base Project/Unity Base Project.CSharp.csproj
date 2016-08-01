@@ -277,6 +277,7 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\SystemManager.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Tether.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />

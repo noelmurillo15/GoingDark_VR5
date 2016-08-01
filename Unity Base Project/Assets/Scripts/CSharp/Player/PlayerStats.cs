@@ -59,7 +59,6 @@ public class PlayerStats : MonoBehaviour
     #region Shield
     public void HealShield()
     {
-        Debug.Log("Player Shield Healed + 10hp : Current " + ShieldData.Health);
         ShieldData.Heal(10f);
 
         if (ShieldData.Health >= 100)
@@ -67,7 +66,6 @@ public class PlayerStats : MonoBehaviour
     }
     public void RechargeShield()
     {
-        Debug.Log("Player Shield Recharged");
         ShieldData.FullRestore();
         ShieldData.Shield.SetActive(true);
     }
@@ -83,13 +81,10 @@ public class PlayerStats : MonoBehaviour
     {      
         if (!DebuffData.isStunned)
         {
-            Debug.Log("Stunning the Player");
             DebuffData.isStunned = true;
             Invoke("RemoveStun", 5f);
             msgs.Stun();
-        }
-        else
-            Debug.Log("Player hit by EMP but already stunned");        
+        }      
     }
 
     void RemoveSlow()
@@ -107,8 +102,6 @@ public class PlayerStats : MonoBehaviour
     void FindCloakSystem()
     {
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
-        if (cloak == null)
-            Debug.LogError("Player's CloakSystem was not found");
     }
     private void ShieldHit()
     {
@@ -142,9 +135,7 @@ public class PlayerStats : MonoBehaviour
         if (!ShieldData.GetShieldActive())
         {
             UnCloak();
-            Debug.Log("Player affected by splash dmg");
             HealthData.Damage(2);
-
             CancelInvoke("RechargeShield");
             Invoke("RechargeShield", 30f);  //  reset timer
         }

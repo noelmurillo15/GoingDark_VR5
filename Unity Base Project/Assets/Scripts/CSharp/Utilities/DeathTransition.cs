@@ -19,7 +19,6 @@ public class DeathTransition : MonoBehaviour
     {
         if (isDead || spawn)
         {
-            Debug.Log("Dead");
             blackOut.intensity += Time.deltaTime;
             if (blackOut.intensity > 1f)
                 blackOut.intensity = 1f;
@@ -29,7 +28,6 @@ public class DeathTransition : MonoBehaviour
             blackOut.intensity -= Time.deltaTime;
             if (blackOut.intensity < 0f)
                 blackOut.intensity = 0f;
-
         }
     }
 

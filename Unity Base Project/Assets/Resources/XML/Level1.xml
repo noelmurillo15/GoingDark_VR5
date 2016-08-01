@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
   <mission name ="Flight Tutorial"
-    info = "Collect 10 Supply Crates; Avoid Mines and Meteors"
+    info = "Collect 5 Supply Crates; Avoid Mines and Meteors"
     credits = "100"
-    objectives = "10"
+    objectives = "5"
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
@@ -21,7 +21,7 @@
   />
 
   <mission name ="Combat Tutorial"
- info = "Eliminate All Enemies"
+ info = "Eliminate All Enemies. Press the Left Trigger and Left Bumper to fire Lasers / Missiles"
  credits = "200"
  objectives = "5"
  type = "Combat"
