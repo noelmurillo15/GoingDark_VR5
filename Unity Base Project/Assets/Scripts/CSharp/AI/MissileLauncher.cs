@@ -14,7 +14,7 @@ public class MissileLauncher : MonoBehaviour
 
     void Start()
     {
-        behavior = transform.parent.parent.GetComponent<EnemyStateManager>();
+        behavior = transform.GetComponentInParent<EnemyStateManager>();
         MyTransform = transform;
         MaxCooldown = 5f;
         Cooldown = 0f;

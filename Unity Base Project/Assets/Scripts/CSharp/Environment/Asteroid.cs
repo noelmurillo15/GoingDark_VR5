@@ -71,12 +71,10 @@ public class Asteroid : MonoBehaviour
     void OnBecameVisible()
     {        
         enabled = true;
-        boxcol.enabled = true;
     }
 
     void OnBecameInvisible()
     {
-        boxcol.enabled = false;
         enabled = false;
     }
 

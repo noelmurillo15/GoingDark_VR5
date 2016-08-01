@@ -15,7 +15,9 @@ public class IEnemy : MonoBehaviour {
 
     private EnemyManager manager;    
     private ShieldProperties ShieldData;
-    private HealthProperties HealthData;        
+    private HealthProperties HealthData;
+
+    private EnemyTrail eTrails;     
     #endregion
 
 
@@ -25,6 +27,7 @@ public class IEnemy : MonoBehaviour {
             ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
 
         manager = transform.root.GetComponent<EnemyManager>();
+        eTrails = GetComponent<EnemyTrail>();
 
         stunned.SetActive(false);                
         Invoke("AddToManager", 2f);
@@ -147,7 +150,8 @@ public class IEnemy : MonoBehaviour {
             Kill();
     }
     public void Kill()
-    {                     
+    {
+        eTrails.Kill();
         manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }

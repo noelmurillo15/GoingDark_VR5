@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class EnemyTrail : MonoBehaviour
 {
+    private Color col;
+    private int numTrails;
     public HealthProperties HealthInfo;
     private TrailRenderer[] trails = new TrailRenderer[3];
 
@@ -11,43 +13,45 @@ public class EnemyTrail : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Invoke("FindEnemyData", 3f);
+        Invoke("FindEnemyData", 5f);
     }
 
     void FindEnemyData()
-    {
-        trails = GetComponentsInChildren<TrailRenderer>();
-        HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
+    {               
         Timing.RunCoroutine(CheckHealth());
+    }
+
+    public void Kill()
+    {
+        Timing.KillAllCoroutines();
     }
 
     private IEnumerator<float> CheckHealth()
     {
+        Debug.Log("Getting Components");
+        trails = GetComponentsInChildren<TrailRenderer>();
+        HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
+        numTrails = trails.Length;
+        col = Color.green;
+
         while (true)
         {
-            float _hp = HealthInfo.Health / HealthInfo.MaxHealth;
-            trails[0].time = trails[1].time = trails[2].time = (_hp * 10f);
+            float _hp = HealthInfo.Health / HealthInfo.MaxHealth;            
 
             if (_hp > .75f)
-            {
-                trails[0].material.SetColor("_TintColor", Color.green);
-                trails[1].material.SetColor("_TintColor", Color.green);
-                trails[2].material.SetColor("_TintColor", Color.green);
-            }
+                col = Color.green;            
             else if (_hp <= .75f && _hp > .25f)
-            {
-                trails[0].material.SetColor("_TintColor", Color.yellow);
-                trails[1].material.SetColor("_TintColor", Color.yellow);
-                trails[2].material.SetColor("_TintColor", Color.yellow);
-            }
+                col = Color.yellow;            
             else
+                col = Color.red;            
+
+            for (int x = 0; x < numTrails; x++)
             {
-                trails[0].material.SetColor("_TintColor", Color.red);
-                trails[1].material.SetColor("_TintColor", Color.red);
-                trails[2].material.SetColor("_TintColor", Color.red);
+                trails[x].time = _hp * 10f;
+                trails[x].material.SetColor("_Color", Color.green);
             }
 
-            yield return Timing.WaitForSeconds(.2f);
+            yield return Timing.WaitForSeconds(.5f);
         }
     }
 }
