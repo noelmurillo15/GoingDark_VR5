@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using MovementEffects;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using GoingDark.Core.Enums;
 
 public class TallyScreen : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class TallyScreen : MonoBehaviour
     private int enemies = 0;
     private int asteroids = 0;
     private decimal time = 0;
+    private int[] missileCount;
 
     private Text tEnemies;
     private Text tTime;
@@ -23,6 +25,8 @@ public class TallyScreen : MonoBehaviour
 
     public Text timer;
 
+    private SystemManager systems;
+    private MissileSystem missileSystem;
 
     public int EnemiesKilled
     {
@@ -48,6 +52,8 @@ public class TallyScreen : MonoBehaviour
         tTime = text[2];
 
         tallyscreen.SetActive(false);
+
+        systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
     }
 
     void Update()
@@ -76,7 +82,9 @@ public class TallyScreen : MonoBehaviour
             if (controller.GetButtonDown("A"))
             {
                 Debug.Log("Pressed A");
+                UpdateMissileCount();
                 tallyscreen.SetActive(false);
+
                 // send to level select.... ?
                 SceneManager.LoadScene("LevelSelect");//, LoadSceneMode.Single);
                 yield return 0f;
@@ -91,6 +99,19 @@ public class TallyScreen : MonoBehaviour
         tEnemies.text = "Enemies killed : " + enemies;
         tAsteroids.text = "Asteroids destroyed : " + asteroids;
         tTime.text = "Completion time : " + decimal.Round(time, 2);
+    }
+    private void UpdateMissileCount()
+    {
+        if (missileSystem == null)
+        {
+            missileSystem = systems.GetSystemScript(SystemType.Missile) as MissileSystem;
+            missileCount = missileSystem.GetMissileCount();
+
+            PlayerPrefs.SetInt("BasicMissileCount", missileCount[(int)MissileType.Basic]);
+            PlayerPrefs.SetInt("EMPMissileCount", missileCount[(int)MissileType.Emp]);
+            PlayerPrefs.SetInt("ShieldbreakMissileCount", missileCount[(int)MissileType.ShieldBreak]);
+            PlayerPrefs.SetInt("ChromaticMissileCount", missileCount[(int)MissileType.Chromatic]);
+        }
     }
 
     //private string CheckLevel()

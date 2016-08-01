@@ -172,5 +172,10 @@ public class MissileSystem : ShipSystem
                 break;
         }
         countTxt.text = "x: " + Count[(int)Type].ToString();
-    }    
+    }
+
+    public int[] GetMissileCount()
+    {
+        return Count;
+    }
 }

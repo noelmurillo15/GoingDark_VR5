@@ -32,17 +32,17 @@
         ShieldBreakMissile,
         ChromaticMissile,
         EMPMissile,
-        BasicMissileUpgrade,
-        ShieldBreakMissileUpgrade,
-        ChromaticMissileUpgrade,
-        EMPMissileUpgrade,
+        //BasicMissileUpgrade,
+        //ShieldBreakMissileUpgrade,
+        //ChromaticMissileUpgrade,
+        //EMPMissileUpgrade,
         LaserPowerUpgrade,
-        LaserCooldownUpgrade,
+        Laser2PowerUpgrade,
         HealthUpgrade,
         ShieldUpgrade,
-        HyperdriveUpgrade,
-        CloakUpgrade,
-        EMPUpgrade
+        //HyperdriveUpgrade,
+        //CloakUpgrade,
+        //EMPUpgrade
     }
 
     #region Projectiles

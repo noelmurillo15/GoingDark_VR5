@@ -35,21 +35,25 @@ public class PersistentGameManager : MonoBehaviour {
         #region ShopInfo
         SetBasicMissileCount(20);
         SetShieldbreakMissileCount(10);
+        SetHasShieldbreakMissile(0);
         SetChromaticMissileCount(10);
+        SetHasChromaticMissile(0);
         SetEMPMissileCount(10);
+        SetHasEMPMissile(0);
 
-        SetBasicMissileLevel(1);
-        SetShieldbreakMissileLevel(1);
-        SetChromaticMissileLevel(1);
-        SetEMPMissileLevel(1);
+        //SetBasicMissileLevel(1);
+        //SetShieldbreakMissileLevel(1);
+        //SetChromaticMissileLevel(1);
+        //SetEMPMissileLevel(1);
         SetLaserPowerLevel(1);
-        SetLaserCooldownLevel(1);
+        SetLaser2PowerLevel(1);
+        SetHasLaser2(0);
 
         SetHealthLevel(1);
         SetShieldLevel(1);
-        SetHyperdriveLevel(1);
-        SetCloakLevel(1);
-        SetEMPLevel(1);
+        //SetHyperdriveLevel(1);
+        //SetCloakLevel(1);
+        //SetEMPLevel(1);
         #endregion
 
     }
@@ -74,7 +78,6 @@ public class PersistentGameManager : MonoBehaviour {
     void SetLevel4Unlocked(int isUnlocked) { PlayerPrefs.SetInt("Level4Unlocked", isUnlocked); }
     #endregion
 
-    #region Shop
     #region Consumables
     int GetBasicMissileCount() { return PlayerPrefs.GetInt("BasicMissileCount"); }
     void SetBasicMissileCount(int num) { PlayerPrefs.SetInt("BasicMissileCount",num); }
@@ -87,53 +90,54 @@ public class PersistentGameManager : MonoBehaviour {
 
     int GetChromaticMissileCount() { return PlayerPrefs.GetInt("ChromaticMissileCount"); }
     void SetChromaticMissileCount(int num) { PlayerPrefs.SetInt("ChromaticMissileCount", num); }
+
+    int GetHasShieldbreakMissile() { return PlayerPrefs.GetInt("HasShieldbreakMissile"); }
+    void SetHasShieldbreakMissile(int has) { PlayerPrefs.SetInt("HasShieldbreakMissile", has); }
+
+    int GetHasChromaticMissile() { return PlayerPrefs.GetInt("HasChromaticMissile"); }
+    void SetHasChromaticMissile(int has) { PlayerPrefs.SetInt("HasChromaticMissile", has); }
+
+    int GetHasEMPMissile() { return PlayerPrefs.GetInt("HasEMPMissile"); }
+    void SetHasEMPMissile(int has) { PlayerPrefs.SetInt("HasEMPMissile", has); }
     #endregion
 
-    #region WeaponUpgrades
-    int GetBasicMissileLevel() { return PlayerPrefs.GetInt("BasicMissileLevel"); }
-    void SetBasicMissileLevel(int level) { PlayerPrefs.SetInt("BasicMissileLevel", level); }
+    #region Weapon
+    //int GetBasicMissileLevel() { return PlayerPrefs.GetInt("BasicMissileLevel"); }
+    //void SetBasicMissileLevel(int level) { PlayerPrefs.SetInt("BasicMissileLevel", level); }
 
-    int GetShieldbreakMissileLevel() { return PlayerPrefs.GetInt("ShieldbreakMissileLevel"); }
-    void SetShieldbreakMissileLevel(int level) { PlayerPrefs.SetInt("ShieldbreakMissileLevel", level); }
+    //int GetShieldbreakMissileLevel() { return PlayerPrefs.GetInt("ShieldbreakMissileLevel"); }
+    //void SetShieldbreakMissileLevel(int level) { PlayerPrefs.SetInt("ShieldbreakMissileLevel", level); }
 
-    int GetChromaticMissileLevel() { return PlayerPrefs.GetInt("ChromaticMissileLevel"); }
-    void SetChromaticMissileLevel(int level) { PlayerPrefs.SetInt("ChromaticMissileLevel", level); }
+    //int GetChromaticMissileLevel() { return PlayerPrefs.GetInt("ChromaticMissileLevel"); }
+    //void SetChromaticMissileLevel(int level) { PlayerPrefs.SetInt("ChromaticMissileLevel", level); }
 
-    int GetEMPMissileLevel() { return PlayerPrefs.GetInt("EMPMissileLevel"); }
-    void SetEMPMissileLevel(int level) { PlayerPrefs.SetInt("EMPMissileLevel", level); }
+    //int GetEMPMissileLevel() { return PlayerPrefs.GetInt("EMPMissileLevel"); }
+    //void SetEMPMissileLevel(int level) { PlayerPrefs.SetInt("EMPMissileLevel", level); }
 
     int GetLaserPowerLevel() { return PlayerPrefs.GetInt("LaserPowerLevel"); }
     void SetLaserPowerLevel(int level) { PlayerPrefs.SetInt("LaserPowerLevel", level); }
 
-    int GetLaserCooldownLevel() { return PlayerPrefs.GetInt("LaserCooldownLevel"); }
-    void SetLaserCooldownLevel(int level) { PlayerPrefs.SetInt("LaserCooldownLevel", level); }
+    int GetLaser2PowerLevel() { return PlayerPrefs.GetInt("Laser2PowerLevel"); }
+    void SetLaser2PowerLevel(int level) { PlayerPrefs.SetInt("Laser2PowerLevel", level); }
 
-    //int GetHasShieldbreakMissile() { return PlayerPrefs.GetInt("HasShieldbreakMissile"); }
-    //void SetHasShieldbreakMissile(int has) { PlayerPrefs.SetInt("HasShieldbreakMissile", has); }
-
-    //int GetHasChromaticMissile() { return PlayerPrefs.GetInt("HasChromaticMissile"); }
-    //void SetHasChromaticMissile(int has) { PlayerPrefs.SetInt("HasChromaticMissile", has); }
-
-    //int GetHasEMPMissile() { return PlayerPrefs.GetInt("HasEMPMissile"); }
-    //void SetHasEMPMissile(int level) { PlayerPrefs.SetInt("HasEMPMissile", level); }
+    int GetHasLaser2() { return PlayerPrefs.GetInt("HasLaser2"); }
+    void SetHasLaser2(int has) { PlayerPrefs.SetInt("HasLaser2", has); }
     #endregion
 
-    #region DeviceUpdrages
+    #region Device
     int GetHealthLevel() { return PlayerPrefs.GetInt("HealthLevel"); }
     void SetHealthLevel(int level) { PlayerPrefs.SetInt("HealthLevel", level); }
 
     int GetShieldLevel() { return PlayerPrefs.GetInt("ShieldLevel"); }
     void SetShieldLevel(int level) { PlayerPrefs.SetInt("ShieldLevel", level); }
 
-    int GetHyperdriveLevel() { return PlayerPrefs.GetInt("HyperdriveLevel"); }
-    void SetHyperdriveLevel(int level) { PlayerPrefs.SetInt("HyperdriveLevel", level); }
+    //int GetHyperdriveLevel() { return PlayerPrefs.GetInt("HyperdriveLevel"); }
+    //void SetHyperdriveLevel(int level) { PlayerPrefs.SetInt("HyperdriveLevel", level); }
 
-    int GetCloakLevel() { return PlayerPrefs.GetInt("CloakLevel"); }
-    void SetCloakLevel(int level) { PlayerPrefs.SetInt("CloakLevel", level); }
+    //int GetCloakLevel() { return PlayerPrefs.GetInt("CloakLevel"); }
+    //void SetCloakLevel(int level) { PlayerPrefs.SetInt("CloakLevel", level); }
 
-    int GetEMPLevel() { return PlayerPrefs.GetInt("EMPLevel"); }
-    void SetEMPLevel(int level) { PlayerPrefs.SetInt("EMPLevel", level); }
-    #endregion
-
+    //int GetEMPLevel() { return PlayerPrefs.GetInt("EMPLevel"); }
+    //void SetEMPLevel(int level) { PlayerPrefs.SetInt("EMPLevel", level); }
     #endregion
 }
