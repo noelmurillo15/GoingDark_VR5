@@ -31,12 +31,17 @@ public class MissileSystem : ShipSystem
         Count[3] = PlayerPrefs.GetInt("ChromaticMissileCount");
 
         maxCooldown = 1f;
-        Type = MissileType.ShieldBreak;
+        Type = MissileType.Basic;        
 
         // Show missile count
         typeTxt = GameObject.Find("MissileChoice").GetComponent<Text>();
         countTxt = GameObject.Find("MissileCounter").GetComponent<Text>();
         missileSprite = GameObject.Find("MissileImage").GetComponent<Image>();
+
+        typeTxt.text = "Basic";
+        typeTxt.color = Color.yellow;
+        countTxt.color = Color.yellow;
+        missileSprite.color = Color.yellow;
 
         leap = GameObject.FindGameObjectWithTag("MainCamera").transform;
 

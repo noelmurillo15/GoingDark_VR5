@@ -78,7 +78,7 @@ public class EnemyManager : MonoBehaviour {
     }
     public void SendAlert(Vector3 enemypos)
     {
-        AudioManager.instance.StartCoroutine("RaiseBattleMusic");
+        AudioManager.instance.RaiseBattleMusic();
         object[] tempStorage = new object[2];
         tempStorage[0] = PlayerPosition.position;
         tempStorage[1] = enemypos;
@@ -108,7 +108,7 @@ public class EnemyManager : MonoBehaviour {
                     return;
             }
             Debug.Log("No enemies are attacking the player");
-            AudioManager.instance.StartCoroutine("LowerBattleMusic");
+            AudioManager.instance.LowerBattleMusic();
         }
     }
     #endregion

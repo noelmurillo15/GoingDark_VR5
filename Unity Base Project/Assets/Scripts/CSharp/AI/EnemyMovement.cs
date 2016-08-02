@@ -114,30 +114,52 @@ public class EnemyMovement : MonoBehaviour
             Debug.Log("Enemy has not found player, going back on patrol");
             Distance = 0;
             behavior.losingsightTimer = 0f;
+
+            headingX = MyTransform.eulerAngles.x;
+            headingY = MyTransform.eulerAngles.y;
             return;
         }
 
         Vector3 dir = Vector3.RotateTowards(MyTransform.forward, lastplayerdir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
-        MyTransform.rotation = Quaternion.LookRotation(dir);
+        MyTransform.rotation = Quaternion.LookRotation(dir);        
     }
     void Attack()
     {
         MoveData.IncreaseSpeed();
         Vector3 playerDir = behavior.Target.position - MyTransform.position;
         Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
-        if (behavior.Type == EnemyTypes.Droid)
+
+        switch (behavior.Type)
         {
-            MyTransform.rotation = Quaternion.LookRotation(direction);
-        }
-        else
-        {
-            if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+            case EnemyTypes.Basic:
+                if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 500f)
+                    MyTransform.rotation = Quaternion.LookRotation(direction, MyTransform.up);
+                else
+                {
+                    direction.x += 75f;
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
+                }
+                break;
+            case EnemyTypes.Droid:
                 MyTransform.rotation = Quaternion.LookRotation(direction);
-            else
-            {
-                direction.x += 75f;
-                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
-            }
+                break;
+            case EnemyTypes.SquadLead:
+                if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 500f)
+                    MyTransform.rotation = Quaternion.LookRotation(direction, MyTransform.up);
+                else
+                {
+                    direction.x += 75f;
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
+                }
+                break;
+            case EnemyTypes.JetFighter:
+                break;
+            case EnemyTypes.Transport:
+                break;
+            case EnemyTypes.Trident:
+                break;
+            case EnemyTypes.Boss:
+                break;
         }
         headingX = MyTransform.eulerAngles.x;
         headingY = MyTransform.eulerAngles.y;

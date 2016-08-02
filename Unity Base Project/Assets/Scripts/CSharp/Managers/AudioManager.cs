@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using MovementEffects;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -141,71 +142,100 @@ public class AudioManager : MonoBehaviour
         _Thruster.volume = 0.15f * amount * SoundVolume * MasterVolume;
     }
 
-    public IEnumerator LowerBattleMusic()
+    public void LowerBattleMusic()
     {
-        if (_BattleMusic.isPlaying && Fighting && !Boss)
+        Timing.RunCoroutine(LBM());
+    }
+    private IEnumerator<float> LBM()
+    {
+        if (Fighting && !Boss)
         {
             Fighting = false;
             _Music.volume = 0.0f;
             _Music.Play();
             _Music.volume += 0.18f;
             _BattleMusic.volume -= 0.18f;
-            yield return new WaitForSeconds(1f);
-            if (_Music.volume < 1.0f)
-                _Music.volume += 0.26f;
-            if (_BattleMusic.volume > 0.0f)
-                _BattleMusic.volume -= 0.26f;
-            yield return new WaitForSeconds(1f);
-            if (_Music.volume < 1.0f)
-                _Music.volume += 0.33f;
-            if (_BattleMusic.volume > 0.0f)
-                _BattleMusic.volume -= 0.33f;
-            yield return new WaitForSeconds(1f);
-            if (_Music.volume < 1.0f)
-                _Music.volume += 0.38f;
-            if (_BattleMusic.volume > 0.0f)
-                _BattleMusic.volume -= 0.38f;
-            yield return new WaitForSeconds(1f);
-            if (_BattleMusic.volume > 0.0f)
-                _BattleMusic.volume = 0.1f;
-            yield return new WaitForSeconds(1f);
-            _BattleMusic.Stop();
+            yield return Timing.WaitForSeconds(.5f);
+            if (!Fighting)
+            {
+                if (_Music.volume < 1.0f)
+                    _Music.volume += 0.26f;
+                if (_BattleMusic.volume > 0.0f)
+                    _BattleMusic.volume -= 0.26f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (!Fighting)
+            {
+                if (_Music.volume < 1.0f)
+                    _Music.volume += 0.33f;
+                if (_BattleMusic.volume > 0.0f)
+                    _BattleMusic.volume -= 0.33f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (!Fighting)
+            {
+                if (_Music.volume < 1.0f)
+                    _Music.volume += 0.38f;
+                if (_BattleMusic.volume > 0.0f)
+                    _BattleMusic.volume -= 0.38f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (!Fighting)
+            {
+                if (_BattleMusic.volume > 0.0f)
+                    _BattleMusic.volume = 0.1f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (!Fighting)
+                _BattleMusic.Stop();
         }
     }
-
-    public IEnumerator RaiseBattleMusic()
+    public void RaiseBattleMusic()
     {
-        if (_Music.isPlaying && !Fighting && !Boss)
+        Timing.RunCoroutine(RBM());
+    }
+    public IEnumerator<float> RBM()
+    {
+        if (!Fighting && !Boss)
         {
             Fighting = true;
             _BattleMusic.volume = 0.0f;
             _BattleMusic.Play();
             _BattleMusic.volume += 0.12f;
             _Music.volume -= 0.12f;
-            yield return new WaitForSeconds(1f);
-
-            if (_BattleMusic.volume < 1.0f)
-                _BattleMusic.volume += 0.18f;
-            if (_Music.volume > 0.0f)
-                _Music.volume -= 0.18f;
-            yield return new WaitForSeconds(1f);
-
-            if (_BattleMusic.volume < 1.0f)
-                _BattleMusic.volume += 0.22f;
-            if (_Music.volume > 0.0f)
-                _Music.volume -= 0.22f;
-            yield return new WaitForSeconds(1f);
-
-            if (_BattleMusic.volume < 1.0f)
-                _BattleMusic.volume += 0.38f;
-            if (_Music.volume > 0.0f)
-                _Music.volume -= 0.38f;
-
-            yield return new WaitForSeconds(1f);
-            if (_Music.volume > 0.0f)
-                _Music.volume = 0.1f;
-            yield return new WaitForSeconds(1f);
-            _Music.Stop();
+            yield return Timing.WaitForSeconds(.5f);
+            if (Fighting)
+            {
+                if (_BattleMusic.volume < 1.0f)
+                    _BattleMusic.volume += 0.18f;
+                if (_Music.volume > 0.0f)
+                    _Music.volume -= 0.18f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (Fighting)
+            {
+                if (_BattleMusic.volume < 1.0f)
+                    _BattleMusic.volume += 0.22f;
+                if (_Music.volume > 0.0f)
+                    _Music.volume -= 0.22f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (Fighting)
+            {
+                if (_BattleMusic.volume < 1.0f)
+                    _BattleMusic.volume += 0.38f;
+                if (_Music.volume > 0.0f)
+                    _Music.volume -= 0.38f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (Fighting)
+            {
+                if (_Music.volume > 0.0f)
+                    _Music.volume = 0.1f;
+            }
+            yield return Timing.WaitForSeconds(.5f);
+            if (Fighting)
+                _Music.Stop();
         }
     }
 
