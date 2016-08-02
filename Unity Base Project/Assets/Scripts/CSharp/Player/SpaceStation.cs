@@ -41,8 +41,8 @@ public class SpaceStation : MonoBehaviour
             go.transform.parent = transform;
             go.transform.localPosition = loc;
 
-            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         }
+            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     void Update()
