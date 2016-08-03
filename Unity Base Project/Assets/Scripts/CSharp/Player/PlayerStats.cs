@@ -163,8 +163,16 @@ public class PlayerStats : MonoBehaviour
     }
     public void GoToStation()
     {
-        deathTransition.SpawnPlayer();
-        Invoke("Respawn", 1.5f);
+        deathTransition.SpawnPlayer();        
+        Invoke("ClearScreen", 1f);
+    }
+
+    void ClearScreen()
+    {
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
+        deathTransition.NotDead();
+        deathTransition.notSpawned();
     }
 
     public void UnCloak()
@@ -180,12 +188,11 @@ public class PlayerStats : MonoBehaviour
     }
     private void Respawn()
     {
-        Repair();        
-        hype.StopHyperdrive();
-        transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
-        deathTransition.NotDead();
-        deathTransition.notSpawned();
+        Repair();  
+        GoToStation();
+        if(hype != null)      
+            hype.StopHyperdrive();
+
     }
     private void Kill()
     {

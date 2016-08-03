@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SystemManager : MonoBehaviour {
 
@@ -12,23 +13,39 @@ public class SystemManager : MonoBehaviour {
     private x360Controller controller;
     private CloakSystem cloaking;
     private bool messageUp = false;
+
+    private string sceneName;
     #endregion
 
 
     void Awake()
     {
+        sceneName = SceneManager.GetActiveScene().name;
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
 
         MainDevices = new Dictionary<SystemType, ShipSystem>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
 
-        InitializeDevice(SystemType.Emp);
-        InitializeDevice(SystemType.Cloak);
-        InitializeDevice(SystemType.Decoy);
         InitializeDevice(SystemType.Laser);
+        InitializeDevice(SystemType.Cloak);
         InitializeDevice(SystemType.Shield);
         InitializeDevice(SystemType.Missile);
         InitializeDevice(SystemType.Hyperdrive);
+        InitializeDevice(SystemType.Decoy);
+        InitializeDevice(SystemType.Emp);
+
+
+        //if (sceneName == "Level2")
+        //{
+        //    InitializeDevice(SystemType.Hyperdrive);
+        //}
+        //else if (sceneName == "Level3")
+        //{
+        //    InitializeDevice(SystemType.Decoy);
+        //    InitializeDevice(SystemType.Emp);
+        //    InitializeDevice(SystemType.Hyperdrive);
+        //}
+
 
         controller = GamePadManager.Instance.GetController(0);
     }
@@ -38,7 +55,7 @@ public class SystemManager : MonoBehaviour {
         if (controller.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
 
-        if (controller.GetButtonDown("A") && !messageUp)
+        if (controller.GetButtonDown("A") && !messageUp && sceneName != "Level1" && sceneName != "Level2")
             ActivateSystem(SystemType.Emp);
 
         if (controller.GetButtonDown("B"))
@@ -47,7 +64,7 @@ public class SystemManager : MonoBehaviour {
         if (controller.GetButtonDown("RightBumper"))
             ActivateSystem(SystemType.Missile);
 
-        if (controller.GetButtonDown("LeftBumper"))
+        if (controller.GetButtonDown("LeftBumper") && sceneName != "Level1")
             ActivateSystem(SystemType.Hyperdrive);
 
         if (controller.GetRightTrigger() > 0f)
@@ -125,7 +142,7 @@ public class SystemManager : MonoBehaviour {
     #endregion
 
     #region Private Methods
-    private void InitializeDevice(SystemType key)
+    public void InitializeDevice(SystemType key)
     {
         if (MainDevices.ContainsKey(key) || SecondaryDevices.ContainsKey(key))
         {

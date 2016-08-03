@@ -10,6 +10,16 @@
     optional = "false"
     blueprint = ""
   />
+  <mission name ="Takeover"
+    info = "Reclaim control of the Alliance space stations"
+    credits = "1100"
+    objectives = "4"
+    type = "ControlPoint"
+    enemy = "None"
+    time = "0.0"
+    optional = "false"
+    blueprint = ""
+  />
 
   <mission name ="Rock Breaker"
     info = "Destroy asteroids to scavenge materials"
@@ -18,7 +28,7 @@
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
-    optional = "true"
+    optional = "false"
     blueprint = ""
   />
 
@@ -29,8 +39,7 @@
     type = "ControlPoint"
     enemy = "None"
     time = "300.0"
-    optional = "true"
+    optional = "false"
     blueprint = ""
   />
-  
 </Tutorial2>

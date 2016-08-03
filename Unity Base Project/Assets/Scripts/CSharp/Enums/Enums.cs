@@ -127,6 +127,7 @@
     {
         public string missionName;
         public string missionInfo;
+        public string blueprint;
 
         public bool completed;
         public bool isOptional;

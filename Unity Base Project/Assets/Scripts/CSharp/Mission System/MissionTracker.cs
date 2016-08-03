@@ -33,12 +33,13 @@ public class MissionTracker : MonoBehaviour
 
         controller = GamePadManager.Instance.GetController(0);
         SceneName = SceneManager.GetActiveScene().name;
-        //missionTracker = GameObject.Find("MissionTracker");
+
         missionBox = GameObject.Find("MissionBox");
         continueText = GameObject.Find("PressToContinue");
         missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
+
         // turn off after they are found
         missionTracker.SetActive(false);
         continueText.SetActive(false);
@@ -61,20 +62,21 @@ public class MissionTracker : MonoBehaviour
             }
         }
 
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    missionSystem.LootPickedUp();
-        //}
 
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    missionSystem.KilledEnemy(EnemyTypes.Any);
-        //}
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            missionSystem.ControlPointTaken();
+        }
 
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    missionSystem.ControlPointTaken();
-        //}
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            missionSystem.KilledEnemy(EnemyTypes.Any);
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            missionSystem.LootPickedUp();
+        }
 
     }
 

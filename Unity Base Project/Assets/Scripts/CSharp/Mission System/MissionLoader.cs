@@ -7,12 +7,11 @@ using GoingDark.Core.Enums;
 public class MissionLoader : MonoBehaviour
 {
 
-
     // Use this for initialization
     void Start()
     {
-    }
 
+    }
 
     public List<Mission> LoadMissions(string fileName)
     {
@@ -51,6 +50,9 @@ public class MissionLoader : MonoBehaviour
             // get value for optional/non optional missions
             attribute = mission.Attribute("optional");
             tempMission.isOptional = bool.Parse(attribute.Value);
+            // get string for blueprint 
+            attribute = mission.Attribute("blueprint");
+            tempMission.blueprint = attribute.Value;
 
             tempList.Add(tempMission);
         }

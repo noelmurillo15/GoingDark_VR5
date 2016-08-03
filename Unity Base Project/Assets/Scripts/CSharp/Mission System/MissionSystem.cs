@@ -9,21 +9,21 @@ public class MissionSystem : MonoBehaviour
 {
     public List<Mission> m_ActiveMissions;
     public List<Mission> m_CompletedMissions;
-    public List<Mission> m_SecondaryMissions;
     public List<Mission> m_PrimaryMissions;
-    public Mission m_MainMission;
     public string filename;
 
     private PlayerStats m_playerStats;
     private MissionLoader m_missionLoader;
     private MissionLog m_missionLog;
     private MissionTracker m_missionTracker;
+    private SystemManager m_systemManager;
+    private MissileSystem m_missileSystem;
+
     private int m_stationID;
     private int portalIndex = 0;
     private int numEnemies = 0;
     private string SceneName;
 
-    GameObject spawner;
     GameObject[] portals;
 
     private TallyScreen tallyscreen;
@@ -34,6 +34,7 @@ public class MissionSystem : MonoBehaviour
         SceneName = SceneManager.GetActiveScene().name;
         m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
         m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
+        m_systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
 
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
         numEnemies = temp.Length;
@@ -52,7 +53,6 @@ public class MissionSystem : MonoBehaviour
 
         m_ActiveMissions = new List<Mission>();
         m_CompletedMissions = new List<Mission>();
-        m_SecondaryMissions = new List<Mission>();
         m_PrimaryMissions = new List<Mission>();
 
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
@@ -62,9 +62,55 @@ public class MissionSystem : MonoBehaviour
 
         if (SceneName != "Level1")
             Timing.RunCoroutine(AddMissions());
-
     }
 
+    #region Private Methods
+
+    void MissionFailed(Mission mission)
+    {
+        if (m_ActiveMissions.Count != 0)
+            m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
+        else
+            m_missionTracker.missionTracker.SetActive(false);
+        m_missionLog.UpdateButtons(mission.missionName);
+
+        m_ActiveMissions.Remove(mission);
+        m_missionLog.Failed(mission);
+        Timing.RunCoroutine(Wait(3.0f));
+    }
+
+    void AddAllMissions()
+    {
+        for (int i = 0; i < m_PrimaryMissions.Count; i++)
+        {
+            Mission mission = m_PrimaryMissions[i];
+            if (mission.type == MissionType.Elimination)
+                mission.objectives = numEnemies;
+            AddActiveMission(mission);
+            Debug.Log("Added mission" + mission.missionName);
+        }
+        m_PrimaryMissions.Clear();
+    }
+    #endregion
+
+    #region Coroutines
+    IEnumerator<float> AddMissions()
+    {
+        yield return Timing.WaitForSeconds(3.0f);
+        AddAllMissions();
+        m_missionLog.SetNames();
+    }
+
+    IEnumerator<float> Wait(float time)
+    {
+        yield return Timing.WaitForSeconds(time);
+        m_playerStats.GoToStation();
+        Debug.Log("Went to station");
+    }
+
+    #endregion
+
+    #region Public Methods
     public void ControlPointTaken()
     {
         for (int i = 0; i < m_ActiveMissions.Count; i++)
@@ -83,56 +129,6 @@ public class MissionSystem : MonoBehaviour
             }
         }
     }
-
-    #region Private Methods
-
-    void MissionFailed(Mission mission)
-    {
-        if (m_ActiveMissions.Count != 0)
-            m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
-        else
-            m_missionTracker.missionTracker.SetActive(false);
-        m_missionLog.UpdateButtons(mission.missionName);
-
-        m_ActiveMissions.Remove(mission);
-        m_missionLog.Failed(mission);
-        Timing.RunCoroutine(Wait(3.0f));
-    }
-
-    IEnumerator<float> AddMissions()
-    {
-        yield return Timing.WaitForSeconds(3.0f);
-        AddAllMissions();
-        m_missionLog.SetNames();
-    }
-    IEnumerator<float> DelayMission(float duration)
-    {
-        m_missionTracker.missionTracker.SetActive(false);
-        yield return Timing.WaitForSeconds(duration);
-        AddActiveMission(m_MainMission);
-        m_missionTracker.missionTracker.SetActive(true);
-        m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
-
-        yield return Timing.WaitForSeconds(1.0f);
-        //if (SceneName == "Level1")
-        //    spawner.SetActive(true);
-    }
-
-    void AddAllMissions()
-    {
-        for (int i = 0; i < m_PrimaryMissions.Count; i++)
-        {
-            Mission mission = m_PrimaryMissions[i];
-            if (mission.type == MissionType.Elimination)
-                mission.objectives = numEnemies;
-            AddActiveMission(mission);
-            Debug.Log("Added mission" + mission.missionName);
-        }
-        m_PrimaryMissions.Clear();
-    }
-    #endregion
-
-    #region Public Methods
 
     public void CheckTimedMissions(float time)
     {
@@ -211,6 +207,8 @@ public class MissionSystem : MonoBehaviour
             // eliminate all threats
             if (mission.type == MissionType.Elimination)
             {
+                Debug.Log("Killed enemy");
+
                 mission.objectives--;
                 m_ActiveMissions[i] = mission;
 
@@ -260,6 +258,9 @@ public class MissionSystem : MonoBehaviour
     // automatic turn in for missions, specific for primary/secondary
     public void TurnInMission(Mission mission)
     {
+        // gives the player the blueprint associated with the mission
+        CheckForBlueprint(mission);
+        // portals for tutorial
         if (SceneName == "Level1")
         {
             portals[portalIndex].SetActive(false);
@@ -269,10 +270,6 @@ public class MissionSystem : MonoBehaviour
         }
 
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
-
-        if (tempMission.missionName == m_MainMission.missionName)
-            m_MainMission.completed = true;
-
         // update buttons in mission log
         m_missionLog.UpdateButtons(tempMission.missionName);
 
@@ -289,24 +286,27 @@ public class MissionSystem : MonoBehaviour
         if (SceneName == "Level1")
         {
             m_missionTracker.missionTracker.SetActive(false);
-
             Timing.RunCoroutine(Wait(3.0f));
         }
 
         // done with all missions
         if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
         {
+            Debug.Log("Done with missions");
             m_missionTracker.missionTracker.SetActive(false);
             m_missionLog.TurnOffPanel();
-            tallyscreen.ActivateTallyScreen();
+           
+            Invoke("BeginTally", 2f);
         }
     }
 
-    IEnumerator<float> Wait(float time)
+    void BeginTally()
     {
-        yield return Timing.WaitForSeconds(time);
         m_playerStats.GoToStation();
+        tallyscreen.ActivateTallyScreen();
     }
+
+
 
     #endregion
 
@@ -337,6 +337,26 @@ public class MissionSystem : MonoBehaviour
             temp = "StealthPortal";
 
         return temp;
+    }
+    #endregion
+
+    #region Utils
+
+    void CheckForBlueprint(Mission mission)
+    {
+        if (mission.blueprint != "")
+        {
+            if (mission.blueprint.Contains("System"))
+                GiveSystem(mission.blueprint);
+        }
+    }
+
+    void GiveSystem(string name)
+    {
+        if (name.Contains("Emp"))
+            m_systemManager.InitializeDevice(SystemType.Emp);
+        else if (name.Contains("Hyperdrive"))
+            m_systemManager.InitializeDevice(SystemType.Hyperdrive);
     }
     #endregion
 
