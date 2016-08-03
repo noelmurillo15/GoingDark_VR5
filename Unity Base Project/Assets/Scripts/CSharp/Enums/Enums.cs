@@ -71,8 +71,9 @@
         JetFighter,
         Transport,
         Trident,
-        Boss,   
-        Any     
+        Tank,
+        Any,
+        FinalBoss
     };
     public enum EnemyDifficulty
     {

@@ -117,9 +117,8 @@ public class EnemyStateManager : IEnemy
                 break;
             case EnemyStates.Flee:
                 movement.SetSpeedBoost(1.25f);
+                losingsightTimer = 0f;
                 lostSight = false;
-                //in case
-                //losingsightTimer = 0f;
                 break;
             case EnemyStates.Follow:
                 movement.SetSpeedBoost(.5f);

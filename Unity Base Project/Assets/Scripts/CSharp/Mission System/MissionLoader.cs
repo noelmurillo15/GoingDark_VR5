@@ -144,7 +144,7 @@ public class MissionLoader : MonoBehaviour
         else if (enemy == "Trident")
             ret = EnemyTypes.Trident;
         else if (enemy == "Boss")
-            ret = EnemyTypes.Boss;
+            ret = EnemyTypes.Tank;
         else if (enemy == "Any")
             ret = EnemyTypes.Any;
 

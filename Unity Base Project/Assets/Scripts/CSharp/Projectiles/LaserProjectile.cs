@@ -30,25 +30,9 @@ public class LaserProjectile : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.transform.CompareTag("Enemy"))
-        {
-            col.gameObject.GetComponent<EnemyStateManager>().LaserHit(this);
-            Kill();
-        }
-
-        if (col.transform.CompareTag("Asteroid"))
-        {
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
     }
 
     public void Kill()

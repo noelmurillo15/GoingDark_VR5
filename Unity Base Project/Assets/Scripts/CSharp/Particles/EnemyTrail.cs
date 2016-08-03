@@ -4,10 +4,9 @@ using System.Collections.Generic;
 
 public class EnemyTrail : MonoBehaviour
 {
-    public Color col;
     public int numTrails;
-    public HealthProperties HealthInfo;
-    private TrailRenderer[] trails = new TrailRenderer[3];
+    private TrailRenderer[] trails;
+    private HealthProperties HealthInfo;
 
 
     // Use this for initialization
@@ -17,31 +16,34 @@ public class EnemyTrail : MonoBehaviour
     }
 
     void FindEnemyData()
-    {               
-        Timing.RunCoroutine(CheckHealth());
-    }    
-
-    private IEnumerator<float> CheckHealth()
     {
         trails = GetComponentsInChildren<TrailRenderer>();
-        HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
         numTrails = trails.Length;
+        HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
+        Timing.RunCoroutine(CheckHealth(HealthInfo));
+    }    
 
+    private IEnumerator<float> CheckHealth(HealthProperties _health)
+    {       
         while (true)
         {
+            int col = 0;
             float _hp = HealthInfo.Health / HealthInfo.MaxHealth;            
 
             if (_hp > .75f)
-                col = Color.green;            
+                col = 0;            
             else if (_hp <= .75f && _hp > .25f)
-                col = Color.yellow;            
+                col = 1;            
             else
-                col = Color.red;            
+                col = 2;            
 
             for (int x = 0; x < numTrails; x++)
             {
                 trails[x].time = _hp * 10f;
-                trails[x].material.SetColor("_TintColor", col);
+                if (x == col)
+                    trails[x].gameObject.SetActive(true);
+                else
+                    trails[x].gameObject.SetActive(false);
             }
 
             yield return Timing.WaitForSeconds(.25f);
@@ -49,7 +51,7 @@ public class EnemyTrail : MonoBehaviour
     }
 
     public void Kill()
-    {
-        Timing.KillAllCoroutines();
+    {        
+        Timing.KillCoroutine(CheckHealth(HealthInfo));
     }
 }

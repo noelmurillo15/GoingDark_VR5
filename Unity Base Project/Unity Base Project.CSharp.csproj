@@ -110,8 +110,11 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\BossStats.cs" />
     <Compile Include="Assets\EnemyCloseScript.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
+    <Compile Include="Assets\LaserCollision.cs" />
+    <Compile Include="Assets\Orbs.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
@@ -309,6 +312,7 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
     <Compile Include="Assets\Scripts\PanelManager.cs" />
     <Compile Include="Assets\Scripts\ResizePanel.cs" />
+    <Compile Include="Assets\ShieldSystem.cs" />
     <Compile Include="Assets\Spawner.cs" />
     <Compile Include="Assets\WayFinder_Arrow.cs" />
     <Compile Include="Assets\WayPointScript.cs" />

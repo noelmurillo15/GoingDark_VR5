@@ -37,10 +37,11 @@ public class Hitmarker : MonoBehaviour
         rayhit = false;
 
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
-            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider))
-                rayhit = true;        
+            if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider)
+                || hit.collider.CompareTag("Orb") && hit.collider.GetType() == typeof(BoxCollider))
+                rayhit = true;
 
-        if(LockOnMarker != null)
+        if (LockOnMarker != null)
             LockOnMarker.SetActive(rayhit);
 
         if (rayhit)

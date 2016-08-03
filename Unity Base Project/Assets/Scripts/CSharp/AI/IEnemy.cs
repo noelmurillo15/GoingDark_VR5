@@ -1,43 +1,35 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class IEnemy : MonoBehaviour {
+public class IEnemy : MonoBehaviour
+{
 
     #region Properties
-    [SerializeField]
-    private bool hasShield;
+    public EnemyTypes Type = EnemyTypes.None;
+    public Impairments Debuff = Impairments.None;
 
     [SerializeField]
     private GameObject stunned;
 
-    public EnemyTypes Type = EnemyTypes.None;
-    public Impairments Debuff = Impairments.None;
-
     private EnemyManager manager;    
-    private ShieldProperties ShieldData;
     private HealthProperties HealthData;
-
-    private EnemyTrail eTrails;     
     #endregion
 
 
     public virtual void Initialize()
-    {
-        if(hasShield)
-            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
-
-        manager = transform.root.GetComponent<EnemyManager>();
-        eTrails = GetComponent<EnemyTrail>();
-
-        stunned.SetActive(false);                
+    {           
+        stunned.SetActive(false);
         Invoke("AddToManager", 2f);
+        manager = transform.root.GetComponent<EnemyManager>();
     }
 
-    #region Accessors    
-    public ShieldProperties GetShieldData()
-    {        
-        return ShieldData;
+    void AddToManager()
+    {
+        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
+        LoadEnemyData();
     }
+
+    #region Accessors        
     public HealthProperties GetHealthData()
     {
         return HealthData;
@@ -48,97 +40,8 @@ public class IEnemy : MonoBehaviour {
     }
     #endregion
 
-    #region Msg Functions
-    void AddToManager()
-    {
-        LoadEnemyData();
-        GetComponent<EnemyMovement>().LoadEnemyData();
-        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
-    }
-    
-    void EMPHit()
-    {
-        stunned.SetActive(true);
-        Debuff = Impairments.Stunned;
-        Invoke("ResetDebuff", 5f);
-    }
-    void ShieldHit(float _val)
-    {
-        ShieldData.Damage(_val);        
-    }
-    void SplashDmg()
-    {
-        if (hasShield && !ShieldData.GetShieldActive())
-        {
-            HealthData.Damage(2);
-        }
-    }
-    public void MissileHit(Missile missile)
-    {        
-        if (hasShield && ShieldData.GetShieldActive())
-        {
-            switch (missile.Type)
-            {
-                case MissileType.Basic:
-                    missile.Deflect();
-                    break;
-                case MissileType.Emp:
-                    missile.Deflect();
-                    break;
-                case MissileType.Chromatic:
-                    missile.Deflect();
-                    break;
-                case MissileType.ShieldBreak:
-                    ShieldHit(100f);
-                    missile.Kill();
-                    break;
-            }
-        }
-        else
-        {
-            switch (missile.Type)
-            {
-                case MissileType.Basic:
-                    HealthData.Damage(5);                    
-                    break;
-                case MissileType.ShieldBreak:
-                    HealthData.Damage(1);
-                    break;
-                case MissileType.Chromatic:
-                    HealthData.Damage(25);
-                    break;
-            }
-            missile.Kill();
-        }
-    }
-    public void LaserHit(LaserProjectile laser)
-    {
-        if (hasShield && ShieldData.GetShieldActive())
-        {
-            switch (laser.Type)
-            {
-                case LaserType.Basic:
-                    ShieldHit(5f);
-                    break;
-                case LaserType.Charged:
-                    ShieldHit(12.5f);
-                    break;
-            }
-        }
-        else
-        {
-            switch (laser.Type)
-            {
-                case LaserType.Basic:
-                    HealthData.Damage(.5f);
-                    break;
-                case LaserType.Charged:
-                    HealthData.Damage(1.25f);
-                    break;
-            }
-        }
-    }
-    public void ResetDebuff()
+    #region Debuffs
+    void ResetDebuff()
     {
         Debuff = Impairments.None;
         stunned.SetActive(false);
@@ -146,9 +49,52 @@ public class IEnemy : MonoBehaviour {
         if (Type == EnemyTypes.Droid)
             Kill();
     }
+    #endregion
+
+    #region Msg Functions   
+    void EMPHit()
+    {
+        stunned.SetActive(true);
+        Debuff = Impairments.Stunned;
+        Invoke("ResetDebuff", 5f);
+    }
+    void SplashDmg()
+    {
+        HealthData.Damage(2);
+    }
+
+    public void MissileHit(Missile missile)
+    {
+        switch (missile.Type)
+        {
+            case MissileType.Basic:
+                HealthData.Damage(5);
+                break;
+            case MissileType.ShieldBreak:
+                HealthData.Damage(1);
+                break;
+            case MissileType.Chromatic:
+                HealthData.Damage(25);
+                break;
+        }
+        missile.Kill();
+    }
+    public void LaserHit(LaserProjectile laser)
+    {
+        switch (laser.Type)
+        {
+            case LaserType.Basic:
+                HealthData.Damage(.5f);
+                break;
+            case LaserType.Charged:
+                HealthData.Damage(1.25f);
+                break;
+        }
+    }
+    
     public void Kill()
     {
-        eTrails.Kill();
+        GetComponent<EnemyTrail>().Kill();
         manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }
@@ -156,7 +102,8 @@ public class IEnemy : MonoBehaviour {
 
     #region Private Methods
     void LoadEnemyData()
-    {        
+    {
+        GetComponent<EnemyMovement>().LoadEnemyData();
         switch (manager.Difficulty)
         {
             #region Easy
@@ -170,13 +117,15 @@ public class IEnemy : MonoBehaviour {
                     case EnemyTypes.SquadLead:
                         HealthData = new HealthProperties(20, transform); break;
                     case EnemyTypes.JetFighter:
-                        HealthData = new HealthProperties(5, transform); break;
+                        HealthData = new HealthProperties(6, transform); break;
                     case EnemyTypes.Transport:
                         HealthData = new HealthProperties(15, transform); break;
                     case EnemyTypes.Trident:
                         HealthData = new HealthProperties(10, transform); break;
-                    case EnemyTypes.Boss:
+                    case EnemyTypes.Tank:
                         HealthData = new HealthProperties(50, transform); break;
+                    case EnemyTypes.FinalBoss:
+                        HealthData = new HealthProperties(100, transform); break;
                 }
                 break;
             #endregion
@@ -197,7 +146,7 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(30, transform); break;
                     case EnemyTypes.Trident:
                         HealthData = new HealthProperties(20, transform); break;
-                    case EnemyTypes.Boss:
+                    case EnemyTypes.Tank:
                         HealthData = new HealthProperties(100, transform); break;
                 }
                 break;
@@ -219,7 +168,7 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(50, transform); break;
                     case EnemyTypes.Trident:
                         HealthData = new HealthProperties(35, transform); break;
-                    case EnemyTypes.Boss:
+                    case EnemyTypes.Tank:
                         HealthData = new HealthProperties(200, transform); break;
                 }
                 break;
@@ -241,12 +190,12 @@ public class IEnemy : MonoBehaviour {
                         HealthData = new HealthProperties(100, transform); break;
                     case EnemyTypes.Trident:
                         HealthData = new HealthProperties(70, transform); break;
-                    case EnemyTypes.Boss:
+                    case EnemyTypes.Tank:
                         HealthData = new HealthProperties(300, transform); break;
                 }
                 break;
-            #endregion
-        }  
+                #endregion
+        }
     }
     #endregion 
 }

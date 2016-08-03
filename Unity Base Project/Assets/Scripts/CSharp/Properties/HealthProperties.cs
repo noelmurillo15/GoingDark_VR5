@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class HealthProperties
 {
     #region Properties
-    public float Health { get; private set; }
+    public float Health;
     public float MaxHealth;
 
     //  Enemy Data

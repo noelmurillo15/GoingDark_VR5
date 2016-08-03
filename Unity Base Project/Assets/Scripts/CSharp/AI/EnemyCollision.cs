@@ -59,7 +59,6 @@ public class EnemyCollision : MonoBehaviour
             {
                 inRange = true;
                 detectionTimer = 0f;                
-                behavior.GetManager().SendAlert(transform.position);
                 
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
@@ -82,7 +81,7 @@ public class EnemyCollision : MonoBehaviour
             if (player.GetCloaked())
             {
                 if (behavior.State != EnemyStates.Patrol)
-                    behavior.SetLastKnown(col.transform.position);
+                    behavior.GetManager().SendAlert(transform.position);
                 return;
             }
 

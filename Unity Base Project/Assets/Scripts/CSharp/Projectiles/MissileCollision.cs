@@ -14,9 +14,14 @@ public class MissileCollision : MonoBehaviour {
     #region Collisions
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("Enemy"))
+        if (col.transform.CompareTag("Enemy") || col.transform.CompareTag("Shield"))
         {
             col.transform.SendMessage("MissileHit", missile);
+        }
+        else if (col.transform.CompareTag("Orb"))
+        {
+            col.transform.SendMessage("DMG");
+            missile.Kill();
         }
         else if (col.transform.CompareTag("Asteroid"))
         {
