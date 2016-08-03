@@ -36,7 +36,7 @@ public class MissionTracker : MonoBehaviour
 
         missionBox = GameObject.Find("MissionBox");
         continueText = GameObject.Find("PressToContinue");
-        missionSystem = GameObject.Find("PersistentGameObject").GetComponent<MissionSystem>();
+        missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 

@@ -207,6 +207,8 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\LeftArmCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\LevelSelectScript.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\MainMenuButton.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\Mainmenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MapConnection.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuButtons.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
@@ -305,6 +307,8 @@
     <Compile Include="Assets\Scripts\CSharp\Utilities\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\TransformExtensionMethods.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\x360Controller.cs" />
+    <Compile Include="Assets\Scripts\PanelManager.cs" />
+    <Compile Include="Assets\Scripts\ResizePanel.cs" />
     <Compile Include="Assets\Spawner.cs" />
     <Compile Include="Assets\WayFinder_Arrow.cs" />
     <Compile Include="Assets\WayPointScript.cs" />

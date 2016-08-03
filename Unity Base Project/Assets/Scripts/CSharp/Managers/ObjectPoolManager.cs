@@ -30,11 +30,11 @@ public class ObjectPoolManager : MonoBehaviour {
         MyTransform = transform;
 
         //  Missiles
-        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 4, MyTransform);
-        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 4, MyTransform);
-        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"), 4, MyTransform);
-        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 4, MyTransform);
-        enemyMissile.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 10, MyTransform);
+        emp.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EmpMissile"), 6, MyTransform);
+        basic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/BasicMissile"), 6, MyTransform);
+        chromatic.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ChromaticMissile"),6, MyTransform);
+        shieldbreak.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/ShieldBreakMissile"), 6, MyTransform);
+        enemyMissile.Initialize(Resources.Load<GameObject>("Projectiles/Missiles/EnemyMissile"), 15, MyTransform);
 
         //  Enemy
         ammopool.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, MyTransform);

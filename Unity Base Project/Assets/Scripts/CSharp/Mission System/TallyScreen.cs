@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using MovementEffects;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using GoingDark.Core.Enums;
+
 
 public class TallyScreen : MonoBehaviour
 {
@@ -15,8 +17,13 @@ public class TallyScreen : MonoBehaviour
     private Text tTime;
     private Text tAsteroids;
 
+    private int[] missileCount;
+
     private x360Controller controller;
     private MissionSystem missionSystem;
+    private SystemManager systems;
+    private MissileSystem missileSystem;
+
 
     public GameObject toContinue;
     public GameObject tallyscreen;
@@ -41,6 +48,7 @@ public class TallyScreen : MonoBehaviour
     {
         controller = GamePadManager.Instance.GetController(0);
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
+        systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
 
         Text[] text = tallyscreen.GetComponentsInChildren<Text>();
         tEnemies = text[0];
@@ -66,6 +74,20 @@ public class TallyScreen : MonoBehaviour
         Timing.RunCoroutine(PressButton());
     }
 
+    private void UpdateMissileCount()
+    {
+        if (missileSystem == null)
+        {
+            missileSystem = systems.GetSystemScript(SystemType.Missile) as MissileSystem;
+            missileCount = missileSystem.GetMissileCount();
+
+            PlayerPrefs.SetInt("BasicMissileCount", missileCount[(int)MissileType.Basic]);
+            PlayerPrefs.SetInt("EMPMissileCount", missileCount[(int)MissileType.Emp]);
+            PlayerPrefs.SetInt("ShieldbreakMissileCount", missileCount[(int)MissileType.ShieldBreak]);
+            PlayerPrefs.SetInt("ChromaticMissileCount", missileCount[(int)MissileType.Chromatic]);
+        }
+    }
+
     private IEnumerator<float> PressButton()
     {
         Debug.Log("Setting text");
@@ -77,6 +99,7 @@ public class TallyScreen : MonoBehaviour
         {
             if (controller.GetButtonDown("A"))
             {
+                UpdateMissileCount();
                 tallyscreen.SetActive(false);
                 // send to level select.... ?
                 SceneManager.LoadScene("LevelSelect");//, LoadSceneMode.Single);
