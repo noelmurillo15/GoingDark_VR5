@@ -22,6 +22,7 @@ public class LaserCollision : MonoBehaviour {
 
         else if (col.transform.CompareTag("Orb"))
         {
+            Debug.Log("Laser collision with : " + col.transform.tag);
             col.transform.SendMessage("DMG");
             laser.Kill();
         }

@@ -15,6 +15,9 @@ public class PlayerViewCheck : MonoBehaviour
     public bool isSwitching;
     private ShopMenu shopMenu;
 
+    [SerializeField]
+    private GameObject[] particles;
+
     // Use this for initialization
     void Start()
     {
@@ -32,7 +35,6 @@ public class PlayerViewCheck : MonoBehaviour
 
         LevelMenu.SetActive(false);
         shop.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -74,10 +76,11 @@ public class PlayerViewCheck : MonoBehaviour
             rayDirection = stars[i].transform.position - transform.position;
             if (Vector3.Angle(rayDirection, transform.forward) <= fov)
             {
-                if (Physics.Raycast(transform.position, rayDirection, out hit))
+                if (Physics.Raycast(transform.position, rayDirection, out hit, 1000f))
                 {
                     if (hit.collider.name == "Earth")
                     {
+                        particles[0].SetActive(true);
                         shop.SetActive(true);
                         LevelMenu.SetActive(false);
                         return;
@@ -91,6 +94,22 @@ public class PlayerViewCheck : MonoBehaviour
                             shop.SetActive(false);
                         }
                         MissionText(stars[i].name);
+                        if(i == 0)
+                        {
+                            particles[4].SetActive(true);
+                        }
+                        else if (i == 3)
+                        {
+                            particles[1].SetActive(true);
+                        }
+                        else if (i == 1)
+                        {
+                            particles[3].SetActive(true);
+                        }
+                        else if (i == 2)
+                        {
+                            particles[2].SetActive(true);
+                        }
                         if (stars[i].GetComponent<MapConnection>().isUnlocked == 1)
                         {
                             curStar = stars[i];
@@ -107,8 +126,14 @@ public class PlayerViewCheck : MonoBehaviour
                         }
                     }
                 }
+                else
+                {
+                    for (int x = 0; x < particles.Length; x++)
+                    {
+                        particles[x].SetActive(false);
+                    }
+                }
             }
-
         }
         LevelMenu.SetActive(false);
         if (shop.activeSelf)
@@ -128,7 +153,9 @@ public class PlayerViewCheck : MonoBehaviour
                 texts[i].enabled = true;
             }
             else
+            {
                 texts[i].enabled = false;
+            }
         }
 
     }

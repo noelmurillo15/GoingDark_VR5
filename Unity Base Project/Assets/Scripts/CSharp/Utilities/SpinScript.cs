@@ -2,30 +2,31 @@
 
 public class SpinScript : MonoBehaviour
 {
-    public float x = 0f;
-    public float y = 0f;
-    public float z = 0f;
-    public float speed = 0f;
+    #region Properties
+    [SerializeField]
+    private float x = 0f;
+    [SerializeField]
+    private float y = 0f;
+    [SerializeField]
+    private float z = 0f;
+    [SerializeField]
+    private float speed = 0f;
+
     Vector3 spin;
+    Transform MyTransform;
+    #endregion
+
+
     // Use this for initialization
     void Start()
     {
+        MyTransform = transform;
         spin = new Vector3(x, y, z);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        gameObject.transform.Rotate(spin, speed * Time.fixedDeltaTime);
-    }
-
-    void OnBecameVisible()
-    {
-        enabled = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        enabled = false;
+        MyTransform.Rotate(spin, speed * Time.fixedDeltaTime);
     }
 }

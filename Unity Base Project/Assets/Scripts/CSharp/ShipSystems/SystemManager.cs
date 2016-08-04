@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SystemManager : MonoBehaviour {
 
     #region Properties
-    private MessageScript messages;
+    //private MessageScript messages;
     private Dictionary<SystemType, ShipSystem> MainDevices;
     private Dictionary<SystemType, GameObject> SecondaryDevices;
 
@@ -21,7 +21,7 @@ public class SystemManager : MonoBehaviour {
     void Awake()
     {
         sceneName = SceneManager.GetActiveScene().name;
-        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+        //messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
 
         MainDevices = new Dictionary<SystemType, ShipSystem>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
@@ -111,7 +111,7 @@ public class SystemManager : MonoBehaviour {
         if (MainDevices.ContainsKey(type))
         {
             MainDevices[type].SetStatus(SystemStatus.Offline);
-            messages.SendMessage("SystemReport", type.ToString());
+            //messages.SendMessage("SystemReport", type.ToString());
         }
     }
     public void FullSystemRepair()
