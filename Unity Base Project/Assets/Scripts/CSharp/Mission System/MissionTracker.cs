@@ -86,7 +86,7 @@ public class MissionTracker : MonoBehaviour
         yield return Timing.WaitForSeconds(2.0f);
         missionBox.SetActive(true);
         systemManager.SendMessage("MessageUp", true);
-        yield return Timing.WaitForSeconds(3.0f);
+        yield return Timing.WaitForSeconds(1.0f);
         continueText.SetActive(true);
 
         while (true)
