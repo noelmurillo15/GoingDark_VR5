@@ -13,16 +13,11 @@ public class EnemyCloseScript : MonoBehaviour
         EnemyCloseText = transform.GetComponent<Text>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void SetEnemyCloseText(int NewNumber)
     {
         if (NewNumber < 2)
-            EnemyCloseText.text = NewNumber.ToString() + " Enemy Close";
+            EnemyCloseText.text = "1 Enemy Close";
         else
             EnemyCloseText.text = NewNumber.ToString() + " Enemies Close";
 

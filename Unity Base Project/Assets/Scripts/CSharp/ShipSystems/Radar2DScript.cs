@@ -9,6 +9,7 @@ public class Radar2DScript : MonoBehaviour
     GameObject EnemyClose;
     ArrayList EnemiesArray = new ArrayList();
     private int EMP_Distance = 500;
+    int EnemyCount;
 
 
     // Use this for initialization
@@ -17,7 +18,7 @@ public class Radar2DScript : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");// find player tutorial eventually
         RadarImages = new GameObject[9];
         EnemyClose = GameObject.Find("EnemyClose");
-
+        EnemyCount = 0;
 
         for (int i = 0; i < 9; i++)
         {
@@ -33,8 +34,10 @@ public class Radar2DScript : MonoBehaviour
         {
             //Add enemy to arraylist
             if (!EnemiesArray.Contains(ColliderObject.gameObject))
-                  EnemiesArray.Add(ColliderObject.gameObject);
-            //End of adding
+            {
+                EnemiesArray.Add(ColliderObject.gameObject);
+                EnemyCount++;
+            }//End of adding
 
             //Do math figure out where it is.
             Vector3 ColliderPosition = ColliderObject.transform.position; // Object's position either loot missile or enemy; 
@@ -59,7 +62,10 @@ public class Radar2DScript : MonoBehaviour
     void OnTriggerExit(Collider ColliderObject)
     {
         if (EnemiesArray.Contains(ColliderObject.gameObject))
+        {
             EnemiesArray.Remove(ColliderObject.gameObject);
+            EnemyCount--;
+        }
     }
 
 
@@ -174,10 +180,21 @@ public class Radar2DScript : MonoBehaviour
                 if (dist < EMP_Distance) // checked against EMP distance for middle circle to light up.
                     RadarImages[8].SetActive(true);
 
-                EnemyClose.GetComponent<EnemyCloseScript>().SetEnemyCloseText(EnemiesArray.Count);
+                EnemyClose.GetComponent<EnemyCloseScript>().SetEnemyCloseText(EnemyCount);
                 TurnOnRadarPanels(angle);//turn on that quad.
             }
-  
+            else if (EnemiesArray.Contains(temp) || temp == null)
+            {
+                EnemiesArray.Remove(temp);
+                EnemyCount--;
+            }
+
         }
+    }
+
+    public void ClearAll()
+    {
+        EnemiesArray.Clear();
+        EnemyCount = 0;
     }
 }

@@ -1,41 +1,71 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WayPointsManager : MonoBehaviour {
+public class WayPointsManager : MonoBehaviour
+{
 
 
     [SerializeField]
     private GameObject[] WayPoints;
 
+    private GameObject[] AllWayPointsInScene;
+
+    private ArrayList ArrayListForSorting = new ArrayList();
+
+
+    private GameObject SearchForThisWayPoint;
+
+    private GameObject Player;
+
     // Use this for initialization
-    void Start () {
-        WayPoints = new GameObject[transform.childCount]; 
+    void Start()
+    {
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            WayPoints[i] = transform.GetChild(i).gameObject;
-            WayPoints[i].SetActive(false);
-        }
-        WayPoints[0].SetActive(true);
+        AllWayPointsInScene = GameObject.FindGameObjectsWithTag("WayPoint");
+        // WayPoints = new GameObject[AllWayPointsInScene.Length];
+        Player = GameObject.FindWithTag("Player");
+        //WayPoints[0] = GameObject.Find("StationWayPoint");
+        SearchForThisWayPoint = GameObject.Find("StationWayPoint");
+        //SearchForThisWayPoint = WayPoints[0];
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-    void SetNextActive()
+
+    public void SetNextActive()
     {
         int i = 0;
-        for (; i < WayPoints.Length; i++)
+        float Distance = 10000.0f;
+        for (; i < ArrayListForSorting.Count; i++)
         {
-            if (WayPoints[i].activeInHierarchy)
+            GameObject Temp = (GameObject)ArrayListForSorting[i];
+
+            if (ArrayListForSorting[i] != null && Temp != null)
             {
-                WayPoints[i].SetActive(false);
-                if (++i < transform.childCount)
-                    WayPoints[i].SetActive(true);
-                break;
+                float TempDistance = Vector3.Distance(Temp.transform.position, Player.transform.position);
+
+                if (TempDistance < Distance) // checked against EMP distance for middle circle to light up.
+                {
+                    Distance = TempDistance;
+                    SearchForThisWayPoint = Temp;
+                }
             }
+            else
+                ArrayListForSorting.RemoveAt(i);
         }
     }
+
+    public void SetWayPoints()
+    {
+        for (int i = 0; i < AllWayPointsInScene.Length; i++)
+        {
+            ArrayListForSorting.Add(AllWayPointsInScene[i]);
+        }
+    }
+
+    public GameObject GetWayPointToFollow()
+    {
+        return SearchForThisWayPoint;
+    }
+
+
+
 }

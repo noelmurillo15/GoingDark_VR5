@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WayPointScript : MonoBehaviour
+public class WayPointStation : MonoBehaviour
 {
 
     private GameObject WayPointManager;
@@ -16,7 +16,10 @@ public class WayPointScript : MonoBehaviour
     void OnTriggerEnter(Collider ColliderObject)
     {
         if (ColliderObject.CompareTag("Player"))
+        {
+            WayPointManager.SendMessage("SetWayPoints");
             WayPointManager.SendMessage("SetNextActive");
+        }
     }
 
 }
