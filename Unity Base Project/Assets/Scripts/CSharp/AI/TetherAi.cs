@@ -3,16 +3,14 @@
 public class TetherAi : MonoBehaviour
 {
     #region Properties
-    ParticleSystem particles;
-    public float speed = 10;
-    public float emission = 20;
-
+    LineRenderer daLine;
+    Vector3[] pos = new Vector3[2];
     private EnemyStateManager behavior;
     #endregion
 
     void Start()
     {
-        particles = GetComponent<ParticleSystem>();
+        daLine = GetComponent<LineRenderer>();
         behavior = GetComponent<EnemyStateManager>();
     }
 
@@ -21,23 +19,19 @@ public class TetherAi : MonoBehaviour
 
         if (behavior.State == GoingDark.Core.Enums.EnemyStates.Attack)
         {
-            particles.emissionRate = emission;
-            particles.startSpeed = speed;
-            ParticleSystem.Particle[] p = new ParticleSystem.Particle[particles.particleCount + 1];
-            Vector3 dir = behavior.Target.position - transform.position;
-            float dis = Vector3.Distance(behavior.Target.position, transform.position);
-            int l = particles.GetParticles(p);
-            for (int i = 0; i < l; i++)
-            {
-                p[i].velocity = dir;
-                p[i].velocity *= (speed * dis * Time.fixedDeltaTime);
-                Debug.Log("Tether Firing");
-            }
-
-            particles.SetParticles(p, l);
+            pos[0] = transform.position;
+            pos[1] = behavior.Target.position;
+            daLine.SetPositions(pos);
+            //AudioManager.instance.PlayTether();*
+        }
+        else
+        {
+            pos[0] = transform.position;
+            pos[1] = transform.position;
+            daLine.SetPositions(pos);
+            //AudioManager.instance.StopTether();*
         }
 
-    }
-
-    
+    }   
 }
+// *Put back in when better Tether audio is found, the current is very cracky

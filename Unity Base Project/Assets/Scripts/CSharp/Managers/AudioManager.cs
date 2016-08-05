@@ -43,7 +43,6 @@ public class AudioManager : MonoBehaviour
         Fighting = false;
         sounds = new Dictionary<string, AudioClip>();
         music = new Dictionary<string, AudioClip>();
-        //AudioClip[] clips = new AudioClip[];
         AudioClip[] clips = Resources.LoadAll<AudioClip>("Audio/SFX");
         AudioClip[] songs = Resources.LoadAll<AudioClip>("Audio/Music");
         for (int i = 0; i < clips.Length; i++)
@@ -54,8 +53,6 @@ public class AudioManager : MonoBehaviour
         {
             music.Add(songs[i].name, songs[i]);
         }
-        //sounds = Resources.LoadAll<AudioClip>("Audio/SFX");
-        //DontDestroyOnLoad(gameObject);
         if(_BattleMusic.clip != music["BattleTheme"])
         _BattleMusic.clip = music["BattleTheme"];
 
@@ -247,6 +244,20 @@ public class AudioManager : MonoBehaviour
         _Alarms.Play();
     }
 
+    public void PlayTether()
+    {
+        _Alarms.clip = sounds["Tether"];
+        _Alarms.loop = true;
+        _Alarms.volume = SoundVolume * MasterVolume * .25f;
+        _Alarms.Play();
+    }
+
+    public void StopTether()
+    {
+        if (_Alarms.clip == sounds["Tether"] && _Alarms.isPlaying)
+            _Alarms.Stop();
+    }
+
     public void PlayHyperDrive()
     {
         if (!_Hit.isPlaying || _Hit.clip != sounds["HyperDrive"])
@@ -259,7 +270,7 @@ public class AudioManager : MonoBehaviour
 
     public void StopNebulaAlarm()
     {
-        if (_Alarms.clip == sounds["NebulaAlarm"])
+        if (_Alarms.clip == sounds["NebulaAlarm"] && _Alarms.isPlaying)
             _Alarms.Stop();
     }
 
