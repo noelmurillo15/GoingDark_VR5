@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Level2>
+  <mission name ="Scavenger"
+    info = "Collect 5 lootcrates"
+    credits = "300"
+    objectives = "5"
+    type = "Scavenge"
+    enemy = "None"
+    time = "0.0"
+    optional = "true"
+    blueprint = ""
+  />
+
+  <mission name ="Elimination"
+  info = "Annihilate the enemy fleet"
+  credits = "800"
+  objectives = "0"
+  type = "Elimination"
+  enemy = "Any"
+  time = "0.0"
+  optional = "false"
+  blueprint = "System Emp"
+  />
+
+  <mission name ="Time Attack"
+ info = "Kill 10 enemies in 5 minutes"
+ credits = "600"
+ objectives = "10"
+ type = "Combat"
+ enemy = "Any"
+ time = "300.0"
+ optional = "true"
+ blueprint = ""
+  />
+
+</Level2>

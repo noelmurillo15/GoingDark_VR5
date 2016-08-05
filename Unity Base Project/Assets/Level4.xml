@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tutorial2>
+  <mission name ="Regicide"
+    info = "Take out the enemy flag ship"
+    credits = "3000"
+    objectives = "4"
+    type = "Combat"
+    enemy = "Boss"
+    time = "0.0"
+    optional = "false"
+    blueprint = ""
+  />
+  <mission name ="Elimination"
+    info = "Kill all enemies in this zone"
+    credits = "800"
+    objectives = "0"
+    type = "Elimination"
+    enemy = "Any"
+    time = "0.0"
+    optional = "true"
+    blueprint = ""
+  />
+
+  <mission name ="Rock Breaker"
+    info = "Destroy asteroids to scavenge materials"
+    credits = "300"
+    objectives = "5"
+    type = "Scavenge"
+    enemy = "None"
+    time = "0.0"
+    optional = "true"
+    blueprint = ""
+  />
+
+</Tutorial2>

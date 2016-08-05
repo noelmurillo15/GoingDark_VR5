@@ -200,6 +200,10 @@
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
     <None Include="Assets\3rd Party Assets\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
+    <None Include="Assets\Level1.xml" />
+    <None Include="Assets\Level2.xml" />
+    <None Include="Assets\Level3.xml" />
+    <None Include="Assets\Level4.xml" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DS.shader" />

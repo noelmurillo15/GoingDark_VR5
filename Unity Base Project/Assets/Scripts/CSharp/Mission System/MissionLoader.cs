@@ -16,7 +16,7 @@ public class MissionLoader : MonoBehaviour
     public List<Mission> LoadMissions(string fileName)
     {
         // load in the file into an element
-        XElement mRoot = XElement.Load(@"Assets\Resources\XML\" + fileName + ".xml");
+        XElement mRoot = XElement.Load(Application.dataPath + "\\" + fileName + ".xml");
 
         // get the list of elements in the file
         IEnumerable<XElement> missonList = mRoot.Elements();
