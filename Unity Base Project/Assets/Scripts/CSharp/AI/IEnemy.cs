@@ -22,9 +22,12 @@ public class IEnemy : MonoBehaviour
 
 
     public virtual void Initialize()
-    {         
-        if(hasShield)
+    {
+        if (hasShield)
+        {
+            Debug.Log("Creating Shield");
             ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);
+        }
 
         stunned.SetActive(false);
         Invoke("AddToManager", 2f);
@@ -41,6 +44,10 @@ public class IEnemy : MonoBehaviour
     public HealthProperties GetHealthData()
     {
         return HealthData;
+    }
+    public ShieldProperties GetShieldData()
+    {
+        return ShieldData;
     }
     public EnemyManager GetManager()
     {
@@ -79,7 +86,10 @@ public class IEnemy : MonoBehaviour
         if (hasShield && ShieldData.GetShieldActive())
         {
             if (Type == EnemyTypes.FinalBoss)
+            {
+                missile.Kill();
                 return;
+            }
 
             switch (missile.Type)
             {
@@ -118,7 +128,10 @@ public class IEnemy : MonoBehaviour
         if (hasShield && ShieldData.GetShieldActive())
         {
             if (Type == EnemyTypes.FinalBoss)
+            {
+                laser.Kill();
                 return;
+            }
 
             switch (laser.Type)
             {

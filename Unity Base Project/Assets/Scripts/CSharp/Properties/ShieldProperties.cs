@@ -57,6 +57,22 @@ public class ShieldProperties
         UpdateShieldBar();
     }
 
+    public void SetShieldActive(bool flip)
+    {
+        if (flip)
+        {
+            Health = 0f;
+            Active = flip;
+            Shield.SetActive(flip);
+        }
+        else
+        {
+            Health = 100f;
+            Active = flip;
+            Shield.SetActive(flip);
+        }
+    }
+
     public void UpdateShieldBar()
     {
         ShieldBar.fillAmount = (Health / 100f) * .5f;

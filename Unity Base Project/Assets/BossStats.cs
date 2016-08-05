@@ -12,12 +12,16 @@ public class BossStats : MonoBehaviour
     [SerializeField]
     private Transform[] Orbs;
 
+    private ShieldProperties shieldData;
+
     // Use this for initialization
     void Start()
     {
         BossHp = 100;
         numOrbsActive = Orbs.Length;
         ShieldActive = true;
+        Debug.Log("Boss Accessing Shield");
+        shieldData = GetComponent<EnemyStateManager>().GetShieldData();
     }
 
     public int GetHp()
@@ -27,7 +31,7 @@ public class BossStats : MonoBehaviour
     public void SetShield(bool flip)
     {
         ShieldActive = flip;
-        Shield.gameObject.SetActive(ShieldActive);
+        shieldData.SetShieldActive(ShieldActive);
     }
 
     void DecreaseOrbCount()

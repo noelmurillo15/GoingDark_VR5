@@ -4,14 +4,14 @@ public class BossLaser : MonoBehaviour {
 
     [SerializeField]
     private GameObject Laser;
-
+    
     private ObjectPoolManager PoolManager;
 
     // Use this for initialization
     void Start () {
         Laser.SetActive(false);
         InvokeRepeating("Attack", 2f, 20f);
-        PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
+        PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();                
 	}
 
     void Attack()

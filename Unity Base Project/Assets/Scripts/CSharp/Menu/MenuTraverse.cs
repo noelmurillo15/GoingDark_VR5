@@ -4,19 +4,17 @@ using UnityEngine.UI;
 public class MenuTraverse : MonoBehaviour
 {
     x360Controller m_Controller;
+
+    Selectable[] m_Buttons;
     Selectable m_Button;
 
     // Use this for initialization
-    void Start()
-    {
-        m_Controller = GamePadManager.Instance.GetController(0);
-        Buttons();
-    }
-
     void OnEnable()
     {
         m_Controller = GamePadManager.Instance.GetController(0);
-        Buttons();
+        m_Buttons = gameObject.GetComponentsInChildren<Selectable>();
+        m_Button = m_Buttons[0];
+        CheckActiveButtons();
     }
 
     // Update is called once per frame
@@ -56,14 +54,17 @@ public class MenuTraverse : MonoBehaviour
         m_Button.Select();
     }
 
-    void Buttons()
+    void CheckActiveButtons()
     {
-        foreach (Selectable item in Selectable.allSelectables)
+        if (!m_Button.gameObject.activeSelf)
         {
-            if (item.IsActive())
+            for (int i = 0; i < m_Buttons.Length; i++)
             {
-                m_Button = item;
-                m_Button.Select();
+                if (m_Buttons[i].gameObject.activeSelf)
+                {
+                    m_Button = m_Buttons[i];
+                    break;
+                }
             }
         }
     }

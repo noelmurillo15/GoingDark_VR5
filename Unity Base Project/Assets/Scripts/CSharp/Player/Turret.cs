@@ -7,24 +7,16 @@ public class Turret : MonoBehaviour
     private EnemyStateManager behavior;
     private bool lockedOn;
     private float randomShot;
-
-    //private ObjectPooling pool = new ObjectPooling();
-    //private ObjectPooling explosionPool = new ObjectPooling();
-
-
-    public float x, y, z;
+    private ObjectPoolManager pool;
     // Use this for initialization
     void Start()
     {
-        x = y = z = 0;
         MyTransform = transform;
-        randomShot = .5f;
+        randomShot = 20f;
         lockedOn = false;
 
         behavior = transform.parent.GetComponentInParent<EnemyStateManager>();
-
-        //explosionPool.Initialize(Resources.Load<GameObject>("Projectiles/Explosions/ChargeLaserExplosion"), 3);
-        //pool.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 5);
+        pool = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
 
         InvokeRepeating("DestroyPlayer", 5f, randomShot);
     }
@@ -39,17 +31,14 @@ public class Turret : MonoBehaviour
         }
     }
 
-
     // Update is called once per frame
     void LateUpdate()
     {
-        randomShot = Random.Range(1.0f, 1.5f);
         if (behavior.Target != null)
         {
             if (lockedOn)
                 LockOn();
         }
-
     }
     void DestroyPlayer()
     {
@@ -61,32 +50,25 @@ public class Turret : MonoBehaviour
     public void Shoot()
     {
         if (behavior.Target != null)
-        {
-            //GameObject obj = pool.GetPooledObject();
-            //if (obj != null)
-            //{
-            //    obj.transform.position = transform.position;
-            //    obj.transform.rotation = transform.rotation;
-            //    obj.SetActive(true);
-            //    obj.SendMessage("SelfDestruct", this);
-            //}
-            //else
-            //    Debug.LogError("Obj Pool empty : " + obj.name);
-        }
-    }
-
-    public void Kill()
-    {
-        Destroy(gameObject);
+            if (lockedOn)
+            {
+                GameObject obj = pool.GetMiniBossLaser();
+                if (obj != null)
+                {
+                    obj.transform.position = transform.position;
+                    obj.transform.rotation = transform.rotation;
+                    obj.SetActive(true);
+                }
+            }
     }
 
     public void SpawnExplosion(Vector3 pos)
     {
-        //GameObject obj = explosionPool.GetPooledObject();
-        //if (obj != null)
-        //{
-        //    obj.transform.position = pos;
-        //    obj.SetActive(true);
-        //}
+        GameObject obj = pool.GetBossLaserExplode();
+        if (obj != null)
+        {
+            obj.transform.position = pos;
+            obj.SetActive(true);
+        }
     }
 }
