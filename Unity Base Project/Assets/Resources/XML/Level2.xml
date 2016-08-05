@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Level2>
   <mission name ="Scavenger"
-    info = "Collect 9 lootcrates"
+    info = "Collect 5 lootcrates"
     credits = "300"
-    objectives = "9"
+    objectives = "5"
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
@@ -22,7 +22,7 @@
   blueprint = "System Emp"
   />
 
-  <mission name ="Quickie"
+  <mission name ="Time Attack"
  info = "Kill 10 enemies in 5 minutes"
  credits = "600"
  objectives = "10"

@@ -16,6 +16,8 @@ public class MessageScript : MonoBehaviour
     Text systemReport;
     [SerializeField]
     Text stationTakeover;
+    [SerializeField]
+    Text systemInitialized;
 
     private Text[] winTexts;
 
@@ -35,6 +37,7 @@ public class MessageScript : MonoBehaviour
         systemReport.enabled = false;
         offlineDevices.enabled = false;
         stationTakeover.enabled = false;
+        systemInitialized.enabled = false;
     }
     public void SystemReport(string systemsdown)
     {
@@ -80,6 +83,15 @@ public class MessageScript : MonoBehaviour
     public void NotStunned()
     {
         stunMsg.enabled = false;
+    }
+    public void Init(string system)
+    {
+        systemInitialized.text = "System Initialized: " + system;
+        systemInitialized.enabled = true;
+    }
+    public void InitDown()
+    {
+        systemInitialized.enabled = false;
     }
     void StationTakeOver()
     {

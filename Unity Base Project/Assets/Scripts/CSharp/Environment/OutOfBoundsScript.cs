@@ -17,7 +17,10 @@ public class OutOfBoundsScript : MonoBehaviour
     void OnTriggerExit(Collider col)
     {
         if (col.CompareTag("Enemy"))
-            col.SendMessage("OutOfBounds", transform.position);        
+        {
+            Debug.Log("Enemy Out of Bounds");
+            col.SendMessage("OutOfBounds", transform.position);
+        }    
     }
 
     void SendWarning()

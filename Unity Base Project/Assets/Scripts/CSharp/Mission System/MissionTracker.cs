@@ -62,7 +62,6 @@ public class MissionTracker : MonoBehaviour
             }
         }
 
-
         if (Input.GetKeyDown(KeyCode.A))
         {
             missionSystem.ControlPointTaken();
@@ -162,6 +161,11 @@ public class MissionTracker : MonoBehaviour
             case "Level3":
                 {
                     info = "Commander! Our stations have been taken over by a rivaling fleet. We need you to destroy their ships and take back the stations. Hurry!";
+                    break;
+                }
+            case "Level4":
+                {
+                    info = "This is your final battle, Commander. The enemy's flag ship is somewhere in the area, hidden from our sight. You need to find it and destroy it at all costs.";
                     break;
                 }
             default:

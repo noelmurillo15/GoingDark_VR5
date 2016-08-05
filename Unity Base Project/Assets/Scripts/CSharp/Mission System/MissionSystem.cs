@@ -10,7 +10,6 @@ public class MissionSystem : MonoBehaviour
     public List<Mission> m_ActiveMissions;
     public List<Mission> m_CompletedMissions;
     public List<Mission> m_PrimaryMissions;
-    public string filename;
 
     private PlayerStats m_playerStats;
     private MissionLoader m_missionLoader;
@@ -18,6 +17,7 @@ public class MissionSystem : MonoBehaviour
     private MissionTracker m_missionTracker;
     private SystemManager m_systemManager;
     private MissileSystem m_missileSystem;
+    private MessageScript messages;
 
     private int m_stationID;
     private int portalIndex = 0;
@@ -35,6 +35,7 @@ public class MissionSystem : MonoBehaviour
         m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
         m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         m_systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
 
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
         numEnemies = temp.Length;
@@ -58,7 +59,7 @@ public class MissionSystem : MonoBehaviour
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         m_missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 
-        m_PrimaryMissions = m_missionLoader.LoadMissions(filename);
+        m_PrimaryMissions = m_missionLoader.LoadMissions(SceneName);
 
         if (SceneName != "Level1")
             Timing.RunCoroutine(AddMissions());
@@ -87,7 +88,6 @@ public class MissionSystem : MonoBehaviour
             if (mission.type == MissionType.Elimination)
                 mission.objectives = numEnemies;
             AddActiveMission(mission);
-            Debug.Log("Added mission" + mission.missionName);
         }
         m_PrimaryMissions.Clear();
     }
@@ -105,7 +105,6 @@ public class MissionSystem : MonoBehaviour
     {
         yield return Timing.WaitForSeconds(time);
         m_playerStats.GoToStation();
-        Debug.Log("Went to station");
     }
 
     #endregion
@@ -207,8 +206,6 @@ public class MissionSystem : MonoBehaviour
             // eliminate all threats
             if (mission.type == MissionType.Elimination)
             {
-                Debug.Log("Killed enemy");
-
                 mission.objectives--;
                 m_ActiveMissions[i] = mission;
 
@@ -260,6 +257,8 @@ public class MissionSystem : MonoBehaviour
     {
         // gives the player the blueprint associated with the mission
         CheckForBlueprint(mission);
+
+
         // portals for tutorial
         if (SceneName == "Level1")
         {
@@ -290,12 +289,11 @@ public class MissionSystem : MonoBehaviour
         }
 
         // done with all missions
-        if (m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0)
+        if ((m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0) || (!mission.isOptional && SceneName != "Level1")) // no missions left or mission is primary
         {
-            Debug.Log("Done with missions");
             m_missionTracker.missionTracker.SetActive(false);
             m_missionLog.TurnOffPanel();
-           
+
             Invoke("BeginTally", 2f);
         }
     }
@@ -354,10 +352,23 @@ public class MissionSystem : MonoBehaviour
     void GiveSystem(string name)
     {
         if (name.Contains("Emp"))
+        {
             m_systemManager.InitializeDevice(SystemType.Emp);
+            messages.Init("Emp");
+        }
         else if (name.Contains("Hyperdrive"))
+        {
             m_systemManager.InitializeDevice(SystemType.Hyperdrive);
+            messages.Init("Hyperdrive");
+        }
+
+        Timing.RunCoroutine(WaitMsg());
+    }
+
+    IEnumerator<float> WaitMsg()
+    {
+        yield return Timing.WaitForSeconds(3.0f);
+        messages.InitDown();
     }
     #endregion
-
 }

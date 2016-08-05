@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Tutorial2>
-  <mission name ="Takeover"
-    info = "Reclaim control of the Alliance space stations"
-    credits = "1100"
+  <mission name ="Regicide"
+    info = "Take out the enemy flag ship"
+    credits = "3000"
     objectives = "4"
-    type = "ControlPoint"
-    enemy = "None"
+    type = "Combat"
+    enemy = "Boss"
     time = "0.0"
     optional = "false"
     blueprint = ""
   />
-  <mission name ="Takeover"
-    info = "Reclaim control of the Alliance space stations"
-    credits = "1100"
-    objectives = "4"
-    type = "ControlPoint"
-    enemy = "None"
+  <mission name ="Elimination"
+    info = "Kill all enemies in this zone"
+    credits = "800"
+    objectives = "0"
+    type = "Elimination"
+    enemy = "Any"
     time = "0.0"
-    optional = "false"
+    optional = "true"
     blueprint = ""
   />
 
@@ -28,18 +28,8 @@
     type = "Scavenge"
     enemy = "None"
     time = "0.0"
-    optional = "false"
+    optional = "true"
     blueprint = ""
   />
 
-  <mission name ="Fast and Furious"
-    info = "Take over a station in less than 5 minutes"
-    credits = "500"
-    objectives = "1"
-    type = "ControlPoint"
-    enemy = "None"
-    time = "300.0"
-    optional = "false"
-    blueprint = ""
-  />
 </Tutorial2>

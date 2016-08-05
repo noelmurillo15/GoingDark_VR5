@@ -16,7 +16,7 @@ public class BossStats : MonoBehaviour
     void Start()
     {
         BossHp = 100;
-        numOrbsActive = 3;
+        numOrbsActive = Orbs.Length;
         ShieldActive = true;
     }
 
@@ -32,27 +32,29 @@ public class BossStats : MonoBehaviour
 
     void DecreaseOrbCount()
     {
-        Debug.Log("Orb count decreased");
         numOrbsActive--;
         if (numOrbsActive <= 0)
         {
-            Debug.Log("Boss SHield down");
             SetShield(false);
             Invoke("ShieldRegen", 10f);
         }
     }
     void ShieldRegen()
     {
-        Debug.Log("Boss SHield regen");
+        numOrbsActive = Orbs.Length;
 
-        for (int x = 0; x < 3; x++)
+        for (int x = 0; x < numOrbsActive; x++)
+        {
             Orbs[x].gameObject.SetActive(true);
+        }
 
-        numOrbsActive = 3;
         SetShield(true);
     }
     void Kill()
     {
-        Destroy(gameObject);
+        for (int x = 0; x < numOrbsActive; x++)
+        {
+            Orbs[x].gameObject.SetActive(false);
+        }
     }
 }

@@ -30,22 +30,17 @@ public class SystemManager : MonoBehaviour {
         InitializeDevice(SystemType.Cloak);
         InitializeDevice(SystemType.Shield);
         InitializeDevice(SystemType.Missile);
-        InitializeDevice(SystemType.Hyperdrive);
-        InitializeDevice(SystemType.Decoy);
-        InitializeDevice(SystemType.Emp);
 
-
-        //if (sceneName == "Level2")
-        //{
-        //    InitializeDevice(SystemType.Hyperdrive);
-        //}
-        //else if (sceneName == "Level3")
-        //{
-        //    InitializeDevice(SystemType.Decoy);
-        //    InitializeDevice(SystemType.Emp);
-        //    InitializeDevice(SystemType.Hyperdrive);
-        //}
-
+        if (sceneName == "Level2")
+        {
+            InitializeDevice(SystemType.Hyperdrive);
+        }
+        else if (sceneName == "Level3" || sceneName == "Level4")
+        {
+            InitializeDevice(SystemType.Decoy);
+            InitializeDevice(SystemType.Emp);
+            InitializeDevice(SystemType.Hyperdrive);
+        }
 
         controller = GamePadManager.Instance.GetController(0);
     }
@@ -55,7 +50,7 @@ public class SystemManager : MonoBehaviour {
         if (controller.GetButtonDown("X"))
             ActivateSystem(SystemType.Cloak);
 
-        if (controller.GetButtonDown("A") && !messageUp && sceneName != "Level1" && sceneName != "Level2")
+        if (controller.GetButtonDown("A") && !messageUp)
             ActivateSystem(SystemType.Emp);
 
         if (controller.GetButtonDown("B"))
@@ -64,7 +59,7 @@ public class SystemManager : MonoBehaviour {
         if (controller.GetButtonDown("RightBumper"))
             ActivateSystem(SystemType.Missile);
 
-        if (controller.GetButtonDown("LeftBumper") && sceneName != "Level1")
+        if (controller.GetButtonDown("LeftBumper"))
             ActivateSystem(SystemType.Hyperdrive);
 
         if (controller.GetRightTrigger() > 0f)

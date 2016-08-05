@@ -26,11 +26,12 @@ public class EnemyMovement : MonoBehaviour
         //  Patrol
         MoveData = new MovementProperties();
         autopilotlocation = Vector3.zero;
-        headingY = Random.Range(0, 360);
         targetRotation = Vector3.zero;
         headingChange = 45f;
         autopilot = false;
-        headingX = 0f;
+
+        headingY = Random.Range(1f, 359f);
+        headingX = Random.Range(1f, 359f);
 
         // Enemy Data
         MyRigidbody = GetComponent<Rigidbody>();
