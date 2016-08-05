@@ -23,11 +23,8 @@ public class IEnemy : MonoBehaviour
 
     public virtual void Initialize()
     {
-        if (hasShield)
-        {
-            Debug.Log("Creating Shield");
-            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);
-        }
+        if (hasShield)      
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
 
         stunned.SetActive(false);
         Invoke("AddToManager", 2f);

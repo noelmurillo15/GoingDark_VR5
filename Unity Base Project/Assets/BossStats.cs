@@ -20,7 +20,6 @@ public class BossStats : MonoBehaviour
         BossHp = 100;
         numOrbsActive = Orbs.Length;
         ShieldActive = true;
-        Debug.Log("Boss Accessing Shield");
         shieldData = GetComponent<EnemyStateManager>().GetShieldData();
     }
 
@@ -34,7 +33,7 @@ public class BossStats : MonoBehaviour
         shieldData.SetShieldActive(ShieldActive);
     }
 
-    void DecreaseOrbCount()
+    public void DecreaseOrbCount()
     {
         numOrbsActive--;
         if (numOrbsActive <= 0)

@@ -207,7 +207,7 @@ public class EnemyMovement : MonoBehaviour
                         MoveData.Set(0f, .5f, 50f, 5f, 10f);
                         break;
                     case EnemyTypes.FinalBoss:
-                        MoveData.Set(0f, 0f, 0f, 10f, 0f);
+                        MoveData.Set(0f, 0f, 0f, 6f, 0f);
                         break;
                 }
                 break;

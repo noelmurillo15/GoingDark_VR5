@@ -107,7 +107,6 @@ public class PlayerStats : MonoBehaviour
     #region Message Calls
     void FindSystems()
     {
-        Debug.Log("Finding Systems");
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
 

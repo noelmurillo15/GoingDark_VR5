@@ -73,9 +73,9 @@ public class FlightMovement : MonoBehaviour
         if (MoveData.Speed <= 0f)
             return;
 
-        Vector3 movedir = MyTransform.forward;
-        movedir *= MoveData.Speed * Time.fixedDeltaTime;
-        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
+        MyRigidbody.AddForce(MyTransform.forward * MoveData.Speed, ForceMode.VelocityChange);
+        if (MyRigidbody.velocity.magnitude > MoveData.Speed)
+            MyRigidbody.velocity = MyRigidbody.velocity.normalized * MoveData.Speed;        
     }
     #endregion    
 }

@@ -30,10 +30,6 @@ public class LaserCollision : MonoBehaviour {
             col.transform.SendMessage("Kill");
             laser.Kill();
         }
-        else if (col.transform.CompareTag("Player"))
-        {
-            Debug.Log("Player hit with Laser");
-        }
     }
     #endregion
 }

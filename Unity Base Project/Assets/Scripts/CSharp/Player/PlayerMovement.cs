@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
     public bool boostActive;
     public MovementProperties MoveData;
 
-
     private PlayerStats stats;
     private Transform MyTransform;
     private ParticleSystem particles;
@@ -67,7 +66,9 @@ public class PlayerMovement : MonoBehaviour
     public void Yaw()
     {
         if (controller.GetLeftStick().X != 0f)
+        {
             MyTransform.Rotate(Vector3.up * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().X));
+        }
     }
     public void Roll()
     {
@@ -77,7 +78,9 @@ public class PlayerMovement : MonoBehaviour
     public void Pitch()
     {
         if (controller.GetLeftStick().Y != 0f)
+        {
             MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));
+        }
     }
     void Flight()
     {
@@ -87,9 +90,9 @@ public class PlayerMovement : MonoBehaviour
         _audioInstance.ThrusterVolume(speedAmt);
         particles.startSpeed = -(speedAmt * .1f);
 
-        Vector3 movedir = MyTransform.forward;
-        movedir *= MoveData.Speed * Time.fixedDeltaTime;
-        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
+        MyRigidbody.AddForce(MyTransform.forward * MoveData.Speed, ForceMode.VelocityChange);
+        if (MyRigidbody.velocity.magnitude > MoveData.Speed)
+            MyRigidbody.velocity = MyRigidbody.velocity.normalized * MoveData.Speed;        
     }
     #endregion    
 }

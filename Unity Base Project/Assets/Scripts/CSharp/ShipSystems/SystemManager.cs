@@ -111,7 +111,6 @@ public class SystemManager : MonoBehaviour {
     }
     public void FullSystemRepair()
     {
-        Debug.Log("Player : Full system repair");
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
         for (int i = 0; i < keylist.Count; i++)
             MainDevices[keylist[i]].Repair();                         
