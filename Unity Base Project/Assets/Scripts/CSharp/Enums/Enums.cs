@@ -57,7 +57,10 @@
     public enum LaserType
     {
         Basic,
-        Charged
+        Charged,
+        Ball,
+        Continous,
+        Enemy
     }
     #endregion
 

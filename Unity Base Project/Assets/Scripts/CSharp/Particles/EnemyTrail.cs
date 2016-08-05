@@ -52,6 +52,6 @@ public class EnemyTrail : MonoBehaviour
 
     public void Kill()
     {        
-        Timing.KillCoroutine(CheckHealth(HealthInfo));
+        Timing.KillCoroutines(CheckHealth(HealthInfo));
     }
 }

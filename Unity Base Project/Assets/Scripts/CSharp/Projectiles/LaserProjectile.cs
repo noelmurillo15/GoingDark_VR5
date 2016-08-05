@@ -40,9 +40,31 @@ public class LaserProjectile : MonoBehaviour
         if(IsInvoking("Kill"))
             CancelInvoke("Kill");
 
-        GameObject go = poolManager.GetBaseLaserExplosion();
-        go.transform.position = MyTransform.position;
-        go.SetActive(true);
+        GameObject go = null;
+        switch (Type)
+        {
+            case LaserType.Basic:
+                go = poolManager.GetChargeLaserExplosion();
+                break;
+            case LaserType.Charged:
+                go = poolManager.GetChargeLaserExplosion();
+                break;
+            case LaserType.Ball:
+                break;
+            case LaserType.Continous:
+                break;
+            case LaserType.Enemy:
+                go = poolManager.GetBossLaserExplode();
+                break;
+        }
+
+        if (go != null)
+        {
+            go.transform.position = MyTransform.position;
+            go.SetActive(true);
+        }
+        else
+            Debug.Log("Laser Projectile does not have explosion : " + Type.ToString());
 
         gameObject.SetActive(false);
     }

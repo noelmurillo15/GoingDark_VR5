@@ -112,14 +112,17 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
+    <Compile Include="Assets\BossLaser.cs" />
     <Compile Include="Assets\BossStats.cs" />
     <Compile Include="Assets\EnemyCloseScript.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserCollision.cs" />
+    <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\Orbs.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMaterialChange.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
