@@ -5,6 +5,10 @@ public class IEnemy : MonoBehaviour
 {
 
     #region Properties
+    [SerializeField]
+    private bool hasShield;
+
+
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
 
@@ -13,11 +17,15 @@ public class IEnemy : MonoBehaviour
 
     private EnemyManager manager;    
     private HealthProperties HealthData;
+    private ShieldProperties ShieldData;
     #endregion
 
 
     public virtual void Initialize()
-    {           
+    {         
+        if(hasShield)
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);
+
         stunned.SetActive(false);
         Invoke("AddToManager", 2f);
         manager = transform.root.GetComponent<EnemyManager>();
@@ -52,6 +60,10 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Msg Functions   
+    void ShieldHit(float dmg)
+    {
+        ShieldData.Damage(dmg);
+    }
     void EMPHit()
     {
         stunned.SetActive(true);
@@ -62,33 +74,79 @@ public class IEnemy : MonoBehaviour
     {
         HealthData.Damage(2);
     }
-
     public void MissileHit(Missile missile)
     {
-        switch (missile.Type)
+        if (hasShield && ShieldData.GetShieldActive())
         {
-            case MissileType.Basic:
-                HealthData.Damage(5);
-                break;
-            case MissileType.ShieldBreak:
-                HealthData.Damage(1);
-                break;
-            case MissileType.Chromatic:
-                HealthData.Damage(25);
-                break;
+            if (Type == EnemyTypes.FinalBoss)
+                return;
+
+            switch (missile.Type)
+            {
+                case MissileType.Basic:
+                    missile.Deflect();
+                    break;
+                case MissileType.Emp:
+                    EMPHit();
+                    missile.Kill();
+                    break;
+                case MissileType.ShieldBreak:
+                    ShieldHit(100f);
+                    missile.Kill();
+                    break;
+                case MissileType.Chromatic:
+                    missile.Deflect();
+                    break;
+            }
         }
-        missile.Kill();
+        else
+        {
+            switch (missile.Type)
+            {
+                case MissileType.Basic:
+                    HealthData.Damage(5);
+                    break;
+                case MissileType.Chromatic:
+                    HealthData.Damage(25);
+                    break;
+            }
+            missile.Kill();
+        }
     }
     public void LaserHit(LaserProjectile laser)
     {
-        switch (laser.Type)
+        if (hasShield && ShieldData.GetShieldActive())
         {
-            case LaserType.Basic:
-                HealthData.Damage(.5f);
-                break;
-            case LaserType.Charged:
-                HealthData.Damage(1.25f);
-                break;
+            if (Type == EnemyTypes.FinalBoss)
+                return;
+
+            switch (laser.Type)
+            {
+                case LaserType.Basic:
+                    ShieldHit(2.5f);
+                    break;
+                case LaserType.Charged:
+                    ShieldHit(12.5f);
+                    break;
+                case LaserType.Ball:
+                    ShieldHit(50f);
+                    break;
+            }
+        }
+        else
+        {
+            switch (laser.Type)
+            {
+                case LaserType.Basic:
+                    HealthData.Damage(.5f);
+                    break;
+                case LaserType.Charged:
+                    HealthData.Damage(1.25f);
+                    break;
+                case LaserType.Ball:
+                    HealthData.Damage(5f);
+                    break;
+            }
         }
     }
     

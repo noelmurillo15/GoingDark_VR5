@@ -187,6 +187,9 @@ public class EnemyMovement : MonoBehaviour
                     case EnemyTypes.Basic:
                         MoveData.Set(0f, .5f, 60f, 2f, 10f);
                         break;
+                    case EnemyTypes.SquadLead:
+                        MoveData.Set(0f, .5f, 80f, 2f, 20f);
+                        break;
                     case EnemyTypes.Droid:
                         MoveData.Set(0f, .5f, 110f, 1f, 10f);
                         break;
