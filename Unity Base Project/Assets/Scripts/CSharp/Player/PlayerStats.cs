@@ -109,12 +109,6 @@ public class PlayerStats : MonoBehaviour
     {
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
-
-        if(cloak == null)
-            Debug.LogError("Cloak not found");
-
-        if (hype == null)
-            Debug.LogError("Hyperdrive not found");
     }
     private void ShieldHit()
     {
