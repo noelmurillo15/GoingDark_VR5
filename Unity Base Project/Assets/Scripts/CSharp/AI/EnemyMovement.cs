@@ -106,7 +106,6 @@ public class EnemyMovement : MonoBehaviour
         Vector3 lastplayerdir = behavior.LastKnownPos - MyTransform.position;
         if (Vector3.Distance(MyTransform.position, behavior.LastKnownPos) < 50f)
         {
-            Debug.Log("Enemy has not found player, going back on patrol");
             behavior.losingsightTimer = 0f;
             return;
         }

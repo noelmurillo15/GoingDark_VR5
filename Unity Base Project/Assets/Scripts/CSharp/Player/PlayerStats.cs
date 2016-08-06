@@ -110,9 +110,17 @@ public class PlayerStats : MonoBehaviour
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
     }
+
+    public void CrashHit(float _speed)
+    {
+        Debug.Log("Player Crashed");
+        controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
+        HealthData.Damage(_speed * 10f);
+        UnCloak();
+    }
     private void ShieldHit()
     {
-        Debug.Log("Shield Dmg");
+        Debug.Log("Player Shield Dmg");
         ShieldData.Damage(20f);
 
         if (IsInvoking("HealShield"))
@@ -125,7 +133,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void EMPHit()
     {
-        Debug.Log("Emp Dmg");
+        Debug.Log("Player Emp Dmg");
         UnCloak();
         controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f); PlayerStunned();
 
@@ -141,7 +149,7 @@ public class PlayerStats : MonoBehaviour
     }
     void SplashDmg()
     {
-        Debug.Log("Splash Dmg");
+        Debug.Log("Player Splash Dmg");
         if (!ShieldData.GetShieldActive())
         {
             UnCloak();
@@ -152,7 +160,7 @@ public class PlayerStats : MonoBehaviour
     }
     private void Hit()
     {
-        Debug.Log("Hit Dmg");
+        Debug.Log("Player Ship Dmg");
         UnCloak();
         controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
         if (ShieldData.GetShieldActive())
