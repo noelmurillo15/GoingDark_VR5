@@ -4,10 +4,6 @@ using GoingDark.Core.Enums;
 public class PlayerStats : MonoBehaviour
 {
     #region Properties
-    private CloakSystem cloak;
-    private HyperdriveSystem hype;
-    private SystemManager systemManager;
-
     public PlayerSaveData SaveData;
     public ShieldProperties ShieldData;
     public HealthProperties HealthData;
@@ -15,9 +11,12 @@ public class PlayerStats : MonoBehaviour
 
     [SerializeField]
     private Transform station;
-
     [SerializeField]
     private GameObject stunned;
+
+    private CloakSystem cloak;
+    private HyperdriveSystem hype;
+    private SystemManager systemManager;
 
     private MessageScript msgs;
     private x360Controller controller;
@@ -25,21 +24,29 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
 
-    private void Start()
+    private void Awake()
     {        
-        systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
-
         SaveData = new PlayerSaveData();
         DebuffData = new DebuffProperties();
         HealthData = new HealthProperties(100f, transform, true);
         ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
-
+        
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
         msgs = transform.GetComponentInChildren<MessageScript>();
 
-        Invoke("FindSystems", 5f);
+        systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+        Invoke("FindSystems", 1f);
     }
+
+    void FindSystems()
+    {
+        Debug.Log("Finding Devices");
+        cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
+        hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
+    }
+
+
 
     #region Accessors
     public PlayerSaveData GetSaveData()
@@ -57,6 +64,10 @@ public class PlayerStats : MonoBehaviour
     public DebuffProperties GetDebuffData()
     {
         return DebuffData;
+    }
+    public CloakSystem GetCloak()
+    {
+        return cloak;
     }
     #endregion
 
@@ -105,11 +116,7 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Message Calls
-    void FindSystems()
-    {
-        cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
-        hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
-    }
+    
 
     public void CrashHit(float _speed)
     {

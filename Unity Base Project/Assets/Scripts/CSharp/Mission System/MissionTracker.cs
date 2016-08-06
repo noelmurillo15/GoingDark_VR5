@@ -21,7 +21,7 @@ public class MissionTracker : MonoBehaviour
 
     private MissionSystem missionSystem;
     private x360Controller controller;
-    private SystemManager systemManager;
+    private PlayerInput playerInput;
     private MissionLog missionLog;
     private string SceneName;
 
@@ -37,7 +37,7 @@ public class MissionTracker : MonoBehaviour
         missionBox = GameObject.Find("MissionBox");
         continueText = GameObject.Find("PressToContinue");
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
-        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 
         // turn off after they are found
@@ -58,7 +58,7 @@ public class MissionTracker : MonoBehaviour
                 missionLog.TurnOnPanel();
                 missionLog.UpdateButtons();
 
-                systemManager.SendMessage("MessageUp", true);
+                playerInput.MessageUp(true);
             }
         }
 
@@ -84,7 +84,7 @@ public class MissionTracker : MonoBehaviour
     {
         yield return Timing.WaitForSeconds(2.0f);
         missionBox.SetActive(true);
-        systemManager.SendMessage("MessageUp", true);
+        playerInput.MessageUp(true);
         yield return Timing.WaitForSeconds(1.0f);
         continueText.SetActive(true);
 
@@ -93,7 +93,7 @@ public class MissionTracker : MonoBehaviour
             if (controller.GetButtonDown("A") || Input.GetKeyDown(KeyCode.A))
             {
                 missionBox.SetActive(false);
-                systemManager.SendMessage("MessageUp", false);
+                playerInput.MessageUp(false);
                 yield return 0f;
 
                 break;

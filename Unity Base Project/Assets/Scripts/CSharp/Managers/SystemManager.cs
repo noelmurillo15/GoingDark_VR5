@@ -6,31 +6,27 @@ using UnityEngine.SceneManagement;
 public class SystemManager : MonoBehaviour {
 
     #region Properties
-    //private MessageScript messages;
-    private Dictionary<SystemType, ShipSystem> MainDevices;
-    private Dictionary<SystemType, GameObject> SecondaryDevices;
-
-    private x360Controller controller;
-    private CloakSystem cloaking;
-    private bool messageUp = false;
-
     private string sceneName;
+    private MessageScript messages;
+    private CloakSystem cloaking;   
+    private Dictionary<SystemType, ShipSystem> MainDevices;
+    private Dictionary<SystemType, GameObject> SecondaryDevices;    
     #endregion
 
 
     void Awake()
     {
-        sceneName = SceneManager.GetActiveScene().name;
-        //messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
-
         MainDevices = new Dictionary<SystemType, ShipSystem>();
         SecondaryDevices = new Dictionary<SystemType, GameObject>();
+
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
 
         InitializeDevice(SystemType.Laser);
         InitializeDevice(SystemType.Cloak);
         InitializeDevice(SystemType.Shield);
         InitializeDevice(SystemType.Missile);
 
+        sceneName = SceneManager.GetActiveScene().name;
         if (sceneName == "Level2")
         {
             InitializeDevice(SystemType.Hyperdrive);
@@ -41,29 +37,6 @@ public class SystemManager : MonoBehaviour {
             InitializeDevice(SystemType.Emp);
             InitializeDevice(SystemType.Hyperdrive);
         }
-
-        controller = GamePadManager.Instance.GetController(0);
-    }
-
-    void Update()
-    {
-        if (controller.GetButtonDown("X"))
-            ActivateSystem(SystemType.Cloak);
-
-        if (controller.GetButtonDown("A") && !messageUp)
-            ActivateSystem(SystemType.Emp);
-
-        if (controller.GetButtonDown("B"))
-            ActivateSystem(SystemType.Decoy);
-
-        if (controller.GetButtonDown("RightBumper"))
-            ActivateSystem(SystemType.Missile);
-
-        if (controller.GetButtonDown("LeftBumper"))
-            ActivateSystem(SystemType.Hyperdrive);
-
-        if (controller.GetRightTrigger() > 0f)
-            ActivateSystem(SystemType.Laser);        
     }
 
     #region Public Methods
@@ -103,10 +76,10 @@ public class SystemManager : MonoBehaviour {
         List<SystemType> keylist = new List<SystemType>(MainDevices.Keys);
         int rand = Random.Range(0, keylist.Count);
         SystemType type = keylist[rand];
-        if (MainDevices.ContainsKey(type))
+        if (MainDevices.ContainsKey(type) && type != SystemType.Laser)
         {
             MainDevices[type].SetStatus(SystemStatus.Offline);
-            //messages.SendMessage("SystemReport", type.ToString());
+            messages.SystemReport(type);
         }
     }
     public void FullSystemRepair()
@@ -219,9 +192,6 @@ public class SystemManager : MonoBehaviour {
                 #endregion
         }
     }
-    private void MessageUp(bool up)
-    {
-        messageUp = up;
-    }
+    
     #endregion
 }

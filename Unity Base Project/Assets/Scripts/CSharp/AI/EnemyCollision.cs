@@ -25,14 +25,14 @@ public class EnemyCollision : MonoBehaviour
         LockOnReticle.gameObject.SetActive(false);
         behavior = GetComponent<EnemyStateManager>();       
         
-        Invoke("FindPlayer", 3f);
+        Invoke("FindPlayer", 5.2f);
     }
 
     void FindPlayer()
     {
-        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
-        player = GameObject.FindGameObjectWithTag("Systems").GetComponentInChildren<CloakSystem>();
         playerTrans = behavior.GetManager().GetPlayerTransform();
+        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
     }
 
     void LateUpdate()

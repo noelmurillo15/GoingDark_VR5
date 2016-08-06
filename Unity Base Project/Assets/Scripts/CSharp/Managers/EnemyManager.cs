@@ -9,7 +9,6 @@ public class EnemyManager : MonoBehaviour {
 
     private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
 
-    private CloakSystem pCloak;
     private Transform PlayerPosition;
     private MissionSystem missionSystem;
     private SystemManager systemManager;
@@ -24,17 +23,12 @@ public class EnemyManager : MonoBehaviour {
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>(); 
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
-        pCloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 
         InvokeRepeating("CheckEnemies", 30f, 5f);
     }
 
     #region Accessors
-    public CloakSystem GetPlayerCloak()
-    {
-        return pCloak;
-    }
     public Transform GetPlayerTransform()
     {
         return PlayerPosition;

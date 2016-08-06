@@ -70,7 +70,6 @@ public class TallyScreen : MonoBehaviour
 
     public void ActivateTallyScreen()
     {
-        Debug.Log("Running Coroutine");
         Timing.RunCoroutine(PressButton());
     }
 
@@ -90,18 +89,15 @@ public class TallyScreen : MonoBehaviour
 
     private IEnumerator<float> PressButton()
     {
-        Debug.Log("Setting text");
         SetText();
         tallyscreen.SetActive(true);
         toContinue.SetActive(true);
-        Debug.Log("Actually activated Tally screen");
         while (true)
         {
             if (controller.GetButtonDown("A"))
             {
                 UpdateMissileCount();
                 tallyscreen.SetActive(false);
-                // send to level select.... ?
                 SceneManager.LoadScene("LevelSelect");//, LoadSceneMode.Single);
                 yield return 0f;
             }

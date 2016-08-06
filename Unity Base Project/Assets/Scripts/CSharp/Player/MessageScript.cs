@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using GoingDark.Core.Enums;
 
 public class MessageScript : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class MessageScript : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         NoWarning();
     }
@@ -39,11 +40,11 @@ public class MessageScript : MonoBehaviour
         stationTakeover.enabled = false;
         systemInitialized.enabled = false;
     }
-    public void SystemReport(string systemsdown)
+    public void SystemReport(SystemType systemsdown)
     {
         systemReport.enabled = true;
         offlineDevices.enabled = true;
-        offlineDevices.text = systemsdown;
+        offlineDevices.text = systemsdown.ToString();
         if (!IsInvoking("EndReport"))
             Invoke("EndReport", 10f);
     }
@@ -58,7 +59,7 @@ public class MessageScript : MonoBehaviour
         if (IsInvoking("EnemyAway"))
             CancelInvoke("EnemyAway");
 
-        Invoke("EnemyAway", 5f);
+        Invoke("EnemyAway", 10f);
     }
     void EnemyAway()
     {
@@ -96,7 +97,7 @@ public class MessageScript : MonoBehaviour
     void StationTakeOver()
     {
         stationTakeover.enabled = true;
-        Invoke("RemoveStationTakeOver", 5f);
+        Invoke("RemoveStationTakeOver", 10f);
     }
     void RemoveStationTakeOver()
     {

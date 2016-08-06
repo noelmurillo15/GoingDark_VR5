@@ -66,7 +66,6 @@ public class EnemyMovement : MonoBehaviour
 
             if (Vector3.Distance(autopilotlocation, MyTransform.position) < 50f)
             {
-                Debug.Log("Enemy made it back to zone");
                 autopilot = false;
                 autopilotlocation = Vector3.zero;
             }

@@ -6,17 +6,15 @@ public class PlayerCollisions : MonoBehaviour
     private float padding;
     private PlayerStats stats;
     private PlayerMovement move;
-    private x360Controller controller;
 
-    void Start()
+    void Awake()
     {
         padding = 0f;
         stats = GetComponent<PlayerStats>();
         move = GetComponent<PlayerMovement>();
-        controller = GamePadManager.Instance.GetController(0);
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (padding > 0f)
             padding -= Time.deltaTime;
@@ -36,7 +34,7 @@ public class PlayerCollisions : MonoBehaviour
                 stats.CrashHit(move.GetMoveData().Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
             }
-            padding = 5f;
+            padding = 2f;
         }
     }
 }
