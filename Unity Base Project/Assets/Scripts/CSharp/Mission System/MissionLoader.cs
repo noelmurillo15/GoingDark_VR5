@@ -143,8 +143,14 @@ public class MissionLoader : MonoBehaviour
             ret = EnemyTypes.Transport;
         else if (enemy == "Trident")
             ret = EnemyTypes.Trident;
-        else if (enemy == "Boss")
+        else if (enemy == "FinalBoss")
+            ret = EnemyTypes.FinalBoss;
+        else if (enemy == "Tank")
             ret = EnemyTypes.Tank;
+        else if (enemy == "JetFighter")
+            ret = EnemyTypes.JetFighter;
+        else if (enemy == "SquadLead")
+            ret = EnemyTypes.SquadLead;
         else if (enemy == "Any")
             ret = EnemyTypes.Any;
 

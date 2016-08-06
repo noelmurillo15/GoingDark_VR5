@@ -20,8 +20,7 @@ public class MissileCollision : MonoBehaviour {
         }
         else if (col.transform.CompareTag("Orb"))
         {
-            col.transform.SendMessage("DMG");
-            missile.Kill();
+            col.transform.SendMessage("MissileDmg", missile);
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

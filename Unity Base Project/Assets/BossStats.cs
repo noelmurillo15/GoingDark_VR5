@@ -2,62 +2,46 @@
 
 public class BossStats : MonoBehaviour
 {
-    public int BossHp;
     public int numOrbsActive;
     public bool ShieldActive;
 
-
     [SerializeField]
-    private Transform Shield;
-    [SerializeField]
-    private Transform[] Orbs;
+    private GameObject[] Orbs;
 
     private ShieldProperties shieldData;
 
     // Use this for initialization
     void Start()
     {
-        BossHp = 100;
-        numOrbsActive = Orbs.Length;
         ShieldActive = true;
+        numOrbsActive = Orbs.Length;
         shieldData = GetComponent<EnemyStateManager>().GetShieldData();
     }
 
-    public int GetHp()
-    {
-        return BossHp;
-    }
     public void SetShield(bool flip)
     {
+        Debug.Log("Titan Shield Turning : " + flip);
         ShieldActive = flip;
         shieldData.SetShieldActive(ShieldActive);
     }
 
     public void DecreaseOrbCount()
     {
+        Debug.Log("Decreasing Orb Count");
         numOrbsActive--;
         if (numOrbsActive <= 0)
         {
-            SetShield(false);
             Invoke("ShieldRegen", 10f);
+            SetShield(false);
         }
     }
+
     void ShieldRegen()
     {
-        numOrbsActive = Orbs.Length;
-
-        for (int x = 0; x < numOrbsActive; x++)
-        {
-            Orbs[x].gameObject.SetActive(true);
-        }
-
+        Debug.Log("Titan Shield Regen");
         SetShield(true);
-    }
-    void Kill()
-    {
+        numOrbsActive = Orbs.Length;
         for (int x = 0; x < numOrbsActive; x++)
-        {
-            Orbs[x].gameObject.SetActive(false);
-        }
+            Orbs[x].SetActive(true);        
     }
 }

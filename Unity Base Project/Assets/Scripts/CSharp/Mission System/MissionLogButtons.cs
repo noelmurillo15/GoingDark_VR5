@@ -10,7 +10,7 @@ public class MissionLogButtons : MonoBehaviour
     private float cancelTimer;
     private MissionTracker missionTracker;
     private MissionSystem missionSystem;
-    private SystemManager systemManager;
+    private PlayerInput playerInput;
     // Use this for initialization
 
     void Start()
@@ -18,7 +18,7 @@ public class MissionLogButtons : MonoBehaviour
         m_button = GetComponent<Image>();
         missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
-        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
 
         transition = 0.0f;
         cancelTimer = 0.0f;
@@ -90,7 +90,7 @@ public class MissionLogButtons : MonoBehaviour
         else
         {
             SendMessageUpwards("TurnOffPanel");
-            systemManager.SendMessage("MessageUp", false);
+            playerInput.MessageUp(false);
         }
     }
 }

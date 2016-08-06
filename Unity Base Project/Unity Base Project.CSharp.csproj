@@ -209,6 +209,7 @@
     <Compile Include="Assets\Scripts\CSharp\Managers\ObjectPoolManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PauseManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PersistentGameManager.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Managers\SystemManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmButtons.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmSettings.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\IntroScript.cs" />
@@ -288,7 +289,6 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Managers\SystemManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />
@@ -410,7 +410,9 @@
     <None Include="Assets\Level1.xml" />
     <None Include="Assets\Level2.xml" />
     <None Include="Assets\Level3.xml" />
-    <None Include="Assets\Level4.xml" />
+    <None Include="Assets\Level4.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DS.shader" />
@@ -494,10 +496,6 @@
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
-    <None Include="Assets\Resources\XML\Level1.xml" />
-    <None Include="Assets\Resources\XML\Level2.xml" />
-    <None Include="Assets\Resources\XML\Level3.xml" />
-    <None Include="Assets\Resources\XML\Level4.xml" />
     <None Include="Assets\Shaders\Fxaa3.shader" />
     <None Include="Assets\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Shaders\ZText.shader" />

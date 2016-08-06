@@ -53,7 +53,8 @@ public class ShieldProperties
     {
         Health = 100f;
         Active = true;
-        Shield.SetActive(true);
+        if(Shield != null)
+            Shield.SetActive(true);
         UpdateShieldBar();
     }
 

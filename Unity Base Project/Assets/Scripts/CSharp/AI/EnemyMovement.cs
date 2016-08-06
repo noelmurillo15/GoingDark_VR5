@@ -115,20 +115,23 @@ public class EnemyMovement : MonoBehaviour
     void Attack()
     {
         MoveData.IncreaseSpeed();
-        Vector3 playerDir = behavior.Target.position - MyTransform.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
-        if (behavior.Type == EnemyTypes.Droid)
+        if (behavior.Target != null)
         {
-            MyTransform.rotation = Quaternion.LookRotation(direction);
-        }
-        else
-        {
-            if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+            Vector3 playerDir = behavior.Target.position - MyTransform.position;
+            Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
+            if (behavior.Type == EnemyTypes.Droid)
+            {
                 MyTransform.rotation = Quaternion.LookRotation(direction);
+            }
             else
             {
-                direction.x += 75f;
-                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+                if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+                    MyTransform.rotation = Quaternion.LookRotation(direction);
+                else
+                {
+                    direction.x += 75f;
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+                }
             }
         }
         headingX = MyTransform.eulerAngles.x;

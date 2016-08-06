@@ -87,15 +87,10 @@ public class Asteroid : MonoBehaviour
         for (int i = 0; i < range; i++)
         {
             GameObject go = Instantiate(gameObject) as GameObject;
-            if (go != null)
-            {
+
+            if (go.transform.parent != null)
                 go.transform.parent = MyTransform.parent;
-                go.transform.localScale *= Random.Range(.1f, .45f);
-            }
-            else
-            {
-                Debug.Log("Asteroid Could not Instantiate more asteroids");
-            }
+            go.transform.localScale *= Random.Range(.1f, .45f);
         }
 
         if(tallyscreen != null)

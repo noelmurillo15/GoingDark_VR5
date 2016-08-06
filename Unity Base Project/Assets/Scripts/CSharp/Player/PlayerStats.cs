@@ -41,7 +41,6 @@ public class PlayerStats : MonoBehaviour
 
     void FindSystems()
     {
-        Debug.Log("Finding Devices");
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
     }
