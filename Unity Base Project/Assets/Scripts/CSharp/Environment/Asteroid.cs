@@ -15,7 +15,9 @@ public class Asteroid : MonoBehaviour
 
     void Start()
     {
-        tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
+        if(GameObject.FindGameObjectWithTag("GameManager") != null)
+            tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
+
         MyTransform = transform;
         MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
@@ -53,7 +55,7 @@ public class Asteroid : MonoBehaviour
             m_rotation.x = Random.Range(-45.0f, 45.0f);
             m_rotation.y = Random.Range(-45.0f, 45.0f);
             m_rotation.z = Random.Range(-45.0f, 45.0f);
-            Invoke("SelfDestruct", 30f);
+            Invoke("SelfDestruct", 20f);
         }
     }
 
@@ -75,6 +77,11 @@ public class Asteroid : MonoBehaviour
         enabled = false;
     }
 
+    void SelfDestruct()
+    {
+        Destroy(gameObject);
+    }
+
     public void Kill()
     {
         skipStart = true;
@@ -91,6 +98,7 @@ public class Asteroid : MonoBehaviour
 
         if(tallyscreen != null)
             tallyscreen.AsteroidsDestroyed += 1;
-        Destroy(gameObject);
+
+        SelfDestruct();
     }    
 }

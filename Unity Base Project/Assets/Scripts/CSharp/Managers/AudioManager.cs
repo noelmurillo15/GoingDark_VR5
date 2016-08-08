@@ -57,7 +57,7 @@ public class AudioManager : MonoBehaviour
         _BattleMusic.clip = music["BattleTheme"];
 
 
-        if(SceneManager.GetActiveScene().name != "MainMenu")
+        if(SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "LevelSelect")
             PlayThruster();
 
 

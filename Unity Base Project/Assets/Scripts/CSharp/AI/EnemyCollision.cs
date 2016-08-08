@@ -22,7 +22,10 @@ public class EnemyCollision : MonoBehaviour
     {
         inRange = false;
         detectionTimer = 0f;
-        LockOnReticle.gameObject.SetActive(false);
+        if (LockOnReticle != null)
+            LockOnReticle.gameObject.SetActive(false);
+        else
+            Debug.LogError("Enemy does not have lock on reticle");
         behavior = GetComponent<EnemyStateManager>();       
         
         Invoke("FindPlayer", 5.2f);

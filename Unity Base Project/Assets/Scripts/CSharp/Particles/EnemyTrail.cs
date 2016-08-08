@@ -17,8 +17,7 @@ public class EnemyTrail : MonoBehaviour
 
     void FindEnemyData()
     {
-        trails = GetComponentsInChildren<TrailRenderer>();
-        numTrails = trails.Length;
+        trails = GetComponentsInChildren<TrailRenderer>();        
         HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
         Timing.RunCoroutine(CheckHealth(HealthInfo));
     }    
@@ -35,15 +34,18 @@ public class EnemyTrail : MonoBehaviour
             else if (_hp <= .75f && _hp > .25f)
                 col = 1;            
             else
-                col = 2;            
+                col = 2;
 
-            for (int x = 0; x < numTrails; x++)
+            if (trails[col] != null)
             {
-                trails[x].time = _hp * 25f;
-                if (x == col)
-                    trails[x].gameObject.SetActive(true);
-                else
-                    trails[x].gameObject.SetActive(false);
+                for (int x = 0; x < numTrails; x++)
+                {
+                    trails[x].time = _hp * 25f;
+                    if (x == col)
+                        trails[x].gameObject.SetActive(true);
+                    else
+                        trails[x].gameObject.SetActive(false);
+                }
             }
 
             yield return Timing.WaitForSeconds(.2f);
