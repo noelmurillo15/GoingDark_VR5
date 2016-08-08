@@ -59,7 +59,6 @@
         Basic,
         Charged,
         Ball,
-        Continous,
         Enemy
     }
     #endregion
