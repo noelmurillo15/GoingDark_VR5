@@ -46,12 +46,13 @@ public class EnemyTrail : MonoBehaviour
                     trails[x].gameObject.SetActive(false);
             }
 
-            yield return Timing.WaitForSeconds(.25f);
+            yield return Timing.WaitForSeconds(.2f);
         }
     }
 
     public void Kill()
-    {        
+    {
         Timing.KillCoroutines(CheckHealth(HealthInfo));
+        Destroy(gameObject);
     }
 }

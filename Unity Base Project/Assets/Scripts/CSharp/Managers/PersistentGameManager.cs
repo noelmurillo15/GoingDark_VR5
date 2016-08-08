@@ -59,7 +59,7 @@ public class PersistentGameManager : MonoBehaviour {
     }
 
     #region Getters
-    int GetPlayerCredits() { return PlayerPrefs.GetInt("Credit"); }
+    int GetPlayerCredits() { return PlayerPrefs.GetInt("Credits"); }
     string GetPlayerName() { return PlayerPrefs.GetString("PlayerName", "Zelda"); }
     int GetCurrentLevel() { return PlayerPrefs.GetInt("CurrentLevel"); }
     int GetLevel1Unlocked() { return PlayerPrefs.GetInt("Level1Unlocked"); }
@@ -69,7 +69,7 @@ public class PersistentGameManager : MonoBehaviour {
     #endregion
 
     #region Setters
-    void SetPlayerCredits(int CreditCount) { PlayerPrefs.SetInt("Credit", CreditCount); }
+    void SetPlayerCredits(int CreditCount) { PlayerPrefs.SetInt("Credits", CreditCount); }
     void SetPlayerName(string PlayerName) { PlayerPrefs.SetString("PlayerName", PlayerName); }
     void SetCurrentLevel(int Level) { PlayerPrefs.SetInt("CurrentLevel", Level); }
     void SetLevel1Unlocked(int isUnlocked) { PlayerPrefs.SetInt("Level1Unlocked", isUnlocked); }

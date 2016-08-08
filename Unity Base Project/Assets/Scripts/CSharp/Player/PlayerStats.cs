@@ -120,34 +120,21 @@ public class PlayerStats : MonoBehaviour
     public void CrashHit(float _speed)
     {
         Debug.Log("Player Crashed");
-        controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
-        HealthData.Damage(_speed * 10f);
+        controller.AddRumble(1f, new Vector2(1f, 1f));
+        HealthData.Damage(_speed * 20f);
         UnCloak();
-    }
-    private void ShieldHit()
-    {
-        Debug.Log("Player Shield Dmg");
-        ShieldData.Damage(20f);
-
-        if (IsInvoking("HealShield"))
-            CancelInvoke("HealShield");
-
-        if (!ShieldData.Active)
-            Invoke("RechargeShield", 30f);        
-        else
-            InvokeRepeating("HealShield", 10f, 2f);           
-    }
+    }    
     private void EMPHit()
     {
         Debug.Log("Player Emp Dmg");
+        controller.AddRumble(5f, new Vector2(1f, 1f));
+        PlayerStunned();
         UnCloak();
-        controller.AddRumble(5f, new Vector2(.5f, .5f), 4.5f); PlayerStunned();
 
         if (ShieldData.GetShieldActive())
             ShieldData.Damage(50f);        
         else
         {
-            PlayerStunned();
             systemManager.SystemDamaged();
             CancelInvoke("RechargeShield");
             Invoke("RechargeShield", 30f); //  reset timer
@@ -156,6 +143,7 @@ public class PlayerStats : MonoBehaviour
     void SplashDmg()
     {
         Debug.Log("Player Splash Dmg");
+        controller.AddRumble(.25f, new Vector2(.5f, .5f));
         if (!ShieldData.GetShieldActive())
         {
             UnCloak();
@@ -164,16 +152,31 @@ public class PlayerStats : MonoBehaviour
             Invoke("RechargeShield", 30f);  //  reset timer
         }
     }
+    private void ShieldHit()
+    {
+        Debug.Log("Player Shield Dmg");
+        controller.AddRumble(.5f, new Vector2(.5f, .5f));
+        ShieldData.Damage(20f);
+
+        if (IsInvoking("HealShield"))
+            CancelInvoke("HealShield");
+
+        if (!ShieldData.Active)
+            Invoke("RechargeShield", 30f);
+        else
+            InvokeRepeating("HealShield", 10f, 2f);
+    }
     private void Hit()
     {
-        Debug.Log("Player Ship Dmg");
-        UnCloak();
-        controller.AddRumble(.5f, new Vector2(1f, 1f), .5f);
         if (ShieldData.GetShieldActive())
         {
             ShieldHit();
             return;
         }
+
+        Debug.Log("Player Ship Dmg");
+        controller.AddRumble(1f, new Vector2(1f, 1f));
+        UnCloak();
         
         HealthData.Damage(10);                         
         CancelInvoke("RechargeShield");

@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        MoveData.Set(80f, 1f, 120f, 50f, 20f);
         speedAmt = 0f;
         boostActive = false;
         MyTransform = transform;
@@ -29,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
         MyRigidbody = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();
         controller = GamePadManager.Instance.GetController(0);
-
-        MoveData.Set(80f, 1f, 120f, 50f, 20f);
     }
 
     void FixedUpdate()

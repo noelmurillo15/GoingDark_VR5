@@ -22,7 +22,8 @@ public class LaserCollision : MonoBehaviour {
 
         else if (col.transform.CompareTag("Orb"))
         {
-            col.transform.SendMessage("LaserDmg", laser);
+            if(col.transform != null)
+                col.transform.SendMessage("LaserDmg", laser);
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

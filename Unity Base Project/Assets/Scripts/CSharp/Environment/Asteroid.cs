@@ -75,10 +75,6 @@ public class Asteroid : MonoBehaviour
         enabled = false;
     }
 
-    public void SelfDestruct()
-    {
-        Destroy(gameObject);
-    }
     public void Kill()
     {
         skipStart = true;

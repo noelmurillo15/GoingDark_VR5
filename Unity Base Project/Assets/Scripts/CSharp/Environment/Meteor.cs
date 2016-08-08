@@ -4,53 +4,23 @@ public class Meteor : MonoBehaviour {
 
     // Use this for initialization
     private Vector3 velocity;
-    private Transform myTransform;
-    
-	void Start () {
-        myTransform = GetComponent<Transform>();
-        velocity = new Vector3(Random.Range(-359, 359), Random.Range(-359, -1), Random.Range(-359, 359));
-        // velocity = new Vector3(0, 0, -50);
-        Invoke("Kill", Random.Range(15,25));
-	}
+    private Transform MyTransform;
+
+    void Start()
+    {
+        MyTransform = transform;
+        velocity = new Vector3(Random.Range(-1, 1), -1f, Random.Range(-1, 1));
+        velocity *= Random.Range(20f, 50f) * 20f;
+        Invoke("Kill", 30f);
+    }
 	
 	// Update is called once per frame
-	void Update() {
-                
-        myTransform.Translate(velocity * Time.deltaTime);
-
+	void FixedUpdate() {                
+        MyTransform.Translate(velocity * Time.fixedDeltaTime);
 	}
-
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.GetType() == typeof(MeshCollider) && col.transform.CompareTag("Missile"))
-        {
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
-        else if (col.transform.CompareTag("Player"))
-        {
-            AudioManager.instance.PlayHit();
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
-        else if (col.transform.CompareTag("Enemy"))
-        {
-            col.transform.SendMessage("Kill");
-            Kill();
-        }
-    }
     public void Kill()
     {
+        AudioManager.instance.PlayHit();
         Destroy(gameObject);
-    }
-
-    void OnBecameVisible()
-    {
-        enabled = true;
-    }
-
-    void OnBecameInvisible()
-    {
-        enabled = false;
     }
 }

@@ -162,10 +162,16 @@ public class IEnemy : MonoBehaviour
     
     public void Kill()
     {
-        if(GetComponent<EnemyTrail>() != null)
+        if (GetComponent<EnemyTrail>() != null)
+        {
+            manager.RemoveEnemy(GetComponent<EnemyStateManager>());
             GetComponent<EnemyTrail>().Kill();
-        manager.RemoveEnemy(GetComponent<EnemyStateManager>());
-        Destroy(gameObject);
+        }
+        else
+        {
+            manager.RemoveEnemy(GetComponent<EnemyStateManager>());
+            Destroy(gameObject);
+        }
     }
     #endregion
 

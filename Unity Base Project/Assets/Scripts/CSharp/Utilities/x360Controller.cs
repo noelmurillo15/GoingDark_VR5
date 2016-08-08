@@ -251,13 +251,13 @@ public class x360Controller
     }
 
     /// Adds a vibration on the controller
-    public void AddRumble(float timer, Vector2 intensity, float duration)
+    public void AddRumble(float timer, Vector2 intensity)
     {
         xRumble mRumble = new xRumble();
 
         mRumble.timer = timer;
+        mRumble.duration = timer;
         mRumble.intensity = intensity;
-        mRumble.duration = duration;
         m_rumbleEvents.Add(mRumble);
     }
 }
