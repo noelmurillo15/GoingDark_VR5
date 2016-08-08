@@ -162,7 +162,8 @@ public class IEnemy : MonoBehaviour
     
     public void Kill()
     {
-        GetComponent<EnemyTrail>().Kill();
+        if(GetComponent<EnemyTrail>() != null)
+            GetComponent<EnemyTrail>().Kill();
         manager.RemoveEnemy(GetComponent<EnemyStateManager>());
         Destroy(gameObject);
     }

@@ -17,7 +17,7 @@ namespace GoingDark.Core.Utility
         public Text pauseMenu;
         public GameObject mainPanel;
         public GameObject TitleTexts;
-
+        public GameObject HTP;
         //  Menu Scene Name
         public string mainMenu = "MainMenu"; 
 
@@ -67,6 +67,7 @@ namespace GoingDark.Core.Utility
             TitleTexts.SetActive(true);
             //  Disable other panels
             mainPanel.SetActive(false);
+            HTP.SetActive(false);
 
             //  Access Game Controller
             control = GamePadManager.Instance.GetController(0);
@@ -106,6 +107,7 @@ namespace GoingDark.Core.Utility
             paused = false;
             Time.timeScale = timeScale;
             mainPanel.SetActive(false);
+            HTP.SetActive(false);
             TitleTexts.SetActive(false);
         }
         public void Restart()
@@ -122,6 +124,18 @@ namespace GoingDark.Core.Utility
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        }
+
+        public void HowToPlayMenu()
+        {
+            mainPanel.SetActive(false);
+            HTP.SetActive(true);
+        }
+
+        public void BackFromHowToPlay()
+        {
+            mainPanel.SetActive(true);
+            HTP.SetActive(false);
         }
 
         public void toggleVSync(bool B)

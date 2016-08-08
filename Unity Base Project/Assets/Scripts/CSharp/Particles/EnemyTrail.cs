@@ -39,7 +39,7 @@ public class EnemyTrail : MonoBehaviour
 
             for (int x = 0; x < numTrails; x++)
             {
-                trails[x].time = _hp * 10f;
+                trails[x].time = _hp * 25f;
                 if (x == col)
                     trails[x].gameObject.SetActive(true);
                 else

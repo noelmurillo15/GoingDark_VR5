@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -206,6 +204,7 @@
     <Compile Include="Assets\Scripts\CSharp\Managers\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\EventsManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\GamePadManager.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Managers\LoadingScreenManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\ObjectPoolManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PauseManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Managers\PersistentGameManager.cs" />
@@ -410,9 +409,7 @@
     <None Include="Assets\Level1.xml" />
     <None Include="Assets\Level2.xml" />
     <None Include="Assets\Level3.xml" />
-    <None Include="Assets\Level4.xml">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Assets\Level4.xml" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_D.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DI.shader" />
     <None Include="Assets\Particles\Shaders\Mobile\SFS_M_DS.shader" />
