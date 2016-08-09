@@ -17,7 +17,8 @@ public class EnemyTrail : MonoBehaviour
 
     void FindEnemyData()
     {
-        trails = GetComponentsInChildren<TrailRenderer>();        
+        trails = GetComponentsInChildren<TrailRenderer>();
+        numTrails = trails.Length;    
         HealthInfo = GetComponent<EnemyStateManager>().GetHealthData();
         Timing.RunCoroutine(CheckHealth(HealthInfo));
     }    
@@ -48,7 +49,7 @@ public class EnemyTrail : MonoBehaviour
                 }
             }
 
-            yield return Timing.WaitForSeconds(.2f);
+            yield return Timing.WaitForSeconds(.25f);
         }
     }
 

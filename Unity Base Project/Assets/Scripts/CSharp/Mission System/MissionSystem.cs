@@ -27,6 +27,18 @@ public class MissionSystem : MonoBehaviour
     GameObject[] portals;
 
     private TallyScreen tallyscreen;
+    private Mission MainMission;
+    #region Getters
+    public List<Mission> GetActiveMissions()
+    {
+        return m_ActiveMissions;
+    }
+
+    public Mission GetMainMission()
+    {
+        return MainMission;
+    }
+    #endregion
 
     // Use this for initialization
     void Start()
@@ -172,6 +184,10 @@ public class MissionSystem : MonoBehaviour
         m_missionTracker.missionTracker.SetActive(true);
         mission.isActive = true;
         m_ActiveMissions.Add(mission);
+
+        if (!mission.isOptional)
+            MainMission = mission;
+
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
         m_missionLog.NewMission(m_ActiveMissions[0]);
     }
