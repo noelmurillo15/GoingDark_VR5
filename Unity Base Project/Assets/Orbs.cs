@@ -15,29 +15,29 @@ public class Orbs : MonoBehaviour
 
     public void MissileDmg(Missile missile)
     {
+        missile.Kill();
         switch (missile.Type)
         {
             case MissileType.Basic:
                 orbHp -= 20;
                 break;
             case MissileType.Emp:
-                orbHp -= 10;
+                orbHp -= 5;
                 break;
             case MissileType.ShieldBreak:
                 orbHp -= 5;
                 break;
             case MissileType.Chromatic:
-                orbHp -= 100;
+                orbHp -= 50;
                 break;
         }
-        missile.Kill();
         if (orbHp <= 0f)
             Kill();
-
     }
 
     public void LaserDmg(LaserProjectile laser)
     {
+        laser.Kill();
         switch (laser.Type)
         {
             case LaserType.Basic:
@@ -47,7 +47,10 @@ public class Orbs : MonoBehaviour
                 orbHp -= 25;
                 break;
             case LaserType.Ball:
-                orbHp -= 50;                
+                orbHp -= 50;
+                break;
+            case LaserType.Continous:
+                orbHp -= 5;
                 break;
             case LaserType.Enemy:
                 orbHp -= 5;

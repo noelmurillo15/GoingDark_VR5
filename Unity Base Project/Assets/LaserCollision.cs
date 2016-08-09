@@ -19,11 +19,11 @@ public class LaserCollision : MonoBehaviour {
             col.transform.SendMessage("LaserHit", laser);
             laser.Kill();
         }
+
         else if (col.transform.CompareTag("Orb"))
         {
             if(col.transform != null)
                 col.transform.SendMessage("LaserDmg", laser);
-            laser.Kill();
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

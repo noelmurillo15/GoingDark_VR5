@@ -50,7 +50,8 @@ public class LaserProjectile : MonoBehaviour
                 go = poolManager.GetChargeLaserExplosion();
                 break;
             case LaserType.Ball:
-                go = poolManager.GetChargeLaserExplosion();
+                break;
+            case LaserType.Continous:
                 break;
             case LaserType.Enemy:
                 go = poolManager.GetBossLaserExplode();
