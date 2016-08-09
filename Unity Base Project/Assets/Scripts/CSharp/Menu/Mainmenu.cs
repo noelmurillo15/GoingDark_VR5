@@ -1,27 +1,68 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class Mainmenu : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [SerializeField]
+    private GameObject MainMenuPanel;
+    [SerializeField]
+    private GameObject SettingsPanel;
+    [SerializeField]
+    private GameObject VideoPanel;
+    [SerializeField]
+    private GameObject AudioPanel;
+    [SerializeField]
+    private GameObject ControlsPanel;
 
-    public void StartGame()
+    // Use this for initialization
+    void Start () {
+        Application.backgroundLoadingPriority = ThreadPriority.High;
+    }
+
+    public void LoadScene(string scenename)
     {
-        //SceneManager.LoadScene("LevelSelect");
-        LoadingScreenManager.LoadScene("LevelSelect");
+        SceneManager.LoadScene(scenename);
+    }
+
+    public void Options()
+    {
+        MainMenuPanel.SetActive(false);
+        ControlsPanel.SetActive(false);
+        SettingsPanel.SetActive(true);
+        VideoPanel.SetActive(false);
+        AudioPanel.SetActive(false);
+    }    
+
+    public void MainMenu()
+    {
+        SettingsPanel.SetActive(false);
+        MainMenuPanel.SetActive(true);
+    }
+
+    public void Video()
+    {
+        SettingsPanel.SetActive(false);
+        VideoPanel.SetActive(true);        
+    }
+
+    public void Audio()
+    {
+        SettingsPanel.SetActive(false);
+        AudioPanel.SetActive(true);
+    }
+
+    public void Controls()
+    {
+        SettingsPanel.SetActive(false);
+        ControlsPanel.SetActive(true);
     }
 
     public void Quit()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
     }
 }
