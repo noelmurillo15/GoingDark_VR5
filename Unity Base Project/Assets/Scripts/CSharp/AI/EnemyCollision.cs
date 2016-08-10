@@ -25,7 +25,7 @@ public class EnemyCollision : MonoBehaviour
         if (LockOnReticle != null)
             LockOnReticle.gameObject.SetActive(false);
         else
-            Debug.LogError("Enemy does not have lock on reticle");
+            Debug.LogError("Enemy does not have lock on reticle : " + transform.name);
         behavior = GetComponent<EnemyStateManager>();       
         
         Invoke("FindPlayer", 5.2f);

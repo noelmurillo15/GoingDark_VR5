@@ -27,7 +27,7 @@ public class IEnemy : MonoBehaviour
             ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
 
         stunned.SetActive(false);
-        Invoke("AddToManager", 2f);
+        Invoke("AddToManager", 1f);
         manager = transform.root.GetComponent<EnemyManager>();
     }
 
@@ -178,98 +178,41 @@ public class IEnemy : MonoBehaviour
     #region Private Methods
     void LoadEnemyData()
     {
-        GetComponent<EnemyMovement>().LoadEnemyData();
+        float multiplier = 0f;
         switch (manager.Difficulty)
         {
-            #region Easy
             case GameDifficulty.Easy:
-                switch (Type)
-                {
-                    case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(10, transform); break;
-                    case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(5, transform); break;
-                    case EnemyTypes.SquadLead:
-                        HealthData = new HealthProperties(20, transform); break;
-                    case EnemyTypes.JetFighter:
-                        HealthData = new HealthProperties(6, transform); break;
-                    case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(15, transform); break;
-                    case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(10, transform); break;
-                    case EnemyTypes.Tank:
-                        HealthData = new HealthProperties(50, transform); break;
-                    case EnemyTypes.FinalBoss:
-                        HealthData = new HealthProperties(100, transform); break;
-                }
+                multiplier = .5f;
                 break;
-            #endregion
-
-            #region Normal
             case GameDifficulty.Normal:
-                switch (Type)
-                {
-                    case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(25, transform); break;
-                    case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(15, transform); break;
-                    case EnemyTypes.SquadLead:
-                        HealthData = new HealthProperties(40, transform); break;
-                    case EnemyTypes.JetFighter:
-                        HealthData = new HealthProperties(15, transform); break;
-                    case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(30, transform); break;
-                    case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(20, transform); break;
-                    case EnemyTypes.Tank:
-                        HealthData = new HealthProperties(100, transform); break;
-                }
+                multiplier = 1f;
                 break;
-            #endregion
-
-            #region Hard
             case GameDifficulty.Hard:
-                switch (Type)
-                {
-                    case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(40, transform); break;
-                    case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(25, transform); break;
-                    case EnemyTypes.SquadLead:
-                        HealthData = new HealthProperties(64, transform); break;
-                    case EnemyTypes.JetFighter:
-                        HealthData = new HealthProperties(25, transform); break;
-                    case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(50, transform); break;
-                    case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(35, transform); break;
-                    case EnemyTypes.Tank:
-                        HealthData = new HealthProperties(200, transform); break;
-                }
+                multiplier = 3f;
                 break;
-            #endregion
-
-            #region Nightmare
             case GameDifficulty.Nightmare:
-                switch (Type)
-                {
-                    case EnemyTypes.Basic:
-                        HealthData = new HealthProperties(80, transform); break;
-                    case EnemyTypes.Droid:
-                        HealthData = new HealthProperties(50, transform); break;
-                    case EnemyTypes.SquadLead:
-                        HealthData = new HealthProperties(120, transform); break;
-                    case EnemyTypes.JetFighter:
-                        HealthData = new HealthProperties(50, transform); break;
-                    case EnemyTypes.Transport:
-                        HealthData = new HealthProperties(100, transform); break;
-                    case EnemyTypes.Trident:
-                        HealthData = new HealthProperties(70, transform); break;
-                    case EnemyTypes.Tank:
-                        HealthData = new HealthProperties(300, transform); break;
-                }
+                multiplier = 5f;
                 break;
-                #endregion
+        }
+        GetComponent<EnemyMovement>().LoadEnemyData(manager.Difficulty);
+        switch (Type)
+        {
+            case EnemyTypes.Droid:
+                HealthData = new HealthProperties(5 * multiplier, transform); break;
+            case EnemyTypes.JetFighter:
+                HealthData = new HealthProperties(10 * multiplier, transform); break;
+            case EnemyTypes.Trident:
+                HealthData = new HealthProperties(10 * multiplier, transform); break;
+            case EnemyTypes.Basic:
+                HealthData = new HealthProperties(12 * multiplier, transform); break;
+            case EnemyTypes.SquadLead:
+                HealthData = new HealthProperties(20 * multiplier, transform); break;
+            case EnemyTypes.Transport:
+                HealthData = new HealthProperties(25 * multiplier, transform); break;
+            case EnemyTypes.Tank:
+                HealthData = new HealthProperties(50 * multiplier, transform); break;
+            case EnemyTypes.FinalBoss:
+                HealthData = new HealthProperties(100 * multiplier, transform); break;
         }
     }
     #endregion 

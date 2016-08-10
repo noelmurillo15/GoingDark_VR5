@@ -178,110 +178,50 @@ public class EnemyMovement : MonoBehaviour
         MoveData.Boost = newBoost;
     }
 
-    public void LoadEnemyData()
+    public void LoadEnemyData(GameDifficulty diff)
     {
-        switch (behavior.GetManager().Difficulty)
+        float multiplier = 1f;
+        switch (diff)
         {
-            #region Easy
             case GameDifficulty.Easy:
-                switch (behavior.Type)
-                {
-                    case EnemyTypes.Basic:
-                        MoveData.Set(0f, .5f, 60f, 2f, 10f);
-                        break;
-                    case EnemyTypes.SquadLead:
-                        MoveData.Set(0f, .5f, 80f, 2f, 20f);
-                        break;
-                    case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 110f, 1f, 10f);
-                        break;
-                    case EnemyTypes.JetFighter:
-                        MoveData.Set(0f, .5f, 120f, 1.5f, 20f);
-                        break;
-                    case EnemyTypes.Transport:
-                        MoveData.Set(0f, .5f, 120f, 3f, 10f);
-                        break;
-                    case EnemyTypes.Trident:
-                        MoveData.Set(0f, .5f, 80f, 1.8f, 10f);
-                        break;
-                    case EnemyTypes.Tank:
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        break;
-                    case EnemyTypes.FinalBoss:
-                        MoveData.Set(0f, 0f, 0f, 6f, 0f);
-                        break;
-                }
+                multiplier = 1f;
                 break;
-            #endregion
-
-            #region Normal
             case GameDifficulty.Normal:
-                switch (behavior.Type)
-                {
-                    case EnemyTypes.Basic:
-                        MoveData.Set(0f, .5f, 90f, 1.8f, 15f);
-                        break;
-                    case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 120f, .8f, 20f);
-                        break;
-                    case EnemyTypes.Transport:
-                        MoveData.Set(0f, .5f, 150f, 2.5f, 15f);
-                        break;
-                    case EnemyTypes.Trident:
-                        MoveData.Set(0f, .5f, 95f, 1.5f, 18f);
-                        break;
-                    case EnemyTypes.Tank:
-                        MoveData.Set(0f, .5f, 60f, 4f, 15f);
-                        break;
-                }
+                multiplier = 1.25f;
                 break;
-            #endregion
-
-            #region Hard
             case GameDifficulty.Hard:
-                switch (behavior.Type)
-                {
-                    case EnemyTypes.Basic:
-                        MoveData.Set(0f, .5f, 110f, 1.6f, 25f);
-                        break;
-                    case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 160f, .7f, 40f);
-                        break;
-                    case EnemyTypes.Transport:
-                        MoveData.Set(0f, .5f, 200f, 2f, 25f);
-                        break;
-                    case EnemyTypes.Trident:
-                        MoveData.Set(0f, .5f, 120f, 1.2f, 30f);
-                        break;
-                    case EnemyTypes.Tank:
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        break;
-                }
+                multiplier = 1.5f;
                 break;
-            #endregion
-
-            #region Nightmare
             case GameDifficulty.Nightmare:
-                switch (behavior.Type)
-                {
-                    case EnemyTypes.Basic:
-                        MoveData.Set(0f, .5f, 150f, 1.4f, 40f);
-                        break;
-                    case EnemyTypes.Droid:
-                        MoveData.Set(0f, .5f, 200f, .6f, 50f);
-                        break;
-                    case EnemyTypes.Transport:
-                        MoveData.Set(0f, .5f, 250f, 1.8f, 30f);
-                        break;
-                    case EnemyTypes.Trident:
-                        MoveData.Set(0f, .5f, 160f, 1f, 45f);
-                        break;
-                    case EnemyTypes.Tank:
-                        MoveData.Set(0f, .5f, 50f, 5f, 10f);
-                        break;
-                }
+                multiplier = 2f;
                 break;
-                #endregion
+        }
+        switch (behavior.Type)
+        {
+            case EnemyTypes.Droid:
+                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 25f * multiplier);
+                break;
+            case EnemyTypes.JetFighter:
+                MoveData.Set(0f, .5f, 120f * multiplier, 1.25f, 25f * multiplier);
+                break;
+            case EnemyTypes.Trident:
+                MoveData.Set(0f, .5f, 100f * multiplier, 1.5f, 20f * multiplier);
+                break;
+            case EnemyTypes.Basic:
+                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 15f * multiplier);
+                break;
+            case EnemyTypes.SquadLead:
+                MoveData.Set(0f, .5f, 85f * multiplier, 2.5f, 15f * multiplier);
+                break;
+            case EnemyTypes.Transport:
+                MoveData.Set(0f, .5f, 70f * multiplier, 3f, 10f * multiplier);
+                break;
+            case EnemyTypes.Tank:
+                MoveData.Set(0f, .5f, 60f * multiplier, 5f, 10f * multiplier);
+                break;
+            case EnemyTypes.FinalBoss:
+                MoveData.Set(0f, 0f, 0f, 6f, 0f);
+                break;
         }
     }
     #endregion

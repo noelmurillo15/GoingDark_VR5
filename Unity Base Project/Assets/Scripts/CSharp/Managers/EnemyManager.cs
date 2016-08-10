@@ -19,13 +19,34 @@ public class EnemyManager : MonoBehaviour {
 
     void Start()
     {
+        switch (PlayerPrefs.GetString("Difficulty"))
+        {
+            case "Easy":
+                Difficulty = GameDifficulty.Easy;
+                break;
+            case "Medium":
+                Difficulty = GameDifficulty.Normal;
+                break;
+            case "Hard":
+                Difficulty = GameDifficulty.Hard;
+                break;
+            case "Nightmare":
+                Difficulty = GameDifficulty.Nightmare;
+                break;
+            default:
+                Debug.Log("Enemy Manager could not get Level Difficulty");
+                Difficulty = GameDifficulty.Easy;
+                break;
+        }
+        Debug.Log("Game Difficulty : " + Difficulty.ToString());
+
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>(); 
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 
-        InvokeRepeating("CheckEnemies", 30f, 5f);
+        InvokeRepeating("CheckEnemies", 10f, 10f);
     }
 
     #region Accessors
