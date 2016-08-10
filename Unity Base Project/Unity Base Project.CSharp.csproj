@@ -118,6 +118,7 @@
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
     <Compile Include="Assets\Orbs.cs" />
+    <Compile Include="Assets\SaveGame.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
@@ -494,6 +495,9 @@
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
     <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
+    <None Include="Assets\Save1.xml" />
+    <None Include="Assets\Save2.xml" />
+    <None Include="Assets\Save3.xml" />
     <None Include="Assets\Shaders\Fxaa3.shader" />
     <None Include="Assets\Shaders\Fxaa3_9.cginc" />
     <None Include="Assets\Shaders\ZText.shader" />

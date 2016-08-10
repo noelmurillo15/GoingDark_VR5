@@ -19,7 +19,7 @@ namespace GoingDark.Core.Utility
         public GameObject TitleTexts;
         public GameObject HTP;
         //  Menu Scene Name
-        public string mainMenu = "MainMenu"; 
+        public string mainMenu = "MainMenu";
 
         //  Time-Scale
         public float timeScale = 1f;
@@ -44,12 +44,18 @@ namespace GoingDark.Core.Utility
 
         //  Controller
         private x360Controller control;
+        // for saving
+        private SaveGame saveGame;
+        [SerializeField]
+        private GameObject saveSlots;
         #endregion
 
 
         public void Start()
         {
             paused = false;
+
+            saveGame = gameObject.GetComponent<SaveGame>();
 
             //  Get the current resoultion
             currentRes = Screen.currentResolution;
@@ -120,10 +126,30 @@ namespace GoingDark.Core.Utility
         }
         public void quitGame()
         {
-            Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
 #endif
+        }
+
+        public void SaveGame()
+        {
+            // open up save slots
+            saveSlots.SetActive(true);
+            mainPanel.SetActive(false);
+        }
+
+        public void SaveAtSlot(string txt)
+        {
+            saveGame.Save(txt);
+        }
+
+        public void ToPauseMenu()
+        {
+            saveSlots.SetActive(false);
+            HTP.SetActive(false);
+            mainPanel.SetActive(true);
         }
 
         public void HowToPlayMenu()
@@ -172,9 +198,9 @@ namespace GoingDark.Core.Utility
                 isFullscreen = false;
             }
         }
-        
 
-        #region Graphics Settings
+
+#region Graphics Settings
         //  MSAA
         public void updateMSAA(int msaaAmount)
         {
@@ -237,6 +263,6 @@ namespace GoingDark.Core.Utility
         {
             QualitySettings.SetQualityLevel(5);
         }
-        #endregion
+#endregion
     }
 }
