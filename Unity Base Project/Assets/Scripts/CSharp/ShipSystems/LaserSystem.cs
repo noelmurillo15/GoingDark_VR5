@@ -23,7 +23,7 @@ public class LaserSystem : ShipSystem
         maxCooldown = .25f;
         Type = LaserType.Basic;
         controller = GamePadManager.Instance.GetController(0);
-        laser_overheat = GameObject.Find("LaserOverHeat").GetComponent<LaserOverheat>();
+        laser_overheat = GetComponent<LaserOverheat>();
         PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
 
