@@ -148,6 +148,7 @@
     <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Mine.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\NebulaCloud.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Environment\ObjectTilt.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\OutOfBoundsScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\PortalEnter.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\SpaceStationTurret.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Assets\Scripts\CSharp\Managers\SystemManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmButtons.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmSettings.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\CreditExit.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\IntroScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\LeftArmCollision.cs" />
