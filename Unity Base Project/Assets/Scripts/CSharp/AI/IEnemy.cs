@@ -188,10 +188,10 @@ public class IEnemy : MonoBehaviour
                 multiplier = 1f;
                 break;
             case GameDifficulty.Hard:
-                multiplier = 3f;
+                multiplier = 2f;
                 break;
             case GameDifficulty.Nightmare:
-                multiplier = 5f;
+                multiplier = 3f;
                 break;
         }
         GetComponent<EnemyMovement>().LoadEnemyData(manager.Difficulty);

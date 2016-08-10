@@ -135,7 +135,6 @@ namespace GoingDark.Core.Utility
 
         public void SaveGame()
         {
-            // open up save slots
             saveSlots.SetActive(true);
             mainPanel.SetActive(false);
         }

@@ -35,11 +35,7 @@ public class LevelSelection : MonoBehaviour {
         layermask = 1 << 15;
         MyTransform = transform;
 
-        for (int x = 0; x < Windows.Length; x++)
-            Windows[x].SetActive(false);
-
-        Accept.SetActive(false);
-        BG.SetActive(false);
+        CloseAllPanels();
     }
 
     public void AcceptLevel(string diff)

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using GoingDark.Core.Enums;
 
@@ -20,7 +19,7 @@ public class ItemInfo : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        headLine = transform.FindChild("HeadLine").GetComponent<Text>();
+        headLine = transform.FindChild("Title").GetComponent<Text>();
         NOI = transform.FindChild("NOI").GetComponent<Text>();
         increment = transform.FindChild("Increment").GetComponent<Button>();
         decrement = transform.FindChild("Decrement").GetComponent<Button>();

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using GoingDark.Core.Enums;
 using System.Collections.Generic;
 
@@ -78,11 +77,6 @@ public class ShopMenu : MonoBehaviour {
         items.Add(item);
     }
 
-    // Update is called once per frame
-    void Update () {
-
-    }
-
     void OpenConsumableList()
     {
         mainList.SetActive(false);
@@ -104,7 +98,7 @@ public class ShopMenu : MonoBehaviour {
         PlayButtonSound();
     }
 
-    void BasicMissile()
+    public void BasicMissile()
     {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
@@ -112,7 +106,7 @@ public class ShopMenu : MonoBehaviour {
         PlayButtonSound();
     }
 
-    void ShieldbreakMissile()
+    public void ShieldbreakMissile()
     {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
@@ -120,7 +114,7 @@ public class ShopMenu : MonoBehaviour {
         PlayButtonSound();
     }
 
-    void ChromaticMissile()
+    public void ChromaticMissile()
     {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
@@ -128,7 +122,7 @@ public class ShopMenu : MonoBehaviour {
         PlayButtonSound();
     }
 
-    void EMPMissile()
+    public void EMPMissile()
     {
         consumableList.SetActive(false);
         itemInfo.SetActive(true);
@@ -215,7 +209,7 @@ public class ShopMenu : MonoBehaviour {
     //    PlayButtonSound();
     //}
 
-    void Back()
+    public void Back()
     {
         itemInfo.SetActive(false);
         consumableList.SetActive(false);
