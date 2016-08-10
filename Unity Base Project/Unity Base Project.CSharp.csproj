@@ -119,6 +119,8 @@
     <Compile Include="Assets\LaserCollision.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
+    <Compile Include="Assets\LoadGame.cs" />
+    <Compile Include="Assets\LoadSlots.cs" />
     <Compile Include="Assets\Orbs.cs" />
     <Compile Include="Assets\SaveGame.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />

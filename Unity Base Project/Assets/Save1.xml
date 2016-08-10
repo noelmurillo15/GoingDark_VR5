@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Save1>
-  <playerName>Name</playerName>
+  <playerName>Sheik</playerName>
   <credits>0</credits>
-  <basicCount>0</basicCount>
-  <empCount>0</empCount>
-  <shieldbreakerCount>0</shieldbreakerCount>
-  <chromaticCount>0</chromaticCount>
-  <levelUnlocked>0</levelUnlocked>
+  <basicCount>20</basicCount>
+  <empCount>10</empCount>
+  <shieldbreakerCount>10</shieldbreakerCount>
+  <chromaticCount>10</chromaticCount>
+  <levelUnlocked>1</levelUnlocked>
 </Save1>

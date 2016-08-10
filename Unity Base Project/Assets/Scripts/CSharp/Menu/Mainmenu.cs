@@ -15,10 +15,15 @@ public class Mainmenu : MonoBehaviour {
     private GameObject AudioPanel;
     [SerializeField]
     private GameObject ControlsPanel;
+    [SerializeField]
+    private GameObject LoadPanel;
+
+    private LoadGame LoadGame;
 
     // Use this for initialization
     void Start () {
-        
+        LoadGame = gameObject.GetComponent<LoadGame>();
+
     }
 
     public void LoadScene(string scenename)
@@ -38,6 +43,7 @@ public class Mainmenu : MonoBehaviour {
 
     public void MainMenu()
     {
+        LoadPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         MainMenuPanel.SetActive(true);
     }
@@ -46,6 +52,11 @@ public class Mainmenu : MonoBehaviour {
     {
         SettingsPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
+    public void Load()
+    {
+        MainMenuPanel.SetActive(false);
+        LoadPanel.SetActive(true);
     }
 
     public void Video()
@@ -64,6 +75,12 @@ public class Mainmenu : MonoBehaviour {
     {
         SettingsPanel.SetActive(false);
         ControlsPanel.SetActive(true);
+    }
+
+    public void LoadSlot(string slotName)
+    {
+        LoadGame.Load(slotName);
+        SceneManager.LoadScene("LevelSelect");
     }
 
     public void Quit()
