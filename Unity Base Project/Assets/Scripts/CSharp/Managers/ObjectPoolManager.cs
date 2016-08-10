@@ -20,7 +20,9 @@ public class ObjectPoolManager : MonoBehaviour {
 
 
     //  Lasers
-    private ObjectPooling BasicLasers = new ObjectPooling();
+    private ObjectPooling BasicLasers = new ObjectPooling();    
+    private ObjectPooling BasicEnemyLaser = new ObjectPooling();
+
     private ObjectPooling ChargedLasers = new ObjectPooling();
     private ObjectPooling ChargedBall = new ObjectPooling();
     private ObjectPooling BossLaser = new ObjectPooling();
@@ -53,6 +55,7 @@ public class ObjectPoolManager : MonoBehaviour {
         ChargedLasers.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedShot"), 14, MyTransform);
         ChargedBall.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/ChargedBall"), 8, MyTransform);
 
+        BasicEnemyLaser.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/EnemyLaser"), 32, MyTransform);
         BossLaser.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/BossLaser"), 2, MyTransform);
         MiniBossLaser.Initialize(Resources.Load<GameObject>("Projectiles/Lasers/MiniBossLaser"), 8, MyTransform);
         
@@ -109,6 +112,10 @@ public class ObjectPoolManager : MonoBehaviour {
     public GameObject GetBaseLaser()
     {
         return BasicLasers.GetPooledObject();
+    }
+    public GameObject GetBaseEnemyLaser()
+    {
+        return BasicEnemyLaser.GetPooledObject();
     }
     public GameObject GetBaseLaserExplosion()
     {

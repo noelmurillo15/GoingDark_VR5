@@ -116,6 +116,7 @@
     <Compile Include="Assets\GameOver.cs" />
     <Compile Include="Assets\GameOverMenu.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
+    <Compile Include="Assets\JetFighterScript.cs" />
     <Compile Include="Assets\LaserCollision.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
