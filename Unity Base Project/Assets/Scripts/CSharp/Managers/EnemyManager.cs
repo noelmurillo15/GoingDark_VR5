@@ -50,6 +50,10 @@ public class EnemyManager : MonoBehaviour {
     }
 
     #region Accessors
+    public GameDifficulty GetGameDifficulty()
+    {
+        return Difficulty;
+    }
     public Transform GetPlayerTransform()
     {
         return PlayerPosition;

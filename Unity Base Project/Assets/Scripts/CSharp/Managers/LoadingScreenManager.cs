@@ -51,16 +51,11 @@ public class LoadingScreenManager : MonoBehaviour
 
     private IEnumerator LoadAsync(string levelName)
     {
-        ShowLoadingVisuals();
 
-        yield return null;
-
-        FadeIn();
         StartOperation(levelName);
 
         float lastProgress = 0f;
 
-        // operation does not auto-activate scene, so it's stuck at 0.9
         while (DoneLoading() == false)
         {
             yield return null;
@@ -72,16 +67,6 @@ public class LoadingScreenManager : MonoBehaviour
             }
         }
 
-        if (loadSceneMode == LoadSceneMode.Additive)
-            audioListener.enabled = false;
-
-        ShowCompletionVisuals();
-
-        yield return new WaitForSeconds(waitOnLoadEnd);
-
-        FadeOut();
-
-        yield return new WaitForSeconds(fadeDuration);
 
         if (loadSceneMode == LoadSceneMode.Additive)
             SceneManager.UnloadScene(currentScene.name);
@@ -104,31 +89,13 @@ public class LoadingScreenManager : MonoBehaviour
         return (loadSceneMode == LoadSceneMode.Additive && operation.isDone) || (loadSceneMode == LoadSceneMode.Single && operation.progress >= 0.9f);
     }
 
-    void FadeIn()
-    {
-        fadeOverlay.CrossFadeAlpha(0, fadeDuration, true);
-    }
+    //void FadeIn()
+    //{
+    //    fadeOverlay.CrossFadeAlpha(0, fadeDuration, true);
+    //}
 
-    void FadeOut()
-    {
-        fadeOverlay.CrossFadeAlpha(1, fadeDuration, true);
-    }
-
-    void ShowLoadingVisuals()
-    {
-        loadingIcon.gameObject.SetActive(true);
-        loadingDoneIcon.gameObject.SetActive(false);
-
-        progressBar.fillAmount = 0f;
-        loadingText.text = "LOADING...";
-    }
-
-    void ShowCompletionVisuals()
-    {
-        loadingIcon.gameObject.SetActive(false);
-        loadingDoneIcon.gameObject.SetActive(true);
-
-        progressBar.fillAmount = 1f;
-        loadingText.text = "LOADING DONE";
-    }
+    //void FadeOut()
+    //{
+    //    fadeOverlay.CrossFadeAlpha(1, fadeDuration, true);
+    //}
 }

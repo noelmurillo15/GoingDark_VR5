@@ -31,18 +31,17 @@ public class LevelSelection : MonoBehaviour {
     void Start () {
         lastselected = 0;
         rayhit = true;
-        range = 2000;
+        range = 1600;
         layermask = 1 << 15;
         MyTransform = transform;
 
         CloseAllPanels();
     }
 
-    public void AcceptLevel(string diff)
+    public void AcceptLevel()
     {
         if (lastselected != 0)
-        {
-            PlayerPrefs.SetString("Difficulty", diff);
+        {            
             string selected = "Level";
             selected += lastselected.ToString();
             SceneManager.LoadScene(selected);

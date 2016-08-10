@@ -113,6 +113,8 @@
     <Compile Include="Assets\BossLaser.cs" />
     <Compile Include="Assets\BossStats.cs" />
     <Compile Include="Assets\EnemyCloseScript.cs" />
+    <Compile Include="Assets\GameOver.cs" />
+    <Compile Include="Assets\GameOverMenu.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserCollision.cs" />
     <Compile Include="Assets\LaserTravel.cs" />

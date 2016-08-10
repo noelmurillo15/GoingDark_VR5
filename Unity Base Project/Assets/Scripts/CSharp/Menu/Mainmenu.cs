@@ -6,6 +6,8 @@ public class Mainmenu : MonoBehaviour {
     [SerializeField]
     private GameObject MainMenuPanel;
     [SerializeField]
+    private GameObject GamePanel;
+    [SerializeField]
     private GameObject SettingsPanel;
     [SerializeField]
     private GameObject VideoPanel;
@@ -16,7 +18,7 @@ public class Mainmenu : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Application.backgroundLoadingPriority = ThreadPriority.High;
+        
     }
 
     public void LoadScene(string scenename)
@@ -29,6 +31,7 @@ public class Mainmenu : MonoBehaviour {
         MainMenuPanel.SetActive(false);
         ControlsPanel.SetActive(false);
         SettingsPanel.SetActive(true);
+        GamePanel.SetActive(false);
         VideoPanel.SetActive(false);
         AudioPanel.SetActive(false);
     }    
@@ -37,6 +40,12 @@ public class Mainmenu : MonoBehaviour {
     {
         SettingsPanel.SetActive(false);
         MainMenuPanel.SetActive(true);
+    }
+
+    public void Game()
+    {
+        SettingsPanel.SetActive(false);
+        GamePanel.SetActive(true);
     }
 
     public void Video()
@@ -65,4 +74,13 @@ public class Mainmenu : MonoBehaviour {
         Application.Quit();
 #endif
     }
+
+
+    #region Settings
+    public void ChangeDifficulty(string diff)
+    {
+        PlayerPrefs.SetString("Difficulty", diff);
+        Options();
+    }
+    #endregion
 }

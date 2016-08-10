@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
     private x360Controller controller;
     private DeathTransition deathTransition;
     #endregion
-
+    float buffer = 0f;
 
     private void Awake()
     {        
@@ -45,7 +45,14 @@ public class PlayerStats : MonoBehaviour
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.K))
+            Kill();
 
+        if (buffer > 0f)
+            buffer -= Time.deltaTime;
+    }
 
     #region Accessors
     public PlayerSaveData GetSaveData()
@@ -81,7 +88,6 @@ public class PlayerStats : MonoBehaviour
     public void RechargeShield()
     {
         ShieldData.FullRestore();
-        ShieldData.Shield.SetActive(true);
     }
     #endregion
 
@@ -114,9 +120,7 @@ public class PlayerStats : MonoBehaviour
     }
     #endregion
 
-    #region Message Calls
-    
-
+    #region Message Calls   
     public void CrashHit(float _speed)
     {
         Debug.Log("Player Crashed");
@@ -188,7 +192,7 @@ public class PlayerStats : MonoBehaviour
         Invoke("ClearScreen", 1f);
     }
 
-    void ClearScreen()
+    public void ClearScreen()
     {
         transform.rotation = Quaternion.identity;
         transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
@@ -207,7 +211,7 @@ public class PlayerStats : MonoBehaviour
         ShieldData.FullRestore();
         systemManager.FullSystemRepair();
     }
-    private void Respawn()
+    public void Respawn()
     {
         Repair();  
         GoToStation();
@@ -217,8 +221,17 @@ public class PlayerStats : MonoBehaviour
     }
     private void Kill()
     {
-        deathTransition.Death();
-        Invoke("Respawn", 1.5f);
+        if (buffer <= 0f)
+        {
+            deathTransition.Death();
+            buffer = 5f;
+            Invoke("GameOver", 3f);
+            
+        }
+    }
+    void GameOver()
+    {
+        transform.root.GetComponent<GameOver>().InitializeGameOverScene();
     }
     #endregion
 }

@@ -63,7 +63,9 @@ public class MenuTraverse : MonoBehaviour
                 m_Selectable = tempButton;
             }
         }
-        m_Selectable.Select();
+
+        if(m_Selectable != null)
+            m_Selectable.Select();
     }
 
     void CheckActiveButtons()
