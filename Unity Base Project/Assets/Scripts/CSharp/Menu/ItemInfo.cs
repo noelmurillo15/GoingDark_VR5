@@ -4,53 +4,51 @@ using GoingDark.Core.Enums;
 
 public class ItemInfo : MonoBehaviour
 {
+    [SerializeField]    //  This was breaking but i fixed it
+    private Text headLine, NOI, priceText, currInfo, creditText;
 
-    Text headLine, NOI, priceText, currInfo, creditText;
-    Button increment, decrement;
-    int numItem, price, itemOwned, itemLevel, credit, hasItem;
-    ShopType sendFrom;
-    float buttonBuffer;
-    ShopMenu.Item item;
+    private Button increment, decrement;   
+    private int numItem, price, itemOwned, itemLevel, credit, hasItem;
+    private ShopType sendFrom;
+    private float buttonBuffer;
+    private Item item;
+
+    [SerializeField]
     GameObject consumableList;
+    [SerializeField]
     GameObject weaponList;
+    [SerializeField]
     GameObject deviceList;
+
+    [SerializeField]    //  I started refactoring for you because i was bored
     private AudioSource buy, buttonPressed, buyFail, back;
 
-    // Use this for initialization
     void Start()
     {
-        headLine = transform.FindChild("Title").GetComponent<Text>();
-        NOI = transform.FindChild("NOI").GetComponent<Text>();
-        increment = transform.FindChild("Increment").GetComponent<Button>();
-        decrement = transform.FindChild("Decrement").GetComponent<Button>();
-        priceText = transform.FindChild("Price").GetComponent<Text>();
-        currInfo = transform.FindChild("CurrInfo").GetComponent<Text>();
-        creditText = transform.FindChild("Credit").GetComponent<Text>();
         numItem = 0;
         price = 0;
         UpdateItemNumberText();
         buttonBuffer = 0.0f;
         credit = 0;
-        consumableList = GameObject.Find("Shop").transform.FindChild("ConsumableList").gameObject;
-        weaponList = GameObject.Find("Shop").transform.FindChild("WeaponList").gameObject;
-        deviceList = GameObject.Find("Shop").transform.FindChild("DeviceList").gameObject;
+
         itemOwned = 0;
         itemLevel = 1;
         hasItem = 1;
-        buy = GameObject.Find("StoreSound").transform.FindChild("StoreBuy").GetComponent<AudioSource>();
-        buttonPressed = GameObject.Find("StoreSound").transform.FindChild("StoreButton").GetComponent<AudioSource>();
-        buyFail = GameObject.Find("StoreSound").transform.FindChild("StoreBuyFail").GetComponent<AudioSource>();
-        back = GameObject.Find("StoreSound").transform.FindChild("StoreBack").GetComponent<AudioSource>();
+
+        //  Never do this again..
+        //buy = GameObject.Find("StoreSound").transform.FindChild("StoreBuy").GetComponent<AudioSource>();
+        //buttonPressed = GameObject.Find("StoreSound").transform.FindChild("StoreButton").GetComponent<AudioSource>();
+        //buyFail = GameObject.Find("StoreSound").transform.FindChild("StoreBuyFail").GetComponent<AudioSource>();
+        //back = GameObject.Find("StoreSound").transform.FindChild("StoreBack").GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (buttonBuffer > 0)
             buttonBuffer -= Time.deltaTime;
     }
 
-    public void GetItem(ShopType _sendFrom, ShopMenu.Item _item)
+    public void GetItem(ShopType _sendFrom, Item _item)
     {
         sendFrom = _sendFrom;
         item = _item;
@@ -79,18 +77,6 @@ public class ItemInfo : MonoBehaviour
                 itemOwned = PlayerPrefs.GetInt("EMPMissileCount");
                 hasItem = PlayerPrefs.GetInt("HasEMPMissile");
                 break;
-            //case Items.BasicMissileUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("BasicMissileLevel");
-            //    break;
-            //case Items.ShieldBreakMissileUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("ShieldbreakMissileLevel");
-            //    break;
-            //case Items.ChromaticMissileUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("ChromaticMissileLevel");
-            //    break;
-            //case Items.EMPMissileUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("EMPMissileLevel");
-            //break;
             case Items.LaserPowerUpgrade:
                 itemLevel = PlayerPrefs.GetInt("LaserPowerLevel");
                 break;
@@ -104,15 +90,6 @@ public class ItemInfo : MonoBehaviour
             case Items.ShieldUpgrade:
                 itemLevel = PlayerPrefs.GetInt("ShieldLevel");
                 break;
-            //case Items.HyperdriveUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("HyperdriveLevel");
-            //    break;
-            //case Items.CloakUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("CloakLevel");
-            //    break;
-            //case Items.EMPUpgrade:
-            //    itemLevel = PlayerPrefs.GetInt("EMPLevel");
-            //    break;
             default:
                 break;
         }
@@ -144,9 +121,6 @@ public class ItemInfo : MonoBehaviour
 
     void UpdatePrice()
     {
-        //  if (item.ItemType == ItemType.Consumable)
-        //      price = item.ItemPrice * numItem;
-        // else
         price = item.ItemPrice * itemLevel * numItem;
 
         priceText.text = "Cost: \n" + price.ToString() + " Credit";
@@ -154,7 +128,6 @@ public class ItemInfo : MonoBehaviour
         if (itemLevel == 5 || hasItem == 0)
         {
             priceText.text = "Cost:\nN/A";
-            //priceText.color = Color.yellow;
         }
     }
 
@@ -172,7 +145,7 @@ public class ItemInfo : MonoBehaviour
         UpdatePrice();
     }
 
-    void DecrementItem()
+    public void DecrementItem()
     {
         if (hasItem == 1 && itemLevel != 5)
         {
@@ -190,7 +163,7 @@ public class ItemInfo : MonoBehaviour
             buyFail.Play();
     }
 
-    void IncrementItem()
+    public void IncrementItem()
     {
         if (hasItem == 1 && itemLevel != 5)
         {
@@ -215,7 +188,7 @@ public class ItemInfo : MonoBehaviour
             buyFail.Play();
     }
 
-    void Buy()
+    public void Buy()
     {
         if (buttonBuffer <= 0)
         {
@@ -237,7 +210,7 @@ public class ItemInfo : MonoBehaviour
 
     }
 
-    void Return()
+    public void Return()
     {
         switch (sendFrom)
         {
@@ -257,8 +230,8 @@ public class ItemInfo : MonoBehaviour
         itemLevel = 1;
         hasItem = 1;
         UpdateItemNumberText();
-        gameObject.SetActive(false);
         back.Play();
+        gameObject.SetActive(false);
     }
 
     void LevelUp()
@@ -277,18 +250,6 @@ public class ItemInfo : MonoBehaviour
             case Items.EMPMissile:
                 PlayerPrefs.SetInt("EMPMissileCount", PlayerPrefs.GetInt("EMPMissileCount") + numItem);
                 break;
-            //case Items.BasicMissileUpgrade:
-            //    PlayerPrefs.SetInt("BasicMissileLevel", PlayerPrefs.GetInt("BasicMissileLevel") +1);
-            //    break;
-            //case Items.ShieldBreakMissileUpgrade:
-            //    PlayerPrefs.SetInt("ShieldbreakMissileLevel", PlayerPrefs.GetInt("ShieldbreakMissileLevel") +1);
-            //    break;
-            //case Items.ChromaticMissileUpgrade:
-            //    PlayerPrefs.SetInt("ChromaticMissileLevel", PlayerPrefs.GetInt("ChromaticMissileLevel") +1);
-            //    break;
-            //case Items.EMPMissileUpgrade:
-            //    PlayerPrefs.SetInt("EMPMissileLevel", PlayerPrefs.GetInt("EMPMissileLevel") +1);
-            //    break;
             case Items.LaserPowerUpgrade:
                 PlayerPrefs.SetInt("LaserPowerLevel", PlayerPrefs.GetInt("LaserPowerLevel") + 1);
                 break;
@@ -301,15 +262,6 @@ public class ItemInfo : MonoBehaviour
             case Items.ShieldUpgrade:
                 PlayerPrefs.SetInt("ShieldLevel", PlayerPrefs.GetInt("ShieldLevel") + 1);
                 break;
-            //case Items.HyperdriveUpgrade:
-            //    PlayerPrefs.SetInt("HyperdriveLevel", PlayerPrefs.GetInt("HyperdriveLevel") +1);
-            //    break;
-            //case Items.CloakUpgrade:
-            //    PlayerPrefs.SetInt("CloakLevel", PlayerPrefs.GetInt("CloakLevel") +1);
-            //    break;
-            //case Items.EMPUpgrade:
-            //    PlayerPrefs.SetInt("EMPLevel", PlayerPrefs.GetInt("EMPLevel") +1);
-            //    break;
             default:
                 break;
         }

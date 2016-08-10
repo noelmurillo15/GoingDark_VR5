@@ -115,6 +115,15 @@
         Offline,
         Online
     }
+
+    public struct Item
+    {
+        public string ItemName;
+        public int ItemPrice;
+        public int ItemLevel;
+        public ItemType ItemType;
+        public Items Type;
+    }
     #endregion
 
     #region Missions
