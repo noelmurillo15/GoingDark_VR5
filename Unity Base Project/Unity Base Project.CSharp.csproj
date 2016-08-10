@@ -125,6 +125,7 @@
     <Compile Include="Assets\SaveGame.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\AlertAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\BossDamage.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserCollision.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMaterialChange.cs" />
