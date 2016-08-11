@@ -6,7 +6,8 @@ public class EnemyCollision : MonoBehaviour
 
     #region Properties
     public bool inRange;
-    private float detectionTimer;
+    private float triggerTimer;
+    private float collisionTimer;
     private EnemyManager manager;
     private EnemyStateManager behavior;
 
@@ -22,7 +23,8 @@ public class EnemyCollision : MonoBehaviour
     public void Initialize()
     {
         inRange = false;
-        detectionTimer = 0f;
+        triggerTimer = 0f;
+        collisionTimer = 0f;
         if (LockOnReticle != null)
             LockOnReticle.gameObject.SetActive(false);
         else
@@ -39,10 +41,13 @@ public class EnemyCollision : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        if (detectionTimer > 0.0f)
-            detectionTimer -= Time.deltaTime;
+        if (triggerTimer > 0.0f)
+            triggerTimer -= Time.fixedDeltaTime;
+
+        if (collisionTimer > 0.0f)
+            collisionTimer -= Time.fixedDeltaTime;
 
         if (inRange)
             LockOnReticle.LookAt(playerTrans);
@@ -55,14 +60,14 @@ public class EnemyCollision : MonoBehaviour
         {
             if (col.CompareTag("Decoy"))
             {
-                detectionTimer = 0f;
+                triggerTimer = 0f;
                 manager.SendAlert(col.transform.position);
             }
 
             if (col.CompareTag("Player"))
             {
                 inRange = true;
-                detectionTimer = 0f;                
+                triggerTimer = 0f;                
                 
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
@@ -79,15 +84,15 @@ public class EnemyCollision : MonoBehaviour
     }
     void OnTriggerStay(Collider col)
     {
-        if (col.CompareTag("Decoy") && detectionTimer <= 0.0f)
+        if (col.CompareTag("Decoy") && triggerTimer <= 0.0f)
         {
-            detectionTimer = 5f;
+            triggerTimer = 5f;
             behavior.SetEnemyTarget(col.transform);
         }
 
-        if (col.CompareTag("Player") && detectionTimer <= 0.0f)
+        if (col.CompareTag("Player") && triggerTimer <= 0.0f)
         {
-            detectionTimer = 5f;
+            triggerTimer = 5f;
             if (!player.GetCloaked())
                 behavior.SetEnemyTarget(col.transform);
         }
@@ -108,6 +113,27 @@ public class EnemyCollision : MonoBehaviour
         {
             if (behavior.State != EnemyStates.Patrol)
                 behavior.SetLastKnown(col.transform.position);
+        }
+    }
+
+
+    void OnCollisionEnter(Collision hit)
+    {
+        if (hit.transform.CompareTag("Player") && collisionTimer <= 0f)
+        {
+            if (behavior.Type == EnemyTypes.Droid)
+            {
+                if (Random.Range(0, 2) == 1)
+                    hit.transform.SendMessage("EMPHit");
+                else
+                    hit.transform.SendMessage("Hit");
+                behavior.Kill();
+            }
+            else
+            {
+                behavior.CrashHit(behavior.movement.MoveData.Speed / behavior.movement.MoveData.MaxSpeed);
+            }
+            collisionTimer = 2f;
         }
     }
     #endregion

@@ -8,7 +8,6 @@ public class IEnemy : MonoBehaviour
     [SerializeField]
     private bool hasShield;
 
-
     public EnemyTypes Type = EnemyTypes.None;
     public Impairments Debuff = Impairments.None;
 
@@ -61,6 +60,10 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Msg Functions   
+    public void CrashHit(float _speed)
+    {
+        HealthData.Damage(_speed * 10f);
+    }
     void ShieldHit(float dmg)
     {
         ShieldData.Damage(dmg);
@@ -73,7 +76,10 @@ public class IEnemy : MonoBehaviour
     }
     void SplashDmg()
     {
-        HealthData.Damage(2);
+        if (hasShield && ShieldData.GetShieldActive())
+            ShieldHit(10f);
+        else
+            HealthData.Damage(2);
     }
     public void MissileHit(Missile missile)
     {

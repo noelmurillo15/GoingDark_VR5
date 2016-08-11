@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(EnemyCollision))]
+[RequireComponent(typeof(EnemyMovement))]
 public class EnemyStateManager : IEnemy
 {
     #region Properties        
@@ -12,7 +16,7 @@ public class EnemyStateManager : IEnemy
 
     private bool lostSight;
     public float losingsightTimer;
-    private EnemyMovement movement;
+    public EnemyMovement movement;
     #endregion
 
     void Awake()

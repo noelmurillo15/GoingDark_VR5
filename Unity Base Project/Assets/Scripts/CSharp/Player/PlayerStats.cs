@@ -125,7 +125,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player Crashed");
         controller.AddRumble(1f, new Vector2(1f, 1f));
-        HealthData.Damage(_speed * 20f);
+        HealthData.Damage(_speed * 25f);
         UnCloak();
     }    
     private void EMPHit()
@@ -147,7 +147,7 @@ public class PlayerStats : MonoBehaviour
     void SplashDmg()
     {
         Debug.Log("Player Splash Dmg");
-        controller.AddRumble(.25f, new Vector2(.5f, .5f));
+        controller.AddRumble(.5f, new Vector2(.5f, .5f));
         if (!ShieldData.GetShieldActive())
         {
             UnCloak();
@@ -159,7 +159,7 @@ public class PlayerStats : MonoBehaviour
     private void ShieldHit()
     {
         Debug.Log("Player Shield Dmg");
-        controller.AddRumble(.5f, new Vector2(.5f, .5f));
+        controller.AddRumble(.5f, new Vector2(1f, 1f));
         ShieldData.Damage(20f);
 
         if (IsInvoking("HealShield"))
