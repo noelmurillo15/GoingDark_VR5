@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour {
     #region Properties
     public GameDifficulty Difficulty;
 
-    private List<EnemyStateManager> enemies = new List<EnemyStateManager>();
+    private List<IEnemy> enemies = new List<IEnemy>();
 
     private Transform PlayerPosition;
     private MissionSystem missionSystem;
@@ -65,11 +65,11 @@ public class EnemyManager : MonoBehaviour {
     #endregion    
 
     #region Modifiers
-    public void AddEnemy(EnemyStateManager enemy)
+    public void AddEnemy(IEnemy enemy)
     {
         enemies.Add(enemy);
     }
-    public void RemoveEnemy(EnemyStateManager enemy)
+    public void RemoveEnemy(IEnemy enemy)
     {
         GameObject explosive = poolmanager.GetEnemyExplosion();
 
@@ -123,7 +123,7 @@ public class EnemyManager : MonoBehaviour {
         {
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (enemies[i].State == EnemyStates.Attack)
+                if (enemies[i].GetStateManager().State == EnemyStates.Attack)
                     return;
             }
             AudioManager.instance.LowerBattleMusic();

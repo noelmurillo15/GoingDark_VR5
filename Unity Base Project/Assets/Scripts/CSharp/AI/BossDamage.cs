@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class BossDamage : MonoBehaviour
 {
     [SerializeField]
-    private EnemyStateManager st;
+    private IEnemy st;
+
     private HealthProperties hp;
     [SerializeField]
     private GameObject []burns;

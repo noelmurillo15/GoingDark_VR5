@@ -6,37 +6,42 @@ public class IEnemy : MonoBehaviour
 
     #region Properties
     [SerializeField]
+    public EnemyTypes Type;
+    [SerializeField]
     private bool hasShield;
-
-    public EnemyTypes Type = EnemyTypes.None;
-    public Impairments Debuff = Impairments.None;
-
     [SerializeField]
     private GameObject stunned;
 
-    private EnemyManager manager;    
+    private Impairments Debuff;
     private HealthProperties HealthData;
     private ShieldProperties ShieldData;
+
+    private EnemyManager manager;
+    private EnemyMovement movement;
+    private EnemyCollision collision;
+    private EnemyStateManager statemanager;
     #endregion
 
 
-    public virtual void Initialize()
-    {
-        if (hasShield)      
-            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f);        
-
+    void Awake()
+    {        
         stunned.SetActive(false);
-        Invoke("AddToManager", 1f);
-        manager = transform.root.GetComponent<EnemyManager>();
-    }
+        Debuff = Impairments.None;
 
-    void AddToManager()
-    {
-        manager.AddEnemy(transform.GetComponent<EnemyStateManager>());
-        LoadEnemyData();
-    }
+        movement = GetComponent<EnemyMovement>();
+        collision = GetComponent<EnemyCollision>();
+        statemanager = GetComponent<EnemyStateManager>();
 
+        movement.enabled = false;
+        collision.enabled = false;
+
+        Invoke("LoadEnemyData", .5f);
+    }
     #region Accessors        
+    public EnemyManager GetManager()
+    {
+        return manager;
+    }
     public HealthProperties GetHealthData()
     {
         return HealthData;
@@ -45,9 +50,21 @@ public class IEnemy : MonoBehaviour
     {
         return ShieldData;
     }
-    public EnemyManager GetManager()
+    public EnemyStateManager GetStateManager()
     {
-        return manager;
+        return statemanager;
+    }
+    public EnemyMovement GetEnemyMovement()
+    {
+        return movement;
+    }
+    public EnemyCollision GetEnemyCollision()
+    {
+        return collision;
+    }
+    public Impairments GetDebuffData()
+    {
+        return Debuff;
     }
     #endregion
 
@@ -59,7 +76,7 @@ public class IEnemy : MonoBehaviour
     }
     #endregion
 
-    #region Msg Functions   
+    #region Damage Calls 
     public void CrashHit(float _speed)
     {
         HealthData.Damage(_speed * 10f);
@@ -147,17 +164,17 @@ public class IEnemy : MonoBehaviour
         }
         laser.Kill();
     }
-    
+
     public void Kill()
     {
         if (GetComponent<EnemyTrail>() != null)
         {
-            manager.RemoveEnemy(GetComponent<EnemyStateManager>());
+            manager.RemoveEnemy(this);
             GetComponent<EnemyTrail>().Kill();
         }
         else
         {
-            manager.RemoveEnemy(GetComponent<EnemyStateManager>());
+            manager.RemoveEnemy(this);
             Destroy(gameObject);
         }
     }
@@ -168,7 +185,6 @@ public class IEnemy : MonoBehaviour
     {
         float multiplier = 0f;
         string diff = PlayerPrefs.GetString("Difficulty");
-        GetComponent<EnemyMovement>().LoadEnemyData(diff);
 
         switch (diff)
         {
@@ -185,6 +201,10 @@ public class IEnemy : MonoBehaviour
                 multiplier = 3f;
                 break;
         }
+
+        if (hasShield)
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f * multiplier);
+
         switch (Type)
         {
             case EnemyTypes.Droid:
@@ -204,6 +224,17 @@ public class IEnemy : MonoBehaviour
             case EnemyTypes.FinalBoss:
                 HealthData = new HealthProperties(100 * multiplier, transform); break;
         }
+        manager = transform.root.GetComponent<EnemyManager>();
+
+        movement.enabled = true;
+        collision.enabled = true;
+
+        movement.Initialize();
+        collision.Initialize();
+        movement.LoadEnemyData(diff);
+
+        statemanager.ChangeState(EnemyStates.Patrol);
+        manager.AddEnemy(this);
     }
     #endregion 
 }

@@ -8,6 +8,7 @@ public class MissileLauncher : MonoBehaviour
     private float Cooldown;
     private float MaxCooldown;
     private Transform MyTransform;
+    private IEnemy stats;
     private EnemyStateManager behavior;
     #endregion
 
@@ -15,6 +16,7 @@ public class MissileLauncher : MonoBehaviour
     void Start()
     {
         behavior = transform.GetComponentInParent<EnemyStateManager>();
+        stats = transform.GetComponentInParent<IEnemy>();
         MyTransform = transform;
         MaxCooldown = 5f;
         Cooldown = 0f;
@@ -28,7 +30,7 @@ public class MissileLauncher : MonoBehaviour
             Cooldown -= Time.deltaTime;
         else if (behavior.State == EnemyStates.Attack)
         {
-            if (behavior.Debuff != Impairments.Stunned)
+            if (stats.GetDebuffData() != Impairments.Stunned)
             {
                 LockOn();
                 Fire();
@@ -45,7 +47,7 @@ public class MissileLauncher : MonoBehaviour
     private void Fire()
     {
         Cooldown = MaxCooldown;
-        GameObject miss = behavior.GetManager().GetObjectPoolManager().GetEnemyMissile();
+        GameObject miss = stats.GetManager().GetObjectPoolManager().GetEnemyMissile();
         if (miss != null)
         {
             miss.transform.position = MyTransform.position;

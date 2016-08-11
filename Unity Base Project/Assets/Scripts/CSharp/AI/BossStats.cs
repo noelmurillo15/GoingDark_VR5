@@ -15,7 +15,7 @@ public class BossStats : MonoBehaviour
     {
         ShieldActive = true;
         numOrbsActive = Orbs.Length;
-        shieldData = GetComponent<EnemyStateManager>().GetShieldData();
+        shieldData = GetComponent<IEnemy>().GetShieldData();
     }
 
     public void SetShield(bool flip)

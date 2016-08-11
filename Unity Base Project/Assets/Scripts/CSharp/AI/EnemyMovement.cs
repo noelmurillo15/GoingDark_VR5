@@ -6,25 +6,32 @@ using System.Collections.Generic;
 public class EnemyMovement : MonoBehaviour
 {
     #region Properties
-    private EnemyStateManager behavior;
-    public MovementProperties MoveData;
+    private IEnemy stats;
+    private EnemyStateManager stateManager;
+    
+    private Transform MyTransform;
+    private Rigidbody MyRigidbody;
 
-    //  Patrol    
     public bool autopilot;
     private float headingChange;
-    public float headingX, headingY;
+    private float headingX, headingY;
     private Vector3 targetRotation;
     private Vector3 autopilotlocation;
-
-    //  Enemy Data 
-    private Rigidbody MyRigidbody;
-    private Transform MyTransform;
+    public MovementProperties MoveData;
     #endregion
 
-    void Start()
+    void Awake()
+    {
+        MyTransform = transform;
+        stats = GetComponent<IEnemy>();
+        MyRigidbody = GetComponent<Rigidbody>();
+        stateManager = GetComponent<EnemyStateManager>();
+        MoveData = new MovementProperties();
+    }
+
+    public void Initialize()
     {
         //  Patrol
-        MoveData = new MovementProperties();
         autopilotlocation = Vector3.zero;
         targetRotation = Vector3.zero;
         headingChange = 45f;
@@ -33,13 +40,7 @@ public class EnemyMovement : MonoBehaviour
         headingY = Random.Range(1f, 359f);
         headingX = Random.Range(1f, 359f);
 
-        // Enemy Data
-        MyRigidbody = GetComponent<Rigidbody>();
-        behavior = GetComponent<EnemyStateManager>();
-        behavior.ChangeState(EnemyStates.Patrol);
-
-        // Set random rotation
-        MyTransform = transform;
+        // Set random rotation        
         MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
 
         //  Start Coroutine
@@ -48,7 +49,7 @@ public class EnemyMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (behavior.Debuff == Impairments.Stunned)
+        if (stats.GetDebuffData() == Impairments.Stunned)
         {
             MoveData.DecreaseSpeed();
             return;
@@ -58,11 +59,11 @@ public class EnemyMovement : MonoBehaviour
         {
             MoveData.IncreaseSpeed();
             Vector3 dir = autopilotlocation - MyTransform.position;
-            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.deltaTime, 0.0f);
+            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.fixedDeltaTime, 0.0f);
             MyTransform.rotation = Quaternion.LookRotation(rotation);
             headingX = MyTransform.eulerAngles.x;
             headingY = MyTransform.eulerAngles.y;
-            MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
+            MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
 
             if (Vector3.Distance(autopilotlocation, MyTransform.position) < 50f)
             {
@@ -72,7 +73,7 @@ public class EnemyMovement : MonoBehaviour
             return;
         }
 
-        switch (behavior.State)
+        switch (stateManager.State)
         {
             case EnemyStates.Patrol:
                 Patrol();
@@ -90,22 +91,22 @@ public class EnemyMovement : MonoBehaviour
                 Attack();
                 break;
         }
-        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.deltaTime * MoveData.Speed);
+        MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
     }
 
     #region States
     void Patrol()
     {
         MoveData.IncreaseSpeed();
-        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.deltaTime / MoveData.RotateSpeed);
+        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.fixedDeltaTime / MoveData.RotateSpeed);
     }
     void Alert()
     {
         MoveData.IncreaseSpeed();
-        Vector3 lastplayerdir = behavior.LastKnownPos - MyTransform.position;
-        if (Vector3.Distance(MyTransform.position, behavior.LastKnownPos) < 50f)
+        Vector3 lastplayerdir = stateManager.LastKnownPos - MyTransform.position;
+        if (Vector3.Distance(MyTransform.position, stateManager.LastKnownPos) < 50f)
         {
-            behavior.losingsightTimer = 0f;
+            stateManager.losingsightTimer = 0f;
             return;
         }
 
@@ -115,22 +116,22 @@ public class EnemyMovement : MonoBehaviour
     void Attack()
     {
         MoveData.IncreaseSpeed();
-        if (behavior.Target != null)
+        if (stateManager.Target != null)
         {
-            Vector3 playerDir = behavior.Target.position - MyTransform.position;
-            Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
-            if (behavior.Type == EnemyTypes.Droid)
+            Vector3 playerDir = stateManager.Target.position - MyTransform.position;
+            Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
+            if (stats.Type == EnemyTypes.Droid)
             {
                 MyTransform.rotation = Quaternion.LookRotation(direction);
             }
             else
             {
-                if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+                if (Vector3.Distance(stateManager.Target.position, MyTransform.position) > 200f)
                     MyTransform.rotation = Quaternion.LookRotation(direction);
                 else
                 {
                     direction.x += 75f;
-                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+                    MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
                 }
             }
         }
@@ -144,20 +145,20 @@ public class EnemyMovement : MonoBehaviour
     void Flee()
     {
         MoveData.IncreaseSpeed();
-        Vector3 playerDir = MyTransform.position - behavior.Target.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.deltaTime / MoveData.RotateSpeed, 0.0f);
-        if (behavior.Type == EnemyTypes.Droid)
+        Vector3 playerDir = MyTransform.position - stateManager.Target.position;
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
+        if (stats.Type == EnemyTypes.Droid)
         {
             MyTransform.rotation = Quaternion.LookRotation(direction);
         }
         else
         {
-            if (Vector3.Distance(behavior.Target.position, MyTransform.position) > 200f)
+            if (Vector3.Distance(stateManager.Target.position, MyTransform.position) > 200f)
                 MyTransform.rotation = Quaternion.LookRotation(direction);
             else
             {
                 direction.x += 75f;
-                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.deltaTime / MoveData.RotateSpeed);
+                MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(direction), Time.fixedDeltaTime / MoveData.RotateSpeed);
             }
         }
         headingX = MyTransform.eulerAngles.x;
@@ -196,19 +197,19 @@ public class EnemyMovement : MonoBehaviour
                 multiplier = 2f;
                 break;
         }
-        switch (behavior.Type)
+        switch (stats.Type)
         {
             case EnemyTypes.Droid:
-                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 22f * multiplier);
+                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 18f * multiplier);
                 break;
             case EnemyTypes.JetFighter:
-                MoveData.Set(0f, .5f, 120f * multiplier, 1.25f, 25f * multiplier);
+                MoveData.Set(0f, .5f, 120f * multiplier, 1.25f, 20f * multiplier);
                 break;
             case EnemyTypes.Trident:
-                MoveData.Set(0f, .5f, 100f * multiplier, 1.5f, 20f * multiplier);
+                MoveData.Set(0f, .5f, 100f * multiplier, 1.5f, 16f * multiplier);
                 break;
             case EnemyTypes.Basic:
-                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 18f * multiplier);
+                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 15f * multiplier);
                 break;
             case EnemyTypes.SquadLead:
                 MoveData.Set(0f, .5f, 85f * multiplier, 2.5f, 15f * multiplier);
@@ -252,7 +253,7 @@ public class EnemyMovement : MonoBehaviour
     #region Msgs
     void OutOfBounds(Vector3 _loc)
     {
-        if (behavior.State == EnemyStates.Patrol)
+        if (stateManager.State == EnemyStates.Patrol)
         {
             autopilotlocation = _loc;
             autopilot = true;

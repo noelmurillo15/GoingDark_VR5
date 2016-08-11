@@ -6,41 +6,33 @@ using GoingDark.Core.Enums;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(EnemyCollision))]
 [RequireComponent(typeof(EnemyMovement))]
-public class EnemyStateManager : IEnemy
+public class EnemyStateManager : MonoBehaviour
 {
     #region Properties        
     public EnemyStates State;
 
+    private IEnemy stats;
     public Transform Target { get; private set; }
     public Vector3 LastKnownPos { get; private set; }
 
     private bool lostSight;
     public float losingsightTimer;
-    public EnemyMovement movement;
     #endregion
 
-    void Awake()
-    {
-        Initialize();        
-    }
-
-    public override void Initialize()
+    void Start()
     {
         Target = null;
         lostSight = false;
         losingsightTimer = 0f;
         State = EnemyStates.Idle;
         LastKnownPos = Vector3.zero;
-        movement = GetComponent<EnemyMovement>();
-
-        base.Initialize();        
-        GetComponent<EnemyCollision>().Initialize();
+        stats = GetComponent<IEnemy>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (losingsightTimer > 0.0f)
-            losingsightTimer -= Time.deltaTime;        
+            losingsightTimer -= Time.fixedDeltaTime;        
 
         if (lostSight && losingsightTimer <= 0)
         {
@@ -56,7 +48,7 @@ public class EnemyStateManager : IEnemy
         if (Target != null)
         {
             if (Target.CompareTag("Player"))
-                GetManager().PlayerSeen();
+                stats.GetManager().PlayerSeen();
 
             ChangeState(EnemyStates.Attack);
             return;
@@ -91,41 +83,41 @@ public class EnemyStateManager : IEnemy
         ChangeBehavior();
     }
 
-    public void ChangeBehavior() {
+    void ChangeBehavior() {
         switch (State)
         {
             case EnemyStates.Idle:
-                movement.SetSpeedBoost(0f);
+                stats.GetEnemyMovement().SetSpeedBoost(0f);
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Patrol:
-                movement.SetSpeedBoost(.5f);
+                stats.GetEnemyMovement().SetSpeedBoost(.5f);
                 LastKnownPos = Vector3.zero;
                 lostSight = false;
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Alert:
-                movement.autopilot = false;
-                movement.SetSpeedBoost(.8f);                
+                stats.GetEnemyMovement().autopilot = false;
+                stats.GetEnemyMovement().SetSpeedBoost(.8f);                
                 lostSight = true;
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 10f;
                 break;
             case EnemyStates.Attack:
-                movement.autopilot = false;
-                movement.SetSpeedBoost(1f);
+                stats.GetEnemyMovement().autopilot = false;
+                stats.GetEnemyMovement().SetSpeedBoost(1f);
                 LastKnownPos = Vector3.zero;
                 losingsightTimer = 0f;
                 lostSight = false;
                 break;
             case EnemyStates.Flee:
-                movement.SetSpeedBoost(1.25f);
+                stats.GetEnemyMovement().SetSpeedBoost(1.25f);
                 losingsightTimer = 0f;
                 lostSight = false;
                 break;
             case EnemyStates.Follow:
-                movement.SetSpeedBoost(.5f);
+                stats.GetEnemyMovement().SetSpeedBoost(.5f);
                 break;
         }
     }             

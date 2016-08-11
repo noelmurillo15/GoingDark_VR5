@@ -4,41 +4,49 @@ using GoingDark.Core.Enums;
 public class EnemyCollision : MonoBehaviour
 {
 
-    #region Properties
-    public bool inRange;
+    #region Properties   
+    [SerializeField]
+    private Transform LockOnReticle;  
+     
+    private bool inRange;
     private float triggerTimer;
     private float collisionTimer;
-    private EnemyManager manager;
-    private EnemyStateManager behavior;
 
-    [SerializeField]
-    public Transform LockOnReticle;   
+    private IEnemy stats;
+    private EnemyManager enemyManager;
+    private EnemyStateManager stateManager;
 
     //  Player
-    private CloakSystem player;
-    private Transform playerTrans;
-    private MessageScript messages;
+    private CloakSystem playerCloak;
+    private MessageScript playerMsgs;
+    private Transform playerTransform;
     #endregion
 
-    public void Initialize()
+    void Awake()
     {
         inRange = false;
         triggerTimer = 0f;
         collisionTimer = 0f;
+        stats = GetComponent<IEnemy>();
+        stateManager = GetComponent<EnemyStateManager>();
+    }
+
+    public void Initialize()
+    {
         if (LockOnReticle != null)
             LockOnReticle.gameObject.SetActive(false);
         else
             Debug.LogError("Enemy does not have lock on reticle : " + transform.name);
-        behavior = GetComponent<EnemyStateManager>();
-        manager = transform.root.GetComponent<EnemyManager>();
+
+        enemyManager = stats.GetManager();
         Invoke("FindPlayer", 4f);
     }
 
     void FindPlayer()
     {
-        playerTrans = manager.GetPlayerTransform();
-        messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
+        playerTransform = enemyManager.GetPlayerTransform();
+        playerMsgs = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+        playerCloak = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
     }
 
     void FixedUpdate()
@@ -50,18 +58,18 @@ public class EnemyCollision : MonoBehaviour
             collisionTimer -= Time.fixedDeltaTime;
 
         if (inRange)
-            LockOnReticle.LookAt(playerTrans);
+            LockOnReticle.LookAt(playerTransform);
     }    
 
     #region Collision
     void OnTriggerEnter(Collider col)
     {
-        if (behavior.Target == null)
+        if (stateManager.Target == null)
         {
             if (col.CompareTag("Decoy"))
             {
                 triggerTimer = 0f;
-                manager.SendAlert(col.transform.position);
+                enemyManager.SendAlert(col.transform.position);
             }
 
             if (col.CompareTag("Player"))
@@ -72,13 +80,13 @@ public class EnemyCollision : MonoBehaviour
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
 
-                if (player.GetCloaked())
+                if (playerCloak.GetCloaked())
                 {
-                    if (behavior.State != EnemyStates.Patrol)
-                        manager.SendAlert(transform.position);
+                    if (stateManager.State != EnemyStates.Patrol)
+                        enemyManager.SendAlert(transform.position);
                 }
 
-                messages.EnemyClose();
+                playerMsgs.EnemyClose();
             }
         }
     }
@@ -87,14 +95,14 @@ public class EnemyCollision : MonoBehaviour
         if (col.CompareTag("Decoy") && triggerTimer <= 0.0f)
         {
             triggerTimer = 5f;
-            behavior.SetEnemyTarget(col.transform);
+            stateManager.SetEnemyTarget(col.transform);
         }
 
         if (col.CompareTag("Player") && triggerTimer <= 0.0f)
         {
             triggerTimer = 5f;
-            if (!player.GetCloaked())
-                behavior.SetEnemyTarget(col.transform);
+            if (!playerCloak.GetCloaked())
+                stateManager.SetEnemyTarget(col.transform);
         }
     }
     void OnTriggerExit(Collider col)
@@ -103,37 +111,42 @@ public class EnemyCollision : MonoBehaviour
         {
             inRange = false;
 
-            if (behavior.State != EnemyStates.Patrol)
-                behavior.SetLastKnown(col.transform.position);
+            if (stateManager.State != EnemyStates.Patrol)
+                stateManager.SetLastKnown(col.transform.position);
 
             if (LockOnReticle != null)
                 LockOnReticle.gameObject.SetActive(false);            
         }
         if (col.CompareTag("Decoy"))
         {
-            if (behavior.State != EnemyStates.Patrol)
-                behavior.SetLastKnown(col.transform.position);
+            if (stateManager.State != EnemyStates.Patrol)
+                stateManager.SetLastKnown(col.transform.position);
         }
     }
-
 
     void OnCollisionEnter(Collision hit)
     {
         if (hit.transform.CompareTag("Player") && collisionTimer <= 0f)
         {
-            if (behavior.Type == EnemyTypes.Droid)
+            if (stats.Type == EnemyTypes.Droid)
             {
                 if (Random.Range(0, 2) == 1)
                     hit.transform.SendMessage("EMPHit");
                 else
                     hit.transform.SendMessage("Hit");
-                behavior.Kill();
+                stats.Kill();
             }
             else
             {
-                behavior.CrashHit(behavior.movement.MoveData.Speed / behavior.movement.MoveData.MaxSpeed);
+                stats.CrashHit(stats.GetEnemyMovement().MoveData.Speed / stats.GetEnemyMovement().MoveData.MaxSpeed);
             }
-            collisionTimer = 2f;
+            collisionTimer = 5f;
+        }
+
+        if (hit.transform.CompareTag("Asteroid") && collisionTimer <= 0f)
+        {
+            collisionTimer = 5f;
+            stats.CrashHit(stats.GetEnemyMovement().MoveData.Speed / stats.GetEnemyMovement().MoveData.MaxSpeed);
         }
     }
     #endregion
