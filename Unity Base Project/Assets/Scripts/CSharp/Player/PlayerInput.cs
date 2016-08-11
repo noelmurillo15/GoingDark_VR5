@@ -6,6 +6,8 @@ public class PlayerInput : MonoBehaviour
     #region Properties
     private bool messageUp;
     private SystemManager systems;
+    private LaserSystem lasers;
+    private MissileSystem missiles;
     private MovementProperties movement;
     private x360Controller controller;
     #endregion
@@ -17,6 +19,13 @@ public class PlayerInput : MonoBehaviour
         controller = GamePadManager.Instance.GetController(0);
         systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
         movement = GetComponent<PlayerMovement>().GetMoveData();
+        Invoke("FindSystems", 2f);
+    }
+
+    void FindSystems()
+    {
+        lasers = systems.GetSystemScript(SystemType.Laser) as LaserSystem;
+        missiles = systems.GetSystemScript(SystemType.Missile) as MissileSystem;
     }
 
     void Update()
@@ -40,6 +49,12 @@ public class PlayerInput : MonoBehaviour
 
         if (controller.GetButtonDown("LeftBumper"))
             systems.ActivateSystem(SystemType.Hyperdrive);
+
+        if (controller.GetButtonDown("Right"))
+            lasers.WeaponSwap();
+
+        if (controller.GetButtonDown("Up"))
+            missiles.WeaponSwap();
 
         if (controller.GetRightTrigger() > 0f)
             systems.ActivateSystem(SystemType.Laser);

@@ -91,7 +91,7 @@ public class MissileSystem : ShipSystem
     public void WeaponSwap()
     {
         int curr = (int)(Type + 1);
-        if (System.Enum.GetValues(typeof(MissileType)).Length == curr)
+        if (curr == (int)MissileType.NumberOfType)
             curr = 0;
 
         Type = (MissileType)curr;

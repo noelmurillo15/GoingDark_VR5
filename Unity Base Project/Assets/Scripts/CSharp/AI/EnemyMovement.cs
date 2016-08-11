@@ -178,28 +178,28 @@ public class EnemyMovement : MonoBehaviour
         MoveData.Boost = newBoost;
     }
 
-    public void LoadEnemyData(GameDifficulty diff)
+    public void LoadEnemyData(string diff)
     {
-        float multiplier = 1f;
+        float multiplier = 0f;
         switch (diff)
         {
-            case GameDifficulty.Easy:
+            case "Easy":
                 multiplier = 1f;
                 break;
-            case GameDifficulty.Normal:
+            case "Medium":
                 multiplier = 1.25f;
                 break;
-            case GameDifficulty.Hard:
+            case "Hard":
                 multiplier = 1.5f;
                 break;
-            case GameDifficulty.Nightmare:
+            case "Nightmare":
                 multiplier = 2f;
                 break;
         }
         switch (behavior.Type)
         {
             case EnemyTypes.Droid:
-                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 25f * multiplier);
+                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 22f * multiplier);
                 break;
             case EnemyTypes.JetFighter:
                 MoveData.Set(0f, .5f, 120f * multiplier, 1.25f, 25f * multiplier);
@@ -208,13 +208,13 @@ public class EnemyMovement : MonoBehaviour
                 MoveData.Set(0f, .5f, 100f * multiplier, 1.5f, 20f * multiplier);
                 break;
             case EnemyTypes.Basic:
-                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 15f * multiplier);
+                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 18f * multiplier);
                 break;
             case EnemyTypes.SquadLead:
                 MoveData.Set(0f, .5f, 85f * multiplier, 2.5f, 15f * multiplier);
                 break;
             case EnemyTypes.Transport:
-                MoveData.Set(0f, .5f, 70f * multiplier, 3f, 10f * multiplier);
+                MoveData.Set(0f, .5f, 70f * multiplier, 3f, 12f * multiplier);
                 break;
             case EnemyTypes.Tank:
                 MoveData.Set(0f, .5f, 60f * multiplier, 5f, 10f * multiplier);

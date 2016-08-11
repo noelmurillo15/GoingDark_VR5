@@ -18,7 +18,7 @@ public class Orbs : MonoBehaviour
         switch (missile.Type)
         {
             case MissileType.Basic:
-                orbHp -= 50;
+                orbHp -= 35;
                 break;
             case MissileType.Emp:
                 orbHp -= 5;
@@ -43,18 +43,7 @@ public class Orbs : MonoBehaviour
                 orbHp -= 10;
                 break;
             case LaserType.Charged:
-                orbHp -= 25;
-                break;
-            case LaserType.Ball:
                 orbHp -= 50;
-                break;
-            case LaserType.Continous:
-                orbHp -= 5;
-                break;
-            case LaserType.Enemy:
-                orbHp -= 5;
-                break;
-            default:
                 break;
         }
         laser.Kill();

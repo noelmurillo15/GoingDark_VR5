@@ -7,12 +7,17 @@
         Hard,
         Nightmare
     }
+
+    #region Debuffs
     public enum Impairments
     {
         None,
         Slowed,
         Stunned,
     }
+    #endregion
+
+    #region Store
     public enum ItemType
     {
         Consumable,
@@ -32,18 +37,21 @@
         ShieldBreakMissile,
         ChromaticMissile,
         EMPMissile,
-        //BasicMissileUpgrade,
-        //ShieldBreakMissileUpgrade,
-        //ChromaticMissileUpgrade,
-        //EMPMissileUpgrade,
         LaserPowerUpgrade,
         Laser2PowerUpgrade,
         HealthUpgrade,
         ShieldUpgrade,
-        //HyperdriveUpgrade,
-        //CloakUpgrade,
-        //EMPUpgrade
     }
+
+    public struct Item
+    {
+        public string ItemName;
+        public int ItemPrice;
+        public int ItemLevel;
+        public ItemType ItemType;
+        public Items Type;
+    }
+    #endregion
 
     #region Projectiles
     public enum MissileType
@@ -51,20 +59,26 @@
         Basic,
         Emp,
         ShieldBreak,
-        Chromatic
+        Chromatic,
+        NumberOfType        
     }
-
     public enum LaserType
     {
         Basic,
         Charged,
-        Ball,
-        Continous,
-        Enemy
+        NumberOfType
     }
     #endregion
 
-    #region EnemyAI
+    #region Enemies
+    public enum EnemyMissileType
+    {
+        Basic,
+    }
+    public enum EnemyLaserType
+    {
+        Basic,
+    }
     public enum EnemyTypes
     {
         None,
@@ -78,14 +92,6 @@
         Any,
         FinalBoss
     };
-    public enum EnemyDifficulty
-    {
-        NONE,
-        EASY,
-        MED,
-        HARD,
-        NIGHTMARE
-    }
     public enum EnemyStates
     {
         Idle,
@@ -95,7 +101,7 @@
         Flee,
         Puzzled,
         Attack,
-    }
+    }    
     #endregion
 
     #region Ship Systems
@@ -113,17 +119,9 @@
     public enum SystemStatus
     {
         Offline,
-        Online
-    }
-
-    public struct Item
-    {
-        public string ItemName;
-        public int ItemPrice;
-        public int ItemLevel;
-        public ItemType ItemType;
-        public Items Type;
-    }
+        Online,
+        Damaged
+    }    
     #endregion
 
     #region Missions
@@ -135,7 +133,6 @@
         Elimination,
         ControlPoint
     }
-
     public struct Mission
     {
         public string missionName;

@@ -6,9 +6,10 @@ public class LaserProjectile : MonoBehaviour
     #region Properties
     [SerializeField]
     public LaserType Type;
+    [SerializeField]
+    private float speed;
 
     bool init = false;
-    public float speed;
     private Transform MyTransform;
     private ChargeLaser MyParent;
     private ObjectPoolManager poolManager;
@@ -19,7 +20,6 @@ public class LaserProjectile : MonoBehaviour
         if (!init)
         {
             init = true;
-            speed = 1000f;
             MyTransform = transform;
             gameObject.SetActive(false);
             poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
@@ -37,35 +37,44 @@ public class LaserProjectile : MonoBehaviour
 
     public void Kill()
     {
-        if(IsInvoking("Kill"))
+        if (IsInvoking("Kill"))
             CancelInvoke("Kill");
 
         GameObject go = null;
         switch (Type)
         {
             case LaserType.Basic:
-                go = poolManager.GetChargeLaserExplosion();
+                go = poolManager.GetBaseLaserExplosion();
                 break;
             case LaserType.Charged:
                 go = poolManager.GetChargeLaserExplosion();
                 break;
-            case LaserType.Ball:
-                break;
-            case LaserType.Continous:
-                break;
-            case LaserType.Enemy:
-                go = poolManager.GetBossLaserExplode();
-                break;
         }
-
         if (go != null)
         {
             go.transform.position = MyTransform.position;
             go.SetActive(true);
         }
         else
-            Debug.Log("Laser Projectile does not have explosion : " + Type.ToString());
+            Debug.Log("Laser Projectile does not have explosion : " + transform.name);
 
         gameObject.SetActive(false);
     }
+
+    #region Collision
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.transform.CompareTag("Enemy"))
+            col.transform.SendMessage("LaserDmg", this);
+
+        if (col.transform.CompareTag("Orb"))
+            col.transform.SendMessage("LaserDmg", this);
+
+        if (col.transform.CompareTag("Asteroid"))
+        {
+            col.transform.SendMessage("Kill");
+            Kill();
+        }     
+    }
+    #endregion     
 }

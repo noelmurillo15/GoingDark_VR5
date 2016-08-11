@@ -11,7 +11,8 @@ public class LaserSystem : ShipSystem
     [SerializeField]
     public GameObject Gun2;
 
-    private x360Controller controller;
+
+    private bool flip;
     private LaserOverheat laser_overheat;
     private ObjectPoolManager PoolManager;
     #endregion
@@ -20,9 +21,9 @@ public class LaserSystem : ShipSystem
     // Use this for initialization
     void Start()
     {
+        flip = false;
         maxCooldown = .25f;
         Type = LaserType.Basic;
-        controller = GamePadManager.Instance.GetController(0);
         laser_overheat = GetComponent<LaserOverheat>();
         PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -33,61 +34,54 @@ public class LaserSystem : ShipSystem
         if (!laser_overheat.GetOverheat())
             if (Activated)
                 ShootGun();
-                       
-        if (controller.GetButtonDown("RightThumbstick"))
-            WeaponSwap();
     }
 
     public void ShootGun()
     {
         DeActivate();
         
-        GameObject obj1 = null;
-        GameObject obj2 = null;
+        GameObject laser = null;
         switch (Type)
         {
             case LaserType.Basic:
                 laser_overheat.UpdateGauge(-10f);
-                obj1 = PoolManager.GetBaseLaser();
-                obj1.transform.position = Gun1.transform.position;
-                obj1.transform.rotation = Gun1.transform.rotation;
-                obj1.SetActive(true);
-
-                obj2 = PoolManager.GetBaseLaser();
-                obj2.transform.position = Gun2.transform.position;
-                obj2.transform.rotation = Gun2.transform.rotation;
-                obj2.SetActive(true);
+                laser = PoolManager.GetBaseLaser();                
                 break;
 
             case LaserType.Charged:
-                laser_overheat.UpdateGauge(-25f);
-                obj1 = PoolManager.GetChargedLaser();
-                obj1.transform.position = Gun1.transform.position;
-                obj1.transform.rotation = Gun1.transform.rotation;
-                obj1.SetActive(true);
-
-                obj2 = PoolManager.GetChargedLaser();
-                obj2.transform.position = Gun2.transform.position;
-                obj2.transform.rotation = Gun2.transform.rotation;
-                obj2.SetActive(true);
+                laser_overheat.UpdateGauge(-20f);
+                laser = PoolManager.GetChargedLaser();
                 break;
         }
+
+        if (flip)
+        {
+            laser.transform.position = Gun1.transform.position;
+            laser.transform.rotation = Gun1.transform.rotation;
+        }
+        else
+        {
+            laser.transform.position = Gun2.transform.position;
+            laser.transform.rotation = Gun2.transform.rotation;
+        }
+        flip = !flip;
+        laser.SetActive(true);
     }
 
     public void WeaponSwap()
     {
         int curr = (int)(Type + 1);
-        if (System.Enum.GetValues(typeof(LaserType)).Length == curr)
+        if (curr == (int)LaserType.NumberOfType)
             curr = 0;
 
         Type = (LaserType)curr;
         switch (Type)
         {
             case LaserType.Basic:
-                maxCooldown = .25f;
+                maxCooldown = .5f;
                 break;
             case LaserType.Charged:
-                maxCooldown = .5f;
+                maxCooldown = 1f;
                 break;
         }
     }

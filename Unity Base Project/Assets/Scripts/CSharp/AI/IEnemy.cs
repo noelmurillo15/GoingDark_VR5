@@ -57,9 +57,6 @@ public class IEnemy : MonoBehaviour
     {
         Debuff = Impairments.None;
         stunned.SetActive(false);
-
-        if (Type == EnemyTypes.Droid)
-            Kill();
     }
     #endregion
 
@@ -120,7 +117,7 @@ public class IEnemy : MonoBehaviour
             missile.Kill();
         }
     }
-    public void LaserHit(LaserProjectile laser)
+    public void LaserDmg(LaserProjectile laser)
     {
         if (hasShield && ShieldData.GetShieldActive())
         {
@@ -130,34 +127,19 @@ public class IEnemy : MonoBehaviour
                 return;
             }
 
-            switch (laser.Type)
-            {
-                case LaserType.Basic:
-                    ShieldHit(2.5f);
-                    break;
-                case LaserType.Charged:
-                    ShieldHit(12.5f);
-                    break;
-                case LaserType.Ball:
-                    ShieldHit(50f);
-                    break;
-            }
+            if (laser.Type == LaserType.Basic)
+                ShieldHit(2.5f);
+            else
+                ShieldHit(12.5f);
         }
         else
         {
-            switch (laser.Type)
-            {
-                case LaserType.Basic:
-                    HealthData.Damage(.5f);
-                    break;
-                case LaserType.Charged:
-                    HealthData.Damage(1.25f);
-                    break;
-                case LaserType.Ball:
-                    HealthData.Damage(5f);
-                    break;
-            }
+            if (laser.Type == LaserType.Basic)
+                HealthData.Damage(1f);
+            else
+                HealthData.Damage(5f);
         }
+        laser.Kill();
     }
     
     public void Kill()
@@ -179,28 +161,30 @@ public class IEnemy : MonoBehaviour
     void LoadEnemyData()
     {
         float multiplier = 0f;
-        switch (manager.Difficulty)
+        string diff = PlayerPrefs.GetString("Difficulty");
+        GetComponent<EnemyMovement>().LoadEnemyData(diff);
+
+        switch (diff)
         {
-            case GameDifficulty.Easy:
+            case "Easy":
                 multiplier = .5f;
                 break;
-            case GameDifficulty.Normal:
+            case "Medium":
                 multiplier = 1f;
                 break;
-            case GameDifficulty.Hard:
+            case "Hard":
                 multiplier = 2f;
                 break;
-            case GameDifficulty.Nightmare:
+            case "Nightmare":
                 multiplier = 3f;
                 break;
         }
-        GetComponent<EnemyMovement>().LoadEnemyData(manager.Difficulty);
         switch (Type)
         {
             case EnemyTypes.Droid:
                 HealthData = new HealthProperties(5 * multiplier, transform); break;
             case EnemyTypes.JetFighter:
-                HealthData = new HealthProperties(10 * multiplier, transform); break;
+                HealthData = new HealthProperties(8 * multiplier, transform); break;
             case EnemyTypes.Trident:
                 HealthData = new HealthProperties(10 * multiplier, transform); break;
             case EnemyTypes.Basic:
@@ -210,7 +194,7 @@ public class IEnemy : MonoBehaviour
             case EnemyTypes.Transport:
                 HealthData = new HealthProperties(25 * multiplier, transform); break;
             case EnemyTypes.Tank:
-                HealthData = new HealthProperties(50 * multiplier, transform); break;
+                HealthData = new HealthProperties(60 * multiplier, transform); break;
             case EnemyTypes.FinalBoss:
                 HealthData = new HealthProperties(100 * multiplier, transform); break;
         }

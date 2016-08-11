@@ -7,6 +7,7 @@ public class EnemyCollision : MonoBehaviour
     #region Properties
     public bool inRange;
     private float detectionTimer;
+    private EnemyManager manager;
     private EnemyStateManager behavior;
 
     [SerializeField]
@@ -26,14 +27,14 @@ public class EnemyCollision : MonoBehaviour
             LockOnReticle.gameObject.SetActive(false);
         else
             Debug.LogError("Enemy does not have lock on reticle : " + transform.name);
-        behavior = GetComponent<EnemyStateManager>();       
-        
-        Invoke("FindPlayer", 5.2f);
+        behavior = GetComponent<EnemyStateManager>();
+        manager = transform.root.GetComponent<EnemyManager>();
+        Invoke("FindPlayer", 4f);
     }
 
     void FindPlayer()
     {
-        playerTrans = behavior.GetManager().GetPlayerTransform();
+        playerTrans = manager.GetPlayerTransform();
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
     }
@@ -55,7 +56,7 @@ public class EnemyCollision : MonoBehaviour
             if (col.CompareTag("Decoy"))
             {
                 detectionTimer = 0f;
-                behavior.GetManager().SendAlert(col.transform.position);
+                manager.SendAlert(col.transform.position);
             }
 
             if (col.CompareTag("Player"))
@@ -65,6 +66,12 @@ public class EnemyCollision : MonoBehaviour
                 
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
+
+                if (player.GetCloaked())
+                {
+                    if (behavior.State != EnemyStates.Patrol)
+                        manager.SendAlert(transform.position);
+                }
 
                 messages.EnemyClose();
             }
@@ -81,14 +88,8 @@ public class EnemyCollision : MonoBehaviour
         if (col.CompareTag("Player") && detectionTimer <= 0.0f)
         {
             detectionTimer = 5f;
-            if (player.GetCloaked())
-            {
-                if (behavior.State != EnemyStates.Patrol)
-                    behavior.GetManager().SendAlert(transform.position);
-                return;
-            }
-
-            behavior.SetEnemyTarget(col.transform);
+            if (!player.GetCloaked())
+                behavior.SetEnemyTarget(col.transform);
         }
     }
     void OnTriggerExit(Collider col)
