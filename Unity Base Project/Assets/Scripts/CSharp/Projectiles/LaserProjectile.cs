@@ -11,7 +11,6 @@ public class LaserProjectile : MonoBehaviour
 
     bool init = false;
     private Transform MyTransform;
-    private ChargeLaser MyParent;
     private ObjectPoolManager poolManager;
     #endregion
 

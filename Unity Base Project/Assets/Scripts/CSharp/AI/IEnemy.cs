@@ -79,7 +79,15 @@ public class IEnemy : MonoBehaviour
     #region Damage Calls 
     public void CrashHit(float _speed)
     {
-        HealthData.Damage(_speed * 10f);
+        if (hasShield && ShieldData.GetShieldActive())
+        {
+            ShieldHit(_speed * 25f);
+        }
+        else
+        {
+            if(HealthData != null)
+                HealthData.Damage(_speed * HealthData.MaxHealth * .5f);
+        }
     }
     void ShieldHit(float dmg)
     {

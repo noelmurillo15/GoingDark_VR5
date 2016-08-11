@@ -217,7 +217,6 @@ public class PlayerStats : MonoBehaviour
         GoToStation();
         if(hype != null)      
             hype.StopHyperdrive();
-
     }
     private void Kill()
     {

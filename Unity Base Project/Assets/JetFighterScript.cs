@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class JetFighterScript : MonoBehaviour {
 
@@ -7,20 +6,20 @@ public class JetFighterScript : MonoBehaviour {
     Transform MyTransform;
     private EnemyStateManager behavior;
     private bool lockedOn;
-    private float fire  ;
+    private float fire;
     private ObjectPoolManager pool;
     
     // Use this for initialization
     void Start()
     {
         MyTransform = transform;
-        fire = 0.2f;
+        fire = 0.5f;
         lockedOn = false;
 
-        behavior = transform.parent.GetComponentInParent<EnemyStateManager>();
+        behavior = transform.GetComponentInParent<EnemyStateManager>();
         pool = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         
-        InvokeRepeating("DestroyPlayer", 0.1f, fire);
+        InvokeRepeating("DestroyPlayer", 1f, fire);
     }
 
     private void LockOn()
@@ -62,15 +61,5 @@ public class JetFighterScript : MonoBehaviour {
                     obj.SetActive(true);
                 }
             }
-    }
-
-    public void SpawnExplosion(Vector3 pos)
-    {
-        GameObject obj = pool.GetBaseLaserExplosion();
-        if (obj != null)
-        {
-            obj.transform.position = pos;
-            obj.SetActive(true);
-        }
     }
 }

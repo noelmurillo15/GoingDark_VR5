@@ -15,6 +15,7 @@ public class EnemyCollision : MonoBehaviour
     private IEnemy stats;
     private EnemyManager enemyManager;
     private EnemyStateManager stateManager;
+    private EnemyMovement movement;
 
     //  Player
     private CloakSystem playerCloak;
@@ -39,11 +40,12 @@ public class EnemyCollision : MonoBehaviour
             Debug.LogError("Enemy does not have lock on reticle : " + transform.name);
 
         enemyManager = stats.GetManager();
-        Invoke("FindPlayer", 4f);
+        Invoke("FindPlayer", 2f);
     }
 
     void FindPlayer()
     {
+        movement = stats.GetEnemyMovement();
         playerTransform = enemyManager.GetPlayerTransform();
         playerMsgs = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         playerCloak = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
@@ -138,15 +140,17 @@ public class EnemyCollision : MonoBehaviour
             }
             else
             {
-                stats.CrashHit(stats.GetEnemyMovement().MoveData.Speed / stats.GetEnemyMovement().MoveData.MaxSpeed);
+                stats.CrashHit(movement.MoveData.Speed / movement.MoveData.MaxSpeed);
+                movement.StopMovement();
             }
             collisionTimer = 5f;
         }
 
         if (hit.transform.CompareTag("Asteroid") && collisionTimer <= 0f)
         {
+            stats.CrashHit(movement.MoveData.Speed / movement.MoveData.MaxSpeed);
+            movement.StopMovement();
             collisionTimer = 5f;
-            stats.CrashHit(stats.GetEnemyMovement().MoveData.Speed / stats.GetEnemyMovement().MoveData.MaxSpeed);
         }
     }
     #endregion

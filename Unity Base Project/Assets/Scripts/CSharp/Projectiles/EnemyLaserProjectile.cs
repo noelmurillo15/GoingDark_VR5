@@ -1,21 +1,27 @@
 ﻿using UnityEngine;
+using GoingDark.Core.Enums;
 
 public class EnemyLaserProjectile : MonoBehaviour
 {
-    bool init;
-    float Speed;
-    Turret MyParent;
-    Transform MyTransform;
+    #region Properties
+    [SerializeField]
+    public EnemyLaserType Type;
+    [SerializeField]
+    private float speed;
 
+    bool init = false;
+    private Transform MyTransform;
+    private ObjectPoolManager poolManager;
+    #endregion
 
     void OnEnable()
     {
         if (!init)
         {
             init = true;
-            Speed = 1000f;
             MyTransform = transform;
             gameObject.SetActive(false);
+            poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         }
         else
         {
@@ -23,18 +29,41 @@ public class EnemyLaserProjectile : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        MyTransform.Translate(0f, 0f, Speed * Time.deltaTime);
+        MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
     }
 
+    public void Kill()
+    {
+        if (IsInvoking("Kill"))
+            CancelInvoke("Kill");
+
+        GameObject go = null;
+        switch (Type)
+        {
+            case EnemyLaserType.Basic:
+                go = poolManager.GetBaseLaserExplosion();
+                break;
+        }
+        if (go != null)
+        {
+            go.transform.position = MyTransform.position;
+            go.SetActive(true);
+        }
+        else
+            Debug.Log("Laser Projectile does not have explosion : " + transform.name);
+
+        gameObject.SetActive(false);
+    }
+
+    #region Collision
     void OnCollisionEnter(Collision col)
     {
         if (col.transform.CompareTag("Player"))
         {
-            col.transform.SendMessage("UnCloak");
-            col.gameObject.SendMessage("Hit");
+            col.transform.SendMessage("Hit");
+            Kill();
         }
 
         if (col.transform.CompareTag("Asteroid"))
@@ -43,16 +72,5 @@ public class EnemyLaserProjectile : MonoBehaviour
             Kill();
         }
     }
-
-    private void Kill()
-    {
-        CancelInvoke("Kill");
-        MyParent.SpawnExplosion(MyTransform.position);
-        gameObject.SetActive(false);
-    }
-    private void SelfDestruct(Turret myturret)
-    {
-        MyParent = myturret;
-        Invoke("Kill", 2f);
-    }
+    #endregion     
 }

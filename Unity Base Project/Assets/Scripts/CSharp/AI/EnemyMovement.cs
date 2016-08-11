@@ -171,6 +171,10 @@ public class EnemyMovement : MonoBehaviour
     {
         return MoveData;
     }
+    public void StopMovement()
+    {
+        MoveData.Speed = 0f;
+    }
     #endregion
 
     #region Modifiers

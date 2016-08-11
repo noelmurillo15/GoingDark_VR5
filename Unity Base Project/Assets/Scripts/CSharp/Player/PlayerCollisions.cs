@@ -28,13 +28,13 @@ public class PlayerCollisions : MonoBehaviour
         {
             if (hit.transform.CompareTag("Asteroid"))
             {
-                move.StopMovement();
                 stats.CrashHit(movedata.Speed / move.GetMoveData().MaxSpeed);
+                move.StopMovement();
             }
             if (hit.transform.CompareTag("Enemy"))
             {
-                move.StopMovement();
                 stats.CrashHit(move.GetMoveData().Speed / move.GetMoveData().MaxSpeed);
+                move.StopMovement();
             }
             padding = 2f;
         }
