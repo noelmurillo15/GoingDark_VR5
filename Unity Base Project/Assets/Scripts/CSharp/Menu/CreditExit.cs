@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class CreditExit : MonoBehaviour {
 
@@ -20,7 +20,7 @@ public class CreditExit : MonoBehaviour {
     void Update () {
         if (m_Controller.GetButtonDown("B"))
         {
-            LoadingScreenManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu");
         }
         if (width != Screen.width || Screen.height != height)
         {

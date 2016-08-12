@@ -57,21 +57,7 @@ public class PlayerViewCheck : MonoBehaviour
 
     void SwitchScene()
     {
-        switch (curStar.name)
-        {
-            case "Level1":
-                LoadingScreenManager.LoadScene("Level1");
-                break;
-            case "Level2":
-                LoadingScreenManager.LoadScene("Level2");
-                break;
-            case "Level3":
-                LoadingScreenManager.LoadScene("Level3");
-                break;
-            case "Level4":
-                LoadingScreenManager.LoadScene("Level4");
-                break;
-        }
+        SceneManager.LoadScene(curStar.name);
     }
 
     public void IsInSight()
