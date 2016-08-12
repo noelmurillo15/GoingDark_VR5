@@ -17,7 +17,7 @@ public class GameOverMenu : MonoBehaviour
     private int respawnCost;
     private Scene[] all_scenes;
     private GameDifficulty diff;
-    private const string display = "Credits Owned : {0}  Credits Needed : {0}";
+    private const string display = "Credits Owned : {0}  Credits Needed : {1}";
     #endregion
 
 
@@ -40,17 +40,19 @@ public class GameOverMenu : MonoBehaviour
                 respawnCost = 200 * 5;
                 break;
         }
+        m_guiText.text = string.Format(display, money, respawnCost);
         if (money < respawnCost)
         {
-            m_guiText.text = "Not Enough Credits to Continue";
+            Continue.FindSelectableOnDown().Select();
             Continue.interactable = false;
         }
-        else
-            m_guiText.text = string.Format(display, money, respawnCost);
     }
 
     public void Respawn()
     {
+        if(money < respawnCost)
+            return;
+        
         //  Player Loses Credits
         PlayerPrefs.SetInt("Credits", money - respawnCost);
 

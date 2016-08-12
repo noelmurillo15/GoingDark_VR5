@@ -8,7 +8,6 @@ public class EnemyMissile : MonoBehaviour {
     private bool init = false;
 
     private Transform MyTransform;
-    public GameObject Explosion;
 
     //  Target Data
     private Transform target;
@@ -58,7 +57,6 @@ public class EnemyMissile : MonoBehaviour {
         if (IsInvoking("Kill"))
             CancelInvoke("Kill");
 
-        Instantiate(Explosion, MyTransform.position, MyTransform.rotation);
         gameObject.SetActive(false);
     }
 

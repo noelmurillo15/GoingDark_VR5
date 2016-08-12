@@ -13,6 +13,8 @@ public class PlayerInput : MonoBehaviour
     private GameObject AmmoSwitch;
     private float elaspedtime;
     private bool isAmmoShown;
+
+    
     #endregion
 
 
@@ -23,6 +25,7 @@ public class PlayerInput : MonoBehaviour
         systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
         movement = GetComponent<PlayerMovement>().GetMoveData();
         Invoke("FindSystems", 2f);
+        
 
         elaspedtime = Time.time;
         AmmoSwitch = GameObject.Find("AmmoSwitch");
@@ -68,7 +71,7 @@ public class PlayerInput : MonoBehaviour
         }
 
         if (controller.GetRightTrigger() > 0f)
-            systems.ActivateSystem(SystemType.Laser);
+            systems.ActivateSystem(SystemType.Laser);                   
 
         if (isAmmoShown && elaspedtime + 5.0f < Time.time)
             DontShowAmmo();

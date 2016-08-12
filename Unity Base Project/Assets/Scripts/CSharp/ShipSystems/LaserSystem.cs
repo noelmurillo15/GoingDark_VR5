@@ -13,6 +13,8 @@ public class LaserSystem : ShipSystem
 
 
     private bool flip;
+    private Vector2 rumble;
+    private x360Controller controller;
     private LaserOverheat laser_overheat;
     private ObjectPoolManager PoolManager;
     #endregion
@@ -24,7 +26,9 @@ public class LaserSystem : ShipSystem
         flip = false;
         maxCooldown = .25f;
         Type = LaserType.Basic;
+        rumble = new Vector2(.2f, .2f);
         laser_overheat = GetComponent<LaserOverheat>();
+        controller = GamePadManager.Instance.GetController(0);
         PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
 
@@ -41,6 +45,7 @@ public class LaserSystem : ShipSystem
         DeActivate();
         
         GameObject laser = null;
+        controller.AddRumble(maxCooldown - .05f, rumble);
         switch (Type)
         {
             case LaserType.Basic:
