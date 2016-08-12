@@ -24,7 +24,6 @@ public class LoadSlots : MonoBehaviour {
                 Slots[i].GetComponentInChildren<Text>().text = name;
             else
                 Slots[i].SetActive(false);
-        }
-            
+        }            
     }
 }

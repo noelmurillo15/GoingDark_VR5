@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using MovementEffects;
+using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using GoingDark.Core.Enums;
@@ -29,7 +30,7 @@ public class TallyScreen : MonoBehaviour
     public GameObject tallyscreen;
 
     public Text timer;
-
+    TimeSpan tSpan;
 
     public int EnemiesKilled
     {
@@ -63,8 +64,8 @@ public class TallyScreen : MonoBehaviour
         if (!tallyscreen.activeSelf)
             time += (decimal)Time.deltaTime;
 
-        timer.text = decimal.Round(time, 2).ToString();
-
+        tSpan = TimeSpan.FromSeconds((double)time);
+        timer.text = string.Format("{0:D1}h:{1:D2}m:{2:D2}s", tSpan.Hours, tSpan.Minutes, tSpan.Seconds);
         TimedMissions(time);
     }
 
@@ -98,7 +99,7 @@ public class TallyScreen : MonoBehaviour
             {
                 UpdateMissileCount();
                 tallyscreen.SetActive(false);
-                SceneManager.LoadScene("LevelSelect");//, LoadSceneMode.Single);
+                SceneManager.LoadScene("LevelSelect");
                 yield return 0f;
             }
             else
@@ -110,7 +111,7 @@ public class TallyScreen : MonoBehaviour
     {
         tEnemies.text = "Enemies killed : " + enemies;
         tAsteroids.text = "Asteroids destroyed : " + asteroids;
-        tTime.text = "Completion time : " + decimal.Round(time, 2);
+        tTime.text = "Completion time : " + string.Format("{0:D1}h:{1:D2}m:{2:D2}s", tSpan.Hours, tSpan.Minutes, tSpan.Seconds);
     }
 
     void TimedMissions(decimal time)

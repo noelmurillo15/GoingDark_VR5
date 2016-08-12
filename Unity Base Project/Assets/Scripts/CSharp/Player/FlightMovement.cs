@@ -28,7 +28,7 @@ public class FlightMovement : MonoBehaviour
         controller = GamePadManager.Instance.GetController(0);
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (controller.GetLeftTrigger() > 0f)
             MoveData.ChangeSpeed(controller.GetLeftTrigger());
@@ -56,17 +56,17 @@ public class FlightMovement : MonoBehaviour
     public void Yaw()
     {
         if (controller.GetLeftStick().X != 0f)
-            MyTransform.Rotate(Vector3.up * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().X));
+            MyTransform.Rotate(Vector3.up * Time.deltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().X));
     }
     public void Roll()
     {
         if (controller.GetRightStick().X != 0f)
-            MyTransform.Rotate(Vector3.back * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetRightStick().X));
+            MyTransform.Rotate(Vector3.back * Time.deltaTime * (MoveData.RotateSpeed * controller.GetRightStick().X));
     }
     public void Pitch()
     {
         if (controller.GetLeftStick().Y != 0f)
-            MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));
+            MyTransform.Rotate(Vector3.right * Time.deltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));
     }
     void Flight()
     {

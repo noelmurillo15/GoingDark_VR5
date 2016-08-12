@@ -143,6 +143,53 @@ public class MissionTracker : MonoBehaviour
         }
     }
 
+    public void NextMission()
+    {
+        int count = missionSystem.m_ActiveMissions.Count;
+        if (count > 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                string missionName = missionSystem.m_ActiveMissions[i].missionName;
+
+                if (missionName == trackerName.text && ((i + 1) < count))
+                {
+                    UpdateInfo(missionSystem.m_ActiveMissions[i + 1], true);
+                    break;
+                }
+                else if (missionName == trackerName.text)
+                {
+                    UpdateInfo(missionSystem.m_ActiveMissions[0], true);
+                    break;
+                }
+
+            }
+        }
+    }
+
+    public void PrevMission()
+    {
+        int count = missionSystem.m_ActiveMissions.Count;
+
+        if (count > 1)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                string missionName = missionSystem.m_ActiveMissions[i].missionName;
+                if (missionName == trackerName.text && ((i - 1) >= 0))
+                {
+                    UpdateInfo(missionSystem.m_ActiveMissions[i - 1], true);
+                    break;
+                }
+                else if (missionName == trackerName.text)
+                {
+                    UpdateInfo(missionSystem.m_ActiveMissions[count - 1], true);
+                    break;
+                }
+
+            }
+        }
+    }
     private string MissionInfo(string level)
     {
         string info = "";

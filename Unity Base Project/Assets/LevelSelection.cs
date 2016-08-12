@@ -44,6 +44,7 @@ public class LevelSelection : MonoBehaviour {
         {            
             string selected = "Level";
             selected += lastselected.ToString();
+            SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(selected);
         }
     }

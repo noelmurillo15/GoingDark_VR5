@@ -20,6 +20,7 @@ namespace GoingDark.Core.Utility
         public GameObject HTP;
         //  Menu Scene Name
         public string mainMenu = "MainMenu";
+        private string currLevel;
 
         //  Time-Scale
         public float timeScale = 1f;
@@ -46,17 +47,25 @@ namespace GoingDark.Core.Utility
         private x360Controller control;
         // for saving
         private SaveGame saveGame;
+        private LoadGame loadGame;
         [SerializeField]
         private GameObject saveSlots;
+        [SerializeField]
+        private GameObject[] Slots;
+
+        private PlayerInput playerInput;
         #endregion
 
 
         public void Start()
         {
             paused = false;
+            playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+
+            currLevel = SceneManager.GetActiveScene().name;
 
             saveGame = gameObject.GetComponent<SaveGame>();
-
+            loadGame = gameObject.GetComponent<LoadGame>();
             //  Get the current resoultion
             currentRes = Screen.currentResolution;
             isFullscreen = Screen.fullScreen;
@@ -89,6 +98,7 @@ namespace GoingDark.Core.Utility
             {
                 if (!paused)
                 {
+                    playerInput.MessageUp(true);
                     Debug.Log("Game Paused");
                     paused = true;
                     mainPanel.SetActive(true);
@@ -97,6 +107,7 @@ namespace GoingDark.Core.Utility
                 }
                 else
                 {
+                    playerInput.MessageUp(false);
                     Resume();
                 }
             }
@@ -118,30 +129,49 @@ namespace GoingDark.Core.Utility
         }
         public void Restart()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SceneManager.UnloadScene(currLevel);
+            SceneManager.LoadScene(currLevel);
         }
         public void returnToMenu()
         {
+            SceneManager.UnloadScene(currLevel);
             SceneManager.LoadScene(mainMenu);
         }
         public void quitGame()
         {
 #if UNITY_EDITOR
+            SceneManager.UnloadScene(currLevel);
             UnityEditor.EditorApplication.isPlaying = false;
 #else
+            SceneManager.UnloadScene(currLevel);
             Application.Quit();
 #endif
         }
 
         public void SaveGame()
         {
+            CheckSlots();
             saveSlots.SetActive(true);
             mainPanel.SetActive(false);
         }
+        void CheckSlots()
+        {
+            string name = string.Empty;
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                name = loadGame.IsSlotUsed(Slots[i].name);
+                if (name != "Name")
+                    Slots[i].GetComponentInChildren<Text>().text = name;
+                else
+                    Slots[i].GetComponentInChildren<Text>().text = Slots[i].GetComponentInChildren<Text>().text;
+            }
 
+        }
         public void SaveAtSlot(string txt)
         {
             saveGame.Save(txt);
+            saveSlots.SetActive(false);
+            mainPanel.SetActive(true);
         }
 
         public void ToPauseMenu()
@@ -199,7 +229,7 @@ namespace GoingDark.Core.Utility
         }
 
 
-#region Graphics Settings
+        #region Graphics Settings
         //  MSAA
         public void updateMSAA(int msaaAmount)
         {
@@ -262,6 +292,6 @@ namespace GoingDark.Core.Utility
         {
             QualitySettings.SetQualityLevel(5);
         }
-#endregion
+        #endregion
     }
 }

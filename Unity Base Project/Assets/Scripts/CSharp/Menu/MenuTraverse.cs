@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using MovementEffects;
 
 public class MenuTraverse : MonoBehaviour
 {
@@ -7,7 +9,10 @@ public class MenuTraverse : MonoBehaviour
 
     Selectable[] m_AllSelectables;
     Selectable m_Selectable;
+    Selectable tempButton;
 
+    private float timer = 0f;
+    private ChangeName name;
     // Use this for initialization
     void Start()
     {
@@ -15,8 +20,9 @@ public class MenuTraverse : MonoBehaviour
     }
 
     void OnEnable()
-    {        
+    {
         m_AllSelectables = gameObject.GetComponentsInChildren<Selectable>(true);
+        name = gameObject.GetComponent<ChangeName>();
         m_Selectable = m_AllSelectables[0];
         CheckActiveButtons();
     }
@@ -24,35 +30,63 @@ public class MenuTraverse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Selectable tempButton = m_Selectable;
+        timer += Time.unscaledDeltaTime;
+        tempButton = m_Selectable;
 
         if (m_Controller.GetButtonDown("Up"))
+            tempButton = m_Selectable.FindSelectableOnUp();
+
+        if (m_Controller.GetLeftStick().Y > 0f && timer > 0.2f)
         {
             tempButton = m_Selectable.FindSelectableOnUp();
+            timer = 0;
         }
-        if (m_Controller.GetButtonDown("Down"))
+
+        if (m_Controller.GetLeftStick().Y < 0f && timer > 0.2f)
         {
             tempButton = m_Selectable.FindSelectableOnDown();
+            timer = 0;
         }
-        if (m_Controller.GetButtonDown("Left"))
-        {
-            tempButton = m_Selectable.FindSelectableOnLeft();
-        }
-        if (m_Controller.GetButtonDown("Right"))
+
+        if (m_Controller.GetLeftStick().X > 0f && timer > 0.2f)
         {
             tempButton = m_Selectable.FindSelectableOnRight();
+            timer = 0;
         }
-        if (m_Controller.GetButtonDown("A"))
+
+        if (m_Controller.GetLeftStick().X < 0f && timer > 0.2f)
         {
-            m_Selectable.GetComponent<Button>().onClick.Invoke();
+            tempButton = m_Selectable.FindSelectableOnLeft();
+            timer = 0;
         }
+
+        if (m_Controller.GetButtonDown("Down"))
+            tempButton = m_Selectable.FindSelectableOnDown();
+
+        if (m_Controller.GetButtonDown("Left"))
+            tempButton = m_Selectable.FindSelectableOnLeft();
+
+        if (m_Controller.GetButtonDown("Right"))
+            tempButton = m_Selectable.FindSelectableOnRight();
+
+        if (m_Controller.GetButtonDown("A"))
+            m_Selectable.GetComponent<Button>().onClick.Invoke();
+
         if (m_Controller.GetButtonDown("B") && m_AllSelectables.Length > 0)
         {
-            for(int x = 0; x < m_AllSelectables.Length; x++)
+            for (int x = 0; x < m_AllSelectables.Length; x++)
             {
-                if(m_AllSelectables[x].name == "Back")
+                if (m_AllSelectables[x].name == "Back")
+                {
                     m_AllSelectables[x].GetComponent<Button>().onClick.Invoke();
+                }
             }
+        }
+
+        if (m_Controller.GetButtonDown("X"))
+        {
+            if (name != null)
+                name.DeleteLetter();
         }
 
 
@@ -64,7 +98,7 @@ public class MenuTraverse : MonoBehaviour
             }
         }
 
-        if(m_Selectable != null)
+        if (m_Selectable != null)
             m_Selectable.Select();
     }
 
@@ -82,4 +116,5 @@ public class MenuTraverse : MonoBehaviour
             }
         }
     }
+
 }

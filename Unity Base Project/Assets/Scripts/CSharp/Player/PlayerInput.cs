@@ -13,8 +13,8 @@ public class PlayerInput : MonoBehaviour
     private GameObject AmmoSwitch;
     private float elaspedtime;
     private bool isAmmoShown;
+    private MissionTracker tracker;
 
-    
     #endregion
 
 
@@ -23,9 +23,10 @@ public class PlayerInput : MonoBehaviour
         messageUp = false;
         controller = GamePadManager.Instance.GetController(0);
         systems = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+        tracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         movement = GetComponent<PlayerMovement>().GetMoveData();
         Invoke("FindSystems", 2f);
-        
+
 
         elaspedtime = Time.time;
         AmmoSwitch = GameObject.Find("AmmoSwitch");
@@ -61,10 +62,16 @@ public class PlayerInput : MonoBehaviour
         if (controller.GetButtonDown("LeftBumper"))
             systems.ActivateSystem(SystemType.Hyperdrive);
 
-        if (controller.GetButtonDown("Right"))
+        if (controller.GetButtonDown("Down") && !messageUp)
             lasers.WeaponSwap();
 
-        if (controller.GetButtonDown("Up"))
+        if (controller.GetButtonDown("Left") && tracker != null)
+            tracker.PrevMission();
+
+        if (controller.GetButtonDown("Right") && tracker != null)
+            tracker.NextMission();
+
+        if (controller.GetButtonDown("Up") && !messageUp)
         {
             ShowAmmo();
             missiles.WeaponSwap();

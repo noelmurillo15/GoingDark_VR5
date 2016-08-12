@@ -32,6 +32,7 @@ public class Mainmenu : MonoBehaviour
 
     public void LoadScene(string scenename)
     {
+        SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene(scenename);
     }
 
@@ -88,14 +89,17 @@ public class Mainmenu : MonoBehaviour
     public void LoadSlot(string slotName)
     {
         LoadGame.Load(slotName);
+        SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("LevelSelect");
     }
 
     public void Quit()
     {
 #if UNITY_EDITOR
+        SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         UnityEditor.EditorApplication.isPlaying = false;
 #else
+        SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         Application.Quit();
 #endif
     }
