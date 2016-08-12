@@ -73,6 +73,6 @@ public class EnemyLaserSystem : MonoBehaviour
             obj.SetActive(true);
         }
         else
-            Debug.LogError("Enemy Ran Out of Lasers");
+            Debug.LogError("Enemy Ran Out of Lasers : " + Type.ToString());
     }
 }

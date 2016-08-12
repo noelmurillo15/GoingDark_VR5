@@ -16,7 +16,6 @@ public class ChangeName : MonoBehaviour {
 	public void PrintLetter(string letter)
     {   if (Name.text == "NAME")
             Name.text = "";
-        Debug.Log("Length : "  + Name.text.Length + Name.text);
         if (Name.text.Length < 14)
             Name.text += letter;
     }

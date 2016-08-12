@@ -82,11 +82,8 @@ public class EnemyCollision : MonoBehaviour
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
 
-                if (playerCloak.GetCloaked())
-                {
-                    if (stateManager.State != EnemyStates.Patrol)
-                        enemyManager.SendAlert(transform.position);
-                }
+                if (!playerCloak.GetCloaked())
+                    enemyManager.SendAlert(transform.position);                
 
                 playerMsgs.EnemyClose();
             }
@@ -97,14 +94,24 @@ public class EnemyCollision : MonoBehaviour
         if (col.CompareTag("Decoy") && triggerTimer <= 0.0f)
         {
             triggerTimer = 5f;
-            stateManager.SetEnemyTarget(col.transform);
+            if(stateManager.Target == null)
+                stateManager.SetEnemyTarget(col.transform);
         }
 
         if (col.CompareTag("Player") && triggerTimer <= 0.0f)
         {
             triggerTimer = 5f;
             if (!playerCloak.GetCloaked())
-                stateManager.SetEnemyTarget(col.transform);
+            {
+                if (stateManager.Target == null)
+                    stateManager.SetEnemyTarget(col.transform);
+            }
+            else
+            {
+                if(stateManager.State != EnemyStates.Patrol)
+                    stateManager.SetLastKnown(col.transform.position);
+            }
+            
         }
     }
     void OnTriggerExit(Collider col)

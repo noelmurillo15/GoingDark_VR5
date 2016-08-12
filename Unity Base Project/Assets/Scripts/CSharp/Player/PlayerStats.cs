@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
     private x360Controller controller;
     private DeathTransition deathTransition;
     #endregion
-    float buffer = 0f;
+
 
     private void Awake()
     {        
@@ -43,15 +43,6 @@ public class PlayerStats : MonoBehaviour
     {
         cloak = systemManager.GetSystemScript(SystemType.Cloak) as CloakSystem;
         hype = systemManager.GetSystemScript(SystemType.Hyperdrive) as HyperdriveSystem;
-    }
-
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.K))
-            Kill();
-
-        if (buffer > 0f)
-            buffer -= Time.deltaTime;
     }
 
     #region Accessors
@@ -220,13 +211,8 @@ public class PlayerStats : MonoBehaviour
     }
     private void Kill()
     {
-        if (buffer <= 0f)
-        {
-            deathTransition.Death();
-            buffer = 5f;
-            Invoke("GameOver", 3f);
-            
-        }
+        deathTransition.Death();
+        Invoke("GameOver", 2f);
     }
     void GameOver()
     {
