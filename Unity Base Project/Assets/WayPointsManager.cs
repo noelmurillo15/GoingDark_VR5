@@ -6,27 +6,31 @@ public class WayPointsManager : MonoBehaviour
 
 
     [SerializeField]
-    private GameObject[] WayPoints;
-
     private GameObject[] AllWayPointsInScene;
 
     private ArrayList ArrayListForSorting = new ArrayList();
 
 
     private GameObject SearchForThisWayPoint;
+    private GameObject StationsWayPoint;
 
     private GameObject Player;
+    private bool SendBackToStation;
 
     // Use this for initialization
     void Start()
     {
+        SendBackToStation = true;
 
-        AllWayPointsInScene = GameObject.FindGameObjectsWithTag("WayPoint");
         // WayPoints = new GameObject[AllWayPointsInScene.Length];
         Player = GameObject.FindWithTag("Player");
         //WayPoints[0] = GameObject.Find("StationWayPoint");
-        SearchForThisWayPoint = GameObject.Find("StationWayPoint");
+
+        StationsWayPoint = GameObject.Find("StationWayPoint");
+        SearchForThisWayPoint = StationsWayPoint;
         //SearchForThisWayPoint = WayPoints[0];
+        Invoke("FindWayPoints", 2);
+
     }
 
 
@@ -34,6 +38,7 @@ public class WayPointsManager : MonoBehaviour
     {
         int i = 0;
         float Distance = 10000.0f;
+        SendBackToStation = true;
         for (; i < ArrayListForSorting.Count; i++)
         {
             GameObject Temp = (GameObject)ArrayListForSorting[i];
@@ -42,15 +47,23 @@ public class WayPointsManager : MonoBehaviour
             {
                 float TempDistance = Vector3.Distance(Temp.transform.position, Player.transform.position);
 
-                if (TempDistance < Distance) // checked against EMP distance for middle circle to light up.
+                if (TempDistance < Distance) 
                 {
                     Distance = TempDistance;
                     SearchForThisWayPoint = Temp;
+                    SendBackToStation = false;
                 }
             }
             else
+            {
                 ArrayListForSorting.RemoveAt(i);
+                ArrayListForSorting.TrimToSize();
+
+            }
         }
+        if (SendBackToStation)
+            SearchForThisWayPoint = StationsWayPoint;
+
     }
 
     public void SetWayPoints()
@@ -64,6 +77,11 @@ public class WayPointsManager : MonoBehaviour
     public GameObject GetWayPointToFollow()
     {
         return SearchForThisWayPoint;
+    }
+
+    public void FindWayPoints()
+    {
+        AllWayPointsInScene = GameObject.FindGameObjectsWithTag("WayPoint");
     }
 
 
