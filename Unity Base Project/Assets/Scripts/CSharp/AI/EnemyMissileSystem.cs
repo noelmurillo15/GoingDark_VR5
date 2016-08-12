@@ -4,50 +4,58 @@ using GoingDark.Core.Enums;
 public class EnemyMissileSystem : MonoBehaviour
 {
     #region Properties
-    private float angle;
-    private float Cooldown;
-    private float MaxCooldown;
-    private Transform MyTransform;
+    [SerializeField]
+    private EnemyMissileType Type;
+    [SerializeField]
+    private float fireRate;
+
     private IEnemy stats;
+    private Transform MyTransform;
     private EnemyStateManager behavior;
+    private ObjectPoolManager poolManager;
     #endregion
 
 
     void Start()
     {
-        behavior = transform.GetComponentInParent<EnemyStateManager>();
-        stats = transform.GetComponentInParent<IEnemy>();
         MyTransform = transform;
-        MaxCooldown = 5f;
-        Cooldown = 0f;
-        angle = 0f;
+        stats = transform.GetComponentInParent<IEnemy>();
+        behavior = transform.GetComponentInParent<EnemyStateManager>();
+        poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (Cooldown > 0.0f)
-            Cooldown -= Time.deltaTime;
-        else if (behavior.State == EnemyStates.Attack)
+        if (behavior.Target != null)
         {
-            if (stats.GetDebuffData() != Impairments.Stunned)
-            {
-                LockOn();
-                Fire();
-            }
+            if (!IsInvoking("Fire"))
+                InvokeRepeating("Fire", 3f, fireRate);
+
+            LockOn();
+        }
+        else
+        {
+            if (IsInvoking("Fire"))
+                CancelInvoke();
         }
     }
 
     private void LockOn()
     {
-        if (behavior.Target != null)
-            transform.LookAt(behavior.Target);
+        Vector3 playerDir = behavior.Target.position - MyTransform.position;
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 5f, 0.0f);
+        MyTransform.rotation = Quaternion.LookRotation(direction);
     }
 
     private void Fire()
     {
-        Cooldown = MaxCooldown;
-        GameObject miss = stats.GetManager().GetObjectPoolManager().GetEnemyMissile();
+        GameObject miss = null;
+        switch (Type)
+        {
+            case EnemyMissileType.Basic:
+                miss = poolManager.GetEnemyMissile();
+                break;
+        }
         if (miss != null)
         {
             miss.transform.position = MyTransform.position;
@@ -55,6 +63,6 @@ public class EnemyMissileSystem : MonoBehaviour
             miss.SetActive(true);
         }
         else
-            Debug.LogError("Enemy Missile was not found");
+            Debug.LogError("Enemy Ran Out of Missiles : " + Type.ToString());
     }
 }

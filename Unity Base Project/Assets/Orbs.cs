@@ -13,7 +13,7 @@ public class Orbs : MonoBehaviour
         orbHp = 100;
     }
 
-    public void MissileDmg(Missile missile)
+    public void MissileDmg(MissileProjectile missile)
     {
         switch (missile.Type)
         {

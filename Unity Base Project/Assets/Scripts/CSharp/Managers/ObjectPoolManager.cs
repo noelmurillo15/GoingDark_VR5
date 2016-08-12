@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class ObjectPoolManager : MonoBehaviour {
+public class ObjectPoolManager : MonoBehaviour
+{
 
     private Transform MyTransform;
 
@@ -11,11 +12,17 @@ public class ObjectPoolManager : MonoBehaviour {
     private ObjectPooling chromeMissile = new ObjectPooling();
     private ObjectPooling shieldbreakMissile = new ObjectPooling();
 
+    //  Missile Explosions
+    private ObjectPooling empMissileExplode = new ObjectPooling();
+    private ObjectPooling baseMissileExplode = new ObjectPooling();
+    private ObjectPooling chromeMissileExplode = new ObjectPooling();
+    private ObjectPooling shieldbreakMissileExplode = new ObjectPooling();
+
     //  Lasers
-    private ObjectPooling baseLaser = new ObjectPooling();    
+    private ObjectPooling baseLaser = new ObjectPooling();
     private ObjectPooling chargedLaser = new ObjectPooling();
 
-    //  Explosions
+    //  Laser Explosions
     private ObjectPooling baseLaserEx = new ObjectPooling();
     private ObjectPooling chargedLaserEx = new ObjectPooling();
     #endregion
@@ -41,14 +48,21 @@ public class ObjectPoolManager : MonoBehaviour {
     #endregion
 
     // Use this for initialization
-    void Awake () {
+    void Awake()
+    {
         MyTransform = transform;
 
         //  Player Missiles
         empMissile.Initialize(Resources.Load<GameObject>("Missiles/EmpMissile"), 6, MyTransform);
         baseMissile.Initialize(Resources.Load<GameObject>("Missiles/BasicMissile"), 6, MyTransform);
-        chromeMissile.Initialize(Resources.Load<GameObject>("Missiles/ChromaticMissile"),6, MyTransform);
+        chromeMissile.Initialize(Resources.Load<GameObject>("Missiles/ChromaticMissile"), 6, MyTransform);
         shieldbreakMissile.Initialize(Resources.Load<GameObject>("Missiles/ShieldBreakMissile"), 6, MyTransform);
+
+        //  Player Missile Explosions
+        empMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/EmpExplosion"), 4, MyTransform);
+        baseMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/BasicExplosion"), 4, MyTransform);
+        chromeMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/ChromaticExplosion"), 4, MyTransform);
+        shieldbreakMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/ShieldBreakExplosion"), 4, MyTransform);
 
         //  Player Lasers
         baseLaser.Initialize(Resources.Load<GameObject>("Lasers/LaserBeam"), 36, MyTransform);
@@ -66,7 +80,7 @@ public class ObjectPoolManager : MonoBehaviour {
         //  Enemy Lasers
         baseEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyLaserBeam"), 64, MyTransform);
         chargedEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyChargedShot"), 32, MyTransform);
-        miniCannon.Initialize(Resources.Load<GameObject>("Lasers/MiniBossLaser"), 4, MyTransform);        
+        miniCannon.Initialize(Resources.Load<GameObject>("Lasers/MiniBossLaser"), 4, MyTransform);
         bossCannon.Initialize(Resources.Load<GameObject>("Lasers/BossLaser"), 2, MyTransform);
 
         //  Enemy Laser Explosion
@@ -97,6 +111,24 @@ public class ObjectPoolManager : MonoBehaviour {
     public GameObject GetChromeMissile()
     {
         return chromeMissile.GetPooledObject();
+    }
+
+    //  Player Explosions
+    public GameObject GetBaseMissExplode()
+    {
+        return baseMissileExplode.GetPooledObject();
+    }
+    public GameObject GetEmpMissExplode()
+    {
+        return empMissileExplode.GetPooledObject();
+    }
+    public GameObject GetSBMissExplode()
+    {
+        return shieldbreakMissileExplode.GetPooledObject();
+    }
+    public GameObject GetChromeMissExplode()
+    {        
+        return chromeMissileExplode.GetPooledObject();
     }
 
     //  Enemy

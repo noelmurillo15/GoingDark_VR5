@@ -276,8 +276,7 @@
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserProjectile.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\Missile.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\DebuffProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />

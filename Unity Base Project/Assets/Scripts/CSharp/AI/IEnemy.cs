@@ -37,6 +37,7 @@ public class IEnemy : MonoBehaviour
 
         Invoke("LoadEnemyData", .5f);
     }
+
     #region Accessors        
     public EnemyManager GetManager()
     {
@@ -106,7 +107,7 @@ public class IEnemy : MonoBehaviour
         else
             HealthData.Damage(2);
     }
-    public void MissileHit(Missile missile)
+    public void MissileHit(MissileProjectile missile)
     {
         if (hasShield && ShieldData.GetShieldActive())
         {

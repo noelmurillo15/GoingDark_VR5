@@ -129,11 +129,17 @@ namespace GoingDark.Core.Utility
         }
         public void Restart()
         {
+            if (Time.timeScale == 0f)
+                Time.timeScale = timeScale;
+
             SceneManager.UnloadScene(currLevel);
             SceneManager.LoadScene(currLevel);
         }
         public void returnToMenu()
         {
+            if (Time.timeScale == 0f)
+                Time.timeScale = timeScale;
+
             SceneManager.UnloadScene(currLevel);
             SceneManager.LoadScene(mainMenu);
         }

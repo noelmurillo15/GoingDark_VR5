@@ -8,7 +8,7 @@ public class EnemyLaserSystem : MonoBehaviour
     [SerializeField]
     private EnemyLaserType Type;
     [SerializeField]
-    private float fire;
+    private float fireRate;
 
     private Transform MyTransform;
     private ObjectPoolManager pool;
@@ -19,7 +19,6 @@ public class EnemyLaserSystem : MonoBehaviour
     void Start()
     {
         MyTransform = transform;
-
         behavior = MyTransform.GetComponentInParent<EnemyStateManager>();
         pool = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -29,7 +28,7 @@ public class EnemyLaserSystem : MonoBehaviour
         if (behavior.Target != null)
         {
             if (!IsInvoking("Shoot"))
-                InvokeRepeating("Shoot", 2f, fire);
+                InvokeRepeating("Shoot", 2f, fireRate);
 
             LockOn();
         }

@@ -24,9 +24,7 @@ public class EnemyLaserProjectile : MonoBehaviour
             poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         }
         else
-        {
-            Invoke("Kill", 3f);
-        }
+            Invoke("Kill", 3f);        
     }
 
     void FixedUpdate()
@@ -34,6 +32,7 @@ public class EnemyLaserProjectile : MonoBehaviour
         MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
     }
 
+    #region Recycle Death
     public void Kill()
     {
         if (IsInvoking("Kill"))
@@ -65,6 +64,7 @@ public class EnemyLaserProjectile : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+    #endregion
 
     #region Collision
     void OnCollisionEnter(Collision col)

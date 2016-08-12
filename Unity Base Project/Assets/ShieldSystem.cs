@@ -12,7 +12,7 @@ public class ShieldSystem : MonoBehaviour
         ShieldData = new ShieldProperties(gameObject, 100f);
     }
 
-    public void MissileHit(Missile missile)
+    public void MissileHit(MissileProjectile missile)
     {
         if (ShieldData.GetShieldActive())
         {
