@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class MissileLauncher : MonoBehaviour
+public class EnemyMissileSystem : MonoBehaviour
 {
     #region Properties
     private float angle;

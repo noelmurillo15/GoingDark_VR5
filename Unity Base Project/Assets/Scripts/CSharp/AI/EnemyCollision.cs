@@ -26,8 +26,8 @@ public class EnemyCollision : MonoBehaviour
     void Awake()
     {
         inRange = false;
-        triggerTimer = 0f;
-        collisionTimer = 0f;
+        triggerTimer = 5f;
+        collisionTimer = 5f;
         stats = GetComponent<IEnemy>();
         stateManager = GetComponent<EnemyStateManager>();
     }

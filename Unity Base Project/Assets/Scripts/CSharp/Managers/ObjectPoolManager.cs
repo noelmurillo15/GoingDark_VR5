@@ -2,6 +2,7 @@
 
 public class ObjectPoolManager : MonoBehaviour {
 
+    private Transform MyTransform;
 
     #region Player
     //  Missiles
@@ -12,7 +13,6 @@ public class ObjectPoolManager : MonoBehaviour {
 
     //  Lasers
     private ObjectPooling baseLaser = new ObjectPooling();    
-    private ObjectPooling ballLaser = new ObjectPooling();
     private ObjectPooling chargedLaser = new ObjectPooling();
 
     //  Explosions
@@ -29,42 +29,53 @@ public class ObjectPoolManager : MonoBehaviour {
     private ObjectPooling enemyMissile = new ObjectPooling();
 
     //  Lasers
-    private ObjectPooling bossCannon = new ObjectPooling();
-    private ObjectPooling miniCannon = new ObjectPooling();
     private ObjectPooling baseEnemyLaser = new ObjectPooling();
+    private ObjectPooling chargedEnemyLaser = new ObjectPooling();
+    private ObjectPooling miniCannon = new ObjectPooling();
+    private ObjectPooling bossCannon = new ObjectPooling();
 
     //  Explosions
-    private ObjectPooling baseEnemyLaserEx = new ObjectPooling();
+    private ObjectPooling enemyBaseLaserEx = new ObjectPooling();
+    private ObjectPooling enemyChargedLaserEx = new ObjectPooling();
+    private ObjectPooling bossLaserEx = new ObjectPooling();
     #endregion
-    private Transform MyTransform;
 
     // Use this for initialization
     void Awake () {
         MyTransform = transform;
 
-        //  Missiles
+        //  Player Missiles
         empMissile.Initialize(Resources.Load<GameObject>("Missiles/EmpMissile"), 6, MyTransform);
         baseMissile.Initialize(Resources.Load<GameObject>("Missiles/BasicMissile"), 6, MyTransform);
         chromeMissile.Initialize(Resources.Load<GameObject>("Missiles/ChromaticMissile"),6, MyTransform);
         shieldbreakMissile.Initialize(Resources.Load<GameObject>("Missiles/ShieldBreakMissile"), 6, MyTransform);
+
+        //  Player Lasers
+        baseLaser.Initialize(Resources.Load<GameObject>("Lasers/LaserBeam"), 36, MyTransform);
+        chargedLaser.Initialize(Resources.Load<GameObject>("Lasers/ChargedShot"), 20, MyTransform);
+
+        //  Player Laser Explosion
+        baseLaserEx.Initialize(Resources.Load<GameObject>("Explosions/LaserExplosion"), 36, MyTransform);
+        chargedLaserEx.Initialize(Resources.Load<GameObject>("Explosions/ChargeLaserExplosion"), 20, MyTransform);
+
+
+
+        //  Enemy Missiles
         enemyMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyMissile"), 20, MyTransform);
 
-        //  Lasers
-        baseLaser.Initialize(Resources.Load<GameObject>("Lasers/LaserBeam"), 18, MyTransform);
-        chargedLaser.Initialize(Resources.Load<GameObject>("Lasers/ChargedShot"), 14, MyTransform);
-        ballLaser.Initialize(Resources.Load<GameObject>("Lasers/ChargedBall"), 8, MyTransform);
-
-        baseEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyLaserBeam"), 32, MyTransform);
+        //  Enemy Lasers
+        baseEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyLaserBeam"), 48, MyTransform);
+        chargedEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyChargedShot"), 24, MyTransform);
+        miniCannon.Initialize(Resources.Load<GameObject>("Lasers/MiniBossLaser"), 4, MyTransform);        
         bossCannon.Initialize(Resources.Load<GameObject>("Lasers/BossLaser"), 2, MyTransform);
-        miniCannon.Initialize(Resources.Load<GameObject>("Lasers/MiniBossLaser"), 8, MyTransform);        
 
-        //  Explosions
-        baseLaserEx.Initialize(Resources.Load<GameObject>("Explosions/LaserExplosion"), 24, MyTransform);
-        chargedLaserEx.Initialize(Resources.Load<GameObject>("Explosions/ChargeLaserExplosion"), 28, MyTransform);
-        baseEnemyLaserEx.Initialize(Resources.Load<GameObject>("Explosions/BossLaserExplode"), 8, MyTransform);
-        explosionpool.Initialize(Resources.Load<GameObject>("Explosions/EnemyExplosion"), 12, MyTransform);
+        //  Enemy Laser Explosion
+        enemyBaseLaserEx.Initialize(Resources.Load<GameObject>("Explosions/EnemyLaserExplosion"), 48, MyTransform);
+        enemyChargedLaserEx.Initialize(Resources.Load<GameObject>("Explosions/EnemyChargedLaserExplosion"), 48, MyTransform);
+        bossLaserEx.Initialize(Resources.Load<GameObject>("Explosions/BossLaserExplode"), 2, MyTransform);
 
         //  Misc
+        explosionpool.Initialize(Resources.Load<GameObject>("Explosions/EnemyExplosion"), 12, MyTransform);
         ammoDrops.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, MyTransform);
         trackingIcon.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
     }
@@ -105,15 +116,15 @@ public class ObjectPoolManager : MonoBehaviour {
     {
         return chargedLaser.GetPooledObject();
     }
-    public GameObject GetChargedBall()
-    {
-        return ballLaser.GetPooledObject();
-    }
 
     //  Enemy
     public GameObject GetBaseEnemyLaser()
     {
         return baseEnemyLaser.GetPooledObject();
+    }
+    public GameObject GetChargedEnemyLaser()
+    {
+        return chargedEnemyLaser.GetPooledObject();
     }
     public GameObject GetMiniBossLaser()
     {
@@ -141,9 +152,17 @@ public class ObjectPoolManager : MonoBehaviour {
     {
         return explosionpool.GetPooledObject();
     }
+    public GameObject GetEnemyBaseLaserExplode()
+    {
+        return enemyBaseLaserEx.GetPooledObject();
+    }
+    public GameObject GetEnemyChargedLaserExplode()
+    {
+        return enemyChargedLaserEx.GetPooledObject();
+    }
     public GameObject GetBossLaserExplode()
     {
-        return baseEnemyLaserEx.GetPooledObject();
+        return bossLaserEx.GetPooledObject();
     }
     #endregion
 

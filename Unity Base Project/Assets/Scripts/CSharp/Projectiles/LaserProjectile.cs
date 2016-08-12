@@ -55,7 +55,7 @@ public class LaserProjectile : MonoBehaviour
             go.SetActive(true);
         }
         else
-            Debug.Log("Laser Projectile does not have explosion : " + transform.name);
+            Debug.Log("Player Laser does not have explosion : " + transform.name);
 
         gameObject.SetActive(false);
     }

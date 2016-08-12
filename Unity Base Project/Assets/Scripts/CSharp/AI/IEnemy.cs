@@ -209,7 +209,6 @@ public class IEnemy : MonoBehaviour
                 multiplier = 3f;
                 break;
         }
-
         if (hasShield)
             ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f * multiplier);
 

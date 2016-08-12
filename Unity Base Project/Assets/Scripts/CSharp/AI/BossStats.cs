@@ -15,6 +15,11 @@ public class BossStats : MonoBehaviour
     {
         ShieldActive = true;
         numOrbsActive = Orbs.Length;
+        Invoke("GetShield", 1.5f);        
+    }
+
+    void GetShield()
+    {
         shieldData = GetComponent<IEnemy>().GetShieldData();
     }
 
@@ -30,6 +35,7 @@ public class BossStats : MonoBehaviour
         if (numOrbsActive <= 0)
         {
             SetShield(false);
+            numOrbsActive = Orbs.Length;
             Invoke("ShieldRegen", 10f);
         }
     }

@@ -78,6 +78,9 @@
     public enum EnemyLaserType
     {
         Basic,
+        Charged,
+        MiniCannon,
+        Cannon
     }
     public enum EnemyTypes
     {

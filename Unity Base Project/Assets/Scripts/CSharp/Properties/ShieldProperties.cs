@@ -86,7 +86,9 @@ public class ShieldProperties
         {
             Health = 0f;            
             Active = false;
-            Shield.SetActive(false);
+
+            if(Shield != null)
+                Shield.SetActive(false);
         }
         if (isPlayer)
         {

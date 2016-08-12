@@ -78,10 +78,10 @@ public class LaserSystem : ShipSystem
         switch (Type)
         {
             case LaserType.Basic:
-                maxCooldown = .5f;
+                maxCooldown = .25f;
                 break;
             case LaserType.Charged:
-                maxCooldown = 1f;
+                maxCooldown = .5f;
                 break;
         }
     }

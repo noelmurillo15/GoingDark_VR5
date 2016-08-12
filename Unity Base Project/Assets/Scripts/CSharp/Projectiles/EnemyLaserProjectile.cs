@@ -43,7 +43,16 @@ public class EnemyLaserProjectile : MonoBehaviour
         switch (Type)
         {
             case EnemyLaserType.Basic:
-                go = poolManager.GetBaseLaserExplosion();
+                go = poolManager.GetEnemyBaseLaserExplode();
+                break;
+            case EnemyLaserType.Charged:
+                go = poolManager.GetEnemyChargedLaserExplode();
+                break;
+            case EnemyLaserType.MiniCannon:
+                go = poolManager.GetEnemyChargedLaserExplode();
+                break;
+            case EnemyLaserType.Cannon:
+                go = poolManager.GetBossLaserExplode();
                 break;
         }
         if (go != null)
@@ -52,7 +61,7 @@ public class EnemyLaserProjectile : MonoBehaviour
             go.SetActive(true);
         }
         else
-            Debug.Log("Laser Projectile does not have explosion : " + transform.name);
+            Debug.Log("Enemy Laser does not have explosion : " + transform.name);
 
         gameObject.SetActive(false);
     }
@@ -65,7 +74,6 @@ public class EnemyLaserProjectile : MonoBehaviour
             col.transform.SendMessage("Hit");
             Kill();
         }
-
         if (col.transform.CompareTag("Asteroid"))
         {
             col.transform.SendMessage("Kill");

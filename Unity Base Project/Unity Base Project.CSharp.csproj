@@ -118,7 +118,7 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\GameOver.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\GameOverMenu.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
-    <Compile Include="Assets\JetFighterScript.cs" />
+    <Compile Include="Assets\EnemyLaserSystem.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
     <Compile Include="Assets\LoadGame.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\MissileLauncher.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyMissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\BlastRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
