@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -112,13 +110,10 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\BossLaser.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\BossStats.cs" />
+    <Compile Include="Assets\ChangeName.cs" />
     <Compile Include="Assets\EnemyCloseScript.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\GameOver.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\GameOverMenu.cs" />
-    <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\EnemyLaserSystem.cs" />
+    <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
     <Compile Include="Assets\LoadGame.cs" />
@@ -127,11 +122,13 @@
     <Compile Include="Assets\SaveGame.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossDamage.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\BossLaser.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\BossStats.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyMissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\EnemyMissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\BlastRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
@@ -216,6 +213,8 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmButtons.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ArmSettings.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\CreditExit.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\GameOver.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\GameOverMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\IntroScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\LeftArmCollision.cs" />

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Mainmenu : MonoBehaviour {
+public class Mainmenu : MonoBehaviour
+{
 
     [SerializeField]
     private GameObject MainMenuPanel;
@@ -17,11 +18,14 @@ public class Mainmenu : MonoBehaviour {
     private GameObject ControlsPanel;
     [SerializeField]
     private GameObject LoadPanel;
+    [SerializeField]
+    private GameObject NamePanel;
 
     private LoadGame LoadGame;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         LoadGame = gameObject.GetComponent<LoadGame>();
 
     }
@@ -39,7 +43,7 @@ public class Mainmenu : MonoBehaviour {
         GamePanel.SetActive(false);
         VideoPanel.SetActive(false);
         AudioPanel.SetActive(false);
-    }    
+    }
 
     public void MainMenu()
     {
@@ -50,8 +54,12 @@ public class Mainmenu : MonoBehaviour {
 
     public void Game()
     {
-        SettingsPanel.SetActive(false);
+        MainMenuPanel.SetActive(false);
         GamePanel.SetActive(true);
+    }
+    public void ChooseName()
+    {
+
     }
     public void Load()
     {
@@ -62,7 +70,7 @@ public class Mainmenu : MonoBehaviour {
     public void Video()
     {
         SettingsPanel.SetActive(false);
-        VideoPanel.SetActive(true);        
+        VideoPanel.SetActive(true);
     }
 
     public void Audio()
@@ -97,7 +105,8 @@ public class Mainmenu : MonoBehaviour {
     public void ChangeDifficulty(string diff)
     {
         PlayerPrefs.SetString("Difficulty", diff);
-        Options();
+        GamePanel.SetActive(false);
+        NamePanel.SetActive(true);
     }
     #endregion
 }
