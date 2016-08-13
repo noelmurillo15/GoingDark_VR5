@@ -21,7 +21,7 @@ public class LootPickup : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	    if (collected)
-            Destroy(this.gameObject);        
+            Destroy(gameObject);        
     }
 
     void Initialize()
@@ -49,11 +49,8 @@ public class LootPickup : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.transform.tag == "Player") {
             mission.SendMessage("LootPickedUp");
-            int creds = PlayerPrefs.GetInt("Credits");
-
-            creds += 100;
+            col.SendMessage("UpdateCredits", 100);
             collected = true;
-            col.SendMessage("UpdateCredits", creds);
             AudioManager.instance.PlayCollect();
         }
     }

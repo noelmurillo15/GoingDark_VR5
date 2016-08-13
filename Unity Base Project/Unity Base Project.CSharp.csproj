@@ -296,7 +296,6 @@
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFireRing.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Utilities\CameraShake.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTransition.cs" />

@@ -17,8 +17,7 @@ public class Mine : MonoBehaviour
     {
         if (col.CompareTag("Player") || col.CompareTag("Decoy") || col.CompareTag("Enemy") && MineArmed)
         {
-            col.transform.SendMessage("UnCloak");
-            col.transform.SendMessage("Hit");
+            col.transform.SendMessage("SplashDmg");
             Trigger();
         }
     }

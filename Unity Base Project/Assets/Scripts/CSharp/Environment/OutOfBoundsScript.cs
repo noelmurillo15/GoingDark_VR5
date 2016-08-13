@@ -14,6 +14,12 @@ public class OutOfBoundsScript : MonoBehaviour
         messages = GameObject.Find("PlayerCanvas");
     }
 
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Enemy"))
+            col.SendMessage("InBounds");
+    }
+
     void OnTriggerExit(Collider col)
     {
         if (col.CompareTag("Enemy"))

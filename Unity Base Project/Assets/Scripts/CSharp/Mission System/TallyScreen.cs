@@ -28,8 +28,6 @@ public class TallyScreen : MonoBehaviour
 
     [SerializeField]
     private PauseManager save;
-    [SerializeField]
-    private PlayerStats stats;
 
     public GameObject toContinue;
     public GameObject tallyscreen;

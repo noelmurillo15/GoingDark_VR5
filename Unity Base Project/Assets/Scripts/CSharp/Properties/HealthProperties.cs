@@ -14,7 +14,6 @@ public class HealthProperties
 
     //  Player Data
     public bool isPlayer;
-    private CameraShake shake;
     private Image HealthBar;
     private float DmgModifier;
 
@@ -26,7 +25,6 @@ public class HealthProperties
         Health = MaxHealth;
         DmgModifier = MaxHealth * 0.33f;
 
-        shake = null;
         baseRef = _ref;
         isPlayer = false;
     }
@@ -38,7 +36,6 @@ public class HealthProperties
         baseRef = _ref;
         isPlayer = _player;
         HealthBar = GameObject.Find("PlayerHealth").GetComponent<Image>();
-        shake = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<CameraShake>();
     }
 
     #region Modifiers

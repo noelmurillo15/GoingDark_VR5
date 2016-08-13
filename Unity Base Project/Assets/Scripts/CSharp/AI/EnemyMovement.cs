@@ -53,25 +53,7 @@ public class EnemyMovement : MonoBehaviour
         {
             MoveData.DecreaseSpeed();
             return;
-        }
-
-        if (autopilot)
-        {
-            MoveData.IncreaseSpeed();
-            Vector3 dir = autopilotlocation - MyTransform.position;
-            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.fixedDeltaTime, 0.0f);
-            MyTransform.rotation = Quaternion.LookRotation(rotation);
-            headingX = MyTransform.eulerAngles.x;
-            headingY = MyTransform.eulerAngles.y;
-            MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
-
-            if (Vector3.Distance(autopilotlocation, MyTransform.position) < 50f)
-            {
-                autopilot = false;
-                autopilotlocation = Vector3.zero;
-            }
-            return;
-        }
+        }        
 
         switch (stateManager.State)
         {
@@ -97,14 +79,26 @@ public class EnemyMovement : MonoBehaviour
     #region States
     void Patrol()
     {
-        MoveData.IncreaseSpeed();
-        MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.fixedDeltaTime / MoveData.RotateSpeed);
+        if (autopilot)
+        {
+            MoveData.IncreaseSpeed();
+            Vector3 dir = autopilotlocation - MyTransform.position;
+            Vector3 rotation = Vector3.RotateTowards(MyTransform.forward, dir, Time.fixedDeltaTime, 0.0f);
+            MyTransform.rotation = Quaternion.LookRotation(rotation);
+            headingX = MyTransform.eulerAngles.x;
+            headingY = MyTransform.eulerAngles.y;
+        }
+        else
+        {
+            MoveData.IncreaseSpeed();
+            MyTransform.rotation = Quaternion.Slerp(MyTransform.rotation, Quaternion.Euler(targetRotation), Time.fixedDeltaTime / MoveData.RotateSpeed);
+        }
     }
     void Alert()
     {
         MoveData.IncreaseSpeed();
         Vector3 lastplayerdir = stateManager.LastKnownPos - MyTransform.position;
-        if (Vector3.Distance(MyTransform.position, stateManager.LastKnownPos) < 50f)
+        if (Vector3.Distance(MyTransform.position, stateManager.LastKnownPos) < 250f)
         {
             stateManager.losingsightTimer = 0f;
             return;
@@ -126,7 +120,7 @@ public class EnemyMovement : MonoBehaviour
             }
             else
             {
-                if (Vector3.Distance(stateManager.Target.position, MyTransform.position) > 200f)
+                if (Vector3.Distance(stateManager.Target.position, MyTransform.position) > 500f)
                     MyTransform.rotation = Quaternion.LookRotation(direction);
                 else
                 {
@@ -257,11 +251,13 @@ public class EnemyMovement : MonoBehaviour
     #region Msgs
     void OutOfBounds(Vector3 _loc)
     {
-        if (stateManager.State == EnemyStates.Patrol)
-        {
-            autopilotlocation = _loc;
-            autopilot = true;
-        }
+        autopilot = true;
+        autopilotlocation = _loc;
+    }
+
+    void InBounds()
+    {
+        autopilot = false;
     }
     #endregion
 }
