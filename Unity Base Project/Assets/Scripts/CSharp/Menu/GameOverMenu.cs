@@ -52,10 +52,7 @@ public class GameOverMenu : MonoBehaviour
     {
         if(money < respawnCost)
             return;
-        
-        //  Player Loses Credits
-        PlayerPrefs.SetInt("Credits", money - respawnCost);
-
+                
         //  Unload GameOver
         SceneManager.UnloadScene("GameOver");
 

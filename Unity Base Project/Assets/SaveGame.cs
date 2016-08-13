@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Xml.Linq;
 
 public class SaveGame : MonoBehaviour
@@ -23,7 +22,7 @@ public class SaveGame : MonoBehaviour
 
         element.Element("playerName").Value = PlayerPrefs.GetString("PlayerName");
         element.Element("playerName").Value = PlayerPrefs.GetString("PlayerName");
-        element.Element("credits").Value = playerStats.SaveData.Credits.ToString();
+        element.Element("credits").Value = playerStats.GetCredits().ToString();
         element.Element("basicCount").Value = PlayerPrefs.GetInt("BasicMissileCount").ToString();
         element.Element("empCount").Value = PlayerPrefs.GetInt("EMPMissileCount").ToString();
         element.Element("shieldbreakerCount").Value = PlayerPrefs.GetInt("ShieldbreakMissileCount").ToString();
@@ -32,7 +31,4 @@ public class SaveGame : MonoBehaviour
 
         doc.Save(Application.dataPath + "\\" + saveSlot + ".xml");
     }
-
-
-
 }

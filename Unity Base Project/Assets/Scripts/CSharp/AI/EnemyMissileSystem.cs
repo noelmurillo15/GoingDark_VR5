@@ -6,7 +6,7 @@ public class EnemyMissileSystem : MonoBehaviour
     #region Properties
     [SerializeField]
     private EnemyMissileType Type;
-    [SerializeField]
+
     private float fireRate;
 
     private IEnemy stats;
@@ -18,6 +18,12 @@ public class EnemyMissileSystem : MonoBehaviour
 
     void Start()
     {
+        switch (Type)
+        {
+            case EnemyMissileType.Basic:
+                fireRate = 5f;
+                break;
+        }
         MyTransform = transform;
         stats = transform.GetComponentInParent<IEnemy>();
         behavior = transform.GetComponentInParent<EnemyStateManager>();

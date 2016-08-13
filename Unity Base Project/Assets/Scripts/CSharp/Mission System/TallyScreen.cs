@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using GoingDark.Core.Enums;
+using GoingDark.Core.Utility;
 
 
 public class TallyScreen : MonoBehaviour
@@ -25,6 +26,10 @@ public class TallyScreen : MonoBehaviour
     private SystemManager systems;
     private MissileSystem missileSystem;
 
+    [SerializeField]
+    private PauseManager save;
+    [SerializeField]
+    private PlayerStats stats;
 
     public GameObject toContinue;
     public GameObject tallyscreen;
@@ -99,6 +104,7 @@ public class TallyScreen : MonoBehaviour
             {
                 UpdateMissileCount();
                 tallyscreen.SetActive(false);
+                save.SaveGame();
                 SceneManager.LoadScene("LevelSelect");
                 yield return 0f;
             }

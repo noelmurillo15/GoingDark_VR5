@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource _Messages;
     public AudioSource _Button;
     public AudioSource _Thruster;
+    public AudioClip[] songs;
 
     Dictionary<string, AudioClip> sounds;
     Dictionary<string, AudioClip> music;
@@ -29,8 +30,8 @@ public class AudioManager : MonoBehaviour
     public float SoundVolume = 1.0f;
     [Range(0.0f, 1.0f)]
     public float MusicVolume = 1.0f;
-    // Use this for initialization
-    void Start()
+
+    void Awake()
     {
         if (instance == null)
             instance = this;
@@ -53,16 +54,16 @@ public class AudioManager : MonoBehaviour
         {
             music.Add(songs[i].name, songs[i]);
         }
-        if(_BattleMusic.clip != music["BattleTheme"])
-        _BattleMusic.clip = music["BattleTheme"];
+        if (_BattleMusic.clip != music["BattleTheme"])
+            _BattleMusic.clip = music["BattleTheme"];
 
 
-        if(SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "LevelSelect")
+        if (SceneManager.GetActiveScene().name != "MainMenu" && SceneManager.GetActiveScene().name != "LevelSelect")
             PlayThruster();
 
 
     }
-    
+
     void Update()
     {
         if (Raise || Lower)
@@ -91,25 +92,57 @@ public class AudioManager : MonoBehaviour
 
         if (!_BattleMusic.isPlaying || Boss)
             _Music.volume = MusicVolume * MasterVolume;
-        else if(!_Music.isPlaying)
+        else if (!_Music.isPlaying)
             _BattleMusic.volume = MusicVolume * MasterVolume;
+    }
+
+
+    void OnLevelWasLoaded()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "MainMenu":
+                _Music.clip = music["G_D_MainMenu_Music"];
+                break;
+            case "Level1":
+                _Music.clip = music["G_D_Level1_Music"];
+                break;
+            case "Level2":
+                _Music.clip = music["G_D_Level2_Music"];
+                break;
+            case "Level3":
+                _Music.clip = music["G_D_Level3_Music"];
+                break;
+            case "Level4":
+                _Music.clip = music["G_D_Level4_Music"];
+                break;
+            case "LevelSelect":
+                _Music.clip = music["G_D_LevelSelect_Music"];
+                break;
+            default:
+                return;
+        }
+
+        PlayMusic();
     }
 
     public void PlayBossTheme()
     {
-        if (_Music.clip != music["BossTheme"])
+        if (_Music.clip != music["G_D_Boss_Music"])
         {
             Boss = true;
             _Music.Stop();
             _BattleMusic.Stop();
-            _Music.clip = music["BossTheme"];
+            _Music.clip = music["G_D_Boss_Music"];
             _Music.Play();
         }
     }
 
     public void PlayMissileLaunch()
     {
-        _Gadget.clip = sounds["MissileLaunch"];
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Missile_Launching_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
@@ -117,19 +150,22 @@ public class AudioManager : MonoBehaviour
     public void PlayThruster()
     {
         _Thruster.volume = SoundVolume * MasterVolume;
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Ship_Thrusters_0" + r;
         if (!_Thruster.isPlaying)
         {
-            if (_Thruster.clip == sounds["Thrusters"])
+
+            if (_Thruster.clip == sounds[aud])
                 _Thruster.Play();
             else
             {
-                _Thruster.clip = sounds["Thrusters"];
+                _Thruster.clip = sounds[aud];
                 _Thruster.Play();
             }
         }
-        else if (_Thruster.clip != sounds["Thrusters"])
+        else if (_Thruster.clip != sounds["G_D_Ship_Thrusters_01"] && _Thruster.clip != sounds["G_D_Ship_Thrusters_02"])
         {
-            _Thruster.clip = sounds["Thrusters"];
+            _Thruster.clip = sounds[aud];
             _Thruster.Play();
         }
     }
@@ -149,6 +185,7 @@ public class AudioManager : MonoBehaviour
         {
             Fighting = false;
             _Music.volume = 0.0f;
+            _Music.loop = true;
             _Music.Play();
             _Music.volume += 0.18f;
             _BattleMusic.volume -= 0.18f;
@@ -198,6 +235,7 @@ public class AudioManager : MonoBehaviour
             Fighting = true;
             _BattleMusic.volume = 0.0f;
             _BattleMusic.Play();
+            _BattleMusic.loop = true;
             _BattleMusic.volume += 0.12f;
             _Music.volume -= 0.12f;
             yield return Timing.WaitForSeconds(.5f);
@@ -236,13 +274,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayNebulaAlarm()
-    {
-        _Alarms.clip = sounds["NebulaAlarm"];
-        _Alarms.loop = true;
-        _Alarms.volume = SoundVolume * MasterVolume * .75f;
-        _Alarms.Play();
-    }
 
     public void PlayTether()
     {
@@ -260,30 +291,25 @@ public class AudioManager : MonoBehaviour
 
     public void PlayHyperDrive()
     {
-        if (!_Hit.isPlaying || _Hit.clip != sounds["HyperDrive"])
-        {
-            _Hit.clip = sounds["HyperDrive"];
-            _Hit.volume = SoundVolume * MasterVolume;
-            _Hit.Play();
-        }
-    }
-
-    public void StopNebulaAlarm()
-    {
-        if (_Alarms.clip == sounds["NebulaAlarm"] && _Alarms.isPlaying)
-            _Alarms.Stop();
+        _Alarms.clip = sounds["HyperDrive"];
+        _Alarms.volume = SoundVolume * MasterVolume;
+        _Alarms.Play();
     }
 
     public void PlayEMP()
     {
-        _Gadget.clip = sounds["EMP"];
+        int r = Random.Range(1, 3);
+        string aud = "G_D_EMP_Blast_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
 
     public void PlayCloak()
     {
-        _Gadget.clip = sounds["Cloak"];
+        int r = Random.Range(2, 3);
+        string aud = "G_D_Cloak_Activate_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
         _Music.pitch = Time.timeScale;
@@ -291,21 +317,27 @@ public class AudioManager : MonoBehaviour
 
     public void PlayShieldOff()
     {
-        _Gadget.clip = sounds["ShieldOff"];
+        int r = Random.Range(1, 3);
+        string aud = "G_D_Player_Shield_Deactivate_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
 
     public void PlayShieldOn()
     {
-        _Gadget.clip = sounds["ShieldOn"];
+        int r = Random.Range(1, 3);
+        string aud = "G_D_Player_Shield_Activate_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
 
     public void PlayMenuGood()
     {
-        _Messages.clip = sounds["MenuGood"];
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Menu_Confirm_0" + r;
+        _Messages.clip = sounds[aud];
         _Messages.volume = SoundVolume * MasterVolume;
         _Messages.Play();
     }
@@ -318,74 +350,67 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMenuBad()
     {
-        _Messages.clip = sounds["MenuBad"];
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Menu_Deny_0" + r;
+        _Messages.clip = sounds[aud];
         _Messages.volume = SoundVolume * MasterVolume;
         _Messages.Play();
     }
 
     public void PlayCollect()
     {
-        _Messages.clip = sounds["ObjectiveCollect"];
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Obj_Collected_0" + r;
+        _Messages.clip = sounds[aud];
         _Messages.volume = SoundVolume * MasterVolume;
         _Messages.Play();
     }
 
     public void PlayHit()
     {
-        _Hit.clip = sounds["Hit"];
+        int r = Random.Range(1, 3);
+        string aud = "G_D_Player_Ship_Hit_0" + r;
+        _Hit.clip = sounds[aud];
         _Hit.volume = SoundVolume * MasterVolume;
-
         _Hit.Play();
     }
 
     public void PlayShieldHit()
     {
-        _Hit.clip = sounds["ShieldHit"];
+        int r = Random.Range(1, 3);
+        string aud = "G_D_Player_Shield_Hit_0" + r;
+        _Hit.clip = sounds[aud];
         _Hit.volume = SoundVolume * MasterVolume;
         _Hit.Play();
     }
 
     public void PlayMessagePop()
     {
-        _Messages.clip = sounds["Msg"];
+        int r = Random.Range(1, 2);
+        string aud = "G_D_Menu_Message_0" + r;
+        _Messages.clip = sounds[aud];
         _Messages.volume = SoundVolume * MasterVolume;
         _Messages.Play();
     }
 
+    public void PlayMusic()
+    {
+        if (_BattleMusic.isPlaying)
+            _BattleMusic.Stop();
+        _Music.loop = true;
+        _Music.Play();
+    }
+
     public void PlayLaser()
     {
-        _Gadget.clip = sounds["LaserBeam"];
+        int r = Random.Range(1, 5);
+        string aud = "G_D_Laser_REDBeam_0" + r;
+        _Gadget.clip = sounds[aud];
         _Gadget.volume = SoundVolume * MasterVolume;
         _Gadget.Play();
     }
 
-    public void PlayLevel1()
-    {
-        _Music.Stop();
-        _Music.clip = music["Level1theme"];
-        _Music.Play();
-    }
 
-    public void PlayLevel2()
-    {
-        _Music.Stop();
-        _Music.clip = music["Level2theme"];
-        _Music.Play();
-    }
-
-    public void PlayLevel3()
-    {
-        _Music.Stop();
-        _Music.clip = music["Level3theme"];
-        _Music.Play();
-    }
-
-    public void PlayMainMenu()
-    {
-        _Music.Stop();
-        _Music.clip = music["MainMenuTheme"];
-        _Music.Play();
-    }
 
     public void LowerVolume(float vol = 100.0f)
     {
@@ -403,5 +428,3 @@ public class AudioManager : MonoBehaviour
             Raise = true;
     }
 }
-
-

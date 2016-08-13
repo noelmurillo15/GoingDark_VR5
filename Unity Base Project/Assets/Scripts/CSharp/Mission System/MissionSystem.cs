@@ -26,6 +26,8 @@ public class MissionSystem : MonoBehaviour
 
     GameObject[] portals;
 
+    SaveGame save;
+
     private TallyScreen tallyscreen;
     private Mission MainMission;
     #region Getters
@@ -315,7 +317,7 @@ public class MissionSystem : MonoBehaviour
     }
 
     void BeginTally()
-    {
+    {        
         m_playerStats.GoToStation();
         tallyscreen.ActivateTallyScreen();
     }

@@ -55,10 +55,10 @@ public class MessageScript : MonoBehaviour
     }
     public void EnemyClose()
     {
-        enemyClose.enabled = true;
         if (IsInvoking("EnemyAway"))
             CancelInvoke("EnemyAway");
 
+        enemyClose.enabled = true;
         Invoke("EnemyAway", 10f);
     }
     void EnemyAway()
@@ -67,11 +67,11 @@ public class MessageScript : MonoBehaviour
     }
     public void MissileIncoming()
     {
-        missileInc.enabled = true;
         if(IsInvoking("MissileDestroyed"))
             CancelInvoke("MissileDestroyed");
 
-        Invoke("MissileDestroyed", 5f);
+        missileInc.enabled = true;
+        Invoke("MissileDestroyed", 1f);
     }  
     public void MissileDestroyed()
     {

@@ -11,6 +11,7 @@ public class LaserProjectile : MonoBehaviour
 
     bool init = false;
     private Transform MyTransform;
+    private PlayerStats stats;
     private ObjectPoolManager poolManager;
     #endregion
 
@@ -21,6 +22,7 @@ public class LaserProjectile : MonoBehaviour
             init = true;
             MyTransform = transform;
             gameObject.SetActive(false);
+            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
             poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         }
         else
@@ -70,7 +72,8 @@ public class LaserProjectile : MonoBehaviour
             col.transform.SendMessage("LaserDmg", this);
 
         if (col.transform.CompareTag("Asteroid"))
-        {
+        {            
+            stats.SendMessage("UpdateCredits", PlayerPrefs.GetInt("Credits") + 1);
             col.transform.SendMessage("Kill");
             Kill();
         }     

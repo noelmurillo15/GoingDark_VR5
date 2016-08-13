@@ -59,8 +59,8 @@ public class ObjectPoolManager : MonoBehaviour
         shieldbreakMissile.Initialize(Resources.Load<GameObject>("Missiles/ShieldBreakMissile"), 6, MyTransform);
 
         //  Player Missile Explosions
+        baseMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/BasicExplosion"), 12, MyTransform);
         empMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/EmpExplosion"), 4, MyTransform);
-        baseMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/BasicExplosion"), 4, MyTransform);
         chromeMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/ChromaticExplosion"), 4, MyTransform);
         shieldbreakMissileExplode.Initialize(Resources.Load<GameObject>("Explosions/ShieldBreakExplosion"), 4, MyTransform);
 

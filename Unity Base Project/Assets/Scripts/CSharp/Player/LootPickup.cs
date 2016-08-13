@@ -49,7 +49,11 @@ public class LootPickup : MonoBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.transform.tag == "Player") {
             mission.SendMessage("LootPickedUp");
+            int creds = PlayerPrefs.GetInt("Credits");
+
+            creds += 100;
             collected = true;
+            col.SendMessage("UpdateCredits", creds);
             AudioManager.instance.PlayCollect();
         }
     }

@@ -20,6 +20,7 @@ public class MissileProjectile : MonoBehaviour
     private Rigidbody MyRigidbody;
     private Quaternion targetRotation;
 
+    private PlayerStats stats;
     private Transform target;
     private ObjectPoolManager poolManager;
     #endregion
@@ -36,6 +37,7 @@ public class MissileProjectile : MonoBehaviour
 
             MyTransform = transform;
             MyRigidbody = GetComponent<Rigidbody>();
+            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
             poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
             gameObject.SetActive(false);
         }
@@ -139,6 +141,7 @@ public class MissileProjectile : MonoBehaviour
         }
         else if (col.transform.CompareTag("Asteroid"))
         {
+            stats.SendMessage("UpdateCredits", PlayerPrefs.GetInt("Credits") + 5);
             col.transform.SendMessage("Kill");
             Kill();
         }

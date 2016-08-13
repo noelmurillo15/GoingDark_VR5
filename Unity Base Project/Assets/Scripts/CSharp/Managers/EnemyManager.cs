@@ -83,7 +83,37 @@ public class EnemyManager : MonoBehaviour {
         if(missionSystem != null)
             missionSystem.KilledEnemy(enemy.Type);
 
-        if(tallyscreen != null)
+        int creds = PlayerPrefs.GetInt("Credits");            
+        switch (enemy.Type)
+        {
+            case EnemyTypes.Basic:
+                creds += 25;
+                break;
+            case EnemyTypes.Droid:
+                creds += 2;
+                break;
+            case EnemyTypes.SquadLead:
+                creds += 100;
+                break;
+            case EnemyTypes.JetFighter:
+                creds += 10;
+                break;
+            case EnemyTypes.Transport:
+                creds += 500;
+                break;
+            case EnemyTypes.Trident:
+                creds += 20;
+                break;
+            case EnemyTypes.Tank:
+                creds += 800;
+                break;
+            case EnemyTypes.FinalBoss:
+                creds += 2500;
+                break;
+        }
+        PlayerPosition.SendMessage("UpdateCredits", creds);
+
+        if (tallyscreen != null)
             tallyscreen.EnemiesKilled += 1;
 
         enemies.Remove(enemy);

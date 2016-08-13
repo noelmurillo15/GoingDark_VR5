@@ -28,15 +28,18 @@ public class PlayerCollisions : MonoBehaviour
         {
             if (hit.transform.CompareTag("Asteroid"))
             {
+                if (movedata.Speed > 450)
+                    stats.Kill();                
+
                 stats.CrashHit(movedata.Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
             }
             if (hit.transform.CompareTag("Enemy"))
-            {
+            {               
                 stats.CrashHit(move.GetMoveData().Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
             }
-            padding = 2f;
+            padding = 3f;
         }
     }
 }

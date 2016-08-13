@@ -54,6 +54,7 @@ namespace GoingDark.Core.Utility
         private GameObject[] Slots;
 
         private PlayerInput playerInput;
+        private PlayerStats stats;
         #endregion
 
 
@@ -99,7 +100,6 @@ namespace GoingDark.Core.Utility
                 if (!paused)
                 {
                     playerInput.MessageUp(true);
-                    Debug.Log("Game Paused");
                     paused = true;
                     mainPanel.SetActive(true);
                     TitleTexts.SetActive(true);
@@ -120,7 +120,6 @@ namespace GoingDark.Core.Utility
 
         public void Resume()
         {
-            Debug.Log("Game Resumed");
             paused = false;
             Time.timeScale = timeScale;
             mainPanel.SetActive(false);
@@ -157,6 +156,8 @@ namespace GoingDark.Core.Utility
         public void SaveGame()
         {
             CheckSlots();
+            Debug.Log("Saving the game");
+            PlayerPrefs.SetInt("Credits", stats.GetCredits());
             saveSlots.SetActive(true);
             mainPanel.SetActive(false);
         }

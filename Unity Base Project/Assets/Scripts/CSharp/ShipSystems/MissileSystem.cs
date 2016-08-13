@@ -17,9 +17,10 @@ public class MissileSystem : ShipSystem
     private Image missileSprite;
 
     // Misc
+    private Vector2 rumble;
+    private x360Controller controller;
     private Hitmarker lockon;
     private Transform MyTransform;
-    private x360Controller controller;
     private Transform leap;
     #endregion
 
@@ -49,6 +50,7 @@ public class MissileSystem : ShipSystem
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
 
         MyTransform = transform;
+        rumble = new Vector2(.33f, .33f);
         controller = GamePadManager.Instance.GetController(0);
         lockon = GameObject.Find("PlayerReticle").GetComponent<Hitmarker>();
 
@@ -57,9 +59,6 @@ public class MissileSystem : ShipSystem
 
     void Update()
     {
-        if (controller.GetButtonDown("Y"))
-            WeaponSwap();
-
         if (Activated)
             LaunchMissile();
 
@@ -131,6 +130,8 @@ public class MissileSystem : ShipSystem
         if (Count[(int)Type] > 0)
         {            
             DeActivate();
+
+            controller.AddRumble(.5f, rumble);
 
             GameObject obj = null;
             switch (Type)

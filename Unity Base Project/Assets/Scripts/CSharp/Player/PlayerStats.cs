@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using GoingDark.Core.Enums;
+using GoingDark.Core.Utility;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -13,6 +15,16 @@ public class PlayerStats : MonoBehaviour
     private Transform station;
     [SerializeField]
     private GameObject stunned;
+    [SerializeField]
+    private PauseManager save;
+
+    private string diff;
+    private int startCredits;
+    private float dmgMultiplier;
+    private const string display = "Credits : {0}";
+
+    [SerializeField]
+    private Text creditsDisplay;
 
     private CloakSystem cloak;
     private HyperdriveSystem hype;
@@ -30,7 +42,31 @@ public class PlayerStats : MonoBehaviour
         DebuffData = new DebuffProperties();
         HealthData = new HealthProperties(100f, transform, true);
         ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
-        
+
+        startCredits = PlayerPrefs.GetInt("Credits");
+        creditsDisplay.text = string.Format(display, startCredits);
+        string diff = PlayerPrefs.GetString("Difficulty");         
+        switch (diff)
+        {
+            case "Easy":
+                dmgMultiplier = 1f;
+                break;
+            case "Medium":
+                dmgMultiplier = 1.5f;
+                break;
+            case "Hard":
+                dmgMultiplier = 2f;
+                break;
+            case "Nightmare":
+                dmgMultiplier = 3f;
+                break;
+            default:
+                Debug.LogError("Player Could not get Game difficulty");
+                break;
+        }
+
+        Debug.Log("Player Dmg Mult : " + dmgMultiplier);
+
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
         msgs = transform.GetComponentInChildren<MessageScript>();
@@ -66,13 +102,21 @@ public class PlayerStats : MonoBehaviour
     {
         return cloak;
     }
+    public int GetCredits()
+    {
+        return startCredits;
+    }
+    public void UpdateCredits(int add)
+    {
+        startCredits += add;
+        creditsDisplay.text = string.Format(display, startCredits);
+    }
     #endregion
 
     #region Shield
     public void HealShield()
     {
-        ShieldData.Heal(10f);
-
+        ShieldData.Heal(5f);
         if (ShieldData.Health >= 100)
             CancelInvoke("HealShield");
     }
@@ -94,8 +138,8 @@ public class PlayerStats : MonoBehaviour
         {
             DebuffData.isStunned = true;
             stunned.SetActive(true);
-            Invoke("RemoveStun", 5f);
             msgs.Stun();
+            Invoke("RemoveStun", 5f);
         }      
     }
 
@@ -116,7 +160,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Player Crashed");
         controller.AddRumble(1f, new Vector2(1f, 1f));
-        HealthData.Damage(_speed * 25f);
+        HealthData.Damage(_speed * 20f);
         UnCloak();
     }    
     private void EMPHit()
@@ -124,34 +168,24 @@ public class PlayerStats : MonoBehaviour
         Debug.Log("Player Emp Dmg");
         controller.AddRumble(5f, new Vector2(1f, 1f));
         PlayerStunned();
-        UnCloak();
-
-        if (ShieldData.GetShieldActive())
-            ShieldData.Damage(50f);        
-        else
-        {
-            systemManager.SystemDamaged();
-            CancelInvoke("RechargeShield");
-            Invoke("RechargeShield", 30f); //  reset timer
-        }        
+        UnCloak();      
     }
     void SplashDmg()
     {
-        Debug.Log("Player Splash Dmg");
-        controller.AddRumble(.5f, new Vector2(.5f, .5f));
         if (!ShieldData.GetShieldActive())
         {
+            Debug.Log("Player Splash Dmg");
+            controller.AddRumble(.5f, new Vector2(.5f, .5f));
+            HealthData.Damage(4 * dmgMultiplier);
             UnCloak();
-            HealthData.Damage(2);
-            CancelInvoke("RechargeShield");
-            Invoke("RechargeShield", 30f);  //  reset timer
         }
     }
-    private void ShieldHit()
+    private void ShieldHit(EnemyLaserProjectile laser)
     {
-        Debug.Log("Player Shield Dmg");
+        Debug.Log("Player Shield Hit By Laser");
         controller.AddRumble(.5f, new Vector2(1f, 1f));
-        ShieldData.Damage(20f);
+        ShieldData.Damage(laser.GetBaseDamage() * dmgMultiplier);
+        laser.Kill();
 
         if (IsInvoking("HealShield"))
             CancelInvoke("HealShield");
@@ -161,19 +195,49 @@ public class PlayerStats : MonoBehaviour
         else
             InvokeRepeating("HealShield", 10f, 2f);
     }
-    private void Hit()
+    private void ShieldHit(EnemyMissileProjectile missile)
+    {
+        Debug.Log("Player Shield Hit By Missile");
+        controller.AddRumble(.5f, new Vector2(1f, 1f));
+        ShieldData.Damage(missile.GetBaseDamage());
+        missile.Kill();
+
+        if (IsInvoking("HealShield"))
+            CancelInvoke("HealShield");
+
+        if (!ShieldData.Active)
+            Invoke("RechargeShield", 30f);
+        else
+            InvokeRepeating("HealShield", 10f, 2f);
+    }
+
+    private void LaserDmg(EnemyLaserProjectile laser)
     {
         if (ShieldData.GetShieldActive())
         {
-            ShieldHit();
+            ShieldHit(laser);
             return;
         }
-
-        Debug.Log("Player Ship Dmg");
         controller.AddRumble(1f, new Vector2(1f, 1f));
+        HealthData.Damage(laser.GetBaseDamage());
+        laser.Kill();                        
         UnCloak();
-        
-        HealthData.Damage(10);                         
+
+        CancelInvoke("RechargeShield");
+        Invoke("RechargeShield", 30f);  //  reset timer
+    }
+    private void MissileDmg(EnemyMissileProjectile missile)
+    {
+        if (ShieldData.GetShieldActive())
+        {
+            ShieldHit(missile);
+            return;
+        }
+        controller.AddRumble(1f, new Vector2(1f, 1f));
+        HealthData.Damage(missile.GetBaseDamage() * dmgMultiplier);
+        missile.Kill();
+        UnCloak();
+
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 30f);  //  reset timer
     }
@@ -198,19 +262,38 @@ public class PlayerStats : MonoBehaviour
     }
     public void Repair()
     {
-        HealthData.FullRestore();
-        ShieldData.FullRestore();
-        systemManager.FullSystemRepair();
+        if ((startCredits - 50) > 0)
+        {
+            UpdateCredits(-50);
+            HealthData.FullRestore();
+            ShieldData.FullRestore();
+            systemManager.FullSystemRepair();
+        }
     }
     public void Respawn()
     {
+        switch (diff)
+        {
+            case "Easy":
+                UpdateCredits(-200); break;
+            case "Medium":
+                UpdateCredits(-200 * 2); break;
+            case "Hard":
+                UpdateCredits(-200 * 3); break;
+            case "Nightmare":
+                UpdateCredits(-200 * 5); break;
+            default:
+                Debug.LogError("Player Could not get Game difficulty");
+                break;
+        }
         Repair();  
         GoToStation();
         if(hype != null)      
             hype.StopHyperdrive();
     }
-    private void Kill()
+    public void Kill()
     {
+        save.SaveGame();
         deathTransition.Death();
         Invoke("GameOver", 2f);
     }

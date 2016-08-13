@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class ChangeName : MonoBehaviour
@@ -20,7 +19,6 @@ public class ChangeName : MonoBehaviour
     {
         if (Name.text == "NAME")
             Name.text = "";
-        Debug.Log("Length : " + Name.text.Length + Name.text);
         if (Name.text.Length < 14)
             Name.text += letter;
 

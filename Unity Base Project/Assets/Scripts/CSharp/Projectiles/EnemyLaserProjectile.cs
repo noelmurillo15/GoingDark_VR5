@@ -9,6 +9,8 @@ public class EnemyLaserProjectile : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    private float baseDmg;
+
     bool init = false;
     private Transform MyTransform;
     private ObjectPoolManager poolManager;
@@ -22,6 +24,22 @@ public class EnemyLaserProjectile : MonoBehaviour
             MyTransform = transform;
             gameObject.SetActive(false);
             poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
+
+            switch (Type)
+            {
+                case EnemyLaserType.Basic:
+                    baseDmg = 2.5f;
+                    break;
+                case EnemyLaserType.Charged:
+                    baseDmg = 7.5f;
+                    break;
+                case EnemyLaserType.MiniCannon:
+                    baseDmg = 30f;
+                    break;
+                case EnemyLaserType.Cannon:
+                    baseDmg = 50f;
+                    break;
+            }
         }
         else
             Invoke("Kill", 3f);        
@@ -32,12 +50,16 @@ public class EnemyLaserProjectile : MonoBehaviour
         MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
     }
 
+    #region Accessors
+    public float GetBaseDamage()
+    {
+        return baseDmg;
+    }
+    #endregion
+
     #region Recycle Death
     public void Kill()
-    {
-        if (IsInvoking("Kill"))
-            CancelInvoke("Kill");
-
+    {        
         GameObject go = null;
         switch (Type)
         {
@@ -71,8 +93,10 @@ public class EnemyLaserProjectile : MonoBehaviour
     {
         if (col.transform.CompareTag("Player"))
         {
-            col.transform.SendMessage("Hit");
-            Kill();
+            if (IsInvoking("Kill"))
+                CancelInvoke("Kill");
+
+            col.transform.SendMessage("LaserDmg", this);
         }
         if (col.transform.CompareTag("Asteroid"))
         {

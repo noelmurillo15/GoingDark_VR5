@@ -269,9 +269,8 @@
     <Compile Include="Assets\Scripts\CSharp\Player\Turret.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ChargeLaser.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserGrowth.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissile.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissileProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />

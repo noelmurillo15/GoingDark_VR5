@@ -7,7 +7,7 @@ public class EnemyLaserSystem : MonoBehaviour
     #region Properties
     [SerializeField]
     private EnemyLaserType Type;
-    [SerializeField]
+
     private float fireRate;
 
     private Transform MyTransform;
@@ -18,6 +18,18 @@ public class EnemyLaserSystem : MonoBehaviour
 
     void Start()
     {
+        switch (Type)
+        {
+            case EnemyLaserType.Basic:
+                fireRate = .25f;
+                break;
+            case EnemyLaserType.Charged:
+                fireRate = .5f;
+                break;
+            case EnemyLaserType.MiniCannon:
+                fireRate = 2f;
+                break;
+        }
         MyTransform = transform;
         behavior = MyTransform.GetComponentInParent<EnemyStateManager>();
         pool = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
