@@ -141,7 +141,7 @@ public class MissileProjectile : MonoBehaviour
         }
         else if (col.transform.CompareTag("Asteroid"))
         {
-            stats.SendMessage("UpdateCredits", PlayerPrefs.GetInt("Credits") + 5);
+            stats.SendMessage("UpdateCredits", 5);
             col.transform.SendMessage("Kill");
             Kill();
         }

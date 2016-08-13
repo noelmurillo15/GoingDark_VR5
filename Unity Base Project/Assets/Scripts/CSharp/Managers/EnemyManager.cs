@@ -9,6 +9,8 @@ public class EnemyManager : MonoBehaviour {
 
     private List<IEnemy> enemies = new List<IEnemy>();
 
+    private int creditMultiplier;
+
     private Transform PlayerPosition;
     private MissionSystem missionSystem;
     private SystemManager systemManager;
@@ -23,15 +25,19 @@ public class EnemyManager : MonoBehaviour {
         {
             case "Easy":
                 Difficulty = GameDifficulty.Easy;
+                creditMultiplier = 1;
                 break;
             case "Medium":
                 Difficulty = GameDifficulty.Normal;
+                creditMultiplier = 2;
                 break;
             case "Hard":
                 Difficulty = GameDifficulty.Hard;
+                creditMultiplier = 3;
                 break;
             case "Nightmare":
                 Difficulty = GameDifficulty.Nightmare;
+                creditMultiplier = 5;
                 break;
             default:
                 Debug.Log("Enemy Manager could not get Level Difficulty");
@@ -83,32 +89,32 @@ public class EnemyManager : MonoBehaviour {
         if(missionSystem != null)
             missionSystem.KilledEnemy(enemy.Type);
 
-        int creds = PlayerPrefs.GetInt("Credits");            
+        int creds = 0;         
         switch (enemy.Type)
         {
             case EnemyTypes.Basic:
-                creds += 25;
+                creds += 20 * creditMultiplier;
                 break;
             case EnemyTypes.Droid:
-                creds += 2;
+                creds += 5 * creditMultiplier;
                 break;
             case EnemyTypes.SquadLead:
-                creds += 100;
+                creds += 50 * creditMultiplier;
                 break;
             case EnemyTypes.JetFighter:
-                creds += 10;
+                creds += 10 * creditMultiplier;
                 break;
             case EnemyTypes.Transport:
-                creds += 500;
+                creds += 250 * creditMultiplier;
                 break;
             case EnemyTypes.Trident:
-                creds += 20;
+                creds += 15 * creditMultiplier;
                 break;
             case EnemyTypes.Tank:
-                creds += 800;
+                creds += 300 * creditMultiplier;
                 break;
             case EnemyTypes.FinalBoss:
-                creds += 2500;
+                creds += 500 * creditMultiplier;
                 break;
         }
         PlayerPosition.SendMessage("UpdateCredits", creds);

@@ -62,6 +62,7 @@ namespace GoingDark.Core.Utility
         {
             paused = false;
             playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
+            stats = playerInput.GetComponent<PlayerStats>();
 
             currLevel = SceneManager.GetActiveScene().name;
 
@@ -157,7 +158,7 @@ namespace GoingDark.Core.Utility
         {
             CheckSlots();
             Debug.Log("Saving the game");
-            PlayerPrefs.SetInt("Credits", stats.GetCredits());
+            PlayerPrefs.SetInt("Credits", stats.GetCredits());            
             saveSlots.SetActive(true);
             mainPanel.SetActive(false);
         }

@@ -73,7 +73,7 @@ public class LaserProjectile : MonoBehaviour
 
         if (col.transform.CompareTag("Asteroid"))
         {            
-            stats.SendMessage("UpdateCredits", PlayerPrefs.GetInt("Credits") + 1);
+            stats.SendMessage("UpdateCredits", 1);
             col.transform.SendMessage("Kill");
             Kill();
         }     

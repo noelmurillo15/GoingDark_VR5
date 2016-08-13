@@ -8,7 +8,7 @@ public class LootCratePickup : MonoBehaviour
         if (col.transform.tag == "Player")
         {
             AudioManager.instance.PlayCollect();
-            col.transform.SendMessage("UpdateCredits", PlayerPrefs.GetInt("Credits") + 100);
+            col.transform.SendMessage("UpdateCredits", 100);
             Destroy(gameObject);
         }
     }
