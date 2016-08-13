@@ -114,7 +114,7 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\ChangeName.cs" />
     <Compile Include="Assets\EnemyCloseScript.cs" />
-    <Compile Include="Assets\EnemyLaserSystem.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserSystem.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
@@ -267,12 +267,9 @@
     <Compile Include="Assets\Scripts\CSharp\Player\SpeedGauge.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Tracer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Turret.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\ChargeLaser.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\ContinuousLaserGrowth.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissileProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserFX.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserOverheat.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\LaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\MissileProjectile.cs" />

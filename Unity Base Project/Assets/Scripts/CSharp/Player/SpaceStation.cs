@@ -20,7 +20,7 @@ public class SpaceStation : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        repairTimer = 0f;
+        repairTimer = 60f;
         sound = GetComponent<AudioSource>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
 
@@ -63,20 +63,22 @@ public class SpaceStation : MonoBehaviour
                 enemyTakeOver = false;
                 enemyCount = 0;
 
-                msgs.SendMessage("StationTakeOver");
-                Debug.Log("You have taken over this Station!");
-                missionSystem.ControlPointTaken();
+
+                msgs.SendMessage("StationTakeOver");                missionSystem.ControlPointTaken();
             }
         }
     }
 
     public void OnTriggerExit(Collider col)
     {
-        if (col.transform.tag == "Player" && repairTimer <= 0f && !enemyTakeOver)
+        if (repairTimer <= 0f)
         {
-            sound.Play();
-            stats.Repair();
-            repairTimer = 60f;
+            if (col.transform.tag == "Player" && !enemyTakeOver)
+            {
+                sound.Play();
+                stats.Repair();
+                repairTimer = 60f;
+            }
         }
     }
 }
