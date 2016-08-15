@@ -129,29 +129,13 @@ public class PlayerStats : MonoBehaviour
     #region Debuffs
     public void PlayerSlowed()
     {
-        DebuffData.isSlowed = true;
-        Invoke("RemoveSlow", 10f);
+        msgs.Slow(10f);
+        DebuffData.Slow(10f);
     }
     public void PlayerStunned()
     {      
-        if (!DebuffData.isStunned)
-        {
-            DebuffData.isStunned = true;
-            stunned.SetActive(true);
-            msgs.Stun();
-            Invoke("RemoveStun", 5f);
-        }      
-    }
-
-    void RemoveSlow()
-    {
-        DebuffData.isSlowed = false;
-    }
-    void RemoveStun()
-    {
-        msgs.NotStunned();
-        stunned.SetActive(false);
-        DebuffData.isStunned = false;
+        msgs.Stun(5f);
+        DebuffData.Stun(5f);
     }
     #endregion
 

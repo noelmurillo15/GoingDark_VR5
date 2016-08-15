@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GoingDark.Core.Enums;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,17 +35,15 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!stats.GetDebuffData().isStunned)
+        if (stats.GetDebuffData().debuff != Impairments.Stunned)
         {                       
             Yaw();
             Roll();
             Pitch();
             Flight();
         }
-        else if (stats.GetDebuffData().isStunned)
-            MoveData.DecreaseSpeed();
-
-        speedAmt = MoveData.Speed / MoveData.MaxSpeed;
+        else
+            MoveData.DecreaseSpeed();        
     }
 
     #region Accessors
@@ -76,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Flight()
     {
+        speedAmt = MoveData.Speed / MoveData.MaxSpeed;
         _audioInstance.ThrusterVolume(speedAmt);
         particles.startSpeed = -(speedAmt * .1f);
 

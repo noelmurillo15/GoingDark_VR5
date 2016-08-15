@@ -20,7 +20,5 @@ public class EnemyCloseScript : MonoBehaviour
             EnemyCloseText.text = "1 Enemy Close";
         else
             EnemyCloseText.text = NewNumber.ToString() + " Enemies Close";
-
-
     }
 }

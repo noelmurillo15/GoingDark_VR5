@@ -131,8 +131,7 @@
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\TetherAi.cs" />
-    <Compile Include="Assets\Scripts\CSharp\BlastRadius.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\BlastRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />

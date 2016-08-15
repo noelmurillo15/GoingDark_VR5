@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class IEnemy : MonoBehaviour
-{
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(EnemyStateManager))]
+[RequireComponent(typeof(EnemyCollision))]
+[RequireComponent(typeof(EnemyMovement))]
+public class IEnemy : MonoBehaviour {
 
     #region Properties
     [SerializeField]
-    public EnemyTypes Type;
-    [SerializeField]
-    private bool hasShield;
+    private EnemyTypes Type;
     [SerializeField]
     private GameObject stunned;
+    [SerializeField]
+    private GameObject shield;
+
+    private bool hasShield = false;
+    private float multiplier = 0f;
 
     private Impairments Debuff;
     private HealthProperties HealthData;
@@ -24,21 +32,40 @@ public class IEnemy : MonoBehaviour
 
 
     void Awake()
-    {        
+    {
+        if (shield != null)
+            hasShield = true;
+             
         stunned.SetActive(false);
         Debuff = Impairments.None;
 
         movement = GetComponent<EnemyMovement>();
         collision = GetComponent<EnemyCollision>();
-        statemanager = GetComponent<EnemyStateManager>();
+        statemanager = GetComponent<EnemyStateManager>();        
 
-        movement.enabled = false;
-        collision.enabled = false;
-
+        switch (PlayerPrefs.GetString("Difficulty"))
+        {
+            case "Easy":
+                multiplier = 1f;
+                break;
+            case "Medium":
+                multiplier = 1.5f;
+                break;
+            case "Hard":
+                multiplier = 2f;
+                break;
+            case "Nightmare":
+                multiplier = 3f;
+                break;
+        }
         Invoke("LoadEnemyData", .5f);
     }
 
     #region Accessors        
+    public EnemyTypes GetEnemyType()
+    {
+        return Type;
+    }
     public EnemyManager GetManager()
     {
         return manager;
@@ -78,22 +105,6 @@ public class IEnemy : MonoBehaviour
     #endregion
 
     #region Damage Calls 
-    public void CrashHit(float _speed)
-    {
-        if (hasShield && ShieldData.GetShieldActive())
-        {
-            ShieldHit(_speed * 25f);
-        }
-        else
-        {
-            if(HealthData != null)
-                HealthData.Damage(_speed * HealthData.MaxHealth * .5f);
-        }
-    }
-    void ShieldHit(float dmg)
-    {
-        ShieldData.Damage(dmg);
-    }
     void EMPHit()
     {
         stunned.SetActive(true);
@@ -103,49 +114,42 @@ public class IEnemy : MonoBehaviour
     void SplashDmg()
     {
         if (hasShield && ShieldData.GetShieldActive())
-            ShieldHit(10f);
+            ShieldData.Damage(ShieldData.MaxHealth * .1f);
         else
-            HealthData.Damage(2);
+            HealthData.Damage(HealthData.MaxHealth * .1f);
     }
+    public void CrashHit(float _speed)
+    {
+        if (hasShield && ShieldData.GetShieldActive())
+            ShieldData.Damage(_speed * ShieldData.MaxHealth * .5f);        
+        else
+            HealthData.Damage(_speed * HealthData.MaxHealth * .5f);        
+    }        
     public void MissileHit(MissileProjectile missile)
     {
         if (hasShield && ShieldData.GetShieldActive())
         {
-            if (Type == EnemyTypes.FinalBoss)
+            if (Type != EnemyTypes.FinalBoss)
             {
-                missile.Kill();
-                return;
-            }
-
-            switch (missile.Type)
-            {
-                case MissileType.Basic:
-                    missile.Deflect();
-                    break;
-                case MissileType.Emp:
+                if(missile.Type == MissileType.ShieldBreak)
+                {
+                    ShieldData.Damage(100f);
+                    missile.Kill();
+                }
+                else if(missile.Type == MissileType.Emp)
+                {
                     EMPHit();
                     missile.Kill();
-                    break;
-                case MissileType.ShieldBreak:
-                    ShieldHit(100f);
-                    missile.Kill();
-                    break;
-                case MissileType.Chromatic:
+                }
+                else
                     missile.Deflect();
-                    break;
             }
+            else
+                missile.Deflect();                     
         }
         else
         {
-            switch (missile.Type)
-            {
-                case MissileType.Basic:
-                    HealthData.Damage(5);
-                    break;
-                case MissileType.Chromatic:
-                    HealthData.Damage(25);
-                    break;
-            }
+            HealthData.Damage(missile.GetBaseDmg());
             missile.Kill();
         }
     }
@@ -153,24 +157,12 @@ public class IEnemy : MonoBehaviour
     {
         if (hasShield && ShieldData.GetShieldActive())
         {
-            if (Type == EnemyTypes.FinalBoss)
-            {
-                laser.Kill();
-                return;
-            }
-
-            if (laser.Type == LaserType.Basic)
-                ShieldHit(2.5f);
-            else
-                ShieldHit(12.5f);
+            if (Type != EnemyTypes.FinalBoss)
+                ShieldData.Damage(laser.GetBaseDmg());
         }
         else
-        {
-            if (laser.Type == LaserType.Basic)
-                HealthData.Damage(1f);
-            else
-                HealthData.Damage(5f);
-        }
+            HealthData.Damage(laser.GetBaseDmg() * .5f);
+        
         laser.Kill();
     }
 
@@ -191,27 +183,9 @@ public class IEnemy : MonoBehaviour
 
     #region Private Methods
     void LoadEnemyData()
-    {
-        float multiplier = 0f;
-        string diff = PlayerPrefs.GetString("Difficulty");
-
-        switch (diff)
-        {
-            case "Easy":
-                multiplier = .5f;
-                break;
-            case "Medium":
-                multiplier = 1f;
-                break;
-            case "Hard":
-                multiplier = 2f;
-                break;
-            case "Nightmare":
-                multiplier = 3f;
-                break;
-        }
+    {        
         if (hasShield)
-            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f * multiplier);
+            ShieldData = new ShieldProperties(shield, 50f * multiplier);
 
         switch (Type)
         {
@@ -234,14 +208,11 @@ public class IEnemy : MonoBehaviour
         }
         manager = transform.root.GetComponent<EnemyManager>();
 
-        movement.enabled = true;
-        collision.enabled = true;
-
         movement.Initialize();
         collision.Initialize();
-        movement.LoadEnemyData(diff);
+        movement.LoadEnemyData(multiplier);
 
-        statemanager.ChangeState(EnemyStates.Patrol);
+        statemanager.SetEnemyTarget(null);
         manager.AddEnemy(this);
     }
     #endregion 

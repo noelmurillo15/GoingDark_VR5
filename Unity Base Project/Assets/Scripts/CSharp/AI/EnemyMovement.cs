@@ -6,18 +6,20 @@ using System.Collections.Generic;
 public class EnemyMovement : MonoBehaviour
 {
     #region Properties
-    private IEnemy stats;
-    private EnemyStateManager stateManager;
-    
-    private Transform MyTransform;
-    private Rigidbody MyRigidbody;
+    [SerializeField]
+    private MovementProperties MoveData;
 
-    public bool autopilot;
+    private bool autopilot;
     private float headingChange;
     private float headingX, headingY;
     private Vector3 targetRotation;
     private Vector3 autopilotlocation;
-    public MovementProperties MoveData;
+
+    private IEnemy stats;
+    private EnemyStateManager stateManager;    
+
+    private Transform MyTransform;
+    private Rigidbody MyRigidbody;
     #endregion
 
     void Awake()
@@ -31,7 +33,6 @@ public class EnemyMovement : MonoBehaviour
 
     public void Initialize()
     {
-        //  Patrol
         autopilotlocation = Vector3.zero;
         targetRotation = Vector3.zero;
         headingChange = 45f;
@@ -39,11 +40,8 @@ public class EnemyMovement : MonoBehaviour
 
         headingY = Random.Range(1f, 359f);
         headingX = Random.Range(1f, 359f);
-
-        // Set random rotation        
         MyTransform.eulerAngles = new Vector3(headingX, headingY, 0);
 
-        //  Start Coroutine
         Timing.RunCoroutine(NewHeading());
     }
 
@@ -55,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
             return;
         }        
 
-        switch (stateManager.State)
+        switch (stateManager.GetState())
         {
             case EnemyStates.Patrol:
                 Patrol();
@@ -75,6 +73,64 @@ public class EnemyMovement : MonoBehaviour
         }
         MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * MoveData.Speed);
     }
+
+    #region Accessors
+    public MovementProperties GetMoveData()
+    {
+        return MoveData;
+    }
+    #endregion
+
+    #region Modifiers
+    void InBounds()
+    {
+        autopilot = false;
+    }
+    void OutOfBounds(Vector3 _loc)
+    {
+        autopilot = true;
+        autopilotlocation = _loc;
+    }
+    public void StopMovement()
+    {
+        MoveData.Speed = 0f;
+    }
+    public void SetSpeedBoost(float newBoost)
+    {
+        MoveData.Boost = newBoost;
+    }    
+    public void LoadEnemyData(float mult)
+    {
+        mult *= .5f;
+        switch (stats.GetEnemyType())
+        {
+            case EnemyTypes.Droid:
+                MoveData.Set(0f, .5f, 125f * mult, 1f, 18f * mult);
+                break;
+            case EnemyTypes.JetFighter:
+                MoveData.Set(0f, .5f, 120f * mult, 1.25f, 20f * mult);
+                break;
+            case EnemyTypes.Trident:
+                MoveData.Set(0f, .5f, 100f * mult, 1.5f, 16f * mult);
+                break;
+            case EnemyTypes.Basic:
+                MoveData.Set(0f, .5f, 90f * mult, 2f, 15f * mult);
+                break;
+            case EnemyTypes.SquadLead:
+                MoveData.Set(0f, .5f, 85f * mult, 2.5f, 15f * mult);
+                break;
+            case EnemyTypes.Transport:
+                MoveData.Set(0f, .5f, 70f * mult, 3f, 12f * mult);
+                break;
+            case EnemyTypes.Tank:
+                MoveData.Set(0f, .5f, 60f * mult, 5f, 10f * mult);
+                break;
+            case EnemyTypes.FinalBoss:
+                MoveData.Set(0f, 0f, 0f, 6f, 0f);
+                break;
+        }
+    }
+    #endregion
 
     #region States
     void Patrol()
@@ -100,7 +156,7 @@ public class EnemyMovement : MonoBehaviour
         Vector3 lastplayerdir = stateManager.LastKnownPos - MyTransform.position;
         if (Vector3.Distance(MyTransform.position, stateManager.LastKnownPos) < 250f)
         {
-            stateManager.losingsightTimer = 0f;
+            stateManager.SetEnemyTarget(null);
             return;
         }
 
@@ -114,7 +170,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector3 playerDir = stateManager.Target.position - MyTransform.position;
             Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
-            if (stats.Type == EnemyTypes.Droid)
+            if (stats.GetEnemyType() == EnemyTypes.Droid)
             {
                 MyTransform.rotation = Quaternion.LookRotation(direction);
             }
@@ -141,7 +197,7 @@ public class EnemyMovement : MonoBehaviour
         MoveData.IncreaseSpeed();
         Vector3 playerDir = MyTransform.position - stateManager.Target.position;
         Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime / MoveData.RotateSpeed, 0.0f);
-        if (stats.Type == EnemyTypes.Droid)
+        if (stats.GetEnemyType() == EnemyTypes.Droid)
         {
             MyTransform.rotation = Quaternion.LookRotation(direction);
         }
@@ -157,71 +213,6 @@ public class EnemyMovement : MonoBehaviour
         }
         headingX = MyTransform.eulerAngles.x;
         headingY = MyTransform.eulerAngles.y;
-    }
-    #endregion
-
-    #region Accessors
-    public MovementProperties GetMoveData()
-    {
-        return MoveData;
-    }
-    public void StopMovement()
-    {
-        MoveData.Speed = 0f;
-    }
-    #endregion
-
-    #region Modifiers
-    public void SetSpeedBoost(float newBoost)
-    {
-        MoveData.Boost = newBoost;
-    }
-
-    public void LoadEnemyData(string diff)
-    {
-        float multiplier = 0f;
-        switch (diff)
-        {
-            case "Easy":
-                multiplier = 1f;
-                break;
-            case "Medium":
-                multiplier = 1.25f;
-                break;
-            case "Hard":
-                multiplier = 1.5f;
-                break;
-            case "Nightmare":
-                multiplier = 2f;
-                break;
-        }
-        switch (stats.Type)
-        {
-            case EnemyTypes.Droid:
-                MoveData.Set(0f, .5f, 125f * multiplier, 1f, 18f * multiplier);
-                break;
-            case EnemyTypes.JetFighter:
-                MoveData.Set(0f, .5f, 120f * multiplier, 1.25f, 20f * multiplier);
-                break;
-            case EnemyTypes.Trident:
-                MoveData.Set(0f, .5f, 100f * multiplier, 1.5f, 16f * multiplier);
-                break;
-            case EnemyTypes.Basic:
-                MoveData.Set(0f, .5f, 90f * multiplier, 2f, 15f * multiplier);
-                break;
-            case EnemyTypes.SquadLead:
-                MoveData.Set(0f, .5f, 85f * multiplier, 2.5f, 15f * multiplier);
-                break;
-            case EnemyTypes.Transport:
-                MoveData.Set(0f, .5f, 70f * multiplier, 3f, 12f * multiplier);
-                break;
-            case EnemyTypes.Tank:
-                MoveData.Set(0f, .5f, 60f * multiplier, 5f, 10f * multiplier);
-                break;
-            case EnemyTypes.FinalBoss:
-                MoveData.Set(0f, 0f, 0f, 6f, 0f);
-                break;
-        }
     }
     #endregion
 
@@ -245,19 +236,6 @@ public class EnemyMovement : MonoBehaviour
         headingY = Random.Range(floor, ceil);
 
         targetRotation = new Vector3(headingX, headingY, 0f);
-    }
-    #endregion
-
-    #region Msgs
-    void OutOfBounds(Vector3 _loc)
-    {
-        autopilot = true;
-        autopilotlocation = _loc;
-    }
-
-    void InBounds()
-    {
-        autopilot = false;
     }
     #endregion
 }

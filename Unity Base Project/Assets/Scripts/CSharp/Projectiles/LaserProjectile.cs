@@ -9,6 +9,8 @@ public class LaserProjectile : MonoBehaviour
     [SerializeField]
     private float speed;
 
+    private float baseDmg;
+
     bool init = false;
     private Transform MyTransform;
     private PlayerStats stats;
@@ -20,6 +22,15 @@ public class LaserProjectile : MonoBehaviour
         if (!init)
         {
             init = true;
+            switch (Type)
+            {
+                case LaserType.Basic:
+                    baseDmg = 2.5f;
+                    break;
+                case LaserType.Charged:
+                    baseDmg = 12.5f;
+                    break;
+            }
             MyTransform = transform;
             gameObject.SetActive(false);
             stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
@@ -34,6 +45,11 @@ public class LaserProjectile : MonoBehaviour
     void FixedUpdate()
     {
         MyTransform.Translate(0f, 0f, speed * Time.deltaTime);
+    }
+
+    public float GetBaseDmg()
+    {
+        return baseDmg;
     }
 
     public void Kill()

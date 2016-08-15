@@ -87,10 +87,10 @@ public class EnemyManager : MonoBehaviour {
         RandomAmmoDrop(enemy.transform.position);
 
         if(missionSystem != null)
-            missionSystem.KilledEnemy(enemy.Type);
+            missionSystem.KilledEnemy(enemy.GetEnemyType());
 
         int creds = 0;         
-        switch (enemy.Type)
+        switch (enemy.GetEnemyType())
         {
             case EnemyTypes.Basic:
                 creds += 20 * creditMultiplier;
@@ -159,7 +159,7 @@ public class EnemyManager : MonoBehaviour {
         {
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (enemies[i].GetStateManager().State == EnemyStates.Attack)
+                if (enemies[i].GetStateManager().GetState() == EnemyStates.Attack)
                     return;
             }
             AudioManager.instance.LowerBattleMusic();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class EnemyTrail : MonoBehaviour
 {
-    public int numTrails;
+    private int numTrails;
     private TrailRenderer[] trails;
     private HealthProperties HealthInfo;
 

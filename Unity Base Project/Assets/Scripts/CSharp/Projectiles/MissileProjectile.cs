@@ -12,6 +12,8 @@ public class MissileProjectile : MonoBehaviour
     [SerializeField]
     private float rotateSpeed;
 
+    private float baseDmg;
+
     private bool init = false;
     private bool tracking;
     private bool deflected;
@@ -35,6 +37,22 @@ public class MissileProjectile : MonoBehaviour
             tracking = false;
             deflected = false;
 
+            switch (Type)
+            {
+                case MissileType.Basic:
+                    baseDmg = 5;
+                    break;
+                case MissileType.Emp:
+                    baseDmg = 3;
+                    break;
+                case MissileType.ShieldBreak:
+                    baseDmg = 1;
+                    break;
+                case MissileType.Chromatic:
+                    baseDmg = 25;
+                    break;
+            }
+
             MyTransform = transform;
             MyRigidbody = GetComponent<Rigidbody>();
             stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
@@ -55,6 +73,11 @@ public class MissileProjectile : MonoBehaviour
             MyRigidbody.MovePosition(MyTransform.position + MyTransform.forward * Time.fixedDeltaTime * speed);
         else
             MyRigidbody.MovePosition(MyTransform.position + -MyTransform.forward * Time.fixedDeltaTime * speed);
+    }
+
+    public float GetBaseDmg()
+    {
+        return baseDmg;
     }
 
     #region Tracking

@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class EnemyCollision : MonoBehaviour
-{
+public class EnemyCollision : MonoBehaviour {
 
     #region Properties   
     [SerializeField]
@@ -13,9 +12,9 @@ public class EnemyCollision : MonoBehaviour
     private float collisionTimer;
 
     private IEnemy stats;
+    private EnemyMovement movement;
     private EnemyManager enemyManager;
     private EnemyStateManager stateManager;
-    private EnemyMovement movement;
 
     //  Player
     private CloakSystem playerCloak;
@@ -108,7 +107,7 @@ public class EnemyCollision : MonoBehaviour
             }
             else
             {
-                if(stateManager.State != EnemyStates.Patrol)
+                if(stateManager.GetState() != EnemyStates.Patrol)
                     stateManager.SetLastKnown(col.transform.position);
             }
             
@@ -120,7 +119,7 @@ public class EnemyCollision : MonoBehaviour
         {
             inRange = false;
 
-            if (stateManager.State != EnemyStates.Patrol)
+            if (stateManager.GetState() != EnemyStates.Patrol)
                 stateManager.SetLastKnown(col.transform.position);
 
             if (LockOnReticle != null)
@@ -128,7 +127,7 @@ public class EnemyCollision : MonoBehaviour
         }
         if (col.CompareTag("Decoy"))
         {
-            if (stateManager.State != EnemyStates.Patrol)
+            if (stateManager.GetState() != EnemyStates.Patrol)
                 stateManager.SetLastKnown(col.transform.position);
         }
     }
@@ -137,7 +136,7 @@ public class EnemyCollision : MonoBehaviour
     {
         if (hit.transform.CompareTag("Player") && collisionTimer <= 0f)
         {
-            if (stats.Type == EnemyTypes.Droid)
+            if (stats.GetEnemyType() == EnemyTypes.Droid)
             {
                 if (Random.Range(0, 2) == 1)
                     hit.transform.SendMessage("EMPHit");
@@ -147,7 +146,7 @@ public class EnemyCollision : MonoBehaviour
             }
             else
             {
-                stats.CrashHit(movement.MoveData.Speed / movement.MoveData.MaxSpeed);
+                stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
                 movement.StopMovement();
             }
             collisionTimer = 5f;
@@ -155,7 +154,7 @@ public class EnemyCollision : MonoBehaviour
 
         if (hit.transform.CompareTag("Asteroid") && collisionTimer <= 0f)
         {
-            stats.CrashHit(movement.MoveData.Speed / movement.MoveData.MaxSpeed);
+            stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
             movement.StopMovement();
             collisionTimer = 5f;
         }

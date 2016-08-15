@@ -9,6 +9,7 @@ public class ShieldProperties
     public GameObject Shield;
     public bool Active { get; private set; }
     public float Health { get; private set; }
+    public float MaxHealth { get; private set; }
 
     //  Player Data
     public bool isPlayer;
@@ -20,7 +21,8 @@ public class ShieldProperties
         isPlayer = false;
         Shield = _shield;
         Active = true;
-        Health = shieldHP;
+        MaxHealth = shieldHP;
+        Health = MaxHealth;
         ShieldBar = null;    
     }
     public ShieldProperties(GameObject _shield, float shieldHP, bool _player)
@@ -28,7 +30,8 @@ public class ShieldProperties
         isPlayer = _player;
         Shield = _shield;
         Active = true;
-        Health = shieldHP;
+        MaxHealth = shieldHP;
+        Health = MaxHealth;
         ShieldBar = GameObject.Find("PlayerShield").GetComponent<Image>();
     }
 
@@ -43,15 +46,15 @@ public class ShieldProperties
     public void Heal(float _val)
     {
         Health += _val;
-        if (Health > 100f)
-            Health = 100f;
+        if (Health > MaxHealth)
+            Health = MaxHealth;
 
         UpdateShieldBar();
     }
 
     public void FullRestore()
     {
-        Health = 100f;
+        Health = MaxHealth;
         Active = true;
         if(Shield != null)
             Shield.SetActive(true);
@@ -60,23 +63,18 @@ public class ShieldProperties
 
     public void SetShieldActive(bool flip)
     {
-        if (flip)
-        {
-            Health = 0f;
-            Active = flip;
-            Shield.SetActive(flip);
-        }
-        else
-        {
-            Health = 100f;
-            Active = flip;
-            Shield.SetActive(flip);
-        }
+        if (!flip)
+            Health = 0f;                    
+        else        
+            Health = MaxHealth;
+
+        Active = flip;
+        Shield.SetActive(flip);
     }
 
     public void UpdateShieldBar()
     {
-        ShieldBar.fillAmount = (Health / 100f) * .5f;
+        ShieldBar.fillAmount = (Health / MaxHealth) * .5f;
     }
 
     public void Damage(float _val)
