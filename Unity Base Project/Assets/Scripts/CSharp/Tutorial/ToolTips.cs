@@ -14,14 +14,13 @@ public class ToolTips : MonoBehaviour
     List<Tip> list = new List<Tip>();
     Tip tip;
     string text;
+
+    [SerializeField]
     private Text line1, line2;
     private bool buffer;
     // Use this for initialization
     void Start()
     {
-        line1 = GameObject.Find("Line1").GetComponent<Text>();
-        line2 = GameObject.Find("Line2").GetComponent<Text>();
-
         buffer = true;
         Initialize();
     }
@@ -41,7 +40,23 @@ public class ToolTips : MonoBehaviour
         list.Add(tip);
 
         text = "You have access to four types of Missiles. Press Y to swap between them";
-        tip = new Tip("Missile", text);
+        tip = new Tip("Missile2", text);
+        list.Add(tip);
+
+        text = "Mediocre damage, mediocre look, but easy to obtain";
+        tip = new Tip("Basic Missile", text);
+        list.Add(tip);
+
+        text = "Low damage, but can stun all enemy within the range upon explosion";
+        tip = new Tip("EMP Missile", text);
+        list.Add(tip);
+
+        text = "Low damage, but very effective against enemy shields";
+        tip = new Tip("Shieldbreak Missile", text);
+        list.Add(tip);
+
+        text = "High damage, eliminate everything within the range upon explosion";
+        tip = new Tip("Chromatic Missile", text);
         list.Add(tip);
 
         text = "Cloak can make you invisible to enemies for an indefinite amount of time. Press X to activate cloak.";
@@ -52,16 +67,8 @@ public class ToolTips : MonoBehaviour
         tip = new Tip("Decoy", text);
         list.Add(tip);
 
-        text = "Sending Out a decoy can distract most enemies away from you. Press B to deploy one";
-        tip = new Tip("Decoy", text);
-        list.Add(tip);
-
         text = "Pressing the LEFT BUMPER will initialize the Hyper drive sequence giving you a increased speed for a limited time";
         tip = new Tip("Hyperdrive", text);
-        list.Add(tip);
-
-        text = "Pressing A will send out an EMP shock wave stunning all nearby enemies for a short time. The EMP will also kill any Droids";
-        tip = new Tip("Electro-Magnetic Pulse", text);
         list.Add(tip);
 
         text = "You must complete the main missions in order to move on to the next level.";
@@ -77,13 +84,13 @@ public class ToolTips : MonoBehaviour
     void Update()
     {
         if (buffer)
-          StartCoroutine(Show());
+            StartCoroutine(Show());
     }
 
     IEnumerator Show()
     {
         buffer = false;
-        for (int i = 0; i < list.Count-1; i++)
+        for (int i = 0; i < list.Count - 1; i++)
         {
             line1.text = list[i].name;
             line2.text = list[i].text;
@@ -93,7 +100,7 @@ public class ToolTips : MonoBehaviour
         buffer = true;
     }
 
-    public void InsertTip(Tip t,int i)
+    public void InsertTip(Tip t, int i)
     {
         list.Insert(i, t);
     }

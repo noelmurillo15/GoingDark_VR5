@@ -20,7 +20,6 @@ public class Meteor : MonoBehaviour {
 	}
     public void Kill()
     {
-        AudioManager.instance.PlayHit();
         Destroy(gameObject);
     }
 }

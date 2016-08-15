@@ -4,10 +4,10 @@ using GoingDark.Core.Enums;
 
 public class ItemInfo : MonoBehaviour
 {
-    [SerializeField]    //  This was breaking but i fixed it
+    [SerializeField]
     private Text headLine, NOI, priceText, currInfo, creditText;
 
-    private Button increment, decrement;   
+    private Button increment, decrement;
     private int numItem, price, itemOwned, itemLevel, credit, hasItem;
     private ShopType sendFrom;
     private float buttonBuffer;
@@ -20,7 +20,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     GameObject deviceList;
 
-    [SerializeField]    //  I started refactoring for you because i was bored
+    [SerializeField]
     private AudioSource buy, buttonPressed, buyFail, back;
 
     void Start()
@@ -34,12 +34,6 @@ public class ItemInfo : MonoBehaviour
         itemOwned = 0;
         itemLevel = 1;
         hasItem = 1;
-
-        //  Never do this again..
-        //buy = GameObject.Find("StoreSound").transform.FindChild("StoreBuy").GetComponent<AudioSource>();
-        //buttonPressed = GameObject.Find("StoreSound").transform.FindChild("StoreButton").GetComponent<AudioSource>();
-        //buyFail = GameObject.Find("StoreSound").transform.FindChild("StoreBuyFail").GetComponent<AudioSource>();
-        //back = GameObject.Find("StoreSound").transform.FindChild("StoreBack").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -48,6 +42,7 @@ public class ItemInfo : MonoBehaviour
             buttonBuffer -= Time.deltaTime;
     }
 
+    #region InfoUpdate
     public void GetItem(ShopType _sendFrom, Item _item)
     {
         sendFrom = _sendFrom;
@@ -111,7 +106,6 @@ public class ItemInfo : MonoBehaviour
                 {
                     currInfo.text = "Max Level";
                     UpdatePrice();
-                    //  currInfo.color = Color.yellow;
                 }
             }
             else
@@ -145,7 +139,7 @@ public class ItemInfo : MonoBehaviour
         UpdatePrice();
     }
 
-    public void DecrementItem()
+    void DecrementItem()
     {
         if (hasItem == 1 && itemLevel != 5)
         {
@@ -163,7 +157,7 @@ public class ItemInfo : MonoBehaviour
             buyFail.Play();
     }
 
-    public void IncrementItem()
+    void IncrementItem()
     {
         if (hasItem == 1 && itemLevel != 5)
         {
@@ -188,6 +182,44 @@ public class ItemInfo : MonoBehaviour
             buyFail.Play();
     }
 
+    void LevelUp()
+    {
+        switch (item.Type)
+        {
+            case Items.BasicMissile:
+                PlayerPrefs.SetInt("BasicMissileCount", PlayerPrefs.GetInt("BasicMissileCount") + numItem);
+                break;
+            case Items.ShieldBreakMissile:
+                PlayerPrefs.SetInt("ShieldbreakMissileCount", PlayerPrefs.GetInt("ShieldbreakMissileCount") + numItem);
+                break;
+            case Items.ChromaticMissile:
+                PlayerPrefs.SetInt("ChromaticMissileCount", PlayerPrefs.GetInt("ChromaticMissileCount") + numItem);
+                break;
+            case Items.EMPMissile:
+                PlayerPrefs.SetInt("EMPMissileCount", PlayerPrefs.GetInt("EMPMissileCount") + numItem);
+                break;
+            case Items.LaserPowerUpgrade:
+                PlayerPrefs.SetInt("LaserPowerLevel", PlayerPrefs.GetInt("LaserPowerLevel") + 1);
+                break;
+            case Items.Laser2PowerUpgrade:
+                PlayerPrefs.SetInt("Laser2PowerLevel", PlayerPrefs.GetInt("Laser2PowerLevel") + 1);
+                break;
+            case Items.HealthUpgrade:
+                PlayerPrefs.SetInt("HealthLevel", PlayerPrefs.GetInt("HealthLevel") + 1);
+                break;
+            case Items.ShieldUpgrade:
+                PlayerPrefs.SetInt("ShieldLevel", PlayerPrefs.GetInt("ShieldLevel") + 1);
+                break;
+            default:
+                break;
+        }
+        numItem = 0;
+        UpdateItemNumberText();
+        UpdatePrice();
+    }
+    #endregion
+
+    #region ButtonFunc
     public void Buy()
     {
         if (buttonBuffer <= 0)
@@ -233,40 +265,5 @@ public class ItemInfo : MonoBehaviour
         back.Play();
         gameObject.SetActive(false);
     }
-
-    void LevelUp()
-    {
-        switch (item.Type)
-        {
-            case Items.BasicMissile:
-                PlayerPrefs.SetInt("BasicMissileCount", PlayerPrefs.GetInt("BasicMissileCount") + numItem);
-                break;
-            case Items.ShieldBreakMissile:
-                PlayerPrefs.SetInt("ShieldbreakMissileCount", PlayerPrefs.GetInt("ShieldbreakMissileCount") + numItem);
-                break;
-            case Items.ChromaticMissile:
-                PlayerPrefs.SetInt("ChromaticMissileCount", PlayerPrefs.GetInt("ChromaticMissileCount") + numItem);
-                break;
-            case Items.EMPMissile:
-                PlayerPrefs.SetInt("EMPMissileCount", PlayerPrefs.GetInt("EMPMissileCount") + numItem);
-                break;
-            case Items.LaserPowerUpgrade:
-                PlayerPrefs.SetInt("LaserPowerLevel", PlayerPrefs.GetInt("LaserPowerLevel") + 1);
-                break;
-            case Items.Laser2PowerUpgrade:
-                PlayerPrefs.SetInt("Laser2PowerLevel", PlayerPrefs.GetInt("Laser2PowerLevel") + 1);
-                break;
-            case Items.HealthUpgrade:
-                PlayerPrefs.SetInt("HealthLevel", PlayerPrefs.GetInt("HealthLevel") + 1);
-                break;
-            case Items.ShieldUpgrade:
-                PlayerPrefs.SetInt("ShieldLevel", PlayerPrefs.GetInt("ShieldLevel") + 1);
-                break;
-            default:
-                break;
-        }
-        numItem = 0;
-        UpdateItemNumberText();
-        UpdatePrice();
-    }
+    #endregion
 }

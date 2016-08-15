@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -113,9 +111,6 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\ChangeName.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyBlastRadius.cs" />
-    <Compile Include="Assets\Scripts\CSharp\ShipSystems\EnemyCloseScript.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserSystem.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
     <Compile Include="Assets\LevelSelection.cs" />
@@ -127,11 +122,12 @@
     <Compile Include="Assets\Scripts\CSharp\AI\BossLaser.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossStats.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyStateManager.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyTrail.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\IEnemy.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\BlastRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\Enums\Enums.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\AmmoPickUp.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />
@@ -217,13 +213,11 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\IntroScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\LeftArmCollision.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\LevelSelectScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MainMenuButton.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\Mainmenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MapConnection.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuButtons.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Menu\PlayerViewCheck.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ShopMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\StatBoard.cs" />
@@ -237,7 +231,6 @@
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionTracker.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\AfterburnerPhysicsForce.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\EnemyTrail.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionPhysicsForce.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\Explosive.cs" />
@@ -264,6 +257,9 @@
     <Compile Include="Assets\Scripts\CSharp\Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\SpeedGauge.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Tracer.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\BlastRadius.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EmpRadius.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyBlastRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissileProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
@@ -277,17 +273,14 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Projectiles\EmpRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\EmpSystem.cs" />
+    <Compile Include="Assets\Scripts\CSharp\ShipSystems\EnemyCloseScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\MissileSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\Radar2DScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFireRing.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTimer.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\DeathTransition.cs" />
