@@ -57,13 +57,11 @@ public class WayPointsManager : MonoBehaviour
             else
             {
                 ArrayListForSorting.RemoveAt(i);
-                ArrayListForSorting.TrimToSize();
-
             }
         }
+        ArrayListForSorting.TrimToSize();
         if (SendBackToStation)
             SearchForThisWayPoint = StationsWayPoint;
-
     }
 
     public void SetWayPoints()

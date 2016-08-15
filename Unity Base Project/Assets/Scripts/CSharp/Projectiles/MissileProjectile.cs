@@ -154,13 +154,9 @@ public class MissileProjectile : MonoBehaviour
     #region Collision
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("Enemy"))
+        if (col.transform.CompareTag("Enemy") || col.transform.CompareTag("Orb"))
         {
             col.transform.SendMessage("MissileHit", this);
-        }
-        else if (col.transform.CompareTag("Orb"))
-        {
-            col.transform.SendMessage("MissileDmg", this);
         }
         else if (col.transform.CompareTag("Asteroid"))
         {

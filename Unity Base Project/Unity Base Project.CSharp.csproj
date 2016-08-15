@@ -113,7 +113,8 @@
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\3rd Party Assets\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\ChangeName.cs" />
-    <Compile Include="Assets\EnemyCloseScript.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyBlastRadius.cs" />
+    <Compile Include="Assets\Scripts\CSharp\ShipSystems\EnemyCloseScript.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyLaserSystem.cs" />
     <Compile Include="Assets\HeadMovement.cs" />
     <Compile Include="Assets\LaserTravel.cs" />
@@ -123,7 +124,6 @@
     <Compile Include="Assets\Orbs.cs" />
     <Compile Include="Assets\SaveGame.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\BossDamage.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossLaser.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossStats.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
@@ -137,7 +137,6 @@
     <Compile Include="Assets\Scripts\CSharp\Environment\Asteroid.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHole.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\BlackHoleRenderer.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Environment\LootCratePickup.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Meteor.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\MeteorGenerator.cs" />
     <Compile Include="Assets\Scripts\CSharp\Environment\Mine.cs" />
@@ -238,7 +237,7 @@
     <Compile Include="Assets\Scripts\CSharp\Mission System\MissionTracker.cs" />
     <Compile Include="Assets\Scripts\CSharp\Mission System\TallyScreen.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\AfterburnerPhysicsForce.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Particles\EnemyTrail.cs" />
+    <Compile Include="Assets\Scripts\CSharp\AI\EnemyTrail.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionFireAndDebris.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ExplosionPhysicsForce.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\Explosive.cs" />
@@ -265,7 +264,6 @@
     <Compile Include="Assets\Scripts\CSharp\Player\SpaceStation.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\SpeedGauge.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Tracer.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Player\Turret.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyLaserProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\EnemyMissileProjectile.cs" />
     <Compile Include="Assets\Scripts\CSharp\Projectiles\ExplosionRecycle.cs" />
@@ -275,12 +273,11 @@
     <Compile Include="Assets\Scripts\CSharp\Properties\DebuffProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\HealthProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\MovementProperties.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Properties\PlayerSaveData.cs" />
     <Compile Include="Assets\Scripts\CSharp\Properties\ShieldProperties.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\CloakSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoyMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\DecoySystem.cs" />
-    <Compile Include="Assets\Scripts\CSharp\ShipSystems\EmpCollision.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Projectiles\EmpRadius.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\EmpSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\HyperdriveSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\LaserSystem.cs" />
@@ -289,7 +286,6 @@
     <Compile Include="Assets\Scripts\CSharp\ShipSystems\ShipSystem.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\ToolTips.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\Tutorial.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialEnemy.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFireRing.cs" />
     <Compile Include="Assets\Scripts\CSharp\Tutorial\TutorialFlight.cs" />
     <Compile Include="Assets\Scripts\CSharp\Utilities\Death.cs" />

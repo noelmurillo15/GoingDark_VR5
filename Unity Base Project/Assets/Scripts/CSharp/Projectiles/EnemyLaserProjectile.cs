@@ -7,6 +7,8 @@ public class EnemyLaserProjectile : MonoBehaviour
     [SerializeField]
     public EnemyLaserType Type;
     [SerializeField]
+    private float aliveTimer;
+    [SerializeField]
     private float speed;
 
     private float baseDmg;
@@ -37,12 +39,12 @@ public class EnemyLaserProjectile : MonoBehaviour
                     baseDmg = 30f;
                     break;
                 case EnemyLaserType.Cannon:
-                    baseDmg = 50f;
+                    baseDmg = 80f;
                     break;
             }
         }
         else
-            Invoke("Kill", 3f);        
+            Invoke("Kill", aliveTimer);        
     }
 
     void FixedUpdate()

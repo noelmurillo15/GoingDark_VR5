@@ -6,7 +6,6 @@ using GoingDark.Core.Utility;
 public class PlayerStats : MonoBehaviour
 {
     #region Properties
-    public PlayerSaveData SaveData;
     public ShieldProperties ShieldData;
     public HealthProperties HealthData;
     public DebuffProperties DebuffData;
@@ -14,17 +13,14 @@ public class PlayerStats : MonoBehaviour
     [SerializeField]
     private Transform station;
     [SerializeField]
-    private GameObject stunned;
-    [SerializeField]
     private PauseManager save;
+    [SerializeField]
+    private Text creditsDisplay;
 
     private string diff;
     private int startCredits;
     private float dmgMultiplier;
     private const string display = "Credits : {0}";
-
-    [SerializeField]
-    private Text creditsDisplay;
 
     private CloakSystem cloak;
     private HyperdriveSystem hype;
@@ -38,13 +34,12 @@ public class PlayerStats : MonoBehaviour
 
     private void Awake()
     {        
-        SaveData = new PlayerSaveData();
-        DebuffData = new DebuffProperties();
         HealthData = new HealthProperties(100f, transform, true);
         ShieldData = new ShieldProperties(GameObject.FindGameObjectWithTag("Shield"), 100f, true);
 
         startCredits = PlayerPrefs.GetInt("Credits");
         creditsDisplay.text = string.Format(display, startCredits);
+
         string diff = PlayerPrefs.GetString("Difficulty");         
         switch (diff)
         {
@@ -82,9 +77,9 @@ public class PlayerStats : MonoBehaviour
     }
 
     #region Accessors
-    public PlayerSaveData GetSaveData()
+    public CloakSystem GetCloak()
     {
-        return SaveData;
+        return cloak;
     }
     public SystemManager GetSystemData()
     {
@@ -98,10 +93,9 @@ public class PlayerStats : MonoBehaviour
     {
         return DebuffData;
     }
-    public CloakSystem GetCloak()
-    {
-        return cloak;
-    }
+    #endregion
+
+    #region Credits
     public int GetCredits()
     {
         return startCredits;
@@ -139,17 +133,20 @@ public class PlayerStats : MonoBehaviour
     }
     #endregion
 
-    #region Message Calls   
+    #region Damage Calls   
+    public void UnCloak()
+    {
+        if (cloak.GetCloaked())
+            cloak.UnCloakShip();
+    }
     public void CrashHit(float _speed)
     {
-        Debug.Log("Player Crashed");
         controller.AddRumble(1f, new Vector2(1f, 1f));
         HealthData.Damage(_speed * 20f);
         UnCloak();
     }    
     private void EMPHit()
     {
-        Debug.Log("Player Emp Dmg");
         controller.AddRumble(5f, new Vector2(1f, 1f));
         PlayerStunned();
         UnCloak();      
@@ -166,7 +163,6 @@ public class PlayerStats : MonoBehaviour
     }
     private void ShieldHit(EnemyLaserProjectile laser)
     {
-        Debug.Log("Player Shield Hit By Laser");
         controller.AddRumble(.5f, new Vector2(1f, 1f));
         ShieldData.Damage(laser.GetBaseDamage() * dmgMultiplier);
         laser.Kill();
@@ -181,7 +177,6 @@ public class PlayerStats : MonoBehaviour
     }
     private void ShieldHit(EnemyMissileProjectile missile)
     {
-        Debug.Log("Player Shield Hit By Missile");
         controller.AddRumble(.5f, new Vector2(1f, 1f));
         ShieldData.Damage(missile.GetBaseDamage());
         missile.Kill();
@@ -194,7 +189,6 @@ public class PlayerStats : MonoBehaviour
         else
             InvokeRepeating("HealShield", 10f, 2f);
     }
-
     private void LaserDmg(EnemyLaserProjectile laser)
     {
         if (ShieldData.GetShieldActive())
@@ -225,30 +219,26 @@ public class PlayerStats : MonoBehaviour
         CancelInvoke("RechargeShield");
         Invoke("RechargeShield", 30f);  //  reset timer
     }
-    public void GoToStation()
-    {
-        deathTransition.SpawnPlayer();        
-        Invoke("ClearScreen", 1f);
-    }
+    #endregion
 
+    #region Death
     public void ClearScreen()
     {
-        transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
+        deathTransition.SpawnPlayer();
         deathTransition.NotDead();
         deathTransition.notSpawned();
-    }
-
-    public void UnCloak()
+    }    
+    public void GoToStation()
     {
-        if(cloak.GetCloaked())
-            cloak.UnCloakShip();
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);             
+        Invoke("ClearScreen", 1f);
     }
-    public void Repair()
+    public void Repair(int cost)
     {
-        if ((startCredits - 50) > 0)
+        if ((startCredits - cost) > 0)
         {
-            UpdateCredits(-50);
+            UpdateCredits(-cost);
             HealthData.FullRestore();
             ShieldData.FullRestore();
             systemManager.FullSystemRepair();
@@ -266,24 +256,22 @@ public class PlayerStats : MonoBehaviour
                 UpdateCredits(-200 * 3); break;
             case "Nightmare":
                 UpdateCredits(-200 * 5); break;
-            default:
-                Debug.LogError("Player Could not get Game difficulty");
-                break;
         }
-        Repair();  
+        Repair(0);  
         GoToStation();
         if(hype != null)      
             hype.StopHyperdrive();
+    }
+    void GameOver()
+    {
+        transform.root.GetComponent<EnemyManager>().AllEnemiesPatrol();
+        transform.root.GetComponent<GameOver>().InitializeGameOverScene();
     }
     public void Kill()
     {
         save.SaveGame();
         deathTransition.Death();
         Invoke("GameOver", 2f);
-    }
-    void GameOver()
-    {
-        transform.root.GetComponent<GameOver>().InitializeGameOverScene();
     }
     #endregion
 }

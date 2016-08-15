@@ -1,32 +1,30 @@
 ﻿using UnityEngine;
+using MovementEffects;
+using System.Collections.Generic;
 
 public class BossStats : MonoBehaviour
 {
+    private IEnemy stats;
+
     public int numOrbsActive;
-    public bool ShieldActive;
+    private int maxOrbs = 4;
 
     [SerializeField]
     private GameObject[] Orbs;
+    [SerializeField]
+    private GameObject[] burns;
 
-    private ShieldProperties shieldData;
 
-    // Use this for initialization
     void Start()
     {
-        ShieldActive = true;
-        numOrbsActive = Orbs.Length;
-        Invoke("GetShield", 1.5f);        
-    }
+        stats = GetComponent<IEnemy>();
+        burns[0].SetActive(false);
+        burns[1].SetActive(false);
+        burns[2].SetActive(false);
 
-    void GetShield()
-    {
-        shieldData = GetComponent<IEnemy>().GetShieldData();
-    }
+        numOrbsActive = maxOrbs;
 
-    public void SetShield(bool flip)
-    {
-        ShieldActive = flip;
-        shieldData.SetShieldActive(ShieldActive);
+        Timing.RunCoroutine(CheckHealth());
     }
 
     public void DecreaseOrbCount()
@@ -34,16 +32,36 @@ public class BossStats : MonoBehaviour
         numOrbsActive--;
         if (numOrbsActive <= 0)
         {
-            SetShield(false);
-            numOrbsActive = Orbs.Length;
+            stats.GetShieldData().SetShieldActive(false);
+            numOrbsActive = maxOrbs;        
             Invoke("ShieldRegen", 10f);
         }
     }
-
     void ShieldRegen()
     {
-        SetShield(true);
         for (int x = 0; x < numOrbsActive; x++)
-            Orbs[x].SetActive(true);        
+            Orbs[x].SetActive(true);
+
+        stats.GetShieldData().SetShieldActive(true);
+    }
+
+    private IEnumerator<float> CheckHealth()
+    {
+        while (true)
+        {
+            if (stats.GetHealthData() != null)
+            {
+                float hp = stats.GetHealthData().Health / stats.GetHealthData().MaxHealth;
+
+                if (hp <= .75f)
+                    burns[0].SetActive(true);
+                else if (hp <= .5f)
+                    burns[1].SetActive(true);
+                else if (hp <= .25f)
+                    burns[2].SetActive(true);
+            }
+
+            yield return Timing.WaitForSeconds(1f);
+        }
     }
 }

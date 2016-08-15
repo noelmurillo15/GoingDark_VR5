@@ -69,15 +69,11 @@ public class EnemyCollision : MonoBehaviour {
         {
             if (col.CompareTag("Decoy"))
             {
-                triggerTimer = 0f;
                 enemyManager.SendAlert(col.transform.position);
             }
-
             if (col.CompareTag("Player"))
             {
-                inRange = true;
-                triggerTimer = 0f;                
-                
+                inRange = true;                
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);
 
@@ -90,27 +86,28 @@ public class EnemyCollision : MonoBehaviour {
     }
     void OnTriggerStay(Collider col)
     {
-        if (col.CompareTag("Decoy") && triggerTimer <= 0.0f)
+        if (triggerTimer <= 0f)
         {
-            triggerTimer = 5f;
-            if(stateManager.Target == null)
-                stateManager.SetEnemyTarget(col.transform);
-        }
-
-        if (col.CompareTag("Player") && triggerTimer <= 0.0f)
-        {
-            triggerTimer = 5f;
-            if (!playerCloak.GetCloaked())
+            if (col.CompareTag("Decoy"))
             {
+                triggerTimer = 5f;
                 if (stateManager.Target == null)
                     stateManager.SetEnemyTarget(col.transform);
             }
-            else
+            if (col.CompareTag("Player"))
             {
-                if(stateManager.GetState() != EnemyStates.Patrol)
-                    stateManager.SetLastKnown(col.transform.position);
+                triggerTimer = 5f;
+                if (!playerCloak.GetCloaked())
+                {
+                    if (stateManager.Target == null)
+                        stateManager.SetEnemyTarget(col.transform);
+                }
+                else
+                {
+                    if (stateManager.GetState() != EnemyStates.Patrol)
+                        stateManager.SetLastKnown(col.transform.position);
+                }
             }
-            
         }
     }
     void OnTriggerExit(Collider col)
@@ -138,10 +135,7 @@ public class EnemyCollision : MonoBehaviour {
         {
             if (stats.GetEnemyType() == EnemyTypes.Droid)
             {
-                if (Random.Range(0, 2) == 1)
-                    hit.transform.SendMessage("EMPHit");
-                else
-                    hit.transform.SendMessage("Hit");
+                hit.transform.SendMessage("EMPHit");
                 stats.Kill();
             }
             else
@@ -154,7 +148,6 @@ public class EnemyCollision : MonoBehaviour {
 
         if (hit.transform.CompareTag("Asteroid") && collisionTimer <= 0f)
         {
-            stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
             movement.StopMovement();
             collisionTimer = 5f;
         }

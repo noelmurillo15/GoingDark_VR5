@@ -76,7 +76,7 @@ public class SpaceStation : MonoBehaviour
             if (col.transform.tag == "Player" && !enemyTakeOver)
             {
                 sound.Play();
-                stats.Repair();
+                stats.Repair(50);
                 repairTimer = 60f;
             }
         }

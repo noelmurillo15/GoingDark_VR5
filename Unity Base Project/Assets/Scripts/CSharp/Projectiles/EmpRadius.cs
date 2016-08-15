@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EmpCollision : MonoBehaviour
+public class EmpRadius : MonoBehaviour
 {
 
     void OnTriggerEnter(Collider col)

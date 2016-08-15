@@ -27,7 +27,7 @@ public class EnemyLaserSystem : MonoBehaviour {
                 maxFireRate = .5f;
                 break;
             case EnemyLaserType.MiniCannon:
-                maxFireRate = 2f;
+                maxFireRate = 5f;
                 break;
         }
         MyTransform = transform;

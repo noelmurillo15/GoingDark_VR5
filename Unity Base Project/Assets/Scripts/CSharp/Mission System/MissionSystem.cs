@@ -297,8 +297,6 @@ public class MissionSystem : MonoBehaviour
         if (m_ActiveMissions.Count != 0)
             m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
 
-        m_playerStats.SaveData.Credits += tempMission.credits;
-
         // only go back to station in Level 1
         if (SceneName == "Level1")
         {

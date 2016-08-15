@@ -15,9 +15,8 @@ public class IEnemy : MonoBehaviour {
     [SerializeField]
     private GameObject stunned;
     [SerializeField]
-    private GameObject shield;
+    private bool hasShield;
 
-    private bool hasShield = false;
     private float multiplier = 0f;
 
     private Impairments Debuff;
@@ -32,10 +31,7 @@ public class IEnemy : MonoBehaviour {
 
 
     void Awake()
-    {
-        if (shield != null)
-            hasShield = true;
-             
+    {             
         stunned.SetActive(false);
         Debuff = Impairments.None;
 
@@ -113,17 +109,23 @@ public class IEnemy : MonoBehaviour {
     }
     void SplashDmg()
     {
-        if (hasShield && ShieldData.GetShieldActive())
-            ShieldData.Damage(ShieldData.MaxHealth * .1f);
-        else
-            HealthData.Damage(HealthData.MaxHealth * .1f);
+        if (Type != EnemyTypes.FinalBoss)
+        {
+            if (hasShield && ShieldData.GetShieldActive())
+                ShieldData.Damage(ShieldData.MaxHealth * .1f);
+            else
+                HealthData.Damage(HealthData.MaxHealth * .1f);
+        }
     }
     public void CrashHit(float _speed)
     {
-        if (hasShield && ShieldData.GetShieldActive())
-            ShieldData.Damage(_speed * ShieldData.MaxHealth * .5f);        
-        else
-            HealthData.Damage(_speed * HealthData.MaxHealth * .5f);        
+        if (Type != EnemyTypes.FinalBoss)
+        {
+            if (hasShield && ShieldData.GetShieldActive())
+                ShieldData.Damage(_speed * ShieldData.MaxHealth * .5f);
+            else
+                HealthData.Damage(_speed * HealthData.MaxHealth * .5f);
+        }      
     }        
     public void MissileHit(MissileProjectile missile)
     {
@@ -131,12 +133,13 @@ public class IEnemy : MonoBehaviour {
         {
             if (Type != EnemyTypes.FinalBoss)
             {
-                if(missile.Type == MissileType.ShieldBreak)
+                Debug.Log("Shield Missile Hit");
+                if (missile.Type == MissileType.ShieldBreak)
                 {
                     ShieldData.Damage(100f);
                     missile.Kill();
                 }
-                else if(missile.Type == MissileType.Emp)
+                else if (missile.Type == MissileType.Emp)
                 {
                     EMPHit();
                     missile.Kill();
@@ -145,7 +148,9 @@ public class IEnemy : MonoBehaviour {
                     missile.Deflect();
             }
             else
-                missile.Deflect();                     
+            {
+                missile.Deflect();
+            }                   
         }
         else
         {
@@ -158,7 +163,9 @@ public class IEnemy : MonoBehaviour {
         if (hasShield && ShieldData.GetShieldActive())
         {
             if (Type != EnemyTypes.FinalBoss)
+            {
                 ShieldData.Damage(laser.GetBaseDmg());
+            }
         }
         else
             HealthData.Damage(laser.GetBaseDmg() * .5f);
@@ -185,7 +192,7 @@ public class IEnemy : MonoBehaviour {
     void LoadEnemyData()
     {        
         if (hasShield)
-            ShieldData = new ShieldProperties(shield, 50f * multiplier);
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 50f * multiplier);
 
         switch (Type)
         {

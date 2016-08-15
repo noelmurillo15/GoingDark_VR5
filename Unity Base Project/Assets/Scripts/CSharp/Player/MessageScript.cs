@@ -67,10 +67,10 @@ public class MessageScript : MonoBehaviour
     }
     public void MissileIncoming()
     {
+        missileInc.enabled = true;
         if(IsInvoking("MissileDestroyed"))
             CancelInvoke("MissileDestroyed");
 
-        missileInc.enabled = true;
         Invoke("MissileDestroyed", 1f);
     }  
     public void MissileDestroyed()

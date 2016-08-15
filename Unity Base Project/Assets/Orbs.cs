@@ -13,7 +13,7 @@ public class Orbs : MonoBehaviour
         orbHp = 100;
     }
 
-    public void MissileDmg(MissileProjectile missile)
+    public void MissileHit(MissileProjectile missile)
     {
         switch (missile.Type)
         {
@@ -40,7 +40,7 @@ public class Orbs : MonoBehaviour
         switch (laser.Type)
         {
             case LaserType.Basic:
-                orbHp -= 10;
+                orbHp -= 25;
                 break;
             case LaserType.Charged:
                 orbHp -= 50;

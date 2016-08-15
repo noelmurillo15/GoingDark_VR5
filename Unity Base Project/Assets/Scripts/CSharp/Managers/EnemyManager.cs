@@ -125,6 +125,12 @@ public class EnemyManager : MonoBehaviour {
         enemies.Remove(enemy);
     }
 
+    public void AllEnemiesPatrol()
+    {
+        for (int x = 0; x < enemies.Count; x++)
+            enemies[x].GetStateManager().SetEnemyTarget(null);
+    }
+
 
     public void PlayerSeen()
     {

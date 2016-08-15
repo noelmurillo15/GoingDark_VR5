@@ -81,10 +81,7 @@ public class LaserProjectile : MonoBehaviour
     #region Collision
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("Enemy"))
-            col.transform.SendMessage("LaserDmg", this);
-
-        if (col.transform.CompareTag("Orb"))
+        if (col.transform.CompareTag("Enemy") || col.transform.CompareTag("Orb"))
             col.transform.SendMessage("LaserDmg", this);
 
         if (col.transform.CompareTag("Asteroid"))
