@@ -20,14 +20,19 @@ public class Mainmenu : MonoBehaviour
     private GameObject LoadPanel;
     [SerializeField]
     private GameObject NamePanel;
+    [SerializeField]
+    private GameObject NewGamePanel;
 
     private LoadGame LoadGame;
-
+    private SaveGame SaveGame;
+    private PersistentGameManager gameManager;
     // Use this for initialization
     void Start()
     {
         LoadGame = gameObject.GetComponent<LoadGame>();
+        SaveGame = gameObject.GetComponent<SaveGame>();
 
+        gameManager = PersistentGameManager.Instance;
     }
 
     public void LoadScene(string scenename)
@@ -58,10 +63,7 @@ public class Mainmenu : MonoBehaviour
         MainMenuPanel.SetActive(false);
         GamePanel.SetActive(true);
     }
-    public void ChooseName()
-    {
-
-    }
+    
     public void Load()
     {
         MainMenuPanel.SetActive(false);
@@ -93,6 +95,20 @@ public class Mainmenu : MonoBehaviour
         SceneManager.LoadScene("LevelSelect");
     }
 
+    public void NewGame(string slotName)
+    {
+        SaveGame.Save(slotName);
+        gameManager.SetSaveSlot(slotName);
+        SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("LevelSelect");
+    }
+
+    public void OpenNewSave()
+    {
+        NamePanel.SetActive(false);
+        NewGamePanel.SetActive(true);
+    }
+
     public void Quit()
     {
 #if UNITY_EDITOR
@@ -108,7 +124,8 @@ public class Mainmenu : MonoBehaviour
     #region Settings
     public void ChangeDifficulty(string diff)
     {
-        PlayerPrefs.SetString("Difficulty", diff);
+        Debug.Log("Difficulty : " + diff);
+        gameManager.SetDifficulty(diff);
         GamePanel.SetActive(false);
         NamePanel.SetActive(true);
     }

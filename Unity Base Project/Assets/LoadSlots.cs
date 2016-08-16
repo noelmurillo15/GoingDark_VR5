@@ -5,7 +5,9 @@ using UnityEngine.UI;
 public class LoadSlots : MonoBehaviour {
 
     [SerializeField]
-    private GameObject[] Slots;
+    private GameObject[] mLoadSlots;
+    [SerializeField]
+    private GameObject[] mSaveSlots;
 
     private LoadGame LoadGame;
     // Use this for initialization
@@ -17,13 +19,20 @@ public class LoadSlots : MonoBehaviour {
     void CheckSlots()
     {
         string name = string.Empty;
-        for (int i = 0; i < Slots.Length; i++)
+        for (int i = 0; i < mLoadSlots.Length; i++)
         {
-            name = LoadGame.IsSlotUsed(Slots[i].name);
+            name = LoadGame.IsSlotUsed(mLoadSlots[i].name);
             if (name != "Name")
-                Slots[i].GetComponentInChildren<Text>().text = name;
+                mLoadSlots[i].GetComponentInChildren<Text>().text = name;
             else
-                Slots[i].SetActive(false);
+                mLoadSlots[i].SetActive(false);
+
+            
+        }
+
+        for (int i = 0; i < mSaveSlots.Length; i++)
+        {
+            mSaveSlots[i].GetComponentInChildren<Text>().text = LoadGame.IsSlotUsed(mLoadSlots[i].name);
         }            
     }
 }

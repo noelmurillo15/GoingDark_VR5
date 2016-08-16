@@ -26,6 +26,7 @@ public class LoadGame : MonoBehaviour
         gameManager.SetEMPMissileCount(int.Parse(element.Element("empCount").Value));
         gameManager.SetShieldbreakMissileCount(int.Parse(element.Element("shieldbreakerCount").Value));
         gameManager.SetLevelUnlocked(int.Parse(element.Element("levelUnlocked").Value));
+        gameManager.SetDifficulty(element.Element("difficulty").Value);
     }
 
     public string IsSlotUsed(string slot)
@@ -33,8 +34,7 @@ public class LoadGame : MonoBehaviour
         // load in the xml for the specific slot
         XDocument doc = XDocument.Load(Application.dataPath + "\\" + slot + ".xml");
         XElement element = doc.Element(slot);
-        string temp = element.Element("playerName").Value;
-        return temp;
+        return element.Element("playerName").Value;
     }
 
 

@@ -7,13 +7,18 @@ public class ChangeName : MonoBehaviour
 
     [SerializeField]
     private Text Name;
+    private Mainmenu MainMenu;
+
     private PersistentGameManager GameManager;
     private string lastChar;
     // Use this for initialization
     void Start()
     {
         GameManager = PersistentGameManager.Instance;
+        MainMenu = gameObject.GetComponent<Mainmenu>();
     }
+
+    public string GetName() { return Name.text; }
 
     public void PrintLetter(string letter)
     {
@@ -28,7 +33,7 @@ public class ChangeName : MonoBehaviour
     public void Done()
     {
         GameManager.SetPlayerName(Name.text);
-        SceneManager.LoadScene("LevelSelect");
+        MainMenu.OpenNewSave();
     }
 
     public void DeleteLetter()

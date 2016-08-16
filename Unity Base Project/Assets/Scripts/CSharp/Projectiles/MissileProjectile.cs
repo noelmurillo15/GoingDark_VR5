@@ -46,10 +46,10 @@ public class MissileProjectile : MonoBehaviour
                     baseDmg = 3;
                     break;
                 case MissileType.ShieldBreak:
-                    baseDmg = 1;
+                    baseDmg = 2;
                     break;
                 case MissileType.Chromatic:
-                    baseDmg = 25;
+                    baseDmg = 20;
                     break;
             }
 

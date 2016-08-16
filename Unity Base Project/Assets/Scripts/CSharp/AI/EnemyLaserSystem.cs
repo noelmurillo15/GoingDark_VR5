@@ -22,10 +22,10 @@ public class EnemyLaserSystem : MonoBehaviour {
         switch (Type)
         {
             case EnemyLaserType.Basic:
-                maxFireRate = .25f;
+                maxFireRate = .5f;
                 break;
             case EnemyLaserType.Charged:
-                maxFireRate = .5f;
+                maxFireRate = 1f;
                 break;
             case EnemyLaserType.MiniCannon:
                 maxFireRate = 5f;

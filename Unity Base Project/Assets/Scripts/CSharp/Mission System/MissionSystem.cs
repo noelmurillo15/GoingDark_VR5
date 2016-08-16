@@ -45,16 +45,17 @@ public class MissionSystem : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        SceneName = SceneManager.GetActiveScene().name;
         m_missionLoader = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionLoader>();
         m_missionTracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
-        m_systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
+        m_playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        m_systemManager = GameObject.FindGameObjectWithTag("Systems").GetComponent<SystemManager>();
+
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
+        SceneName = SceneManager.GetActiveScene().name;
 
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
         numEnemies = temp.Length;
 
-        m_playerStats = GameObject.Find("Player").GetComponent<PlayerStats>();
         if (SceneName == "Level1")
         {
             portals = new GameObject[3];
@@ -87,7 +88,6 @@ public class MissionSystem : MonoBehaviour
             m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
         else
             m_missionTracker.missionTracker.SetActive(false);
-        m_missionLog.UpdateButtons(mission.missionName);
 
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
@@ -112,7 +112,6 @@ public class MissionSystem : MonoBehaviour
     {
         yield return Timing.WaitForSeconds(3.0f);
         AddAllMissions();
-        m_missionLog.SetNames();
     }
 
     IEnumerator<float> Wait(float time)
@@ -191,7 +190,6 @@ public class MissionSystem : MonoBehaviour
             MainMission = mission;
 
         m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
-        m_missionLog.NewMission(m_ActiveMissions[0]);
     }
 
     public void EnteredPortal(string name)
@@ -287,8 +285,6 @@ public class MissionSystem : MonoBehaviour
         }
 
         Mission tempMission = m_ActiveMissions.Find(x => x.missionName == mission.missionName);
-        // update buttons in mission log
-        m_missionLog.UpdateButtons(tempMission.missionName);
 
         m_CompletedMissions.Add(tempMission);
         m_ActiveMissions.Remove(tempMission);
@@ -296,6 +292,8 @@ public class MissionSystem : MonoBehaviour
         // update tracker to next mission
         if (m_ActiveMissions.Count != 0)
             m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
+
+        m_playerStats.UpdateCredits(tempMission.credits);
 
         // only go back to station in Level 1
         if (SceneName == "Level1")
@@ -308,14 +306,12 @@ public class MissionSystem : MonoBehaviour
         if ((m_ActiveMissions.Count == 0 && m_PrimaryMissions.Count == 0) || (!mission.isOptional && SceneName != "Level1")) // no missions left or mission is primary
         {
             m_missionTracker.missionTracker.SetActive(false);
-            m_missionLog.TurnOffPanel();
-
             Invoke("BeginTally", 2f);
         }
     }
 
     void BeginTally()
-    {        
+    {
         m_playerStats.GoToStation();
         tallyscreen.ActivateTallyScreen();
     }

@@ -77,6 +77,10 @@ public class PlayerStats : MonoBehaviour
     }
 
     #region Accessors
+    public int GetCredits()
+    {
+        return startCredits;
+    }
     public CloakSystem GetCloak()
     {
         return cloak;
@@ -95,19 +99,17 @@ public class PlayerStats : MonoBehaviour
     }
     #endregion
 
-    #region Credits
-    public int GetCredits()
+    #region Modifiers
+    public void UnCloak()
     {
-        return startCredits;
+        if (cloak.GetCloaked())
+            cloak.UnCloakShip();
     }
     public void UpdateCredits(int add)
     {
         startCredits += add;
         creditsDisplay.text = string.Format(display, startCredits);
     }
-    #endregion
-
-    #region Shield
     public void HealShield()
     {
         ShieldData.Heal(5f);
@@ -118,9 +120,16 @@ public class PlayerStats : MonoBehaviour
     {
         ShieldData.FullRestore();
     }
-    #endregion
+    public void ShieldRecharge()
+    {
+        if (IsInvoking("HealShield"))
+            CancelInvoke("HealShield");
 
-    #region Debuffs
+        if (!ShieldData.Active)
+            Invoke("RechargeShield", 30f);
+        else
+            InvokeRepeating("HealShield", 10f, 2f);
+    }
     public void PlayerSlowed()
     {
         msgs.Slow(10f);
@@ -130,15 +139,10 @@ public class PlayerStats : MonoBehaviour
     {      
         msgs.Stun(5f);
         DebuffData.Stun(5f);
-    }
+    }    
     #endregion
 
     #region Damage Calls   
-    public void UnCloak()
-    {
-        if (cloak.GetCloaked())
-            cloak.UnCloakShip();
-    }
     public void CrashHit(float _speed)
     {
         controller.AddRumble(1f, new Vector2(1f, 1f));
@@ -153,44 +157,25 @@ public class PlayerStats : MonoBehaviour
     }
     void SplashDmg()
     {
-        if (!ShieldData.GetShieldActive())
-        {
-            controller.AddRumble(.5f, new Vector2(1f, 1f));
-            HealthData.Damage(4 * dmgMultiplier);
-        }
+        if (ShieldData.GetShieldActive())
+            ShieldData.Damage(5 * dmgMultiplier);
         else
-        {
-            controller.AddRumble(.5f, new Vector2(1f, 1f));
-            ShieldData.Damage(4 * dmgMultiplier);
-        }
+            HealthData.Damage(5 * dmgMultiplier);                
+        controller.AddRumble(.5f, new Vector2(1f, 1f));
     }
     private void ShieldHit(EnemyLaserProjectile laser)
     {
         controller.AddRumble(.5f, new Vector2(1f, 1f));
         ShieldData.Damage(laser.GetBaseDamage() * dmgMultiplier);
+        ShieldRecharge();
         laser.Kill();
-
-        if (IsInvoking("HealShield"))
-            CancelInvoke("HealShield");
-
-        if (!ShieldData.Active)
-            Invoke("RechargeShield", 30f);
-        else
-            InvokeRepeating("HealShield", 10f, 2f);
     }
     private void ShieldHit(EnemyMissileProjectile missile)
     {
         controller.AddRumble(.5f, new Vector2(1f, 1f));
-        ShieldData.Damage(missile.GetBaseDamage());
+        ShieldData.Damage(missile.GetBaseDamage() * dmgMultiplier);
+        ShieldRecharge();
         missile.Kill();
-
-        if (IsInvoking("HealShield"))
-            CancelInvoke("HealShield");
-
-        if (!ShieldData.Active)
-            Invoke("RechargeShield", 30f);
-        else
-            InvokeRepeating("HealShield", 10f, 2f);
     }
     private void LaserDmg(EnemyLaserProjectile laser)
     {
@@ -200,7 +185,7 @@ public class PlayerStats : MonoBehaviour
             return;
         }
         controller.AddRumble(1f, new Vector2(1f, 1f));
-        HealthData.Damage(laser.GetBaseDamage());
+        HealthData.Damage(laser.GetBaseDamage() * dmgMultiplier);
         laser.Kill();                        
         UnCloak();
 
@@ -272,7 +257,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void Kill()
     {
-        save.SaveGame();
+        save.AutoSave();
         deathTransition.Death();
         Invoke("GameOver", 2f);
     }

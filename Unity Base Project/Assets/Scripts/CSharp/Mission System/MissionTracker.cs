@@ -51,16 +51,6 @@ public class MissionTracker : MonoBehaviour
 
     void Update()
     {
-        if (controller.GetButtonDown("Start"))
-        {
-            if (missionSystem.m_ActiveMissions.Count > 0 && SceneName != "Level1")
-            {
-                missionLog.TurnOnPanel();
-                missionLog.UpdateButtons();
-
-                playerInput.MessageUp(true);
-            }
-        }
 
         if (Input.GetKeyDown(KeyCode.A))
         {

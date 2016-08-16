@@ -12,7 +12,7 @@ public class MenuTraverse : MonoBehaviour
     Selectable tempButton;
 
     private float timer = 0f;
-    private ChangeName name;
+    private ChangeName mName;
     // Use this for initialization
     void Start()
     {
@@ -22,7 +22,7 @@ public class MenuTraverse : MonoBehaviour
     void OnEnable()
     {
         m_AllSelectables = gameObject.GetComponentsInChildren<Selectable>(true);
-        name = gameObject.GetComponent<ChangeName>();
+        mName = gameObject.GetComponent<ChangeName>();
         m_Selectable = m_AllSelectables[0];
         CheckActiveButtons();
     }
@@ -85,8 +85,8 @@ public class MenuTraverse : MonoBehaviour
 
         if (m_Controller.GetButtonDown("X"))
         {
-            if (name != null)
-                name.DeleteLetter();
+            if (mName != null)
+                mName.DeleteLetter();
         }
 
 

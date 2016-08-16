@@ -4,12 +4,10 @@ using System.Xml.Linq;
 public class SaveGame : MonoBehaviour
 {
 
-    private PlayerStats playerStats;
     private PersistentGameManager gameManager;
     // Use this for initialization
     void Start()
     {
-        playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         gameManager = PersistentGameManager.Instance;
     }
 
@@ -20,13 +18,15 @@ public class SaveGame : MonoBehaviour
         // save out all the new information
         XElement element = doc.Element(saveSlot);
 
-        element.Element("playerName").Value = PlayerPrefs.GetString("PlayerName");
-        element.Element("playerName").Value = PlayerPrefs.GetString("PlayerName");
-        element.Element("credits").Value = playerStats.GetCredits().ToString();
-        element.Element("basicCount").Value = PlayerPrefs.GetInt("BasicMissileCount").ToString();
-        element.Element("empCount").Value = PlayerPrefs.GetInt("EMPMissileCount").ToString();
-        element.Element("shieldbreakerCount").Value = PlayerPrefs.GetInt("ShieldbreakMissileCount").ToString();
-        element.Element("chromaticCount").Value = PlayerPrefs.GetInt("ChromaticMissileCount").ToString();
+        string diff = gameManager.GetDifficulty();
+        element.Element("difficulty").Value = diff;
+
+        element.Element("playerName").Value = gameManager.GetPlayerName();
+        element.Element("credits").Value = gameManager.GetPlayerCredits().ToString();
+        element.Element("basicCount").Value = gameManager.GetBasicMissileCount().ToString();
+        element.Element("empCount").Value = gameManager.GetEMPMissileCount().ToString();
+        element.Element("shieldbreakerCount").Value = gameManager.GetShieldbreakMissileCount().ToString(); ;
+        element.Element("chromaticCount").Value = gameManager.GetChromaticMissileCount().ToString();
         element.Element("levelUnlocked").Value = gameManager.GetLevelUnlocked().ToString();
 
         doc.Save(Application.dataPath + "\\" + saveSlot + ".xml");

@@ -48,10 +48,7 @@ namespace GoingDark.Core.Utility
         // for saving
         private SaveGame saveGame;
         private LoadGame loadGame;
-        [SerializeField]
-        private GameObject saveSlots;
-        [SerializeField]
-        private GameObject[] Slots;
+        private PersistentGameManager gameManager;
 
         private PlayerInput playerInput;
         private PlayerStats stats;
@@ -60,6 +57,8 @@ namespace GoingDark.Core.Utility
 
         public void Start()
         {
+            gameManager = PersistentGameManager.Instance;
+
             paused = false;
             playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
             stats = playerInput.GetComponent<PlayerStats>();
@@ -140,6 +139,8 @@ namespace GoingDark.Core.Utility
             if (Time.timeScale == 0f)
                 Time.timeScale = timeScale;
 
+            AutoSave();
+
             SceneManager.UnloadScene(currLevel);
             SceneManager.LoadScene(mainMenu);
         }
@@ -154,37 +155,15 @@ namespace GoingDark.Core.Utility
 #endif
         }
 
-        public void SaveGame()
+        public void AutoSave()
         {
-            CheckSlots();
-            Debug.Log("Saving the game");
-            PlayerPrefs.SetInt("Credits", stats.GetCredits());            
-            saveSlots.SetActive(true);
-            mainPanel.SetActive(false);
-        }
-        void CheckSlots()
-        {
-            string name = string.Empty;
-            for (int i = 0; i < Slots.Length; i++)
-            {
-                name = loadGame.IsSlotUsed(Slots[i].name);
-                if (name != "Name")
-                    Slots[i].GetComponentInChildren<Text>().text = name;
-                else
-                    Slots[i].GetComponentInChildren<Text>().text = Slots[i].GetComponentInChildren<Text>().text;
-            }
-
-        }
-        public void SaveAtSlot(string txt)
-        {
-            saveGame.Save(txt);
-            saveSlots.SetActive(false);
-            mainPanel.SetActive(true);
+            gameManager.SetPlayerCredits(stats.GetCredits());
+            Debug.Log("Xml name : " + gameManager.GetSaveSlot());
+            saveGame.Save(gameManager.GetSaveSlot());
         }
 
         public void ToPauseMenu()
         {
-            saveSlots.SetActive(false);
             HTP.SetActive(false);
             mainPanel.SetActive(true);
         }

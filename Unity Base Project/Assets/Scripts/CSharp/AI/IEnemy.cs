@@ -160,14 +160,10 @@ public class IEnemy : MonoBehaviour {
     public void LaserDmg(LaserProjectile laser)
     {
         if (hasShield && ShieldData.GetShieldActive())
-        {
             if (Type != EnemyTypes.FinalBoss)
-            {
-                ShieldData.Damage(laser.GetBaseDmg());
-            }
-        }
+                ShieldData.Damage(laser.GetBaseDmg());                    
         else
-            HealthData.Damage(laser.GetBaseDmg() * .5f);
+            HealthData.Damage(laser.GetBaseDmg());
         
         laser.Kill();
     }
@@ -191,26 +187,26 @@ public class IEnemy : MonoBehaviour {
     void LoadEnemyData()
     {        
         if (hasShield)
-            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 50f * multiplier);
+            ShieldData = new ShieldProperties(transform.GetChild(0).gameObject, 100f * multiplier);
 
         switch (Type)
         {
             case EnemyTypes.Droid:
                 HealthData = new HealthProperties(5 * multiplier, transform); break;
             case EnemyTypes.JetFighter:
-                HealthData = new HealthProperties(8 * multiplier, transform); break;
-            case EnemyTypes.Trident:
                 HealthData = new HealthProperties(10 * multiplier, transform); break;
+            case EnemyTypes.Trident:
+                HealthData = new HealthProperties(15 * multiplier, transform); break;
             case EnemyTypes.Basic:
-                HealthData = new HealthProperties(12 * multiplier, transform); break;
-            case EnemyTypes.SquadLead:
                 HealthData = new HealthProperties(20 * multiplier, transform); break;
+            case EnemyTypes.SquadLead:
+                HealthData = new HealthProperties(30 * multiplier, transform); break;
             case EnemyTypes.Transport:
-                HealthData = new HealthProperties(25 * multiplier, transform); break;
+                HealthData = new HealthProperties(50 * multiplier, transform); break;
             case EnemyTypes.Tank:
-                HealthData = new HealthProperties(60 * multiplier, transform); break;
+                HealthData = new HealthProperties(90 * multiplier, transform); break;
             case EnemyTypes.FinalBoss:
-                HealthData = new HealthProperties(100 * multiplier, transform); break;
+                HealthData = new HealthProperties(150 * multiplier, transform); break;
         }
         manager = transform.root.GetComponent<EnemyManager>();
 
