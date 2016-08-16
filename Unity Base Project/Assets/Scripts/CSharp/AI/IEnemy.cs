@@ -133,7 +133,6 @@ public class IEnemy : MonoBehaviour {
         {
             if (Type != EnemyTypes.FinalBoss)
             {
-                Debug.Log("Shield Missile Hit");
                 if (missile.Type == MissileType.ShieldBreak)
                 {
                     ShieldData.Damage(100f);

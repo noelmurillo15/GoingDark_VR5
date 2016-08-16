@@ -155,10 +155,13 @@ public class PlayerStats : MonoBehaviour
     {
         if (!ShieldData.GetShieldActive())
         {
-            Debug.Log("Player Splash Dmg");
-            controller.AddRumble(.5f, new Vector2(.5f, .5f));
+            controller.AddRumble(.5f, new Vector2(1f, 1f));
             HealthData.Damage(4 * dmgMultiplier);
-            UnCloak();
+        }
+        else
+        {
+            controller.AddRumble(.5f, new Vector2(1f, 1f));
+            ShieldData.Damage(4 * dmgMultiplier);
         }
     }
     private void ShieldHit(EnemyLaserProjectile laser)

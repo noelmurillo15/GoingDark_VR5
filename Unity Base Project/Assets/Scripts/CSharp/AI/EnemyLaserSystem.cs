@@ -10,6 +10,7 @@ public class EnemyLaserSystem : MonoBehaviour {
     private float fireRate;
     private float maxFireRate;
 
+    private IEnemy enemyStats;
     private Transform MyTransform;
     private ObjectPoolManager poolManager;
     private EnemyStateManager stateManager;
@@ -31,6 +32,7 @@ public class EnemyLaserSystem : MonoBehaviour {
                 break;
         }
         MyTransform = transform;
+        enemyStats = GetComponent<IEnemy>();
         stateManager = MyTransform.GetComponentInParent<EnemyStateManager>();
         poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -56,31 +58,34 @@ public class EnemyLaserSystem : MonoBehaviour {
 
     public void Shoot()
     {
-        GameObject obj = null;
         fireRate = maxFireRate;
-        switch (Type)
+        if (enemyStats.GetDebuffData() != Impairments.Stunned)
         {
-            case EnemyLaserType.Basic:
-                obj = poolManager.GetBaseEnemyLaser();
-                break;
-            case EnemyLaserType.Charged:
-                obj = poolManager.GetChargedEnemyLaser();
-                break;
-            case EnemyLaserType.MiniCannon:
-                obj = poolManager.GetMiniBossLaser();
-                break;
-            case EnemyLaserType.Cannon:
-                Debug.LogError("Enemy Laser System Should not shoot cannons");
-                break;
+            GameObject obj = null;
+            switch (Type)
+            {
+                case EnemyLaserType.Basic:
+                    obj = poolManager.GetBaseEnemyLaser();
+                    break;
+                case EnemyLaserType.Charged:
+                    obj = poolManager.GetChargedEnemyLaser();
+                    break;
+                case EnemyLaserType.MiniCannon:
+                    obj = poolManager.GetMiniBossLaser();
+                    break;
+                case EnemyLaserType.Cannon:
+                    Debug.LogError("Enemy Laser System Should not shoot cannons");
+                    break;
+            }
+
+            if (obj != null)
+            {
+                obj.transform.position = MyTransform.position;
+                obj.transform.rotation = MyTransform.rotation;
+                obj.SetActive(true);
+            }
+            else
+                Debug.LogError("Enemy Ran Out of Lasers : " + Type.ToString());
         }
-        
-        if (obj != null)
-        {
-            obj.transform.position = MyTransform.position;
-            obj.transform.rotation = MyTransform.rotation;
-            obj.SetActive(true);
-        }
-        else
-            Debug.LogError("Enemy Ran Out of Lasers : " + Type.ToString());
     }
 }

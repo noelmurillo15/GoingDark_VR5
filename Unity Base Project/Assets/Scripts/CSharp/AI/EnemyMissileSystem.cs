@@ -10,6 +10,7 @@ public class EnemyMissileSystem : MonoBehaviour {
     private float fireRate;
     private float maxFireRate;
 
+    private IEnemy enemyStats;
     private Transform MyTransform;
     private ObjectPoolManager poolManager;
     private EnemyStateManager stateManager;
@@ -25,6 +26,7 @@ public class EnemyMissileSystem : MonoBehaviour {
                 break;
         }
         MyTransform = transform;
+        enemyStats = GetComponent<IEnemy>();
         stateManager = transform.GetComponentInParent<EnemyStateManager>();
         poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -50,21 +52,24 @@ public class EnemyMissileSystem : MonoBehaviour {
 
     private void Shoot()
     {
-        GameObject obj = null;
         fireRate = maxFireRate;
-        switch (Type)
+        if (enemyStats.GetDebuffData() != Impairments.Stunned)
         {
-            case EnemyMissileType.Basic:
-                obj = poolManager.GetEnemyMissile();
-                break;
+            GameObject obj = null;
+            switch (Type)
+            {
+                case EnemyMissileType.Basic:
+                    obj = poolManager.GetEnemyMissile();
+                    break;
+            }
+            if (obj != null)
+            {
+                obj.transform.position = MyTransform.position;
+                obj.transform.rotation = MyTransform.rotation;
+                obj.SetActive(true);
+            }
+            else
+                Debug.LogError("Enemy Ran Out of Missiles : " + Type.ToString());
         }
-        if (obj != null)
-        {
-            obj.transform.position = MyTransform.position;
-            obj.transform.rotation = MyTransform.rotation;
-            obj.SetActive(true);
-        }
-        else
-            Debug.LogError("Enemy Ran Out of Missiles : " + Type.ToString());
     }
 }
