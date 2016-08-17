@@ -46,8 +46,8 @@ public class EnemyStateManager : MonoBehaviour {
     #region Modifiers
     void BroadcastAlert(object[] storage)
     {
-        if (Target == null)
-            if (Vector3.Distance((Vector3)storage[1], transform.position) <= 2500f)
+        if (Target != null)
+            if (Vector3.Distance((Vector3)storage[1], transform.position) <= (1000f * stats.GetDifficultyMultiplier()))
                 SetLastKnown((Vector3)storage[0]);
     }
     public void SetLastKnown(Vector3 pos)

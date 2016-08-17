@@ -62,15 +62,15 @@ public class HealthProperties
     public void Damage(float _dmg)
     {
         Health -= _dmg;
+
         if (isPlayer)
         {
             AudioManager.instance.PlayHit();
-            //shake.PlayShake();
             UpdateHPBar();
-        }      
+        }
 
-        if (Health <= 0f)        
-            baseRef.SendMessage("Kill");                
+        if (Health <= 0f)
+            baseRef.SendMessage("Kill");              
     }
     public bool HealthWarning()
     {

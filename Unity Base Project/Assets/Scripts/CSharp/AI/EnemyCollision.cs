@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class EnemyCollision : MonoBehaviour {
+public class EnemyCollision : MonoBehaviour
+{
 
-    #region Properties   
-    [SerializeField]
-    private Transform LockOnReticle;  
-     
-    private bool inRange;
+    #region Properties        
     private float triggerTimer;
     private float collisionTimer;
 
@@ -24,7 +21,6 @@ public class EnemyCollision : MonoBehaviour {
 
     void Awake()
     {
-        inRange = false;
         triggerTimer = 5f;
         collisionTimer = 5f;
         stats = GetComponent<IEnemy>();
@@ -33,11 +29,6 @@ public class EnemyCollision : MonoBehaviour {
 
     public void Initialize()
     {
-        if (LockOnReticle != null)
-            LockOnReticle.gameObject.SetActive(false);
-        else
-            Debug.LogError("Enemy does not have lock on reticle : " + transform.name);
-
         enemyManager = stats.GetManager();
         Invoke("FindPlayer", 2f);
     }
@@ -57,10 +48,7 @@ public class EnemyCollision : MonoBehaviour {
 
         if (collisionTimer > 0.0f)
             collisionTimer -= Time.fixedDeltaTime;
-
-        if (inRange)
-            LockOnReticle.LookAt(playerTransform);
-    }    
+    }
 
     #region Collision
     void OnTriggerEnter(Collider col)
@@ -69,19 +57,18 @@ public class EnemyCollision : MonoBehaviour {
         {
             if (col.CompareTag("Decoy"))
             {
+                triggerTimer = 0f;
                 enemyManager.SendAlert(col.transform.position);
             }
             if (col.CompareTag("Player"))
             {
+                triggerTimer = 0f;
+
                 if (stats.GetEnemyType() == EnemyTypes.FinalBoss)
                     AudioManager.instance.PlayBossTheme();
 
-                inRange = true;                
-                if (LockOnReticle != null)
-                    LockOnReticle.gameObject.SetActive(true);
-
                 if (!playerCloak.GetCloaked())
-                    enemyManager.SendAlert(transform.position);                
+                    enemyManager.SendAlert(transform.position);
 
                 playerMsgs.EnemyClose();
             }
@@ -93,17 +80,19 @@ public class EnemyCollision : MonoBehaviour {
         {
             if (col.CompareTag("Decoy"))
             {
-                triggerTimer = 5f;
+                triggerTimer = Random.Range(3f, 10f);
                 if (stateManager.Target == null)
                     stateManager.SetEnemyTarget(col.transform);
             }
             if (col.CompareTag("Player"))
             {
-                triggerTimer = 5f;
+                triggerTimer = Random.Range(3f, 10f);
                 if (!playerCloak.GetCloaked())
                 {
                     if (stateManager.Target == null)
                         stateManager.SetEnemyTarget(col.transform);
+                    else
+                        enemyManager.SendAlert(transform.position);
                 }
                 else
                 {
@@ -117,13 +106,8 @@ public class EnemyCollision : MonoBehaviour {
     {
         if (col.CompareTag("Player"))
         {
-            inRange = false;
-
             if (stateManager.GetState() != EnemyStates.Patrol)
                 stateManager.SetLastKnown(col.transform.position);
-
-            if (LockOnReticle != null)
-                LockOnReticle.gameObject.SetActive(false);            
         }
         if (col.CompareTag("Decoy"))
         {

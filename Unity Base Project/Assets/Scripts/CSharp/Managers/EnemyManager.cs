@@ -13,7 +13,6 @@ public class EnemyManager : MonoBehaviour {
 
     private Transform PlayerPosition;
     private MissionSystem missionSystem;
-    private SystemManager systemManager;
     private ObjectPoolManager poolmanager;
     private TallyScreen tallyscreen;
     #endregion
@@ -49,10 +48,7 @@ public class EnemyManager : MonoBehaviour {
         poolmanager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>(); 
         tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
-        systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
-
-        //InvokeRepeating("CheckEnemies", 10f, 10f);
     }
 
     #region Accessors
@@ -63,10 +59,6 @@ public class EnemyManager : MonoBehaviour {
     public Transform GetPlayerTransform()
     {
         return PlayerPosition;
-    }
-    public ObjectPoolManager GetObjectPoolManager()
-    {
-        return poolmanager;
     }
     #endregion    
 
@@ -79,10 +71,12 @@ public class EnemyManager : MonoBehaviour {
     {
         GameObject explosive = poolmanager.GetEnemyExplosion();
 
-        if(missionSystem != null)
+        if (explosive != null)
+        {
             explosive.transform.parent = missionSystem.transform;
-        explosive.transform.position = enemy.transform.position;
-        explosive.SetActive(true);
+            explosive.transform.position = enemy.transform.position;
+            explosive.SetActive(true);
+        }
 
         RandomAmmoDrop(enemy.transform.position);
 
@@ -131,7 +125,6 @@ public class EnemyManager : MonoBehaviour {
             enemies[x].GetStateManager().SetEnemyTarget(null);
     }
 
-
     public void PlayerSeen()
     {
         if(missionSystem != null)
@@ -139,37 +132,20 @@ public class EnemyManager : MonoBehaviour {
     }
     public void SendAlert(Vector3 enemypos)
     {
-        //AudioManager.instance.RaiseBattleMusic();
         object[] tempStorage = new object[2];
         tempStorage[0] = PlayerPosition.position;
         tempStorage[1] = enemypos;
         BroadcastMessage("BroadcastAlert", tempStorage);
     }
-    public void RandomAmmoDrop(Vector3 _pos)
+    void RandomAmmoDrop(Vector3 _pos)
     {
-        GameObject go = null;
-        if (Random.Range(1, 3) == 1)
+        if (Random.Range(1, 2) == 1)
         {
-            go = poolmanager.GetAmmoDrop();
+            GameObject go = poolmanager.GetAmmoDrop();
             go.transform.position = _pos;
             go.transform.rotation = Quaternion.identity;
             go.SetActive(true);
         }
     }
-    #endregion
-
-    #region Invoked Methods
-    //void CheckEnemies()
-    //{
-    //    if (enemies.Count > 0)
-    //    {
-    //        for (int i = 0; i < enemies.Count; i++)
-    //        {
-    //            if (enemies[i].GetStateManager().GetState() == EnemyStates.Attack)
-    //                return;
-    //        }
-    //        //AudioManager.instance.LowerBattleMusic();
-    //    }
-    //}
     #endregion
 }

@@ -93,9 +93,9 @@ public class PlayerInput : MonoBehaviour
     {
         for (int i = 0; i < AmmoSwitch.transform.childCount; i++)
             AmmoSwitch.transform.GetChild(i).gameObject.SetActive(true);
+
         elaspedtime = Time.time;
         isAmmoShown = true;
-
     }
 
     private void DontShowAmmo()

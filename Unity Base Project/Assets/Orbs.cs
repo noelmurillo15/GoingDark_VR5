@@ -6,10 +6,13 @@ public class Orbs : MonoBehaviour
     public int orbHp;
     [SerializeField]
     private BossStats boss;
-
+    private ObjectPoolManager manager;
 
     void OnEnable()
     {
+        if (manager == null)
+            manager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();        
+
         orbHp = 100;
     }
 
@@ -53,6 +56,10 @@ public class Orbs : MonoBehaviour
 
     void Kill()
     {
+        GameObject go = manager.GetEnemyExplosion();
+        go.transform.position = transform.position;
+        go.SetActive(true);
+
         boss.DecreaseOrbCount();
         gameObject.SetActive(false);
     }

@@ -11,7 +11,7 @@ public class BossLaser : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Laser.SetActive(false);
-        InvokeRepeating("Attack", 2f, 20f);
+        InvokeRepeating("Attack", 5f, 20f);
         PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();                
 	}
 
@@ -24,11 +24,14 @@ public class BossLaser : MonoBehaviour {
 
     void Fire()
     {
-        GameObject obj1 = null;
-        obj1 = PoolManager.GetLaser(EnemyLaserType.Cannon);
-        obj1.transform.position = Laser.transform.position;
-        obj1.transform.rotation = Laser.transform.rotation;
-        obj1.SetActive(true);
+        GameObject obj1 = PoolManager.GetLaser(EnemyLaserType.Cannon);
+
+        if (obj1 != null)
+        {
+            obj1.transform.position = Laser.transform.position;
+            obj1.transform.rotation = Laser.transform.rotation;
+            obj1.SetActive(true);
+        }
     }
 
     void Cooldown()

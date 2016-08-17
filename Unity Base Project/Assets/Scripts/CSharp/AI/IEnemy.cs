@@ -58,6 +58,10 @@ public class IEnemy : MonoBehaviour {
     }
 
     #region Accessors        
+    public float GetDifficultyMultiplier()
+    {
+        return multiplier;
+    }
     public EnemyTypes GetEnemyType()
     {
         return Type;
@@ -160,10 +164,12 @@ public class IEnemy : MonoBehaviour {
     public void LaserDmg(LaserProjectile laser)
     {
         if (hasShield && ShieldData.GetShieldActive())
+        {
             if (Type != EnemyTypes.FinalBoss)
-                ShieldData.Damage(laser.GetBaseDmg());                    
+                ShieldData.Damage(laser.GetBaseDmg());            
+        }
         else
-            HealthData.Damage(laser.GetBaseDmg());
+            HealthData.Damage(laser.GetBaseDmg());        
         
         laser.Kill();
     }

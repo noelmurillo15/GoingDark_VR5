@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ShieldProperties
 {
     #region Properties
-    public GameObject Shield;
+    public GameObject ShieldGameobject;
     public bool Active { get; private set; }
     public float Health { get; private set; }
     public float MaxHealth { get; private set; }
@@ -19,7 +19,7 @@ public class ShieldProperties
     public ShieldProperties(GameObject _shield, float shieldHP)
     {
         isPlayer = false;
-        Shield = _shield;
+        ShieldGameobject = _shield;
         Active = true;
         MaxHealth = shieldHP;
         Health = MaxHealth;
@@ -28,7 +28,11 @@ public class ShieldProperties
     public ShieldProperties(GameObject _shield, float shieldHP, bool _player)
     {
         isPlayer = _player;
-        Shield = _shield;
+
+        if (_shield == null)
+            Debug.LogError("Could not find player shield");        
+
+        ShieldGameobject = _shield;
         Active = true;
         MaxHealth = shieldHP;
         Health = MaxHealth;
@@ -56,8 +60,8 @@ public class ShieldProperties
     {
         Health = MaxHealth;
         Active = true;
-        if(Shield != null)
-            Shield.SetActive(true);
+        if(ShieldGameobject != null)
+            ShieldGameobject.SetActive(true);
         UpdateShieldBar();
     }
 
@@ -69,7 +73,7 @@ public class ShieldProperties
             Health = MaxHealth;
 
         Active = flip;
-        Shield.SetActive(flip);
+        ShieldGameobject.SetActive(flip);
     }
 
     public void UpdateShieldBar()
@@ -85,8 +89,8 @@ public class ShieldProperties
             Health = 0f;            
             Active = false;
 
-            if(Shield != null)
-                Shield.SetActive(false);
+            if(ShieldGameobject != null)
+                ShieldGameobject.SetActive(false);
         }
         if (isPlayer)
         {
