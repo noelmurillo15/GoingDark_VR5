@@ -91,6 +91,7 @@ public class Mainmenu : MonoBehaviour
     public void LoadSlot(string slotName)
     {
         LoadGame.Load(slotName);
+        gameManager.SetSaveSlot(slotName);
         SceneManager.UnloadScene(SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("LevelSelect");
     }
@@ -124,7 +125,6 @@ public class Mainmenu : MonoBehaviour
     #region Settings
     public void ChangeDifficulty(string diff)
     {
-        Debug.Log("Difficulty : " + diff);
         gameManager.SetDifficulty(diff);
         GamePanel.SetActive(false);
         NamePanel.SetActive(true);

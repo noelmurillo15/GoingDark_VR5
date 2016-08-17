@@ -30,6 +30,8 @@ public class MissionSystem : MonoBehaviour
 
     private TallyScreen tallyscreen;
     private Mission MainMission;
+
+
     #region Getters
     public List<Mission> GetActiveMissions()
     {
@@ -57,6 +59,7 @@ public class MissionSystem : MonoBehaviour
         numEnemies = temp.Length;
 
         if (SceneName == "Level1")
+
         {
             portals = new GameObject[3];
             portals[0] = GameObject.Find("FlightPortal");
@@ -137,7 +140,6 @@ public class MissionSystem : MonoBehaviour
                     TurnInMission(m_ActiveMissions[i]);
 
                 m_missionTracker.UpdateInfo(mission);
-
             }
         }
     }
@@ -189,7 +191,7 @@ public class MissionSystem : MonoBehaviour
         if (!mission.isOptional)
             MainMission = mission;
 
-        m_missionTracker.UpdateInfo(m_ActiveMissions[0]);
+        m_missionTracker.UpdateInfo(m_ActiveMissions[0], true);
     }
 
     public void EnteredPortal(string name)

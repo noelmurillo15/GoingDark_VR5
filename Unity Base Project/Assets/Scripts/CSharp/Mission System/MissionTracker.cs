@@ -16,13 +16,16 @@ public class MissionTracker : MonoBehaviour
     private Text trackerInfo;
     private Text trackerObjectives;
 
+    [SerializeField]
     private GameObject continueText;
+    [SerializeField]
     private GameObject missionBox;
+    [SerializeField]
+    private MissionLog missionLog;
 
     private MissionSystem missionSystem;
     private x360Controller controller;
     private PlayerInput playerInput;
-    private MissionLog missionLog;
     private string SceneName;
 
     public GameObject missionTracker;
@@ -34,11 +37,8 @@ public class MissionTracker : MonoBehaviour
         controller = GamePadManager.Instance.GetController(0);
         SceneName = SceneManager.GetActiveScene().name;
 
-        missionBox = GameObject.Find("MissionBox");
-        continueText = GameObject.Find("PressToContinue");
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
-        missionLog = GameObject.Find("Missions").GetComponent<MissionLog>();
 
         // turn off after they are found
         missionTracker.SetActive(false);
@@ -97,7 +97,7 @@ public class MissionTracker : MonoBehaviour
     {
         missionTracker.SetActive(true);
         // set info for tracker
-        UpdateInfo(missionSystem.m_ActiveMissions[0]);
+        UpdateInfo(missionSystem.m_ActiveMissions[0], true);
     }
 
     private void AssignText()
