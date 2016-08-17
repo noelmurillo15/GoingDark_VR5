@@ -61,30 +61,17 @@ public class EnemyLaserProjectile : MonoBehaviour
 
     #region Recycle Death
     public void Kill()
-    {        
-        GameObject go = null;
-        switch (Type)
-        {
-            case EnemyLaserType.Basic:
-                go = poolManager.GetEnemyBaseLaserExplode();
-                break;
-            case EnemyLaserType.Charged:
-                go = poolManager.GetEnemyChargedLaserExplode();
-                break;
-            case EnemyLaserType.MiniCannon:
-                go = poolManager.GetEnemyChargedLaserExplode();
-                break;
-            case EnemyLaserType.Cannon:
-                go = poolManager.GetBossLaserExplode();
-                break;
-        }
+    {
+        if (IsInvoking("Kill"))
+            CancelInvoke("Kill");
+
+        GameObject go = poolManager.GetLaserExplosion(Type);
+
         if (go != null)
         {
             go.transform.position = MyTransform.position;
             go.SetActive(true);
         }
-        else
-            Debug.Log("Enemy Laser does not have explosion : " + transform.name);
 
         gameObject.SetActive(false);
     }

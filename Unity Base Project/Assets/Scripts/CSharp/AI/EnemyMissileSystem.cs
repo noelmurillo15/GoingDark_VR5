@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using GoingDark.Core.Enums;
 
-public class EnemyMissileSystem : MonoBehaviour {
+public class EnemyMissileSystem : MonoBehaviour
+{
 
     #region Properties
     [SerializeField]
@@ -26,7 +27,7 @@ public class EnemyMissileSystem : MonoBehaviour {
                 break;
         }
         MyTransform = transform;
-        enemyStats = GetComponent<IEnemy>();
+        enemyStats = transform.GetComponentInParent<IEnemy>();
         stateManager = transform.GetComponentInParent<EnemyStateManager>();
         poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -37,7 +38,7 @@ public class EnemyMissileSystem : MonoBehaviour {
             fireRate -= Time.fixedDeltaTime;
 
         if (stateManager.Target != null)
-            LockOn();        
+            LockOn();
     }
 
     private void LockOn()
@@ -53,23 +54,13 @@ public class EnemyMissileSystem : MonoBehaviour {
     private void Shoot()
     {
         fireRate = maxFireRate;
-        if (enemyStats.GetDebuffData() != Impairments.Stunned)
+        GameObject obj = poolManager.GetMissile(Type);
+
+        if (obj != null)
         {
-            GameObject obj = null;
-            switch (Type)
-            {
-                case EnemyMissileType.Basic:
-                    obj = poolManager.GetEnemyMissile();
-                    break;
-            }
-            if (obj != null)
-            {
-                obj.transform.position = MyTransform.position;
-                obj.transform.rotation = MyTransform.rotation;
-                obj.SetActive(true);
-            }
-            else
-                Debug.LogError("Enemy Ran Out of Missiles : " + Type.ToString());
+            obj.transform.position = MyTransform.position;
+            obj.transform.rotation = MyTransform.rotation;
+            obj.SetActive(true);
         }
     }
 }

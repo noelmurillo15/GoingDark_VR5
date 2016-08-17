@@ -32,7 +32,7 @@ public class EnemyLaserSystem : MonoBehaviour {
                 break;
         }
         MyTransform = transform;
-        enemyStats = GetComponent<IEnemy>();
+        enemyStats = MyTransform.GetComponentInParent<IEnemy>();
         stateManager = MyTransform.GetComponentInParent<EnemyStateManager>();
         poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }
@@ -61,22 +61,7 @@ public class EnemyLaserSystem : MonoBehaviour {
         fireRate = maxFireRate;
         if (enemyStats.GetDebuffData() != Impairments.Stunned)
         {
-            GameObject obj = null;
-            switch (Type)
-            {
-                case EnemyLaserType.Basic:
-                    obj = poolManager.GetBaseEnemyLaser();
-                    break;
-                case EnemyLaserType.Charged:
-                    obj = poolManager.GetChargedEnemyLaser();
-                    break;
-                case EnemyLaserType.MiniCannon:
-                    obj = poolManager.GetMiniBossLaser();
-                    break;
-                case EnemyLaserType.Cannon:
-                    Debug.LogError("Enemy Laser System Should not shoot cannons");
-                    break;
-            }
+            GameObject obj = poolManager.GetLaser(Type);
 
             if (obj != null)
             {
@@ -84,8 +69,6 @@ public class EnemyLaserSystem : MonoBehaviour {
                 obj.transform.rotation = MyTransform.rotation;
                 obj.SetActive(true);
             }
-            else
-                Debug.LogError("Enemy Ran Out of Lasers : " + Type.ToString());
         }
     }
 }

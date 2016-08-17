@@ -44,18 +44,17 @@ public class LaserSystem : ShipSystem
     {
         DeActivate();
         
-        GameObject laser = null;
-        controller.AddRumble(maxCooldown - .05f, rumble);
+        GameObject laser = PoolManager.GetLaser(Type);
         switch (Type)
         {
             case LaserType.Basic:
                 laser_overheat.UpdateGauge(-10f);
-                laser = PoolManager.GetBaseLaser();                
+                AudioManager.instance.PlayLaser();            
                 break;
 
             case LaserType.Charged:
                 laser_overheat.UpdateGauge(-20f);
-                laser = PoolManager.GetChargedLaser();
+                AudioManager.instance.PlayChargeLaser();
                 break;
         }
 
@@ -69,8 +68,10 @@ public class LaserSystem : ShipSystem
             laser.transform.position = Gun2.transform.position;
             laser.transform.rotation = Gun2.transform.rotation;
         }
+
         flip = !flip;
         laser.SetActive(true);
+        controller.AddRumble(maxCooldown - .05f, rumble);
     }
 
     public void WeaponSwap()

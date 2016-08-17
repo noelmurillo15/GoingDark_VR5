@@ -7,6 +7,7 @@ public class Asteroid : MonoBehaviour
     public bool skipStart;
     private Vector3 m_velocity;
     private Vector3 m_rotation;
+    private BoxCollider boxcol;
     private Rigidbody MyRigidbody;
     private Transform MyTransform;
     private TallyScreen tallyscreen;
@@ -19,6 +20,7 @@ public class Asteroid : MonoBehaviour
             tallyscreen = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TallyScreen>();
 
         MyTransform = transform;
+        boxcol = GetComponent<BoxCollider>();        
         MyRigidbody = GetComponent<Rigidbody>();
         if (!skipStart)
         {
@@ -55,7 +57,8 @@ public class Asteroid : MonoBehaviour
             m_rotation.x = Random.Range(-45.0f, 45.0f);
             m_rotation.y = Random.Range(-45.0f, 45.0f);
             m_rotation.z = Random.Range(-45.0f, 45.0f);
-            Invoke("SelfDestruct", 20f);
+            Invoke("EnableCollision", .25f);
+            Invoke("SelfDestruct", 10f);
         }
     }
 
@@ -77,6 +80,10 @@ public class Asteroid : MonoBehaviour
         enabled = false;
     }
 
+    void EnableCollision()
+    {
+        boxcol.enabled = true;
+    }
     void SelfDestruct()
     {
         Destroy(gameObject);
@@ -85,7 +92,8 @@ public class Asteroid : MonoBehaviour
     public void Kill()
     {
         skipStart = true;
-        AudioManager.instance.PlayHit();
+        boxcol.enabled = false;
+        AudioManager.instance.PlayAstDestroy();
         float range = Random.Range(3, 6);
         for (int i = 0; i < range; i++)
         {

@@ -37,7 +37,7 @@ public class WayPointsManager : MonoBehaviour
     public void SetNextActive()
     {
         int i = 0;
-        float Distance = 10000.0f;
+        float Distance = float.MaxValue;
         SendBackToStation = true;
         for (; i < ArrayListForSorting.Count; i++)
         {

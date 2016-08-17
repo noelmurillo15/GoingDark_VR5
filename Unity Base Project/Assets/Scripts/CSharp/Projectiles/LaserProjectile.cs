@@ -28,7 +28,7 @@ public class LaserProjectile : MonoBehaviour
                     baseDmg = 2.5f;
                     break;
                 case LaserType.Charged:
-                    baseDmg = 12.5f;
+                    baseDmg = 10f;
                     break;
             }
             MyTransform = transform;
@@ -57,23 +57,13 @@ public class LaserProjectile : MonoBehaviour
         if (IsInvoking("Kill"))
             CancelInvoke("Kill");
 
-        GameObject go = null;
-        switch (Type)
-        {
-            case LaserType.Basic:
-                go = poolManager.GetBaseLaserExplosion();
-                break;
-            case LaserType.Charged:
-                go = poolManager.GetChargeLaserExplosion();
-                break;
-        }
+        GameObject go = poolManager.GetLaserExplosion(Type);
+
         if (go != null)
         {
             go.transform.position = MyTransform.position;
             go.SetActive(true);
         }
-        else
-            Debug.Log("Player Laser does not have explosion : " + transform.name);
 
         gameObject.SetActive(false);
     }

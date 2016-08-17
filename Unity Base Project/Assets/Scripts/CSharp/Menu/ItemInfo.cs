@@ -23,7 +23,7 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     private AudioSource buy, buttonPressed, buyFail, back;
 
-    void Start()
+    void Awake()
     {
         numItem = 0;
         price = 0;
@@ -89,16 +89,11 @@ public class ItemInfo : MonoBehaviour
                 break;
         }
 
-        if (item.ItemType == ItemType.Consumable)
+        if (hasItem == 1)
         {
-            if (hasItem == 1)
+            if (item.ItemType == ItemType.Consumable)
                 currInfo.text = "Owned: " + itemOwned;
             else
-                currInfo.text = "Out of stock";
-        }
-        else
-        {
-            if (hasItem == 1)
             {
                 if (itemLevel < 5)
                     currInfo.text = "Level: " + itemLevel;
@@ -108,21 +103,22 @@ public class ItemInfo : MonoBehaviour
                     UpdatePrice();
                 }
             }
-            else
-                currInfo.text = "Out of stock";
         }
+        else
+            currInfo.text = "Out of Stock";
     }
 
     void UpdatePrice()
     {
         price = item.ItemPrice * itemLevel * numItem;
 
-        priceText.text = "Cost: \n" + price.ToString() + " Credit";
-
         if (itemLevel == 5 || hasItem == 0)
         {
             priceText.text = "Cost:\nN/A";
         }
+        else
+            priceText.text = "Cost: \n" + price.ToString() + " Credit";
+
     }
 
     void UpdateCredit()
@@ -165,7 +161,7 @@ public class ItemInfo : MonoBehaviour
             {
                 if (item.ItemType == ItemType.Consumable)
                 {
-                    if (numItem < 99)
+                    if (numItem + itemOwned < 99)
                         numItem++;
                 }
                 else

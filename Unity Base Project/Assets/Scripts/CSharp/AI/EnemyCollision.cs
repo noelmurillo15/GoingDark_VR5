@@ -73,6 +73,9 @@ public class EnemyCollision : MonoBehaviour {
             }
             if (col.CompareTag("Player"))
             {
+                if (stats.GetEnemyType() == EnemyTypes.FinalBoss)
+                    AudioManager.instance.PlayBossTheme();
+
                 inRange = true;                
                 if (LockOnReticle != null)
                     LockOnReticle.gameObject.SetActive(true);

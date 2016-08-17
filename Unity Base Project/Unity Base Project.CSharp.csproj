@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.4f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -118,7 +120,6 @@
     <Compile Include="Assets\LoadSlots.cs" />
     <Compile Include="Assets\Orbs.cs" />
     <Compile Include="Assets\SaveGame.cs" />
-    <Compile Include="Assets\Scripts\CSharp\AI\BossAi.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossLaser.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\BossStats.cs" />
     <Compile Include="Assets\Scripts\CSharp\AI\EnemyCollision.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Assets\ShieldSystem.cs" />
     <Compile Include="Assets\Spawner.cs" />
     <Compile Include="Assets\WayFinder_Arrow.cs" />
+    <Compile Include="Assets\WayPointControlScript.cs" />
     <Compile Include="Assets\WayPointScript.cs" />
     <Compile Include="Assets\WayPointStation.cs" />
     <Compile Include="Assets\WayPointsManager.cs" />

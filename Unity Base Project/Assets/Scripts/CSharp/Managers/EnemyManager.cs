@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour {
         systemManager = GameObject.Find("Devices").GetComponent<SystemManager>();
         PlayerPosition = GameObject.FindGameObjectWithTag("Player").transform;
 
-        InvokeRepeating("CheckEnemies", 10f, 10f);
+        //InvokeRepeating("CheckEnemies", 10f, 10f);
     }
 
     #region Accessors
@@ -139,7 +139,7 @@ public class EnemyManager : MonoBehaviour {
     }
     public void SendAlert(Vector3 enemypos)
     {
-        AudioManager.instance.RaiseBattleMusic();
+        //AudioManager.instance.RaiseBattleMusic();
         object[] tempStorage = new object[2];
         tempStorage[0] = PlayerPosition.position;
         tempStorage[1] = enemypos;
@@ -159,17 +159,17 @@ public class EnemyManager : MonoBehaviour {
     #endregion
 
     #region Invoked Methods
-    void CheckEnemies()
-    {
-        if (enemies.Count > 0)
-        {
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if (enemies[i].GetStateManager().GetState() == EnemyStates.Attack)
-                    return;
-            }
-            AudioManager.instance.LowerBattleMusic();
-        }
-    }
+    //void CheckEnemies()
+    //{
+    //    if (enemies.Count > 0)
+    //    {
+    //        for (int i = 0; i < enemies.Count; i++)
+    //        {
+    //            if (enemies[i].GetStateManager().GetState() == EnemyStates.Attack)
+    //                return;
+    //        }
+    //        //AudioManager.instance.LowerBattleMusic();
+    //    }
+    //}
     #endregion
 }

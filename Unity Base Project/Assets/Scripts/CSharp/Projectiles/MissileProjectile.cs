@@ -123,29 +123,13 @@ public class MissileProjectile : MonoBehaviour
         if (IsInvoking("Kill"))
             CancelInvoke("Kill");
 
-        GameObject go = null;
-        switch (Type)
-        {
-            case MissileType.Basic:
-                go = poolManager.GetBaseMissExplode();
-                break;
-            case MissileType.Emp:
-                go = poolManager.GetEmpMissExplode();
-                break;
-            case MissileType.ShieldBreak:
-                go = poolManager.GetSBMissExplode();
-                break;
-            case MissileType.Chromatic:
-                go = poolManager.GetChromeMissExplode();
-                break;
-        }
+        GameObject go = poolManager.GetMissileExplosion(Type);
+        
         if (go != null)
         {
             go.transform.position = MyTransform.position;
             go.SetActive(true);
         }
-        else
-            Debug.Log("Player Missile does not have explosion : " + transform.name);
 
         SetInactive();
     }

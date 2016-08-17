@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using GoingDark.Core.Enums;
 
 public class BossLaser : MonoBehaviour {
 
@@ -24,7 +25,7 @@ public class BossLaser : MonoBehaviour {
     void Fire()
     {
         GameObject obj1 = null;
-        obj1 = PoolManager.GetBossLaser();
+        obj1 = PoolManager.GetLaser(EnemyLaserType.Cannon);
         obj1.transform.position = Laser.transform.position;
         obj1.transform.rotation = Laser.transform.rotation;
         obj1.SetActive(true);

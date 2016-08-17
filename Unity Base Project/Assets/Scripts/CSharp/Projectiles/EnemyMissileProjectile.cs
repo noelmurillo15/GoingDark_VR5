@@ -53,7 +53,6 @@ public class EnemyMissileProjectile : MonoBehaviour
             messages.MissileIncoming();
             Invoke("Kill", 3f);
         }
-
     }
 
     void FixedUpdate()
@@ -90,21 +89,17 @@ public class EnemyMissileProjectile : MonoBehaviour
         gameObject.SetActive(false);
     }
     public void Kill()
-    {       
-        GameObject go = null;
-        switch (Type)
-        {
-            case EnemyMissileType.Basic:
-                go = poolManager.GetBaseMissExplode();
-                break;
-        }
+    {
+        if (IsInvoking("Kill"))
+            CancelInvoke("Kill");
+
+        GameObject go = poolManager.GetMissileExplosion(MissileType.Basic);
+
         if (go != null)
         {
             go.transform.position = MyTransform.position;
             go.SetActive(true);
         }
-        else
-            Debug.Log("Player Missile does not have explosion : " + transform.name);
 
         SetInactive();
     }

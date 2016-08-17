@@ -83,7 +83,10 @@ public class MissileSystem : ShipSystem
             case MissileType.Chromatic:
                 Count[typemiss] += 2;
                 break;
-        }        
+        }
+
+        if (Count[typemiss] > 99)
+            Count[typemiss] = 99;
         CheckCount();
     }
 
@@ -97,24 +100,28 @@ public class MissileSystem : ShipSystem
         switch (Type)
         {
             case MissileType.Basic:
+                maxCooldown = 2f;
                 typeTxt.text = "Basic";
                 countTxt.color = Color.yellow;
                 typeTxt.color = Color.yellow;
                 missileSprite.color = Color.yellow;
                 break;
             case MissileType.Emp:
+                maxCooldown = 5f;
                 typeTxt.text = "Emp";
                 countTxt.color = Color.cyan;
                 typeTxt.color = Color.cyan;
                 missileSprite.color = Color.cyan;
                 break;
             case MissileType.ShieldBreak:
+                maxCooldown = 5f;
                 typeTxt.text = "ShieldBreak";
                 countTxt.color = Color.red;
                 typeTxt.color = Color.red;
                 missileSprite.color = Color.red;
                 break;
             case MissileType.Chromatic:
+                maxCooldown = 5f;
                 typeTxt.text = "Chromatic";
                 countTxt.color = Color.green;
                 typeTxt.color = Color.green;
@@ -133,22 +140,7 @@ public class MissileSystem : ShipSystem
 
             controller.AddRumble(.5f, rumble);
 
-            GameObject obj = null;
-            switch (Type)
-            {
-                case MissileType.Basic:
-                    obj = poolmanager.GetBaseMissile();
-                    break;
-                case MissileType.Emp:
-                    obj = poolmanager.GetEmpMissile();
-                    break;
-                case MissileType.ShieldBreak:
-                    obj = poolmanager.GetSBMissile();
-                    break;
-                case MissileType.Chromatic:
-                    obj = poolmanager.GetChromeMissile();
-                    break;
-            }
+            GameObject obj = poolmanager.GetMissile(Type);            
 
             if (obj != null)
             {
