@@ -93,7 +93,9 @@ public class MissionSystem : MonoBehaviour
 
         m_ActiveMissions.Remove(mission);
         m_missionLog.Failed(mission);
-        Timing.RunCoroutine(Wait(3.0f));
+
+        if (SceneName == "Level1")
+            Timing.RunCoroutine(Wait(3.0f));
     }
 
     void AddAllMissions()

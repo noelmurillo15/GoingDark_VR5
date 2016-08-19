@@ -38,6 +38,27 @@ public class EnemyMissileProjectile : MonoBehaviour
                 case EnemyMissileType.Basic:
                     baseDmg = 10f;
                     break;
+                case EnemyMissileType.Slow:
+                    baseDmg = 1f;
+                    break;
+                case EnemyMissileType.Emp:
+                    baseDmg = 1f;
+                    break;
+                case EnemyMissileType.Guided:
+                    baseDmg = 15f;
+                    break;
+                case EnemyMissileType.Blind:
+                    baseDmg = 1f;
+                    break;
+                case EnemyMissileType.System_Interupt:
+                    baseDmg = 1f;
+                    break;
+                case EnemyMissileType.Nuke:
+                    baseDmg = 25f;
+                    break;
+                case EnemyMissileType.ShieldBreak:
+                    baseDmg = 25f;
+                    break;
             }
 
             MyTransform = transform;

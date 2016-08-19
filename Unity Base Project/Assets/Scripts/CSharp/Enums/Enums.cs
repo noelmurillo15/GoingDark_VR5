@@ -74,6 +74,13 @@
     public enum EnemyMissileType
     {
         Basic,
+        Slow,
+        Emp,
+        Guided,
+        Blind,
+        System_Interupt,
+        Nuke,
+        ShieldBreak
     }
     public enum EnemyLaserType
     {

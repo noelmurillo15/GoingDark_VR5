@@ -25,6 +25,27 @@ public class EnemyMissileSystem : MonoBehaviour
             case EnemyMissileType.Basic:
                 maxFireRate = 5f;
                 break;
+            case EnemyMissileType.Slow:
+                maxFireRate = 10f;
+                break;
+            case EnemyMissileType.Emp:
+                maxFireRate = 10f;
+                break;
+            case EnemyMissileType.Guided:
+                maxFireRate = 5f;
+                break;
+            case EnemyMissileType.Blind:
+                maxFireRate = 10f;
+                break;
+            case EnemyMissileType.System_Interupt:
+                maxFireRate = 20f;
+                break;
+            case EnemyMissileType.Nuke:
+                maxFireRate = 10f;
+                break;
+            case EnemyMissileType.ShieldBreak:
+                maxFireRate = 10f;
+                break;
         }
         MyTransform = transform;
         enemyStats = transform.GetComponentInParent<IEnemy>();
