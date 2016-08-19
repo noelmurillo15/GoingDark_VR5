@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using GoingDark.Core.Enums;
 using GoingDark.Core.Utility;
+using MovementEffects;
+using System.Collections.Generic;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -233,17 +235,9 @@ public class PlayerStats : MonoBehaviour
     #endregion
 
     #region Death
-    public void ClearScreen()
-    {
-        deathTransition.SpawnPlayer();
-        deathTransition.NotDead();
-        deathTransition.notSpawned();
-    }    
     public void GoToStation()
     {
-        transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);             
-        Invoke("ClearScreen", 1f);
+        Timing.RunCoroutine(Fade());
     }
     public void Repair(int cost)
     {
@@ -283,6 +277,19 @@ public class PlayerStats : MonoBehaviour
         //save.AutoSave();
         deathTransition.Death();
         Invoke("GameOver", 2f);
+    }
+    #endregion
+
+    #region Coroutines
+    IEnumerator<float> Fade()
+    {
+        deathTransition.SpawnPlayer();
+        deathTransition.NotDead();
+        yield return Timing.WaitForSeconds(1.0f);
+        transform.rotation = Quaternion.identity;
+        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
+        yield return Timing.WaitForSeconds(1.0f);
+        deathTransition.notSpawned();
     }
     #endregion
 }
