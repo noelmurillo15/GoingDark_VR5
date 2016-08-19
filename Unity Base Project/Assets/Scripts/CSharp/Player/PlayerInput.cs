@@ -50,9 +50,6 @@ public class PlayerInput : MonoBehaviour
         if (controller.GetButtonDown("X"))
             systems.ActivateSystem(SystemType.Cloak);
 
-        if (controller.GetButtonDown("A") && !messageUp)
-            systems.ActivateSystem(SystemType.Emp);
-
         if (controller.GetButtonDown("B"))
             systems.ActivateSystem(SystemType.Decoy);
 

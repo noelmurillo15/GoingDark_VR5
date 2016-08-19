@@ -10,7 +10,9 @@ public class MessageScript : MonoBehaviour
     [SerializeField]
     Text missileInc;
     [SerializeField]
-    Text debuffMsg;
+    Text stunMsg;
+    [SerializeField]
+    Text slowMsg;
     [SerializeField]
     Text offlineDevices;
     [SerializeField]
@@ -32,9 +34,10 @@ public class MessageScript : MonoBehaviour
     #region Msg Functions
     void NoWarning()
     {
+        slowMsg.enabled = false;
         enemyClose.enabled = false;
         missileInc.enabled = false;
-        debuffMsg.enabled = false;
+        stunMsg.enabled = false;
         systemReport.enabled = false;
         offlineDevices.enabled = false;
         stationTakeover.enabled = false;
@@ -79,23 +82,21 @@ public class MessageScript : MonoBehaviour
     }
     public void Stun(float _duration)
     {
-        debuffMsg.enabled = true;
-        debuffMsg.text = "Stunned";
+        stunMsg.enabled = true;
         Invoke("NotStunned", _duration);
     }    
     public void Slow(float _duration)
     {
-        debuffMsg.enabled = true;
-        debuffMsg.text = "Slowed";
+        slowMsg.enabled = true;
         Invoke("NotSlowed", _duration);
     }
     public void NotStunned()
     {
-        debuffMsg.enabled = false;
+        stunMsg.enabled = false;
     }
     public void NotSlowed()
     {
-        debuffMsg.enabled = false;
+        slowMsg.enabled = false;
     }
     public void Init(string system)
     {

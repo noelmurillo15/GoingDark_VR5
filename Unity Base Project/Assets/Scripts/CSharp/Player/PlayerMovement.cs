@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        MoveData.Set(80f, 1f, 120f, 50f, 20f);
+        MoveData.Set(80f, 1f, 120f, 80f, 20f);
         speedAmt = 0f;
         boostActive = false;
         MyTransform = transform;
@@ -35,15 +35,16 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (stats.GetDebuffData().debuff != Impairments.Stunned)
-        {                       
-            Yaw();
-            Roll();
-            Pitch();
-            Flight();
+        if (boostActive)
+        {
+            MoveData.Boost = 5f;
+            MoveData.Acceleration = 50f;
         }
-        else
-            MoveData.DecreaseSpeed();        
+
+        Yaw();
+        Roll();
+        Pitch();
+        Flight();
     }
 
     #region Accessors

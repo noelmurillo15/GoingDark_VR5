@@ -134,13 +134,13 @@ public class PlayerStats : MonoBehaviour
     }
     public void PlayerSlowed()
     {
-        msgs.Slow(10f);
-        DebuffData.Slow(10f);
+        msgs.Slow(8f);
+        DebuffData.Slow(8f);
     }
     public void PlayerStunned()
-    {      
-        msgs.Stun(5f);
-        DebuffData.Stun(5f);
+    {              
+        msgs.Stun(3f);
+        DebuffData.Stun(3f);
     }    
     #endregion
 

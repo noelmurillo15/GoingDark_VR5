@@ -25,7 +25,7 @@ public class EnemyLaserSystem : MonoBehaviour {
                 maxFireRate = .5f;
                 break;
             case EnemyLaserType.Charged:
-                maxFireRate = 1f;
+                maxFireRate = 1.25f;
                 break;
             case EnemyLaserType.MiniCannon:
                 maxFireRate = 5f;

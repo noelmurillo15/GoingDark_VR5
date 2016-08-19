@@ -4,6 +4,9 @@ public class Asteroid : MonoBehaviour
 {
 
     #region Properties
+    [SerializeField]
+    private GameObject supplybox;
+
     public bool skipStart;
     private Vector3 m_velocity;
     private Vector3 m_rotation;
@@ -102,6 +105,13 @@ public class Asteroid : MonoBehaviour
             if (go.transform.parent != null)
                 go.transform.parent = MyTransform.parent;
             go.transform.localScale *= Random.Range(.1f, .45f);
+        }
+
+        if(supplybox != null)
+        {
+            GameObject go = Instantiate(supplybox, MyTransform.position, Quaternion.identity) as GameObject;
+            if (go.transform.parent != null)
+                go.transform.parent = MyTransform.parent;
         }
 
         if(tallyscreen != null)

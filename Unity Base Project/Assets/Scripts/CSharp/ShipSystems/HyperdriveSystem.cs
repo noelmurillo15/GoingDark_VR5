@@ -30,8 +30,6 @@ public class HyperdriveSystem : ShipSystem
     #region Private Methods
     public void InitializeHyperdriveSequence() {
         DeActivate();
-        stats.GetMoveData().SetMaxSpeed(500f);
-        stats.GetMoveData().SetAccel(100f);
         stats.boostActive = true;
         particles.SetActive(true);
         Invoke("StopHyperdrive", 10f);
@@ -42,10 +40,10 @@ public class HyperdriveSystem : ShipSystem
         if(IsInvoking("StopHyperdrive"))
             CancelInvoke("StopHyperdrive");
 
-        stats.GetMoveData().SetMaxSpeed(100f);
-        stats.GetMoveData().SetAccel(20f);
         stats.boostActive = false;
         particles.SetActive(false);
+        stats.GetMoveData().SetBoost(1f);
+        stats.GetMoveData().SetAccel(20f);
     }
     #endregion
 }

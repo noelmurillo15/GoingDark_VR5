@@ -34,7 +34,6 @@ public class SystemManager : MonoBehaviour {
         else if (sceneName == "Level3" || sceneName == "Level4")
         {
             InitializeDevice(SystemType.Decoy);
-            InitializeDevice(SystemType.Emp);
             InitializeDevice(SystemType.Hyperdrive);
         }
     }
@@ -120,9 +119,6 @@ public class SystemManager : MonoBehaviour {
         GameObject system = null;
         switch (key)
         {
-            case SystemType.Emp:
-                system = Resources.Load<GameObject>("Devices/Emp");
-                break;
             case SystemType.Cloak:
                 system = Resources.Load<GameObject>("Devices/Cloak");
                 break;
@@ -161,10 +157,6 @@ public class SystemManager : MonoBehaviour {
             #region Main Devices
             case SystemType.Decoy:
                 MainDevices.Add(key, dev.GetComponent<DecoySystem>() as ShipSystem);
-                break;
-
-            case SystemType.Emp:
-                MainDevices.Add(key, dev.GetComponent<EmpSystem>() as ShipSystem);
                 break;
 
             case SystemType.Hyperdrive:

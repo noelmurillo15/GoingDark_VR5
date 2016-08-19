@@ -57,21 +57,21 @@ public class MovementProperties
     public void ChangeSpeed(float triggerVal)
     {
         if (Speed < (MaxSpeed * Boost * triggerVal))
-            Speed += Time.deltaTime * Acceleration;
+            Speed += Time.fixedDeltaTime * Acceleration;
         else if (Speed > (MaxSpeed * Boost * triggerVal) + 1.0f)
             DecreaseSpeed();
     }
     public void IncreaseSpeed()
     {
         if (Speed < (MaxSpeed * Boost))
-            Speed += Time.deltaTime * Acceleration;
+            Speed += Time.fixedDeltaTime * Acceleration;
         else if (Speed > (MaxSpeed * Boost) + .5f)
             DecreaseSpeed();
     }
     public void DecreaseSpeed()
     {
         if (Speed > 1f)
-            Speed = Mathf.Lerp(Speed, 0f, Time.deltaTime * .25f);
+            Speed = Mathf.Lerp(Speed, 0f, Time.fixedDeltaTime * .5f);
         else
             Speed = 0f;
     }

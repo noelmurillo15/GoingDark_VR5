@@ -65,20 +65,23 @@ public class EnemyMissileSystem : MonoBehaviour
         Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 5f, 0.0f);
         MyTransform.rotation = Quaternion.LookRotation(direction);
 
-        if (fireRate <= 0f)
+        if (Vector3.Angle(playerDir, direction) <= .1f)
             Shoot();
     }
 
     private void Shoot()
     {
-        fireRate = maxFireRate;
-        GameObject obj = poolManager.GetMissile(Type);
-
-        if (obj != null)
+        if (fireRate <= 0f)
         {
-            obj.transform.position = MyTransform.position;
-            obj.transform.rotation = MyTransform.rotation;
-            obj.SetActive(true);
+            fireRate = maxFireRate;
+            GameObject obj = poolManager.GetMissile(Type);
+
+            if (obj != null)
+            {
+                obj.transform.position = MyTransform.position;
+                obj.transform.rotation = MyTransform.rotation;
+                obj.SetActive(true);
+            }
         }
     }
 }

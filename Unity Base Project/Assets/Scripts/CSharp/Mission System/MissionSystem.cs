@@ -368,12 +368,7 @@ public class MissionSystem : MonoBehaviour
 
     void GiveSystem(string name)
     {
-        if (name.Contains("Emp"))
-        {
-            m_systemManager.InitializeDevice(SystemType.Emp);
-            messages.Init("Emp");
-        }
-        else if (name.Contains("Hyperdrive"))
+        if (name.Contains("Hyperdrive"))
         {
             m_systemManager.InitializeDevice(SystemType.Hyperdrive);
             messages.Init("Hyperdrive");

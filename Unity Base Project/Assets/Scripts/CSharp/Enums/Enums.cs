@@ -117,7 +117,6 @@
     public enum SystemType
     {
         None,
-        Emp,
         Cloak,
         Decoy,
         Laser,

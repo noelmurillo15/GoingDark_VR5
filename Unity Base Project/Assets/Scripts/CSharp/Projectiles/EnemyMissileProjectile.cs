@@ -120,13 +120,13 @@ public class EnemyMissileProjectile : MonoBehaviour
         if (IsInvoking("Kill"))
             CancelInvoke("Kill");
 
-        GameObject go = poolManager.GetMissileExplosion(MissileType.Basic);
+        //GameObject go = poolManager.GetMissileExplosion(Type);
 
-        if (go != null)
-        {
-            go.transform.position = MyTransform.position;
-            go.SetActive(true);
-        }
+        //if (go != null)
+        //{
+        //    go.transform.position = MyTransform.position;
+        //    go.SetActive(true);
+        //}
 
         SetInactive();
     }

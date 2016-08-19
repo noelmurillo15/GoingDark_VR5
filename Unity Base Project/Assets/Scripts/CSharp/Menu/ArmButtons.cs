@@ -36,9 +36,6 @@ public class ArmButtons : MonoBehaviour
         m_button = GetComponent<Image>();        
         switch (transform.name)
         {
-            case "EmpButton":
-                Type = SystemType.Emp;
-                break;
             case "CloakButton":
                 Type = SystemType.Cloak;
                 break;

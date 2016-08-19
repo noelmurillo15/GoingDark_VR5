@@ -34,7 +34,13 @@ public class ObjectPoolManager : MonoBehaviour
     private ObjectPooling explosionpool = new ObjectPooling();
 
     //  Missiles
-    private ObjectPooling enemyMissile = new ObjectPooling();
+    private ObjectPooling enemyBasicMissile = new ObjectPooling();
+    private ObjectPooling enemyEmpMissile = new ObjectPooling();
+    private ObjectPooling enemyGuidedMissile = new ObjectPooling();
+    private ObjectPooling enemyNuke = new ObjectPooling();
+    private ObjectPooling enemyShieldBreakMissile = new ObjectPooling();
+    private ObjectPooling enemySlowMissile = new ObjectPooling();
+    private ObjectPooling enemySysruptMissile = new ObjectPooling();
 
     //  Lasers
     private ObjectPooling baseEnemyLaser = new ObjectPooling();
@@ -77,7 +83,13 @@ public class ObjectPoolManager : MonoBehaviour
 
 
         //  Enemy Missiles
-        enemyMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyMissile"), 20, MyTransform);
+        enemyBasicMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyBasicMissile"), 20, MyTransform);
+        enemyEmpMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyEmpMissile"), 20, MyTransform);
+        enemyGuidedMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyGuidedMissile"), 20, MyTransform);
+        enemyNuke.Initialize(Resources.Load<GameObject>("Missiles/EnemyNuke"), 20, MyTransform);
+        enemyShieldBreakMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemyShieldBreakMissile"), 20, MyTransform);
+        enemySlowMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemySlowMissile"), 20, MyTransform);
+        enemySysruptMissile.Initialize(Resources.Load<GameObject>("Missiles/EnemySysRuptMissile"), 20, MyTransform);
 
         //  Enemy Lasers
         baseEnemyLaser.Initialize(Resources.Load<GameObject>("Lasers/EnemyLaserBeam"), 96, MyTransform);
@@ -137,7 +149,19 @@ public class ObjectPoolManager : MonoBehaviour
         switch (_type)
         {
             case EnemyMissileType.Basic:
-                return enemyMissile.GetPooledObject();
+                return enemyBasicMissile.GetPooledObject();
+            case EnemyMissileType.Slow:
+                return enemySlowMissile.GetPooledObject();
+            case EnemyMissileType.Emp:
+                return enemyEmpMissile.GetPooledObject();
+            case EnemyMissileType.Guided:
+                return enemyGuidedMissile.GetPooledObject();
+            case EnemyMissileType.Sysrupt:
+                return enemySysruptMissile.GetPooledObject();
+            case EnemyMissileType.Nuke:
+                return enemyNuke.GetPooledObject(); 
+            case EnemyMissileType.ShieldBreak:
+                return enemyShieldBreakMissile.GetPooledObject(); 
         }
 
         Debug.LogError("Pool Manager Ran Out Of Enemy : " + _type + " Missile");

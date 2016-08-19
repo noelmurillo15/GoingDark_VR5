@@ -7,8 +7,6 @@ using GoingDark.Core.Enums;
 public class DebuffProperties : MonoBehaviour
 {
     #region Properties
-    public Impairments debuff { get; set; }
-
     [SerializeField]
     private GameObject stunParticles;
     [SerializeField]
@@ -20,34 +18,37 @@ public class DebuffProperties : MonoBehaviour
 
     public DebuffProperties()
     {
-        debuff = Impairments.None;
+
     }   
 
     public void Stun(float duration)
     {
-        debuff = Impairments.Stunned;
+        if (IsInvoking("RemoveStun"))
+            CancelInvoke("RemoveStun");
+
+        move.StopMovement();
+        move.GetMoveData().SetMaxSpeed(0f);
         stunParticles.SetActive(true);
         Invoke("RemoveStun", duration);
+    }
+    private void RemoveStun()
+    {
+        move.GetMoveData().SetMaxSpeed(120f);
+        stunParticles.SetActive(false);
     }
 
     public void Slow(float duration)
     {
-        debuff = Impairments.Slowed;
+        if (IsInvoking("RemoveSlow"))
+            CancelInvoke("RemoveSlow");
+
         move.GetMoveData().SetBoost(.5f);
         slowParticles.SetActive(true);
         Invoke("RemoveSlow", duration);
     }
-
     private void RemoveSlow()
     {
-        debuff = Impairments.None;
         move.GetMoveData().SetBoost(1f);
         slowParticles.SetActive(false);
-    }
-
-    private void RemoveStun()
-    {
-        debuff = Impairments.None;
-        stunParticles.SetActive(false);
-    }
+    }    
 }
