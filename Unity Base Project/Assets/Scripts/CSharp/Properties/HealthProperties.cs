@@ -14,6 +14,7 @@ public class HealthProperties
 
     //  Player Data
     public bool isPlayer;
+    public bool isPlayerDead;
     private Image HealthBar;
     private float DmgModifier;
 
@@ -32,6 +33,7 @@ public class HealthProperties
     {
         MaxHealth = _hp;
         Health = MaxHealth;
+        isPlayerDead = false;
 
         baseRef = _ref;
         isPlayer = _player;
@@ -50,6 +52,7 @@ public class HealthProperties
 
     public void FullRestore()
     {
+        isPlayerDead = false;
         Health = MaxHealth;
         UpdateHPBar();
     }  
@@ -69,8 +72,11 @@ public class HealthProperties
             UpdateHPBar();
         }
 
-        if (Health <= 0f)
-            baseRef.SendMessage("Kill");              
+        if (Health <= 0f && !isPlayerDead)
+        {
+            isPlayerDead = true;
+            baseRef.SendMessage("Kill");
+        }         
     }
     public bool HealthWarning()
     {

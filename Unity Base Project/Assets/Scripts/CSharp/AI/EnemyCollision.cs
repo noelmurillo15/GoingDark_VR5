@@ -67,7 +67,7 @@ public class EnemyCollision : MonoBehaviour
                 if (stats.GetEnemyType() == EnemyTypes.FinalBoss)
                     AudioManager.instance.PlayBossTheme();
 
-                if (!playerCloak.GetCloaked())
+                if (playerCloak != null && !playerCloak.GetCloaked())
                     enemyManager.SendAlert(transform.position);
 
                 playerMsgs.EnemyClose();

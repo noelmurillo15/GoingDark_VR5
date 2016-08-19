@@ -364,11 +364,12 @@ public class AudioManager : MonoBehaviour
 
     public void PlayShieldHit()
     {
-        int r = Random.Range(1, 3);
+        int r = Random.Range(1, 2);
         string aud = "G_D_Player_Shield_Hit_0" + r;
         _Hit.volume = SoundVolume * MasterVolume;
         _Hit.PlayOneShot(sounds[aud]);
     }
+
 
     public void PlayMessagePop()
     {

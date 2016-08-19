@@ -27,10 +27,7 @@ public class PlayerCollisions : MonoBehaviour
         if (padding <= 0f)
         {
             if (hit.transform.CompareTag("Asteroid"))
-            {
-                if (movedata.Speed > 450)
-                    stats.Kill();                
-
+            {       
                 stats.CrashHit(movedata.Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
             }

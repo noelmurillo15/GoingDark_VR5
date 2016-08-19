@@ -55,8 +55,7 @@ public class MissionSystem : MonoBehaviour
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         SceneName = SceneManager.GetActiveScene().name;
 
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
-        numEnemies = temp.Length;
+        
 
         if (SceneName == "Level1")
 
@@ -99,6 +98,8 @@ public class MissionSystem : MonoBehaviour
 
     void AddAllMissions()
     {
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Enemy");
+        numEnemies = temp.Length;
         for (int i = 0; i < m_PrimaryMissions.Count; i++)
         {
             Mission mission = m_PrimaryMissions[i];
