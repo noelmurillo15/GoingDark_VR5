@@ -34,10 +34,7 @@ public class EnemyMissileSystem : MonoBehaviour
             case EnemyMissileType.Guided:
                 maxFireRate = 5f;
                 break;
-            case EnemyMissileType.Blind:
-                maxFireRate = 10f;
-                break;
-            case EnemyMissileType.System_Interupt:
+            case EnemyMissileType.Sysrupt:
                 maxFireRate = 20f;
                 break;
             case EnemyMissileType.Nuke:

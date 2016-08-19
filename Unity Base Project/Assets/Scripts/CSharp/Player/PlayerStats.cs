@@ -155,6 +155,16 @@ public class PlayerStats : MonoBehaviour
         PlayerStunned();
         UnCloak();      
     }
+    private void SlowHit()
+    {
+        PlayerSlowed();
+        UnCloak();
+    }
+    private void SysruptHit()
+    {
+        systemManager.SystemDamaged();
+        UnCloak();
+    }
     void SplashDmg()
     {
         controller.AddRumble(.25f, rumbleIntesity);
@@ -187,6 +197,25 @@ public class PlayerStats : MonoBehaviour
         controller.AddRumble(1f, rumbleIntesity);
         HealthData.Damage(laser.GetBaseDamage() * dmgMultiplier);
         laser.Kill();                        
+    }
+    private void MissileDebuff(EnemyMissileProjectile missile)
+    {        
+        switch (missile.Type)
+        {
+            case EnemyMissileType.Slow:
+                SlowHit();
+                break;
+            case EnemyMissileType.Emp:
+                EMPHit();
+                break;
+            case EnemyMissileType.Sysrupt:
+                SysruptHit();
+                break;
+            case EnemyMissileType.ShieldBreak:
+                ShieldHit(missile);
+                break;
+        }
+        missile.Kill();
     }
     private void MissileDmg(EnemyMissileProjectile missile)
     {

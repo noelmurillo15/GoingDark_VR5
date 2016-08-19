@@ -13,6 +13,8 @@ public class DebuffProperties : MonoBehaviour
     private GameObject stunParticles;
     [SerializeField]
     private GameObject slowParticles;
+    [SerializeField]
+    private PlayerMovement move;
     #endregion
 
 
@@ -31,6 +33,7 @@ public class DebuffProperties : MonoBehaviour
     public void Slow(float duration)
     {
         debuff = Impairments.Slowed;
+        move.GetMoveData().SetBoost(.5f);
         slowParticles.SetActive(true);
         Invoke("RemoveSlow", duration);
     }
@@ -38,6 +41,7 @@ public class DebuffProperties : MonoBehaviour
     private void RemoveSlow()
     {
         debuff = Impairments.None;
+        move.GetMoveData().SetBoost(1f);
         slowParticles.SetActive(false);
     }
 

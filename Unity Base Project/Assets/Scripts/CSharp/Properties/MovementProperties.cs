@@ -24,6 +24,27 @@ public class MovementProperties
         RotateSpeed = _rotatespeed;
     }
 
+    public void SetSpeed(float _val)
+    {
+        Speed = _val;
+    }
+    public void SetBoost(float _val)
+    {
+        Boost = _val;
+    }
+    public void SetMaxSpeed(float _val)
+    {
+        MaxSpeed = _val;
+    }
+    public void SetAccel(float _val)
+    {
+        Acceleration = _val;
+    }
+    public void SetRotateSpeed(float _val)
+    {
+        RotateSpeed = _val;
+    }
+
     public void Reset()
     {
         Speed = 0f;

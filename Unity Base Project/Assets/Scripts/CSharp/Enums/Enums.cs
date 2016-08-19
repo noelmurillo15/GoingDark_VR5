@@ -77,8 +77,7 @@
         Slow,
         Emp,
         Guided,
-        Blind,
-        System_Interupt,
+        Sysrupt,
         Nuke,
         ShieldBreak
     }

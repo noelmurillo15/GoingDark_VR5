@@ -17,6 +17,8 @@ public class EnemyMissileProjectile : MonoBehaviour
     private Transform target;
     private Quaternion targetRotation;
 
+    private string hitfunc;
+
     private Transform MyTransform;
     private Rigidbody MyRigidbody;
     private MessageScript messages;
@@ -36,27 +38,31 @@ public class EnemyMissileProjectile : MonoBehaviour
             switch (Type)
             {
                 case EnemyMissileType.Basic:
+                    hitfunc = "MissileDmg";
                     baseDmg = 10f;
                     break;
                 case EnemyMissileType.Slow:
+                    hitfunc = "MissileDebuff";
                     baseDmg = 1f;
                     break;
                 case EnemyMissileType.Emp:
+                    hitfunc = "MissileDebuff";
                     baseDmg = 1f;
                     break;
                 case EnemyMissileType.Guided:
+                    hitfunc = "MissileDmg";
                     baseDmg = 15f;
                     break;
-                case EnemyMissileType.Blind:
-                    baseDmg = 1f;
-                    break;
-                case EnemyMissileType.System_Interupt:
+                case EnemyMissileType.Sysrupt:
+                    hitfunc = "MissileDebuff";
                     baseDmg = 1f;
                     break;
                 case EnemyMissileType.Nuke:
+                    hitfunc = "MissileDmg";
                     baseDmg = 25f;
                     break;
                 case EnemyMissileType.ShieldBreak:
+                    hitfunc = "MissileDebuff";
                     baseDmg = 25f;
                     break;
             }
@@ -151,7 +157,7 @@ public class EnemyMissileProjectile : MonoBehaviour
             if (IsInvoking("Kill"))
                 CancelInvoke("Kill");
 
-            col.transform.SendMessage("MissileDmg", this);
+            col.transform.SendMessage(hitfunc, this);
         }
         else if (col.transform.tag == "Asteroid" || col.transform.tag == "Decoy")
         {
