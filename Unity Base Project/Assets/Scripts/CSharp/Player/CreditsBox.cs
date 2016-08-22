@@ -4,11 +4,16 @@ public class CreditsBox : MonoBehaviour
 {
 
     private PlayerStats playerStats;
-
-    // Use this for initialization
+    private Transform myTransform;    // Use this for initialization
     void Start()
     {
         playerStats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        myTransform = transform;
+    }
+    void FixedUpdate()
+    {
+        myTransform.LookAt(playerStats.transform);
+        myTransform.position += myTransform.forward * 200 * Time.fixedDeltaTime;
     }
 
     void OnTriggerEnter(Collider col)

@@ -14,10 +14,10 @@ public class AmmoPickUp : MonoBehaviour
         missile = GameObject.Find("Devices").GetComponentInChildren<MissileSystem>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         myTransform.LookAt(player);
-        myTransform.position += myTransform.forward * 200 * Time.deltaTime;
+        myTransform.position += myTransform.forward * 200 * Time.fixedDeltaTime;
     }
 
     void OnTriggerEnter(Collider col)

@@ -98,6 +98,7 @@ public class AudioManager : MonoBehaviour
 
     void OnLevelWasLoaded()
     {
+        Boss = false;
         switch (SceneManager.GetActiveScene().name)
         {
             case "MainMenu":

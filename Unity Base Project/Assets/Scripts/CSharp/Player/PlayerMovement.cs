@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        MoveData.Set(80f, 1f, 120f, 80f, 20f);
+        MoveData.Set(0f, 1f, 120f, 80f, 20f);
         speedAmt = 0f;
         boostActive = false;
         MyTransform = transform;

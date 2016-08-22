@@ -176,16 +176,11 @@ public class IEnemy : MonoBehaviour {
 
     public void Kill()
     {
-        if (GetComponent<EnemyTrail>() != null)
-        {
-            manager.RemoveEnemy(this);
+        if (GetComponent<EnemyTrail>() != null)        
             GetComponent<EnemyTrail>().Kill();
-        }
-        else
-        {
-            manager.RemoveEnemy(this);
-            Destroy(gameObject);
-        }
+
+        manager.RemoveEnemy(this);
+        Destroy(gameObject);
     }
     #endregion
 

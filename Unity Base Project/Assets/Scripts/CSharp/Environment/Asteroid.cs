@@ -36,7 +36,7 @@ public class Asteroid : MonoBehaviour
             m_rotation.z = Random.Range(-15.0f, 15.0f);
 
             Vector3 m_scale = Vector3.zero;
-            m_scale.x = Random.Range(5f, 50.0f);
+            m_scale.x = Random.Range(1f, 5.0f);
             m_scale.y = m_scale.x;
             m_scale.z = m_scale.x;
             
@@ -55,7 +55,9 @@ public class Asteroid : MonoBehaviour
             m_rotation.x = Random.Range(1.0f, 359.0f);
             m_rotation.y = Random.Range(1.0f, 359.0f);
             m_rotation.z = Random.Range(1.0f, 359.0f);
+
             MyTransform.localEulerAngles = m_rotation;
+            MyTransform.localScale *= Random.Range(.2f, .55f);
 
             m_rotation.x = Random.Range(-45.0f, 45.0f);
             m_rotation.y = Random.Range(-45.0f, 45.0f);
@@ -102,15 +104,14 @@ public class Asteroid : MonoBehaviour
         {
             GameObject go = Instantiate(gameObject) as GameObject;
 
-            if (go.transform.parent != null)
+            if (MyTransform.parent != null)
                 go.transform.parent = MyTransform.parent;
-            go.transform.localScale *= Random.Range(.1f, .45f);
         }
 
         if(supplybox != null)
         {
             GameObject go = Instantiate(supplybox, MyTransform.position, Quaternion.identity) as GameObject;
-            if (go.transform.parent != null)
+            if (MyTransform.parent != null)
                 go.transform.parent = MyTransform.parent;
         }
 

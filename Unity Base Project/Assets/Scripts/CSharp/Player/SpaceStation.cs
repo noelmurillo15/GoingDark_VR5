@@ -26,23 +26,35 @@ public class SpaceStation : MonoBehaviour
 
         if (enemyTakeOver)
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("EnemyStationGlow")) as GameObject;
-            Vector3 loc = go.transform.position;
-            go.transform.parent = transform;
-            go.transform.localPosition = loc;
+            GameObject go1 = Instantiate(Resources.Load<GameObject>("EnemyStationGlow")) as GameObject;
+            GameObject go2 = Instantiate(Resources.Load<GameObject>("EnemyStationGlow")) as GameObject;
+
+            Vector3 loc = go1.transform.position;
+
+            go1.transform.parent = transform;
+            go2.transform.parent = transform;
+
+            go1.transform.localPosition = loc;
+            go2.transform.localPosition = -loc;
 
             enemyCount = transform.childCount;
             msgs = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         }
         else
         {
-            GameObject go = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-            Vector3 loc = go.transform.position;
-            go.transform.parent = transform;
-            go.transform.localPosition = loc;
+            GameObject go1 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
+            GameObject go2 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
+
+            Vector3 loc = go1.transform.position;
+
+            go1.transform.parent = transform;
+            go2.transform.parent = transform;
+
+            go1.transform.localPosition = loc;
+            go2.transform.localPosition = -loc;
 
         }
-            stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -50,10 +62,10 @@ public class SpaceStation : MonoBehaviour
         if (repairTimer > 0)
             repairTimer -= Time.deltaTime;
 
-        if(enemyTakeOver)
+        if (enemyTakeOver)
         {
             enemyCount = transform.childCount;
-            if(enemyCount == 2)
+            if (enemyCount <= 4)
             {
                 Destroy(transform.GetChild(0).gameObject);
                 GameObject go = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
@@ -65,7 +77,7 @@ public class SpaceStation : MonoBehaviour
                 Destroy(transform.GetChild(0).gameObject);
 
 
-                msgs.SendMessage("StationTakeOver");                missionSystem.ControlPointTaken();
+                msgs.SendMessage("StationTakeOver"); missionSystem.ControlPointTaken();
             }
         }
     }

@@ -118,25 +118,22 @@ public class EnemyCollision : MonoBehaviour
 
     void OnCollisionEnter(Collision hit)
     {
-        if (hit.transform.CompareTag("Player") && collisionTimer <= 0f)
+        if (collisionTimer <= 0f)
         {
-            if (stats.GetEnemyType() == EnemyTypes.Droid)
+            if (hit.transform.CompareTag("Player"))
             {
-                hit.transform.SendMessage("EMPHit");
-                stats.Kill();
+                if (stats.GetEnemyType() == EnemyTypes.Droid)
+                {
+                    hit.transform.SendMessage("EMPHit");                
+                    stats.Kill();
+                }
+                else
+                {
+                    stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
+                    movement.StopMovement();
+                }
+                collisionTimer = 1f;
             }
-            else
-            {
-                stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
-                movement.StopMovement();
-            }
-            collisionTimer = 5f;
-        }
-
-        if (hit.transform.CompareTag("Asteroid") && collisionTimer <= 0f)
-        {
-            movement.StopMovement();
-            collisionTimer = 5f;
         }
     }
     #endregion
