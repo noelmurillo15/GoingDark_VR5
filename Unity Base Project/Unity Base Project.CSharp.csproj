@@ -219,6 +219,7 @@
     <Compile Include="Assets\Scripts\CSharp\Menu\MenuTraverse.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\RotatingMenu.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\ShopMenu.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Menu\SpinText.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\StatBoard.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\SwitchLevel.cs" />
     <Compile Include="Assets\Scripts\CSharp\Menu\TempShipRotation.cs" />
