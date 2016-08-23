@@ -7,15 +7,16 @@ public class PauseManager : MonoBehaviour
 {
 
     #region Properties
-    //  Main Camera
-    public Camera mainCam;
-
     //  Panel Info
-    public bool paused;
-    public Text pauseMenu;
-    public GameObject mainPanel;
-    public GameObject TitleTexts;
-    public GameObject HTP;
+    [SerializeField]
+    private bool paused;
+    [SerializeField]
+    private GameObject MainPanel;
+    [SerializeField]
+    private GameObject TitleTexts;
+    [SerializeField]
+    private GameObject HowToPanel;
+
     //  Menu Scene Name
     public string mainMenu = "MainMenu";
     private string currLevel;
@@ -29,11 +30,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField]
     protected int vsyncINI;
     [SerializeField]
-    protected float fovINI;
-    [SerializeField]
     protected float aaQualINI;
-    [SerializeField]
-    protected float shadowDistINI;
     [SerializeField]
     protected float renderDistINI;
 
@@ -41,45 +38,42 @@ public class PauseManager : MonoBehaviour
     private bool isFullscreen;
     private Resolution currentRes;
 
-    //  Controller
-    private x360Controller control;
     // for saving
     private SaveGame saveGame;
     private PersistentGameManager gameManager;
 
-    private PlayerInput playerInput;
+    //  Player Data
     private PlayerStats stats;
+    private PlayerInput playerInput;
+
+    //  Controller
+    private x360Controller control;
     #endregion
 
 
     public void Start()
     {
+        paused = false;
+        currLevel = SceneManager.GetActiveScene().name;
         gameManager = PersistentGameManager.Instance;
 
-        paused = false;
+        saveGame = gameObject.GetComponent<SaveGame>();
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         stats = playerInput.GetComponent<PlayerStats>();
 
-        currLevel = SceneManager.GetActiveScene().name;
-
-        saveGame = gameObject.GetComponent<SaveGame>();
         //  Get the current resoultion
         currentRes = Screen.currentResolution;
         isFullscreen = Screen.fullScreen;
 
         //  Get all int values
-        fovINI = mainCam.fieldOfView;
-        renderDistINI = mainCam.farClipPlane;
         vsyncINI = QualitySettings.vSyncCount;
         msaaINI = QualitySettings.antiAliasing;
         aaQualINI = QualitySettings.antiAliasing;
-        shadowDistINI = QualitySettings.shadowDistance;
 
         //  Enable titles
         TitleTexts.SetActive(true);
-        //  Disable other panels
-        mainPanel.SetActive(false);
-        HTP.SetActive(false);
+        MainPanel.SetActive(false);
+        HowToPanel.SetActive(false);
 
         //  Access Game Controller
         control = GamePadManager.Instance.GetController(0);
@@ -87,131 +81,91 @@ public class PauseManager : MonoBehaviour
 
     public void Update()
     {
-        if (mainPanel.activeSelf == true)
+        if (control.GetButtonDown("Start"))
         {
-            pauseMenu.text = "Pause Menu";
-        }
-        if (control.GetButtonDown("Back"))
-        {
-            if (!paused)
-            {
-                playerInput.MessageUp(true);
-                paused = true;
-                mainPanel.SetActive(true);
-                TitleTexts.SetActive(true);
-                Time.timeScale = 0;
-            }
-            else
-            {
-                playerInput.MessageUp(false);
-                Resume();
-            }
-        }
-
-        if (paused)
-        {
-
+            Pause(!paused);
         }
     }
 
-    public void Resume()
+    public void Pause(bool boolean)
     {
-        paused = false;
-        Time.timeScale = timeScale;
-        mainPanel.SetActive(false);
-        HTP.SetActive(false);
-        TitleTexts.SetActive(false);
+        paused = boolean;
+        if (paused)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = timeScale;
+
+        HowToPanel.SetActive(false);
+        MainPanel.SetActive(paused);
+        TitleTexts.SetActive(paused);
+        playerInput.MessageUp(paused);
+    }
+
+    #region Button Events
+    public void HowToPlayMenu()
+    {
+        MainPanel.SetActive(false);
+        HowToPanel.SetActive(true);
+    }
+    public void BackFromHowToPlay()
+    {
+        MainPanel.SetActive(true);
+        HowToPanel.SetActive(false);
     }
     public void Restart()
     {
-        if (Time.timeScale == 0f)
-            Time.timeScale = timeScale;
-
-        SceneManager.UnloadScene(currLevel);
+        Time.timeScale = timeScale;
         SceneManager.LoadScene(currLevel);
     }
-    public void returnToMenu()
+    public void ReturnToMainMenu()
     {
-        if (Time.timeScale == 0f)
-            Time.timeScale = timeScale;
-
         AutoSave();
+        Time.timeScale = timeScale;
         SceneManager.LoadScene(mainMenu);
     }
     public void quitGame()
     {
 #if UNITY_EDITOR
-        SceneManager.UnloadScene(currLevel);
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            SceneManager.UnloadScene(currLevel);
-            Application.Quit();
+        Application.Quit();
 #endif
     }
+    #endregion
 
+    #region Saving
     public void AutoSave()
     {
         gameManager.SetPlayerCredits(stats.GetCredits());
-        Debug.Log("Xml name : " + gameManager.GetSaveSlot());
         saveGame.Save(gameManager.GetSaveSlot());
     }
+    #endregion
 
-    public void ToPauseMenu()
+    #region V-Sync
+    public void toggleVSync(bool _bool)
     {
-        HTP.SetActive(false);
-        mainPanel.SetActive(true);
-    }
-
-    public void HowToPlayMenu()
-    {
-        mainPanel.SetActive(false);
-        HTP.SetActive(true);
-    }
-
-    public void BackFromHowToPlay()
-    {
-        mainPanel.SetActive(true);
-        HTP.SetActive(false);
-    }
-
-    public void toggleVSync(bool B)
-    {
-        vsyncINI = QualitySettings.vSyncCount;
-        if (B == true)
-        {
+        if (_bool)
             QualitySettings.vSyncCount = 1;
-        }
         else
-        {
             QualitySettings.vSyncCount = 0;
-        }
+
+        vsyncINI = QualitySettings.vSyncCount;
     }
+    #endregion
 
-
-    public void updateFOV(float fov)
+    #region Screen Resolution
+    public void setFullScreen(bool _bool)
     {
-        mainCam.fieldOfView = 106f;
-    }
-
-
-    // Full Screen
-    public void setFullScreen(bool b)
-    {
-        if (b == true)
-        {
+        isFullscreen = _bool;
+        if (isFullscreen)
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-            isFullscreen = true;
-        }
         else
-        {
             Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, false);
-            isFullscreen = false;
-        }
     }
+    #endregion
 
-    #region Graphics Settings
-    //  MSAA
-    public void updateMSAA(int msaaAmount)
+    #region Multi-Sampling Anti-Alaising
+    public void setMSAA(int msaaAmount)
     {
         if (msaaAmount == 0)
         {
@@ -246,8 +200,9 @@ public class PauseManager : MonoBehaviour
     {
         QualitySettings.antiAliasing = 8;
     }
+    #endregion
 
-    //  Graphics Quality
+    #region Graphics Quality
     public void setFastest()
     {
         QualitySettings.SetQualityLevel(0);

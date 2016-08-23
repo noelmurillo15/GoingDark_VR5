@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Save3>
-  <playerName>Name</playerName>
+  <playerName>ALLON</playerName>
   <credits>1000</credits>
   <basicCount>20</basicCount>
   <empCount>10</empCount>
   <shieldbreakerCount>10</shieldbreakerCount>
   <chromaticCount>10</chromaticCount>
   <levelUnlocked>1</levelUnlocked>
-  <difficulty>Easy</difficulty>
+  <difficulty>Medium</difficulty>
 </Save3>

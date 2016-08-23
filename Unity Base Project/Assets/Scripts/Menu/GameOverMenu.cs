@@ -70,8 +70,8 @@ public class GameOverMenu : MonoBehaviour
 
     public void LoadScene(string scenename)
     {
-        for (int x = 0; x < SceneManager.sceneCount; x++)
-            SceneManager.UnloadScene(SceneManager.GetSceneAt(x).name);
+        //for (int x = 0; x < SceneManager.sceneCount; x++)
+        //    SceneManager.UnloadScene(SceneManager.GetSceneAt(x).name);
         
         SceneManager.LoadScene(scenename);
     }
