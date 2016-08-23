@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 5b7f9f90ffbda4240b1fc07b35aa31aa
+timeCreated: 1469028665
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Center_Support
+    100002: Cockpit1
+    100004: CockPit_Chair
+    100006: //RootNode
+    100008: DashBoard
+    100010: Decoy_Display
+    100012: Displays
+    100014: EMP
+    100016: HyperDrive_Display
+    100018: L_Lower_Panel
+    100020: L_Upper_Panel
+    100022: Left_Support
+    100024: News_Plane
+    100026: News_Projector
+    100028: R_Lower_Panel
+    100030: R_Upper_Panel
+    100032: Radar_Display
+    100034: Radar_Inset
+    100036: Radar_Pentagon
+    100038: Right_Support
+    100040: Stealth_Projector
+    400000: Center_Support
+    400002: Cockpit1
+    400004: CockPit_Chair
+    400006: //RootNode
+    400008: DashBoard
+    400010: Decoy_Display
+    400012: Displays
+    400014: EMP
+    400016: HyperDrive_Display
+    400018: L_Lower_Panel
+    400020: L_Upper_Panel
+    400022: Left_Support
+    400024: News_Plane
+    400026: News_Projector
+    400028: R_Lower_Panel
+    400030: R_Upper_Panel
+    400032: Radar_Display
+    400034: Radar_Inset
+    400036: Radar_Pentagon
+    400038: Right_Support
+    400040: Stealth_Projector
+    2300000: Center_Support
+    2300002: Decoy_Display
+    2300004: EMP
+    2300006: HyperDrive_Display
+    2300008: L_Lower_Panel
+    2300010: L_Upper_Panel
+    2300012: Left_Support
+    2300014: News_Plane
+    2300016: News_Projector
+    2300018: R_Lower_Panel
+    2300020: R_Upper_Panel
+    2300022: Radar_Display
+    2300024: Radar_Inset
+    2300026: Radar_Pentagon
+    2300028: Right_Support
+    2300030: Stealth_Projector
+    3300000: Center_Support
+    3300002: Decoy_Display
+    3300004: EMP
+    3300006: HyperDrive_Display
+    3300008: L_Lower_Panel
+    3300010: L_Upper_Panel
+    3300012: Left_Support
+    3300014: News_Plane
+    3300016: News_Projector
+    3300018: R_Lower_Panel
+    3300020: R_Upper_Panel
+    3300022: Radar_Display
+    3300024: Radar_Inset
+    3300026: Radar_Pentagon
+    3300028: Right_Support
+    3300030: Stealth_Projector
+    4300000: Center_Support
+    4300002: Right_Support
+    4300004: Left_Support
+    4300006: Radar_Pentagon
+    4300008: L_Lower_Panel
+    4300010: R_Upper_Panel
+    4300012: L_Upper_Panel
+    4300014: R_Lower_Panel
+    4300016: Radar_Inset
+    4300018: Stealth_Projector
+    4300020: News_Plane
+    4300022: Decoy_Display
+    4300024: EMP
+    4300026: News_Projector
+    4300028: HyperDrive_Display
+    4300030: Radar_Display
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

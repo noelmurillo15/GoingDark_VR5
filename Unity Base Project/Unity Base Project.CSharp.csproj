@@ -239,6 +239,7 @@
     <Compile Include="Assets\Scripts\CSharp\Particles\ParticleTester.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\ReverseNormals.cs" />
     <Compile Include="Assets\Scripts\CSharp\Particles\SmokeParticles.cs" />
+    <Compile Include="Assets\Scripts\CSharp\Player\AsteroidLoot.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\CreditsBox.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\FlightMovement.cs" />
     <Compile Include="Assets\Scripts\CSharp\Player\Hitmarker.cs" />
