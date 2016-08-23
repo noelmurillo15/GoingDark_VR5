@@ -4,36 +4,33 @@ using GoingDark.Core.Enums;
 
 public class ItemInfo : MonoBehaviour
 {
+    #region Properties
     [SerializeField]
     private Text headLine, NOI, priceText, currInfo, creditText;
+    [SerializeField]
+    private GameObject consumableList, weaponList, deviceList;
+    [SerializeField]
+    private AudioSource buy, buttonPressed, buyFail, back;
 
     private Button increment, decrement;
     private int numItem, price, itemOwned, itemLevel, credit, hasItem;
     private ShopType sendFrom;
     private float buttonBuffer;
     private Item item;
+    #endregion
 
-    [SerializeField]
-    GameObject consumableList;
-    [SerializeField]
-    GameObject weaponList;
-    [SerializeField]
-    GameObject deviceList;
-
-    [SerializeField]
-    private AudioSource buy, buttonPressed, buyFail, back;
 
     void Awake()
     {
         numItem = 0;
         price = 0;
-        UpdateItemNumberText();
         buttonBuffer = 0.0f;
         credit = 0;
 
         itemOwned = 0;
         itemLevel = 1;
         hasItem = 1;
+        UpdateItemNumberText();
     }
 
     void Update()
@@ -131,7 +128,6 @@ public class ItemInfo : MonoBehaviour
     {
         NOI.text = numItem.ToString();
         buttonBuffer = 0.1f;
-
         UpdatePrice();
     }
 

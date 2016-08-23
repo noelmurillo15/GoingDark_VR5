@@ -83,8 +83,12 @@ public class MissionTracker : MonoBehaviour
         yield return Timing.WaitForSeconds(1.0f);
         missionBox.SetActive(true);
         info.text = MissionInfo(SceneManager.GetActiveScene().name);
-        Debug.Log("Main Mission name : " + missionSystem.MainMission.missionName);
-        mainMission.text = "Main Mission : " + missionSystem.MainMission.missionName;
+
+        if (SceneName == "Level1")
+            mainMission.text = "Main Mission : Complete all missions";
+        else
+            mainMission.text = "Main Mission : " + missionSystem.MainMission.missionName;
+
         continueText.SetActive(true);
 
         while (true)

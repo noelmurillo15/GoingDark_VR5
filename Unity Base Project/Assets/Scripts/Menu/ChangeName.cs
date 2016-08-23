@@ -10,7 +10,6 @@ public class ChangeName : MonoBehaviour
     private Mainmenu MainMenu;
 
     private PersistentGameManager GameManager;
-    private string lastChar;
     // Use this for initialization
     void Start()
     {
@@ -26,8 +25,6 @@ public class ChangeName : MonoBehaviour
             Name.text = "";
         if (Name.text.Length < 14)
             Name.text += letter;
-
-        lastChar = letter;
     }
 
     public void Done()

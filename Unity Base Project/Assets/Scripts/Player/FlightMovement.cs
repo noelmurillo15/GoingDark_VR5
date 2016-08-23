@@ -9,7 +9,6 @@ public class FlightMovement : MonoBehaviour
 
 
     private Transform MyTransform;
-    private ParticleSystem particles;
     private x360Controller controller;
     private AudioManager _audioInstance;
     private Rigidbody MyRigidbody;
@@ -24,7 +23,6 @@ public class FlightMovement : MonoBehaviour
 
         _audioInstance = AudioManager.instance;
         MyRigidbody = GetComponent<Rigidbody>();
-        particles = GetComponent<ParticleSystem>();
         controller = GamePadManager.Instance.GetController(0);
     }
 
@@ -72,6 +70,8 @@ public class FlightMovement : MonoBehaviour
     {
         if (MoveData.Speed <= 0f)
             return;
+
+        _audioInstance.PlayThruster();
 
         MyRigidbody.AddForce(MyTransform.forward * MoveData.Speed, ForceMode.VelocityChange);
         if (MyRigidbody.velocity.magnitude > MoveData.Speed)

@@ -7,9 +7,9 @@ public class EnemyMissileProjectile : MonoBehaviour
     [SerializeField]
     public EnemyMissileType Type;
     [SerializeField]
-    private float speed;
+    private float speed = 0f;
     [SerializeField]
-    private float rotateSpeed;
+    private float rotateSpeed = 0f;
 
     private bool init = false;
     private bool tracking;
@@ -22,7 +22,7 @@ public class EnemyMissileProjectile : MonoBehaviour
     private Transform MyTransform;
     private Rigidbody MyRigidbody;
     private MessageScript messages;
-    private ObjectPoolManager poolManager;
+    //private ObjectPoolManager poolManager;
     #endregion
 
 
@@ -70,7 +70,7 @@ public class EnemyMissileProjectile : MonoBehaviour
             MyTransform = transform;
             MyRigidbody = GetComponent<Rigidbody>();
             messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
-            poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
+            //poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
 
             gameObject.SetActive(false);
         }

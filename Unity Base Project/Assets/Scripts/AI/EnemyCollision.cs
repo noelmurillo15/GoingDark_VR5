@@ -16,7 +16,6 @@ public class EnemyCollision : MonoBehaviour
     //  Player
     private CloakSystem playerCloak;
     private MessageScript playerMsgs;
-    private Transform playerTransform;
     #endregion
 
     void Awake()
@@ -36,7 +35,6 @@ public class EnemyCollision : MonoBehaviour
     void FindPlayer()
     {
         movement = stats.GetEnemyMovement();
-        playerTransform = enemyManager.GetPlayerTransform();
         playerMsgs = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         playerCloak = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>().GetCloak();
     }

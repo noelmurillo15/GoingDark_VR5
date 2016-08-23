@@ -11,7 +11,6 @@ public class EnemyMissileSystem : MonoBehaviour
     private float fireRate;
     private float maxFireRate;
 
-    private IEnemy enemyStats;
     private Transform MyTransform;
     private ObjectPoolManager poolManager;
     private EnemyStateManager stateManager;
@@ -45,7 +44,6 @@ public class EnemyMissileSystem : MonoBehaviour
                 break;
         }
         MyTransform = transform;
-        enemyStats = transform.GetComponentInParent<IEnemy>();
         stateManager = transform.GetComponentInParent<EnemyStateManager>();
         poolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
     }

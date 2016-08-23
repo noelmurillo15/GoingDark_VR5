@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class SpeedGauge : MonoBehaviour
 {
     private Image Gauge;
-    private float amount;
     private float percent;
     private Text number;
     private PlayerMovement stats;
@@ -13,7 +12,6 @@ public class SpeedGauge : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        amount = 0f;
         percent = 0f;
         Gauge = GetComponent<Image>();
         number = transform.GetChild(0).GetComponent<Text>();

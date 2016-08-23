@@ -13,7 +13,7 @@ public class ObjectPooling {
     {
         if (_poolobj == null)
         {
-            Debug.LogError("Poolobj is set to null : " + _poolamount.ToString());
+            Debug.LogError("Poolobj is set to null");
             return;
         }
 

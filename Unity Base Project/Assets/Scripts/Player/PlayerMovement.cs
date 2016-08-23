@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using GoingDark.Core.Enums;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
 
     private x360Controller controller;
 
-    private PlayerStats stats;
     private Transform MyTransform;
     private ParticleSystem particles;
     private AudioManager _audioInstance;
@@ -26,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
         boostActive = false;
         MyTransform = transform;
 
-        stats = GetComponent<PlayerStats>();
         _audioInstance = AudioManager.instance;
         MyRigidbody = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();

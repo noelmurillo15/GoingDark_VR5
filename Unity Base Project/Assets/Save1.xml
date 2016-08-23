@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Save1>
-  <playerName>NAME</playerName>
-  <credits>1000</credits>
-  <basicCount>20</basicCount>
-  <empCount>10</empCount>
-  <shieldbreakerCount>10</shieldbreakerCount>
+  <playerName>V</playerName>
+  <credits>2451</credits>
+  <basicCount>22</basicCount>
+  <empCount>16</empCount>
+  <shieldbreakerCount>16</shieldbreakerCount>
   <chromaticCount>10</chromaticCount>
   <levelUnlocked>1</levelUnlocked>
   <difficulty>Easy</difficulty>

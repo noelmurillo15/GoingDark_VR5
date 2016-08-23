@@ -13,7 +13,6 @@ public class LeapData : MonoBehaviour {
     private int numHands, prevNumHands;
     private int numFingersL, numFingersR;
     private int numFingersLHeld, numFingersRHeld;
-    private int prevNumFingersL, prevNumFingersR;
     private int prevFingersHeldL, prevFingersHeldR;
 
     private float gripStrL, gripStrR;
@@ -54,8 +53,6 @@ public class LeapData : MonoBehaviour {
         palmVelocityR = Vector3.zero;
 
         prevNumHands = 0;
-        prevNumFingersL = 0;
-        prevNumFingersR = 0;
         prevFingersHeldL = 0;
         prevFingersHeldR = 0;
         prevPalmPosL = Vector3.zero;
@@ -64,7 +61,6 @@ public class LeapData : MonoBehaviour {
         prevPalmNormR = Vector3.zero;
         prevPalmVelocityL = Vector3.zero;
         prevPalmVelocityR = Vector3.zero;
-
     }
 
     // Use this for initialization
@@ -248,9 +244,6 @@ public class LeapData : MonoBehaviour {
                     prevFingerListL = prevHandList[0].Fingers;
                     prevFingerListR = prevHandList[1].Fingers;
 
-                    prevNumFingersL = prevFingerListL.Count;
-                    prevNumFingersR = prevFingerListR.Count;
-
                     prevFingersHeldL = 0;
                     prevFingersHeldR = 0;
 
@@ -266,7 +259,6 @@ public class LeapData : MonoBehaviour {
                 }
                 else if (prevNumHands == 1)
                 {
-                    prevNumFingersR = 0;
                     prevFingersHeldR = 0;
 
                     #region Palm Data
@@ -283,7 +275,6 @@ public class LeapData : MonoBehaviour {
 
                     #region Finger Data
                     prevFingerListL = prevHandList[0].Fingers;
-                    prevNumFingersL = prevFingerListL.Count;
                     prevFingersHeldL = 0;
                     for (int i = 0; i < prevFingerListL.Count; i++)
                         if (prevFingerListL[i].IsExtended)
@@ -293,8 +284,6 @@ public class LeapData : MonoBehaviour {
                 else
                 {
                     prevNumHands = 0;
-                    prevNumFingersL = 0;
-                    prevNumFingersR = 0;
                     prevFingersHeldL = 0;
                     prevFingersHeldR = 0;
                     prevPalmPosL = Vector3.zero;

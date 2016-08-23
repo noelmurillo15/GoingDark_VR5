@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using GoingDark.Core.Enums;
-using GoingDark.Core.Utility;
 
 
 public class TallyScreen : MonoBehaviour

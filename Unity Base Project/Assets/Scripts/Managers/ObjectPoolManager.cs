@@ -30,7 +30,6 @@ public class ObjectPoolManager : MonoBehaviour
 
     #region Enemy
     private ObjectPooling ammoDrops = new ObjectPooling();
-    private ObjectPooling trackingIcon = new ObjectPooling();
     private ObjectPooling explosionpool = new ObjectPooling();
 
     //  Missiles
@@ -106,7 +105,6 @@ public class ObjectPoolManager : MonoBehaviour
         //  Misc
         explosionpool.Initialize(Resources.Load<GameObject>("Explosions/EnemyExplosion"), 24, MyTransform);
         ammoDrops.Initialize(Resources.Load<GameObject>("AmmoDrop"), 10, MyTransform);
-        trackingIcon.Initialize(Resources.Load<GameObject>("Tracer"), 10, MyTransform);
     }
 
     #region Missiles
@@ -243,10 +241,6 @@ public class ObjectPoolManager : MonoBehaviour
     public GameObject GetAmmoDrop()
     {
         return ammoDrops.GetPooledObject();
-    }
-    public GameObject GetTrackedEnemy()
-    {
-        return trackingIcon.GetPooledObject();
     }
     #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using GoingDark.Core.Enums;
-using GoingDark.Core.Utility;
 using MovementEffects;
 using System.Collections.Generic;
 
@@ -50,7 +49,7 @@ public class PlayerStats : MonoBehaviour
         startCredits = PlayerPrefs.GetInt("Credits");
         creditsDisplay.text = string.Format(display, startCredits);
 
-        string diff = PlayerPrefs.GetString("Difficulty");         
+        diff = PlayerPrefs.GetString("Difficulty");         
         switch (diff)
         {
             case "Easy":
@@ -67,10 +66,10 @@ public class PlayerStats : MonoBehaviour
                 break;
             default:
                 Debug.LogError("Player Could not get Game difficulty");
+                diff = "Easy";
+                dmgMultiplier = 1f;
                 break;
         }
-
-        Debug.Log("Player Dmg Mult : " + dmgMultiplier);
 
         controller = GamePadManager.Instance.GetController(0);       
         deathTransition = GameObject.FindGameObjectWithTag("LeapMount").GetComponent<DeathTransition>();
@@ -291,11 +290,14 @@ public class PlayerStats : MonoBehaviour
     IEnumerator<float> Fade()
     {
         deathTransition.SpawnPlayer();
-        deathTransition.NotDead();
+        deathTransition.NotDead();        
         yield return Timing.WaitForSeconds(1.0f);
+
+        transform.SendMessage("StopMovement");
         transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x + 30, station.position.y, station.position.z - 500f);
+        transform.position = new Vector3(station.position.x, station.position.y, station.position.z);
         yield return Timing.WaitForSeconds(1.0f);
+
         deathTransition.notSpawned();
     }
     #endregion

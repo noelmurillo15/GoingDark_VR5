@@ -62,6 +62,7 @@ public class ShopMenu : MonoBehaviour
         buttonPressed.Play();
     }
     #endregion
+
     #region Panels
     //  THESE NEED TO BE PUBLIC
     public void OpenConsumableList()
@@ -96,6 +97,7 @@ public class ShopMenu : MonoBehaviour
         back.Play();
     }
     #endregion
+
     #region Consumables
     public void BasicMissile()
     {
@@ -126,6 +128,7 @@ public class ShopMenu : MonoBehaviour
         PlayButtonSound();
     }
     #endregion
+
     #region Upgrades
     public void LaserPowerUP()
     {

@@ -4,15 +4,15 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    PlayerStats stats;
+    #region Properties
     string currentScene;
     AsyncOperation loadOperation;
     LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
+    #endregion
 
-    // Use this for initialization
+
     void Start()
     {
-        stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
         currentScene = SceneManager.GetActiveScene().name;
     }
 
