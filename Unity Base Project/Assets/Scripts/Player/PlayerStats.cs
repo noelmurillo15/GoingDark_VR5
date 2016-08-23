@@ -295,7 +295,7 @@ public class PlayerStats : MonoBehaviour
 
         transform.SendMessage("StopMovement");
         transform.rotation = Quaternion.identity;
-        transform.position = new Vector3(station.position.x, station.position.y, station.position.z);
+        transform.position = new Vector3(station.position.x, station.position.y, station.position.z - 150f);
         yield return Timing.WaitForSeconds(1.0f);
 
         deathTransition.notSpawned();
