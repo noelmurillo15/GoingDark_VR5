@@ -115,8 +115,8 @@
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\FrameValidator.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\HandFactoryTest.cs" />
     <Compile Include="Assets\3rd Party Assets\LeapMotion\Editor\Tests\TransformCopyTest.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\EyeTypeEditor.cs" />
-    <Compile Include="Assets\Scripts\CSharp\Leap\VR\Editor\LeapTemporalWarpingEditor.cs" />
+    <Compile Include="Assets\Scripts\Leap\VR\Editor\EyeTypeEditor.cs" />
+    <Compile Include="Assets\Scripts\Leap\VR\Editor\LeapTemporalWarpingEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3rd Party Assets\LeapMotion\Resources\LeapCG.cginc" />
@@ -286,7 +286,6 @@
     <None Include="Assets\Particles\Shaders\Terrain\SFS_Te_St.shader" />
     <None Include="Assets\Particles\Shaders\VolumetricLineShaderAdditive.shader" />
     <None Include="Assets\Plugins\donotdelete.txt" />
-    <None Include="Assets\Resources\Shaders\BlackHoleDistortion.shader" />
     <None Include="Assets\Save1.xml" />
     <None Include="Assets\Save2.xml" />
     <None Include="Assets\Save3.xml" />
