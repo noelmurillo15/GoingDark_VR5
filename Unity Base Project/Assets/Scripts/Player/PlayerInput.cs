@@ -10,9 +10,6 @@ public class PlayerInput : MonoBehaviour
     private MissileSystem missiles;
     private MovementProperties movement;
     private x360Controller controller;
-    private GameObject AmmoSwitch;
-    private float elaspedtime;
-    private bool isAmmoShown;
     private MissionTracker tracker;
 
     #endregion
@@ -26,11 +23,6 @@ public class PlayerInput : MonoBehaviour
         tracker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionTracker>();
         movement = GetComponent<PlayerMovement>().GetMoveData();
         Invoke("FindSystems", 2f);
-
-
-        elaspedtime = Time.time;
-        AmmoSwitch = GameObject.Find("AmmoSwitch");
-        isAmmoShown = true;
 
     }
 
@@ -70,37 +62,17 @@ public class PlayerInput : MonoBehaviour
 
         if (controller.GetButtonDown("Up") && !messageUp)
         {
-            ShowAmmo();
             missiles.WeaponSwap();
         }
 
         if (controller.GetRightTrigger() > 0f)
             systems.ActivateSystem(SystemType.Laser);                   
 
-        if (isAmmoShown && elaspedtime + 5.0f < Time.time)
-            DontShowAmmo();
-
     }
 
     public void MessageUp(bool up)
     {
         messageUp = up;
-    }
-    private void ShowAmmo()
-    {
-        for (int i = 0; i < AmmoSwitch.transform.childCount; i++)
-            AmmoSwitch.transform.GetChild(i).gameObject.SetActive(true);
-
-        elaspedtime = Time.time;
-        isAmmoShown = true;
-    }
-
-    private void DontShowAmmo()
-    {
-        for (int i = 0; i < AmmoSwitch.transform.childCount; i++)
-            AmmoSwitch.transform.GetChild(i).gameObject.SetActive(false);
-
-        isAmmoShown = false;
     }
 
 }
