@@ -18,7 +18,7 @@ public class LaserSystem : ShipSystem
     private x360Controller controller;
     private LaserOverheat laser_overheat;
     private ObjectPoolManager PoolManager;
-    private Text laserChoice;
+    private Text typeTxt;
     #endregion
 
 
@@ -33,10 +33,9 @@ public class LaserSystem : ShipSystem
         controller = GamePadManager.Instance.GetController(0);
         PoolManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ObjectPoolManager>();
 
-        laserChoice = GameObject.Find("LaserChoice").GetComponent<Text>();
-
-        laserChoice.text = "BasicLaser";
-        laserChoice.color = Color.blue;
+        typeTxt = GameObject.Find("LaserChoice").GetComponent<Text>();
+        typeTxt.text = "BasicLaser";
+        typeTxt.color = Color.cyan;
     }
 
     // Update is called once per frame
@@ -92,13 +91,13 @@ public class LaserSystem : ShipSystem
         {
             case LaserType.Basic:
                 maxCooldown = .25f;
-                laserChoice.text = "BasicLaser";
-                laserChoice.color = Color.blue;
+                typeTxt.text = "BasicLaser";
+                typeTxt.color = Color.cyan;
                 break;
             case LaserType.Charged:
                 maxCooldown = .5f;
-                laserChoice.text = "ChargeLaser";
-                laserChoice.color = Color.magenta;
+                typeTxt.text = "ChargeLaser";
+                typeTxt.color = Color.magenta;
                 break;
         }
     }
