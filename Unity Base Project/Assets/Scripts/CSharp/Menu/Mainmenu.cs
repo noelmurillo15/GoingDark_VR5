@@ -56,6 +56,7 @@ public class Mainmenu : MonoBehaviour
         LoadPanel.SetActive(false);
         SettingsPanel.SetActive(false);
         MainMenuPanel.SetActive(true);
+        GamePanel.SetActive(false);
     }
 
     public void Game()

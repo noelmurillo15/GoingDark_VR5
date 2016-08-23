@@ -21,6 +21,7 @@ public class PlayerStats : MonoBehaviour
 
     private string diff;
     private int startCredits;
+    private int deathCount = 0;
     private float dmgMultiplier;
     private Vector2 rumbleIntesity;
     private const string display = "Credits : {0}";
@@ -33,6 +34,12 @@ public class PlayerStats : MonoBehaviour
     private x360Controller controller;
     private DeathTransition deathTransition;
     #endregion
+
+    public int DeathCount
+    {
+        get { return deathCount; }
+        set { deathCount = value; }
+    }
 
 
     private void Awake()
@@ -274,7 +281,7 @@ public class PlayerStats : MonoBehaviour
     }
     public void Kill()
     {
-        //save.AutoSave();
+        DeathCount += 1;
         deathTransition.Death();
         Invoke("GameOver", 2f);
     }

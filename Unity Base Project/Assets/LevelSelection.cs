@@ -31,7 +31,7 @@ public class LevelSelection : MonoBehaviour {
     void Start () {
         lastselected = 0;
         rayhit = true;
-        range = 1600;
+        range = 2500;
         layermask = 1 << 15;
         MyTransform = transform;
 

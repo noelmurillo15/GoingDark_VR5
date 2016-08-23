@@ -11,6 +11,7 @@ public class MissionTracker : MonoBehaviour
 
     // main mission
     private Text info;
+    private Text mainMission;
     // tracking current mission
     private Text trackerName;
     private Text trackerInfo;
@@ -45,7 +46,6 @@ public class MissionTracker : MonoBehaviour
         continueText.SetActive(false);
         missionBox.SetActive(false);
 
-        AssignText();
         Timing.RunCoroutine(ShowMain());
     }
 
@@ -67,15 +67,24 @@ public class MissionTracker : MonoBehaviour
             missionSystem.LootPickedUp();
         }
 
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            missionSystem.KilledEnemy(EnemyTypes.FinalBoss);
+        }
+
     }
 
 
     IEnumerator<float> ShowMain()
     {
         yield return Timing.WaitForSeconds(2.0f);
-        missionBox.SetActive(true);
         playerInput.MessageUp(true);
+        AssignText();
         yield return Timing.WaitForSeconds(1.0f);
+        missionBox.SetActive(true);
+        info.text = MissionInfo(SceneManager.GetActiveScene().name);
+        Debug.Log("Main Mission name : " + missionSystem.MainMission.missionName);
+        mainMission.text = "Main Mission : " + missionSystem.MainMission.missionName;
         continueText.SetActive(true);
 
         while (true)
@@ -102,15 +111,16 @@ public class MissionTracker : MonoBehaviour
 
     private void AssignText()
     {
-        Text[] temp = missionBox.GetComponentsInChildren<Text>();
-        info = temp[1];
+        Text[] temp = missionBox.GetComponentsInChildren<Text>(); // 0 == title
+        mainMission = temp[1];
+        info = temp[2];
 
         Text[] temp2 = missionTracker.GetComponentsInChildren<Text>();
         trackerName = temp2[0];
         trackerInfo = temp2[1];
         trackerObjectives = temp2[2];
 
-        info.text = MissionInfo(SceneManager.GetActiveScene().name);
+
     }
 
     public void UpdateInfo(Mission mission)

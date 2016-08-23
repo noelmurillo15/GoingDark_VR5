@@ -7,12 +7,6 @@ using GoingDark.Core.Enums;
 public class MissionLoader : MonoBehaviour
 {
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     public List<Mission> LoadMissions(string fileName)
     {
         // load in the file into an element
@@ -122,6 +116,8 @@ public class MissionLoader : MonoBehaviour
             ret = MissionType.Elimination;
         else if (type == "ControlPoint")
             ret = MissionType.ControlPoint;
+        else if (type == "RockBreak")
+            ret = MissionType.RockBreak;
 
         return ret;
     }

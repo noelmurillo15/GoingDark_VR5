@@ -29,7 +29,7 @@ public class MissionSystem : MonoBehaviour
     SaveGame save;
 
     private TallyScreen tallyscreen;
-    private Mission MainMission;
+    private Mission mainMission;
 
 
     #region Getters
@@ -38,9 +38,10 @@ public class MissionSystem : MonoBehaviour
         return m_ActiveMissions;
     }
 
-    public Mission GetMainMission()
+    public Mission MainMission
     {
-        return MainMission;
+        get { return mainMission; }
+        set { mainMission = value; }
     }
     #endregion
 
@@ -54,8 +55,6 @@ public class MissionSystem : MonoBehaviour
 
         messages = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
         SceneName = SceneManager.GetActiveScene().name;
-
-        
 
         if (SceneName == "Level1")
 
@@ -169,6 +168,29 @@ public class MissionSystem : MonoBehaviour
             if ((m_ActiveMissions[i].type == MissionType.Scavenge || m_ActiveMissions[i].type == MissionType.Stealth) && m_ActiveMissions[i].isActive)
             {
                 // cannot directly modify properties of the list
+                Mission mission = m_ActiveMissions[i];
+                mission.objectives--;
+                m_ActiveMissions[i] = mission;
+                if (mission.objectives == 0)
+                {
+                    mission.completed = true;
+                    m_missionLog.Completed(mission);
+                    m_ActiveMissions[i] = mission;
+
+                    // automatic turn in
+                    TurnInMission(mission);
+                }
+                m_missionTracker.UpdateInfo(mission);
+            }
+        }
+    }
+
+    public void AsteroidLoot()
+    {
+        for (int i = 0; i < m_ActiveMissions.Count; i++)
+        {
+            if (m_ActiveMissions[i].type == MissionType.RockBreak && m_ActiveMissions[i].isActive)
+            {
                 Mission mission = m_ActiveMissions[i];
                 mission.objectives--;
                 m_ActiveMissions[i] = mission;

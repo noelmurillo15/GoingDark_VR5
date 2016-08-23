@@ -129,7 +129,7 @@
         Offline,
         Online,
         Damaged
-    }    
+    }
     #endregion
 
     #region Missions
@@ -139,7 +139,8 @@
         Combat,
         Stealth,
         Elimination,
-        ControlPoint
+        ControlPoint,
+        RockBreak
     }
     public struct Mission
     {
