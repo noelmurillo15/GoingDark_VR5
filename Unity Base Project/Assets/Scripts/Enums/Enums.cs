@@ -18,19 +18,6 @@
     #endregion
 
     #region Store
-    public enum ItemType
-    {
-        Consumable,
-        Upgrade
-    }
-
-    public enum ShopType
-    {
-        ConsumableList,
-        WeaponList,
-        DeviceList
-    }
-
     public enum Items
     {
         BasicMissile,
@@ -47,8 +34,6 @@
     {
         public string ItemName;
         public int ItemPrice;
-        public int ItemLevel;
-        public ItemType ItemType;
         public Items Type;
     }
     #endregion

@@ -4,33 +4,30 @@ using GoingDark.Core.Enums;
 
 public class ItemInfo : MonoBehaviour
 {
-    #region Properties
     [SerializeField]
     private Text headLine, NOI, priceText, currInfo, creditText;
-    [SerializeField]
-    private GameObject consumableList, weaponList, deviceList;
-    [SerializeField]
-    private AudioSource buy, buttonPressed, buyFail, back;
 
     private Button increment, decrement;
-    private int numItem, price, itemOwned, itemLevel, credit, hasItem;
-    private ShopType sendFrom;
+    private int numItem, price, itemOwned, credit;
     private float buttonBuffer;
     private Item item;
-    #endregion
+    private PersistentGameManager gameManager;
 
+    [SerializeField]
+    GameObject consumableList;
+
+    [SerializeField]
+    private AudioSource buy, buttonPressed, buyFail, back;
 
     void Awake()
     {
         numItem = 0;
         price = 0;
+        UpdateItemNumberText();
         buttonBuffer = 0.0f;
         credit = 0;
-
+        gameManager = PersistentGameManager.Instance;
         itemOwned = 0;
-        itemLevel = 1;
-        hasItem = 1;
-        UpdateItemNumberText();
     }
 
     void Update()
@@ -40,9 +37,8 @@ public class ItemInfo : MonoBehaviour
     }
 
     #region InfoUpdate
-    public void GetItem(ShopType _sendFrom, Item _item)
+    public void GetItem(Item _item)
     {
-        sendFrom = _sendFrom;
         item = _item;
         headLine.text = item.ItemName;
         UpdateCredit();
@@ -55,72 +51,35 @@ public class ItemInfo : MonoBehaviour
         switch (item.Type)
         {
             case Items.BasicMissile:
-                itemOwned = PlayerPrefs.GetInt("BasicMissileCount");
+                itemOwned = gameManager.GetBasicMissileCount();
                 break;
             case Items.ShieldBreakMissile:
-                itemOwned = PlayerPrefs.GetInt("ShieldbreakMissileCount");
-                hasItem = PlayerPrefs.GetInt("HasShieldbreakMissile");
+                itemOwned = gameManager.GetShieldbreakMissileCount();
                 break;
             case Items.ChromaticMissile:
-                itemOwned = PlayerPrefs.GetInt("ChromaticMissileCount");
-                hasItem = PlayerPrefs.GetInt("HasChromaticMissile");
+                itemOwned = gameManager.GetChromaticMissileCount();
                 break;
             case Items.EMPMissile:
-                itemOwned = PlayerPrefs.GetInt("EMPMissileCount");
-                hasItem = PlayerPrefs.GetInt("HasEMPMissile");
-                break;
-            case Items.LaserPowerUpgrade:
-                itemLevel = PlayerPrefs.GetInt("LaserPowerLevel");
-                break;
-            case Items.Laser2PowerUpgrade:
-                itemLevel = PlayerPrefs.GetInt("Laser2PowerLevel");
-                hasItem = PlayerPrefs.GetInt("HasLaser2");
-                break;
-            case Items.HealthUpgrade:
-                itemLevel = PlayerPrefs.GetInt("HealthLevel");
-                break;
-            case Items.ShieldUpgrade:
-                itemLevel = PlayerPrefs.GetInt("ShieldLevel");
+                itemOwned = gameManager.GetEMPMissileCount();
                 break;
             default:
                 break;
         }
 
-        if (hasItem == 1)
-        {
-            if (item.ItemType == ItemType.Consumable)
-                currInfo.text = "Owned: " + itemOwned;
-            else
-            {
-                if (itemLevel < 5)
-                    currInfo.text = "Level: " + itemLevel;
-                else
-                {
-                    currInfo.text = "Max Level";
-                    UpdatePrice();
-                }
-            }
-        }
-        else
-            currInfo.text = "Out of Stock";
+        currInfo.text = "Owned: " + itemOwned;
     }
 
     void UpdatePrice()
     {
-        price = item.ItemPrice * itemLevel * numItem;
+        price = item.ItemPrice * numItem;
 
-        if (itemLevel == 5 || hasItem == 0)
-        {
-            priceText.text = "Cost:\nN/A";
-        }
-        else
-            priceText.text = "Cost: \n" + price.ToString() + " Credit";
+        priceText.text = "Cost: \n" + price.ToString() + " Credit";
 
     }
 
     void UpdateCredit()
     {
-        credit = PlayerPrefs.GetInt("Credit");
+        credit = gameManager.GetPlayerCredits();
         creditText.text = "Credit: " + credit;
     }
 
@@ -128,50 +87,32 @@ public class ItemInfo : MonoBehaviour
     {
         NOI.text = numItem.ToString();
         buttonBuffer = 0.1f;
+
         UpdatePrice();
     }
 
     void DecrementItem()
     {
-        if (hasItem == 1 && itemLevel != 5)
+        if (buttonBuffer <= 0)
         {
-            if (buttonBuffer <= 0)
-            {
-                if (numItem > 0)
-                {
-                    numItem--;
-                }
-                UpdateItemNumberText();
-            }
+            if (numItem > 0)
+                numItem--;
+            UpdateItemNumberText();
+
             buttonPressed.Play();
         }
-        else
-            buyFail.Play();
     }
 
     void IncrementItem()
     {
-        if (hasItem == 1 && itemLevel != 5)
+        if (buttonBuffer <= 0)
         {
-            if (buttonBuffer <= 0)
-            {
-                if (item.ItemType == ItemType.Consumable)
-                {
-                    if (numItem + itemOwned < 99)
-                        numItem++;
-                }
-                else
-                {
-                    if (numItem < 1)
-                        numItem++;
-                }
+            if (numItem + itemOwned < 99)
+                numItem++;
+            UpdateItemNumberText();
 
-                UpdateItemNumberText();
-            }
             buttonPressed.Play();
         }
-        else
-            buyFail.Play();
     }
 
     void LevelUp()
@@ -179,28 +120,16 @@ public class ItemInfo : MonoBehaviour
         switch (item.Type)
         {
             case Items.BasicMissile:
-                PlayerPrefs.SetInt("BasicMissileCount", PlayerPrefs.GetInt("BasicMissileCount") + numItem);
+                gameManager.SetBasicMissileCount(gameManager.GetBasicMissileCount() + numItem);
                 break;
             case Items.ShieldBreakMissile:
-                PlayerPrefs.SetInt("ShieldbreakMissileCount", PlayerPrefs.GetInt("ShieldbreakMissileCount") + numItem);
+                gameManager.SetShieldbreakMissileCount(gameManager.GetShieldbreakMissileCount() + numItem);
                 break;
             case Items.ChromaticMissile:
-                PlayerPrefs.SetInt("ChromaticMissileCount", PlayerPrefs.GetInt("ChromaticMissileCount") + numItem);
+                gameManager.SetChromaticMissileCount(gameManager.GetChromaticMissileCount() + numItem);
                 break;
             case Items.EMPMissile:
-                PlayerPrefs.SetInt("EMPMissileCount", PlayerPrefs.GetInt("EMPMissileCount") + numItem);
-                break;
-            case Items.LaserPowerUpgrade:
-                PlayerPrefs.SetInt("LaserPowerLevel", PlayerPrefs.GetInt("LaserPowerLevel") + 1);
-                break;
-            case Items.Laser2PowerUpgrade:
-                PlayerPrefs.SetInt("Laser2PowerLevel", PlayerPrefs.GetInt("Laser2PowerLevel") + 1);
-                break;
-            case Items.HealthUpgrade:
-                PlayerPrefs.SetInt("HealthLevel", PlayerPrefs.GetInt("HealthLevel") + 1);
-                break;
-            case Items.ShieldUpgrade:
-                PlayerPrefs.SetInt("ShieldLevel", PlayerPrefs.GetInt("ShieldLevel") + 1);
+                gameManager.SetEMPMissileCount(gameManager.GetEMPMissileCount() + numItem);
                 break;
             default:
                 break;
@@ -216,16 +145,13 @@ public class ItemInfo : MonoBehaviour
     {
         if (buttonBuffer <= 0)
         {
-            if (credit >= price && numItem > 0 && itemLevel < 5 && hasItem == 1)
+            if (credit >= price && numItem > 0)
             {
                 credit = credit - price;
-                PlayerPrefs.SetInt("Credit", credit);
+                gameManager.SetPlayerCredits(credit);
                 UpdateCredit();
-
                 LevelUp();
-
                 GetItemInfo();
-
                 buy.Play();
             }
             else
@@ -236,23 +162,9 @@ public class ItemInfo : MonoBehaviour
 
     public void Return()
     {
-        switch (sendFrom)
-        {
-            case ShopType.ConsumableList:
-                consumableList.SetActive(true);
-                break;
-            case ShopType.WeaponList:
-                weaponList.SetActive(true);
-                break;
-            case ShopType.DeviceList:
-                deviceList.SetActive(true);
-                break;
-            default:
-                break;
-        }
+        consumableList.SetActive(true);
+
         numItem = 0;
-        itemLevel = 1;
-        hasItem = 1;
         UpdateItemNumberText();
         back.Play();
         gameObject.SetActive(false);
