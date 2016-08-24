@@ -22,25 +22,25 @@ public class EnemyMissileSystem : MonoBehaviour
         switch (Type)
         {
             case EnemyMissileType.Basic:
-                maxFireRate = 5f;
+                maxFireRate = 3f;
                 break;
             case EnemyMissileType.Slow:
-                maxFireRate = 10f;
+                maxFireRate = 12f;
                 break;
             case EnemyMissileType.Emp:
-                maxFireRate = 10f;
+                maxFireRate = 12f;
                 break;
             case EnemyMissileType.Guided:
-                maxFireRate = 5f;
+                maxFireRate = 6f;
                 break;
             case EnemyMissileType.Sysrupt:
-                maxFireRate = 20f;
+                maxFireRate = 12f;
                 break;
             case EnemyMissileType.Nuke:
-                maxFireRate = 10f;
+                maxFireRate = 8f;
                 break;
             case EnemyMissileType.ShieldBreak:
-                maxFireRate = 10f;
+                maxFireRate = 5f;
                 break;
         }
         MyTransform = transform;

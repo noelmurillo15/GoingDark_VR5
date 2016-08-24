@@ -78,19 +78,17 @@ public class EnemyCollision : MonoBehaviour
         {
             if (col.CompareTag("Decoy"))
             {
-                triggerTimer = Random.Range(3f, 10f);
+                triggerTimer = 5f;
                 if (stateManager.Target == null)
                     stateManager.SetEnemyTarget(col.transform);
             }
             if (col.CompareTag("Player"))
             {
-                triggerTimer = Random.Range(3f, 10f);
+                triggerTimer = 5f;
                 if (!playerCloak.GetCloaked())
                 {
                     if (stateManager.Target == null)
                         stateManager.SetEnemyTarget(col.transform);
-                    else
-                        enemyManager.SendAlert(transform.position);
                 }
                 else
                 {
@@ -128,9 +126,8 @@ public class EnemyCollision : MonoBehaviour
                 else
                 {
                     stats.CrashHit(movement.GetMoveData().Speed / movement.GetMoveData().MaxSpeed);
-                    movement.StopMovement();
                 }
-                collisionTimer = 1f;
+                collisionTimer = 2f;
             }
         }
     }

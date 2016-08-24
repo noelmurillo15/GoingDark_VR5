@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour {
                 break;
             case "Nightmare":
                 Difficulty = GameDifficulty.Nightmare;
-                creditMultiplier = 5;
+                creditMultiplier = 4;
                 break;
             default:
                 Debug.Log("Enemy Manager could not get Level Difficulty");
@@ -87,28 +87,28 @@ public class EnemyManager : MonoBehaviour {
         switch (enemy.GetEnemyType())
         {
             case EnemyTypes.Basic:
-                creds += 20 * creditMultiplier;
-                break;
-            case EnemyTypes.Droid:
-                creds += 5 * creditMultiplier;
-                break;
-            case EnemyTypes.SquadLead:
-                creds += 50 * creditMultiplier;
-                break;
-            case EnemyTypes.JetFighter:
-                creds += 10 * creditMultiplier;
-                break;
-            case EnemyTypes.Transport:
-                creds += 250 * creditMultiplier;
-                break;
-            case EnemyTypes.Trident:
                 creds += 15 * creditMultiplier;
                 break;
+            case EnemyTypes.Droid:
+                creds += 2 * creditMultiplier;
+                break;
+            case EnemyTypes.SquadLead:
+                creds += 25 * creditMultiplier;
+                break;
+            case EnemyTypes.JetFighter:
+                creds += 5 * creditMultiplier;
+                break;
+            case EnemyTypes.Transport:
+                creds += 200 * creditMultiplier;
+                break;
+            case EnemyTypes.Trident:
+                creds += 12 * creditMultiplier;
+                break;
             case EnemyTypes.Tank:
-                creds += 300 * creditMultiplier;
+                creds += 150 * creditMultiplier;
                 break;
             case EnemyTypes.FinalBoss:
-                creds += 500 * creditMultiplier;
+                creds += 300 * creditMultiplier;
                 break;
         }
         PlayerPosition.SendMessage("UpdateCredits", creds);

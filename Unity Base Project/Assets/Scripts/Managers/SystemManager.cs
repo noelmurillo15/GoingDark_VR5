@@ -51,8 +51,8 @@ public class SystemManager : MonoBehaviour {
         {
             if (MainDevices[key].GetSystemReady())  //  If system is online and not on cooldown
             {
-                if (cloaking.GetCloaked())  //  If we are currently cloaked
-                    cloaking.UnCloakShip(); //  Fuck that
+                if (cloaking.GetCloaked())  
+                    cloaking.UnCloakShip(); 
 
                 MainDevices[key].Activate();    //  Activate System                
             }
