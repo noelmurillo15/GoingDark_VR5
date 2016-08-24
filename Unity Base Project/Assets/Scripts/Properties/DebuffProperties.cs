@@ -26,14 +26,13 @@ public class DebuffProperties : MonoBehaviour
         if (IsInvoking("RemoveStun"))
             CancelInvoke("RemoveStun");
 
-        move.StopMovement();
         move.GetMoveData().SetMaxSpeed(0f);
         stunParticles.SetActive(true);
         Invoke("RemoveStun", duration);
     }
     private void RemoveStun()
     {
-        move.GetMoveData().SetMaxSpeed(120f);
+        move.GetMoveData().SetMaxSpeed(100f);
         stunParticles.SetActive(false);
     }
 

@@ -13,7 +13,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField]
     private GameObject MainPanel;
     [SerializeField]
-    private GameObject TitleTexts;
+    private GameObject SettingsPanel;
     [SerializeField]
     private GameObject HowToPanel;
 
@@ -71,7 +71,7 @@ public class PauseManager : MonoBehaviour
         aaQualINI = QualitySettings.antiAliasing;
 
         //  Enable titles
-        TitleTexts.SetActive(true);
+        SettingsPanel.SetActive(false);
         MainPanel.SetActive(false);
         HowToPanel.SetActive(false);
 
@@ -96,8 +96,8 @@ public class PauseManager : MonoBehaviour
             Time.timeScale = timeScale;
 
         HowToPanel.SetActive(false);
+        SettingsPanel.SetActive(false);
         MainPanel.SetActive(paused);
-        TitleTexts.SetActive(paused);
         playerInput.MessageUp(paused);
     }
 
@@ -111,6 +111,16 @@ public class PauseManager : MonoBehaviour
     {
         MainPanel.SetActive(true);
         HowToPanel.SetActive(false);
+    }
+    public void OptionsMenu()
+    {
+        MainPanel.SetActive(false);
+        SettingsPanel.SetActive(true);
+    }
+    public void BackFromOptions()
+    {
+        MainPanel.SetActive(true);
+        SettingsPanel.SetActive(false);
     }
     public void Restart()
     {
@@ -130,6 +140,13 @@ public class PauseManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+    #endregion
+
+    #region Controls
+    public void InvertControls()
+    {
+       // PersistentGameManager.Instance.SetOptionInvert(boolean);
     }
     #endregion
 

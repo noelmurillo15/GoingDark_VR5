@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PersistentGameManager : MonoBehaviour
 {
@@ -50,18 +51,12 @@ public class PersistentGameManager : MonoBehaviour
         #region ShopInfo
         SetBasicMissileCount(20);
         SetShieldbreakMissileCount(10);
-        SetHasShieldbreakMissile(0);
         SetChromaticMissileCount(10);
-        SetHasChromaticMissile(0);
         SetEMPMissileCount(10);
-        SetHasEMPMissile(0);
+        #endregion
 
-        SetLaserPowerLevel(1);
-        SetLaser2PowerLevel(1);
-        SetHasLaser2(0);
-
-        SetHealthLevel(1);
-        SetShieldLevel(1);
+        #region Settings
+        SetOptionInvert(true);
         #endregion
 
     }
@@ -96,33 +91,10 @@ public class PersistentGameManager : MonoBehaviour
 
     public int GetChromaticMissileCount() { return PlayerPrefs.GetInt("ChromaticMissileCount"); }
     public void SetChromaticMissileCount(int num) { PlayerPrefs.SetInt("ChromaticMissileCount", num); }
-
-    public int GetHasShieldbreakMissile() { return PlayerPrefs.GetInt("HasShieldbreakMissile"); }
-    public void SetHasShieldbreakMissile(int has) { PlayerPrefs.SetInt("HasShieldbreakMissile", has); }
-
-    public int GetHasChromaticMissile() { return PlayerPrefs.GetInt("HasChromaticMissile"); }
-    public void SetHasChromaticMissile(int has) { PlayerPrefs.SetInt("HasChromaticMissile", has); }
-
-    public int GetHasEMPMissile() { return PlayerPrefs.GetInt("HasEMPMissile"); }
-    public void SetHasEMPMissile(int has) { PlayerPrefs.SetInt("HasEMPMissile", has); }
     #endregion
 
-    #region Weapon
-    public int GetLaserPowerLevel() { return PlayerPrefs.GetInt("LaserPowerLevel"); }
-    public void SetLaserPowerLevel(int level) { PlayerPrefs.SetInt("LaserPowerLevel", level); }
-
-    public int GetLaser2PowerLevel() { return PlayerPrefs.GetInt("Laser2PowerLevel"); }
-    public void SetLaser2PowerLevel(int level) { PlayerPrefs.SetInt("Laser2PowerLevel", level); }
-
-    public int GetHasLaser2() { return PlayerPrefs.GetInt("HasLaser2"); }
-    public void SetHasLaser2(int has) { PlayerPrefs.SetInt("HasLaser2", has); }
-    #endregion
-
-    #region Device
-    public int GetHealthLevel() { return PlayerPrefs.GetInt("HealthLevel"); }
-    public void SetHealthLevel(int level) { PlayerPrefs.SetInt("HealthLevel", level); }
-
-    public int GetShieldLevel() { return PlayerPrefs.GetInt("ShieldLevel"); }
-    public void SetShieldLevel(int level) { PlayerPrefs.SetInt("ShieldLevel", level); }
+    #region Settings
+    public void SetOptionInvert(bool boolean) { PlayerPrefs.SetInt("InvertControl", Convert.ToInt32(boolean)); }
+    public int GetOptionInvert() { return (PlayerPrefs.GetInt("InvertControl") == 1) ? 1 : -1; }
     #endregion
 }

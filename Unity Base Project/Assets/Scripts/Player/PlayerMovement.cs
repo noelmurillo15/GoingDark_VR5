@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     #region Properties
+    public int invert;
     public float speedAmt;
     public bool boostActive;
     public MovementProperties MoveData;
@@ -19,7 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        MoveData.Set(0f, 1f, 120f, 80f, 20f);
+        invert = PersistentGameManager.Instance.GetOptionInvert();
+        MoveData.Set(0f, 1f, 100f, 60f, 20f);
         speedAmt = 0f;
         boostActive = false;
         MyTransform = transform;
@@ -69,11 +71,15 @@ public class PlayerMovement : MonoBehaviour
     public void Pitch()
     {
         if (controller.GetLeftStick().Y != 0f)
-            MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * controller.GetLeftStick().Y));        
+            MyTransform.Rotate(Vector3.right * Time.fixedDeltaTime * (MoveData.RotateSpeed * invert * controller.GetLeftStick().Y));        
     }
     void Flight()
     {
-        speedAmt = MoveData.Speed / MoveData.MaxSpeed;
+        if (MoveData.MaxSpeed > 0f)
+            speedAmt = MoveData.Speed / MoveData.MaxSpeed;
+        else
+            speedAmt = 0f;
+
         _audioInstance.ThrusterVolume(speedAmt);
         particles.startSpeed = -(speedAmt * .1f);
 
