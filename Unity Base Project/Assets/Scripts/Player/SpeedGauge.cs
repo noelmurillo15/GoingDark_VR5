@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class SpeedGauge : MonoBehaviour
 {
-    private Image Gauge;
-    private float percent;
+
     private Text number;
+    private float percent;
     private PlayerMovement stats;
 
 
@@ -13,8 +13,7 @@ public class SpeedGauge : MonoBehaviour
     void Start()
     {
         percent = 0f;
-        Gauge = GetComponent<Image>();
-        number = transform.GetChild(0).GetComponent<Text>();
+        number = GetComponent<Text>();
         stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
@@ -26,21 +25,11 @@ public class SpeedGauge : MonoBehaviour
 
     public void UpdateSpeedGauge()
     {
-        percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
+        if(stats.GetMoveData().MaxSpeed > 0f)
+            percent = stats.GetMoveData().Speed / stats.GetMoveData().MaxSpeed;
 
         int num = (int)(percent * 100f);
         number.text = num.ToString();
-
-        SetSpeed(percent * .5f);      
         number.color = Color.Lerp(Color.red, Color.green, percent);
-        Gauge.color = Color.Lerp(Color.red, Color.green, percent);
-    }
-
-    void SetSpeed(float newSpeed)
-    {
-        if (newSpeed > .5f)
-            Gauge.fillAmount = .5f;
-        else
-            Gauge.fillAmount = newSpeed;
     }
 }

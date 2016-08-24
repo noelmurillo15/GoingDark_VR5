@@ -94,7 +94,12 @@ public class SystemManager : MonoBehaviour {
         if (MainDevices.TryGetValue(key, out dev))
         {
             if (dev.Status == SystemStatus.Online)
+            {
+                if (key == SystemType.Cloak && cloaking.GetCloaked())
+                    return -2;
+
                 return (int)dev.GetCooldown();
+            }
             else
             {
                 return -10;

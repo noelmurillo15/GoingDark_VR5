@@ -15,7 +15,6 @@ public class DisplayCooldown : MonoBehaviour {
         system = GameObject.Find("Devices").GetComponent<SystemManager>();
         text = GetComponent<Text>();
 
-        //   Start Coroutine
         Timing.RunCoroutine(UpdateCooldowns());
 	}
 
@@ -45,6 +44,11 @@ public class DisplayCooldown : MonoBehaviour {
         {
             text.color = Color.green;
             text.text = "System Ready";
+        }
+        else if(num == -2)
+        {
+            text.color = Color.cyan;
+            text.text = "Active";
         }
         else
         {

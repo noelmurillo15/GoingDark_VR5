@@ -27,6 +27,10 @@ public class ShipSystem : MonoBehaviour {
     {
         return cooldown;
     }
+    public float GetMaxCooldown()
+    {
+        return maxCooldown;
+    }
     public bool GetSystemReady()
     {
         if (Status == SystemStatus.Online)
@@ -35,12 +39,10 @@ public class ShipSystem : MonoBehaviour {
         return false;
     }
     
-
     public void SetStatus(SystemStatus stat)
     {
         Status = stat;
     }
-
 
     public void Repair()
     {

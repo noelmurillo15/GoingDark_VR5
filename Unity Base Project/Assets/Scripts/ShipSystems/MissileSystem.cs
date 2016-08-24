@@ -31,7 +31,7 @@ public class MissileSystem : ShipSystem
         Count[2] = PlayerPrefs.GetInt("ShieldbreakMissileCount");
         Count[3] = PlayerPrefs.GetInt("ChromaticMissileCount");
 
-        maxCooldown = 1f;
+        maxCooldown = 2.5f;
         Type = MissileType.Basic;        
 
         // Show missile count
@@ -62,6 +62,9 @@ public class MissileSystem : ShipSystem
         if (Activated)
             LaunchMissile();
 
+        if (cooldown > 0f)
+            cooldown -= Time.deltaTime;
+
         MyTransform.rotation = leap.rotation;
     }    
 
@@ -85,8 +88,6 @@ public class MissileSystem : ShipSystem
                 break;
         }
 
-        if (Count[typemiss] > 99)
-            Count[typemiss] = 99;
         CheckCount();
     }
 
@@ -100,28 +101,24 @@ public class MissileSystem : ShipSystem
         switch (Type)
         {
             case MissileType.Basic:
-                maxCooldown = 2f;
                 typeTxt.text = "Basic";
                 countTxt.color = Color.yellow;
                 typeTxt.color = Color.yellow;
                 missileSprite.color = Color.yellow;
                 break;
             case MissileType.Emp:
-                maxCooldown = 5f;
                 typeTxt.text = "Emp";
                 countTxt.color = Color.cyan;
                 typeTxt.color = Color.cyan;
                 missileSprite.color = Color.cyan;
                 break;
             case MissileType.ShieldBreak:
-                maxCooldown = 5f;
                 typeTxt.text = "ShieldBreak";
                 countTxt.color = Color.red;
                 typeTxt.color = Color.red;
                 missileSprite.color = Color.red;
                 break;
             case MissileType.Chromatic:
-                maxCooldown = 5f;
                 typeTxt.text = "Chromatic";
                 countTxt.color = Color.green;
                 typeTxt.color = Color.green;
