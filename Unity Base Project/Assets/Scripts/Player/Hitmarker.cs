@@ -14,6 +14,8 @@ public class Hitmarker : MonoBehaviour
     private Transform parent;
     private GameObject TargetImg;
     private GameObject LockOnMarker;
+
+    private float AudioTimer;
     #endregion
 
 
@@ -23,6 +25,7 @@ public class Hitmarker : MonoBehaviour
         range = 1600;
         layermask = 1 << 11;    //  enemies layer
         rayhit = true;
+        AudioTimer = 0.0f;
         MyTransform = transform;
         TargetImg = Resources.Load<GameObject>("LockOn");
         parent = GameObject.FindGameObjectWithTag("GameManager").transform;
@@ -39,13 +42,23 @@ public class Hitmarker : MonoBehaviour
         if (Physics.Raycast(MyTransform.position, MyTransform.forward, out hit, range, layermask))
             if (hit.collider.CompareTag("Enemy") && hit.collider.GetType() == typeof(BoxCollider)
                 || hit.collider.CompareTag("Orb") && hit.collider.GetType() == typeof(BoxCollider))
+            {
                 rayhit = true;
+                if(AudioTimer <= 0.0f)
+                {
+                    AudioManager.instance.PlayLockOn();
+                    AudioTimer = 2.0f;
+                }
+            }
 
         if (LockOnMarker != null)
             LockOnMarker.SetActive(rayhit);
 
         if (rayhit)
             LockOnUpdate();
+
+        if (AudioTimer > 0.0f)
+            AudioTimer -= Time.deltaTime;
     }
 
     public bool GetLockedOn()

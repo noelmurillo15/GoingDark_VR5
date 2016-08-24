@@ -341,6 +341,7 @@ public class MissionSystem : MonoBehaviour
     {
         m_playerStats.GoToStation();
         tallyscreen.ActivateTallyScreen();
+        AudioManager.instance.PlayLevelWin();
     }
 
 

@@ -27,15 +27,9 @@ public class SpaceStation : MonoBehaviour
         if (enemyTakeOver)
         {
             GameObject go1 = Instantiate(Resources.Load<GameObject>("EnemyStationGlow")) as GameObject;
-            GameObject go2 = Instantiate(Resources.Load<GameObject>("EnemyStationGlow")) as GameObject;
-
             Vector3 loc = go1.transform.position;
-
             go1.transform.parent = transform;
-            go2.transform.parent = transform;
-
             go1.transform.localPosition = loc;
-            go2.transform.localPosition = -loc;
 
             enemyCount = transform.childCount;
             msgs = GameObject.Find("PlayerCanvas").GetComponent<MessageScript>();
@@ -43,16 +37,9 @@ public class SpaceStation : MonoBehaviour
         else
         {
             GameObject go1 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-            GameObject go2 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-
             Vector3 loc = go1.transform.position;
-
             go1.transform.parent = transform;
-            go2.transform.parent = transform;
-
             go1.transform.localPosition = loc;
-            go2.transform.localPosition = -loc;
-
         }
         stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
     }
@@ -65,21 +52,14 @@ public class SpaceStation : MonoBehaviour
         if (enemyTakeOver)
         {
             enemyCount = transform.childCount;
-            if (enemyCount <= 4)
+            if (enemyCount <= 3)
             {
-                Destroy(transform.GetChild(3).gameObject);
                 Destroy(transform.GetChild(2).gameObject);
 
                 GameObject go1 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-                GameObject go2 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-
                 Vector3 loc = go1.transform.position;
-
                 go1.transform.parent = transform;
-                go2.transform.parent = transform;
-
                 go1.transform.localPosition = loc;
-                go2.transform.localPosition = -loc;
 
                 enemyTakeOver = false;
                 enemyCount = 0;
