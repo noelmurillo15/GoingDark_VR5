@@ -67,15 +67,22 @@ public class SpaceStation : MonoBehaviour
             enemyCount = transform.childCount;
             if (enemyCount <= 4)
             {
-                Destroy(transform.GetChild(0).gameObject);
-                GameObject go = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
-                Vector3 loc = go.transform.position;
-                go.transform.parent = transform;
-                go.transform.localPosition = loc;
+                Destroy(transform.GetChild(3).gameObject);
+                Destroy(transform.GetChild(2).gameObject);
+
+                GameObject go1 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
+                GameObject go2 = Instantiate(Resources.Load<GameObject>("StationGlow")) as GameObject;
+
+                Vector3 loc = go1.transform.position;
+
+                go1.transform.parent = transform;
+                go2.transform.parent = transform;
+
+                go1.transform.localPosition = loc;
+                go2.transform.localPosition = -loc;
+
                 enemyTakeOver = false;
                 enemyCount = 0;
-                Destroy(transform.GetChild(0).gameObject);
-
 
                 msgs.SendMessage("StationTakeOver"); missionSystem.ControlPointTaken();
             }

@@ -60,7 +60,7 @@ public class EnemyMissileSystem : MonoBehaviour
     private void LockOn()
     {
         Vector3 playerDir = stateManager.Target.position - MyTransform.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 5f, 0.0f);
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 30f, 15.0f);
         MyTransform.rotation = Quaternion.LookRotation(direction);
 
         if (Vector3.Angle(playerDir, direction) <= .1f)

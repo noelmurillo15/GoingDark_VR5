@@ -8,7 +8,7 @@ public class EnemyLaserSystem : MonoBehaviour {
     private EnemyLaserType Type;
 
     private float fireRate;
-    private float maxFireRate;
+    private float maxFireRate;    
 
     private IEnemy enemyStats;
     private Transform MyTransform;
@@ -49,7 +49,7 @@ public class EnemyLaserSystem : MonoBehaviour {
     private void LockOn()
     {
         Vector3 playerDir = stateManager.Target.position - MyTransform.position;
-        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 5f, 0.0f);
+        Vector3 direction = Vector3.RotateTowards(MyTransform.forward, playerDir, Time.fixedDeltaTime * 30f, 15.0f);
         MyTransform.rotation = Quaternion.LookRotation(direction);
 
         if (fireRate <= 0f)

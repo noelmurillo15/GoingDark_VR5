@@ -105,28 +105,28 @@ public class EnemyMovement : MonoBehaviour
         switch (stats.GetEnemyType())
         {
             case EnemyTypes.Droid:
-                MoveData.Set(0f, .5f, 125f * mult, 1f, 18f * mult);
+                MoveData.Set(0f, .5f, 125f * mult, 2f - mult, 18f * mult);
                 break;
             case EnemyTypes.JetFighter:
-                MoveData.Set(0f, .5f, 120f * mult, 1.25f, 20f * mult);
+                MoveData.Set(0f, .5f, 120f * mult, 2.25f - mult, 20f * mult);
                 break;
             case EnemyTypes.Trident:
-                MoveData.Set(0f, .5f, 100f * mult, 1.5f, 16f * mult);
+                MoveData.Set(0f, .5f, 100f * mult, 2.5f - mult, 16f * mult);
                 break;
             case EnemyTypes.Basic:
-                MoveData.Set(0f, .5f, 90f * mult, 2f, 15f * mult);
+                MoveData.Set(0f, .5f, 90f * mult, 2.75f - mult, 15f * mult);
                 break;
             case EnemyTypes.SquadLead:
-                MoveData.Set(0f, .5f, 85f * mult, 2.5f, 15f * mult);
+                MoveData.Set(0f, .5f, 85f * mult, 3f - mult, 15f * mult);
                 break;
             case EnemyTypes.Transport:
-                MoveData.Set(0f, .5f, 70f * mult, 3f, 12f * mult);
+                MoveData.Set(0f, .5f, 70f * mult, 4f - mult, 12f * mult);
                 break;
             case EnemyTypes.Tank:
-                MoveData.Set(0f, .5f, 60f * mult, 5f, 10f * mult);
+                MoveData.Set(0f, .5f, 60f * mult, 5f - mult, 10f * mult);
                 break;
             case EnemyTypes.FinalBoss:
-                MoveData.Set(0f, 0f, 0f, 6f, 0f);
+                MoveData.Set(0f, 0f, 0f, 6f - mult, 0f);
                 break;
         }
     }

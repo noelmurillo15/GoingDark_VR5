@@ -82,7 +82,8 @@ public class EnemyStateManager : MonoBehaviour {
                 losingsightTimer = 0f;
                 break;
             case EnemyStates.Alert:
-                stats.GetEnemyMovement().SetSpeedBoost(.8f);                
+                Target = null;
+                stats.GetEnemyMovement().SetSpeedBoost(.75f);                
                 lostSight = true;
                 if(losingsightTimer <= 0f)
                     losingsightTimer = 10f;
