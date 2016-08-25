@@ -16,23 +16,21 @@ public class HealthProperties
     public bool isPlayer;
     public bool isPlayerDead;
     private Image HealthBar;
-    private float DmgModifier;
-
     #endregion
 
     public HealthProperties(float _hp, Transform _ref)
     {
         MaxHealth = _hp;
         Health = MaxHealth;
-        DmgModifier = MaxHealth * 0.33f;
 
         baseRef = _ref;
         isPlayer = false;
+        isPlayerDead = false;
     }
     public HealthProperties(float _hp, Transform _ref, bool _player)
     {
+        Health = _hp;
         MaxHealth = _hp;
-        Health = MaxHealth;
         isPlayerDead = false;
 
         baseRef = _ref;
@@ -55,12 +53,15 @@ public class HealthProperties
 
     public void Damage(float _dmg)
     {
-        Health -= _dmg;
+        if (_dmg <= 0)
+            return;
+
+        Health -= _dmg;        
         if (isPlayer)
         {
             UpdateHPBar();
             AudioManager.instance.PlayHit();
-            if (Health <= 0f && !isPlayerDead)
+            if (!isPlayerDead && Health <= 0f)
             {
                 isPlayerDead = true;
                 baseRef.SendMessage("Kill");

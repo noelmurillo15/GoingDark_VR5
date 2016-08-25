@@ -276,6 +276,7 @@ public class PlayerStats : MonoBehaviour
     }
     void GameOver()
     {
+        PersistentGameManager.Instance.SetPlayerCredits(startCredits);
         transform.root.GetComponent<EnemyManager>().AllEnemiesPatrol();
         transform.root.GetComponent<GameOver>().InitializeGameOverScene();
     }
@@ -283,7 +284,7 @@ public class PlayerStats : MonoBehaviour
     {
         DeathCount += 1;
         deathTransition.Death();
-        Invoke("GameOver", .1f);
+        Invoke("GameOver", 1.5f);
     }
     public void FadeOut()
     {

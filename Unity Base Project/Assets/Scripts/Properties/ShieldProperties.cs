@@ -58,8 +58,8 @@ public class ShieldProperties
 
     public void FullRestore()
     {
-        Health = MaxHealth;
         Active = true;
+        Health = MaxHealth;
         if(ShieldGameobject != null)
             ShieldGameobject.SetActive(true);
         UpdateShieldBar();
