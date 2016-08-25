@@ -282,7 +282,7 @@ public class PlayerStats : MonoBehaviour
     {
         DeathCount += 1;
         deathTransition.Death();
-        Invoke("GameOver", 2f);
+        Invoke("GameOver", 1f);
     }
     #endregion
 

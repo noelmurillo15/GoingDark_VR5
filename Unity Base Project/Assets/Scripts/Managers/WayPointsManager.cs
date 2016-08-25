@@ -30,7 +30,7 @@ public class WayPointsManager : MonoBehaviour
         SearchForThisWayPoint = StationsWayPoint;
         //SearchForThisWayPoint = WayPoints[0];
         Invoke("FindWayPoints", 2);
-
+        InvokeRepeating("SetNextActive", 5, 5);
     }
 
 

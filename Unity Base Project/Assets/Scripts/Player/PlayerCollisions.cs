@@ -30,13 +30,20 @@ public class PlayerCollisions : MonoBehaviour
             {       
                 stats.CrashHit(movedata.Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
+                padding = 5f;
             }
             if (hit.transform.CompareTag("Enemy"))
             {               
                 stats.CrashHit(move.GetMoveData().Speed / move.GetMoveData().MaxSpeed);
                 move.StopMovement();
+                padding = 5f;
             }
-            padding = 3f;
+            if (hit.transform.CompareTag("Meteor"))
+            {
+                padding = 5f;
+                stats.Kill();
+                move.StopMovement();
+            }            
         }
     }
 }

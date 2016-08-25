@@ -16,7 +16,10 @@ public class WayPointScript : MonoBehaviour
     void OnTriggerEnter(Collider ColliderObject)
     {
         if (ColliderObject.CompareTag("Player"))
+        {
             WayPointManager.SendMessage("SetNextActive");
+            Destroy(gameObject);
+        }
     }
 
 }

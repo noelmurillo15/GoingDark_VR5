@@ -10,12 +10,12 @@ public class Meteor : MonoBehaviour {
     {
         MyTransform = transform;
         velocity = new Vector3(Random.Range(-1, 1), -1f, Random.Range(-1, 1));
-        velocity *= Random.Range(20f, 50f) * 20f;
+        velocity *= 800f;
         Invoke("Kill", 30f);
     }
 	
 	// Update is called once per frame
-	void FixedUpdate() {                
+	void FixedUpdate() {
         MyTransform.Translate(velocity * Time.fixedDeltaTime);
 	}
     public void Kill()

@@ -129,6 +129,12 @@ public class EnemyCollision : MonoBehaviour
                 }
                 collisionTimer = 2f;
             }
+
+            if (hit.transform.CompareTag("Meteor"))
+            {
+                collisionTimer = 5f;
+                stats.Kill();
+            }
         }
     }
     #endregion
