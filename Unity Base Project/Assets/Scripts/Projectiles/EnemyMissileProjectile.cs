@@ -39,31 +39,31 @@ public class EnemyMissileProjectile : MonoBehaviour
             {
                 case EnemyMissileType.Basic:
                     hitfunc = "MissileDmg";
-                    baseDmg = 10f;
+                    baseDmg = 5f;
                     break;
                 case EnemyMissileType.Slow:
                     hitfunc = "MissileDebuff";
-                    baseDmg = 1f;
+                    baseDmg = 2f;
                     break;
                 case EnemyMissileType.Emp:
                     hitfunc = "MissileDebuff";
-                    baseDmg = 1f;
+                    baseDmg = 2f;
                     break;
                 case EnemyMissileType.Guided:
                     hitfunc = "MissileDmg";
-                    baseDmg = 15f;
+                    baseDmg = 8f;
                     break;
                 case EnemyMissileType.Sysrupt:
                     hitfunc = "MissileDebuff";
-                    baseDmg = 1f;
+                    baseDmg = 2f;
                     break;
                 case EnemyMissileType.Nuke:
                     hitfunc = "MissileDmg";
-                    baseDmg = 25f;
+                    baseDmg = 20f;
                     break;
                 case EnemyMissileType.ShieldBreak:
                     hitfunc = "MissileDebuff";
-                    baseDmg = 25f;
+                    baseDmg = 33.66f;
                     break;
             }
 

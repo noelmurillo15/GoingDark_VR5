@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using GoingDark.Core.Enums;
 using MovementEffects;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -282,7 +283,11 @@ public class PlayerStats : MonoBehaviour
     {
         DeathCount += 1;
         deathTransition.Death();
-        Invoke("GameOver", 1f);
+        Invoke("GameOver", .1f);
+    }
+    public void FadeOut()
+    {
+        Timing.RunCoroutine(FadeToSceneChange());
     }
     #endregion
 
@@ -299,6 +304,22 @@ public class PlayerStats : MonoBehaviour
         yield return Timing.WaitForSeconds(1.0f);
 
         deathTransition.notSpawned();
+    }
+    IEnumerator<float> FadeToSceneChange()
+    {
+        deathTransition.SpawnPlayer();
+        deathTransition.NotDead();
+        yield return Timing.WaitForSeconds(1.0f);
+
+        transform.SendMessage("StopMovement");
+        yield return Timing.WaitForSeconds(1.0f);
+        deathTransition.notSpawned();
+
+        if (SceneManager.GetActiveScene().name == "Level4")
+            SceneManager.LoadScene("Credits");
+        else
+            SceneManager.LoadScene("LevelSelect");
+
     }
     #endregion
 }

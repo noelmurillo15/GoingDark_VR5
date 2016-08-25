@@ -106,7 +106,8 @@ public class TallyScreen : MonoBehaviour
                 UpdateMissileCount();
                 tallyscreen.SetActive(false);
                 save.AutoSave();
-                SceneManager.LoadScene("LevelSelect");
+
+                playerStats.FadeOut();
                 yield return 0f;
             }
             else

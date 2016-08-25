@@ -276,7 +276,6 @@ public class MissionSystem : MonoBehaviour
                     TurnInMission(mission);
                 }
                 m_missionTracker.UpdateInfo(mission);
-
             }
         }
     }
@@ -300,7 +299,6 @@ public class MissionSystem : MonoBehaviour
     {
         // gives the player the blueprint associated with the mission
         CheckForBlueprint(mission);
-
 
         // portals for tutorial
         if (SceneName == "Level1")
@@ -326,7 +324,8 @@ public class MissionSystem : MonoBehaviour
         if (SceneName == "Level1")
         {
             m_missionTracker.missionTracker.SetActive(false);
-            Timing.RunCoroutine(Wait(3.0f));
+            if (m_PrimaryMissions.Count != 0)
+                Timing.RunCoroutine(Wait(3.0f));
         }
 
         // done with all missions
@@ -339,7 +338,7 @@ public class MissionSystem : MonoBehaviour
 
     void BeginTally()
     {
-        m_playerStats.GoToStation();
+        //m_playerStats.GoToStation();
         tallyscreen.ActivateTallyScreen();
         AudioManager.instance.PlayLevelWin();
     }
@@ -404,6 +403,12 @@ public class MissionSystem : MonoBehaviour
     {
         yield return Timing.WaitForSeconds(3.0f);
         messages.InitDown();
+    }
+
+    IEnumerator<float> ToCredits()
+    {
+        yield return Timing.WaitForSeconds(3.0f);
+        SceneManager.LoadScene("Credits");
     }
     #endregion
 }

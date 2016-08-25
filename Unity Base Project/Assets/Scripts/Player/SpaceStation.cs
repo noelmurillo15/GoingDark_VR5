@@ -20,7 +20,7 @@ public class SpaceStation : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        repairTimer = 60f;
+        repairTimer = 10f;
         sound = GetComponent<AudioSource>();
         missionSystem = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MissionSystem>();
 
@@ -77,7 +77,7 @@ public class SpaceStation : MonoBehaviour
             {
                 sound.Play();
                 stats.Repair(50);
-                repairTimer = 60f;
+                repairTimer = 30f;
             }
         }
     }

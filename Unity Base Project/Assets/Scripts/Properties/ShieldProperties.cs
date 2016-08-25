@@ -83,19 +83,22 @@ public class ShieldProperties
 
     public void Damage(float _val)
     {
-        Health -= _val;
-        if (Health <= 0f)
+        if (Active)
         {
-            Health = 0f;            
-            Active = false;
+            Health -= _val;
+            if (Health <= 0f)
+            {
+                Health = 0f;
+                Active = false;
 
-            if(ShieldGameobject != null)
-                ShieldGameobject.SetActive(false);
-        }
-        if (isPlayer)
-        {
-            UpdateShieldBar();
-            AudioManager.instance.PlayShieldHit();
+                if (ShieldGameobject != null)
+                    ShieldGameobject.SetActive(false);
+            }
+            if (isPlayer)
+            {
+                UpdateShieldBar();
+                AudioManager.instance.PlayShieldHit();
+            }
         }
     }
     #endregion

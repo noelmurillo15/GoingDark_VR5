@@ -41,15 +41,6 @@ public class HealthProperties
     }
 
     #region Modifiers
-    public void Heal(float _val)
-    {
-        Health += _val;
-        if (Health > MaxHealth)
-            Health = MaxHealth;
-
-        UpdateHPBar();
-    }
-
     public void FullRestore()
     {
         isPlayerDead = false;
@@ -65,25 +56,16 @@ public class HealthProperties
     public void Damage(float _dmg)
     {
         Health -= _dmg;
-
         if (isPlayer)
         {
-            AudioManager.instance.PlayHit();
             UpdateHPBar();
+            AudioManager.instance.PlayHit();
+            if (Health <= 0f && !isPlayerDead)
+            {
+                isPlayerDead = true;
+                baseRef.SendMessage("Kill");
+            }         
         }
-
-        if (Health <= 0f && !isPlayerDead)
-        {
-            isPlayerDead = true;
-            baseRef.SendMessage("Kill");
-        }         
-    }
-    public bool HealthWarning()
-    {
-        if (Health > DmgModifier)
-            return false;
-        else
-            return true;
     }
     #endregion
 }

@@ -25,16 +25,16 @@ public class EnemyMissileSystem : MonoBehaviour
                 maxFireRate = 3f;
                 break;
             case EnemyMissileType.Slow:
-                maxFireRate = 12f;
+                maxFireRate = 15f;
                 break;
             case EnemyMissileType.Emp:
-                maxFireRate = 12f;
+                maxFireRate = 15f;
                 break;
             case EnemyMissileType.Guided:
                 maxFireRate = 6f;
                 break;
             case EnemyMissileType.Sysrupt:
-                maxFireRate = 12f;
+                maxFireRate = 15f;
                 break;
             case EnemyMissileType.Nuke:
                 maxFireRate = 8f;

@@ -59,14 +59,14 @@ public class MovementProperties
         if (Speed < (MaxSpeed * Boost * triggerVal))
             Speed += Time.fixedDeltaTime * Acceleration;
         else
-            Speed = MaxSpeed * Boost;
+            DecreaseSpeed();
     }
     public void IncreaseSpeed()
     {
         if (Speed < (MaxSpeed * Boost))
             Speed += Time.fixedDeltaTime * Acceleration;
         else
-            Speed = MaxSpeed * Boost;
+            DecreaseSpeed();
     }
     public void DecreaseSpeed()
     {

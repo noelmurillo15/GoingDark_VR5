@@ -41,8 +41,8 @@ public class PlayerCollisions : MonoBehaviour
             if (hit.transform.CompareTag("Meteor"))
             {
                 padding = 5f;
-                stats.Kill();
                 move.StopMovement();
+                stats.Kill();
             }            
         }
     }

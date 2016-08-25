@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 public class MissionLog : MonoBehaviour
 {
-    // message shit, fuck it
     [SerializeField]
     private GameObject m_pMissionMessage;
     [SerializeField]
