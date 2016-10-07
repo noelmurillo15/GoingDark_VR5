@@ -67,6 +67,11 @@ public class HealthProperties
                 baseRef.SendMessage("Kill");
             }         
         }
+        else
+        {
+            if(Health <= 0f)
+                baseRef.SendMessage("Kill");
+        }
     }
     #endregion
 }
